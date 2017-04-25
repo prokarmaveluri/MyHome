@@ -1,6 +1,7 @@
-# README #
+# Dignity Health - My Home #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+The Android app for Dignity Health.
+
 
 ### What is this repository for? 
 
@@ -26,6 +27,5 @@ Dignity Health Android Project.
 * Other guidelines
 
 ### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Jak Jonnalagadda, Tech Lead -  jjonnalagadda@prokarma.com
+* Kevin Welsh, Andorid Developer - kwelsh@prokarma.com
