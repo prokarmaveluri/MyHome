@@ -12,6 +12,12 @@ import android.telephony.TelephonyManager;
  */
 public class ConnectionUtil {
 
+    public static NetworkInfo activeNetwork(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo;
+    }
+
     public static boolean isConnected(Context context) {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -21,42 +27,30 @@ public class ConnectionUtil {
     }
 
     public static boolean isWifiConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-        if (mWifi == null) {
+        NetworkInfo activeNetwork = activeNetwork(context);
+        if (activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        } else {
             return false;
         }
-
-        return mWifi.isConnected();
     }
 
     public static boolean isCellularConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mCellular = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-        if (mCellular == null) {
+        NetworkInfo activeNetwork = activeNetwork(context);
+        if (activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+            return true;
+        } else {
             return false;
         }
-
-        return mCellular.isConnected();
     }
 
     public static boolean isCellularRoaming(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mCellular = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-        if (mCellular == null) {
+        NetworkInfo activeNetwork = activeNetwork(context);
+        if (activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE && activeNetwork.isRoaming()) {
+            return true;
+        } else {
             return false;
         }
-
-        return mCellular.isRoaming();
-    }
-
-    public static NetworkInfo activeNetwork(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        return networkInfo;
     }
 
     /**
