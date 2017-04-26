@@ -30,6 +30,11 @@
         <activity
             android:name=".features.profile.ProfileActivity"
             android:label="@string/app_name" />
+
+        <activity
+            android:name=".features.contact.ContactUsActivity"
+            android:label="@string/app_name" />
+
     </application>
 
 </manifest>

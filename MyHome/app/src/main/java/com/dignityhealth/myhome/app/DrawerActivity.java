@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.contact.ContactUsActivity;
 import com.dignityhealth.myhome.features.fad.FadActivity;
 import com.dignityhealth.myhome.features.home.HomeActivity;
 import com.dignityhealth.myhome.features.profile.ProfileActivity;
@@ -75,6 +76,12 @@ public class DrawerActivity {
                     case R.id.settings:
                         return true;
 
+                    case R.id.contact_us:
+                        Intent intentContact = new Intent(appCompatActivity, ContactUsActivity.class);
+                        intentContact.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        ActivityCompat.startActivity(appCompatActivity, intentContact, options.toBundle());
+                        return true;
+
                     default:
                         return true;
                 }
@@ -128,6 +135,9 @@ public class DrawerActivity {
                 break;
             case PROFILE:
                 drawerNavView.getMenu().getItem(2).setChecked(true);
+                break;
+            case CONTACT_US:
+                drawerNavView.getMenu().getItem(4).setChecked(true);
                 break;
             default:
                 Timber.e("Unknown Drawer Menu Item");

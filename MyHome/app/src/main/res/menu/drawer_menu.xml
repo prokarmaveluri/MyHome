@@ -23,6 +23,11 @@
             android:id="@+id/settings"
             android:icon="@android:drawable/ic_menu_manage"
             android:title="Settings" />
+
+        <item
+            android:id="@+id/contact_us"
+            android:icon="@android:drawable/ic_menu_help"
+            android:title="Contact Us" />
     </group>
 
     <!--<item android:title="Options">-->

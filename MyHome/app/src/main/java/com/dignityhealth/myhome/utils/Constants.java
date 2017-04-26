@@ -9,6 +9,7 @@ public class Constants {
         HOME,
         FAD,
         PROFILE,
+        CONTACT_US,
         SETTINGS,
     }
 }
