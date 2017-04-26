@@ -56,33 +56,43 @@ public class DrawerActivity {
                 switch (menuItem.getItemId()) {
 
                     case R.id.home:
-                        Intent intentHome = new Intent(appCompatActivity, HomeActivity.class);
-                        intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        ActivityCompat.startActivity(appCompatActivity, intentHome, options.toBundle());
+                        if(activityTag != ActivityTag.HOME){
+                            Intent intentHome = new Intent(appCompatActivity, HomeActivity.class);
+                            intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ActivityCompat.startActivity(appCompatActivity, intentHome, options.toBundle());
+                        }
                         return true;
 
                     case R.id.fad:
-                        Intent intentFad = new Intent(appCompatActivity, FadActivity.class);
-                        intentFad.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        ActivityCompat.startActivity(appCompatActivity, intentFad, options.toBundle());
+                        if(activityTag != ActivityTag.FAD) {
+                            Intent intentFad = new Intent(appCompatActivity, FadActivity.class);
+                            intentFad.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ActivityCompat.startActivity(appCompatActivity, intentFad, options.toBundle());
+                        }
                         return true;
 
                     case R.id.profile:
-                        Intent intentProfile = new Intent(appCompatActivity, ProfileActivity.class);
-                        intentProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        ActivityCompat.startActivity(appCompatActivity, intentProfile, options.toBundle());
+                        if(activityTag != ActivityTag.PROFILE) {
+                            Intent intentProfile = new Intent(appCompatActivity, ProfileActivity.class);
+                            intentProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ActivityCompat.startActivity(appCompatActivity, intentProfile, options.toBundle());
+                        }
                         return true;
 
                     case R.id.settings:
-                        Intent intentSettings = new Intent(appCompatActivity, SettingsActivity.class);
-                        intentSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        ActivityCompat.startActivity(appCompatActivity, intentSettings, options.toBundle());
+                        if(activityTag != ActivityTag.SETTINGS) {
+                            Intent intentSettings = new Intent(appCompatActivity, SettingsActivity.class);
+                            intentSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ActivityCompat.startActivity(appCompatActivity, intentSettings, options.toBundle());
+                        }
                         return true;
 
                     case R.id.contact_us:
-                        Intent intentContact = new Intent(appCompatActivity, ContactUsActivity.class);
-                        intentContact.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        ActivityCompat.startActivity(appCompatActivity, intentContact, options.toBundle());
+                        if(activityTag != ActivityTag.CONTACT_US) {
+                            Intent intentContact = new Intent(appCompatActivity, ContactUsActivity.class);
+                            intentContact.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            ActivityCompat.startActivity(appCompatActivity, intentContact, options.toBundle());
+                        }
                         return true;
 
                     default:
