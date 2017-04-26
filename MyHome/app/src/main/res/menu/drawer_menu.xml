@@ -14,18 +14,27 @@
             android:checked="false"
             android:icon="@android:drawable/ic_menu_search"
             android:title="Find A Doctor" />
+
+        <item
+            android:id="@+id/profile"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Profile" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="Settings" />
     </group>
 
-    <item android:title="Options">
-        <menu>
-            <item
-                android:id="@+id/profile"
-                android:icon="@android:drawable/ic_menu_agenda"
-                android:title="Profile" />
-            <item
-                android:id="@+id/settings"
-                android:icon="@android:drawable/ic_menu_manage"
-                android:title="Settings" />
-        </menu>
-    </item>
+    <!--<item android:title="Options">-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/profile"-->
+    <!--android:icon="@android:drawable/ic_menu_agenda"-->
+    <!--android:title="Profile" />-->
+    <!--<item-->
+    <!--android:id="@+id/settings"-->
+    <!--android:icon="@android:drawable/ic_menu_manage"-->
+    <!--android:title="Settings" />-->
+    <!--</menu>-->
+    <!--</item>-->
 </menu>

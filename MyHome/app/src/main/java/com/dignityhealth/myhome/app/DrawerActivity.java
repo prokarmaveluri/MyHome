@@ -16,6 +16,7 @@ import android.view.View;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.FadActivity;
 import com.dignityhealth.myhome.features.home.HomeActivity;
+import com.dignityhealth.myhome.features.profile.ProfileActivity;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 
 import timber.log.Timber;
@@ -50,22 +51,25 @@ public class DrawerActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
 
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(appCompatActivity, R.anim.slide_in_right, R.anim.slide_out_left);
                 switch (menuItem.getItemId()) {
+
                     case R.id.home:
                         Intent intentHome = new Intent(appCompatActivity, HomeActivity.class);
                         intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        ActivityOptionsCompat optionsHome = ActivityOptionsCompat.makeCustomAnimation(appCompatActivity, R.anim.slide_in_right, R.anim.slide_out_left);
-                        ActivityCompat.startActivity(appCompatActivity, intentHome, optionsHome.toBundle());
+                        ActivityCompat.startActivity(appCompatActivity, intentHome, options.toBundle());
                         return true;
 
                     case R.id.fad:
                         Intent intentFad = new Intent(appCompatActivity, FadActivity.class);
                         intentFad.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        ActivityOptionsCompat optionsFad = ActivityOptionsCompat.makeCustomAnimation(appCompatActivity, R.anim.slide_in_right, R.anim.slide_out_left);
-                        ActivityCompat.startActivity(appCompatActivity, intentFad, optionsFad.toBundle());
+                        ActivityCompat.startActivity(appCompatActivity, intentFad, options.toBundle());
                         return true;
 
                     case R.id.profile:
+                        Intent intentProfile = new Intent(appCompatActivity, ProfileActivity.class);
+                        intentProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        ActivityCompat.startActivity(appCompatActivity, intentProfile, options.toBundle());
                         return true;
 
                     case R.id.settings:
@@ -121,6 +125,9 @@ public class DrawerActivity {
                 break;
             case FAD:
                 drawerNavView.getMenu().getItem(1).setChecked(true);
+                break;
+            case PROFILE:
+                drawerNavView.getMenu().getItem(2).setChecked(true);
                 break;
             default:
                 Timber.e("Unknown Drawer Menu Item");

@@ -26,6 +26,10 @@
         <activity
             android:name=".features.fad.FadActivity"
             android:label="@string/app_name" />
+
+        <activity
+            android:name=".features.profile.ProfileActivity"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>
