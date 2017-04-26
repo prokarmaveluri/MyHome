@@ -18,6 +18,7 @@ import com.dignityhealth.myhome.features.contact.ContactUsActivity;
 import com.dignityhealth.myhome.features.fad.FadActivity;
 import com.dignityhealth.myhome.features.home.HomeActivity;
 import com.dignityhealth.myhome.features.profile.ProfileActivity;
+import com.dignityhealth.myhome.features.settings.SettingsActivity;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 
 import timber.log.Timber;
@@ -26,7 +27,6 @@ import timber.log.Timber;
  * Created by kwelsh on 4/25/17.
  */
 
-//An Object Class used to handle the NavigationDrawer
 public class DrawerActivity {
     private final AppCompatActivity appCompatActivity;
     private ActivityTag activityTag;
@@ -74,6 +74,9 @@ public class DrawerActivity {
                         return true;
 
                     case R.id.settings:
+                        Intent intentSettings = new Intent(appCompatActivity, SettingsActivity.class);
+                        intentSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        ActivityCompat.startActivity(appCompatActivity, intentSettings, options.toBundle());
                         return true;
 
                     case R.id.contact_us:
@@ -135,6 +138,9 @@ public class DrawerActivity {
                 break;
             case PROFILE:
                 drawerNavView.getMenu().getItem(2).setChecked(true);
+                break;
+            case SETTINGS:
+                drawerNavView.getMenu().getItem(3).setChecked(true);
                 break;
             case CONTACT_US:
                 drawerNavView.getMenu().getItem(4).setChecked(true);
