@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.networking.NetworkManager;
 
 import timber.log.Timber;
 
@@ -22,6 +23,9 @@ public class MyHomeApplication extends Application {
         if (BuildConfig.REPORT_LOGS) {
             Timber.plant(new Timber.DebugTree());
         }
+
+        //init retrofit service
+        NetworkManager.getInstance().initService();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean(getString(R.string.pref_key_first_run), true)) {
