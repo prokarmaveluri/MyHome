@@ -65,10 +65,10 @@ public class DrawerActivity {
                         ActivityCompat.startActivity(appCompatActivity, intentFad, optionsFad.toBundle());
                         return true;
 
-                    case R.id.share:
+                    case R.id.profile:
                         return true;
 
-                    case R.id.gallery:
+                    case R.id.settings:
                         return true;
 
                     default:
@@ -121,12 +121,6 @@ public class DrawerActivity {
                 break;
             case FAD:
                 drawerNavView.getMenu().getItem(1).setChecked(true);
-                break;
-            case SHARE:
-                drawerNavView.getMenu().getItem(2).setChecked(true);
-                break;
-            case GALLERY:
-                drawerNavView.getMenu().getItem(3).setChecked(true);
                 break;
             default:
                 Timber.e("Unknown Drawer Menu Item");

@@ -8,7 +8,7 @@ public class Constants {
     public enum ActivityTag {
         HOME,
         FAD,
-        SHARE,
-        GALLERY,
+        PROFILE,
+        SETTINGS,
     }
 }
