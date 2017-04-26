@@ -6,4 +6,7 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
+
+    <style name="buttonStyle" parent="Base.TextAppearance.AppCompat.Button">
+    </style>
 </resources>

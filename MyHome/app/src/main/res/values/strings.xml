@@ -3,4 +3,16 @@
 
     <string name="drawer_open">Drawer is open</string>
     <string name="drawer_closed">Drawer is closed</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login & enrollment-->
+    <string name="prompt_first_name">First Name</string>
+    <string name="prompt_last_name">Last Name</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register</string>
+    <string name="signup_suggestion">Not Registered? Sign up.</string>
+    <string name="login_suggestion">Already Registered? Login.</string>
+
 </resources>
