@@ -7,6 +7,7 @@ package com.dignityhealth.myhome.utils;
 public class Constants {
     public enum ActivityTag {
         HOME,
+        FAD,
         SHARE,
         GALLERY,
     }

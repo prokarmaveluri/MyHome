@@ -1,7 +1,10 @@
 package com.dignityhealth.myhome.app;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.fad.FadActivity;
+import com.dignityhealth.myhome.features.home.HomeActivity;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 
 import timber.log.Timber;
@@ -46,8 +51,18 @@ public class DrawerActivity {
                 drawerLayout.closeDrawers();
 
                 switch (menuItem.getItemId()) {
-                    //Launch your activities here...
                     case R.id.home:
+                        Intent intentHome = new Intent(appCompatActivity, HomeActivity.class);
+                        intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        ActivityOptionsCompat optionsHome = ActivityOptionsCompat.makeCustomAnimation(appCompatActivity, R.anim.slide_in_right, R.anim.slide_out_left);
+                        ActivityCompat.startActivity(appCompatActivity, intentHome, optionsHome.toBundle());
+                        return true;
+
+                    case R.id.fad:
+                        Intent intentFad = new Intent(appCompatActivity, FadActivity.class);
+                        intentFad.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        ActivityOptionsCompat optionsFad = ActivityOptionsCompat.makeCustomAnimation(appCompatActivity, R.anim.slide_in_right, R.anim.slide_out_left);
+                        ActivityCompat.startActivity(appCompatActivity, intentFad, optionsFad.toBundle());
                         return true;
 
                     case R.id.share:
@@ -104,11 +119,14 @@ public class DrawerActivity {
             case HOME:
                 drawerNavView.getMenu().getItem(0).setChecked(true);
                 break;
-            case SHARE:
+            case FAD:
                 drawerNavView.getMenu().getItem(1).setChecked(true);
                 break;
-            case GALLERY:
+            case SHARE:
                 drawerNavView.getMenu().getItem(2).setChecked(true);
+                break;
+            case GALLERY:
+                drawerNavView.getMenu().getItem(3).setChecked(true);
                 break;
             default:
                 Timber.e("Unknown Drawer Menu Item");

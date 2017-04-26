@@ -10,6 +10,12 @@
             android:title="Home" />
 
         <item
+            android:id="@+id/fad"
+            android:checked="false"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="Find A Doctor" />
+
+        <item
             android:id="@+id/share"
             android:checked="false"
             android:icon="@android:drawable/ic_menu_share"
