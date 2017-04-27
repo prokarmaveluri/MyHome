@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Home"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/fad"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Find A Doctor"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Profile"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Settings"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/contact_us"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="Contact Us"
+        app:showAsAction="ifRoom" />
+</menu>

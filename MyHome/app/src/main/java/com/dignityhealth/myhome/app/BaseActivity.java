@@ -12,7 +12,7 @@ import com.dignityhealth.myhome.R;
  * Helps share common code across all activities (such as animations and the Drawer)
  */
 public abstract class BaseActivity extends AppCompatActivity implements BaseInterface {
-    public DrawerActivity drawerActivity;
+    public NavigationActivity navigationActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,14 +22,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseInte
     @Override
     protected void onStart() {
         super.onStart();
-        drawerActivity = new DrawerActivity(this, null);
-        drawerActivity.initialize();
+        navigationActivity = new NavigationActivity(this);
+        navigationActivity.initialize();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        drawerActivity.setActivityTag(setDrawerTag());
+        navigationActivity.setActivityTag(setDrawerTag());
     }
 
     @Override
@@ -40,11 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseInte
 
     @Override
     public void onBackPressed() {
-        if(drawerActivity.isDrawerOpen()){
-            drawerActivity.closeDrawer();
-        } else {
-            super.onBackPressed();
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        }
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }
