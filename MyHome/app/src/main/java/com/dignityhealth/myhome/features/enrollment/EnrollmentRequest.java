@@ -13,31 +13,29 @@ public class EnrollmentRequest {
     private String email;
     private String password;
     private Boolean hasAcceptedTerms;
-    private String createdByIPAddress;
     private Boolean skipVerification;
     private List<RecoveryQuestion> recoveryQuestions = null;
 
     public EnrollmentRequest(String firstName, String lastName, String email, String password,
-                             boolean hasAcceptedTerms, String createdByIPAddress,
+                             boolean hasAcceptedTerms,
                              boolean skipVerification, List<RecoveryQuestion> recoveryQuestions) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.hasAcceptedTerms = hasAcceptedTerms;
-        this.createdByIPAddress = createdByIPAddress;
         this.skipVerification = skipVerification;
         this.recoveryQuestions = recoveryQuestions;
     }
 
-    public class RecoveryQuestion {
+    static public class RecoveryQuestion {
 
         private String question;
         private String answer;
 
         public RecoveryQuestion(String question, String answer) {
             this.question = question;
-            this.answer = question;
+            this.answer = answer;
         }
     }
 }

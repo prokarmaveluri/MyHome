@@ -22,6 +22,6 @@ public interface EnrollmentInteractor {
 
         void openLoginPage();
 
-        void enrollUser();
+        void enrollUser(EnrollmentRequest request);
     }
 }

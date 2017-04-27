@@ -3,7 +3,7 @@
     <data>
         <variable
             name="handlers"
-            type="com.dignityhealth.myhome.features.enrollment.EnrollmentFragment" />
+            type="com.dignityhealth.myhome.features.enrollment.EnrollmentFragment.EnrollmentViewClickEvent" />
     </data>
 
     <RelativeLayout xmlns:tools="http://schemas.android.com/tools"

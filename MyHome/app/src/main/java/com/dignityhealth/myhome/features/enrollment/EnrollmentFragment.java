@@ -11,10 +11,18 @@ import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentEnrollmentBinding;
+import com.dignityhealth.myhome.utils.CommonUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
-
+/*
+ * Fragment to enroll the user.
+ *
+ * Created by cmajji on 4/26/17.
+ */
 public class EnrollmentFragment extends Fragment implements EnrollmentInteractor.View {
 
     private FragmentEnrollmentBinding binding;
@@ -38,6 +46,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_enrollment, container, false);
 
+        binding.setHandlers(new EnrollmentViewClickEvent());
         return binding.getRoot();
     }
 
@@ -64,17 +73,6 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
         this.presenter = checkNotNull(presenter);
     }
 
-    public void onClickEvent(View view) {
-        switch (view.getId()) {
-            case R.id.login_suggestion:
-                presenter.openLoginPage();
-                break;
-            case R.id.enroll_button:
-                presenter.enrollUser();
-                break;
-        }
-    }
-
     @Override
     public void showProgress(boolean show) {
         if (show) {
@@ -97,7 +95,67 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
     @Override
     public void showEnrollmentStatus(String status) {
+
+        checkNotNull(status);
+
         if (null != getActivity())
             Toast.makeText(getActivity(), status, Toast.LENGTH_LONG).show();
+    }
+
+    private EnrollmentRequest getRequest() {
+
+        if (!CommonUtil.isValidTextInput(binding.firstName)) {
+            binding.firstName.setError("Enter valid first name");
+            return null;
+        }
+
+        if (!CommonUtil.isValidTextInput(binding.lastName)) {
+            binding.lastName.setError("Enter valid last name");
+            return null;
+        }
+
+        if (!CommonUtil.isValidEmail(binding.email.getText().toString())) {
+            binding.email.setError("Enter valid email name");
+            return null;
+        }
+
+        if (!CommonUtil.isValidPassword(binding.password.getText().toString())) {
+            binding.password.setError("Enter valid password name");
+            return null;
+        }
+
+        List<EnrollmentRequest.RecoveryQuestion> recoveryQuestions;
+        recoveryQuestions = new ArrayList<>();
+
+        EnrollmentRequest.RecoveryQuestion question =
+                new EnrollmentRequest.RecoveryQuestion("name", "chandra");
+
+        recoveryQuestions.add(question);
+
+        EnrollmentRequest request = new EnrollmentRequest(binding.firstName.getText().toString(),
+                binding.lastName.getText().toString(),
+                binding.email.getText().toString(),
+                binding.password.getText().toString(),
+                true, // update according to user selection.
+                true,
+                recoveryQuestions
+        );
+        return request;
+    }
+
+    public class EnrollmentViewClickEvent {
+
+        public void onClickEvent(View view) {
+            switch (view.getId()) {
+                case R.id.login_suggestion:
+                    presenter.openLoginPage();
+                    break;
+                case R.id.enroll_button:
+                    EnrollmentRequest request = getRequest();
+                    if (null != request)
+                        presenter.enrollUser(request);
+                    break;
+            }
+        }
     }
 }
