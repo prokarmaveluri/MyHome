@@ -4,6 +4,7 @@ import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 /**
@@ -13,5 +14,5 @@ import retrofit2.http.POST;
 public interface RESTService {
 
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/enrollment")
-    Call<Object> register(EnrollmentRequest request);
+    Call<Void> register(@Body EnrollmentRequest request);
 }
