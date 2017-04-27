@@ -9,9 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
 import com.dignityhealth.myhome.features.fad.FadFragment;
 import com.dignityhealth.myhome.features.home.HomeFragment;
+import com.dignityhealth.myhome.features.more.MoreFragment;
 import com.dignityhealth.myhome.features.profile.ProfileFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
@@ -49,16 +51,16 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                                 loadFragment(ActivityTag.FAD);
                                 break;
 
+                            case R.id.appointments:
+                                loadFragment(ActivityTag.APPOINTMENTS);
+                                break;
+
                             case R.id.profile:
                                 loadFragment(ActivityTag.PROFILE);
                                 break;
 
-                            case R.id.settings:
-                                loadFragment(ActivityTag.SETTINGS);
-                                break;
-
-                            case R.id.contact_us:
-                                loadFragment(ActivityTag.CONTACT_US);
+                            case R.id.more:
+                                loadFragment(ActivityTag.MORE);
                                 break;
 
                         }
@@ -100,11 +102,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case PROFILE:
                 bottomNavigationView.setSelectedItemId(R.id.profile);
                 break;
-            case SETTINGS:
-                bottomNavigationView.setSelectedItemId(R.id.settings);
+            case APPOINTMENTS:
+                bottomNavigationView.setSelectedItemId(R.id.appointments);
                 break;
-            case CONTACT_US:
-                bottomNavigationView.setSelectedItemId(R.id.contact_us);
+            case MORE:
+                bottomNavigationView.setSelectedItemId(R.id.more);
                 break;
         }
     }
@@ -140,6 +142,19 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.FAD);
+                }
+                break;
+
+            case APPOINTMENTS:
+                if (getActivityTag() != ActivityTag.APPOINTMENTS) {
+                    AppointmentsFragment appointmentsFragment = AppointmentsFragment.newInstance();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, appointmentsFragment, AppointmentsFragment.APPOINTMENTS_TAG)
+                            .commitAllowingStateLoss();
+                    getFragmentManager().executePendingTransactions();
+
+                    setActivityTag(ActivityTag.APPOINTMENTS);
                 }
                 break;
 
@@ -179,6 +194,19 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.CONTACT_US);
+                }
+                break;
+
+            case MORE:
+                if (getActivityTag() != ActivityTag.MORE) {
+                    MoreFragment moreFragment = MoreFragment.newInstance();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, moreFragment, MoreFragment.MORE_TAG)
+                            .commitAllowingStateLoss();
+                    getFragmentManager().executePendingTransactions();
+
+                    setActivityTag(ActivityTag.MORE);
                 }
                 break;
 

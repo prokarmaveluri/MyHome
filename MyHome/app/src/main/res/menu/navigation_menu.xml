@@ -15,19 +15,20 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/appointments"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Appointments"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/profile"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="Profile"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/settings"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:title="Settings"
-        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/contact_us"
+        android:id="@+id/more"
         android:icon="@android:drawable/ic_menu_help"
-        android:title="Contact Us"
+        android:title="More"
         app:showAsAction="ifRoom" />
 </menu>
