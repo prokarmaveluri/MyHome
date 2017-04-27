@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".features.home.HomeActivity"
+            android:name=".app.NavigationActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -23,22 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".features.fad.FadActivity"
-            android:label="@string/app_name" />
-
-        <activity
-            android:name=".features.profile.ProfileActivity"
-            android:label="@string/app_name" />
-
-        <activity
-            android:name=".features.settings.SettingsActivity"
-            android:label="@string/app_name" />
-
-        <activity
-            android:name=".features.contact.ContactUsActivity"
-            android:label="@string/app_name" />
 
         <activity
             android:name=".features.login.LoginActivity"
