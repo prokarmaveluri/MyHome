@@ -3,9 +3,13 @@ package com.dignityhealth.myhome.networking;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -34,6 +38,15 @@ public class NetworkManager {
         httpClient = new OkHttpClient.Builder();
         httpClient.connectTimeout(30, TimeUnit.SECONDS);
 
+        httpClient.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request().newBuilder()
+                        .addHeader("Content-Type", "application/json").build();
+                return chain.proceed(request);
+            }
+        });
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RESTConstants.CIAM_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -43,7 +56,7 @@ public class NetworkManager {
         service = retrofit.create(RESTService.class);
     }
 
-    public Call<Object> register(EnrollmentRequest request) {
+    public Call<Void> register(EnrollmentRequest request) {
         return service.register(request);
     }
 

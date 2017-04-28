@@ -1,9 +1,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="handlers"
-            type="com.dignityhealth.myhome.features.enrollment.EnrollmentFragment" />
+            type="com.dignityhealth.myhome.features.enrollment.EnrollmentFragment.EnrollmentViewClickEvent" />
     </data>
 
     <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
@@ -16,16 +17,6 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.dignityhealth.myhome.features.login.LoginActivity">
-
-        <!-- Login progress -->
-        <ProgressBar
-            android:id="@+id/enroll_progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/enrollment_form"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone" />
 
         <ScrollView
             android:id="@+id/enrollment_form"
@@ -116,5 +107,15 @@
 
             </LinearLayout>
         </ScrollView>
+
+        <!-- Enroll progress -->
+        <ProgressBar
+            android:id="@+id/enroll_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>
