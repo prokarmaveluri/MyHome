@@ -62,7 +62,7 @@
         android:layout_margin="6dp"
         android:autoLink="phone"
         android:text="1-877-345-6788"
-        android:textColor="@color/light_blue"
+        android:textColorLink="@color/light_blue"
         android:textSize="20sp" />
 
 </RelativeLayout>

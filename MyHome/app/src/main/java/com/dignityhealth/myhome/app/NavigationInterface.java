@@ -8,4 +8,5 @@ import com.dignityhealth.myhome.utils.Constants;
 
 public interface NavigationInterface {
     void goToPage(Constants.ActivityTag activityTag);
+    void loadFragment(Constants.ActivityTag activityTag);
 }

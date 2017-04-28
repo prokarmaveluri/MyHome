@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.app;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -117,7 +118,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      *
      * @param activityTag The page we want to navigate to
      */
-    private void loadFragment(ActivityTag activityTag) {
+    public void loadFragment(ActivityTag activityTag) {
         switch (activityTag) {
             case HOME:
                 if (getActivityTag() != ActivityTag.HOME) {
@@ -177,6 +178,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, settingsFragment, SettingsFragment.SETTINGS_TAG)
+                            .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getFragmentManager().executePendingTransactions();
 
@@ -190,6 +192,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, contactUsFragment, ContactUsFragment.CONTACT_TAG)
+                            .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getFragmentManager().executePendingTransactions();
 
@@ -210,6 +213,16 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 }
                 break;
 
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
         }
     }
 }
