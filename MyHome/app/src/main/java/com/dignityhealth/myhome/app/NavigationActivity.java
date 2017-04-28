@@ -70,10 +70,18 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 });
     }
 
+    /**
+     * Sets the activity tag. The tag is used to determine what page the user is on
+     *
+     * @param activityTag
+     */
     public void setActivityTag(ActivityTag activityTag) {
         this.activityTag = activityTag;
     }
 
+    /**
+     * Gets the activity tag. The tag is used to determine what page the user is on
+     */
     public ActivityTag getActivityTag() {
         return activityTag;
     }
@@ -216,11 +224,19 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         }
     }
 
+    /**
+     * When back is pressed,
+     * either pop off the fragment from the backstack (for stacked fragments in the "More" section),
+     * go to the Home tab if you're not on it,
+     * or simply perform the normal back action.
+     */
     @Override
     public void onBackPressed() {
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
+        } else if (activityTag != ActivityTag.HOME) {
+            goToPage(ActivityTag.HOME);
         } else {
             super.onBackPressed();
         }
