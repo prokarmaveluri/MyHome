@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.networking;
 
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.profile.ProfileResponse;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.io.IOException;
@@ -58,6 +59,10 @@ public class NetworkManager {
 
     public Call<Void> register(EnrollmentRequest request) {
         return service.register(request);
+    }
+
+    public Call<ProfileResponse> profile(String bearer){
+        return  service.profile(bearer);
     }
 
 }
