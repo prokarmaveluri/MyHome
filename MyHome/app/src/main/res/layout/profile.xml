@@ -1,234 +1,263 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/info_header"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_vertical"
-        android:text="Personal Information" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/first_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="140dp"
-        android:layout_marginStart="140dp"
-        android:text="First"
-        app:layout_constraintTop_toBottomOf="@id/info_header" />
+        <TextView
+            android:id="@+id/info_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/light_grey"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:text="Personal Information"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
-    <TextView
-        android:id="@+id/last_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="140dp"
-        android:layout_marginStart="140dp"
-        android:text="Last"
-        app:layout_constraintLeft_toRightOf="@+id/first_label"
-        app:layout_constraintTop_toTopOf="@+id/first_label" />
+        <TextView
+            android:id="@+id/first_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:text="First"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_header" />
 
-    <TextView
-        android:id="@+id/first_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Kevin"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/first_label" />
+        <TextView
+            android:id="@+id/last_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:layout_marginStart="160dp"
+            android:text="Last"
+            app:layout_constraintLeft_toRightOf="@+id/first_label"
+            app:layout_constraintTop_toTopOf="@+id/first_label" />
 
-    <TextView
-        android:id="@+id/last_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welsh"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/last_label"
-        app:layout_constraintTop_toBottomOf="@+id/last_label" />
+        <TextView
+            android:id="@+id/first_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kevin"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/first_label" />
 
-    <TextView
-        android:id="@+id/dob_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date of Birth"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/first_name" />
+        <TextView
+            android:id="@+id/last_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welsh"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/last_label"
+            app:layout_constraintTop_toBottomOf="@+id/last_label" />
 
-    <TextView
-        android:id="@+id/dob"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1/12/1987"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/dob_label" />
+        <TextView
+            android:id="@+id/dob_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date of Birth"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/first_name" />
 
-    <TextView
-        android:id="@+id/address_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Address"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/dob" />
+        <TextView
+            android:id="@+id/dob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1/12/1987"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/dob_label" />
 
-    <TextView
-        android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:maxWidth="140dp"
-        android:text="540 Trinity Lane North"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/address_label" />
+        <TextView
+            android:id="@+id/address_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/dob" />
 
-    <TextView
-        android:id="@+id/city_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="City"
-        app:layout_constraintLeft_toLeftOf="@+id/last_label"
-        app:layout_constraintTop_toTopOf="@+id/address_label" />
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:maxWidth="140dp"
+            android:text="540 Trinity Lane North"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/address_label" />
 
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="St.Petersburg"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/last_label"
-        app:layout_constraintTop_toTopOf="@+id/address" />
+        <TextView
+            android:id="@+id/city_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="City"
+            app:layout_constraintLeft_toLeftOf="@+id/last_label"
+            app:layout_constraintTop_toTopOf="@+id/address_label" />
 
-    <TextView
-        android:id="@+id/state_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="State"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/address" />
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="St.Petersburg"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/last_label"
+            app:layout_constraintTop_toTopOf="@+id/address" />
 
-    <TextView
-        android:id="@+id/state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Florida"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/state_label" />
+        <TextView
+            android:id="@+id/state_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="State"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
 
-    <TextView
-        android:id="@+id/zip_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zip"
-        app:layout_constraintLeft_toLeftOf="@+id/last_label"
-        app:layout_constraintTop_toTopOf="@+id/state_label" />
+        <TextView
+            android:id="@+id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Florida"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/state_label" />
 
-    <TextView
-        android:id="@+id/zip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="33716"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/last_label"
-        app:layout_constraintTop_toTopOf="@+id/state" />
+        <TextView
+            android:id="@+id/zip_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zip"
+            app:layout_constraintLeft_toLeftOf="@+id/last_label"
+            app:layout_constraintTop_toTopOf="@+id/state_label" />
 
-    <TextView
-        android:id="@+id/phone_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Phone"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/state" />
+        <TextView
+            android:id="@+id/zip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="33716"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/last_label"
+            app:layout_constraintTop_toTopOf="@+id/state" />
 
-    <TextView
-        android:id="@+id/phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="867-5309"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/phone_label" />
+        <TextView
+            android:id="@+id/phone_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/state" />
 
-    <TextView
-        android:id="@+id/email_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/phone" />
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="867-5309"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/phone_label" />
 
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="kwelsh@prokarma.com"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/email_label" />
+        <TextView
+            android:id="@+id/email_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/phone" />
 
-    <TextView
-        android:id="@+id/insurance_header"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_vertical"
-        android:text="Insurance Information"
-        app:layout_constraintTop_toBottomOf="@id/email" />
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kwelsh@prokarma.com"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/email_label" />
 
-    <TextView
-        android:id="@+id/provider_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Insurance Provider"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/insurance_header" />
+        <TextView
+            android:id="@+id/insurance_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@color/light_grey"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:text="Insurance Information"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
-    <TextView
-        android:id="@+id/provider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dignity Health"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/provider_label" />
+        <TextView
+            android:id="@+id/provider_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Insurance Provider"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/insurance_header" />
 
-    <TextView
-        android:id="@+id/id_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Member ID"
-        app:layout_constraintLeft_toLeftOf="@+id/last_label"
-        app:layout_constraintTop_toTopOf="@+id/provider_label" />
+        <TextView
+            android:id="@+id/provider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dignity Health"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/provider_label" />
 
-    <TextView
-        android:id="@+id/id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="800-588-2300"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/last_label"
-        app:layout_constraintTop_toTopOf="@+id/provider" />
+        <TextView
+            android:id="@+id/id_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Member ID"
+            app:layout_constraintLeft_toLeftOf="@+id/last_label"
+            app:layout_constraintTop_toTopOf="@+id/provider_label" />
 
-    <TextView
-        android:id="@+id/group_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Group"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/provider" />
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="800-588-2300"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/last_label"
+            app:layout_constraintTop_toTopOf="@+id/provider" />
 
-    <TextView
-        android:id="@+id/group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="230-2333"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/first_label"
-        app:layout_constraintTop_toBottomOf="@+id/group_label" />
+        <TextView
+            android:id="@+id/group_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/provider" />
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="230-2333"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/first_label"
+            app:layout_constraintTop_toBottomOf="@+id/group_label" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
