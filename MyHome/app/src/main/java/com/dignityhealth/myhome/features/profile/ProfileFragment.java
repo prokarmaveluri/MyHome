@@ -32,7 +32,10 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.profile, container, false);
-        getProfile("safasf");
+
+        //get the profile information
+        //getProfile("bearer token here...");
+
         return profileView;
     }
 
