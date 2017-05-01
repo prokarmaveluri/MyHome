@@ -26,5 +26,6 @@
     <string name="registered_successfully">Registered Successfully.</string>
     <string name="something_went_wrong">Something went wrong, please try again!</string>
     <string name="enrollment">Enrollment</string>
+    <string name="enrollment_success">You are successfully registered.</string>
 
 </resources>

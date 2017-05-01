@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:gravity="center_horizontal"
-            android:text="Select Security Question" />
+            android:text="Select a Security Question" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sq_list"
