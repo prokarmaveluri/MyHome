@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Security questions for enrollment-->
+    <string-array name="security_question_text">
+        <item>What is your favorite movie quote?</item>
+        <item>What was the first thing you learned to cook?</item>
+        <item>What was your dream job as a child?</item>
+        <item>Where did you meet your spouse/significant other?</item>
+        <item>Where did you go for your favorite vacation?</item>
+        <item>Who is your favorite sports player?</item>
+    </string-array>
+
+    <!--Security question Ids for enrollment-->
+    <string-array name="security_question_ids">
+        <item>favorite_movie_quote</item>
+        <item>first_thing_cooked</item>
+        <item>childhood_dream_job</item>
+        <item>place_where_significant_other_was_met</item>
+        <item>favorite_vacation_location</item>
+        <item>favorite_sports_player</item>
+    </string-array>
+</resources>

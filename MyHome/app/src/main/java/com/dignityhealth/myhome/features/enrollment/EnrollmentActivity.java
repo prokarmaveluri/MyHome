@@ -33,10 +33,10 @@ public class EnrollmentActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_enrollment);
 
         EnrollmentFragment fragment = EnrollmentFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().add(binding.enrollFrame.getId(),
+        getSupportFragmentManager().beginTransaction().replace(binding.enrollFrame.getId(),
                 fragment).commit();
 
-        new EnrollmentPresenter(fragment);
+        new EnrollmentPresenter(fragment, this);
     }
 
     @Override

@@ -1,5 +1,10 @@
 package com.dignityhealth.myhome.features.enrollment;
 
+import android.app.Activity;
+import android.content.Intent;
+
+import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
 
 import retrofit2.Call;
@@ -13,9 +18,11 @@ import retrofit2.Response;
 public class EnrollmentPresenter implements EnrollmentInteractor.Presenter {
 
     private EnrollmentInteractor.View mView;
+    private Activity mContext;
 
-    public EnrollmentPresenter(EnrollmentInteractor.View view) {
+    public EnrollmentPresenter(EnrollmentInteractor.View view, Activity context) {
         mView = view;
+        mContext = context;
         mView.setPresenter(this);
     }
 
@@ -26,25 +33,32 @@ public class EnrollmentPresenter implements EnrollmentInteractor.Presenter {
     }
 
     @Override
-    public void openLoginPage() {
-
-        mView.showView(false);
-    }
-
-    @Override
     public void enrollUser(EnrollmentRequest request) {
+
         mView.showView(false);
         mView.showProgress(true);
 
         registerUser(request);
     }
 
-    private void registerUser(EnrollmentRequest request){
+    @Override
+    public void openLoginPage() {
+        mView.showView(false);
+        if (null != mContext) {
+            Intent intent = LoginActivity.getLoginIntent(mContext);
+            mContext.startActivity(intent);
+            mContext.finish();
+        }
+    }
+    private void registerUser(EnrollmentRequest request) {
         NetworkManager.getInstance().register(request).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()){
-                    mView.showEnrollmentStatus("Registered Successfully.");
+                if (response.isSuccessful()) {
+                    mView.showEnrollmentStatus(mContext.getString(R.string.registered_successfully));
+                    openLoginPage();
+                } else {
+                    mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                 }
                 mView.showView(true);
                 mView.showProgress(false);
@@ -52,7 +66,7 @@ public class EnrollmentPresenter implements EnrollmentInteractor.Presenter {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                mView.showEnrollmentStatus("Something went wrong, please try again!");
+                mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                 mView.showView(true);
                 mView.showProgress(false);
             }
