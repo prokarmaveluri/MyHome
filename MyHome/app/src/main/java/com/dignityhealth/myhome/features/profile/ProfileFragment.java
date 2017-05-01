@@ -2,8 +2,6 @@ package com.dignityhealth.myhome.features.profile;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,17 +51,12 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.profile, container, false);
-
-        //Toolbar
-        Toolbar toolbar = (Toolbar) profileView.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         firstName = (TextView) profileView.findViewById(R.id.first_name);
         lastName = (TextView) profileView.findViewById(R.id.last_name);
@@ -82,13 +75,14 @@ public class ProfileFragment extends BaseFragment {
         //Update the profile information
         getProfileInfo("Bearer " + AuthManager.getBearerToken());
 
+        setHasOptionsMenu(true);
         return profileView;
     }
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        //menu.clear();
+        menu.clear();
         inflater.inflate(R.menu.profile_menu, menu);
     }
 
