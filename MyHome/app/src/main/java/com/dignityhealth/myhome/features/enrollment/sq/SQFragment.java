@@ -14,11 +14,23 @@ import android.view.ViewGroup;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentSecqBinding;
+import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.enrollment.tc.TermsOfServiceActivity;
 import com.dignityhealth.myhome.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/*
+ * Fragment to select security question.
+ *
+ * Created by cmajji on 4/26/17.
+ */
 public class SQFragment extends Fragment {
 
     private FragmentSecqBinding binding;
+    private EnrollmentRequest enrollmentRequest;
+    private String selectedQuestionId;
 
     private static final int SELECT_QUESTION_ACTION = 100;
 
@@ -34,6 +46,10 @@ public class SQFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (null != getArguments()) {
+            Bundle bundle = getArguments();
+            enrollmentRequest = bundle.getParcelable(Constants.ENROLLMENT_REQUEST);
+        }
     }
 
     @Override
@@ -67,16 +83,17 @@ public class SQFragment extends Fragment {
         public void onClickEvent(View view) {
             switch (view.getId()) {
                 case R.id.submit_question:
+                    if (null != selectedQuestionId &&
+                            !binding.answer.getText().toString().isEmpty()){
+                        updateRequest();
+                        startTermsOfServiceActivity();
+                    }
                     break;
                 case R.id.select_question:
                     startQuestionsDialog();
                     break;
             }
         }
-    }
-
-    public interface ISelectSecurityQuestion {
-        void selectQuestion();
     }
 
     private void startQuestionsDialog() {
@@ -93,7 +110,7 @@ public class SQFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
 
                 if (null != data) {
-                    String qId = data.getStringExtra(Constants.ENROLLMENT_QUESTION_ID);
+                    selectedQuestionId = data.getStringExtra(Constants.ENROLLMENT_QUESTION_ID);
                     String question = data.getStringExtra(Constants.ENROLLMENT_QUESTION);
                     if (null != question) {
                         binding.selectQuestion.setText(question);
@@ -118,9 +135,28 @@ public class SQFragment extends Fragment {
         public void afterTextChanged(Editable s) {
             if (s.length() > 0) {
                 binding.submitQuestion.setEnabled(true);
-            }else {
+            } else {
                 binding.submitQuestion.setEnabled(false);
             }
         }
+    }
+
+    private void updateRequest() {
+
+        //Validate security question inputs
+        EnrollmentRequest.RecoveryQuestion question =
+                new EnrollmentRequest.RecoveryQuestion(selectedQuestionId,
+                        binding.answer.getText().toString());
+
+        List<EnrollmentRequest.RecoveryQuestion> questions = new ArrayList<>();
+        questions.add(question);
+        enrollmentRequest.setRecoveryQuestions(questions);
+    }
+
+    private void startTermsOfServiceActivity(){
+
+        Intent intent = TermsOfServiceActivity.getTermsOfServiceActivityIntent(getActivity());
+        intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
+        startActivity(intent);
     }
 }
