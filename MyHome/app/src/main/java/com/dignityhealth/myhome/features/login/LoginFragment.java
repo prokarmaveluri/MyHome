@@ -1,11 +1,14 @@
 package com.dignityhealth.myhome.features.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentLoginBinding;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -217,6 +221,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             switch (msg.what){
                 case ACTION_FINISH:
                     //received token and stored it in AuthManager. start nav activity
+                    Intent intentHome = new Intent(getActivity(), NavigationActivity.class);
+                    intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
+                    ActivityCompat.startActivity(getActivity(), intentHome, options.toBundle());
+
                     getActivity().finish();
                     break;
             }
