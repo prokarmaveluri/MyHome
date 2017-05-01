@@ -10,9 +10,21 @@
     <string name="prompt_last_name">Last Name</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_register">Register</string>
-    <string name="signup_suggestion">Not Registered? Sign up.</string>
+    <string name="prompt_answer">Answer</string>
+    <string name="prompt_re_enter_password">Re-enter Password</string>
+    <string name="prompt_select_question">Select security Question</string>
+    <string name="action_Login">Login</string>
+    <string name="action_Submit">Submit</string>
+    <string name="action_create_account">Create Account</string>
+    <string name="signup_suggestion">Not Registered? Sign up here</string>
     <string name="login_suggestion">Already Registered? Login.</string>
+    <string name="valid_first_name">Enter valid first name</string>
+    <string name="valid_last_name">Enter valid last name</string>
+    <string name="valid_email">Enter valid email</string>
+    <string name="valid_password">Enter valid password</string>
+    <string name="password_not_matching">Password not matching!</string>
+    <string name="registered_successfully">Registered Successfully.</string>
+    <string name="something_went_wrong">Something went wrong, please try again!</string>
+    <string name="enrollment">Enrollment</string>
 
 </resources>

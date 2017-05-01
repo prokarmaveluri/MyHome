@@ -2,6 +2,8 @@ package com.dignityhealth.myhome.networking;
 
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.profile.ProfileResponse;
+import com.dignityhealth.myhome.features.login.LoginRequest;
+import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.io.IOException;
@@ -37,7 +39,7 @@ public class NetworkManager {
     public void initService() {
 
         httpClient = new OkHttpClient.Builder();
-        httpClient.connectTimeout(30, TimeUnit.SECONDS);
+        httpClient.connectTimeout(10, TimeUnit.SECONDS);
 
         httpClient.addInterceptor(new Interceptor() {
             @Override
@@ -65,4 +67,7 @@ public class NetworkManager {
         return  service.profile(bearer);
     }
 
+    public Call<LoginResponse> login(LoginRequest request) {
+        return service.login(request);
+    }
 }

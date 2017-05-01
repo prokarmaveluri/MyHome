@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentEnrollmentBinding;
 import com.dignityhealth.myhome.utils.CommonUtil;
+import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.ValidateInputsOnFocusChange;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,19 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_enrollment, container, false);
+
+        binding.firstName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.firstName,
+                Constants.INPUT_TYPE.TEXT));
+        binding.lastName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.lastName,
+                Constants.INPUT_TYPE.TEXT));
+
+        binding.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.email,
+                Constants.INPUT_TYPE.EMAIL));
+        binding.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.password,
+                Constants.INPUT_TYPE.PASSWORD));
+        binding.reEnterPassword.setOnFocusChangeListener(
+                new ValidateInputsOnFocusChange(binding.reEnterPassword,
+                        Constants.INPUT_TYPE.PASSWORD));
 
         binding.setHandlers(new EnrollmentViewClickEvent());
         return binding.getRoot();
