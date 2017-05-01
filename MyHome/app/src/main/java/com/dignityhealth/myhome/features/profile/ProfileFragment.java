@@ -49,7 +49,7 @@ public class ProfileFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         //get the profile information
-        //getProfile("bearer token here...");
+        //getProfile("Bearer " + AuthManager.getBearerToken());
 
         return profileView;
     }
@@ -57,8 +57,7 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-
+        //menu.clear();
         inflater.inflate(R.menu.profile_menu, menu);
     }
 
