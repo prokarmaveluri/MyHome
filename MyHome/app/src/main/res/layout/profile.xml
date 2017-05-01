@@ -274,6 +274,5 @@
             app:layout_constraintLeft_toLeftOf="@+id/first_label"
             app:layout_constraintTop_toBottomOf="@+id/group_label" />
 
-
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
