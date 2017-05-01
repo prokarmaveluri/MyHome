@@ -16,6 +16,11 @@ import com.dignityhealth.myhome.databinding.AdapterSqListBinding;
 import com.dignityhealth.myhome.databinding.FragmentSecqListBinding;
 import com.dignityhealth.myhome.utils.Constants;
 
+/*
+ * Fragment dialog to display the security questions.
+ *
+ * Created by cmajji on 4/26/17.
+ */
 public class SQListDialog extends DialogFragment {
 
     private FragmentSecqListBinding binding;

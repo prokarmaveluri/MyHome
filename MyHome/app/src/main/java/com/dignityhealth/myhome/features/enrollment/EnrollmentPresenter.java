@@ -3,13 +3,8 @@ package com.dignityhealth.myhome.features.enrollment;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.enrollment.sq.SQActivity;
-import com.dignityhealth.myhome.networking.NetworkManager;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.dignityhealth.myhome.utils.Constants;
 
 /**
  * Created by cmajji on 4/26/17.
@@ -39,34 +34,12 @@ public class EnrollmentPresenter implements EnrollmentInteractor.Presenter {
         mView.showProgress(false);
 
         Intent sqIntent = SQActivity.getSQActivityIntent(mContext);
+        sqIntent.putExtra(Constants.ENROLLMENT_REQUEST, request);
         mContext.startActivity(sqIntent);
     }
 
     @Override
     public void openLoginPage() {
         mView.showView(false);
-    }
-
-    private void registerUser(EnrollmentRequest request) {
-        NetworkManager.getInstance().register(request).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    mView.showEnrollmentStatus(mContext.getString(R.string.registered_successfully));
-                    openLoginPage();
-                } else {
-                    mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
-                }
-                mView.showView(true);
-                mView.showProgress(false);
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
-                mView.showView(true);
-                mView.showProgress(false);
-            }
-        });
     }
 }
