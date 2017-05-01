@@ -4,6 +4,8 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentLoginBinding;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
@@ -28,6 +31,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     private LoginInteractor.Presenter presenter;
     private FragmentLoginBinding binder;
+
+    private static final int ACTION_FINISH = 100;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -182,7 +187,12 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            parseIDToken(url);
+            String token = parseIDToken(url);
+
+            if(null != token){
+                AuthManager.setBearerToken(token);
+                mHandler.sendEmptyMessage(ACTION_FINISH);
+            }
             showProgress(false);
             return false;
         }
@@ -199,4 +209,17 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
         return null;
     }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case ACTION_FINISH:
+                    //received token and stored it in AuthManager. start nav activity
+                    getActivity().finish();
+                    break;
+            }
+        }
+    };
 }
