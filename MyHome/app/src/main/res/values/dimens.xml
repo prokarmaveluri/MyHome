@@ -5,4 +5,16 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <!--Profile dimensions-->
+    <dimen name="profile_header_padding">12dp</dimen>
+    <dimen name="profile_label_marginTop">12dp</dimen>
+    <dimen name="profile_insuranceheader_marginTop">24dp</dimen>
+    <dimen name="profile_firstname_indent">36dp</dimen>
+    <dimen name="profile_lastname_indent">160dp</dimen>
+    <dimen name="profile_firstname_maxwidth">140dp</dimen>
+    <dimen name="profile_lastname_maxwidth">140dp</dimen>
+    <dimen name="profile_city_maxwidth">140dp</dimen>
+    <dimen name="profile_address_maxwidth">140dp</dimen>
+    <dimen name="profile_text_size">18sp</dimen>
 </resources>
