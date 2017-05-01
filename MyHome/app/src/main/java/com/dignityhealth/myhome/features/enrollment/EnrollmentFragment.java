@@ -69,6 +69,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     public void onResume() {
         super.onResume();
         presenter.start();
+        showView(true);
     }
 
     @Override
@@ -100,11 +101,11 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     @Override
     public void showView(boolean show) {
         if (show) {
-            binding.loginSuggestion.setClickable(true);
-            binding.enrollButton.setClickable(true);
+            binding.loginSuggestion.setEnabled(true);
+            binding.enrollButton.setEnabled(true);
         } else {
-            binding.loginSuggestion.setClickable(false);
-            binding.enrollButton.setClickable(false);
+            binding.loginSuggestion.setEnabled(false);
+            binding.enrollButton.setEnabled(false);
         }
     }
 
