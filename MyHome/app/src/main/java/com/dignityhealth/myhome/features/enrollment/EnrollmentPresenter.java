@@ -1,8 +1,10 @@
 package com.dignityhealth.myhome.features.enrollment;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.enrollment.sq.SQActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
 
 import retrofit2.Call;
@@ -34,15 +36,17 @@ public class EnrollmentPresenter implements EnrollmentInteractor.Presenter {
     public void enrollUser(EnrollmentRequest request) {
 
         mView.showView(false);
-        mView.showProgress(true);
+        mView.showProgress(false);
 
-        registerUser(request);
+        Intent sqIntent = SQActivity.getSQActivityIntent(mContext);
+        mContext.startActivity(sqIntent);
     }
 
     @Override
     public void openLoginPage() {
         mView.showView(false);
     }
+
     private void registerUser(EnrollmentRequest request) {
         NetworkManager.getInstance().register(request).enqueue(new Callback<Void>() {
             @Override

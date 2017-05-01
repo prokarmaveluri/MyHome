@@ -1,5 +1,7 @@
 package com.dignityhealth.myhome.features.enrollment.sq;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +13,14 @@ import com.dignityhealth.myhome.databinding.ActivitySecurityQuestionBinding;
 public class SQActivity extends AppCompatActivity {
 
     private ActivitySecurityQuestionBinding binding;
+
+    /*
+     * Get an intent for SQActivity activity.
+     */
+    public static Intent getSQActivityIntent(Context context) {
+
+        return new Intent(context, SQActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
