@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.dignityhealth.myhome.features.enrollment.sq.SQActivity;
+import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.utils.Constants;
 
 /**
@@ -41,5 +42,10 @@ public class EnrollmentPresenter implements EnrollmentInteractor.Presenter {
     @Override
     public void openLoginPage() {
         mView.showView(true);
+        if (null != mContext) {
+            Intent intent = LoginActivity.getLoginIntent(mContext);
+            mContext.startActivity(intent);
+            mContext.finish();
+        }
     }
 }
