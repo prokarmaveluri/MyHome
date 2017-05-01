@@ -30,7 +30,7 @@ public class EnrollmentPresenter implements EnrollmentInteractor.Presenter {
     @Override
     public void enrollUser(EnrollmentRequest request) {
 
-        mView.showView(false);
+        mView.showView(true);
         mView.showProgress(false);
 
         Intent sqIntent = SQActivity.getSQActivityIntent(mContext);
@@ -40,6 +40,6 @@ public class EnrollmentPresenter implements EnrollmentInteractor.Presenter {
 
     @Override
     public void openLoginPage() {
-        mView.showView(false);
+        mView.showView(true);
     }
 }
