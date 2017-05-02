@@ -50,8 +50,22 @@ public class ProfileResponse {
     public String toString() {
         return "ProfileResponse{" +
                 "firstName='" + firstName + '\'' +
+                ", middleInitial='" + middleInitial + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", preferredName='" + preferredName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", address=" + address +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", phoneNumberType='" + phoneNumberType + '\'' +
+                ", contactName='" + contactName + '\'' +
+                ", contactPhoneNumber='" + contactPhoneNumber + '\'' +
+                ", primaryCaregiverName='" + primaryCaregiverName + '\'' +
+                ", isPregnant=" + isPregnant +
+                ", weeksPregnant='" + weeksPregnant + '\'' +
+                ", insuranceProvider=" + insuranceProvider +
+                ", clientID='" + clientID + '\'' +
+                ", remoteID='" + remoteID + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
