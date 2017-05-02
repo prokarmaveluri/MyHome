@@ -15,8 +15,8 @@ import com.dignityhealth.myhome.features.contact.ContactUsFragment;
 import com.dignityhealth.myhome.features.fad.FadFragment;
 import com.dignityhealth.myhome.features.home.HomeFragment;
 import com.dignityhealth.myhome.features.more.MoreFragment;
-import com.dignityhealth.myhome.features.profile.ProfileEditDialog;
-import com.dignityhealth.myhome.features.profile.ProfileFragment;
+import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
+import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 
@@ -170,10 +170,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
             case PROFILE_VIEW:
                 if (getActivityTag() != ActivityTag.PROFILE_VIEW) {
-                    ProfileFragment profileFragment = ProfileFragment.newInstance();
+                    ProfileViewFragment profileViewFragment = ProfileViewFragment.newInstance();
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.frame, profileFragment, ProfileFragment.PROFILE_VIEW_TAG)
+                            .replace(R.id.frame, profileViewFragment, ProfileViewFragment.PROFILE_VIEW_TAG)
                             .commitAllowingStateLoss();
                     getFragmentManager().executePendingTransactions();
 
@@ -183,10 +183,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
             case PROFILE_EDIT:
                 if (getActivityTag() != ActivityTag.PROFILE_EDIT) {
-                    ProfileEditDialog profileEditDialog = ProfileEditDialog.newInstance();
+                    ProfileEditFragment profileEditFragment = ProfileEditFragment.newInstance();
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.frame, profileEditDialog, ProfileEditDialog.PROFILE_EDIT_TAG)
+                            .replace(R.id.frame, profileEditFragment, ProfileEditFragment.PROFILE_EDIT_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getFragmentManager().executePendingTransactions();

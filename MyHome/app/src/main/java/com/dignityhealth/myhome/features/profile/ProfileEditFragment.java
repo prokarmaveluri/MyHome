@@ -27,7 +27,7 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class ProfileEditDialog extends BaseFragment {
+public class ProfileEditFragment extends BaseFragment {
     public static final String PROFILE_EDIT_TAG = "profile_edit_tag";
 
     View profileView;
@@ -45,8 +45,8 @@ public class ProfileEditDialog extends BaseFragment {
     TextView memberId;
     TextView group;
 
-    public static ProfileEditDialog newInstance() {
-        return new ProfileEditDialog();
+    public static ProfileEditFragment newInstance() {
+        return new ProfileEditFragment();
     }
 
     @Override

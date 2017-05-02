@@ -26,7 +26,7 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class ProfileFragment extends BaseFragment {
+public class ProfileViewFragment extends BaseFragment {
     public static final String PROFILE_VIEW_TAG = "profile_view_tag";
 
     View profileView;
@@ -44,8 +44,8 @@ public class ProfileFragment extends BaseFragment {
     TextView memberId;
     TextView group;
 
-    public static ProfileFragment newInstance() {
-        return new ProfileFragment();
+    public static ProfileViewFragment newInstance() {
+        return new ProfileViewFragment();
     }
 
     @Override
