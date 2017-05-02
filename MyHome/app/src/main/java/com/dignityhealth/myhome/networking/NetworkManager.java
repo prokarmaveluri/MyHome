@@ -1,6 +1,8 @@
 package com.dignityhealth.myhome.networking;
 
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
+import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.dignityhealth.myhome.features.profile.ProfileResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
@@ -69,5 +71,9 @@ public class NetworkManager {
 
     public Call<LoginResponse> login(LoginRequest request) {
         return service.login(request);
+    }
+
+    public Call<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request){
+        return service.forgotPassword(request);
     }
 }
