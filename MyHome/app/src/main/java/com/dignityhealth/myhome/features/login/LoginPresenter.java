@@ -2,10 +2,12 @@ package com.dignityhealth.myhome.features.login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.utils.ConnectionUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +39,12 @@ public class LoginPresenter implements LoginInteractor.Presenter {
 
         mView.showView(false);
         mView.showProgress(true);
+
+        if (!ConnectionUtil.isConnected(mContext)) {
+            Toast.makeText(mContext, R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
         login(request);
     }
