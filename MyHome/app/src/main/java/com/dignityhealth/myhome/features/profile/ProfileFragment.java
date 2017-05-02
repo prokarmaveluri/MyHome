@@ -56,7 +56,7 @@ public class ProfileFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        profileView = inflater.inflate(R.layout.profile, container, false);
+        profileView = inflater.inflate(R.layout.profile_view, container, false);
 
         firstName = (TextView) profileView.findViewById(R.id.first_name);
         lastName = (TextView) profileView.findViewById(R.id.last_name);
@@ -72,7 +72,7 @@ public class ProfileFragment extends BaseFragment {
         memberId = (TextView) profileView.findViewById(R.id.id);
         group = (TextView) profileView.findViewById(R.id.group);
 
-        //Update the profile information
+        //Update the profile_view information
         getProfileInfo("Bearer " + AuthManager.getBearerToken());
 
         setHasOptionsMenu(true);
@@ -94,7 +94,7 @@ public class ProfileFragment extends BaseFragment {
                 break;
 
             case R.id.edit_profile:
-                Toast.makeText(getActivity(), "edit profile stuff...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "edit profile_view stuff...", Toast.LENGTH_SHORT).show();
                 break;
         }
 
