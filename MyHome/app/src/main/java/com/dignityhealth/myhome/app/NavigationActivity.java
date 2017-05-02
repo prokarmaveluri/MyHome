@@ -44,6 +44,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        clearBackstack();
+
                         switch (item.getItemId()) {
                             case R.id.home:
                                 loadFragment(ActivityTag.HOME);
@@ -102,6 +104,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      * @param activityTag The page we want to navigate to
      */
     public void goToPage(ActivityTag activityTag) {
+        clearBackstack();
+
         switch (activityTag) {
             case HOME:
                 bottomNavigationView.setSelectedItemId(R.id.home);
@@ -254,6 +258,17 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             goToPage(ActivityTag.HOME);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    /**
+     * Clears the fragment stack
+     * Code inspired from: http://stackoverflow.com/a/17107067/2128921
+     */
+    private void clearBackstack() {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager != null) {
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
     }
 }
