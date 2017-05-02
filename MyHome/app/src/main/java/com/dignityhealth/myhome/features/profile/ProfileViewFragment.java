@@ -107,7 +107,7 @@ public class ProfileViewFragment extends BaseFragment {
     }
 
     private void getProfileInfo(String bearer) {
-        NetworkManager.getInstance().profile(bearer).enqueue(new Callback<ProfileResponse>() {
+        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful()) {

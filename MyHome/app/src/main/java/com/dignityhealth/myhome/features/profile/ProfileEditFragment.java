@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
@@ -95,8 +94,12 @@ public class ProfileEditFragment extends BaseFragment {
                 break;
 
             case R.id.save_profile:
-                Toast.makeText(getActivity(), "saving profile...", Toast.LENGTH_SHORT).show();
-                //Update Profile....
+                ProfileResponse updatedProfile = new ProfileResponse();
+                updatedProfile.firstName = "Kevin";
+                updatedProfile.middleInitial = "C";
+                updatedProfile.lastName = "Welsh";
+                updatedProfile.phoneNumber = "8675309";
+                sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), updatedProfile);
                 //finish fragment
                 break;
         }
@@ -105,7 +108,7 @@ public class ProfileEditFragment extends BaseFragment {
     }
 
     private void getProfileInfo(String bearer) {
-        NetworkManager.getInstance().profile(bearer).enqueue(new Callback<ProfileResponse>() {
+        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful()) {
@@ -118,6 +121,25 @@ public class ProfileEditFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                Timber.e("Something failed! :/");
+            }
+        });
+    }
+
+    private void sendUpdatedProfile(String bearer, ProfileResponse updatedProfile){
+        NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                    //updateProfileViews(response.body());
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 Timber.e("Something failed! :/");
             }
         });
