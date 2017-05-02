@@ -12,6 +12,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.ActivityTermsOfServiceBinding;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
 import retrofit2.Call;
@@ -52,9 +53,17 @@ public class TermsOfServiceActivity extends AppCompatActivity {
         public void onClickEvent(View view) {
             switch (view.getId()) {
                 case R.id.tc_accept:
+                    if (!ConnectionUtil.isConnected(getApplicationContext())) {
+                        Toast.makeText(getApplicationContext(),
+                                R.string.no_network_msg,
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    }
+
                     enrollmentRequest.setHasAcceptedTerms(true);
                     enrollmentRequest.setSkipVerification(true); // need to discuss about the skip.
                     registerUser(enrollmentRequest);
+
                     break;
                 case R.id.tc_cancel:
                     finish();
@@ -87,10 +96,10 @@ public class TermsOfServiceActivity extends AppCompatActivity {
         });
     }
 
-    private void showProgress(boolean show){
-        if (show){
+    private void showProgress(boolean show) {
+        if (show) {
             binding.termsProgress.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.termsProgress.setVisibility(View.GONE);
         }
     }
