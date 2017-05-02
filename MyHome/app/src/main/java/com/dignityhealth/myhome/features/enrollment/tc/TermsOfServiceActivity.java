@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.ActivityTermsOfServiceBinding;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
@@ -80,6 +81,7 @@ public class TermsOfServiceActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), R.string.enrollment_success,
                             Toast.LENGTH_LONG).show();
+                    startLoginPage();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
@@ -102,5 +104,11 @@ public class TermsOfServiceActivity extends AppCompatActivity {
         } else {
             binding.termsProgress.setVisibility(View.GONE);
         }
+    }
+
+    private void startLoginPage() {
+        Intent intent = LoginActivity.getLoginIntent(this);
+        startActivity(intent);
+        finishAffinity();
     }
 }
