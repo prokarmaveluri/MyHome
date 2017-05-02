@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentLoginBinding;
+import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordActivity;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
@@ -136,8 +137,13 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                         if (null != request)
                             presenter.signIn(request);
                     }else {
-                        Toast.makeText(getActivity(), "Please check your network!",
+                        Toast.makeText(getActivity(), R.string.no_network_msg,
                                 Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case R.id.forgot_password:
+                    if (ConnectionUtil.isConnected(getActivity())) {
+                        startForgotPasswordActivity();
                     }
                     break;
             }
@@ -207,7 +213,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         int index = url.indexOf("id_token=");
         if (-1 != index) {
             String token = url.substring(index + "id_token=".length(), url.indexOf("&"));
-            Toast.makeText(getActivity(), token, Toast.LENGTH_LONG).show();
             Timber.i("id_token ** "+ token);
             return token;
         }
@@ -231,4 +236,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             }
         }
     };
+
+    private void startForgotPasswordActivity(){
+        Intent intent = ForgotPasswordActivity.getForgotPasswordIntent(getActivity());
+        startActivity(intent);
+    }
 }

@@ -1,6 +1,8 @@
 package com.dignityhealth.myhome.networking;
 
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
+import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.dignityhealth.myhome.features.profile.ProfileResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
@@ -26,4 +28,7 @@ public interface RESTService {
 
     @POST(RESTConstants.OKTA_BASE_URL + "api/v1/authn")
     Call<LoginResponse> login(@Body LoginRequest request);
+
+    @POST(RESTConstants.OKTA_BASE_URL + "api/v1/authn/recovery/password")
+    Call<ForgotPasswordResponse> forgotPassword(@Body ForgotPasswordRequest request);
 }
