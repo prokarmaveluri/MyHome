@@ -47,7 +47,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.forgot_password_button:
                     if (!CommonUtil.isValidEmail(binding.email.getText().toString())) {
-                        binding.email.setError("Enter valid email name");
+                        binding.email.setError(getResources().getString(R.string.valid_email));
                         break;
                     }
                     if (!ConnectionUtil.isConnected(getApplicationContext())) {
