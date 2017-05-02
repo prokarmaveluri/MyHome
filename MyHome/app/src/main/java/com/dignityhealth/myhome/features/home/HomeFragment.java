@@ -33,7 +33,7 @@ public class HomeFragment extends BaseFragment {
         goToProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.PROFILE);
+                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.PROFILE_VIEW);
             }
         });
 

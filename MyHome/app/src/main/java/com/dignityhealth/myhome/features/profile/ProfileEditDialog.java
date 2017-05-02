@@ -8,11 +8,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
-import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.Constants;
@@ -26,8 +27,8 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class ProfileFragment extends BaseFragment {
-    public static final String PROFILE_VIEW_TAG = "profile_view_tag";
+public class ProfileEditDialog extends BaseFragment {
+    public static final String PROFILE_EDIT_TAG = "profile_edit_tag";
 
     View profileView;
     TextView firstName;
@@ -44,8 +45,8 @@ public class ProfileFragment extends BaseFragment {
     TextView memberId;
     TextView group;
 
-    public static ProfileFragment newInstance() {
-        return new ProfileFragment();
+    public static ProfileEditDialog newInstance() {
+        return new ProfileEditDialog();
     }
 
     @Override
@@ -56,21 +57,21 @@ public class ProfileFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        profileView = inflater.inflate(R.layout.profile_view, container, false);
+        profileView = inflater.inflate(R.layout.profile_edit, container, false);
 
-        firstName = (TextView) profileView.findViewById(R.id.first_name);
-        lastName = (TextView) profileView.findViewById(R.id.last_name);
-        dateOfBirth = (TextView) profileView.findViewById(R.id.dob);
-        address = (TextView) profileView.findViewById(R.id.address);
-        city = (TextView) profileView.findViewById(R.id.city);
-        state = (TextView) profileView.findViewById(R.id.state);
-        zip = (TextView) profileView.findViewById(R.id.zip);
-        phone = (TextView) profileView.findViewById(R.id.phone);
+        firstName = (EditText) profileView.findViewById(R.id.first_name);
+        lastName = (EditText) profileView.findViewById(R.id.last_name);
+        dateOfBirth = (EditText) profileView.findViewById(R.id.dob);
+        address = (EditText) profileView.findViewById(R.id.address);
+        city = (EditText) profileView.findViewById(R.id.city);
+        state = (EditText) profileView.findViewById(R.id.state);
+        zip = (EditText) profileView.findViewById(R.id.zip);
+        phone = (EditText) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
 
-        insuranceProvider = (TextView) profileView.findViewById(R.id.provider);
-        memberId = (TextView) profileView.findViewById(R.id.id);
-        group = (TextView) profileView.findViewById(R.id.group);
+        insuranceProvider = (EditText) profileView.findViewById(R.id.provider);
+        memberId = (EditText) profileView.findViewById(R.id.id);
+        group = (EditText) profileView.findViewById(R.id.group);
 
         //Update the profile_view information
         getProfileInfo("Bearer " + AuthManager.getBearerToken());
@@ -83,7 +84,7 @@ public class ProfileFragment extends BaseFragment {
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.profile_view_menu, menu);
+        inflater.inflate(R.menu.profile_edit_menu, menu);
     }
 
     @Override
@@ -93,17 +94,14 @@ public class ProfileFragment extends BaseFragment {
                 getActivity().onBackPressed();
                 break;
 
-            case R.id.edit_profile:
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_EDIT);
+            case R.id.save_profile:
+                Toast.makeText(getActivity(), "saving profile...", Toast.LENGTH_SHORT).show();
+                //Update Profile....
+                //finish fragment
                 break;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.PROFILE_VIEW;
     }
 
     private void getProfileInfo(String bearer) {
@@ -201,5 +199,10 @@ public class ProfileFragment extends BaseFragment {
         } else {
             group.setText(na);
         }
+    }
+
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        return Constants.ActivityTag.PROFILE_EDIT;
     }
 }
