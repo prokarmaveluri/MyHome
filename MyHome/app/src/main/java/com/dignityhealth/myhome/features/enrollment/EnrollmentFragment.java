@@ -15,9 +15,6 @@ import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.ValidateInputsOnFocusChange;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 /*
@@ -121,32 +118,24 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     private EnrollmentRequest getRequest() {
 
         if (!CommonUtil.isValidTextInput(binding.firstName)) {
-            binding.firstName.setError("Enter valid first name");
+            binding.firstName.setError(getResources().getString(R.string.valid_first_name));
             return null;
         }
 
         if (!CommonUtil.isValidTextInput(binding.lastName)) {
-            binding.lastName.setError("Enter valid last name");
+            binding.lastName.setError(getResources().getString(R.string.valid_last_name));
             return null;
         }
 
         if (!CommonUtil.isValidEmail(binding.email.getText().toString())) {
-            binding.email.setError("Enter valid email name");
+            binding.email.setError(getResources().getString(R.string.valid_email));
             return null;
         }
 
         if (!CommonUtil.isValidPassword(binding.password.getText().toString())) {
-            binding.password.setError("Enter valid password name");
+            binding.password.setError(getResources().getString(R.string.valid_password));
             return null;
         }
-
-        List<EnrollmentRequest.RecoveryQuestion> recoveryQuestions;
-        recoveryQuestions = new ArrayList<>();
-
-        EnrollmentRequest.RecoveryQuestion question =
-                new EnrollmentRequest.RecoveryQuestion("name", "chandra");
-
-        recoveryQuestions.add(question);
 
         EnrollmentRequest request = new EnrollmentRequest(binding.firstName.getText().toString(),
                 binding.lastName.getText().toString(),
@@ -154,8 +143,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                 binding.password.getText().toString(),
                 true, // update according to user selection.
                 true,
-                recoveryQuestions
-        );
+                null);
         return request;
     }
 
