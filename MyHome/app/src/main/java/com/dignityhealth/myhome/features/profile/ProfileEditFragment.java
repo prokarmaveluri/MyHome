@@ -255,47 +255,47 @@ public class ProfileEditFragment extends BaseFragment {
             profile.insuranceProvider = new InsuranceProvider();
         }
 
-        if (firstName.getText() != null && firstName.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (firstName.getText() != null && !firstName.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.firstName = firstName.getText().toString();
         }
 
-        if (lastName.getText() != null && lastName.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (lastName.getText() != null && !lastName.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.lastName = lastName.getText().toString();
         }
 
-        if (dateOfBirth.getText() != null && dateOfBirth.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.dateOfBirth = dateOfBirth.getText().toString();
         }
 
-        if (address.getText() != null && address.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (address.getText() != null && !address.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.address.line1 = address.getText().toString();
         }
 
-        if (city.getText() != null && city.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (city.getText() != null && !city.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.address.city = city.getText().toString();
         }
 
-        if (state.getText() != null && state.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (state.getText() != null && !state.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.address.stateOrProvince = state.getText().toString();
         }
 
-        if (zip.getText() != null && zip.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (zip.getText() != null && !zip.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.address.zipCode = zip.getText().toString();
         }
 
-        if (phone.getText() != null && phone.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (phone.getText() != null && !phone.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.phoneNumber = phone.getText().toString();
         }
 
-        if (insuranceProvider.getText() != null && insuranceProvider.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.insuranceProvider.providerName = insuranceProvider.getText().toString();
         }
 
-        if (memberId.getText() != null && memberId.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (memberId.getText() != null && !memberId.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.insuranceProvider.memberNumber = memberId.getText().toString();
         }
 
-        if (group.getText() != null && group.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (group.getText() != null && !group.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.insuranceProvider.groupNumber = group.getText().toString();
         }
 
