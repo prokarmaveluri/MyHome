@@ -137,13 +137,11 @@
             app:layout_constraintLeft_toLeftOf="@+id/first_label"
             app:layout_constraintTop_toBottomOf="@+id/address" />
 
-        <EditText
+        <Spinner
             android:id="@+id/state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Florida"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
+            android:entries="@array/profile_states"
             app:layout_constraintLeft_toLeftOf="@+id/first_label"
             app:layout_constraintTop_toBottomOf="@+id/state_label" />
 

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class ProfileEditFragment extends BaseFragment {
     TextView dateOfBirth;
     TextView address;
     TextView city;
-    TextView state;
+    Spinner state;
     TextView zip;
     TextView phone;
     TextView email;
@@ -66,7 +67,7 @@ public class ProfileEditFragment extends BaseFragment {
         dateOfBirth = (EditText) profileView.findViewById(R.id.dob);
         address = (EditText) profileView.findViewById(R.id.address);
         city = (EditText) profileView.findViewById(R.id.city);
-        state = (EditText) profileView.findViewById(R.id.state);
+        state = (Spinner) profileView.findViewById(R.id.state);
         zip = (EditText) profileView.findViewById(R.id.zip);
         phone = (EditText) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
@@ -196,9 +197,16 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.address != null && profile.address.stateOrProvince != null) {
-            state.setText(profile.address.stateOrProvince);
+
+            //Loop through states until we find a match, then set state spinner selection
+            for (int i = 0; i <= state.getAdapter().getCount(); i++) {
+                if (profile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
+                    state.setSelection(i);
+                    break;
+                }
+            }
         } else {
-            state.setText(placeholderText);
+            state.setSelection(0);  //Placeholder is the first item in the array
         }
 
         if (profile.address != null && profile.address.zipCode != null) {
@@ -247,11 +255,11 @@ public class ProfileEditFragment extends BaseFragment {
     private Profile getProfileValues(Profile currentProfile) {
         Profile profile = currentProfile;
 
-        if(profile.address == null){
+        if (profile.address == null) {
             profile.address = new Address();
         }
 
-        if(profile.insuranceProvider == null){
+        if (profile.insuranceProvider == null) {
             profile.insuranceProvider = new InsuranceProvider();
         }
 
@@ -275,8 +283,8 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.city = city.getText().toString().trim();
         }
 
-        if (state.getText() != null && !state.getText().toString().equalsIgnoreCase(placeholderText)) {
-            profile.address.stateOrProvince = state.getText().toString().trim();
+        if (!state.getSelectedItem().toString().equalsIgnoreCase(placeholderText)) {
+            profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 
         if (zip.getText() != null && !zip.getText().toString().equalsIgnoreCase(placeholderText)) {
