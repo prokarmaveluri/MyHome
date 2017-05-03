@@ -21,8 +21,8 @@
         <ScrollView
             android:id="@+id/enrollment_form"
             android:layout_width="match_parent"
-            android:scrollbars="none"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:id="@+id/email_login_form"
@@ -126,6 +126,16 @@
                         android:maxLines="1"
                         android:padding="16dp" />
                 </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/password_criteria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:onClick="@{handlers::onClickEvent}"
+                    android:padding="8dp"
+                    android:text="Password Criteria ?"
+                    android:textAlignment="textEnd" />
 
                 <Button
                     android:id="@+id/enroll_button"
