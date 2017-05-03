@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -188,6 +189,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             showProgress(false);
+            String cookies = CookieManager.getInstance().getCookie(url);
+
+            Timber.i("Finish ** Url ** " + url);
+            Timber.i("Finish ** Cookie ** " + cookies);
         }
 
         @Override
@@ -198,6 +203,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             String token = parseIDToken(url);
+
+            String cookies = CookieManager.getInstance().getCookie(url);
+
+            Timber.i("Redirect ** Url ** " + url);
+            Timber.i("Redirect ** Cookie ** " + cookies);
 
             if(null != token){
                 AuthManager.setBearerToken(token);
