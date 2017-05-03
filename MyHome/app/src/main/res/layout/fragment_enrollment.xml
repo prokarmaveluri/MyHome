@@ -51,6 +51,7 @@
                         android:background="@drawable/button_boarder"
                         android:focusableInTouchMode="true"
                         android:hint="@string/prompt_first_name"
+                        android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:padding="16dp" />
@@ -69,6 +70,7 @@
                         android:background="@drawable/button_boarder"
                         android:focusableInTouchMode="true"
                         android:hint="@string/prompt_last_name"
+                        android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:padding="16dp" />
@@ -87,6 +89,7 @@
                         android:background="@drawable/button_boarder"
                         android:focusableInTouchMode="true"
                         android:hint="@string/prompt_email"
+                        android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:padding="16dp" />
@@ -105,6 +108,7 @@
                         android:background="@drawable/button_boarder"
                         android:focusableInTouchMode="true"
                         android:hint="@string/prompt_password"
+                        android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:padding="16dp" />
@@ -122,6 +126,7 @@
                         android:background="@drawable/button_boarder"
                         android:focusableInTouchMode="true"
                         android:hint="@string/prompt_re_enter_password"
+                        android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:padding="16dp" />
