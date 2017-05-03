@@ -5,13 +5,13 @@ package com.dignityhealth.myhome.features.profile;
  */
 
 public class ProfileManager {
-    private static ProfileResponse profile = null;
+    private static Profile profile = null;
 
-    public static ProfileResponse getProfile() {
+    public static Profile getProfile() {
         return profile;
     }
 
-    public static void setProfile(ProfileResponse profile) {
+    public static void setProfile(Profile profile) {
         ProfileManager.profile = profile;
     }
 }

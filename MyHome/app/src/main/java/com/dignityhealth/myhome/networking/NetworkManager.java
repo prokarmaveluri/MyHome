@@ -5,7 +5,7 @@ import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordResponse;
-import com.dignityhealth.myhome.features.profile.ProfileResponse;
+import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.io.IOException;
@@ -65,11 +65,11 @@ public class NetworkManager {
         return service.register(request);
     }
 
-    public Call<ProfileResponse> getProfile(String bearer){
+    public Call<Profile> getProfile(String bearer){
         return  service.getProfile(bearer);
     }
 
-    public Call<Void> updateProfile(String bearer, ProfileResponse updatedProfileData){
+    public Call<Void> updateProfile(String bearer, Profile updatedProfileData){
         return  service.updateProfile(bearer, updatedProfileData);
     }
 

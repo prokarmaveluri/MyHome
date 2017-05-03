@@ -5,7 +5,7 @@ import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordResponse;
-import com.dignityhealth.myhome.features.profile.ProfileResponse;
+import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import retrofit2.Call;
@@ -25,10 +25,10 @@ public interface RESTService {
     Call<Void> register(@Body EnrollmentRequest request);
 
     @GET(RESTConstants.CIAM_BASE_URL + "api/users/me")
-    Call<ProfileResponse> getProfile(@Header("Authorization") String bearer);
+    Call<Profile> getProfile(@Header("Authorization") String bearer);
 
     @PATCH(RESTConstants.CIAM_BASE_URL + "api/users/me")
-    Call<Void> updateProfile(@Header("Authorization") String bearer, @Body ProfileResponse updatedProfileData);
+    Call<Void> updateProfile(@Header("Authorization") String bearer, @Body Profile updatedProfileData);
 
     @POST(RESTConstants.OKTA_BASE_URL + "api/v1/authn")
     Call<LoginResponse> login(@Body LoginRequest request);

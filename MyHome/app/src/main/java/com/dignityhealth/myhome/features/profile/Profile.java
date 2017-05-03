@@ -4,7 +4,7 @@ package com.dignityhealth.myhome.features.profile;
  * Created by kwelsh on 4/28/17.
  */
 
-public class ProfileResponse {
+public class Profile {
 
     public String firstName;
     public String middleInitial;
@@ -25,7 +25,7 @@ public class ProfileResponse {
     public String remoteID;
     public String email;
 
-    public ProfileResponse(String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email) {
+    public Profile(String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email) {
         this.firstName = firstName;
         this.middleInitial = middleInitial;
         this.lastName = lastName;
@@ -48,7 +48,7 @@ public class ProfileResponse {
 
     @Override
     public String toString() {
-        return "ProfileResponse{" +
+        return "Profile{" +
                 "firstName='" + firstName + '\'' +
                 ", middleInitial='" + middleInitial + '\'' +
                 ", lastName='" + lastName + '\'' +

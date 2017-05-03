@@ -114,9 +114,9 @@ public class ProfileViewFragment extends BaseFragment {
     }
 
     private void getProfileInfo(String bearer) {
-        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
+        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
             @Override
-            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
                     ProfileManager.setProfile(response.body());
@@ -127,83 +127,83 @@ public class ProfileViewFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+            public void onFailure(Call<Profile> call, Throwable t) {
                 Timber.e("Something failed! :/");
             }
         });
     }
 
-    private void updateProfileViews(ProfileResponse profileResponse) {
-        if (profileResponse.firstName != null) {
-            firstName.setText(profileResponse.firstName);
+    private void updateProfileViews(Profile profile) {
+        if (profile.firstName != null) {
+            firstName.setText(profile.firstName);
         } else {
             firstName.setText(placeholderText);
         }
 
-        if (profileResponse.lastName != null) {
-            lastName.setText(profileResponse.lastName);
+        if (profile.lastName != null) {
+            lastName.setText(profile.lastName);
         } else {
             lastName.setText(placeholderText);
         }
 
-        if (profileResponse.dateOfBirth != null) {
-            dateOfBirth.setText(profileResponse.dateOfBirth);
+        if (profile.dateOfBirth != null) {
+            dateOfBirth.setText(profile.dateOfBirth);
         } else {
             dateOfBirth.setText(placeholderText);
         }
 
-        if (profileResponse.address != null && profileResponse.address.line2 != null && profileResponse.address.line1 != null) {
-            address.setText(profileResponse.address.line1 + "\n" + profileResponse.address.line2);
-        } else if (profileResponse.address != null && profileResponse.address.line1 != null) {
-            address.setText(profileResponse.address.line1);
+        if (profile.address != null && profile.address.line2 != null && profile.address.line1 != null) {
+            address.setText(profile.address.line1 + "\n" + profile.address.line2);
+        } else if (profile.address != null && profile.address.line1 != null) {
+            address.setText(profile.address.line1);
         } else {
             address.setText(placeholderText);
         }
 
-        if (profileResponse.address != null && profileResponse.address.city != null) {
-            city.setText(profileResponse.address.city);
+        if (profile.address != null && profile.address.city != null) {
+            city.setText(profile.address.city);
         } else {
             city.setText(placeholderText);
         }
 
-        if (profileResponse.address != null && profileResponse.address.stateOrProvince != null) {
-            state.setText(profileResponse.address.stateOrProvince);
+        if (profile.address != null && profile.address.stateOrProvince != null) {
+            state.setText(profile.address.stateOrProvince);
         } else {
             state.setText(placeholderText);
         }
 
-        if (profileResponse.address != null && profileResponse.address.zipCode != null) {
-            zip.setText(profileResponse.address.zipCode);
+        if (profile.address != null && profile.address.zipCode != null) {
+            zip.setText(profile.address.zipCode);
         } else {
             zip.setText(placeholderText);
         }
 
-        if (profileResponse.phoneNumber != null) {
-            phone.setText(profileResponse.phoneNumber);
+        if (profile.phoneNumber != null) {
+            phone.setText(profile.phoneNumber);
         } else {
             phone.setText(placeholderText);
         }
 
-        if (profileResponse.email != null) {
-            email.setText(profileResponse.email);
+        if (profile.email != null) {
+            email.setText(profile.email);
         } else {
             email.setText(placeholderText);
         }
 
-        if (profileResponse.insuranceProvider != null && profileResponse.insuranceProvider.providerName != null) {
-            insuranceProvider.setText(profileResponse.insuranceProvider.providerName);
+        if (profile.insuranceProvider != null && profile.insuranceProvider.providerName != null) {
+            insuranceProvider.setText(profile.insuranceProvider.providerName);
         } else {
             insuranceProvider.setText(placeholderText);
         }
 
-        if (profileResponse.insuranceProvider != null && profileResponse.insuranceProvider.memberNumber != null) {
-            memberId.setText(profileResponse.insuranceProvider.memberNumber);
+        if (profile.insuranceProvider != null && profile.insuranceProvider.memberNumber != null) {
+            memberId.setText(profile.insuranceProvider.memberNumber);
         } else {
             memberId.setText(placeholderText);
         }
 
-        if (profileResponse.insuranceProvider != null && profileResponse.insuranceProvider.groupNumber != null) {
-            group.setText(profileResponse.insuranceProvider.groupNumber);
+        if (profile.insuranceProvider != null && profile.insuranceProvider.groupNumber != null) {
+            group.setText(profile.insuranceProvider.groupNumber);
         } else {
             group.setText(placeholderText);
         }
