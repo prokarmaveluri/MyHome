@@ -50,6 +50,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_boarder"
                         android:hint="@string/prompt_email"
+                        android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:padding="16dp" />
@@ -68,6 +69,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_boarder"
                         android:hint="@string/prompt_password"
+                        android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:padding="16dp" />
@@ -88,9 +90,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:background="@drawable/button_boarder"
                     android:gravity="center_horizontal"
                     android:onClick="@{handlers::onClickEvent}"
-                    android:background="@drawable/button_boarder"
                     android:padding="16dp"
                     android:text="@string/signup_suggestion" />
 
