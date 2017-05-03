@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
@@ -44,6 +45,8 @@ public class ProfileEditFragment extends BaseFragment {
     TextView memberId;
     TextView group;
 
+    private final String placeholderText = "Not Available";
+
     public static ProfileEditFragment newInstance() {
         return new ProfileEditFragment();
     }
@@ -72,8 +75,13 @@ public class ProfileEditFragment extends BaseFragment {
         memberId = (EditText) profileView.findViewById(R.id.id);
         group = (EditText) profileView.findViewById(R.id.group);
 
-        //Update the profile_view information
-        getProfileInfo("Bearer " + AuthManager.getBearerToken());
+        if (ProfileManager.getProfile() == null) {
+            //Get profile since we don't have it
+            getProfileInfo("Bearer " + AuthManager.getBearerToken());
+        } else {
+            //We have a profile singleton; just update info.
+            updateProfileViews(ProfileManager.getProfile());
+        }
 
         setHasOptionsMenu(true);
         return profileView;
@@ -94,13 +102,8 @@ public class ProfileEditFragment extends BaseFragment {
                 break;
 
             case R.id.save_profile:
-                ProfileResponse updatedProfile = new ProfileResponse();
-                updatedProfile.firstName = "Kevin";
-                updatedProfile.middleInitial = "C";
-                updatedProfile.lastName = "Welsh";
-                updatedProfile.phoneNumber = "8675309";
-                sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), updatedProfile);
-                //finish fragment
+                ProfileResponse currentProfile = ProfileManager.getProfile();
+                sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
                 break;
         }
 
@@ -113,6 +116,7 @@ public class ProfileEditFragment extends BaseFragment {
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
+                    ProfileManager.setProfile(response.body());
                     updateProfileViews(response.body());
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
@@ -126,44 +130,55 @@ public class ProfileEditFragment extends BaseFragment {
         });
     }
 
-    private void sendUpdatedProfile(String bearer, ProfileResponse updatedProfile){
+    /**
+     * Sends the profile information to the server to update the values
+     *
+     * @param bearer         the bearer token needed to provide authentication
+     * @param updatedProfile the updated profile information being attempted
+     */
+    private void sendUpdatedProfile(String bearer, ProfileResponse updatedProfile) {
         NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
-                    //updateProfileViews(response.body());
+                    Toast.makeText(getActivity(), "Information saved", Toast.LENGTH_SHORT).show();
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
+                    Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Timber.e("Something failed! :/");
+                Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    /**
+     * Updates the view on screen to have the proper profile values autopopulated
+     *
+     * @param profileResponse the profile that we're using to autopopulate the EditTexts
+     */
     private void updateProfileViews(ProfileResponse profileResponse) {
-        String na = "Not Available";
-
         if (profileResponse.firstName != null) {
             firstName.setText(profileResponse.firstName);
         } else {
-            firstName.setText(na);
+            firstName.setText(placeholderText);
         }
 
         if (profileResponse.lastName != null) {
             lastName.setText(profileResponse.lastName);
         } else {
-            lastName.setText(na);
+            lastName.setText(placeholderText);
         }
 
         if (profileResponse.dateOfBirth != null) {
             dateOfBirth.setText(profileResponse.dateOfBirth);
         } else {
-            dateOfBirth.setText(na);
+            dateOfBirth.setText(placeholderText);
         }
 
         if (profileResponse.address != null && profileResponse.address.line2 != null && profileResponse.address.line1 != null) {
@@ -171,56 +186,120 @@ public class ProfileEditFragment extends BaseFragment {
         } else if (profileResponse.address != null && profileResponse.address.line1 != null) {
             address.setText(profileResponse.address.line1);
         } else {
-            address.setText(na);
+            address.setText(placeholderText);
         }
 
         if (profileResponse.address != null && profileResponse.address.city != null) {
             city.setText(profileResponse.address.city);
         } else {
-            city.setText(na);
+            city.setText(placeholderText);
         }
 
         if (profileResponse.address != null && profileResponse.address.stateOrProvince != null) {
             state.setText(profileResponse.address.stateOrProvince);
         } else {
-            state.setText(na);
+            state.setText(placeholderText);
         }
 
         if (profileResponse.address != null && profileResponse.address.zipCode != null) {
             zip.setText(profileResponse.address.zipCode);
         } else {
-            zip.setText(na);
+            zip.setText(placeholderText);
         }
 
         if (profileResponse.phoneNumber != null) {
             phone.setText(profileResponse.phoneNumber);
         } else {
-            phone.setText(na);
+            phone.setText(placeholderText);
         }
 
         if (profileResponse.email != null) {
             email.setText(profileResponse.email);
         } else {
-            email.setText(na);
+            email.setText(placeholderText);
         }
 
         if (profileResponse.insuranceProvider != null && profileResponse.insuranceProvider.providerName != null) {
             insuranceProvider.setText(profileResponse.insuranceProvider.providerName);
         } else {
-            insuranceProvider.setText(na);
+            insuranceProvider.setText(placeholderText);
         }
 
         if (profileResponse.insuranceProvider != null && profileResponse.insuranceProvider.memberNumber != null) {
             memberId.setText(profileResponse.insuranceProvider.memberNumber);
         } else {
-            memberId.setText(na);
+            memberId.setText(placeholderText);
         }
 
         if (profileResponse.insuranceProvider != null && profileResponse.insuranceProvider.groupNumber != null) {
             group.setText(profileResponse.insuranceProvider.groupNumber);
         } else {
-            group.setText(na);
+            group.setText(placeholderText);
         }
+    }
+
+    /**
+     * Grabs values from EditTexts and updates the current profile with said values
+     *
+     * @param currentProfile the current profile so far (before looking at the EditTexts)
+     * @return the profile with updated information according to the EditTexts
+     */
+    private ProfileResponse getProfileValues(ProfileResponse currentProfile) {
+        ProfileResponse profile = currentProfile;
+
+        if(profile.address == null){
+            profile.address = new Address();
+        }
+
+        if(profile.insuranceProvider == null){
+            profile.insuranceProvider = new InsuranceProvider();
+        }
+
+        if (firstName.getText() != null && firstName.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.firstName = firstName.getText().toString();
+        }
+
+        if (lastName.getText() != null && lastName.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.lastName = lastName.getText().toString();
+        }
+
+        if (dateOfBirth.getText() != null && dateOfBirth.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.dateOfBirth = dateOfBirth.getText().toString();
+        }
+
+        if (address.getText() != null && address.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.address.line1 = address.getText().toString();
+        }
+
+        if (city.getText() != null && city.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.address.city = city.getText().toString();
+        }
+
+        if (state.getText() != null && state.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.address.stateOrProvince = state.getText().toString();
+        }
+
+        if (zip.getText() != null && zip.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.address.zipCode = zip.getText().toString();
+        }
+
+        if (phone.getText() != null && phone.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.phoneNumber = phone.getText().toString();
+        }
+
+        if (insuranceProvider.getText() != null && insuranceProvider.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.insuranceProvider.providerName = insuranceProvider.getText().toString();
+        }
+
+        if (memberId.getText() != null && memberId.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.insuranceProvider.memberNumber = memberId.getText().toString();
+        }
+
+        if (group.getText() != null && group.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.insuranceProvider.groupNumber = group.getText().toString();
+        }
+
+        return profile;
     }
 
     @Override

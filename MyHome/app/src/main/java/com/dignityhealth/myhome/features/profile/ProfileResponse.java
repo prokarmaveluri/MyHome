@@ -23,11 +23,7 @@ public class ProfileResponse {
     public InsuranceProvider insuranceProvider;
     public String clientID;
     public String remoteID;
-    public String email;   //Is this in there...
-
-    public ProfileResponse(){
-
-    }
+    public String email;
 
     public ProfileResponse(String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email) {
         this.firstName = firstName;
@@ -73,52 +69,4 @@ public class ProfileResponse {
                 ", email='" + email + '\'' +
                 '}';
     }
-
-    public class Address {
-        public String line1;
-        public String line2;
-        public String city;
-        public String stateOrProvince;
-        public String zipCode;
-        public String countryCode;
-
-        public Address(String line1, String line2, String city, String stateOrProvince, String zipCode, String countryCode) {
-            this.line1 = line1;
-            this.line2 = line2;
-            this.city = city;
-            this.stateOrProvince = stateOrProvince;
-            this.zipCode = zipCode;
-            this.countryCode = countryCode;
-        }
-
-        @Override
-        public String toString() {
-            return "Address{" +
-                    "line1='" + line1 + '\'' +
-                    ", line2='" + line2 + '\'' +
-                    ", city='" + city + '\'' +
-                    ", stateOrProvince='" + stateOrProvince + '\'' +
-                    ", zipCode='" + zipCode + '\'' +
-                    ", countryCode='" + countryCode + '\'' +
-                    '}';
-        }
-    }
-
-    public class InsuranceProvider{
-        public String providerName;
-        public String insurancePlan;
-        public String groupNumber;
-        public String memberNumber;
-
-        @Override
-        public String toString() {
-            return "InsuranceProvider{" +
-                    "providerName='" + providerName + '\'' +
-                    ", insurancePlan='" + insurancePlan + '\'' +
-                    ", groupNumber='" + groupNumber + '\'' +
-                    ", memberNumber='" + memberNumber + '\'' +
-                    '}';
-        }
-    }
 }
-
