@@ -1,8 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
-    def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""
+    signingConfigs {
+        config {
+            keyAlias 'ZW5NrvArK6WzgmXe'
+            keyPassword 'ZW5NrvArK6WzgmXe'
+            storeFile file('/Users/prokarma/Programming/dhmyhome/keystore.jks')
+            storePassword 'ZW5NrvArK6WzgmXe'
+        }
+    }
 
+    dataBinding {
+        enabled = true
+    }
+
+    def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -14,11 +26,6 @@ android {
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
-    dataBinding {
-        enabled = true
-    }
-
     buildTypes {
         def STRING = "String"
         def BOOLEAN = "boolean"
@@ -29,17 +36,14 @@ android {
         def REPORT_CRASHES = "REPORT_CRASHES"
         def REPORT_ANALYTICS = "REPORT_ANALYTICS"
         def SHOW_SETTINGS = "SHOW_SETTINGS"
-
         release {
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField BOOLEAN, REPORT_LOGS, FALSE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
-
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
@@ -49,26 +53,23 @@ android {
                     }
                 }
             }
+            signingConfig signingConfigs.config
         }
-
         debug {
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
             buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
-
             ext.enableCrashlytics = false
             debuggable true
         }
-
         developer {
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, FALSE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
             buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
-
             ext.enableCrashlytics = false
             debuggable true
         }
@@ -80,7 +81,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
