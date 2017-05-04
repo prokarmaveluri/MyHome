@@ -8,6 +8,9 @@ import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.networking.NetworkManager;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.CrashManagerListener;
+
 import timber.log.Timber;
 
 /**
@@ -22,6 +25,16 @@ public class MyHomeApplication extends Application {
         //Set up logging
         if (BuildConfig.REPORT_LOGS) {
             Timber.plant(new Timber.DebugTree());
+        }
+
+        //Set up hockey's crash reporting and have it auto send reports
+        if(BuildConfig.REPORT_CRASHES){
+            CrashManager.register(this, BuildConfig.HOCKEY_ID, new CrashManagerListener() {
+                @Override
+                public boolean shouldAutoUploadCrashes() {
+                    return true;
+                }
+            });
         }
 
         //init retrofit service
