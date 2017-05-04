@@ -20,16 +20,18 @@ android {
     }
 
     buildTypes {
+        def STRING = "String"
         def BOOLEAN = "boolean"
         def TRUE = "true"
         def FALSE = "false"
         def REPORT_LOGS = "REPORT_LOGS"
+        def HOCKEY_ID = "HOCKEY_ID"
         def REPORT_CRASHES = "REPORT_CRASHES"
         def REPORT_ANALYTICS = "REPORT_ANALYTICS"
         def SHOW_SETTINGS = "SHOW_SETTINGS"
 
         release {
-            buildConfigField "String", "HOCKEY_ID", HOCKEYAPP_APP_ID
+            buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField BOOLEAN, REPORT_LOGS, FALSE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
@@ -50,7 +52,18 @@ android {
         }
 
         debug {
-            buildConfigField "String", "HOCKEY_ID", HOCKEYAPP_APP_ID
+            buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
+            buildConfigField BOOLEAN, REPORT_LOGS, TRUE
+            buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
+            buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
+            buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
+
+            ext.enableCrashlytics = false
+            debuggable true
+        }
+
+        developer {
+            buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, FALSE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
