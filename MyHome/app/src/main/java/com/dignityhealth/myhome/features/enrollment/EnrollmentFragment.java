@@ -159,6 +159,10 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                     if (null != request)
                         presenter.enrollUser(request);
                     break;
+                case R.id.password_criteria:
+                    PasswordCriteriaDialog dialog = new PasswordCriteriaDialog();
+                    dialog.show(getFragmentManager(), "Password Criteria");
+                    break;
             }
         }
     }

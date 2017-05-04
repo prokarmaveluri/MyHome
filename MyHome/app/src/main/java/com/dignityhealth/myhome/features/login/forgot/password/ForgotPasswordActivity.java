@@ -41,6 +41,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         binding.setHandlers(new ForgotPasswordClickEvent());
     }
 
+    /*
+     * action handler for forgot password.
+     */
     public class ForgotPasswordClickEvent {
 
         public void onClickEvent(View view) {
