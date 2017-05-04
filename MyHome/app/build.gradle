@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'ZW5NrvArK6WzgmXe'
+            keyAlias 'DignityHealthKey'
             keyPassword 'ZW5NrvArK6WzgmXe'
             storeFile file('/Users/prokarma/Programming/dhmyhome/keystore.jks')
             storePassword 'ZW5NrvArK6WzgmXe'
@@ -42,8 +42,12 @@ android {
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
-            minifyEnabled false
+
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
@@ -53,7 +57,6 @@ android {
                     }
                 }
             }
-            signingConfig signingConfigs.config
         }
         debug {
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
@@ -61,7 +64,12 @@ android {
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
             buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
-            ext.enableCrashlytics = false
+
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.config
             debuggable true
         }
         developer {
@@ -70,7 +78,8 @@ android {
             buildConfigField BOOLEAN, REPORT_CRASHES, FALSE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
             buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
-            ext.enableCrashlytics = false
+
+            signingConfig signingConfigs.config
             debuggable true
         }
     }
