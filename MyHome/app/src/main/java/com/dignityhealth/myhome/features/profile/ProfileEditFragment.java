@@ -35,6 +35,7 @@ public class ProfileEditFragment extends BaseFragment {
     EditText firstName;
     EditText lastName;
     EditText preferredName;
+    Spinner gender;
     EditText dateOfBirth;
     EditText address;
     EditText city;
@@ -66,6 +67,7 @@ public class ProfileEditFragment extends BaseFragment {
         firstName = (EditText) profileView.findViewById(R.id.first_name);
         lastName = (EditText) profileView.findViewById(R.id.last_name);
         preferredName = (EditText) profileView.findViewById(R.id.preferred_name);
+        gender = (Spinner) profileView.findViewById(R.id.gender);
         dateOfBirth = (EditText) profileView.findViewById(R.id.dob);
         address = (EditText) profileView.findViewById(R.id.address);
         city = (EditText) profileView.findViewById(R.id.city);
@@ -184,6 +186,19 @@ public class ProfileEditFragment extends BaseFragment {
             preferredName.setText(placeholderText);
         }
 
+        if (profile.gender != null) {
+
+            //Loop through genders until we find a match, then set gender spinner selection
+            for (int i = 0; i < gender.getAdapter().getCount(); i++) {
+                if (profile.gender.equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
+                    gender.setSelection(i);
+                    break;
+                }
+            }
+        } else {
+            gender.setSelection(0);  //Placeholder is the first item in the array
+        }
+
         if (profile.dateOfBirth != null) {
             dateOfBirth.setText(profile.dateOfBirth);
         } else {
@@ -207,7 +222,7 @@ public class ProfileEditFragment extends BaseFragment {
         if (profile.address != null && profile.address.stateOrProvince != null) {
 
             //Loop through states until we find a match, then set state spinner selection
-            for (int i = 0; i <= state.getAdapter().getCount(); i++) {
+            for (int i = 0; i < state.getAdapter().getCount(); i++) {
                 if (profile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
                     state.setSelection(i);
                     break;

@@ -75,4 +75,12 @@
         <item>WY</item>
     </string-array>
 
+    <!--States for Profile Edit-->
+    <string-array name="profile_gender">
+        <item>Not Available</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Prefer Not To Say</item>
+    </string-array>
+
 </resources>
