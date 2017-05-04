@@ -32,19 +32,20 @@ public class ProfileEditFragment extends BaseFragment {
     public static final String PROFILE_EDIT_TAG = "profile_edit_tag";
 
     View profileView;
-    TextView firstName;
-    TextView lastName;
-    TextView dateOfBirth;
-    TextView address;
-    TextView city;
+    EditText firstName;
+    EditText lastName;
+    EditText preferredName;
+    EditText dateOfBirth;
+    EditText address;
+    EditText city;
     Spinner state;
-    TextView zip;
-    TextView phone;
+    EditText zip;
+    EditText phone;
     TextView email;
 
-    TextView insuranceProvider;
-    TextView memberId;
-    TextView group;
+    EditText insuranceProvider;
+    EditText memberId;
+    EditText group;
 
     private final String placeholderText = "Not Available";
 
@@ -64,6 +65,7 @@ public class ProfileEditFragment extends BaseFragment {
 
         firstName = (EditText) profileView.findViewById(R.id.first_name);
         lastName = (EditText) profileView.findViewById(R.id.last_name);
+        preferredName = (EditText) profileView.findViewById(R.id.preferred_name);
         dateOfBirth = (EditText) profileView.findViewById(R.id.dob);
         address = (EditText) profileView.findViewById(R.id.address);
         city = (EditText) profileView.findViewById(R.id.city);
@@ -176,6 +178,12 @@ public class ProfileEditFragment extends BaseFragment {
             lastName.setText(placeholderText);
         }
 
+        if (profile.preferredName != null) {
+            preferredName.setText(profile.preferredName);
+        } else {
+            preferredName.setText(placeholderText);
+        }
+
         if (profile.dateOfBirth != null) {
             dateOfBirth.setText(profile.dateOfBirth);
         } else {
@@ -269,6 +277,10 @@ public class ProfileEditFragment extends BaseFragment {
 
         if (lastName.getText() != null && !lastName.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.lastName = lastName.getText().toString().trim();
+        }
+
+        if (preferredName.getText() != null && !preferredName.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.preferredName = preferredName.getText().toString().trim();
         }
 
         if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().equalsIgnoreCase(placeholderText)) {
