@@ -1,5 +1,8 @@
 package com.dignityhealth.myhome.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Created by kwelsh on 4/25/17.
  */
@@ -22,6 +25,12 @@ public class Constants {
         EMAIL,
         PASSWORD
     }
+
+    //Date formats
+    public static final String DATE_FORMAT = "MM/dd/yy";
+    public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC = new SimpleDateFormat(DATE_FORMAT_UTC, Locale.US);
 
     //Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character !@#$%^&*
     public static final String REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!#^%*&])[A-Za-z\\d$@$!#^%*&]{8,}";
