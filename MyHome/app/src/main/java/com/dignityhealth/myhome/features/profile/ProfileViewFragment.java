@@ -31,15 +31,9 @@ public class ProfileViewFragment extends BaseFragment {
     public static final String PROFILE_VIEW_TAG = "profile_view_tag";
 
     View profileView;
-    TextView firstName;
-    TextView lastName;
-    TextView preferredName;
-    TextView gender;
+    TextView name;
     TextView dateOfBirth;
     TextView address;
-    TextView city;
-    TextView state;
-    TextView zip;
     TextView phone;
     TextView email;
 
@@ -63,15 +57,9 @@ public class ProfileViewFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.profile_view, container, false);
 
-        firstName = (TextView) profileView.findViewById(R.id.first_name);
-        lastName = (TextView) profileView.findViewById(R.id.last_name);
-        preferredName = (TextView) profileView.findViewById(R.id.preferred_name);
-        gender = (TextView) profileView.findViewById(R.id.gender);
+        name = (TextView) profileView.findViewById(R.id.name);
         dateOfBirth = (TextView) profileView.findViewById(R.id.dob);
         address = (TextView) profileView.findViewById(R.id.address);
-        city = (TextView) profileView.findViewById(R.id.city);
-        state = (TextView) profileView.findViewById(R.id.state);
-        zip = (TextView) profileView.findViewById(R.id.zip);
         phone = (TextView) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
 
@@ -139,28 +127,10 @@ public class ProfileViewFragment extends BaseFragment {
     }
 
     private void updateProfileViews(Profile profile) {
-        if (profile.firstName != null) {
-            firstName.setText(profile.firstName);
+        if (profile.firstName != null || profile.lastName != null) {
+            name.setText(CommonUtil.constructName(profile.firstName, profile.lastName));
         } else {
-            firstName.setText(placeholderText);
-        }
-
-        if (profile.lastName != null) {
-            lastName.setText(profile.lastName);
-        } else {
-            lastName.setText(placeholderText);
-        }
-
-        if (profile.preferredName != null) {
-            preferredName.setText(profile.preferredName);
-        } else {
-            preferredName.setText(placeholderText);
-        }
-
-        if (profile.gender != null) {
-            gender.setText(CommonUtil.capitalize(profile.gender));
-        } else {
-            gender.setText(placeholderText);
+            name.setText(placeholderText);
         }
 
         if (profile.dateOfBirth != null) {
@@ -169,30 +139,11 @@ public class ProfileViewFragment extends BaseFragment {
             dateOfBirth.setText(placeholderText);
         }
 
-        if (profile.address != null && profile.address.line2 != null && profile.address.line1 != null) {
-            address.setText(profile.address.line1 + "\n" + profile.address.line2);
-        } else if (profile.address != null && profile.address.line1 != null) {
-            address.setText(profile.address.line1);
+        if (profile.address != null &&
+                (profile.address.line1 != null || profile.address.line2 != null || profile.address.city != null || profile.address.stateOrProvince != null || profile.address.zipCode != null)) {
+            address.setText(CommonUtil.constructAddress(profile.address.line1, profile.address.line2, profile.address.city, profile.address.stateOrProvince, profile.address.zipCode));
         } else {
             address.setText(placeholderText);
-        }
-
-        if (profile.address != null && profile.address.city != null) {
-            city.setText(profile.address.city);
-        } else {
-            city.setText(placeholderText);
-        }
-
-        if (profile.address != null && profile.address.stateOrProvince != null) {
-            state.setText(profile.address.stateOrProvince);
-        } else {
-            state.setText(placeholderText);
-        }
-
-        if (profile.address != null && profile.address.zipCode != null) {
-            zip.setText(profile.address.zipCode);
-        } else {
-            zip.setText(placeholderText);
         }
 
         if (profile.phoneNumber != null) {
