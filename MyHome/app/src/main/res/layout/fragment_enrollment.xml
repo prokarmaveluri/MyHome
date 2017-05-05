@@ -66,7 +66,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/password"
+                android:layout_above="@+id/password_layout"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="42dp"
                 android:layout_marginRight="42dp"
@@ -77,21 +77,41 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/password"
+            <RelativeLayout
+                android:id="@+id/password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/re_enter_password"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="42dp"
-                android:layout_marginRight="42dp"
-                android:drawableRight="@mipmap/show_password"
-                android:hint="@string/prompt_password"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
+                android:layout_marginRight="42dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/password_criteria"
+                    android:drawableRight="@mipmap/show_password"
+                    android:hint="@string/prompt_password"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" />
+
+                <ImageView
+                    android:id="@+id/password_criteria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:onClick="@{handlers::onClickEvent}"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="8dp"
+                    android:src="@mipmap/password_criteria" />
+            </RelativeLayout>
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/re_enter_password"

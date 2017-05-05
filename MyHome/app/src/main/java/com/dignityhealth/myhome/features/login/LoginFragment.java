@@ -315,32 +315,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
                                 if (showPassword) {
                                     binder.password.setTransformationMethod(null);
-                                    Drawable drawable = null;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        drawable = getResources().getDrawable(R.mipmap.hide_password, getActivity().getTheme());
-                                    } else {
-                                        drawable = getResources().getDrawable(R.mipmap.hide_password);
-                                    }
-                                    if (null != drawable) {
-                                        int h = drawable.getIntrinsicHeight();
-                                        int w = drawable.getIntrinsicWidth();
-                                        drawable.setBounds(0, 0, w, h);
-                                    }
-                                    binder.password.setCompoundDrawables(null, null, drawable, null);
+                                    updateDrawable(R.mipmap.hide_password);
                                 } else {
                                     binder.password.setTransformationMethod(new PasswordTransformationMethod());
-                                    Drawable drawable = null;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        drawable = getResources().getDrawable(R.mipmap.show_password, getActivity().getTheme());
-                                    } else {
-                                        drawable = getResources().getDrawable(R.mipmap.show_password);
-                                    }
-                                    if (null != drawable) {
-                                        int h = drawable.getIntrinsicHeight();
-                                        int w = drawable.getIntrinsicWidth();
-                                        drawable.setBounds(0, 0, w, h);
-                                    }
-                                    binder.password.setCompoundDrawables(null, null, drawable, null);
+                                    updateDrawable(R.mipmap.show_password);
                                 }
                                 return true;
                             }
@@ -348,5 +326,20 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                         return false;
                     }
                 });
+    }
+
+    private void updateDrawable(int res) {
+        Drawable drawable = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            drawable = getResources().getDrawable(res, getActivity().getTheme());
+        } else {
+            drawable = getResources().getDrawable(res);
+        }
+        if (null != drawable) {
+            int h = drawable.getIntrinsicHeight();
+            int w = drawable.getIntrinsicWidth();
+            drawable.setBounds(0, 0, w, h);
+        }
+        binder.password.setCompoundDrawables(null, null, drawable, null);
     }
 }
