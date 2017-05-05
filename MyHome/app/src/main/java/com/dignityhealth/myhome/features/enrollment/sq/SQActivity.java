@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.ActivitySecurityQuestionBinding;
@@ -22,6 +23,7 @@ public class SQActivity extends AppCompatActivity {
 
     private ActivitySecurityQuestionBinding binding;
     private EnrollmentRequest enrollmentRequest;
+    private String questionId, questionText;
 
     /*
      * Get an intent for SQActivity activity.
@@ -39,6 +41,13 @@ public class SQActivity extends AppCompatActivity {
                 .getParcelableExtra(Constants.ENROLLMENT_REQUEST);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_security_question);
 
+        questionText = getIntent().getStringExtra(Constants.ENROLLMENT_QUESTION);
+        questionId = getIntent().getStringExtra(Constants.ENROLLMENT_QUESTION_ID);
+
+        Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
+        setSupportActionBar(appToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         transactSQFragment();
     }
 
@@ -55,6 +64,8 @@ public class SQActivity extends AppCompatActivity {
 
         SQFragment fragment = SQFragment.newInstance();
         Bundle bundle = new Bundle();
+        bundle.putString(Constants.ENROLLMENT_QUESTION_ID, questionId);
+        bundle.putString(Constants.ENROLLMENT_QUESTION, questionText);
         bundle.putParcelable(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
         fragment.setArguments(bundle);
         return fragment;

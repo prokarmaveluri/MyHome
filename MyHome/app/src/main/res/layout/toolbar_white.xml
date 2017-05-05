@@ -7,4 +7,4 @@
     android:elevation="4dp"
     android:fitsSystemWindows="true"
     android:titleTextColor="@color/toolbar_white_text"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    app:theme="@style/ThemeOverlay.AppCompat.Light" />

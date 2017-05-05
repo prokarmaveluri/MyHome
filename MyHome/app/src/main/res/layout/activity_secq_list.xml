@@ -1,0 +1,37 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.dignityhealth.myhome.features.enrollment.sq.SQListActivity.ListCloseEvent" />
+    </data>
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context="com.dignityhealth.myhome.features.login.LoginActivity">
+
+        <include
+            android:id="@+id/toolbarWhite"
+            layout="@layout/toolbar_white" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/toolbarWhite"
+            android:background="@color/black" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/sq_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbarWhite"
+            android:layout_centerInParent="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+    </RelativeLayout>
+</layout>

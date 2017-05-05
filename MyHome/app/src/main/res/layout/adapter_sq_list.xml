@@ -5,27 +5,28 @@
 
         <variable
             name="handlers"
-            type="com.dignityhealth.myhome.features.enrollment.sq.SQListDialog.ListCloseEvent" />
+            type="com.dignityhealth.myhome.features.enrollment.sq.SQListActivity.ListCloseEvent" />
     </data>
 
     <LinearLayout
+        android:id="@+id/question_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/question_item"
         android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/sq_list"
-            android:background="@color/md_grey_600" />
 
         <TextView
             android:id="@+id/question_view"
             style="@android:style/TextAppearance.DeviceDefault.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:onClick="@{handlers::onClickEvent}" />
+            android:onClick="@{handlers::onClickEvent}"
+            android:padding="18dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/sq_list"
+            android:background="@color/md_grey_300" />
+
     </LinearLayout>
 </layout>

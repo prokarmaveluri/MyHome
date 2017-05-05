@@ -35,12 +35,15 @@ public class ProfileEditFragment extends BaseFragment {
     EditText firstName;
     EditText lastName;
     EditText preferredName;
+    Spinner gender;
     EditText dateOfBirth;
     EditText address;
     EditText city;
     Spinner state;
     EditText zip;
-    EditText phone;
+    EditText phone1;
+    EditText phone2;
+    EditText phone3;
     TextView email;
 
     EditText insuranceProvider;
@@ -66,12 +69,15 @@ public class ProfileEditFragment extends BaseFragment {
         firstName = (EditText) profileView.findViewById(R.id.first_name);
         lastName = (EditText) profileView.findViewById(R.id.last_name);
         preferredName = (EditText) profileView.findViewById(R.id.preferred_name);
+        gender = (Spinner) profileView.findViewById(R.id.gender);
         dateOfBirth = (EditText) profileView.findViewById(R.id.dob);
         address = (EditText) profileView.findViewById(R.id.address);
         city = (EditText) profileView.findViewById(R.id.city);
         state = (Spinner) profileView.findViewById(R.id.state);
         zip = (EditText) profileView.findViewById(R.id.zip);
-        phone = (EditText) profileView.findViewById(R.id.phone);
+        phone1 = (EditText) profileView.findViewById(R.id.phone1);
+        phone2 = (EditText) profileView.findViewById(R.id.phone2);
+        phone3 = (EditText) profileView.findViewById(R.id.phone3);
         email = (TextView) profileView.findViewById(R.id.email);
 
         insuranceProvider = (EditText) profileView.findViewById(R.id.provider);
@@ -105,8 +111,12 @@ public class ProfileEditFragment extends BaseFragment {
                 break;
 
             case R.id.save_profile:
-                Profile currentProfile = ProfileManager.getProfile();
-                sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
+                if (!validPhoneNumber()) {
+                    Toast.makeText(getActivity(), "Phone Number not valid.", Toast.LENGTH_LONG).show();
+                } else {
+                    Profile currentProfile = ProfileManager.getProfile();
+                    sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
+                }
                 break;
         }
 
@@ -184,6 +194,19 @@ public class ProfileEditFragment extends BaseFragment {
             preferredName.setText(placeholderText);
         }
 
+        if (profile.gender != null) {
+
+            //Loop through genders until we find a match, then set gender spinner selection
+            for (int i = 0; i < gender.getAdapter().getCount(); i++) {
+                if (profile.gender.equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
+                    gender.setSelection(i);
+                    break;
+                }
+            }
+        } else {
+            gender.setSelection(0);  //Placeholder is the first item in the array
+        }
+
         if (profile.dateOfBirth != null) {
             dateOfBirth.setText(profile.dateOfBirth);
         } else {
@@ -207,7 +230,7 @@ public class ProfileEditFragment extends BaseFragment {
         if (profile.address != null && profile.address.stateOrProvince != null) {
 
             //Loop through states until we find a match, then set state spinner selection
-            for (int i = 0; i <= state.getAdapter().getCount(); i++) {
+            for (int i = 0; i < state.getAdapter().getCount(); i++) {
                 if (profile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
                     state.setSelection(i);
                     break;
@@ -224,9 +247,21 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.phoneNumber != null) {
-            phone.setText(profile.phoneNumber);
+            int length = profile.phoneNumber.length();
+
+            if (length == 10) {
+                phone3.setText(profile.phoneNumber.substring(length - 4, length));
+                phone2.setText(profile.phoneNumber.substring(length - 7, length - 4));
+                phone1.setText(profile.phoneNumber.substring(length - 10, length - 7));
+            } else if (length == 7) {
+                phone3.setText(profile.phoneNumber.substring(length - 4, length));
+                phone2.setText(profile.phoneNumber.substring(length - 7, length - 4));
+                phone1.setText("");
+            }
         } else {
-            phone.setText(placeholderText);
+            phone1.setText(placeholderText);
+            phone2.setText("");
+            phone3.setText("");
         }
 
         if (profile.email != null) {
@@ -283,6 +318,10 @@ public class ProfileEditFragment extends BaseFragment {
             profile.preferredName = preferredName.getText().toString().trim();
         }
 
+        if (!gender.getSelectedItem().toString().equalsIgnoreCase(placeholderText)) {
+            profile.gender = gender.getSelectedItem().toString().trim();
+        }
+
         if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.dateOfBirth = dateOfBirth.getText().toString().trim();
         }
@@ -303,8 +342,8 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.zipCode = zip.getText().toString().trim();
         }
 
-        if (phone.getText() != null && !phone.getText().toString().equalsIgnoreCase(placeholderText)) {
-            profile.phoneNumber = phone.getText().toString().trim();
+        if (validPhoneNumber() && !phone1.getText().toString().equalsIgnoreCase(placeholderText)) {
+            profile.phoneNumber = phone1.getText().toString().trim() + phone2.getText().toString().trim() + phone3.getText().toString().trim();
         }
 
         if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().equalsIgnoreCase(placeholderText)) {
@@ -320,6 +359,19 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         return profile;
+    }
+
+    /**
+     * See if phone number is valid
+     *
+     * @return
+     */
+    private boolean validPhoneNumber() {
+        if (phone3.length() == 4 && phone2.length() == 3 && (phone1.length() == 0 || phone1.length() == 3)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

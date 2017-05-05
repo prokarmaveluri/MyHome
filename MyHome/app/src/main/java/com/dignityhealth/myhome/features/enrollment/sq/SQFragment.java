@@ -31,6 +31,7 @@ public class SQFragment extends Fragment {
     private FragmentSecqBinding binding;
     private EnrollmentRequest enrollmentRequest;
     private String selectedQuestionId;
+    private String selectedQuestionTxt;
 
     private static final int SELECT_QUESTION_ACTION = 100;
 
@@ -49,6 +50,8 @@ public class SQFragment extends Fragment {
         if (null != getArguments()) {
             Bundle bundle = getArguments();
             enrollmentRequest = bundle.getParcelable(Constants.ENROLLMENT_REQUEST);
+            selectedQuestionId = bundle.getString(Constants.ENROLLMENT_QUESTION_ID);
+            selectedQuestionTxt = bundle.getString(Constants.ENROLLMENT_QUESTION);
         }
     }
 
@@ -60,6 +63,8 @@ public class SQFragment extends Fragment {
                 container, false);
         binding.setHandlers(new SQClickEvent());
         binding.answer.addTextChangedListener(new SQTextWatcher());
+
+        binding.selectQuestion.setText(selectedQuestionTxt);
         return binding.getRoot();
     }
 
@@ -83,25 +88,19 @@ public class SQFragment extends Fragment {
         public void onClickEvent(View view) {
             switch (view.getId()) {
                 case R.id.submit_question:
+                    if(binding.answer.getText().toString().isEmpty()){
+                        binding.answer.setError("Enter valid answer");
+                        break;
+                    }
                     if (null != selectedQuestionId &&
-                            !binding.answer.getText().toString().isEmpty()){
+                            !binding.answer.getText().toString().isEmpty()) {
                         updateRequest();
                         startTermsOfServiceActivity();
                     }
                     break;
-                case R.id.select_question:
-                    startQuestionsDialog();
-                    break;
             }
         }
     }
-
-    private void startQuestionsDialog() {
-        SQListDialog dialog = SQListDialog.newInstance();
-        dialog.setTargetFragment(this, SELECT_QUESTION_ACTION);
-        dialog.show(getFragmentManager(), "enrollment_questions");
-    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -153,7 +152,7 @@ public class SQFragment extends Fragment {
         enrollmentRequest.setRecoveryQuestions(questions);
     }
 
-    private void startTermsOfServiceActivity(){
+    private void startTermsOfServiceActivity() {
 
         Intent intent = TermsOfServiceActivity.getTermsOfServiceActivityIntent(getActivity());
         intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);

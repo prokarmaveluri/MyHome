@@ -117,7 +117,7 @@
                 android:layout_marginLeft="42dp"
                 android:layout_marginRight="42dp"
                 android:onClick="@{handlers::onClickEvent}"
-                android:text="@string/action_create_account" />
+                android:text="@string/action_next" />
         </RelativeLayout>
 
         <!-- Enroll progress -->
