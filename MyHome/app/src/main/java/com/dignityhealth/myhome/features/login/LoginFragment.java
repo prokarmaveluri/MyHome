@@ -4,13 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
@@ -39,6 +46,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     private FragmentLoginBinding binder;
 
     private static final int ACTION_FINISH = 100;
+    private static boolean showPassword = false;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -62,9 +70,13 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
         binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email,
                 Constants.INPUT_TYPE.EMAIL));
-        binder.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.password,
-                Constants.INPUT_TYPE.PASSWORD));
+//        binder.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.password,
+//                Constants.INPUT_TYPE.PASSWORD));
 
+        binder.email.addTextChangedListener(new LoginTextWatcher());
+        binder.password.addTextChangedListener(new LoginTextWatcher());
+
+        drawableClickEvent();
         binder.setHandlers(new LoginViewClickEvent());
         return binder.getRoot();
     }
@@ -137,7 +149,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                         LoginRequest request = getRequest();
                         if (null != request)
                             presenter.signIn(request);
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), R.string.no_network_msg,
                                 Toast.LENGTH_LONG).show();
                     }
@@ -162,7 +174,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
 
         if (!CommonUtil.isValidPassword(binder.password.getText().toString())) {
-            binder.password.setError(getString(R.string.valid_password));
+            Toast.makeText(getActivity(), getString(R.string.valid_password), Toast.LENGTH_LONG).show();
             return null;
         }
         LoginRequest.Options options = new LoginRequest.Options(true, true);
@@ -192,9 +204,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             super.onPageFinished(view, url);
             showProgress(false);
             String cookies = CookieManager.getInstance().getCookie(url);
-
-            Timber.i("Finish ** Url ** " + url);
-            Timber.i("Finish ** Cookie ** " + cookies);
         }
 
         @Override
@@ -208,10 +217,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
             String cookies = CookieManager.getInstance().getCookie(url);
 
-            Timber.i("Redirect ** Url ** " + url);
-            Timber.i("Redirect ** Cookie ** " + cookies);
-
-            if(null != token){
+            if (null != token) {
                 AuthManager.setBearerToken(token);
                 mHandler.sendEmptyMessage(ACTION_FINISH);
             }
@@ -225,17 +231,17 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         int index = url.indexOf("id_token=");
         if (-1 != index) {
             String token = url.substring(index + "id_token=".length(), url.indexOf("&"));
-            Timber.i("id_token ** "+ token);
+            Timber.i("id_token ** " + token);
             return token;
         }
         return null;
     }
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case ACTION_FINISH:
                     //received token and stored it in AuthManager. start nav activity
                     Intent intentHome = new Intent(getActivity(), NavigationActivity.class);
@@ -249,8 +255,98 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
     };
 
-    private void startForgotPasswordActivity(){
+    private void startForgotPasswordActivity() {
         Intent intent = ForgotPasswordActivity.getForgotPasswordIntent(getActivity());
         startActivity(intent);
+    }
+
+    private boolean isAllInputsValid() {
+        if (CommonUtil.isValidEmail(binder.email.getText().toString()) &&
+                CommonUtil.isValidPassword(binder.password.getText().toString())) {
+            return true;
+        }
+        return false;
+    }
+
+    private class LoginTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (isAllInputsValid()) {
+                updateButtonState(true);
+            } else {
+                updateButtonState(false);
+            }
+        }
+    }
+
+    private void updateButtonState(boolean isEnabled) {
+        if (isEnabled) {
+            binder.logInButton.setBackgroundResource(R.drawable.button_enabled);
+            binder.logInButton.setTextColor(Color.WHITE);
+        } else {
+            binder.logInButton.setBackgroundResource(R.drawable.button_boarder_grey);
+            binder.logInButton.setTextColor(Color.GRAY);
+        }
+    }
+
+    private void drawableClickEvent() {
+        binder.password.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        final int DRAWABLE_RIGHT = 2;
+
+                        if (event.getAction() == MotionEvent.ACTION_UP) {
+                            if ((int) event.getRawX() >= (binder.password.getRight() -
+                                    binder.password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                                showPassword = !showPassword;
+
+                                if (showPassword) {
+                                    binder.password.setTransformationMethod(null);
+                                    Drawable drawable = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        drawable = getResources().getDrawable(R.mipmap.hide_password, getActivity().getTheme());
+                                    } else {
+                                        drawable = getResources().getDrawable(R.mipmap.hide_password);
+                                    }
+                                    if (null != drawable) {
+                                        int h = drawable.getIntrinsicHeight();
+                                        int w = drawable.getIntrinsicWidth();
+                                        drawable.setBounds(0, 0, w, h);
+                                    }
+                                    binder.password.setCompoundDrawables(null, null, drawable, null);
+                                } else {
+                                    binder.password.setTransformationMethod(new PasswordTransformationMethod());
+                                    Drawable drawable = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        drawable = getResources().getDrawable(R.mipmap.show_password, getActivity().getTheme());
+                                    } else {
+                                        drawable = getResources().getDrawable(R.mipmap.show_password);
+                                    }
+                                    if (null != drawable) {
+                                        int h = drawable.getIntrinsicHeight();
+                                        int w = drawable.getIntrinsicWidth();
+                                        drawable.setBounds(0, 0, w, h);
+                                    }
+                                    binder.password.setCompoundDrawables(null, null, drawable, null);
+                                }
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentSecqBinding;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.enrollment.tc.TermsOfServiceActivity;
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
 import java.util.ArrayList;
@@ -132,10 +134,10 @@ public class SQFragment extends Fragment {
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (s.length() > 0) {
-                binding.submitQuestion.setEnabled(true);
+            if (isAllInputsValid()) {
+                updateButtonState(true);
             } else {
-                binding.submitQuestion.setEnabled(false);
+                updateButtonState(false);
             }
         }
     }
@@ -157,5 +159,23 @@ public class SQFragment extends Fragment {
         Intent intent = TermsOfServiceActivity.getTermsOfServiceActivityIntent(getActivity());
         intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
         startActivity(intent);
+    }
+
+
+    private boolean isAllInputsValid() {
+        if (CommonUtil.isValidTextInput(binding.answer)) {
+            return true;
+        }
+        return false;
+    }
+
+    private void updateButtonState(boolean isEnabled) {
+        if (isEnabled) {
+            binding.submitQuestion.setBackgroundResource(R.drawable.button_enabled);
+            binding.submitQuestion.setTextColor(Color.WHITE);
+        } else {
+            binding.submitQuestion.setBackgroundResource(R.drawable.button_boarder_grey);
+            binding.submitQuestion.setTextColor(Color.GRAY);
+        }
     }
 }
