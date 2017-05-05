@@ -6,6 +6,8 @@ import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
+import com.dignityhealth.myhome.features.profile.signout.CreateSessionRequest;
+import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.io.IOException;
@@ -65,19 +67,27 @@ public class NetworkManager {
         return service.register(request);
     }
 
-    public Call<Profile> getProfile(String bearer){
-        return  service.getProfile(bearer);
+    public Call<Profile> getProfile(String bearer) {
+        return service.getProfile(bearer);
     }
 
-    public Call<Void> updateProfile(String bearer, Profile updatedProfileData){
-        return  service.updateProfile(bearer, updatedProfileData);
+    public Call<Void> updateProfile(String bearer, Profile updatedProfileData) {
+        return service.updateProfile(bearer, updatedProfileData);
     }
 
     public Call<LoginResponse> login(LoginRequest request) {
         return service.login(request);
     }
 
-    public Call<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request){
+    public Call<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request) {
         return service.forgotPassword(request);
+    }
+
+    public Call<CreateSessionResponse> createSession(CreateSessionRequest request) {
+        return service.createSession(request);
+    }
+
+    public Call<Void> logout(String auth, String id) {
+        return service.logout(auth, id);
     }
 }
