@@ -8,6 +8,7 @@ public class AuthManager {
 
     private static String bearerToken;
     private static String sessionToken;
+    private static String idTokenForSignOut;
 
     private static final AuthManager ourInstance = new AuthManager();
 
@@ -33,5 +34,13 @@ public class AuthManager {
 
     public static void setSessionToken(String sessionToken) {
         AuthManager.sessionToken = sessionToken;
+    }
+
+    public static String getIdTokenForSignOut() {
+        return idTokenForSignOut;
+    }
+
+    public static void setIdTokenForSignOut(String idTokenForSignOut) {
+        AuthManager.idTokenForSignOut = idTokenForSignOut;
     }
 }

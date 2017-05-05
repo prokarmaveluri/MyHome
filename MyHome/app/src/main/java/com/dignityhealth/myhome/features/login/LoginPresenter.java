@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentActivity;
+import com.dignityhealth.myhome.features.profile.signout.CreateSessionRequest;
+import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
@@ -70,8 +72,9 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                     mView.showEnrollmentStatus("Received Session token.");
                     // get id_token
                     AuthManager.setSessionToken(response.body().getSessionToken());
-                    Timber.i("Session token : "+response.body().getSessionToken());
+                    Timber.i("Session token : " + response.body().getSessionToken());
                     mView.fetchIdToken(response.body().getSessionToken());
+                    createSession(response.body().getSessionToken());
                 } else {
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                     mView.showProgress(false);
@@ -84,6 +87,23 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                 mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                 mView.showView(true);
                 mView.showProgress(false);
+            }
+        });
+    }
+
+    private void createSession(String seesionToken) {
+        CreateSessionRequest request = new CreateSessionRequest(seesionToken);
+        NetworkManager.getInstance().createSession(request).enqueue(new Callback<CreateSessionResponse>() {
+            @Override
+            public void onResponse(Call<CreateSessionResponse> call, Response<CreateSessionResponse> response) {
+                if (response.isSuccessful()) {
+                    AuthManager.setIdTokenForSignOut(response.body().getId());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateSessionResponse> call, Throwable t) {
+                Timber.i(mContext.getString(R.string.something_went_wrong));
             }
         });
     }

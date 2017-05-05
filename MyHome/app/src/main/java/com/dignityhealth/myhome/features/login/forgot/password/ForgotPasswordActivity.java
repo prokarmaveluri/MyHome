@@ -3,9 +3,12 @@ package com.dignityhealth.myhome.features.login.forgot.password;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
@@ -40,7 +43,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password);
         binding.setHandlers(new ForgotPasswordClickEvent());
-        
+
+        binding.email.addTextChangedListener(new ForgotPasswordTextWatcher());
+
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
         setSupportActionBar(appToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -98,5 +103,44 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         binding.forgotProgress.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    private class ForgotPasswordTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (isAllInputsValid()) {
+                updateButtonState(true);
+            } else {
+                updateButtonState(false);
+            }
+        }
+    }
+
+    private boolean isAllInputsValid() {
+        if (CommonUtil.isValidEmail(binding.email.getText().toString())) {
+            return true;
+        }
+        return false;
+    }
+
+    private void updateButtonState(boolean isEnabled) {
+        if (isEnabled) {
+            binding.forgotPasswordButton.setBackgroundResource(R.drawable.button_enabled);
+            binding.forgotPasswordButton.setTextColor(Color.WHITE);
+        } else {
+            binding.forgotPasswordButton.setBackgroundResource(R.drawable.button_boarder_grey);
+            binding.forgotPasswordButton.setTextColor(Color.GRAY);
+        }
     }
 }

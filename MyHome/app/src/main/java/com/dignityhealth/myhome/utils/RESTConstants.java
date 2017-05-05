@@ -8,4 +8,7 @@ public class RESTConstants {
 
     public static final String OKTA_BASE_URL = "https://dignityhealth.oktapreview.com/";
     public static final String CIAM_BASE_URL = "https://dev.ciam.dignityhealth.org/";
+
+
+    public static final String LOGOUT_AUTH = "SSWS 00rbbEVSzYmHtjK7UQay-2CtdjegDZWHe-9u_xXmAf";
 }

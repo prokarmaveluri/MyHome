@@ -2,9 +2,16 @@ package com.dignityhealth.myhome.features.enrollment;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -26,6 +33,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
     private FragmentEnrollmentBinding binding;
     private EnrollmentInteractor.Presenter presenter;
+    private static boolean showPassword = false;
 
     public static EnrollmentFragment newInstance() {
         EnrollmentFragment fragment = new EnrollmentFragment();
@@ -52,12 +60,19 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
         binding.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.email,
                 Constants.INPUT_TYPE.EMAIL));
-        binding.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.password,
-                Constants.INPUT_TYPE.PASSWORD));
+//        binding.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.password,
+//                Constants.INPUT_TYPE.PASSWORD));
         binding.reEnterPassword.setOnFocusChangeListener(
                 new ValidateInputsOnFocusChange(binding.reEnterPassword,
                         Constants.INPUT_TYPE.PASSWORD));
 
+        binding.firstName.addTextChangedListener(new EnrollTextWatcher());
+        binding.lastName.addTextChangedListener(new EnrollTextWatcher());
+        binding.email.addTextChangedListener(new EnrollTextWatcher());
+        binding.password.addTextChangedListener(new EnrollTextWatcher());
+        binding.reEnterPassword.addTextChangedListener(new EnrollTextWatcher());
+
+        drawableClickEvent();
         binding.setHandlers(new EnrollmentViewClickEvent());
         return binding.getRoot();
     }
@@ -131,7 +146,8 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
         }
 
         if (!CommonUtil.isValidPassword(binding.password.getText().toString())) {
-            binding.password.setError(getResources().getString(R.string.valid_password));
+            Toast.makeText(getActivity(), getResources().getString(R.string.valid_password),
+                    Toast.LENGTH_LONG).show();
             return null;
         }
 
@@ -160,5 +176,101 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 //                    break;
             }
         }
+    }
+
+    private boolean isAllInputsValid() {
+        if (CommonUtil.isValidTextInput(binding.firstName) &&
+                CommonUtil.isValidTextInput(binding.lastName) &&
+                CommonUtil.isValidEmail(binding.email.getText().toString()) &&
+                CommonUtil.isValidPassword(binding.password.getText().toString()) &&
+                CommonUtil.isValidPassword(binding.reEnterPassword.getText().toString()) &&
+                binding.password.getText().toString().equals(binding.reEnterPassword.getText().toString())) {
+            return true;
+        }
+        return false;
+    }
+
+    private class EnrollTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (isAllInputsValid()) {
+                updateButtonState(true);
+            } else {
+                updateButtonState(false);
+            }
+        }
+    }
+
+    private void updateButtonState(boolean isEnabled) {
+        if (isEnabled) {
+            binding.enrollButton.setBackgroundResource(R.drawable.button_enabled);
+            binding.enrollButton.setTextColor(Color.WHITE);
+        } else {
+            binding.enrollButton.setBackgroundResource(R.drawable.button_boarder_grey);
+            binding.enrollButton.setTextColor(Color.GRAY);
+        }
+    }
+
+    private void drawableClickEvent() {
+        binding.password.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        final int DRAWABLE_RIGHT = 2;
+
+                        if (event.getAction() == MotionEvent.ACTION_UP) {
+                            if ((int) event.getRawX() >= (binding.password.getRight() -
+                                    binding.password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                                showPassword = !showPassword;
+
+                                if (showPassword) {
+                                    binding.password.setTransformationMethod(null);
+                                    binding.reEnterPassword.setTransformationMethod(null);
+                                    Drawable drawable = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        drawable = getResources().getDrawable(R.mipmap.hide_password, getActivity().getTheme());
+                                    } else {
+                                        drawable = getResources().getDrawable(R.mipmap.hide_password);
+                                    }
+                                    if (null != drawable) {
+                                        int h = drawable.getIntrinsicHeight();
+                                        int w = drawable.getIntrinsicWidth();
+                                        drawable.setBounds(0, 0, w, h);
+                                    }
+                                    binding.password.setCompoundDrawables(null, null, drawable, null);
+                                } else {
+                                    binding.password.setTransformationMethod(new PasswordTransformationMethod());
+                                    binding.reEnterPassword.setTransformationMethod(new PasswordTransformationMethod());
+                                    Drawable drawable = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        drawable = getResources().getDrawable(R.mipmap.show_password, getActivity().getTheme());
+                                    } else {
+                                        drawable = getResources().getDrawable(R.mipmap.show_password);
+                                    }
+                                    if (null != drawable) {
+                                        int h = drawable.getIntrinsicHeight();
+                                        int w = drawable.getIntrinsicWidth();
+                                        drawable.setBounds(0, 0, w, h);
+                                    }
+                                    binding.password.setCompoundDrawables(null, null, drawable, null);
+                                }
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
     }
 }

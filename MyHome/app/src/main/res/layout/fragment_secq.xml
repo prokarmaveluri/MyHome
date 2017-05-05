@@ -32,6 +32,7 @@
             android:layout_below="@+id/select_question"
             android:layout_marginLeft="42dp"
             android:layout_marginRight="42dp"
+            android:imeOptions="actionDone"
             android:hint="@string/prompt_answer"
             android:maxLines="1" />
 
@@ -44,7 +45,6 @@
             android:layout_marginBottom="40dp"
             android:layout_marginLeft="42dp"
             android:layout_marginRight="42dp"
-            android:enabled="false"
             android:onClick="@{handlers::onClickEvent}"
             android:text="@string/action_next"
             android:textStyle="bold" />
