@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.ActivityEnrollmentBinding;
@@ -35,6 +36,10 @@ public class EnrollmentActivity extends AppCompatActivity {
         EnrollmentFragment fragment = EnrollmentFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(binding.enrollFrame.getId(),
                 fragment).commit();
+
+        Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
+        setSupportActionBar(appToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         new EnrollmentPresenter(fragment, this);
     }
