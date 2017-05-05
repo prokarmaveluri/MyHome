@@ -39,6 +39,7 @@ public class ProfileEditFragment extends BaseFragment {
     Spinner gender;
     EditText dateOfBirth;
     EditText address;
+    EditText address2;
     EditText city;
     Spinner state;
     EditText zip;
@@ -50,8 +51,6 @@ public class ProfileEditFragment extends BaseFragment {
     EditText insuranceProvider;
     EditText memberId;
     EditText group;
-
-    private final String placeholderText = "Not Available";
 
     public static ProfileEditFragment newInstance() {
         return new ProfileEditFragment();
@@ -73,6 +72,7 @@ public class ProfileEditFragment extends BaseFragment {
         gender = (Spinner) profileView.findViewById(R.id.gender);
         dateOfBirth = (EditText) profileView.findViewById(R.id.dob);
         address = (EditText) profileView.findViewById(R.id.address);
+        address2 = (EditText) profileView.findViewById(R.id.address2);
         city = (EditText) profileView.findViewById(R.id.city);
         state = (Spinner) profileView.findViewById(R.id.state);
         zip = (EditText) profileView.findViewById(R.id.zip);
@@ -179,20 +179,14 @@ public class ProfileEditFragment extends BaseFragment {
     private void updateProfileViews(Profile profile) {
         if (profile.firstName != null) {
             firstName.setText(profile.firstName);
-        } else {
-            firstName.setText(placeholderText);
         }
 
         if (profile.lastName != null) {
             lastName.setText(profile.lastName);
-        } else {
-            lastName.setText(placeholderText);
         }
 
         if (profile.preferredName != null) {
             preferredName.setText(profile.preferredName);
-        } else {
-            preferredName.setText(placeholderText);
         }
 
         if (profile.gender != null) {
@@ -210,22 +204,18 @@ public class ProfileEditFragment extends BaseFragment {
 
         if (profile.dateOfBirth != null) {
             dateOfBirth.setText(profile.dateOfBirth);
-        } else {
-            dateOfBirth.setText(placeholderText);
         }
 
-        if (profile.address != null && profile.address.line2 != null && profile.address.line1 != null) {
-            address.setText(profile.address.line1 + "\n" + profile.address.line2);
-        } else if (profile.address != null && profile.address.line1 != null) {
+        if (profile.address != null && profile.address.line1 != null) {
             address.setText(profile.address.line1);
-        } else {
-            address.setText(placeholderText);
+        }
+
+        if (profile.address != null && profile.address.line2 != null) {
+            address2.setText(profile.address.line2);
         }
 
         if (profile.address != null && profile.address.city != null) {
             city.setText(profile.address.city);
-        } else {
-            city.setText(placeholderText);
         }
 
         if (profile.address != null && profile.address.stateOrProvince != null) {
@@ -243,8 +233,6 @@ public class ProfileEditFragment extends BaseFragment {
 
         if (profile.address != null && profile.address.zipCode != null) {
             zip.setText(profile.address.zipCode);
-        } else {
-            zip.setText(placeholderText);
         }
 
         if (profile.phoneNumber != null) {
@@ -259,34 +247,22 @@ public class ProfileEditFragment extends BaseFragment {
                 phone2.setText(profile.phoneNumber.substring(length - 7, length - 4));
                 phone1.setText("");
             }
-        } else {
-            phone1.setText(placeholderText);
-            phone2.setText("");
-            phone3.setText("");
         }
 
         if (profile.email != null) {
             email.setText(profile.email);
-        } else {
-            email.setText(placeholderText);
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.providerName != null) {
             insuranceProvider.setText(profile.insuranceProvider.providerName);
-        } else {
-            insuranceProvider.setText(placeholderText);
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.memberNumber != null) {
             memberId.setText(profile.insuranceProvider.memberNumber);
-        } else {
-            memberId.setText(placeholderText);
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.groupNumber != null) {
             group.setText(profile.insuranceProvider.groupNumber);
-        } else {
-            group.setText(placeholderText);
         }
     }
 
@@ -307,56 +283,61 @@ public class ProfileEditFragment extends BaseFragment {
             profile.insuranceProvider = new InsuranceProvider();
         }
 
-        if (firstName.getText() != null && !firstName.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (firstName.getText() != null && !firstName.getText().toString().isEmpty()) {
             profile.firstName = firstName.getText().toString().trim();
         }
 
-        if (lastName.getText() != null && !lastName.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (lastName.getText() != null && !lastName.getText().toString().isEmpty()) {
             profile.lastName = lastName.getText().toString().trim();
         }
 
-        if (preferredName.getText() != null && !preferredName.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (preferredName.getText() != null && !preferredName.getText().toString().isEmpty()) {
             profile.preferredName = preferredName.getText().toString().trim();
         }
 
-        if (!gender.getSelectedItem().toString().equalsIgnoreCase(placeholderText)) {
+        if (!gender.getSelectedItem().toString().isEmpty()) {
             profile.gender = gender.getSelectedItem().toString().trim();
         }
 
-        if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().isEmpty()) {
             profile.dateOfBirth = dateOfBirth.getText().toString().trim();
         }
 
-        if (address.getText() != null && !address.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (address.getText() != null && !address.getText().toString().isEmpty()) {
             profile.address.line1 = address.getText().toString().trim();
         }
 
-        if (city.getText() != null && !city.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (address2.getText() != null && !address2.getText().toString().isEmpty()) {
+            profile.address.line2 = address2.getText().toString().trim();
+        }
+
+        if (city.getText() != null && !city.getText().toString().isEmpty()) {
             profile.address.city = city.getText().toString().trim();
         }
 
-        if (!state.getSelectedItem().toString().equalsIgnoreCase(placeholderText)) {
+        if (!state.getSelectedItem().toString().isEmpty()) {
             profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 
-        if (zip.getText() != null && !zip.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (zip.getText() != null && !zip.getText().toString().isEmpty()) {
             profile.address.zipCode = zip.getText().toString().trim();
         }
 
-        if (CommonUtil.validPhoneNumber(phone1.getText().toString(), phone2.getText().toString(), phone3.getText().toString())
-                && !phone1.getText().toString().equalsIgnoreCase(placeholderText)) {
-            profile.phoneNumber = phone1.getText().toString().trim() + phone2.getText().toString().trim() + phone3.getText().toString().trim();
-        }
+        //TODO figure out hyphen for phone...
+//        if (CommonUtil.validPhoneNumber(phone1.getText().toString(), phone2.getText().toString(), phone3.getText().toString())
+//                && !phone1.getText().toString().equalsIgnoreCase(placeholderText)) {
+//            profile.phoneNumber = phone1.getText().toString().trim() + phone2.getText().toString().trim() + phone3.getText().toString().trim();
+//        }
 
-        if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().isEmpty()) {
             profile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();
         }
 
-        if (memberId.getText() != null && !memberId.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (memberId.getText() != null && !memberId.getText().toString().isEmpty()) {
             profile.insuranceProvider.memberNumber = memberId.getText().toString().trim();
         }
 
-        if (group.getText() != null && !group.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (group.getText() != null && !group.getText().toString().isEmpty()) {
             profile.insuranceProvider.groupNumber = group.getText().toString().trim();
         }
 

@@ -1,115 +1,86 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/profile_firstname_indent"
+        android:layout_marginLeft="@dimen/profile_firstname_indent"
+        android:layout_marginRight="@dimen/profile_firstname_indent"
+        android:layout_marginStart="@dimen/profile_firstname_indent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/info_header"
-            android:layout_width="0dp"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/first_name_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_grey"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center_vertical"
-            android:padding="@dimen/profile_header_padding"
-            android:text="Personal Information"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/first_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/profile_firstname_indent"
-            android:layout_marginStart="@dimen/profile_firstname_indent"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="First"
-            app:layout_constraintLeft_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/info_header" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="First Name"
+                android:inputType="textCapWords"
+                android:maxLines="1" />
 
-        <TextView
-            android:id="@+id/last_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/profile_lastname_indent"
-            android:layout_marginStart="@dimen/profile_lastname_indent"
-            android:text="Last"
-            app:layout_constraintLeft_toRightOf="@id/first_label"
-            app:layout_constraintTop_toTopOf="@id/first_label" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/first_name"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/last_name_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:maxWidth="@dimen/profile_firstname_maxwidth"
-            android:text="Kevin"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/first_label" />
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/last_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:maxWidth="@dimen/profile_lastname_maxwidth"
-            android:text="Welsh"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/last_label"
-            app:layout_constraintTop_toBottomOf="@id/last_label" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="Last Name"
+                android:inputType="textCapWords"
+                android:maxLines="1" />
 
-        <TextView
-            android:id="@+id/preferred_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Preferred Name"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/first_name" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/preferred_name"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/preferred_name_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Kev"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/preferred_label" />
+            android:layout_marginBottom="16dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/preferred_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="Preferred Name"
+                android:inputType="textCapWords"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:id="@+id/gender_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Gender"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/preferred_name" />
+            android:text="Gender" />
 
         <Spinner
             android:id="@+id/gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/profile_gender"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/gender_label" />
+            android:entries="@array/profile_gender" />
 
         <TextView
             android:id="@+id/dob_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Date of Birth"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/gender" />
+            android:text="Date of Birth" />
 
         <EditText
             android:id="@+id/dob"
@@ -117,142 +88,134 @@
             android:layout_height="wrap_content"
             android:text="1/12/1987"
             android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/dob_label" />
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/address_label"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/address_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Address"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/dob" />
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:maxWidth="@dimen/profile_address_maxwidth"
-            android:text="540 Trinity Lane North"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/address_label" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="Address"
+                android:inputType="text"
+                android:maxLines="2" />
 
-        <TextView
-            android:id="@+id/city_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="City"
-            app:layout_constraintLeft_toLeftOf="@id/last_label"
-            app:layout_constraintTop_toTopOf="@id/address_label" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/city"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/address2_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:maxWidth="@dimen/profile_city_maxwidth"
-            android:text="St.Petersburg"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/last_label"
-            app:layout_constraintTop_toTopOf="@id/address" />
+            android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/state_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="State"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/address" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/address2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="Address 2"
+                android:inputType="text"
+                android:maxLines="2" />
 
-        <Spinner
-            android:id="@+id/state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/profile_states"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/state_label" />
+        </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/zip_label"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Zip"
-            app:layout_constraintLeft_toLeftOf="@id/last_label"
-            app:layout_constraintTop_toTopOf="@id/state_label" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/zip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLength="5"
-            android:text="33716"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/last_label"
-            app:layout_constraintTop_toTopOf="@id/state" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/city_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight=".6">
 
-        <TextView
-            android:id="@+id/phone_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Phone"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/state" />
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:hint="City"
+                    android:inputType="text"
+                    android:maxLines="2" />
 
-        <EditText
-            android:id="@+id/phone1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="616"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/phone_label" />
+            </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/phone2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLength="3"
-            android:text="867"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/phone1"
-            app:layout_constraintTop_toBottomOf="@id/phone_label" />
+            <Spinner
+                android:id="@+id/state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".4"
+                android:entries="@array/profile_states" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/phone3"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLength="4"
-            android:text="5309"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/phone2"
-            app:layout_constraintTop_toBottomOf="@id/phone_label" />
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/zip_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight=".4">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/zip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:hint="Zip"
+                    android:inputType="number"
+                    android:maxLength="5" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <EditText
+                android:id="@+id/phone1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="616"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/phone2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                android:text="867"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/phone3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="4"
+                android:text="5309"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/email_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Email"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/phone1" />
+            android:text="Email" />
 
         <TextView
             android:id="@+id/email"
@@ -260,91 +223,67 @@
             android:layout_height="wrap_content"
             android:text="kwelsh@prokarma.com"
             android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/email_label" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/email_notice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/profile_label_marginTop"
             android:layout_marginTop="@dimen/profile_label_marginTop"
             android:text="You cannot edit email address"
-            android:textSize="10sp"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/email" />
+            android:textSize="10sp" />
 
-        <TextView
-            android:id="@+id/insurance_header"
-            android:layout_width="0dp"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/provider_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_insuranceheader_marginTop"
-            android:background="@color/light_grey"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center_vertical"
-            android:padding="@dimen/profile_label_marginTop"
-            android:text="Insurance Information"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_notice" />
+            android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/provider_label"
-            android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/provider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="Insurance Provider"
+                android:inputType="text"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/id_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Insurance Provider"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/insurance_header" />
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/provider"
-            android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="Member ID"
+                android:inputType="text"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/group_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dignity Health"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/provider_label" />
+            android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/id_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="Member ID"
-            app:layout_constraintLeft_toLeftOf="@id/last_label"
-            app:layout_constraintTop_toTopOf="@id/provider_label" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="Group ID"
+                android:inputType="text"
+                android:maxLines="1" />
 
-        <EditText
-            android:id="@+id/id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="800-588-2300"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/last_label"
-            app:layout_constraintTop_toTopOf="@id/provider" />
+        </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/group_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Group"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/provider" />
-
-        <EditText
-            android:id="@+id/group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/profile_label_marginTop"
-            android:text="230-2333"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/group_label" />
-
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>
