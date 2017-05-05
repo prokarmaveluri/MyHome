@@ -90,4 +90,67 @@ public class CommonUtil {
             return false;
         }
     }
+
+    /**
+     * Simply returns a concatenation of first and last name
+     *
+     * @param firstName first name of user
+     * @param lastName  last name of user
+     * @return a proper representation of the user's name
+     */
+    public static String constructName(String firstName, String lastName) {
+        if (firstName == null) {
+            firstName = "";
+        }
+
+        if (lastName == null) {
+            lastName = "";
+        }
+
+        return firstName + " " + lastName;
+    }
+
+    /**
+     * Construct a concatenation of all available address fields to provide a full formed address string
+     *
+     * @param address  the first address of the user
+     * @param address2 the second address of the user
+     * @param city     the city of the user
+     * @param state    the two character code of the state of the user
+     * @param zip      the five digit zip code of the user
+     * @return a proper representation of the user's address
+     */
+    public static String constructAddress(String address, String address2, String city, String state, String zip) {
+        String fullAddress = "";
+
+        if (address != null && !address.isEmpty()) {
+            fullAddress = fullAddress + address;
+        }
+
+        if (address2 != null && !address2.isEmpty()) {
+            fullAddress = fullAddress + "\n" + address2;
+        }
+
+        if(address != null && !address.isEmpty() && address2 != null && !address2.isEmpty()){
+            fullAddress = fullAddress + "\n";
+        }
+
+        if (city != null && !city.isEmpty()) {
+            fullAddress = fullAddress + city;
+        }
+
+        if (city != null && !city.isEmpty() && state != null && !state.isEmpty()) {
+            fullAddress = fullAddress + ", ";
+        }
+
+        if (state != null && !state.isEmpty()) {
+            fullAddress = fullAddress + state + " ";
+        }
+
+        if (zip != null && !zip.isEmpty()) {
+            fullAddress = fullAddress + zip;
+        }
+
+        return fullAddress;
+    }
 }

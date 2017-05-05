@@ -49,7 +49,7 @@ public class Profile {
     @Override
     public String toString() {
         return "Profile{" +
-                "firstName='" + firstName + '\'' +
+                "name='" + firstName + '\'' +
                 ", middleInitial='" + middleInitial + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", preferredName='" + preferredName + '\'' +
