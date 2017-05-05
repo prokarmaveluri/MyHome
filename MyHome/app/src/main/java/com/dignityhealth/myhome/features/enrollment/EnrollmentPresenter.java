@@ -3,7 +3,7 @@ package com.dignityhealth.myhome.features.enrollment;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.dignityhealth.myhome.features.enrollment.sq.SQActivity;
+import com.dignityhealth.myhome.features.enrollment.sq.SQListActivity;
 import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.utils.Constants;
 
@@ -34,9 +34,9 @@ public class EnrollmentPresenter implements EnrollmentInteractor.Presenter {
         mView.showView(true);
         mView.showProgress(false);
 
-        Intent sqIntent = SQActivity.getSQActivityIntent(mContext);
-        sqIntent.putExtra(Constants.ENROLLMENT_REQUEST, request);
-        mContext.startActivity(sqIntent);
+        Intent intent = SQListActivity.getSQListActivityIntent(mContext);
+        intent.putExtra(Constants.ENROLLMENT_REQUEST, request);
+        mContext.startActivity(intent);
     }
 
     @Override

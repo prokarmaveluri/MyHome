@@ -1,19 +1,21 @@
 package com.dignityhealth.myhome.features.enrollment.sq;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.databinding.ActivitySecqListBinding;
 import com.dignityhealth.myhome.databinding.AdapterSqListBinding;
-import com.dignityhealth.myhome.databinding.FragmentSecqListBinding;
+import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.utils.Constants;
 
 /*
@@ -21,41 +23,40 @@ import com.dignityhealth.myhome.utils.Constants;
  *
  * Created by cmajji on 4/26/17.
  */
-public class SQListDialog extends DialogFragment {
+public class SQListActivity extends AppCompatActivity {
 
-    private FragmentSecqListBinding binding;
+    private EnrollmentRequest enrollmentRequest;
+    private ActivitySecqListBinding binding;
     private String[] questionIds;
     private String[] questions;
 
-    public SQListDialog() {
-        // Required empty public constructor
-    }
+    /*
+ * Get an intent for SQActivity activity.
+ */
+    public static Intent getSQListActivityIntent(Context context) {
 
-    public static SQListDialog newInstance() {
-        SQListDialog fragment = new SQListDialog();
-        return fragment;
+        return new Intent(context, SQListActivity.class);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_secq_list,
-                container, false);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_secq_list);
         getResourceQuestions();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.sqList.setLayoutManager(layoutManager);
         binding.sqList.setAdapter(new QuestionListAdapter());
 
+        enrollmentRequest = (EnrollmentRequest) getIntent()
+                .getParcelableExtra(Constants.ENROLLMENT_REQUEST);
+
+        Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
+        setSupportActionBar(appToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         binding.setHandlers(new ListCloseEvent());
-        return binding.getRoot();
     }
 
     public class ListCloseEvent {
@@ -69,21 +70,17 @@ public class SQListDialog extends DialogFragment {
                         setResult(questionIds[tag], questions[tag]);
 
                     break;
-                case R.id.sq_list_close:
-                    dismiss();
-                    break;
             }
         }
     }
 
     private void setResult(String questionId, String questionText) {
-        Intent intent = new Intent();
+        Intent intent = SQActivity.getSQActivityIntent(this);
 
         intent.putExtra(Constants.ENROLLMENT_QUESTION_ID, questionId);
         intent.putExtra(Constants.ENROLLMENT_QUESTION, questionText);
-
-        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-        dismiss();
+        intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
+        startActivity(intent);
     }
 
     private class QuestionListAdapter extends

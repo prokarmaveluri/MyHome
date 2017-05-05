@@ -98,10 +98,8 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     @Override
     public void showView(boolean show) {
         if (show) {
-            binding.loginSuggestion.setEnabled(true);
             binding.enrollButton.setEnabled(true);
         } else {
-            binding.loginSuggestion.setEnabled(false);
             binding.enrollButton.setEnabled(false);
         }
     }
@@ -151,18 +149,15 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
         public void onClickEvent(View view) {
             switch (view.getId()) {
-                case R.id.login_suggestion:
-                    presenter.openLoginPage();
-                    break;
                 case R.id.enroll_button:
                     EnrollmentRequest request = getRequest();
                     if (null != request)
                         presenter.enrollUser(request);
                     break;
-                case R.id.password_criteria:
-                    PasswordCriteriaDialog dialog = new PasswordCriteriaDialog();
-                    dialog.show(getFragmentManager(), "Password Criteria");
-                    break;
+//                case R.id.password_criteria:
+//                    PasswordCriteriaDialog dialog = new PasswordCriteriaDialog();
+//                    dialog.show(getFragmentManager(), "Password Criteria");
+//                    break;
             }
         }
     }
