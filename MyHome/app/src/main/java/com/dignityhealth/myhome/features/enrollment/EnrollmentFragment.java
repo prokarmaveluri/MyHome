@@ -26,10 +26,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentEnrollmentBinding;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
-import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.dignityhealth.myhome.utils.ValidateInputsOnFocusChange;
-
-import it.sephiroth.android.library.tooltip.Tooltip;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
@@ -292,21 +289,5 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.showAtLocation(anchorView, Gravity.CENTER, 0, 0);
 
-    }
-
-    private void toolTipPopup(View anchorView) {
-        Tooltip.make(getActivity(),
-                new Tooltip.Builder(101)
-                        .anchor(anchorView, Tooltip.Gravity.TOP)
-                        .closePolicy(new Tooltip.ClosePolicy()
-                                .insidePolicy(true, false)
-                                .outsidePolicy(true, false), 10000)
-                        .activateDelay(900)
-                        .showDelay(400)
-                        .text(CommonUtil.getBulletPoints())
-                        .maxWidth(DeviceDisplayManager.getInstance().getDeviceWidth())
-                        .withArrow(true)
-                        .withOverlay(true).build()
-        ).show();
     }
 }
