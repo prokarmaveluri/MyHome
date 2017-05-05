@@ -318,6 +318,10 @@ public class ProfileEditFragment extends BaseFragment {
             profile.preferredName = preferredName.getText().toString().trim();
         }
 
+        if (!gender.getSelectedItem().toString().equalsIgnoreCase(placeholderText)) {
+            profile.gender = gender.getSelectedItem().toString().trim();
+        }
+
         if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.dateOfBirth = dateOfBirth.getText().toString().trim();
         }
