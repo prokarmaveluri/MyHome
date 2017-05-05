@@ -33,6 +33,7 @@ public class ProfileViewFragment extends BaseFragment {
     TextView firstName;
     TextView lastName;
     TextView preferredName;
+    TextView gender;
     TextView dateOfBirth;
     TextView address;
     TextView city;
@@ -64,6 +65,7 @@ public class ProfileViewFragment extends BaseFragment {
         firstName = (TextView) profileView.findViewById(R.id.first_name);
         lastName = (TextView) profileView.findViewById(R.id.last_name);
         preferredName = (TextView) profileView.findViewById(R.id.preferred_name);
+        gender = (TextView) profileView.findViewById(R.id.gender);
         dateOfBirth = (TextView) profileView.findViewById(R.id.dob);
         address = (TextView) profileView.findViewById(R.id.address);
         city = (TextView) profileView.findViewById(R.id.city);
@@ -152,6 +154,12 @@ public class ProfileViewFragment extends BaseFragment {
             preferredName.setText(profile.preferredName);
         } else {
             preferredName.setText(placeholderText);
+        }
+
+        if (profile.gender != null) {
+            gender.setText(profile.gender);
+        } else {
+            gender.setText(placeholderText);
         }
 
         if (profile.dateOfBirth != null) {
