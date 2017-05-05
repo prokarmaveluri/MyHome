@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/toolbarWhite"
-            android:background="@color/black" />
+            android:background="@color/md_blue_grey_650" />
 
         <TextView
             android:id="@+id/terms_of_service"
@@ -46,7 +46,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_alignParentBottom="true"
             android:background="@color/teal">
 

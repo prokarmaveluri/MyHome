@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/toolbarWhite"
-            android:background="@color/black" />
+            android:background="@color/md_blue_grey_650" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sq_list"

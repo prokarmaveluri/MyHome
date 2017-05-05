@@ -361,6 +361,7 @@
     <color name="md_black_1000">#000000</color>
     <color name="md_white_1000">#ffffff</color>
 
+    1px solid #484B4D
     <!--blue grey-->
     <color name="md_blue_grey_50">#ECEFF1</color>
     <color name="md_blue_grey_100">#CFD8DC</color>
@@ -369,6 +370,7 @@
     <color name="md_blue_grey_400">#78909C</color>
     <color name="md_blue_grey_500">#607D8B</color>
     <color name="md_blue_grey_600">#546E7A</color>
+    <color name="md_blue_grey_650">#484B4D</color>
     <color name="md_blue_grey_700">#455A64</color>
     <color name="md_blue_grey_800">#37474F</color>
     <color name="md_blue_grey_900">#263238</color>
