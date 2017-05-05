@@ -75,12 +75,12 @@
         <item>WY</item>
     </string-array>
 
-    <!--States for Profile Edit-->
+    <!--States for Profile Edit - Prefer Not To Say isn't working currently-->
     <string-array name="profile_gender">
-        <item>Not Available</item>
+        <item>Unknown</item>
         <item>Male</item>
         <item>Female</item>
-        <item>Prefer Not To Say</item>
+        <!--<item>Prefer Not To Say</item>-->
     </string-array>
 
 </resources>

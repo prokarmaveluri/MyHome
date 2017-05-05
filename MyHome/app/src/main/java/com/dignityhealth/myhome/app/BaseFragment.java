@@ -9,4 +9,9 @@ import android.app.Fragment;
  */
 public abstract class BaseFragment extends Fragment implements BaseInterface {
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        NavigationActivity.setActivityTag(setDrawerTag());
+    }
 }

@@ -17,6 +17,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
 import retrofit2.Call;
@@ -111,7 +112,7 @@ public class ProfileEditFragment extends BaseFragment {
                 break;
 
             case R.id.save_profile:
-                if (!validPhoneNumber()) {
+                if (!CommonUtil.validPhoneNumber(phone1.getText().toString(), phone2.getText().toString(), phone3.getText().toString())) {
                     Toast.makeText(getActivity(), "Phone Number not valid.", Toast.LENGTH_LONG).show();
                 } else {
                     Profile currentProfile = ProfileManager.getProfile();
@@ -342,7 +343,8 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.zipCode = zip.getText().toString().trim();
         }
 
-        if (validPhoneNumber() && !phone1.getText().toString().equalsIgnoreCase(placeholderText)) {
+        if (CommonUtil.validPhoneNumber(phone1.getText().toString(), phone2.getText().toString(), phone3.getText().toString())
+                && !phone1.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.phoneNumber = phone1.getText().toString().trim() + phone2.getText().toString().trim() + phone3.getText().toString().trim();
         }
 
@@ -359,19 +361,6 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         return profile;
-    }
-
-    /**
-     * See if phone number is valid
-     *
-     * @return
-     */
-    private boolean validPhoneNumber() {
-        if (phone3.length() == 4 && phone2.length() == 3 && (phone1.length() == 0 || phone1.length() == 3)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @Override

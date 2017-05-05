@@ -15,6 +15,7 @@ import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
 import retrofit2.Call;
@@ -78,7 +79,7 @@ public class ProfileViewFragment extends BaseFragment {
         memberId = (TextView) profileView.findViewById(R.id.id);
         group = (TextView) profileView.findViewById(R.id.group);
 
-        if(ProfileManager.getProfile() == null){
+        if (ProfileManager.getProfile() == null) {
             //Get profile since we don't have it
             getProfileInfo("Bearer " + AuthManager.getBearerToken());
         } else {
@@ -157,7 +158,7 @@ public class ProfileViewFragment extends BaseFragment {
         }
 
         if (profile.gender != null) {
-            gender.setText(profile.gender);
+            gender.setText(CommonUtil.capitalize(profile.gender));
         } else {
             gender.setText(placeholderText);
         }

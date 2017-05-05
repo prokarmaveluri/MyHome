@@ -25,7 +25,7 @@ import com.dignityhealth.myhome.utils.Constants.ActivityTag;
  */
 
 public class NavigationActivity extends AppCompatActivity implements NavigationInterface {
-    private ActivityTag activityTag = ActivityTag.NONE;
+    private static ActivityTag activityTag = ActivityTag.NONE;
     private BottomNavigationView bottomNavigationView;
 
     @Override
@@ -76,10 +76,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     /**
      * Sets the activity tag. The tag is used to determine what page the user is on
      *
-     * @param activityTag
+     * @param tag
      */
-    public void setActivityTag(ActivityTag activityTag) {
-        this.activityTag = activityTag;
+    public static void setActivityTag(ActivityTag tag) {
+        activityTag = tag;
     }
 
     /**
