@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.features.enrollment.sq;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,11 @@ public class SQActivity extends AppCompatActivity {
         questionId = getIntent().getStringExtra(Constants.ENROLLMENT_QUESTION_ID);
 
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
+        } else {
+            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
+        }
         setSupportActionBar(appToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
