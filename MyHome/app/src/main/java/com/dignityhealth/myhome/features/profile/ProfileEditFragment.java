@@ -111,8 +111,12 @@ public class ProfileEditFragment extends BaseFragment {
                 break;
 
             case R.id.save_profile:
-                Profile currentProfile = ProfileManager.getProfile();
-                sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
+                if (!validPhoneNumber()) {
+                    Toast.makeText(getActivity(), "Phone Number not valid.", Toast.LENGTH_LONG).show();
+                } else {
+                    Profile currentProfile = ProfileManager.getProfile();
+                    sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
+                }
                 break;
         }
 
@@ -334,7 +338,7 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.zipCode = zip.getText().toString().trim();
         }
 
-        if(validPhoneNumber() && !phone1.getText().toString().equalsIgnoreCase(placeholderText)){
+        if (validPhoneNumber() && !phone1.getText().toString().equalsIgnoreCase(placeholderText)) {
             profile.phoneNumber = phone1.getText().toString().trim() + phone2.getText().toString().trim() + phone3.getText().toString().trim();
         }
 
