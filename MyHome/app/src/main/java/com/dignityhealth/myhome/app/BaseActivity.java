@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
  * Master Activity to extend
  * Helps share common code across all activities (such as animations and the Navigation Bar)
  */
-public abstract class BaseActivity extends AppCompatActivity implements BaseInterface {
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
