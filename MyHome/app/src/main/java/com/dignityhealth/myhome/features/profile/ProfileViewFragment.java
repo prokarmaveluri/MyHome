@@ -23,6 +23,9 @@ import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
+import java.text.ParseException;
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -148,7 +151,14 @@ public class ProfileViewFragment extends BaseFragment {
         }
 
         if (profile.dateOfBirth != null) {
-            dateOfBirth.setText(profile.dateOfBirth);
+            Calendar myCalendar = Calendar.getInstance();
+            try {
+                myCalendar.setTime(Constants.SIMPLE_DATE_FORMAT_UTC.parse(profile.dateOfBirth));
+                dateOfBirth.setText(Constants.SIMPLE_DATE_FORMAT.format(myCalendar.getTime()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                dateOfBirth.setText(placeholderText);
+            }
         } else {
             dateOfBirth.setText(placeholderText);
         }
