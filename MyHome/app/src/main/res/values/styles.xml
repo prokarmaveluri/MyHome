@@ -7,6 +7,14 @@
     </style>
 
 
-    <style name="buttonStyle" parent="Base.TextAppearance.AppCompat.Button">
+    <style name="tealButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_boarder_teal</item>
+        <item name="android:textColor">@color/teal</item>
+    </style>
+
+    <style name="grayButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_boarder_grey</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:layout_height">44dp</item>
     </style>
 </resources>

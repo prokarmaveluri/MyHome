@@ -7,11 +7,13 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by cmajji on 4/27/17.
@@ -56,7 +58,6 @@ public class LoginPresenter implements LoginInteractor.Presenter {
         if (null != mContext) {
             Intent intent = EnrollmentActivity.getEnrollmentIntent(mContext);
             mContext.startActivity(intent);
-            mContext.finish();
         }
     }
 
@@ -68,6 +69,8 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                     // notification for testing.
                     mView.showEnrollmentStatus("Received Session token.");
                     // get id_token
+                    AuthManager.setSessionToken(response.body().getSessionToken());
+                    Timber.i("Session token : "+response.body().getSessionToken());
                     mView.fetchIdToken(response.body().getSessionToken());
                 } else {
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));

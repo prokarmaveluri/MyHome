@@ -104,10 +104,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     public void showView(boolean show) {
         if (show) {
             binder.logInButton.setClickable(true);
-            binder.signUpSuggestion.setClickable(true);
+            binder.enrollNow.setClickable(true);
         } else {
             binder.logInButton.setClickable(false);
-            binder.signUpSuggestion.setClickable(false);
+            binder.enrollNow.setClickable(false);
         }
     }
 
@@ -129,7 +129,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
         public void onClickEvent(View view) {
             switch (view.getId()) {
-                case R.id.sign_up_suggestion:
+                case R.id.enroll_now:
                     presenter.openSignUpPage();
                     break;
                 case R.id.log_in_button:
@@ -146,6 +146,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     if (ConnectionUtil.isConnected(getActivity())) {
                         startForgotPasswordActivity();
                     }
+                    break;
+                case R.id.login_help:
                     break;
             }
         }

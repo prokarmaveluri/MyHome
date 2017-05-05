@@ -7,6 +7,8 @@ package com.dignityhealth.myhome.networking.auth;
 public class AuthManager {
 
     private static String bearerToken;
+    private static String sessionToken;
+
     private static final AuthManager ourInstance = new AuthManager();
 
     public static AuthManager getInstance() {
@@ -23,5 +25,13 @@ public class AuthManager {
 
     public static void setBearerToken(String bearerToken) {
         AuthManager.bearerToken = bearerToken;
+    }
+
+    public static String getSessionToken() {
+        return sessionToken;
+    }
+
+    public static void setSessionToken(String sessionToken) {
+        AuthManager.sessionToken = sessionToken;
     }
 }
