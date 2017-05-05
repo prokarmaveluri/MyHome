@@ -108,7 +108,7 @@
 
         <Button
             android:id="@+id/sign_out"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/profile_label_marginTop"
             android:padding="@dimen/profile_label_marginTop"
