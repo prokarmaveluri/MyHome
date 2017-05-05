@@ -41,7 +41,9 @@ public class ProfileEditFragment extends BaseFragment {
     EditText city;
     Spinner state;
     EditText zip;
-    EditText phone;
+    EditText phone1;
+    EditText phone2;
+    EditText phone3;
     TextView email;
 
     EditText insuranceProvider;
@@ -73,7 +75,9 @@ public class ProfileEditFragment extends BaseFragment {
         city = (EditText) profileView.findViewById(R.id.city);
         state = (Spinner) profileView.findViewById(R.id.state);
         zip = (EditText) profileView.findViewById(R.id.zip);
-        phone = (EditText) profileView.findViewById(R.id.phone);
+        phone1 = (EditText) profileView.findViewById(R.id.phone1);
+        phone2 = (EditText) profileView.findViewById(R.id.phone2);
+        phone3 = (EditText) profileView.findViewById(R.id.phone3);
         email = (TextView) profileView.findViewById(R.id.email);
 
         insuranceProvider = (EditText) profileView.findViewById(R.id.provider);
@@ -239,9 +243,21 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.phoneNumber != null) {
-            phone.setText(profile.phoneNumber);
+            int length = profile.phoneNumber.length();
+
+            if (length == 10) {
+                phone3.setText(profile.phoneNumber.substring(length - 4, length));
+                phone2.setText(profile.phoneNumber.substring(length - 7, length - 4));
+                phone1.setText(profile.phoneNumber.substring(length - 10, length - 7));
+            } else if (length == 7) {
+                phone3.setText(profile.phoneNumber.substring(length - 4, length));
+                phone2.setText(profile.phoneNumber.substring(length - 7, length - 4));
+                phone1.setText("");
+            }
         } else {
-            phone.setText(placeholderText);
+            phone1.setText(placeholderText);
+            phone2.setText("");
+            phone3.setText("");
         }
 
         if (profile.email != null) {
@@ -318,8 +334,8 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.zipCode = zip.getText().toString().trim();
         }
 
-        if (phone.getText() != null && !phone.getText().toString().equalsIgnoreCase(placeholderText)) {
-            profile.phoneNumber = phone.getText().toString().trim();
+        if(validPhoneNumber() && !phone1.getText().toString().equalsIgnoreCase(placeholderText)){
+            profile.phoneNumber = phone1.getText().toString().trim() + phone2.getText().toString().trim() + phone3.getText().toString().trim();
         }
 
         if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().equalsIgnoreCase(placeholderText)) {
@@ -335,6 +351,19 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         return profile;
+    }
+
+    /**
+     * See if phone number is valid
+     *
+     * @return
+     */
+    private boolean validPhoneNumber() {
+        if (phone3.length() == 4 && phone2.length() == 3 && (phone1.length() == 0 || phone1.length() == 3)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

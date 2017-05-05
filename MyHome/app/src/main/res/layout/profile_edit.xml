@@ -209,13 +209,38 @@
             app:layout_constraintTop_toBottomOf="@id/state" />
 
         <EditText
-            android:id="@+id/phone"
+            android:id="@+id/phone1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="867-5309"
+            android:inputType="number"
+            android:text="616"
             android:textSize="@dimen/profile_text_size"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@id/first_label"
+            app:layout_constraintTop_toBottomOf="@id/phone_label" />
+
+        <EditText
+            android:id="@+id/phone2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="3"
+            android:text="867"
+            android:textSize="@dimen/profile_text_size"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/phone1"
+            app:layout_constraintTop_toBottomOf="@id/phone_label" />
+
+        <EditText
+            android:id="@+id/phone3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="4"
+            android:text="5309"
+            android:textSize="@dimen/profile_text_size"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/phone2"
             app:layout_constraintTop_toBottomOf="@id/phone_label" />
 
         <TextView
@@ -225,7 +250,7 @@
             android:layout_marginTop="@dimen/profile_label_marginTop"
             android:text="Email"
             app:layout_constraintLeft_toLeftOf="@id/first_label"
-            app:layout_constraintTop_toBottomOf="@id/phone" />
+            app:layout_constraintTop_toBottomOf="@id/phone1" />
 
         <TextView
             android:id="@+id/email"
