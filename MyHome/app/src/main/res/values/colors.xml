@@ -2,9 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
     <!--Theme Colors -->
 
-    <color name="primary">@color/md_orange_A700</color>
-    <color name="primary_dark">@color/md_deep_orange_A400</color>
-    <color name="accent">@color/red</color>
+    <color name="primary">@color/teal</color>
+    <color name="primary_dark">@color/teal_dark</color>
+    <color name="accent">@color/teal_light</color>
     <color name="secondary_text">#757575</color>
     <color name="divider_color">#BDBDBD</color>
 
@@ -58,7 +58,8 @@
     <color name="dracula_black">#282828</color>
 
     <!--Fancy Colors -->
-    <color name="teal">#009688</color>
+    <color name="teal">#097288</color>
+    <color name="teal_light">#009988</color>
     <color name="teal_dark">#00796b</color>
     <color name="hot_pink">#ff4081</color>
     <color name="purple_light">#536dfe</color>

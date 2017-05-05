@@ -18,7 +18,9 @@
     <string name="action_Submit">Submit</string>
     <string name="action_create_account">Create Account</string>
     <string name="signup_suggestion">Not Registered? Sign up here</string>
+    <string name="enroll_now">Don\'t have an account? Enroll Now</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="login_help">Help</string>
     <string name="login_suggestion">Already Registered? Login.</string>
     <string name="valid_first_name">Enter valid first name</string>
     <string name="valid_last_name">Enter valid last name</string>
@@ -31,5 +33,4 @@
     <string name="enrollment">Enrollment</string>
     <string name="enrollment_success">You are successfully registered.</string>
     <string name="no_network_msg">Please check your network, try again!</string>
-
 </resources>
