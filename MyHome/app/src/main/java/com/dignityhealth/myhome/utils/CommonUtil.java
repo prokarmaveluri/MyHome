@@ -63,4 +63,31 @@ public class CommonUtil {
         criteria.add("At least one special character: !@#$%^&*");
         return criteria;
     }
+
+    /**
+     * Upper cases a word.
+     * This also lower cases the rest of the word if it isn't already.
+     *
+     * @param word the string to upper case
+     * @return word, now upper cased
+     */
+    public static String capitalize(String word) {
+        return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+    }
+
+    /**
+     * Sees if a phone number entered in is valid.
+     *
+     * @param phone1 the region code (can be either zero digits or three)
+     * @param phone2 the first part of the phone number (needs to be three digits)
+     * @param phone3 the last part of the phone number (needs to be four digits)
+     * @return true if the phone number is valid, false otherwise
+     */
+    public static boolean validPhoneNumber(String phone1, String phone2, String phone3) {
+        if (phone3.length() == 4 && phone2.length() == 3 && (phone1.length() == 0 || phone1.length() == 3)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
