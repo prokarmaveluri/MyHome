@@ -196,10 +196,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     private void loadWebView(String sessionToken) {
         this.sessionToken = sessionToken;
-//        binder.webViewRedirect.setWebViewClient(new RedirectClient());
-//        binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
-//        binder.webViewRedirect.loadUrl(Constants.auth2Url + sessionToken);
-        thread.start();
+        binder.webViewRedirect.setWebViewClient(new RedirectClient());
+        binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
+        binder.webViewRedirect.loadUrl(Constants.auth2Url + sessionToken);
+//        thread.start();
     }
 
     private class RedirectClient extends WebViewClient {
@@ -244,7 +244,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         int index = url.indexOf("id_token=");
         if (-1 != index) {
             String token = url.substring(index + "id_token=".length(), url.indexOf("&"));
-            Timber.i("id_token ** " + token);
+            Timber.i("Session id_token ** " + token);
             return token;
         }
         return null;
@@ -265,6 +265,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     break;
                 case TOKEN_ERROR:
                     showProgress(false);
+                    AuthManager.setBearerToken(null);
                     Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
                             Toast.LENGTH_LONG).show();
                     break;
@@ -386,6 +387,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 Timber.i("Session, redirectUrl " + redirectUrl);
                 Timber.i("Session, id token " + token);
                 if (null != token) {
+                    AuthManager.setBearerToken(token);
                     mHandler.sendEmptyMessage(ACTION_FINISH);
                 } else {
                     mHandler.sendEmptyMessage(TOKEN_ERROR);

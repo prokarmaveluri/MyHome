@@ -124,6 +124,7 @@ public class ProfileViewFragment extends BaseFragment {
     }
 
     private void getProfileInfo(String bearer) {
+        Timber.i("Session bearer "+bearer);
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {

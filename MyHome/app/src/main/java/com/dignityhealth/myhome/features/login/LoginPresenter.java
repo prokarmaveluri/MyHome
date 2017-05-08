@@ -79,7 +79,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                     AuthManager.setSessionToken(response.body().getSessionToken());
                     Timber.i("Session token : " + response.body().getSessionToken());
                     mView.fetchIdToken(response.body().getSessionToken());
-//                    getSessionId(response.body().getSessionToken());
+                    getSessionId(response.body().getSessionToken());
                 } else {
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                     mView.showProgress(false);
