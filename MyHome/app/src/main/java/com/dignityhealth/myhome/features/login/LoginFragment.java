@@ -29,12 +29,18 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentLoginBinding;
+import com.dignityhealth.myhome.features.contact.ContactUsActivity;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordActivity;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.ValidateInputsOnFocusChange;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import timber.log.Timber;
 
@@ -44,6 +50,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     private LoginInteractor.Presenter presenter;
     private FragmentLoginBinding binder;
+    private String sessionToken;
 
     private static final int ACTION_FINISH = 100;
     private static boolean showPassword = false;
@@ -115,11 +122,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     @Override
     public void showView(boolean show) {
         if (show) {
-            binder.logInButton.setClickable(true);
-            binder.enrollNow.setClickable(true);
+            binder.logInButton.setEnabled(true);
+            binder.enrollNow.setEnabled(true);
         } else {
-            binder.logInButton.setClickable(false);
-            binder.enrollNow.setClickable(false);
+            binder.logInButton.setEnabled(false);
+            binder.enrollNow.setEnabled(false);
         }
     }
 
@@ -146,6 +153,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     break;
                 case R.id.log_in_button:
                     if (ConnectionUtil.isConnected(getActivity())) {
+                        showView(false);
                         LoginRequest request = getRequest();
                         if (null != request)
                             presenter.signIn(request);
@@ -160,6 +168,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     }
                     break;
                 case R.id.login_help:
+                    startContactUsActivity();
                     break;
             }
         }
@@ -185,10 +194,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     }
 
     private void loadWebView(String sessionToken) {
-
+        this.sessionToken = sessionToken;
         binder.webViewRedirect.setWebViewClient(new RedirectClient());
         binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
         binder.webViewRedirect.loadUrl(Constants.auth2Url + sessionToken);
+//        thread.start();
     }
 
     private class RedirectClient extends WebViewClient {
@@ -219,9 +229,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
             if (null != token) {
                 AuthManager.setBearerToken(token);
-                mHandler.sendEmptyMessage(ACTION_FINISH);
+                mHandler.sendEmptyMessageDelayed(ACTION_FINISH, 100);
             }
             showProgress(false);
+            presenter.createSession(sessionToken);
             return false;
         }
     }
@@ -248,7 +259,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
                     ActivityCompat.startActivity(getActivity(), intentHome, options.toBundle());
-
                     getActivity().finish();
                     break;
             }
@@ -257,6 +267,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     private void startForgotPasswordActivity() {
         Intent intent = ForgotPasswordActivity.getForgotPasswordIntent(getActivity());
+        startActivity(intent);
+    }
+
+    private void startContactUsActivity() {
+        Intent intent = ContactUsActivity.getContactUsIntent(getActivity());
         startActivity(intent);
     }
 
@@ -342,4 +357,35 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
         binder.password.setCompoundDrawables(null, null, drawable, null);
     }
+
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            fetchIdTokenUrlConnection();
+        }
+    });
+
+    private void fetchIdTokenUrlConnection() {
+
+        try {
+            URL url = new URL(Constants.auth2Url + sessionToken);
+            try {
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.connect();
+                urlConnection.getResponseCode();
+                urlConnection.getRequestMethod();
+                URL redirectUrl = urlConnection.getURL();
+                String token = parseIDToken(redirectUrl.toString());
+                Timber.i("URL Connection, url "+redirectUrl);
+                Timber.i("URL Connection, token "+token);
+                mHandler.sendEmptyMessage(ACTION_FINISH);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

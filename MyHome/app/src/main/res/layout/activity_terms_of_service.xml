@@ -46,33 +46,33 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/teal">
 
             <TextView
                 android:id="@+id/tc_cancel"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/tc_accept"
                 android:background="@drawable/button_boarder_teal"
                 android:gravity="center"
                 android:onClick="@{handlers::onClickEvent}"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:padding="16dp"
+                android:paddingLeft="32dp"
                 android:text="Cancel"
                 android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tc_accept"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/button_boarder_teal"
                 android:gravity="center_vertical"
                 android:onClick="@{handlers::onClickEvent}"
-                android:paddingLeft="16dp"
-                android:paddingRight="25dp"
+                android:padding="16dp"
+                android:paddingLeft="32dp"
                 android:text="Accept"
                 android:textColor="@color/white" />
         </RelativeLayout>

@@ -45,5 +45,7 @@ public class MyHomeApplication extends MultiDexApplication {
             //First Run Stuff Here...
             prefs.edit().putBoolean(getString(R.string.pref_key_first_run), false).apply();
         }
+
+        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/TradeGothicLTStd.ttf");
     }
 }

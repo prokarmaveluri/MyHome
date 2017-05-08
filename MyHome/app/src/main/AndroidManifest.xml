@@ -63,7 +63,12 @@
             android:label="Forgot Password"
             android:parentActivityName=".features.login.LoginActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".features.contact.ContactUsActivity"
+            android:launchMode="singleTop"
+            android:label="Contact Us"
+            android:parentActivityName=".features.login.LoginActivity"
+            android:screenOrientation="portrait" />
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="${HOCKEYAPP_APP_ID}" />

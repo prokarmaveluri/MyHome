@@ -53,7 +53,6 @@ public class LoginPresenter implements LoginInteractor.Presenter {
         login(request);
     }
 
-
     @Override
     public void openSignUpPage() {
         mView.showView(false);
@@ -61,6 +60,12 @@ public class LoginPresenter implements LoginInteractor.Presenter {
             Intent intent = EnrollmentActivity.getEnrollmentIntent(mContext);
             mContext.startActivity(intent);
         }
+    }
+
+    @Override
+    public void createSession(String sessionToken) {
+        mView.showView(false);
+        getSessionId(sessionToken);
     }
 
     private void login(final LoginRequest request) {
@@ -74,7 +79,6 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                     AuthManager.setSessionToken(response.body().getSessionToken());
                     Timber.i("Session token : " + response.body().getSessionToken());
                     mView.fetchIdToken(response.body().getSessionToken());
-                    createSession(response.body().getSessionToken());
                 } else {
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                     mView.showProgress(false);
@@ -91,7 +95,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
         });
     }
 
-    private void createSession(String seesionToken) {
+    public void getSessionId(String seesionToken) {
         CreateSessionRequest request = new CreateSessionRequest(seesionToken);
         NetworkManager.getInstance().createSession(request).enqueue(new Callback<CreateSessionResponse>() {
             @Override

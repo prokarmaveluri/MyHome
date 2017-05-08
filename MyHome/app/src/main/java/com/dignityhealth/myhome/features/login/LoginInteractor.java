@@ -27,6 +27,8 @@ public interface LoginInteractor {
 
         void signIn(LoginRequest request);
 
+        void createSession(String sessionToken);
+
     }
 
 }
