@@ -61,7 +61,7 @@
         android:layout_below="@id/phone_label"
         android:layout_margin="6dp"
         android:autoLink="phone"
-        android:text="1-877-345-6788"
+        android:text="844-274-8497"
         android:textColorLink="@color/light_blue"
         android:textSize="20sp" />
 
