@@ -171,7 +171,7 @@ public class ProfileViewFragment extends BaseFragment {
         }
 
         if (profile.phoneNumber != null) {
-            phone.setText(profile.phoneNumber);
+            phone.setText(CommonUtil.constructPhoneNumber(profile.phoneNumber));
         } else {
             phone.setText(placeholderText);
         }

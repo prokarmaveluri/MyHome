@@ -1,118 +1,125 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/sign_out"
+        style="@style/enableButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/profile_label_marginTop"
+        android:padding="@dimen/profile_label_marginTop"
+        android:text="Sign Out" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/profile_firstname_indent"
-        android:layout_marginLeft="@dimen/profile_firstname_indent"
-        android:layout_marginRight="@dimen/profile_firstname_indent"
-        android:layout_marginStart="@dimen/profile_firstname_indent"
-        android:orientation="vertical">
+        android:layout_above="@id/sign_out">
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Kevin Welsh"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/dob"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="1/12/1987"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:text="540 Trinity Lane North\nSt.Petersburg, FL 33716"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="867-5309"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/profile_label_marginTop"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="kwelsh@prokarma.com"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/provider_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Insurance Provider" />
-
-        <TextView
-            android:id="@+id/provider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dignity Health"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/id_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Member ID" />
-
-        <TextView
-            android:id="@+id/id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="800-588-2300"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/group_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="Group" />
-
-        <TextView
-            android:id="@+id/group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="230-2333"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/sign_out"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:padding="@dimen/profile_label_marginTop"
-            android:text="Sign Out" />
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/profile_firstname_indent"
+            android:layout_marginLeft="@dimen/profile_firstname_indent"
+            android:layout_marginRight="@dimen/profile_firstname_indent"
+            android:layout_marginStart="@dimen/profile_firstname_indent"
+            android:orientation="vertical">
 
-    </LinearLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Kevin Welsh"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/dob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="1/12/1987"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="540 Trinity Lane North\nSt.Petersburg, FL 33716"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="867-5309"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/profile_label_marginTop"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="kwelsh@prokarma.com"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/provider_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="Insurance Provider" />
+
+            <TextView
+                android:id="@+id/provider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dignity Health"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/id_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="Member ID" />
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="800-588-2300"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/group_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="Group" />
+
+            <TextView
+                android:id="@+id/group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="230-2333"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

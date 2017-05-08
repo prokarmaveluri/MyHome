@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,9 +49,7 @@ public class ProfileEditFragment extends BaseFragment {
     TextInputEditText city;
     Spinner state;
     TextInputEditText zip;
-    EditText phone1;
-    EditText phone2;
-    EditText phone3;
+    TextInputEditText phone;
     TextView email;
 
     TextInputEditText insuranceProvider;
@@ -95,9 +93,7 @@ public class ProfileEditFragment extends BaseFragment {
         city = (TextInputEditText) profileView.findViewById(R.id.city);
         state = (Spinner) profileView.findViewById(R.id.state);
         zip = (TextInputEditText) profileView.findViewById(R.id.zip);
-        phone1 = (EditText) profileView.findViewById(R.id.phone1);
-        phone2 = (EditText) profileView.findViewById(R.id.phone2);
-        phone3 = (EditText) profileView.findViewById(R.id.phone3);
+        phone = (TextInputEditText) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
 
         insuranceProvider = (TextInputEditText) profileView.findViewById(R.id.provider);
@@ -111,6 +107,8 @@ public class ProfileEditFragment extends BaseFragment {
                         myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         if (ProfileManager.getProfile() == null) {
             //Get profile since we don't have it
@@ -139,12 +137,8 @@ public class ProfileEditFragment extends BaseFragment {
                 break;
 
             case R.id.save_profile:
-                if (!CommonUtil.validPhoneNumber(phone1.getText().toString(), phone2.getText().toString(), phone3.getText().toString())) {
-                    Toast.makeText(getActivity(), "Phone Number not valid.", Toast.LENGTH_LONG).show();
-                } else {
-                    Profile currentProfile = ProfileManager.getProfile();
-                    sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
-                }
+                Profile currentProfile = ProfileManager.getProfile();
+                sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
                 break;
         }
 
@@ -268,17 +262,7 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.phoneNumber != null) {
-            int length = profile.phoneNumber.length();
-
-            if (length == 10) {
-                phone3.setText(profile.phoneNumber.substring(length - 4, length));
-                phone2.setText(profile.phoneNumber.substring(length - 7, length - 4));
-                phone1.setText(profile.phoneNumber.substring(length - 10, length - 7));
-            } else if (length == 7) {
-                phone3.setText(profile.phoneNumber.substring(length - 4, length));
-                phone2.setText(profile.phoneNumber.substring(length - 7, length - 4));
-                phone1.setText("");
-            }
+            phone.setText(profile.phoneNumber);
         }
 
         if (profile.email != null) {
@@ -355,11 +339,10 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.zipCode = zip.getText().toString().trim();
         }
 
-        //TODO figure out hyphen for phone...
-//        if (CommonUtil.validPhoneNumber(phone1.getText().toString(), phone2.getText().toString(), phone3.getText().toString())
-//                && !phone1.getText().toString().equalsIgnoreCase(placeholderText)) {
-//            profile.phoneNumber = phone1.getText().toString().trim() + phone2.getText().toString().trim() + phone3.getText().toString().trim();
-//        }
+        //Make sure to strip phone number of any non-digits
+        if (phone.getText() != null && !phone.getText().toString().isEmpty()) {
+            profile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
+        }
 
         if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().isEmpty()) {
             profile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();

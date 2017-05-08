@@ -1,8 +1,8 @@
 package com.dignityhealth.myhome.app;
 
-import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.multidex.MultiDexApplication;
 
 import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
@@ -17,7 +17,7 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class MyHomeApplication extends Application {
+public class MyHomeApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
