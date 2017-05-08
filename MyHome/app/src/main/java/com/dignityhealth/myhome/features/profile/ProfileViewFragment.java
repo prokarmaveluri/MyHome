@@ -206,6 +206,10 @@ public class ProfileViewFragment extends BaseFragment {
         if (null == AuthManager.getIdTokenForSignOut()){
             Toast.makeText(getActivity(), "No valid session, please login again",
                     Toast.LENGTH_LONG).show();
+
+            Intent intent = LoginActivity.getLoginIntent(getActivity());
+            startActivity(intent);
+            getActivity().finish();
             return;
         }
 
@@ -221,6 +225,7 @@ public class ProfileViewFragment extends BaseFragment {
 
                     Intent intent = LoginActivity.getLoginIntent(getActivity());
                     startActivity(intent);
+                    getActivity().finish();
                     return;
                 }
                 Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
