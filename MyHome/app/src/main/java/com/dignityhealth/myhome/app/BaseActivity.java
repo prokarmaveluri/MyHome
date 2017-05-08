@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.dignityhealth.myhome.R;
+
 /**
  * Created by kwelsh on 4/25/17.
  * Master Activity to extend
@@ -24,13 +26,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //navigationActivity.setActivityTag(setDrawerTag());
     }
 
     @Override
     public void finish() {
         super.finish();
-        //overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     @Override
