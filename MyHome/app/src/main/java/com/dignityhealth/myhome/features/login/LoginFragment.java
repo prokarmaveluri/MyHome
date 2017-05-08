@@ -53,6 +53,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     private String sessionToken;
 
     private static final int ACTION_FINISH = 100;
+    private static final int TOKEN_ERROR = 200;
     private static boolean showPassword = false;
 
     public LoginFragment() {
@@ -195,10 +196,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     private void loadWebView(String sessionToken) {
         this.sessionToken = sessionToken;
-        binder.webViewRedirect.setWebViewClient(new RedirectClient());
-        binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
-        binder.webViewRedirect.loadUrl(Constants.auth2Url + sessionToken);
-//        thread.start();
+//        binder.webViewRedirect.setWebViewClient(new RedirectClient());
+//        binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
+//        binder.webViewRedirect.loadUrl(Constants.auth2Url + sessionToken);
+        thread.start();
     }
 
     private class RedirectClient extends WebViewClient {
@@ -232,6 +233,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 mHandler.sendEmptyMessageDelayed(ACTION_FINISH, 100);
             }
             showProgress(false);
+            showView(true);
             presenter.createSession(sessionToken);
             return false;
         }
@@ -260,6 +262,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
                     ActivityCompat.startActivity(getActivity(), intentHome, options.toBundle());
                     getActivity().finish();
+                    break;
+                case TOKEN_ERROR:
+                    showProgress(false);
+                    Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
+                            Toast.LENGTH_LONG).show();
                     break;
             }
         }
@@ -376,9 +383,13 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 urlConnection.getRequestMethod();
                 URL redirectUrl = urlConnection.getURL();
                 String token = parseIDToken(redirectUrl.toString());
-                Timber.i("URL Connection, url "+redirectUrl);
-                Timber.i("URL Connection, token "+token);
-                mHandler.sendEmptyMessage(ACTION_FINISH);
+                Timber.i("Session, redirectUrl " + redirectUrl);
+                Timber.i("Session, id token " + token);
+                if (null != token) {
+                    mHandler.sendEmptyMessage(ACTION_FINISH);
+                } else {
+                    mHandler.sendEmptyMessage(TOKEN_ERROR);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
