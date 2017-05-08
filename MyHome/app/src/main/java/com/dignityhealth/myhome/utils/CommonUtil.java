@@ -2,9 +2,8 @@ package com.dignityhealth.myhome.utils;
 
 import android.os.Build;
 import android.telephony.PhoneNumberUtils;
+import android.util.Patterns;
 import android.widget.TextView;
-
-import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class CommonUtil {
 
     public static boolean isValidEmail(String email) {
 
-        return EmailValidator.getInstance().isValid(email);
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     public static boolean isValidTextInput(TextView view) {
