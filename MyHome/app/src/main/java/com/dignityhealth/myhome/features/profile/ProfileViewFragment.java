@@ -207,6 +207,8 @@ public class ProfileViewFragment extends BaseFragment {
             Toast.makeText(getActivity(), "No valid session, please login again",
                     Toast.LENGTH_LONG).show();
 
+            AuthManager.setBearerToken(null);
+            AuthManager.setSessionToken(null);
             Intent intent = LoginActivity.getLoginIntent(getActivity());
             startActivity(intent);
             getActivity().finish();
@@ -222,6 +224,9 @@ public class ProfileViewFragment extends BaseFragment {
                     getActivity().finishAffinity();
                     Toast.makeText(getActivity(), "signed out successfully",
                             Toast.LENGTH_LONG).show();
+
+                    AuthManager.setBearerToken(null);
+                    AuthManager.setSessionToken(null);
 
                     Intent intent = LoginActivity.getLoginIntent(getActivity());
                     startActivity(intent);
