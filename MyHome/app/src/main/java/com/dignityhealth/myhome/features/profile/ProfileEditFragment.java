@@ -1,9 +1,11 @@
 package com.dignityhealth.myhome.features.profile;
 
 import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +21,11 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
-import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,9 +50,7 @@ public class ProfileEditFragment extends BaseFragment {
     TextInputEditText city;
     Spinner state;
     TextInputEditText zip;
-    EditText phone1;
-    EditText phone2;
-    EditText phone3;
+    TextInputEditText phone;
     TextView email;
 
     TextInputEditText insuranceProvider;
@@ -95,9 +94,7 @@ public class ProfileEditFragment extends BaseFragment {
         city = (TextInputEditText) profileView.findViewById(R.id.city);
         state = (Spinner) profileView.findViewById(R.id.state);
         zip = (TextInputEditText) profileView.findViewById(R.id.zip);
-        phone1 = (EditText) profileView.findViewById(R.id.phone1);
-        phone2 = (EditText) profileView.findViewById(R.id.phone2);
-        phone3 = (EditText) profileView.findViewById(R.id.phone3);
+        phone = (TextInputEditText) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
 
         insuranceProvider = (TextInputEditText) profileView.findViewById(R.id.provider);
@@ -139,12 +136,8 @@ public class ProfileEditFragment extends BaseFragment {
                 break;
 
             case R.id.save_profile:
-                if (!CommonUtil.validPhoneNumber(phone1.getText().toString(), phone2.getText().toString(), phone3.getText().toString())) {
-                    Toast.makeText(getActivity(), "Phone Number not valid.", Toast.LENGTH_LONG).show();
-                } else {
-                    Profile currentProfile = ProfileManager.getProfile();
-                    sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
-                }
+                Profile currentProfile = ProfileManager.getProfile();
+                sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
                 break;
         }
 
@@ -268,16 +261,11 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.phoneNumber != null) {
-            int length = profile.phoneNumber.length();
-
-            if (length == 10) {
-                phone3.setText(profile.phoneNumber.substring(length - 4, length));
-                phone2.setText(profile.phoneNumber.substring(length - 7, length - 4));
-                phone1.setText(profile.phoneNumber.substring(length - 10, length - 7));
-            } else if (length == 7) {
-                phone3.setText(profile.phoneNumber.substring(length - 4, length));
-                phone2.setText(profile.phoneNumber.substring(length - 7, length - 4));
-                phone1.setText("");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                phone.setText(PhoneNumberUtils.formatNumber(profile.phoneNumber, Locale.getDefault().getCountry()));
+            } else {
+                //Deprecated method
+                phone.setText(PhoneNumberUtils.formatNumber(profile.phoneNumber));
             }
         }
 

@@ -2,7 +2,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <Button
+        android:id="@+id/sign_out"
+        style="@style/enableButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/profile_label_marginTop"
+        android:padding="@dimen/profile_label_marginTop"
+        android:text="Sign Out" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/sign_out">
@@ -112,14 +122,4 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/sign_out"
-        style="@style/enableButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/profile_label_marginTop"
-        android:padding="@dimen/profile_label_marginTop"
-        android:text="Sign Out" />
 </RelativeLayout>
