@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -47,6 +48,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         binding.email.addTextChangedListener(new ForgotPasswordTextWatcher());
 
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
+        } else {
+            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
+        }
         setSupportActionBar(appToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
