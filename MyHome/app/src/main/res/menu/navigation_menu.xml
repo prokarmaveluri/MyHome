@@ -4,25 +4,25 @@
 
     <item
         android:id="@+id/home"
-        android:icon="@android:drawable/ic_menu_view"
+        android:icon="@mipmap/home_blue"
         android:title="Home"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/fad"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@mipmap/fad_blue"
         android:title="Find A Doctor"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/appointments"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:icon="@mipmap/appointments_blue"
         android:title="Appointments"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/profile"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@mipmap/profile_blue"
         android:title="Profile"
         app:showAsAction="ifRoom" />
 </menu>
