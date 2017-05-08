@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentLoginBinding;
+import com.dignityhealth.myhome.features.contact.ContactUsActivity;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordActivity;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -167,6 +168,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     }
                     break;
                 case R.id.login_help:
+                    startContactUsActivity();
                     break;
             }
         }
@@ -265,6 +267,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     private void startForgotPasswordActivity() {
         Intent intent = ForgotPasswordActivity.getForgotPasswordIntent(getActivity());
+        startActivity(intent);
+    }
+
+    private void startContactUsActivity() {
+        Intent intent = ContactUsActivity.getContactUsIntent(getActivity());
         startActivity(intent);
     }
 
