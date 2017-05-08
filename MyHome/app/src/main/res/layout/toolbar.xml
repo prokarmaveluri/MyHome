@@ -8,4 +8,4 @@
     android:fitsSystemWindows="true"
     android:minHeight="?attr/actionBarSize"
     android:titleTextColor="@color/toolbar_text"
-    app:theme="@style/ToolBarTheme.ToolBarStyle" />
+    app:theme="@style/ToolBarTheme.ToolBarStyle.Dark" />
