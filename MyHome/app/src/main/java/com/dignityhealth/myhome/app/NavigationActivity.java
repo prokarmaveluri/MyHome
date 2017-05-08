@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.dignityhealth.myhome.R;
@@ -14,7 +16,6 @@ import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
 import com.dignityhealth.myhome.features.fad.FadFragment;
 import com.dignityhealth.myhome.features.home.HomeFragment;
-import com.dignityhealth.myhome.features.more.MoreFragment;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
@@ -62,11 +63,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             case R.id.profile:
                                 loadFragment(ActivityTag.PROFILE_VIEW);
                                 break;
-
-                            case R.id.more:
-                                loadFragment(ActivityTag.MORE);
-                                break;
-
                         }
                         return true;
                     }
@@ -118,9 +114,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
             case APPOINTMENTS:
                 bottomNavigationView.setSelectedItemId(R.id.appointments);
-                break;
-            case MORE:
-                bottomNavigationView.setSelectedItemId(R.id.more);
                 break;
         }
     }
@@ -226,20 +219,33 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     setActivityTag(ActivityTag.CONTACT_US);
                 }
                 break;
+        }
+    }
 
-            case MORE:
-                if (getActivityTag() != ActivityTag.MORE) {
-                    MoreFragment moreFragment = MoreFragment.newInstance();
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame, moreFragment, MoreFragment.MORE_TAG)
-                            .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
 
-                    setActivityTag(ActivityTag.MORE);
-                }
-                break;
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.help:
+                return true;
+            case R.id.settings:
+                loadFragment(ActivityTag.SETTINGS);
+                return true;
+            case R.id.preferences:
+                return true;
+            case R.id.contact_us:
+                loadFragment(ActivityTag.CONTACT_US);
+                return true;
+            case R.id.terms_of_service:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

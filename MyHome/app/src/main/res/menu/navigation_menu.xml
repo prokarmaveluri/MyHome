@@ -25,10 +25,4 @@
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="Profile"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/more"
-        android:icon="@android:drawable/ic_menu_help"
-        android:title="More"
-        app:showAsAction="ifRoom" />
 </menu>
