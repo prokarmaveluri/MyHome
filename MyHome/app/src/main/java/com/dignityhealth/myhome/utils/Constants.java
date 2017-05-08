@@ -17,7 +17,7 @@ public class Constants {
         PROFILE_EDIT,
         CONTACT_US,
         SETTINGS,
-        MORE,
+        HELP,
     }
 
     public enum INPUT_TYPE {

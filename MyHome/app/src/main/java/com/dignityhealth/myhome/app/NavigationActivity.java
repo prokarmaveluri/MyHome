@@ -1,10 +1,13 @@
 package com.dignityhealth.myhome.app;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -81,7 +84,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     /**
      * Gets the activity tag. The tag is used to determine what page the user is on
      */
-    public ActivityTag getActivityTag() {
+    public static ActivityTag getActivityTag() {
         return activityTag;
     }
 
@@ -231,16 +234,22 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left);
+
         switch (item.getItemId()) {
             case R.id.help:
                 return true;
             case R.id.settings:
-                loadFragment(ActivityTag.SETTINGS);
+                setActivityTag(ActivityTag.SETTINGS);
+                Intent intentSettings = new Intent(this, OptionsActivity.class);
+                ActivityCompat.startActivity(this, intentSettings, options.toBundle());
                 return true;
             case R.id.preferences:
                 return true;
             case R.id.contact_us:
-                loadFragment(ActivityTag.CONTACT_US);
+                setActivityTag(ActivityTag.CONTACT_US);
+                Intent intentContactUs = new Intent(this, OptionsActivity.class);
+                ActivityCompat.startActivity(this, intentContactUs, options.toBundle());
                 return true;
             case R.id.terms_of_service:
                 return true;
