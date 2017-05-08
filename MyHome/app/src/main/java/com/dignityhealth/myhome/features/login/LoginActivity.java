@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.ActivityLoginBinding;
+import com.dignityhealth.myhome.features.login.dialog.EnrollmentSuccessDialog;
 
 
 /*
@@ -38,6 +39,12 @@ public class LoginActivity extends AppCompatActivity {
         LoginFragment fragment = LoginFragment.newInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(binding.loginFrame.getId(), fragment).commit();
+
+        boolean enrollmentSuccess = getIntent().getBooleanExtra("ENROLL_SUCCESS", false);
+        if (enrollmentSuccess) {
+            EnrollmentSuccessDialog dialog = EnrollmentSuccessDialog.newInstance();
+            dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
+        }
 
         new LoginPresenter(fragment, this);
     }

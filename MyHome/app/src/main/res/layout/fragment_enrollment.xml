@@ -34,6 +34,7 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/firstName"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/lastName"
@@ -49,6 +50,7 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/lastName"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/email"
@@ -64,6 +66,7 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/email"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/password_layout"
@@ -88,6 +91,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/password"
+                    style="@style/tradeGothicLTStd_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/password_criteria"
@@ -115,6 +119,7 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/re_enter_password"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/enroll_button"

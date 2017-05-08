@@ -3,16 +3,16 @@
     <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="16dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:context="com.dignityhealth.myhome.features.login.LoginActivity">
 
         <TextView
             android:id="@+id/password_criteria_title"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStd_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:gravity="center_horizontal"
             android:text="Password Criteria" />
 
@@ -24,12 +24,5 @@
             android:layout_margin="16dp"
             android:layout_marginTop="32dp"
             android:lineSpacingExtra="4dp" />
-
-        <Button
-            android:id="@+id/password_criteria_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Ok" />
     </RelativeLayout>
 </layout>

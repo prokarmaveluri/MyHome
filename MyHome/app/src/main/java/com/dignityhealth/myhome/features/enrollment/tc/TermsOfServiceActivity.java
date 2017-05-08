@@ -120,6 +120,7 @@ public class TermsOfServiceActivity extends AppCompatActivity {
 
     private void startLoginPage() {
         Intent intent = LoginActivity.getLoginIntent(this);
+        intent.putExtra("ENROLL_SUCCESS", true);
         startActivity(intent);
         finishAffinity();
     }

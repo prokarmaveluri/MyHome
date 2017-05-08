@@ -26,14 +26,16 @@
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/answer"
+            style="@style/tradeGothicLTStd_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
             android:layout_below="@+id/select_question"
             android:layout_marginLeft="42dp"
             android:layout_marginRight="42dp"
-            android:imeOptions="actionDone"
+            android:layout_marginTop="70dp"
             android:hint="@string/prompt_answer"
+            android:imeOptions="actionDone"
+            android:lines="1"
             android:maxLines="1" />
 
         <Button
