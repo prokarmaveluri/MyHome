@@ -1,11 +1,10 @@
 package com.dignityhealth.myhome.features.profile;
 
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.telephony.PhoneNumberUtils;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,11 +20,11 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -108,6 +107,8 @@ public class ProfileEditFragment extends BaseFragment {
                         myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         if (ProfileManager.getProfile() == null) {
             //Get profile since we don't have it
@@ -261,12 +262,7 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.phoneNumber != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                phone.setText(PhoneNumberUtils.formatNumber(profile.phoneNumber, Locale.getDefault().getCountry()));
-            } else {
-                //Deprecated method
-                phone.setText(PhoneNumberUtils.formatNumber(profile.phoneNumber));
-            }
+            phone.setText(profile.phoneNumber);
         }
 
         if (profile.email != null) {
@@ -343,11 +339,10 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.zipCode = zip.getText().toString().trim();
         }
 
-        //TODO figure out hyphen for phone...
-//        if (CommonUtil.validPhoneNumber(phone1.getText().toString(), phone2.getText().toString(), phone3.getText().toString())
-//                && !phone1.getText().toString().equalsIgnoreCase(placeholderText)) {
-//            profile.phoneNumber = phone1.getText().toString().trim() + phone2.getText().toString().trim() + phone3.getText().toString().trim();
-//        }
+        //Make sure to strip phone number of any non-digits
+        if (phone.getText() != null && !phone.getText().toString().isEmpty()) {
+            profile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
+        }
 
         if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().isEmpty()) {
             profile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();

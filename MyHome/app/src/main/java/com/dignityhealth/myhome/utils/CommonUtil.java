@@ -1,11 +1,14 @@
 package com.dignityhealth.myhome.utils;
 
+import android.os.Build;
+import android.telephony.PhoneNumberUtils;
 import android.widget.TextView;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -131,7 +134,7 @@ public class CommonUtil {
             fullAddress = fullAddress + "\n" + address2;
         }
 
-        if(address != null && !address.isEmpty() && address2 != null && !address2.isEmpty()){
+        if (address != null && !address.isEmpty() && address2 != null && !address2.isEmpty()) {
             fullAddress = fullAddress + "\n";
         }
 
@@ -152,5 +155,24 @@ public class CommonUtil {
         }
 
         return fullAddress;
+    }
+
+    public static String constructPhoneNumber(String number) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+        } else {
+            //Deprecated method
+            return PhoneNumberUtils.formatNumber(number);
+        }
+    }
+
+    /**
+     * Strip the phone number of any hyphens or parenthesis
+     *
+     * @param number the phone number being stripped
+     * @return a 10 digit representation of the phone number without dashes
+     */
+    public static String stripPhoneNumber(String number) {
+        return number.replaceAll("\\D", "").trim();
     }
 }
