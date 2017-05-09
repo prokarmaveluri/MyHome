@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="handlers"
             type="com.dignityhealth.myhome.features.enrollment.tc.TermsOfServiceActivity.TCViewClickEvent" />
@@ -24,57 +23,11 @@
             android:layout_below="@+id/toolbarWhite"
             android:background="@color/md_blue_grey_650" />
 
-        <TextView
-            android:id="@+id/terms_of_service"
-            android:layout_width="368dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbarWhite"
-            android:layout_marginTop="16dp"
-            android:text="Terms Of Service here..."
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="25dp" />
-
-        <ProgressBar
-            android:id="@+id/terms_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminate="true"
-            android:visibility="gone"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="25dp" />
-
-        <RelativeLayout
+        <include
+            android:id="@+id/frame"
+            layout="@layout/tos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/primary">
-
-            <TextView
-                android:id="@+id/tc_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/tc_accept"
-                android:background="@drawable/button_boarder_teal"
-                android:gravity="center"
-                android:onClick="@{handlers::onClickEvent}"
-                android:padding="16dp"
-                android:paddingLeft="32dp"
-                android:text="Cancel"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tc_accept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/button_boarder_teal"
-                android:gravity="center_vertical"
-                android:onClick="@{handlers::onClickEvent}"
-                android:padding="16dp"
-                android:paddingLeft="32dp"
-                android:text="Accept"
-                android:textColor="@color/white" />
-        </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbarWhite" />
     </RelativeLayout>
 </layout>
