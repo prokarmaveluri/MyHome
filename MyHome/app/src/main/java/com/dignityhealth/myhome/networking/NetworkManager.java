@@ -20,6 +20,7 @@ import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 4/26/17.
@@ -50,6 +51,8 @@ public class NetworkManager {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request().newBuilder()
                         .addHeader("Content-Type", "application/json").build();
+                Timber.i(" Request Url: " + request.url());
+                Timber.i(" Request body: " + request.body());
                 return chain.proceed(request);
             }
         });

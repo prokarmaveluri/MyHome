@@ -83,6 +83,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                 } else {
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                     mView.showProgress(false);
+                    Timber.i("Response not successful");
                 }
                 mView.showView(true);
             }
@@ -92,6 +93,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                 mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                 mView.showView(true);
                 mView.showProgress(false);
+                Timber.i("Login failure");
             }
         });
     }

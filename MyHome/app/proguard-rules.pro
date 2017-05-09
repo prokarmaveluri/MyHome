@@ -53,10 +53,24 @@
 
 # Application classes that will be serialized/deserialized over Gson
 -keep class com.google.gson.examples.android.model.** { *; }
--keep class com.dignityhealth.myhome.utils.Constants { public static *; }
 
 # Prevent proguard from stripping interface information from TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
 -keep class * implements com.google.gson.TypeAdapterFactory
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
+
+# OkHttp
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+# Our Proguard Rules for DignityHealth App
+-keep class com.dignityhealth.myhome.utils.Constants { public static *; }
+
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.**
+#-keep class com.dignityhealth.myhome.features.login.LoginRequest { *; }
+#-keep class com.dignityhealth.myhome.features.login.LoginResponse { *; }
