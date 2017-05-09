@@ -20,6 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/viewProfile"
             android:layout_marginEnd="@dimen/profile_firstname_indent"
             android:layout_marginLeft="@dimen/profile_firstname_indent"
             android:layout_marginRight="@dimen/profile_firstname_indent"

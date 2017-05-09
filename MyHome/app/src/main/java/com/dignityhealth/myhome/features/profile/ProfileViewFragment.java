@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class ProfileViewFragment extends BaseFragment {
     TextView group;
     private Button logout;
     ProgressBar progressBar;
+    LinearLayout viewProfile;
 
     private final String placeholderText = "Not Available";
 
@@ -79,11 +81,14 @@ public class ProfileViewFragment extends BaseFragment {
         group = (TextView) profileView.findViewById(R.id.group);
         logout = (Button) profileView.findViewById(R.id.sign_out);
         progressBar = (ProgressBar) profileView.findViewById(R.id.profile_view_progress);
+        viewProfile = (LinearLayout) profileView.findViewById(R.id.viewProfile);
 
         if (ProfileManager.getProfile() == null) {
+            viewProfile.setVisibility(View.INVISIBLE);
             Timber.i("Don't have a saved Profile. Retrieving profile now...");
             getProfileInfo("Bearer " + AuthManager.getBearerToken());
         } else {
+            viewProfile.setVisibility(View.VISIBLE);
             Timber.i("Already have a Profile Singleton. Updating the view...");
             updateProfileViews(ProfileManager.getProfile());
         }
@@ -136,6 +141,7 @@ public class ProfileViewFragment extends BaseFragment {
                     Timber.d("Successful Response\n" + response);
                     ProfileManager.setProfile(response.body());
                     updateProfileViews(response.body());
+                    viewProfile.setVisibility(View.VISIBLE);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
