@@ -17,6 +17,7 @@
     <color name="drawer_text_color">@color/grey</color>
 
     <color name="text_light">@color/white</color>
+    <color name="text_dark">#4D525A</color>
     <color name="text_darker">#484B4D</color>
     <color name="text_darkest">@color/black</color>
     <color name="text_shadow">#99000000</color>
