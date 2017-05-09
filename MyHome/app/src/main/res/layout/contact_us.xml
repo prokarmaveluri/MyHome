@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:layout_margin="12dp"
         android:gravity="center"
-        android:text="Thank you for visiting Dignity Health."
+        android:text="Thank you for visiting\n Dignity Health."
         android:textSize="24sp" />
 
     <TextView
