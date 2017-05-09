@@ -122,4 +122,13 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/profile_view_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        android:visibility="gone" />
 </RelativeLayout>
