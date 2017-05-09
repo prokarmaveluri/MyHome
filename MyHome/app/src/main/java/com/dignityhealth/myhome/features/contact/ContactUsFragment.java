@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
+import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.utils.Constants;
+
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 4/26/17.
@@ -50,16 +53,29 @@ public class ContactUsFragment extends BaseFragment {
      * Create a support email
      */
     private void composeEmail() {
-        Intent emailintent = new Intent(android.content.Intent.ACTION_SEND);
-        emailintent.setType("plain/text");
-        emailintent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"hello@dignityhealth.com"});
-        emailintent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Customer Support");
-        emailintent.putExtra(android.content.Intent.EXTRA_TEXT,
-                "Kevin Welsh\n" +
-                        "kwelsh@prokarma.com\n" +
-                        "Male, 30\n" +
-                        "Android Developer & overall awesome guy\n\n" +
-                        "How May We Help You?\n");
-        startActivity(Intent.createChooser(emailintent, "Send mail..."));
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"hello@dignityhealth.com"});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Ask A Question");
+
+        if (ProfileManager.getProfile() != null) {
+            Timber.i("Have Profile information. Crafting Support email...");
+            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                    "Hello, \n\n" +
+                            "I was using the MyHome App and I had some questions. Can someone please contact me?\n\n" +
+                            "Thank You,\n" +
+                            ProfileManager.getProfile().firstName + " " + ProfileManager.getProfile().lastName + "\n" +
+                            ProfileManager.getProfile().phoneNumber + "\n");
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+        } else {
+            Timber.i("Don't have any Profile information. Showing placeholder...");
+            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                    "Hello, \n\n" +
+                            "I was using the MyHome App and I had some questions. Can someone please contact me?\n\n" +
+                            "Thank You,\n" +
+                            "Kevin Welsh\n" +
+                            "867-5309\n");
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+        }
     }
 }
