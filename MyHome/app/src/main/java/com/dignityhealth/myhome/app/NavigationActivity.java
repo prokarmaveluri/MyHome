@@ -252,6 +252,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 ActivityCompat.startActivity(this, intentContactUs, options.toBundle());
                 return true;
             case R.id.terms_of_service:
+                setActivityTag(ActivityTag.TERMS_OF_SERVICE);
+                Intent intentTos = new Intent(this, OptionsActivity.class);
+                ActivityCompat.startActivity(this, intentTos, options.toBundle());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

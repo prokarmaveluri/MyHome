@@ -18,6 +18,8 @@ public class Constants {
         CONTACT_US,
         SETTINGS,
         HELP,
+        PREFERENCES,
+        TERMS_OF_SERVICE,
     }
 
     public enum INPUT_TYPE {
