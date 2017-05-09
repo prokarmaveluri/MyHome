@@ -98,8 +98,8 @@ public class LoginPresenter implements LoginInteractor.Presenter {
         });
     }
 
-    public void getSessionId(String seesionToken) {
-        CreateSessionRequest request = new CreateSessionRequest(seesionToken);
+    public void getSessionId(String sessionToken) {
+        CreateSessionRequest request = new CreateSessionRequest(sessionToken);
         NetworkManager.getInstance().createSession(request).enqueue(new Callback<CreateSessionResponse>() {
             @Override
             public void onResponse(Call<CreateSessionResponse> call, Response<CreateSessionResponse> response) {
