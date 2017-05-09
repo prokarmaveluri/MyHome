@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class ProfileViewFragment extends BaseFragment {
     TextView memberId;
     TextView group;
     private Button logout;
+    ProgressBar progressBar;
 
     private final String placeholderText = "Not Available";
 
@@ -76,6 +78,7 @@ public class ProfileViewFragment extends BaseFragment {
         memberId = (TextView) profileView.findViewById(R.id.id);
         group = (TextView) profileView.findViewById(R.id.group);
         logout = (Button) profileView.findViewById(R.id.sign_out);
+        progressBar = (ProgressBar) profileView.findViewById(R.id.profile_view_progress);
 
         if (ProfileManager.getProfile() == null) {
             Timber.i("Don't have a saved Profile. Retrieving profile now...");
@@ -125,6 +128,7 @@ public class ProfileViewFragment extends BaseFragment {
 
     private void getProfileInfo(String bearer) {
         Timber.i("Session bearer " + bearer);
+        progressBar.setVisibility(View.VISIBLE);
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -135,11 +139,13 @@ public class ProfileViewFragment extends BaseFragment {
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
                 Timber.e("Something failed! :/");
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
