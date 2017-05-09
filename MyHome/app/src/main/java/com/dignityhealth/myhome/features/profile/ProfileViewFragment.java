@@ -78,10 +78,10 @@ public class ProfileViewFragment extends BaseFragment {
         logout = (Button) profileView.findViewById(R.id.sign_out);
 
         if (ProfileManager.getProfile() == null) {
-            //Get profile since we don't have it
+            Timber.i("Don't have a saved Profile. Retrieving profile now...");
             getProfileInfo("Bearer " + AuthManager.getBearerToken());
         } else {
-            //We have a profile singleton; just update info.
+            Timber.i("Already have a Profile Singleton. Updating the view...");
             updateProfileViews(ProfileManager.getProfile());
         }
 
@@ -124,7 +124,7 @@ public class ProfileViewFragment extends BaseFragment {
     }
 
     private void getProfileInfo(String bearer) {
-        Timber.i("Session bearer "+bearer);
+        Timber.i("Session bearer " + bearer);
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -204,7 +204,8 @@ public class ProfileViewFragment extends BaseFragment {
 
     private void logout() {
 
-        if (null == AuthManager.getIdTokenForSignOut()){
+        if (null == AuthManager.getIdTokenForSignOut()) {
+            Timber.i("AuthManager didn't have an Id Token for Sign Out.\nSending User to log in again...");
             Toast.makeText(getActivity(), "No valid session, please login again",
                     Toast.LENGTH_LONG).show();
 
@@ -221,6 +222,7 @@ public class ProfileViewFragment extends BaseFragment {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
+                    Timber.i("Response successful: " + response);
 
                     getActivity().finishAffinity();
                     Toast.makeText(getActivity(), "signed out successfully",
@@ -234,12 +236,15 @@ public class ProfileViewFragment extends BaseFragment {
                     getActivity().finish();
                     return;
                 }
+
+                Timber.i("Response not successful: " + response);
                 Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
                         Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Timber.i("Logout failed");
                 Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
                         Toast.LENGTH_LONG).show();
             }

@@ -111,10 +111,10 @@ public class ProfileEditFragment extends BaseFragment {
         phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         if (ProfileManager.getProfile() == null) {
-            //Get profile since we don't have it
+            Timber.i("Don't have a saved Profile. Retrieving profile now...");
             getProfileInfo("Bearer " + AuthManager.getBearerToken());
         } else {
-            //We have a profile singleton; just update info.
+            Timber.i("Already have a Profile Singleton. Updating the view...");
             updateProfileViews(ProfileManager.getProfile());
         }
 
