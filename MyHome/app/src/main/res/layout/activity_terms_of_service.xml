@@ -1,33 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dignityhealth.myhome.features.enrollment.tc.TermsOfServiceActivity">
 
-    <data>
-        <variable
-            name="handlers"
-            type="com.dignityhealth.myhome.features.enrollment.tc.TermsOfServiceActivity.TCViewClickEvent" />
-    </data>
+    <include
+        android:id="@+id/toolbarWhite"
+        layout="@layout/toolbar_white" />
 
-    <RelativeLayout
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/toolbarWhite"
+        android:background="@color/md_blue_grey_650" />
+
+    <include
+        android:id="@+id/frame"
+        layout="@layout/tos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.dignityhealth.myhome.features.enrollment.tc.TermsOfServiceActivity">
-
-        <include
-            android:id="@+id/toolbarWhite"
-            layout="@layout/toolbar_white" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/toolbarWhite"
-            android:background="@color/md_blue_grey_650" />
-
-        <include
-            android:id="@+id/frame"
-            layout="@layout/tos"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbarWhite" />
-    </RelativeLayout>
-</layout>
+        android:layout_below="@+id/toolbarWhite" />
+</RelativeLayout>

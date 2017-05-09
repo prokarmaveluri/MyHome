@@ -90,7 +90,7 @@ public class SQFragment extends Fragment {
         public void onClickEvent(View view) {
             switch (view.getId()) {
                 case R.id.submit_question:
-                    if(binding.answer.getText().toString().isEmpty()){
+                    if (binding.answer.getText().toString().isEmpty()) {
                         binding.answer.setError("Enter valid answer");
                         break;
                     }
@@ -155,8 +155,7 @@ public class SQFragment extends Fragment {
     }
 
     private void startTermsOfServiceActivity() {
-
-        Intent intent = TermsOfServiceActivity.getTermsOfServiceActivityIntent(getActivity());
+        Intent intent = new Intent(getActivity(), TermsOfServiceActivity.class);
         intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
         startActivity(intent);
     }
