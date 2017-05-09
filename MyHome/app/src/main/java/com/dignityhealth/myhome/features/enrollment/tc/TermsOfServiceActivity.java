@@ -112,9 +112,9 @@ public class TermsOfServiceActivity extends AppCompatActivity {
 
     private void showProgress(boolean show) {
         if (show) {
-            binding.termsProgress.setVisibility(View.VISIBLE);
+            //binding.termsProgress.setVisibility(View.VISIBLE);
         } else {
-            binding.termsProgress.setVisibility(View.GONE);
+            //binding.termsProgress.setVisibility(View.GONE);
         }
     }
 

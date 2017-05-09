@@ -6,9 +6,10 @@
     <TextView
         android:id="@+id/terms_of_service"
         android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Terms Of Service here..." />
+        android:text="Terms of Service" />
 
     <ProgressBar
         android:id="@+id/terms_progress"
@@ -31,7 +32,6 @@
             android:layout_toLeftOf="@+id/tc_accept"
             android:background="@drawable/button_boarder_teal"
             android:gravity="center"
-            android:onClick="@{handlers::onClickEvent}"
             android:padding="16dp"
             android:paddingLeft="32dp"
             android:text="Cancel"
@@ -44,7 +44,6 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/button_boarder_teal"
             android:gravity="center_vertical"
-            android:onClick="@{handlers::onClickEvent}"
             android:padding="16dp"
             android:paddingLeft="32dp"
             android:text="Accept"
