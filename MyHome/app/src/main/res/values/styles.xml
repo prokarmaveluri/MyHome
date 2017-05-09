@@ -22,7 +22,7 @@
 
     <style name="tealButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_boarder_teal</item>
-        <item name="android:textColor">@color/teal</item>
+        <item name="android:textColor">@color/primary</item>
     </style>
 
     <style name="grayButtonStyle" parent="Widget.AppCompat.Button">

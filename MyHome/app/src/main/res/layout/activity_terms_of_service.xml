@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/teal">
+            android:background="@color/primary">
 
             <TextView
                 android:id="@+id/tc_cancel"

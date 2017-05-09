@@ -1,5 +1,4 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -93,7 +92,7 @@
                 android:paddingTop="8dp"
                 android:text="@string/forgot_password"
                 android:textAlignment="center"
-                android:textColor="@color/teal" />
+                android:textColor="@color/primary" />
 
             <TextView
                 android:id="@+id/login_help"
@@ -107,7 +106,7 @@
                 android:padding="16dp"
                 android:text="@string/login_help"
                 android:textAlignment="center"
-                android:textColor="@color/teal" />
+                android:textColor="@color/primary" />
 
             <TextView
                 android:id="@+id/enroll_now"
@@ -115,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/teal"
+                android:background="@color/primary"
                 android:onClick="@{handlers::onClickEvent}"
                 android:padding="16dp"
                 android:text="@string/enroll_now"
