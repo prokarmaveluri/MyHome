@@ -185,6 +185,7 @@ public class ProfileEditFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
                     Toast.makeText(getActivity(), "Information saved", Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                     Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
