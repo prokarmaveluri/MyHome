@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,7 @@ public class ProfileEditFragment extends BaseFragment {
     TextInputEditText insuranceProvider;
     TextInputEditText memberId;
     TextInputEditText group;
+    ProgressBar progress;
 
     Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -95,6 +97,7 @@ public class ProfileEditFragment extends BaseFragment {
         zip = (TextInputEditText) profileView.findViewById(R.id.zip);
         phone = (TextInputEditText) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
+        progress = (ProgressBar) profileView.findViewById(R.id.profile_edit_progress);
 
         insuranceProvider = (TextInputEditText) profileView.findViewById(R.id.provider);
         memberId = (TextInputEditText) profileView.findViewById(R.id.id);
@@ -146,6 +149,7 @@ public class ProfileEditFragment extends BaseFragment {
     }
 
     private void getProfileInfo(String bearer) {
+        progress.setVisibility(View.VISIBLE);
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -156,11 +160,13 @@ public class ProfileEditFragment extends BaseFragment {
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
+                progress.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
                 Timber.e("Something failed! :/");
+                progress.setVisibility(View.GONE);
             }
         });
     }
@@ -172,6 +178,7 @@ public class ProfileEditFragment extends BaseFragment {
      * @param updatedProfile the updated profile information being attempted
      */
     private void sendUpdatedProfile(String bearer, Profile updatedProfile) {
+        progress.setVisibility(View.VISIBLE);
         NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -182,12 +189,14 @@ public class ProfileEditFragment extends BaseFragment {
                     Timber.e("Response, but not successful?\n" + response);
                     Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
                 }
+                progress.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
+                progress.setVisibility(View.GONE);
             }
         });
     }
