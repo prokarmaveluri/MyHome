@@ -265,7 +265,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             }
             showProgress(false);
             showView(true);
-            presenter.createSession(sessionToken);
             return false;
         }
     }

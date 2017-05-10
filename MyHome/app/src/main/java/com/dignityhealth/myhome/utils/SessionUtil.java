@@ -2,6 +2,8 @@ package com.dignityhealth.myhome.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
@@ -26,13 +28,15 @@ public class SessionUtil {
      *
      * @param activity the activity context
      */
-    public static void logout(final Activity activity) {
+    public static void logout(final Activity activity, final ProgressBar progressBar) {
+        progressBar.setVisibility(View.VISIBLE);
         if (null == AuthManager.getIdTokenForSignOut()) {
             Timber.i("AuthManager didn't have an Id Token for Sign Out.\nSending User to log in again...");
             Toast.makeText(activity, "No valid session, please login again",
                     Toast.LENGTH_SHORT).show();
 
             clearData();
+            progressBar.setVisibility(View.GONE);
             Intent intent = LoginActivity.getLoginIntent(activity);
             activity.startActivity(intent);
             activity.finish();
@@ -43,6 +47,7 @@ public class SessionUtil {
                 AuthManager.getIdTokenForSignOut()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     Timber.i("Response successful: " + response);
 
@@ -67,6 +72,7 @@ public class SessionUtil {
                 Timber.i("Logout failed");
                 Toast.makeText(activity, activity.getString(R.string.something_went_wrong),
                         Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

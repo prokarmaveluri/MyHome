@@ -13,6 +13,7 @@ public class CreateSessionResponse {
     private String createdAt;
     private String expiresAt;
     private String status;
+    private String cookieToken;
 
     public String getId() {
         return id;
@@ -24,5 +25,9 @@ public class CreateSessionResponse {
 
     public String getExpiresAt() {
         return expiresAt;
+    }
+
+    public String getCookieToken() {
+        return cookieToken;
     }
 }

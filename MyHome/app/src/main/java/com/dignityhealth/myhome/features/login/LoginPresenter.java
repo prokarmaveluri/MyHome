@@ -65,7 +65,6 @@ public class LoginPresenter implements LoginInteractor.Presenter {
     @Override
     public void createSession(String sessionToken) {
         mView.showView(false);
-        getSessionId(sessionToken);
     }
 
     private void login(final LoginRequest request) {
@@ -73,18 +72,16 @@ public class LoginPresenter implements LoginInteractor.Presenter {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
-                    // notification for testing.
-                    // get id_token
+                    // get id_token & session id
                     AuthManager.setSessionToken(response.body().getSessionToken());
                     Timber.i("Session token : " + response.body().getSessionToken());
-                    mView.fetchIdToken(response.body().getSessionToken());
-//                    getSessionId(response.body().getSessionToken());
+                    getSessionId(response.body().getSessionToken());
                 } else {
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                     mView.showProgress(false);
                     Timber.i("Response not successful");
+                    mView.showView(true);
                 }
-                mView.showView(true);
             }
 
             @Override
@@ -105,7 +102,12 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                 if (response.isSuccessful()) {
                     Timber.i("Session Id: " + response.body().getId());
                     AuthManager.setIdTokenForSignOut(response.body().getId());
+                    mView.fetchIdToken(response.body().getCookieToken());
+                }else {
+                    mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                 }
+                mView.showView(true);
+                mView.showProgress(false);
             }
 
             @Override
@@ -113,6 +115,8 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                 Timber.i("Session Id: Failed" );
                 Timber.i(mContext.getString(R.string.something_went_wrong));
                 AuthManager.setIdTokenForSignOut(null);
+                mView.showView(true);
+                mView.showProgress(false);
             }
         });
     }
