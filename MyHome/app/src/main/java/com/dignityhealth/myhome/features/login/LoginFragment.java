@@ -59,6 +59,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     private static final int TOKEN_ERROR = 200;
     private static boolean showPassword = false;
 
+    public static String EMAIL_ID_KEY = "EMAIL_ID";
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -240,6 +242,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             super.onPageFinished(view, url);
             showProgress(false);
             String cookies = CookieManager.getInstance().getCookie(url);
+            Timber.i("Cookie "+cookies);
         }
 
         @Override
@@ -253,6 +256,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
             String cookies = CookieManager.getInstance().getCookie(url);
 
+            Timber.i("Cookie "+cookies);
             if (null != token) {
                 AuthManager.setBearerToken(token);
                 mHandler.sendEmptyMessageDelayed(ACTION_FINISH, 100);
@@ -302,6 +306,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     private void startForgotPasswordActivity() {
         Intent intent = ForgotPasswordActivity.getForgotPasswordIntent(getActivity());
+        String email = binder.email.getText().toString();
+        if (CommonUtil.isValidEmail(email))
+            intent.putExtra(EMAIL_ID_KEY, email);
         startActivity(intent);
     }
 
@@ -410,6 +417,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 urlConnection.getResponseCode();
                 urlConnection.getRequestMethod();
                 URL redirectUrl = urlConnection.getURL();
+
                 String token = parseIDToken(redirectUrl.toString());
                 Timber.i("Session, redirectUrl " + redirectUrl);
                 Timber.i("Session, id token " + token);
