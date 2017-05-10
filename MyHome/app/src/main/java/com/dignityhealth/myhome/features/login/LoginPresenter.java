@@ -41,7 +41,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
     @Override
     public void signIn(LoginRequest request) {
 
-        mView.showView(false);
+        mView.showView(true);
         mView.showProgress(true);
 
         if (!ConnectionUtil.isConnected(mContext)) {
@@ -74,7 +74,6 @@ public class LoginPresenter implements LoginInteractor.Presenter {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
                     // notification for testing.
-//                    mView.showEnrollmentStatus("Received Session token.");
                     // get id_token
                     AuthManager.setSessionToken(response.body().getSessionToken());
                     Timber.i("Session token : " + response.body().getSessionToken());
