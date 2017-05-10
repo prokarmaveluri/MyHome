@@ -10,14 +10,21 @@ import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
+import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 5/9/17.
  */
 
-public class TosFragment extends BaseFragment{
+public class TosFragment extends BaseFragment {
     public static final String TOS_TAG = "settings_tag";
     View tosView;
 
@@ -46,7 +53,28 @@ public class TosFragment extends BaseFragment{
             }
         });
 
+        getTosInfo("Bearer " + AuthManager.getBearerToken());
+
         return tosView;
+    }
+
+    private void getTosInfo(String bearer) {
+        Timber.i("Session bearer " + bearer);
+        NetworkManager.getInstance().getTos(bearer).enqueue(new Callback<Tos>() {
+            @Override
+            public void onResponse(Call<Tos> call, Response<Tos> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Tos> call, Throwable t) {
+                Timber.e("Something failed! :/");
+            }
+        });
     }
 
     private void acceptTerms() {

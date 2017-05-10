@@ -8,6 +8,7 @@ import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRes
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionRequest;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
+import com.dignityhealth.myhome.features.tos.Tos;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import retrofit2.Call;
@@ -45,4 +46,7 @@ public interface RESTService {
 
     @DELETE(RESTConstants.OKTA_BASE_URL + "api/v1/sessions/{id}")
     Call<Void> logout(@Header("Authorization") String auth, @Path("id") String id);
+
+    @GET(RESTConstants.CIAM_BASE_URL + "api/users/me")
+    Call<Tos> getTos(@Header("Authorization") String bearer);
 }

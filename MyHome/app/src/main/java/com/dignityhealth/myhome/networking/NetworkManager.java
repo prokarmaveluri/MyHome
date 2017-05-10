@@ -8,6 +8,7 @@ import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRes
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionRequest;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
+import com.dignityhealth.myhome.features.tos.Tos;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.io.IOException;
@@ -92,5 +93,9 @@ public class NetworkManager {
 
     public Call<Void> logout(String auth, String id) {
         return service.logout(auth, id);
+    }
+
+    public Call<Tos> getTos(String bearer){
+        return service.getTos(bearer);
     }
 }
