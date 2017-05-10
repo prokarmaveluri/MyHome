@@ -151,8 +151,14 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
             return null;
         }
 
-        if (!CommonUtil.isValidPassword(binding.password.getText().toString())) {
+        if (!CommonUtil.isValidPassword(binding.password.getText().toString(),
+                binding.firstName.getText().toString(), binding.lastName.getText().toString())) {
             Toast.makeText(getActivity(), getResources().getString(R.string.valid_password),
+                    Toast.LENGTH_LONG).show();
+            return null;
+        }
+        if (!binding.password.getText().toString().equals(binding.reEnterPassword.getText().toString())){
+            Toast.makeText(getActivity(), getResources().getString(R.string.valid_password_match),
                     Toast.LENGTH_LONG).show();
             return null;
         }
@@ -188,8 +194,10 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
         if (CommonUtil.isValidTextInput(binding.firstName) &&
                 CommonUtil.isValidTextInput(binding.lastName) &&
                 CommonUtil.isValidEmail(binding.email.getText().toString()) &&
-                CommonUtil.isValidPassword(binding.password.getText().toString()) &&
-                CommonUtil.isValidPassword(binding.reEnterPassword.getText().toString()) &&
+                CommonUtil.isValidPassword(binding.password.getText().toString(),
+                        binding.firstName.getText().toString(), binding.lastName.getText().toString()) &&
+                CommonUtil.isValidPassword(binding.reEnterPassword.getText().toString(),
+                        binding.firstName.getText().toString(), binding.lastName.getText().toString()) &&
                 binding.password.getText().toString().equals(binding.reEnterPassword.getText().toString())) {
             return true;
         }
