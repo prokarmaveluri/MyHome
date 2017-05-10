@@ -26,6 +26,18 @@ public class CommonUtil {
         return m.matches();
     }
 
+    public static boolean isValidPassword(String password, String firstName, String lastName) {
+
+        if (password.toLowerCase().contains(firstName.toLowerCase()) |
+                password.toLowerCase().contains(lastName.toLowerCase())){
+            return false;
+        }
+
+        Pattern p = Pattern.compile(Constants.REGEX_PASSWORD);
+        Matcher m = p.matcher(password);
+        return m.matches();
+    }
+
     public static boolean isValidEmail(String email) {
 
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();

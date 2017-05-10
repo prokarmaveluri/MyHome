@@ -24,6 +24,7 @@
     <string name="valid_last_name">Enter valid last name</string>
     <string name="valid_email">Enter valid email</string>
     <string name="valid_password">Enter valid password</string>
+    <string name="valid_password_match">Password not matching</string>
     <string name="password_not_matching">Password not matching!</string>
     <string name="registered_successfully">Registered Successfully.</string>
     <string name="something_went_wrong">Something went wrong, please try again!</string>
