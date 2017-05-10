@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.app;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,11 +40,16 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         setContentView(R.layout.navigation_activity);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         initializeBottomView();
+
+        Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
+        } else {
+            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
+        }
+        setSupportActionBar(appToolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {

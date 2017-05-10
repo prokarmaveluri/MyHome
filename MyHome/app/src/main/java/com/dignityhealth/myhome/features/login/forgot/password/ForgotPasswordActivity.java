@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.ActivityForgotPasswordBinding;
+import com.dignityhealth.myhome.features.login.LoginFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
@@ -44,6 +45,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password);
         binding.setHandlers(new ForgotPasswordClickEvent());
+
+        String email = getIntent().getStringExtra(LoginFragment.EMAIL_ID_KEY);
+        if (null != email && !email.isEmpty()){
+            binding.email.setText(email);
+        }
 
         binding.email.addTextChangedListener(new ForgotPasswordTextWatcher());
 

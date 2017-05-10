@@ -1,8 +1,8 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -284,14 +284,14 @@
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
+    </ScrollView>
 
-        <ProgressBar
-            android:id="@+id/profile_edit_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="8dp"
-            android:indeterminate="true"
-            android:visibility="gone" />
-    </RelativeLayout>
-</ScrollView>
+    <ProgressBar
+        android:id="@+id/profile_edit_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        android:visibility="gone" />
+</RelativeLayout>
