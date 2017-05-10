@@ -242,7 +242,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             super.onPageFinished(view, url);
             showProgress(false);
             String cookies = CookieManager.getInstance().getCookie(url);
-            Timber.i("Cookie "+cookies);
+            Timber.i("Cookie " + cookies);
         }
 
         @Override
@@ -256,7 +256,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
             String cookies = CookieManager.getInstance().getCookie(url);
 
-            Timber.i("Cookie "+cookies);
+            Timber.i("Cookie " + cookies);
             if (null != token) {
                 AuthManager.setBearerToken(token);
                 mHandler.sendEmptyMessageDelayed(ACTION_FINISH, 100);
@@ -288,17 +288,22 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             switch (msg.what) {
                 case ACTION_FINISH:
                     //received token and stored it in AuthManager. start nav activity
-                    Intent intentHome = new Intent(getActivity(), NavigationActivity.class);
-                    intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
-                    ActivityCompat.startActivity(getActivity(), intentHome, options.toBundle());
-                    getActivity().finish();
+                    if (isAdded()) {
+                        Intent intentHome = new Intent(getActivity(), NavigationActivity.class);
+                        intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
+                        ActivityCompat.startActivity(getActivity(), intentHome, options.toBundle());
+                        getActivity().finish();
+                    }
+
                     break;
                 case TOKEN_ERROR:
-                    showProgress(false);
-                    AuthManager.setBearerToken(null);
-                    Toast.makeText(getActivity(), getString(R.string.sign_in_failure_msg),
-                            Toast.LENGTH_LONG).show();
+                    if (isAdded()) {
+                        showProgress(false);
+                        AuthManager.setBearerToken(null);
+                        Toast.makeText(getActivity(), getString(R.string.sign_in_failure_msg),
+                                Toast.LENGTH_LONG).show();
+                    }
                     break;
             }
         }
