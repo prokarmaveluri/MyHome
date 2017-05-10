@@ -7,41 +7,42 @@
 
     <TextView
         android:id="@+id/header"
+        style="@style/tradeGothicLTStd_24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="12dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
-        android:text="Thank you for visiting\n Dignity Health."
-        android:textSize="24sp" />
+        android:text="Thank you for visiting\n Dignity Health." />
 
     <TextView
         android:id="@+id/subheader"
+        style="@style/tradeGothicLTStd_20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="12dp"
+        android:layout_margin="16dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:text="We're here when you need us."
-        android:textSize="18sp" />
+        android:text="We're here when you need us." />
 
     <TextView
         android:id="@+id/warning"
+        style="@style/tradeGothicLTStd_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="12dp"
+        android:layout_margin="16dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:text="If this is an emergency, please call 911 immediately."
-        android:textColor="@color/red"
-        android:textSize="14sp" />
+        android:text="If this is an emergency, please call 911."
+        android:textColor="@color/red" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="64dp"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -50,16 +51,17 @@
             android:id="@+id/email_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
+            android:padding="6dp"
             android:src="@mipmap/email" />
 
         <TextView
             android:id="@+id/email"
+            style="style/tradeGothicLTStd_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="12dp"
             android:text="hello@dignityhealth.org"
-            android:textSize="20sp"
             android:textColor="@color/text_darker"
             android:textStyle="bold" />
 
@@ -69,6 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -77,19 +80,20 @@
             android:id="@+id/phone_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
+            android:padding="6dp"
             android:src="@mipmap/phone" />
 
         <TextView
             android:id="@+id/phone"
+            style="style/tradeGothicLTStd_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="12dp"
             android:autoLink="phone"
-            android:textStyle="bold"
             android:text="1-844-274-8497"
             android:textColorLink="@color/text_darker"
-            android:textSize="20sp" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 </LinearLayout>

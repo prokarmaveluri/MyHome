@@ -13,14 +13,13 @@
     <string name="prompt_answer">Answer</string>
     <string name="prompt_re_enter_password">Re-enter Password</string>
     <string name="prompt_select_question">Select security Question</string>
-    <string name="action_Login">Login</string>
+    <string name="action_Login">Sign in</string>
     <string name="action_reset_password">Reset Password</string>
     <string name="action_next">Next</string>
     <string name="signup_suggestion">Not Registered? Sign up here</string>
-    <string name="enroll_now">Don\'t have an account? Enroll Now</string>
+    <string name="enroll_now">Don\'t have an account?</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="login_help">Help</string>
-    <string name="login_suggestion">Already Registered? Login.</string>
     <string name="valid_first_name">Enter valid first name</string>
     <string name="valid_last_name">Enter valid last name</string>
     <string name="valid_email">Enter valid email</string>
@@ -28,6 +27,7 @@
     <string name="password_not_matching">Password not matching!</string>
     <string name="registered_successfully">Registered Successfully.</string>
     <string name="something_went_wrong">Something went wrong, please try again!</string>
+    <string name="sign_in_failure_msg">Sign in failed</string>
     <string name="forgot_password_success_msg">Please check your mail and reset password!</string>
     <string name="enrollment">Enrollment</string>
     <string name="enrollment_success">You are successfully registered.</string>
@@ -35,6 +35,8 @@
 
     <string name="enrollment_success_dialog_tittle">Validation sent to email address entered.</string>
     <string name="enrollment_success_dialog_msg">Validation must be completed in 30days or you will be prompted to validate again.</string>
+    <string name="forgot_password_sub_header">An email will be sent to entered email address with reset instructions.</string>
+    <string name="forgot_password_header">Please enter your email address.</string>
 
 
 </resources>

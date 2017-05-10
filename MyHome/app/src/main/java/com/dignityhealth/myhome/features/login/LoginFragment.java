@@ -14,13 +14,16 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -83,6 +86,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
         binder.email.addTextChangedListener(new LoginTextWatcher());
         binder.password.addTextChangedListener(new LoginTextWatcher());
+
+        String text = getResources().getString(R.string.enroll_now);
+        SpannableString content = new SpannableString(text + " Enroll Now");
+        content.setSpan(new UnderlineSpan(), text.length() + 1, content.length(), 0);
+        binder.enrollNow.setText(content);
 
         drawableClickEvent();
         binder.setHandlers(new LoginViewClickEvent());
@@ -195,7 +203,24 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     }
 
     private void loadWebView(String sessionToken) {
+        showView(true);
         this.sessionToken = sessionToken;
+        binder.webViewRedirect.clearCache(true);
+        binder.webViewRedirect.clearHistory();
+        binder.webViewRedirect.clearSslPreferences();
+
+        CookieManager cookieManager = CookieManager.getInstance();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.removeAllCookies(new ValueCallback<Boolean>() {
+                @Override
+                public void onReceiveValue(Boolean value) {
+
+                }
+            });
+        } else {
+            cookieManager.removeAllCookie();
+        }
+
         binder.webViewRedirect.setWebViewClient(new RedirectClient());
         binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
         binder.webViewRedirect.loadUrl(Constants.auth2Url + sessionToken);
@@ -231,6 +256,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             if (null != token) {
                 AuthManager.setBearerToken(token);
                 mHandler.sendEmptyMessageDelayed(ACTION_FINISH, 100);
+            } else {
+                mHandler.sendEmptyMessageDelayed(TOKEN_ERROR, 100);
             }
             showProgress(false);
             showView(true);
@@ -266,7 +293,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 case TOKEN_ERROR:
                     showProgress(false);
                     AuthManager.setBearerToken(null);
-                    Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
+                    Toast.makeText(getActivity(), getString(R.string.sign_in_failure_msg),
                             Toast.LENGTH_LONG).show();
                     break;
             }
