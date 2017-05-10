@@ -35,7 +35,7 @@
         android:layout_margin="16dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:text="If this is an emergency, please call 911."
+        android:text="If this is a medical emergency, please call 911."
         android:textColor="@color/red" />
 
     <LinearLayout

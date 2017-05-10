@@ -23,6 +23,7 @@ import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
+import com.dignityhealth.myhome.utils.SessionUtil;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -67,6 +68,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                                 loadFragment(ActivityTag.PROFILE_VIEW);
                                 break;
                         }
+
                         return true;
                     }
                 });
@@ -255,6 +257,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 setActivityTag(ActivityTag.TERMS_OF_SERVICE);
                 Intent intentTos = new Intent(this, OptionsActivity.class);
                 ActivityCompat.startActivity(this, intentTos, options.toBundle());
+                return true;
+            case R.id.sign_out:
+                SessionUtil.logout(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

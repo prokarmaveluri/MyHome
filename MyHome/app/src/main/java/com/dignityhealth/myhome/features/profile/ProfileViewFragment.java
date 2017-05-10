@@ -1,6 +1,5 @@
 package com.dignityhealth.myhome.features.profile;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,17 +12,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
-import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
-import com.dignityhealth.myhome.utils.RESTConstants;
+import com.dignityhealth.myhome.utils.SessionUtil;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -96,7 +93,7 @@ public class ProfileViewFragment extends BaseFragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logout();
+                SessionUtil.logout(getActivity());
             }
         });
 
@@ -212,58 +209,5 @@ public class ProfileViewFragment extends BaseFragment {
         } else {
             group.setText(placeholderText);
         }
-    }
-
-    private void logout() {
-
-        if (null == AuthManager.getIdTokenForSignOut()) {
-            Timber.i("AuthManager didn't have an Id Token for Sign Out.\nSending User to log in again...");
-            Toast.makeText(getActivity(), "No valid session, please login again",
-                    Toast.LENGTH_LONG).show();
-
-            clearData();
-            Intent intent = LoginActivity.getLoginIntent(getActivity());
-            startActivity(intent);
-            getActivity().finish();
-            return;
-        }
-
-        NetworkManager.getInstance().logout(RESTConstants.LOGOUT_AUTH,
-                AuthManager.getIdTokenForSignOut()).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Timber.i("Response successful: " + response);
-
-                    getActivity().finishAffinity();
-                    Toast.makeText(getActivity(), "signed out successfully",
-                            Toast.LENGTH_LONG).show();
-
-                    clearData();
-                    Intent intent = LoginActivity.getLoginIntent(getActivity());
-                    startActivity(intent);
-                    getActivity().finish();
-                    return;
-                }
-
-                Timber.i("Response not successful: " + response);
-                Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
-                        Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Timber.i("Logout failed");
-                Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    private void clearData(){
-
-        AuthManager.setBearerToken(null);
-        AuthManager.setSessionToken(null);
-        ProfileManager.setProfile(null);
     }
 }

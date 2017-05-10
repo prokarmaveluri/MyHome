@@ -13,7 +13,7 @@
     <string name="prompt_answer">Answer</string>
     <string name="prompt_re_enter_password">Re-enter Password</string>
     <string name="prompt_select_question">Select security Question</string>
-    <string name="action_Login">Sign in</string>
+    <string name="action_Login">Sign In</string>
     <string name="action_reset_password">Reset Password</string>
     <string name="action_next">Next</string>
     <string name="signup_suggestion">Not Registered? Sign up here</string>
@@ -37,6 +37,7 @@
     <string name="enrollment_success_dialog_msg">Validation must be completed in 30days or you will be prompted to validate again.</string>
     <string name="forgot_password_sub_header">An email will be sent to entered email address with reset instructions.</string>
     <string name="forgot_password_header">Please enter your email address.</string>
+    <string name="sign_out">Sign Out</string>
 
 
 </resources>

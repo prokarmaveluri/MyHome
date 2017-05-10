@@ -10,7 +10,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/profile_label_marginTop"
         android:padding="@dimen/profile_label_marginTop"
-        android:text="Sign Out" />
+        android:text="@string/sign_out" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,9 +18,9 @@
         android:layout_above="@id/sign_out">
 
         <LinearLayout
+            android:id="@+id/viewProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/viewProfile"
             android:layout_marginEnd="@dimen/profile_firstname_indent"
             android:layout_marginLeft="@dimen/profile_firstname_indent"
             android:layout_marginRight="@dimen/profile_firstname_indent"

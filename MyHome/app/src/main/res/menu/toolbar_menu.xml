@@ -31,4 +31,10 @@
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="Terms of Service"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/sign_out"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Sign Out"
+        app:showAsAction="never" />
 </menu>
