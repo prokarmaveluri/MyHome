@@ -93,7 +93,7 @@ public class ProfileViewFragment extends BaseFragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SessionUtil.logout(getActivity());
+                SessionUtil.logout(getActivity(), progressBar);
             }
         });
 

@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
@@ -33,6 +34,7 @@ import com.dignityhealth.myhome.utils.SessionUtil;
 public class NavigationActivity extends AppCompatActivity implements NavigationInterface {
     private static ActivityTag activityTag = ActivityTag.NONE;
     private BottomNavigationView bottomNavigationView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         setContentView(R.layout.navigation_activity);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        progressBar = (ProgressBar) findViewById(R.id.dash_progress);
         initializeBottomView();
 
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -265,7 +268,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 ActivityCompat.startActivity(this, intentTos, options.toBundle());
                 return true;
             case R.id.sign_out:
-                SessionUtil.logout(this);
+                SessionUtil.logout(this, progressBar);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -41,7 +41,7 @@ public interface RESTService {
     @POST(RESTConstants.OKTA_BASE_URL + "api/v1/authn/recovery/password")
     Call<ForgotPasswordResponse> forgotPassword(@Body ForgotPasswordRequest request);
 
-    @POST(RESTConstants.OKTA_BASE_URL + "api/v1/sessions")
+    @POST(RESTConstants.OKTA_BASE_URL + "api/v1/sessions?additionalFields=cookieToken")
     Call<CreateSessionResponse> createSession(@Body CreateSessionRequest request);
 
     @DELETE(RESTConstants.OKTA_BASE_URL + "api/v1/sessions/{id}")
