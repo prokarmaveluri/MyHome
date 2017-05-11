@@ -6,13 +6,6 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
-    <style name="ToolBarTheme.ToolBarStyle.Dark" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColor">@color/primary</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:textColorPrimaryInverse">@color/toolbar_white_text</item>
-    </style>
-
     <style name="ToolBarTheme.ToolBarStyle.Light" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColorPrimary">@color/primary</item>
         <item name="android:textColor">@color/primary</item>
