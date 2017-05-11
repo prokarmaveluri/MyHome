@@ -39,6 +39,24 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/preferred_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="Kev"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="Male"
+                android:textSize="@dimen/profile_text_size"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/dob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

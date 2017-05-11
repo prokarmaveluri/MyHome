@@ -39,6 +39,8 @@ public class ProfileViewFragment extends BaseFragment {
 
     View profileView;
     TextView name;
+    TextView preferredName;
+    TextView gender;
     TextView dateOfBirth;
     TextView address;
     TextView phone;
@@ -68,6 +70,8 @@ public class ProfileViewFragment extends BaseFragment {
         profileView = inflater.inflate(R.layout.profile_view, container, false);
 
         name = (TextView) profileView.findViewById(R.id.name);
+        preferredName = (TextView) profileView.findViewById(R.id.preferred_name);
+        gender = (TextView) profileView.findViewById(R.id.gender);
         dateOfBirth = (TextView) profileView.findViewById(R.id.dob);
         address = (TextView) profileView.findViewById(R.id.address);
         phone = (TextView) profileView.findViewById(R.id.phone);
@@ -158,6 +162,18 @@ public class ProfileViewFragment extends BaseFragment {
             name.setText(CommonUtil.constructName(profile.firstName, profile.lastName));
         } else {
             name.setText(placeholderText);
+        }
+
+        if (profile.preferredName != null) {
+            preferredName.setText(profile.preferredName);
+        } else {
+            preferredName.setText(placeholderText);
+        }
+
+        if (profile.gender != null) {
+            gender.setText(CommonUtil.capitalize(profile.gender));
+        } else {
+            gender.setText(placeholderText);
         }
 
         if (profile.dateOfBirth != null) {
