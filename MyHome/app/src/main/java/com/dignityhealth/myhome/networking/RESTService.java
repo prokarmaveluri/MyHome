@@ -47,6 +47,6 @@ public interface RESTService {
     @DELETE(RESTConstants.OKTA_BASE_URL + "api/v1/sessions/{id}")
     Call<Void> logout(@Header("Authorization") String auth, @Path("id") String id);
 
-    @GET(RESTConstants.CIAM_BASE_URL + "api/users/me")
+    @GET(RESTConstants.CIAM_BASE_URL + "api/terms-and-conditions")
     Call<Tos> getTos(@Header("Authorization") String bearer);
 }

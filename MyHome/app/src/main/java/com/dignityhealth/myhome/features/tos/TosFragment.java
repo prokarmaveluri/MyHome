@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
-import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
@@ -53,7 +52,7 @@ public class TosFragment extends BaseFragment {
             }
         });
 
-        getTosInfo("Bearer " + AuthManager.getInstance().getBearerToken());
+        //getTosInfo("Bearer " + AuthManager.getInstance().getBearerToken());
 
         return tosView;
     }
