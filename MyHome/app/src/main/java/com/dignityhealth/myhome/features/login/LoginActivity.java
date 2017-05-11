@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.ActivityLoginBinding;
 import com.dignityhealth.myhome.features.login.dialog.EnrollmentSuccessDialog;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
+import com.dignityhealth.myhome.utils.AppPreferences;
 
 
 /*
@@ -21,6 +23,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private ActivityLoginBinding binding;
+
+    public static String FAILURE_COUNT = "FAILURE_COUNT";
+    public static String FAILURE_TIME_STAMP = "FAILURE_TIME_STAMP";
 
     /*
      * Get an intent for login activity.
@@ -47,6 +52,15 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         new LoginPresenter(fragment, this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        AppPreferences.getInstance().setPreference(FAILURE_COUNT,
+                AuthManager.getInstance().getCount());
+        AppPreferences.getInstance().setLongPreference(FAILURE_TIME_STAMP,
+                AuthManager.getInstance().getPrevTimestamp());
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.support.multidex.MultiDexApplication;
 import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -28,7 +29,7 @@ public class MyHomeApplication extends MultiDexApplication {
         }
 
         //Set up hockey's crash reporting and have it auto send reports
-        if(BuildConfig.REPORT_CRASHES){
+        if (BuildConfig.REPORT_CRASHES) {
             CrashManager.register(this, BuildConfig.HOCKEY_ID, new CrashManagerListener() {
                 @Override
                 public boolean shouldAutoUploadCrashes() {
@@ -39,6 +40,7 @@ public class MyHomeApplication extends MultiDexApplication {
 
         //init retrofit service
         NetworkManager.getInstance().initService();
+        AuthManager.getInstance().setContext(this);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean(getString(R.string.pref_key_first_run), true)) {
@@ -47,5 +49,6 @@ public class MyHomeApplication extends MultiDexApplication {
         }
 
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/TradeGothicLTStd.ttf");
+        AuthManager.getInstance().fetchLockoutInfo();
     }
 }

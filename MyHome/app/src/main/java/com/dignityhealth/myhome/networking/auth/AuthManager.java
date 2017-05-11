@@ -1,5 +1,10 @@
 package com.dignityhealth.myhome.networking.auth;
 
+import android.content.Context;
+
+import com.dignityhealth.myhome.features.login.LoginActivity;
+import com.dignityhealth.myhome.utils.AppPreferences;
+
 /**
  * Created by cmajji on 5/1/17.
  */
@@ -11,9 +16,10 @@ public class AuthManager {
     private static String idTokenForSignOut;
 
     private static int count = 0;
+    private static Context context;
+
     private static long prevTimestamp = 0;
     private static long MINITUES_5 = 5 * 60 * 1000;
-
 
     private static final AuthManager ourInstance = new AuthManager();
 
@@ -24,6 +30,14 @@ public class AuthManager {
     private AuthManager() {
     }
 
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        AuthManager.context = context;
+    }
+
     public int getCount() {
         return count;
     }
@@ -32,6 +46,13 @@ public class AuthManager {
         AuthManager.count = count;
     }
 
+    public long getPrevTimestamp() {
+        return prevTimestamp;
+    }
+
+    public void setPrevTimestamp(long prevTimestamp) {
+        AuthManager.prevTimestamp = prevTimestamp;
+    }
 
     public String getBearerToken() {
         return bearerToken;
@@ -64,6 +85,7 @@ public class AuthManager {
         } else {
             count++;
         }
+        storeLockoutInfo();
     }
 
     public boolean isTimeStampGreaterThan5Mins() {
@@ -75,5 +97,17 @@ public class AuthManager {
             return true;
         }
         return false;
+    }
+
+    public void storeLockoutInfo() {
+        AppPreferences.getInstance().setPreference(LoginActivity.FAILURE_COUNT,
+                AuthManager.getInstance().getCount());
+        AppPreferences.getInstance().setLongPreference(LoginActivity.FAILURE_TIME_STAMP,
+                AuthManager.getInstance().getPrevTimestamp());
+    }
+
+    public void fetchLockoutInfo() {
+        count = AppPreferences.getInstance().getIntPreference(LoginActivity.FAILURE_COUNT);
+        prevTimestamp = AppPreferences.getInstance().getLongPreference(LoginActivity.FAILURE_TIME_STAMP);
     }
 }

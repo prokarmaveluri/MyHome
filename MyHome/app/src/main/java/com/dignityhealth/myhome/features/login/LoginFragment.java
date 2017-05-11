@@ -163,18 +163,12 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     presenter.openSignUpPage();
                     break;
                 case R.id.log_in_button:
-                    if (AuthManager.getInstance().isMaxFailureAttemptsReached() &&
-                            !AuthManager.getInstance().isTimeStampGreaterThan5Mins()) {
-                        Toast.makeText(getActivity(), "You reached maximum failure attempts, " +
-                                        "try after 5 minutes",
-                                Toast.LENGTH_LONG).show();
-                        break;
-                    }
                     if (ConnectionUtil.isConnected(getActivity())) {
-                        showView(false);
                         LoginRequest request = getRequest();
-                        if (null != request)
+                        if (null != request) {
+                            showView(false);
                             presenter.signIn(request);
+                        }
                     } else {
                         Toast.makeText(getActivity(), R.string.no_network_msg,
                                 Toast.LENGTH_LONG).show();
@@ -202,6 +196,14 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
         if (!CommonUtil.isValidPassword(binder.password.getText().toString())) {
             Toast.makeText(getActivity(), getString(R.string.valid_password), Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        if (AuthManager.getInstance().isMaxFailureAttemptsReached() &&
+                !AuthManager.getInstance().isTimeStampGreaterThan5Mins()) {
+            Toast.makeText(getActivity(), "You reached maximum failure attempts, " +
+                            "try after 5 minutes",
+                    Toast.LENGTH_LONG).show();
             return null;
         }
         LoginRequest.Options options = new LoginRequest.Options(true, true);
@@ -448,3 +450,4 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     }
 
 }
+
