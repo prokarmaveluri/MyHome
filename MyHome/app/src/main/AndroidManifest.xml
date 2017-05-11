@@ -52,7 +52,7 @@
             android:parentActivityName=".features.enrollment.EnrollmentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".features.enrollment.tc.TermsOfServiceActivity"
+            android:name=".features.tos.TosActivity"
             android:label="Terms Of Service"
             android:launchMode="singleTop"
             android:parentActivityName=".features.enrollment.sq.SQActivity"

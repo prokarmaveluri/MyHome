@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentSecqBinding;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
-import com.dignityhealth.myhome.features.enrollment.tc.TermsOfServiceActivity;
+import com.dignityhealth.myhome.features.tos.TosActivity;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
@@ -155,7 +155,7 @@ public class SQFragment extends Fragment {
     }
 
     private void startTermsOfServiceActivity() {
-        Intent intent = new Intent(getActivity(), TermsOfServiceActivity.class);
+        Intent intent = new Intent(getActivity(), TosActivity.class);
         intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
         startActivity(intent);
     }

@@ -29,6 +29,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentLoginBinding;
@@ -81,6 +82,13 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
+
+        //Automatically populate developer builds with a test account
+        if(BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")){
+            binder.email.setText("cmajji@gmail.com");
+            binder.password.setText("Password123*");
+        }
+
         binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email,
                 Constants.INPUT_TYPE.EMAIL));
 //        binder.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.password,

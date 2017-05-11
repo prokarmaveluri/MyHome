@@ -1,4 +1,4 @@
-package com.dignityhealth.myhome.features.enrollment.tc;
+package com.dignityhealth.myhome.features.tos;
 
 import android.content.Intent;
 import android.os.Build;
@@ -22,11 +22,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /*
- * Activity to Terms Of Service.
+ * Activity for Terms Of Service. This is used for Enrollment.
  *
  * Created by cmajji on 4/26/17.
  */
-public class TermsOfServiceActivity extends BaseActivity {
+public class TosActivity extends BaseActivity {
     private EnrollmentRequest enrollmentRequest;
     private ProgressBar termsProgress;
 
