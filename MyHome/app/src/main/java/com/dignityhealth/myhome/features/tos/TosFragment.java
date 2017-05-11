@@ -53,7 +53,7 @@ public class TosFragment extends BaseFragment {
             }
         });
 
-        getTosInfo("Bearer " + AuthManager.getBearerToken());
+        getTosInfo("Bearer " + AuthManager.getInstance().getBearerToken());
 
         return tosView;
     }

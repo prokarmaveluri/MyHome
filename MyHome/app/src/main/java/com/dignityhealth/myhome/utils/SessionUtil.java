@@ -30,7 +30,7 @@ public class SessionUtil {
      */
     public static void logout(final Activity activity, final ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        if (null == AuthManager.getIdTokenForSignOut()) {
+        if (null == AuthManager.getInstance().getIdTokenForSignOut()) {
             Timber.i("AuthManager didn't have an Id Token for Sign Out.\nSending User to log in again...");
             Toast.makeText(activity, "No valid session, please login again",
                     Toast.LENGTH_SHORT).show();
@@ -44,7 +44,7 @@ public class SessionUtil {
         }
 
         NetworkManager.getInstance().logout(RESTConstants.LOGOUT_AUTH,
-                AuthManager.getIdTokenForSignOut()).enqueue(new Callback<Void>() {
+                AuthManager.getInstance().getIdTokenForSignOut()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 progressBar.setVisibility(View.GONE);
@@ -82,12 +82,12 @@ public class SessionUtil {
      */
     public static void clearData() {
         Timber.v("Clearing Memory: " +
-                "Bearer Token = " + AuthManager.getBearerToken() +
-                "\nSession Token = " + AuthManager.getSessionToken() +
+                "Bearer Token = " + AuthManager.getInstance().getBearerToken() +
+                "\nSession Token = " + AuthManager.getInstance().getSessionToken() +
                 "\nProfile = " + ProfileManager.getProfile());
 
-        AuthManager.setBearerToken(null);
-        AuthManager.setSessionToken(null);
+        AuthManager.getInstance().setBearerToken(null);
+        AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);
     }
 }

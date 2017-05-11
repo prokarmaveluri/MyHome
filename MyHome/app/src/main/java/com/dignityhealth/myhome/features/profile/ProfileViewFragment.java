@@ -83,7 +83,7 @@ public class ProfileViewFragment extends BaseFragment {
         if (ProfileManager.getProfile() == null) {
             viewProfile.setVisibility(View.INVISIBLE);
             Timber.i("Don't have a saved Profile. Retrieving profile now...");
-            getProfileInfo("Bearer " + AuthManager.getBearerToken());
+            getProfileInfo("Bearer " + AuthManager.getInstance().getBearerToken());
         } else {
             viewProfile.setVisibility(View.VISIBLE);
             Timber.i("Already have a Profile Singleton. Updating the view...");

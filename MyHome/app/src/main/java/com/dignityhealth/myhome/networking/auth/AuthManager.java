@@ -10,6 +10,11 @@ public class AuthManager {
     private static String sessionToken;
     private static String idTokenForSignOut;
 
+    private static int count = 0;
+    private static long prevTimestamp = 0;
+    private static long MINITUES_5 = 5 * 60 * 1000;
+
+
     private static final AuthManager ourInstance = new AuthManager();
 
     public static AuthManager getInstance() {
@@ -19,28 +24,56 @@ public class AuthManager {
     private AuthManager() {
     }
 
+    public int getCount() {
+        return count;
+    }
 
-    public static String getBearerToken() {
+    public void setCount(int count) {
+        AuthManager.count = count;
+    }
+
+
+    public String getBearerToken() {
         return bearerToken;
     }
 
-    public static void setBearerToken(String bearerToken) {
+    public void setBearerToken(String bearerToken) {
         AuthManager.bearerToken = bearerToken;
     }
 
-    public static String getSessionToken() {
+    public String getSessionToken() {
         return sessionToken;
     }
 
-    public static void setSessionToken(String sessionToken) {
+    public void setSessionToken(String sessionToken) {
         AuthManager.sessionToken = sessionToken;
     }
 
-    public static String getIdTokenForSignOut() {
+    public String getIdTokenForSignOut() {
         return idTokenForSignOut;
     }
 
-    public static void setIdTokenForSignOut(String idTokenForSignOut) {
+    public void setIdTokenForSignOut(String idTokenForSignOut) {
         AuthManager.idTokenForSignOut = idTokenForSignOut;
+    }
+
+    public void setFailureAttempt() {
+        if (System.currentTimeMillis() - prevTimestamp >= MINITUES_5) {
+            prevTimestamp = System.currentTimeMillis();
+            count = 1;
+        } else {
+            count++;
+        }
+    }
+
+    public boolean isTimeStampGreaterThan5Mins() {
+        return (System.currentTimeMillis() - prevTimestamp >= MINITUES_5);
+    }
+
+    public boolean isMaxFailureAttemptsReached() {
+        if (count >= 3) {
+            return true;
+        }
+        return false;
     }
 }

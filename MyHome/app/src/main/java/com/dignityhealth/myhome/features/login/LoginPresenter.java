@@ -73,7 +73,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
                     // get id_token & session id
-                    AuthManager.setSessionToken(response.body().getSessionToken());
+                    AuthManager.getInstance().setSessionToken(response.body().getSessionToken());
                     Timber.i("Session token : " + response.body().getSessionToken());
                     getSessionId(response.body().getSessionToken());
                 } else {
@@ -81,6 +81,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                     mView.showProgress(false);
                     Timber.i("Response not successful");
                     mView.showView(true);
+                    AuthManager.getInstance().setFailureAttempt();
                 }
             }
 
@@ -101,7 +102,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
             public void onResponse(Call<CreateSessionResponse> call, Response<CreateSessionResponse> response) {
                 if (response.isSuccessful()) {
                     Timber.i("Session Id: " + response.body().getId());
-                    AuthManager.setIdTokenForSignOut(response.body().getId());
+                    AuthManager.getInstance().setIdTokenForSignOut(response.body().getId());
                     mView.fetchIdToken(response.body().getCookieToken());
                 }else {
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
@@ -114,7 +115,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
             public void onFailure(Call<CreateSessionResponse> call, Throwable t) {
                 Timber.i("Session Id: Failed" );
                 Timber.i(mContext.getString(R.string.something_went_wrong));
-                AuthManager.setIdTokenForSignOut(null);
+                AuthManager.getInstance().setIdTokenForSignOut(null);
                 mView.showView(true);
                 mView.showProgress(false);
             }

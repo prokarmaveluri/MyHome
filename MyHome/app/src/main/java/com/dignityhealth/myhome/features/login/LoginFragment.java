@@ -163,6 +163,13 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     presenter.openSignUpPage();
                     break;
                 case R.id.log_in_button:
+                    if (AuthManager.getInstance().isMaxFailureAttemptsReached() &&
+                            !AuthManager.getInstance().isTimeStampGreaterThan5Mins()) {
+                        Toast.makeText(getActivity(), "You reached maximum failure attempts, " +
+                                        "try after 5 minutes",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    }
                     if (ConnectionUtil.isConnected(getActivity())) {
                         showView(false);
                         LoginRequest request = getRequest();
@@ -258,7 +265,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
             Timber.i("Cookie " + cookies);
             if (null != token) {
-                AuthManager.setBearerToken(token);
+                AuthManager.getInstance().setBearerToken(token);
                 mHandler.sendEmptyMessageDelayed(ACTION_FINISH, 100);
             } else {
                 mHandler.sendEmptyMessageDelayed(TOKEN_ERROR, 100);
@@ -299,7 +306,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 case TOKEN_ERROR:
                     if (isAdded()) {
                         showProgress(false);
-                        AuthManager.setBearerToken(null);
+                        AuthManager.getInstance().setBearerToken(null);
                         Toast.makeText(getActivity(), getString(R.string.sign_in_failure_msg),
                                 Toast.LENGTH_LONG).show();
                     }
@@ -426,7 +433,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 Timber.i("Session, redirectUrl " + redirectUrl);
                 Timber.i("Session, id token " + token);
                 if (null != token) {
-                    AuthManager.setBearerToken(token);
+                    AuthManager.getInstance().setBearerToken(token);
                     mHandler.sendEmptyMessage(ACTION_FINISH);
                 } else {
                     mHandler.sendEmptyMessage(TOKEN_ERROR);

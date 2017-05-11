@@ -115,7 +115,7 @@ public class ProfileEditFragment extends BaseFragment {
 
         if (ProfileManager.getProfile() == null) {
             Timber.i("Don't have a saved Profile. Retrieving profile now...");
-            getProfileInfo("Bearer " + AuthManager.getBearerToken());
+            getProfileInfo("Bearer " + AuthManager.getInstance().getBearerToken());
         } else {
             Timber.i("Already have a Profile Singleton. Updating the view...");
             updateProfileViews(ProfileManager.getProfile());
@@ -141,7 +141,7 @@ public class ProfileEditFragment extends BaseFragment {
 
             case R.id.save_profile:
                 Profile currentProfile = ProfileManager.getProfile();
-                sendUpdatedProfile("Bearer " + AuthManager.getBearerToken(), getProfileValues(currentProfile));
+                sendUpdatedProfile("Bearer " + AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
                 break;
         }
 
