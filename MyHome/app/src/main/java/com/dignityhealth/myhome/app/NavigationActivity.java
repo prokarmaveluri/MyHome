@@ -303,4 +303,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
     }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
 }

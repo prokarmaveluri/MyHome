@@ -1,6 +1,8 @@
 package com.dignityhealth.myhome.networking;
 
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
+import com.dignityhealth.myhome.features.fad.ProvidersResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
@@ -12,6 +14,7 @@ import com.dignityhealth.myhome.features.tos.Tos;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -95,7 +98,19 @@ public class NetworkManager {
         return service.logout(auth, id);
     }
 
-    public Call<Tos> getTos(String bearer){
+    public Call<Tos> getTos(String bearer) {
         return service.getTos(bearer);
+    }
+
+    public Call<List<LocationSuggestionsResponse>> getLocationSuggestions(String queryString) {
+        return service.getLocationSuggestions(queryString);
+    }
+
+    public Call<ProvidersResponse> getProviders(String queryString,
+                                                String lat,
+                                                String lon,
+                                                String displayName,
+                                                String zipCode) {
+        return service.getProviders(queryString, lat, lon, displayName, zipCode);
     }
 }

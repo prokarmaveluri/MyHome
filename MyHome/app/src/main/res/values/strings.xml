@@ -40,5 +40,9 @@
     <string name="forgot_password_header">Please enter your email address.</string>
     <string name="sign_out">Sign Out</string>
 
+    <!-- FAD -->
+    <string name="fad_search_hint">Search</string>
+    <string name="fad_search_location_hint">Search Location</string>
+    <string name="find_a_doctor">Find a Doctor</string>
 
 </resources>

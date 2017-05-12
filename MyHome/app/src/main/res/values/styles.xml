@@ -47,6 +47,7 @@
     <style name="tradeGothicLTStd" parent="textStylebase">
         <item name="android:textAllCaps">false</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:typeface">normal</item>
         <item name="android:textColor">@color/md_blue_grey_650</item>
     </style>
 
