@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
+import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +38,7 @@ public class AppointmentsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         appointmentsView = inflater.inflate(R.layout.appointments, container, false);
+        //createAppointment("Bearer " + AuthManager.getInstance().getBearerToken());
         getAppointmentInfo("Bearer " + AuthManager.getInstance().getBearerToken());
         return appointmentsView;
     }
@@ -48,7 +51,7 @@ public class AppointmentsFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
                     AppointmentResponse result = response.body();
-                    ArrayList<Appointment> appointments = result.appointments;
+                    ArrayList<Appointment> appointments = result.result.appointments;
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
@@ -56,6 +59,30 @@ public class AppointmentsFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<AppointmentResponse> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+            }
+        });
+    }
+
+    private void createAppointment(String bearer) {
+        Timber.i("Session bearer " + bearer);
+
+        Appointment dummyAppointment =
+                new Appointment(new Random().nextInt(500), false, "cmajji@gmail.com", "dateStart", "dermatology", false, "care giver name here", "This is a dummy appointment for testing", "make sure my skin is nice", "Dr.Seuss", "Facility name here...", "6168675309", new Address());
+
+        NetworkManager.getInstance().createAppointment(bearer, dummyAppointment).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
             }

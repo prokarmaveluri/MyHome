@@ -7,26 +7,37 @@ import java.util.ArrayList;
  */
 
 public class AppointmentResponse {
+    public Result result;
     public boolean isValid;
     public ArrayList<Errors> errors;
     public ArrayList<Warnings> warnings;
-    public ArrayList<Appointment> appointments;
 
-    public AppointmentResponse(boolean isValid, ArrayList<Errors> errors, ArrayList<Warnings> warnings, ArrayList<Appointment> appointments) {
+    public AppointmentResponse(Result result, boolean isValid, ArrayList<Errors> errors, ArrayList<Warnings> warnings) {
+        this.result = result;
         this.isValid = isValid;
         this.errors = errors;
         this.warnings = warnings;
-        this.appointments = appointments;
     }
 
     @Override
     public String toString() {
         return "AppointmentResponse{" +
-                "isValid=" + isValid +
+                "result=" + result +
+                ", isValid=" + isValid +
                 ", errors=" + errors +
                 ", warnings=" + warnings +
-                ", appointments=" + appointments +
                 '}';
+    }
+
+    class Result {
+        public ArrayList<Appointment> appointments;
+
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "appointments=" + appointments +
+                    '}';
+        }
     }
 
     class Errors {
