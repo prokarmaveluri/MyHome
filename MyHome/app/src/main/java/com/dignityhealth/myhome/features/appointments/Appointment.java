@@ -6,7 +6,7 @@ import com.dignityhealth.myhome.features.profile.Address;
  * Created by kwelsh on 5/11/17.
  */
 
-public class Result {
+public class Appointment {
     public int appointmentId;
     public boolean isActive;
     public String username;
@@ -21,7 +21,7 @@ public class Result {
     public String facilityPhoneNumber;
     public Address facilityAddress;
 
-    public Result(int appointmentId, boolean isActive, String username, String appointmentStart, String appointmentType, boolean isCreatedByCaregiver, String caregiverName, String comments, String visitReason, String doctorName, String facilityName, String facilityPhoneNumber, Address facilityAddress) {
+    public Appointment(int appointmentId, boolean isActive, String username, String appointmentStart, String appointmentType, boolean isCreatedByCaregiver, String caregiverName, String comments, String visitReason, String doctorName, String facilityName, String facilityPhoneNumber, Address facilityAddress) {
         this.appointmentId = appointmentId;
         this.isActive = isActive;
         this.username = username;
@@ -39,7 +39,7 @@ public class Result {
 
     @Override
     public String toString() {
-        return "Result{" +
+        return "AppointmentResponse{" +
                 "appointmentId=" + appointmentId +
                 ", isActive=" + isActive +
                 ", username='" + username + '\'' +
