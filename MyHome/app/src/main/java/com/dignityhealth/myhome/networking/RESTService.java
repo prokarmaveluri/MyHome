@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.networking;
 
+import com.dignityhealth.myhome.features.appointments.Appointment;
 import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.login.LoginRequest;
@@ -54,4 +55,6 @@ public interface RESTService {
     @GET(RESTConstants.CIAM_BASE_URL + "api/appointments")
     Call<AppointmentResponse> getAppointments(@Header("Authorization") String bearer);
 
+    @POST(RESTConstants.CIAM_BASE_URL + "api/appointments")
+    Call<Void> createAppointment(@Header("Authorization") String bearer, @Body Appointment appointment);
 }

@@ -12,6 +12,8 @@ import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.Constants;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,19 +42,20 @@ public class AppointmentsFragment extends BaseFragment {
 
     private void getAppointmentInfo(String bearer) {
         Timber.i("Session bearer " + bearer);
-        NetworkManager.getInstance().getAppointments(bearer).enqueue(new Callback<Appointments>() {
+        NetworkManager.getInstance().getAppointments(bearer).enqueue(new Callback<AppointmentResponse>() {
             @Override
-            public void onResponse(Call<Appointments> call, Response<Appointments> response) {
+            public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
-                    Appointments appointments = response.body();
+                    AppointmentResponse result = response.body();
+                    ArrayList<Appointment> appointments = result.appointments;
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
             }
 
             @Override
-            public void onFailure(Call<Appointments> call, Throwable t) {
+            public void onFailure(Call<AppointmentResponse> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
             }

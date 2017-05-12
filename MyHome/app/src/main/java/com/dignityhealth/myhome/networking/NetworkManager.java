@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.networking;
 
+import com.dignityhealth.myhome.features.appointments.Appointment;
 import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.login.LoginRequest;
@@ -103,5 +104,9 @@ public class NetworkManager {
 
     public Call<AppointmentResponse> getAppointments(String bearer){
         return service.getAppointments(bearer);
+    }
+
+    public Call<Void> createAppointment(String bearer, Appointment appointment){
+        return service.createAppointment(bearer, appointment);
     }
 }
