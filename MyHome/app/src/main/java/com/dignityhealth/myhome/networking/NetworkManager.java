@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.networking;
 
+import com.dignityhealth.myhome.features.appointments.Appointments;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
@@ -53,6 +54,7 @@ public class NetworkManager {
                 Request request = chain.request().newBuilder()
                         .addHeader("Content-Type", "application/json").build();
                 Timber.i(" Request Url: " + request.url());
+                Timber.i(" Request headers: " + request.headers());
                 Timber.i(" Request body: " + request.body());
                 return chain.proceed(request);
             }
@@ -97,5 +99,9 @@ public class NetworkManager {
 
     public Call<Tos> getTos(String bearer){
         return service.getTos(bearer);
+    }
+
+    public Call<Appointments> getAppointments(String bearer){
+        return service.getAppointments(bearer);
     }
 }
