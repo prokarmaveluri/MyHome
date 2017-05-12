@@ -24,7 +24,6 @@ import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
-import java.text.ParseException;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -67,7 +66,7 @@ public class ProfileEditFragment extends BaseFragment {
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            dateOfBirth.setText(Constants.SIMPLE_DATE_FORMAT.format(myCalendar.getTime()));
+            dateOfBirth.setText(CommonUtil.convertDateToReadable(myCalendar.getTime()));
         }
     };
 
@@ -234,12 +233,7 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.dateOfBirth != null) {
-            try {
-                myCalendar.setTime(Constants.SIMPLE_DATE_FORMAT_UTC.parse(profile.dateOfBirth));
-                dateOfBirth.setText(Constants.SIMPLE_DATE_FORMAT.format(myCalendar.getTime()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            dateOfBirth.setText(CommonUtil.convertUTCtoReadable(profile.dateOfBirth));
         }
 
         if (profile.address != null && profile.address.line1 != null) {
@@ -326,7 +320,7 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().isEmpty()) {
-            profile.dateOfBirth = dateOfBirth.getText().toString().trim();
+            profile.dateOfBirth = CommonUtil.convertReadableToUTC(dateOfBirth.getText().toString().trim());
         }
 
         if (address.getText() != null && !address.getText().toString().isEmpty()) {
