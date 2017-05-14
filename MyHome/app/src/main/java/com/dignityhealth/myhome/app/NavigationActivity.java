@@ -20,10 +20,12 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
 import com.dignityhealth.myhome.features.fad.FadFragment;
+import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.home.HomeFragment;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
+import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 
@@ -52,6 +54,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         } else {
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
+        NetworkManager.getInstance().getUserLocation();
         setSupportActionBar(appToolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -81,6 +84,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                         return true;
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FadManager.getInstance().setLocation(null);
     }
 
     /**
@@ -307,4 +316,5 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
+
 }

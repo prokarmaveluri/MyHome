@@ -6,13 +6,10 @@
         <variable
             name="handlers"
             type="com.dignityhealth.myhome.features.fad.ProvidersAdapter.ProviderClick" />
-
-        <variable
-            name="user"
-            type="com.dignityhealth.myhome.features.fad.ProvidersAdapter" />
     </data>
 
     <RelativeLayout
+        android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{handlers::onClickProvider}"
@@ -28,7 +25,8 @@
             android:id="@+id/docInfoLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_toRightOf="@+id/docImage">
 
             <TextView

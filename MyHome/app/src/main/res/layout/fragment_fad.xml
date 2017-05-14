@@ -7,46 +7,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/searchLayout"
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/searchDoctor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <android.support.v7.widget.SearchView
-                android:id="@+id/searchDoctor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="top"
-                android:padding="4dp"
-                android:queryHint="@string/fad_search_hint"
-                app:queryHint="@string/fad_search_hint" />
-
-            <android.support.v7.widget.SearchView
-                android:id="@+id/searchLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/searchDoctor"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="top"
-                android:padding="4dp"
-                android:queryHint="@string/fad_search_hint"
-                app:queryHint="@string/fad_search_location_hint" />
-        </LinearLayout>
+            android:drawableRight="@android:drawable/ic_menu_search"
+            android:gravity="top"
+            android:hint="@string/fad_search_hint"
+            android:imeOptions="actionSearch"
+            android:padding="16dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/providersList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/searchLayout"
+            android:layout_below="@+id/searchDoctor"
             android:layout_gravity="center"
             android:visibility="gone" />
 

@@ -39,22 +39,27 @@ public class FadPresenter implements FadInteractor.Presenter {
      * fetch provider list
      */
     @Override
-    public void getProviderList() {
-        NetworkManager.getInstance().getProviders("Test", "", "", "CA", "")
+    public void getProviderList(String queryString, String lat, String lon, String displayName,
+                                String zipCode) {
+        NetworkManager.getInstance().getProviders(queryString, lat, lon, displayName, zipCode)
                 .enqueue(new Callback<ProvidersResponse>() {
-            @Override
-            public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
-                if (response.isSuccessful()){
-                    mView.updateProviderList(response.body().getProviders());
-                }
-                mView.showProgress(false);
-            }
+                    @Override
+                    public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
+                        if (response.isSuccessful() && response.body().getProviders().size() > 0) {
+                            mView.updateProviderList(response.body().getProviders());
+                        } else {
+                            mView.showErrorMessage("There are no providers for the search");
+                        }
+                        mView.showProgress(false);
+                    }
 
-            @Override
-            public void onFailure(Call<ProvidersResponse> call, Throwable t) {
-                mView.showProgress(false);
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ProvidersResponse> call, Throwable t) {
+                        mView.showProgress(false);
+                        mView.showErrorMessage("Something went wrong!");
+                    }
+                });
+
     }
 
     /**

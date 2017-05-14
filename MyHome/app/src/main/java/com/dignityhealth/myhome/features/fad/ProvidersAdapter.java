@@ -11,6 +11,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by cmajji on 5/12/17.
  */
@@ -39,7 +41,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
 
     @Override
     public void onBindViewHolder(ProvidersVH holder, int position) {
-        holder.bind(providerList.get(position));
+        holder.bind(providerList.get(position), position);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
         if (null != providerList) {
             return providerList.size();
         }
-        return 3;
+        return 0;
     }
 
     public class ProvidersVH extends RecyclerView.ViewHolder {
@@ -60,22 +62,27 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
             binding = itemView;
         }
 
-        public void bind(ProvidersResponse.Provider provider) {
+        public void bind(ProvidersResponse.Provider provider, int position) {
+
+            binding.itemLayout.setTag(position);
             binding.docDisplayName.setText(provider.getDisplayFullName());
             binding.docSpeciality.setText(provider.getSpecialties().get(0));
-            binding.distance.setText(provider.getOffices().get(0).getDistanceMilesFromSearch());
-            binding.docAddress.setText(provider.getOffices().get(0).getAddress1()+ "\n" +provider.getOffices().get(0).getAddress2());
+            binding.distance.setText(provider.getOffices().get(0).getDistanceMilesFromSearch() + " Miles");
+            binding.docAddress.setText(provider.getOffices().get(0).getAddress());
 
+            String url = provider.getImageUrl();
+            url = url.replace("w60h80", "w120h160");
             Picasso.with(mContext)
-                    .load(provider.getImageUrl())
+                    .load(url)
                     .into(binding.docImage);
+
             binding.executePendingBindings();
         }
     }
 
     public class ProviderClick {
         public void onClickProvider(View view) {
-
+            Timber.i("Click " + view.getTag());
         }
     }
 }

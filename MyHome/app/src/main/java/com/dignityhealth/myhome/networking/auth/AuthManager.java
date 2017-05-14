@@ -100,10 +100,9 @@ public class AuthManager {
     }
 
     public void storeLockoutInfo() {
-        AppPreferences.getInstance().setPreference(LoginActivity.FAILURE_COUNT,
-                AuthManager.getInstance().getCount());
+        AppPreferences.getInstance().setPreference(LoginActivity.FAILURE_COUNT, getCount());
         AppPreferences.getInstance().setLongPreference(LoginActivity.FAILURE_TIME_STAMP,
-                AuthManager.getInstance().getPrevTimestamp());
+                getPrevTimestamp());
     }
 
     public void fetchLockoutInfo() {

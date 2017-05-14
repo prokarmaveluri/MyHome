@@ -17,6 +17,8 @@ public interface FadInteractor {
 
         void showProgress(boolean inProgress);
 
+        void showErrorMessage(String message);
+
         void updateLocationSuggestions();
 
         void updateProviderList(List<ProvidersResponse.Provider> providers);
@@ -28,7 +30,8 @@ public interface FadInteractor {
 
         void getLocationSuggestions();
 
-        void getProviderList();
+        void getProviderList(String queryString, String lat, String lon, String displayName,
+                             String zipCode);
 
         void providerDetails();
     }

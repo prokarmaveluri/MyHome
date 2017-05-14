@@ -225,6 +225,20 @@ public class ProvidersResponse {
             return LocationMatch;
         }
 
+        public String getAddress() {
+            StringBuilder fullAddress = new StringBuilder();
+            if (null != Address1)
+                fullAddress.append(Address1);
+            if (null != Address2)
+                fullAddress.append(Address2);
+            if (null != City)
+                fullAddress.append("\n" + City);
+            if (null != State)
+                fullAddress.append(", " + State);
+            if (null != ZipCode)
+                fullAddress.append(" " + ZipCode);
+            return fullAddress.toString();
+        }
     }
 
     public class Provider {

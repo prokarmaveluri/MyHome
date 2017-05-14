@@ -41,9 +41,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fad, container, false);
 
-        binding.searchLocation.onActionViewExpanded();
-        binding.searchDoctor.onActionViewExpanded();
-
         adapter = new ProvidersAdapter(providerList, getActivity());
         binding.providersList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.providersList.setAdapter(adapter);
@@ -51,7 +48,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View {
         ((NavigationActivity) getActivity()).setActionBarTitle("Find a Doctor");
         presenter = new FadPresenter(this, getActivity());
 
-        presenter.getProviderList();
+        presenter.getProviderList("Ped", FadManager.getInstance().getLocation().getLat(),
+                FadManager.getInstance().getLocation().getLong(),
+                FadManager.getInstance().getLocation().getDisplayName(),
+                FadManager.getInstance().getLocation().getZipCode());
         showProgress(true);
 
         return binding.getRoot();
@@ -86,6 +86,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View {
         } else {
             binding.fadProgress.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        binding.message.setText(message);
     }
 
     @Override
