@@ -42,5 +42,12 @@
     <string name="book_appointment">Book an Appointment</string>
     <string name="no_appointments">No Appointments</string>
 
+    <!-- FAD -->
+    <string name="fad_search_hint">Search</string>
+    <string name="fad_search_location_hint">Search Location</string>
+    <string name="find_a_doctor">Find a Doctor</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

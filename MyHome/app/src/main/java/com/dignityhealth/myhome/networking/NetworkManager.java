@@ -3,6 +3,11 @@ package com.dignityhealth.myhome.networking;
 import com.dignityhealth.myhome.features.appointments.Appointment;
 import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.fad.FadManager;
+import com.dignityhealth.myhome.features.fad.LocationResponse;
+import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
+import com.dignityhealth.myhome.features.fad.ProvidersResponse;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
@@ -14,6 +19,7 @@ import com.dignityhealth.myhome.features.tos.Tos;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -21,6 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
@@ -98,15 +105,53 @@ public class NetworkManager {
         return service.logout(auth, id);
     }
 
-    public Call<Tos> getTos(String bearer){
+    public Call<Tos> getTos(String bearer) {
         return service.getTos(bearer);
     }
 
-    public Call<AppointmentResponse> getAppointments(String bearer){
+    public Call<AppointmentResponse> getAppointments(String bearer) {
         return service.getAppointments(bearer);
     }
 
-    public Call<Void> createAppointment(String bearer, Appointment appointment){
+    public Call<Void> createAppointment(String bearer, Appointment appointment) {
         return service.createAppointment(bearer, appointment);
+    }
+
+    public Call<List<LocationSuggestionsResponse>> getLocationSuggestions(String queryString) {
+        return service.getLocationSuggestions(queryString);
+    }
+
+    public Call<LocationResponse> getLocation() {
+        return service.getUserLocation();
+    }
+
+    public Call<ProvidersResponse> getProviders(String queryString,
+                                                String lat,
+                                                String lon,
+                                                String displayName,
+                                                String zipCode) {
+        return service.getProviders(queryString, lat, lon, displayName, zipCode);
+    }
+
+    public Call<ProviderDetailsResponse> getProviderDetails(String id) {
+        return service.getProviderDetails(id);
+    }
+
+    // Network Util
+
+    public void getUserLocation() {
+        NetworkManager.getInstance().getLocation().enqueue(new Callback<LocationResponse>() {
+            @Override
+            public void onResponse(Call<LocationResponse> call, retrofit2.Response<LocationResponse> response) {
+                if (response.isSuccessful()) {
+                    FadManager.getInstance().setLocation(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LocationResponse> call, Throwable t) {
+                Timber.i("get user location failed");
+            }
+        });
     }
 }

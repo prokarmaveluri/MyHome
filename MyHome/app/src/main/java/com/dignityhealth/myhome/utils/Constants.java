@@ -20,6 +20,8 @@ public class Constants {
         HELP,
         PREFERENCES,
         TERMS_OF_SERVICE,
+        PROVIDER_DETAILS,
+        PROVIDERS_FILTER
     }
 
     public enum INPUT_TYPE {

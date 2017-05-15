@@ -25,7 +25,7 @@ import timber.log.Timber;
 
 public class DignityHealthAPITest {
     private static final String STATIC_BEARER_TOKEN = "Bearer " + "insert_bearer_token_here...";
-    private static final String CURRENT_BEARER_TOKEN = "Bearer " + AuthManager.getBearerToken();
+    private static final String CURRENT_BEARER_TOKEN = "Bearer " + AuthManager.getInstance().getBearerToken();
     private static final LoginRequest LOGIN_REQUEST = new LoginRequest("cmajji@gmail.com", "Password123*", new LoginRequest.Options(true, true));
 
     @Before
@@ -44,7 +44,7 @@ public class DignityHealthAPITest {
             Assert.assertNotNull(loginResponse);
 
             //Set up session token
-            AuthManager.setSessionToken(response.body().getSessionToken());
+            AuthManager.getInstance().setSessionToken(response.body().getSessionToken());
             getSessionId(response.body().getSessionToken());
 
             //TODO Get Bearer Token
@@ -56,7 +56,8 @@ public class DignityHealthAPITest {
 
     @Test
     public void getProfile_Success() {
-        Assert.assertTrue(AuthManager.getBearerToken() != null && !AuthManager.getBearerToken().isEmpty()); //Check if bearer token in singleton is assigned or not
+        Assert.assertTrue(AuthManager.getInstance().getBearerToken() != null
+                && !AuthManager.getInstance().getBearerToken().isEmpty()); //Check if bearer token in singleton is assigned or not
         Call<Profile> call = NetworkManager.getInstance().getProfile(CURRENT_BEARER_TOKEN);
         try {
             Response<Profile> response = call.execute();
@@ -76,14 +77,14 @@ public class DignityHealthAPITest {
             public void onResponse(Call<CreateSessionResponse> call, Response<CreateSessionResponse> response) {
                 if (response.isSuccessful()) {
                     Timber.i("Session Id: " + response.body().getId());
-                    AuthManager.setIdTokenForSignOut(response.body().getId());
+                    AuthManager.getInstance().setIdTokenForSignOut(response.body().getId());
                 }
             }
 
             @Override
             public void onFailure(Call<CreateSessionResponse> call, Throwable t) {
                 Timber.i("Session Id: Failed" );
-                AuthManager.setIdTokenForSignOut(null);
+                AuthManager.getInstance().setIdTokenForSignOut(null);
             }
         });
     }

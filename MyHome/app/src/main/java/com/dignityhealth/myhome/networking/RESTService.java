@@ -3,6 +3,10 @@ package com.dignityhealth.myhome.networking;
 import com.dignityhealth.myhome.features.appointments.Appointment;
 import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.fad.LocationResponse;
+import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
+import com.dignityhealth.myhome.features.fad.ProvidersResponse;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
@@ -13,6 +17,8 @@ import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.features.tos.Tos;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -21,12 +27,17 @@ import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by kwelsh on 4/28/17.
  */
 
 public interface RESTService {
+
+    String PROVIDER_QUERY = "{queryString}&latitude={lat}&longitude={lon}" +
+            "&displayName={displayName}&zipCode={zipCode}&page=1&pageSize=20";
+
 
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/enrollment")
     Call<Void> register(@Body EnrollmentRequest request);
@@ -57,4 +68,21 @@ public interface RESTService {
 
     @POST(RESTConstants.CIAM_BASE_URL + "api/appointments")
     Call<Void> createAppointment(@Header("Authorization") String bearer, @Body Appointment appointment);
+
+    @GET(RESTConstants.S2_BASE_URL + "api/locationsuggestion/?query={queryString}")
+    Call<List<LocationSuggestionsResponse>> getLocationSuggestions(@Path("queryString") String queryString);
+
+    @GET(RESTConstants.S2_BASE_URL + "api/location/")
+    Call<LocationResponse> getUserLocation();
+
+    @GET(RESTConstants.S2_BASE_URL + "api/providers")
+    Call<ProvidersResponse> getProviders(@Query("query") String queryString,
+                                         @Query("latitude") String lat,
+                                         @Query("longitude") String lon,
+                                         @Query("displayName") String displayName,
+                                         @Query("zipCode") String zipCode);
+
+    @GET(RESTConstants.S2_BASE_URL + "api/providerdetails")
+    Call<ProviderDetailsResponse> getProviderDetails(@Query("providerid") String id);
+
 }

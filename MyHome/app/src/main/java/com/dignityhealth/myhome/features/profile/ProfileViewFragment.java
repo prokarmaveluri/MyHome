@@ -120,7 +120,8 @@ public class ProfileViewFragment extends BaseFragment {
                 break;
 
             case R.id.edit_profile:
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_EDIT);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_EDIT,
+                        null);
                 break;
         }
 
