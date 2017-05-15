@@ -17,11 +17,20 @@ public class FadManager {
     private FadManager() {
     }
 
-
+    /**
+     * get user location fetched from REST API
+     *
+     * @return
+     */
     public LocationResponse getLocation() {
         return location;
     }
 
+    /**
+     * set user location from REST API
+     *
+     * @param location
+     */
     public void setLocation(LocationResponse location) {
         this.location = location;
     }

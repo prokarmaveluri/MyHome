@@ -15,6 +15,9 @@
             android:gravity="top"
             android:hint="@string/fad_search_hint"
             android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLines="1"
             android:padding="16dp" />
 
         <android.support.v7.widget.RecyclerView

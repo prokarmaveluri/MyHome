@@ -1,12 +1,18 @@
 package com.dignityhealth.myhome.features.fad;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
@@ -21,9 +27,12 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 /**
  * Created by cmajji on 4/26/17.
+ * <p>
+ * Fragment for Find a doctor, display list of doctors with search feature.
  */
 
-public class FadFragment extends BaseFragment implements FadInteractor.View {
+public class FadFragment extends BaseFragment implements FadInteractor.View,
+        TextView.OnEditorActionListener {
 
     private FragmentFadBinding binding;
     private ProvidersAdapter adapter;
@@ -48,12 +57,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View {
         ((NavigationActivity) getActivity()).setActionBarTitle("Find a Doctor");
         presenter = new FadPresenter(this, getActivity());
 
-        presenter.getProviderList("Ped", FadManager.getInstance().getLocation().getLat(),
-                FadManager.getInstance().getLocation().getLong(),
-                FadManager.getInstance().getLocation().getDisplayName(),
-                FadManager.getInstance().getLocation().getZipCode());
-        showProgress(true);
-
+        binding.searchDoctor.setOnEditorActionListener(this);
         return binding.getRoot();
     }
 
@@ -90,7 +94,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View {
 
     @Override
     public void showErrorMessage(String message) {
-        binding.message.setText(message);
+        showErrorMessage(true, message);
     }
 
     @Override
@@ -127,4 +131,35 @@ public class FadFragment extends BaseFragment implements FadInteractor.View {
         }
     }
 
+    /**
+     * IME action listener for the search
+     *
+     * @param v
+     * @param actionId
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+            if (binding.searchDoctor.getText().length() > 0) {
+                showProgress(true);
+
+                View view = getActivity().getCurrentFocus();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+                presenter.getProviderList(binding.searchDoctor.getText().toString(),
+                        FadManager.getInstance().getLocation().getLat(),
+                        FadManager.getInstance().getLocation().getLong(),
+                        FadManager.getInstance().getLocation().getDisplayName(),
+                        FadManager.getInstance().getLocation().getZipCode());
+            } else {
+                Toast.makeText(getActivity(), "Enter valid query", Toast.LENGTH_LONG).show();
+            }
+            return true;
+        }
+        return false;
+    }
 }

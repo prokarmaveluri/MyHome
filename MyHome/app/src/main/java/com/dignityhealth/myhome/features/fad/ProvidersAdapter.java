@@ -15,6 +15,8 @@ import timber.log.Timber;
 
 /**
  * Created by cmajji on 5/12/17.
+ * <p>
+ * Adapter to display the FAD list data.
  */
 
 public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.ProvidersVH> {

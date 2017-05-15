@@ -10,6 +10,8 @@ import retrofit2.Response;
 
 /**
  * Created by cmajji on 5/12/17.
+ * <p>
+ * Presenter to to communicate between fragment and data model or network APIs.
  */
 
 public class FadPresenter implements FadInteractor.Presenter {
