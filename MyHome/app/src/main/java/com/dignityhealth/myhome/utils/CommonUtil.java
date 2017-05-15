@@ -236,4 +236,28 @@ public class CommonUtil {
     public static String convertDateToReadable(Date date) {
         return Constants.SIMPLE_DATE_FORMAT.format(date);
     }
+
+    public static String getDateFromUTC(String utcDate){
+        try {
+            Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
+            return Constants.SIMPLE_TIME_FORMAT.format(date);
+        } catch (ParseException e) {
+            Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+
+        return utcDate;
+    }
+
+    public static String getTimeFromUTC(String utcDate){
+        try {
+            Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
+            return Constants.SIMPLE_DATE_FORMAT.format(date);
+        } catch (ParseException e) {
+            Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+
+        return utcDate;
+    }
 }

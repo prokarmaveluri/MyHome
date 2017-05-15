@@ -2,12 +2,16 @@ package com.dignityhealth.myhome.features.appointments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
+import com.dignityhealth.myhome.app.RecyclerViewListener;
 import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
@@ -26,9 +30,11 @@ import timber.log.Timber;
  */
 
 public class AppointmentsFragment extends BaseFragment {
-
     public static final String APPOINTMENTS_TAG = "appointment_tag";
-    View appointmentsView;
+
+    private View appointmentsView;
+    private RecyclerView appointmentsList;
+    private AppointmentsRecyclerViewAdapter appointmentsAdapter;
 
     public static AppointmentsFragment newInstance() {
         return new AppointmentsFragment();
@@ -38,6 +44,21 @@ public class AppointmentsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         appointmentsView = inflater.inflate(R.layout.appointments, container, false);
+
+        appointmentsAdapter = new AppointmentsRecyclerViewAdapter(getActivity(), null, new RecyclerViewListener() {
+            @Override
+            public void onItemClick(Object model, int position) {
+                //Appointment Clicked; Do something here...
+                Appointment appointment = (Appointment) model;
+                Toast.makeText(getActivity(), "Appointment " + appointment.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        appointmentsList = (RecyclerView) appointmentsView.findViewById(R.id.list_appointments);
+        appointmentsList.setClickable(true);
+        appointmentsList.setAdapter(appointmentsAdapter);
+        appointmentsList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
         //createAppointment("Bearer " + AuthManager.getInstance().getBearerToken());
         getAppointmentInfo("Bearer " + AuthManager.getInstance().getBearerToken());
         return appointmentsView;
@@ -52,6 +73,7 @@ public class AppointmentsFragment extends BaseFragment {
                     Timber.d("Successful Response\n" + response);
                     AppointmentResponse result = response.body();
                     ArrayList<Appointment> appointments = result.result.appointments;
+                    appointmentsAdapter.setAppointments(appointments);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }

@@ -39,6 +39,8 @@
     <string name="forgot_password_sub_header">An email will be sent to entered email address with reset instructions.</string>
     <string name="forgot_password_header">Please enter your email address.</string>
     <string name="sign_out">Sign Out</string>
+    <string name="book_appointment">Book an Appointment</string>
+    <string name="no_appointments">No Appointments</string>
 
 
 </resources>
