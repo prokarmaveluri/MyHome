@@ -3,6 +3,7 @@
     android:id="@+id/appointment_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="6dp"
     android:minHeight="48dp">
 
     <ImageView
@@ -13,55 +14,61 @@
 
     <TextView
         android:id="@+id/date"
+        style="@style/tradeGothicLTStd_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
         android:layout_toRightOf="@id/doctor_image"
         android:gravity="center"
         android:text="Thurs May 26"
-        android:textSize="18sp" />
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/time"
+        style="@style/tradeGothicLTStd_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginLeft="10dp"
-        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="2:45 PM"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/facility"
+        style="@style/tradeGothicLTStd_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/date"
+        android:layout_marginLeft="12dp"
         android:layout_toRightOf="@id/doctor_image"
-        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="Sequoia Hospital"
-        android:textSize="14sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/doctor_name"
+        style="@style/tradeGothicLTStd_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/facility"
+        android:layout_marginLeft="12dp"
         android:layout_toRightOf="@id/doctor_image"
-        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="Dr. Steven M. Howard, MD"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/pin_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="24dp"
+        android:layout_alignBottom="@id/doctor_name"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/time"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginLeft="10dp"
-        android:src="@mipmap/logo" />
+        android:src="@mipmap/map_blue" />
 
 </RelativeLayout>

@@ -60,7 +60,7 @@ public class DateUtil {
     public static String getDateFromUTC(String utcDate){
         try {
             Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
-            return Constants.SIMPLE_TIME_FORMAT.format(date);
+            return Constants.SIMPLE_DATE_FORMAT.format(date);
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -72,7 +72,7 @@ public class DateUtil {
     public static String getTimeFromUTC(String utcDate){
         try {
             Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
-            return Constants.SIMPLE_DATE_FORMAT.format(date);
+            return Constants.SIMPLE_TIME_FORMAT.format(date);
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();

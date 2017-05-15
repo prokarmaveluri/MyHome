@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
+import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.app.RecyclerViewListener;
 import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.networking.NetworkManager;
@@ -26,7 +28,7 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 /**
- * Created by kwelsh on 4/27/17.
+ * Created by kwelsh on 5/11/17.
  */
 
 public class AppointmentsFragment extends BaseFragment {
@@ -44,6 +46,14 @@ public class AppointmentsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         appointmentsView = inflater.inflate(R.layout.appointments, container, false);
+
+        Button book = (Button) appointmentsView.findViewById(R.id.book_appointment);
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
+            }
+        });
 
         appointmentsAdapter = new AppointmentsRecyclerViewAdapter(getActivity(), null, new RecyclerViewListener() {
             @Override
