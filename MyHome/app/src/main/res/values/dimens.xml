@@ -9,6 +9,7 @@
     <!--Profile dimensions-->
     <dimen name="profile_header_padding">12dp</dimen>
     <dimen name="profile_label_marginTop">12dp</dimen>
+    <dimen name="profile_label_marginBottom">50dp</dimen>
     <dimen name="profile_insuranceheader_marginTop">24dp</dimen>
     <dimen name="profile_firstname_indent">36dp</dimen>
     <dimen name="profile_lastname_indent">160dp</dimen>

@@ -5,10 +5,12 @@
     <Button
         android:id="@+id/sign_out"
         style="@style/enableButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="255dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/profile_label_marginTop"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/profile_label_marginTop"
+        android:layout_marginBottom="@dimen/profile_label_marginBottom"
         android:padding="@dimen/profile_label_marginTop"
         android:text="@string/sign_out" />
 
