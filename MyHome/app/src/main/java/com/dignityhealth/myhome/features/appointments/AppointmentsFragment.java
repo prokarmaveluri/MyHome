@@ -32,6 +32,7 @@ import timber.log.Timber;
 
 public class AppointmentsFragment extends BaseFragment {
     public static final String APPOINTMENTS_TAG = "appointment_tag";
+    protected static final String APPOINTMENT_KEY = "appointment_key";
 
     private View appointmentsView;
     private RecyclerView appointmentsList;
@@ -57,11 +58,10 @@ public class AppointmentsFragment extends BaseFragment {
         appointmentsAdapter = new AppointmentsRecyclerViewAdapter(getActivity(), null, new RecyclerViewListener() {
             @Override
             public void onItemClick(Object model, int position) {
-                //Appointment Clicked; Do something here...
                 Appointment appointment = (Appointment) model;
-
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.APPOINTMENTS_DETAILS,
-                        null);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(APPOINTMENT_KEY, appointment);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.APPOINTMENTS_DETAILS, bundle);
             }
         });
 

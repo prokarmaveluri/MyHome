@@ -1,12 +1,15 @@
 package com.dignityhealth.myhome.features.appointments;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.dignityhealth.myhome.features.profile.Address;
 
 /**
  * Created by kwelsh on 5/11/17.
  */
 
-public class Appointment {
+public class Appointment implements Parcelable {
     public int appointmentId;
     public boolean isActive;
     public String username;
@@ -55,4 +58,54 @@ public class Appointment {
                 ", facilityAddress=" + facilityAddress +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.appointmentId);
+        dest.writeByte(this.isActive ? (byte) 1 : (byte) 0);
+        dest.writeString(this.username);
+        dest.writeString(this.appointmentStart);
+        dest.writeString(this.appointmentType);
+        dest.writeByte(this.isCreatedByCaregiver ? (byte) 1 : (byte) 0);
+        dest.writeString(this.caregiverName);
+        dest.writeString(this.comments);
+        dest.writeString(this.visitReason);
+        dest.writeString(this.doctorName);
+        dest.writeString(this.facilityName);
+        dest.writeString(this.facilityPhoneNumber);
+        dest.writeParcelable(this.facilityAddress, flags);
+    }
+
+    protected Appointment(Parcel in) {
+        this.appointmentId = in.readInt();
+        this.isActive = in.readByte() != 0;
+        this.username = in.readString();
+        this.appointmentStart = in.readString();
+        this.appointmentType = in.readString();
+        this.isCreatedByCaregiver = in.readByte() != 0;
+        this.caregiverName = in.readString();
+        this.comments = in.readString();
+        this.visitReason = in.readString();
+        this.doctorName = in.readString();
+        this.facilityName = in.readString();
+        this.facilityPhoneNumber = in.readString();
+        this.facilityAddress = in.readParcelable(Address.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Appointment> CREATOR = new Parcelable.Creator<Appointment>() {
+        @Override
+        public Appointment createFromParcel(Parcel source) {
+            return new Appointment(source);
+        }
+
+        @Override
+        public Appointment[] newArray(int size) {
+            return new Appointment[size];
+        }
+    };
 }
