@@ -138,11 +138,11 @@ public class CommonUtil {
         String fullAddress = "";
 
         if (address != null && !address.isEmpty()) {
-            fullAddress = fullAddress + address;
+            fullAddress = fullAddress + address + "\n";
         }
 
         if (address2 != null && !address2.isEmpty()) {
-            fullAddress = fullAddress + "\n" + address2;
+            fullAddress = fullAddress + address2;
         }
 
         if (address != null && !address.isEmpty() && address2 != null && !address2.isEmpty()) {
