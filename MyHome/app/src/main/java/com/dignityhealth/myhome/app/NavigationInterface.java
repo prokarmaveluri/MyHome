@@ -1,5 +1,7 @@
 package com.dignityhealth.myhome.app;
 
+import android.os.Bundle;
+
 import com.dignityhealth.myhome.utils.Constants;
 
 /**
@@ -8,5 +10,5 @@ import com.dignityhealth.myhome.utils.Constants;
 
 public interface NavigationInterface {
     void goToPage(Constants.ActivityTag activityTag);
-    void loadFragment(Constants.ActivityTag activityTag);
+    void loadFragment(Constants.ActivityTag activityTag, Bundle bundle);
 }

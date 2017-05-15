@@ -20,10 +20,13 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
 import com.dignityhealth.myhome.features.fad.FadFragment;
+import com.dignityhealth.myhome.features.fad.FadManager;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.home.HomeFragment;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
+import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 
@@ -52,6 +55,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         } else {
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
+        NetworkManager.getInstance().getUserLocation();
         setSupportActionBar(appToolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -62,25 +66,31 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
                         switch (item.getItemId()) {
                             case R.id.home:
-                                loadFragment(ActivityTag.HOME);
+                                loadFragment(ActivityTag.HOME, null);
                                 break;
 
                             case R.id.fad:
-                                loadFragment(ActivityTag.FAD);
+                                loadFragment(ActivityTag.FAD, null);
                                 break;
 
                             case R.id.appointments:
-                                loadFragment(ActivityTag.APPOINTMENTS);
+                                loadFragment(ActivityTag.APPOINTMENTS, null);
                                 break;
 
                             case R.id.profile:
-                                loadFragment(ActivityTag.PROFILE_VIEW);
+                                loadFragment(ActivityTag.PROFILE_VIEW, null);
                                 break;
                         }
 
                         return true;
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FadManager.getInstance().setLocation(null);
     }
 
     /**
@@ -104,7 +114,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      * Currently the HomeFragment is the initial fragment shown
      */
     private void initializeBottomView() {
-        loadFragment(ActivityTag.HOME);
+        loadFragment(ActivityTag.HOME, null);
     }
 
     /**
@@ -138,7 +148,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      *
      * @param activityTag The page we want to navigate to
      */
-    public void loadFragment(ActivityTag activityTag) {
+    public void loadFragment(ActivityTag activityTag, Bundle bundle) {
         switch (activityTag) {
             case HOME:
                 if (getActivityTag() != ActivityTag.HOME) {
@@ -155,6 +165,34 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
             case FAD:
                 if (getActivityTag() != ActivityTag.FAD) {
+                    FadFragment fadFragment = FadFragment.newInstance();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fadFragment, FadFragment.FAD_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getFragmentManager().executePendingTransactions();
+
+                    setActivityTag(ActivityTag.FAD);
+                }
+                break;
+
+            case PROVIDER_DETAILS:
+                if (getActivityTag() != ActivityTag.PROVIDER_DETAILS) {
+                    ProviderDetailsFragment fragment = ProviderDetailsFragment.newInstance();
+                    fragment.setArguments(bundle);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.frame, fragment, ProviderDetailsFragment.PROVIDER_DETAILS_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getFragmentManager().executePendingTransactions();
+
+                    setActivityTag(ActivityTag.PROVIDER_DETAILS);
+                }
+                break;
+            case PROVIDERS_FILTER:
+                if (getActivityTag() != ActivityTag.PROVIDERS_FILTER) {
                     FadFragment fadFragment = FadFragment.newInstance();
                     getFragmentManager()
                             .beginTransaction()
@@ -303,4 +341,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
     }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
 }
