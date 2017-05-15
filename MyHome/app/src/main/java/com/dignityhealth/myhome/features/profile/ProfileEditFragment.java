@@ -23,6 +23,7 @@ import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.DateUtil;
 
 import java.util.Calendar;
 
@@ -66,7 +67,7 @@ public class ProfileEditFragment extends BaseFragment {
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            dateOfBirth.setText(CommonUtil.convertDateToReadable(myCalendar.getTime()));
+            dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
         }
     };
 
@@ -233,7 +234,7 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.dateOfBirth != null) {
-            dateOfBirth.setText(CommonUtil.convertUTCtoReadable(profile.dateOfBirth));
+            dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
         }
 
         if (profile.address != null && profile.address.line1 != null) {
@@ -320,7 +321,7 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().isEmpty()) {
-            profile.dateOfBirth = CommonUtil.convertReadableToUTC(dateOfBirth.getText().toString().trim());
+            profile.dateOfBirth = DateUtil.convertReadableToUTC(dateOfBirth.getText().toString().trim());
         }
 
         if (address.getText() != null && !address.getText().toString().isEmpty()) {

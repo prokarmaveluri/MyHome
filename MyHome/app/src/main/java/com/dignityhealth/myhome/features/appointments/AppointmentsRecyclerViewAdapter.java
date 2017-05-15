@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.RecyclerViewListener;
-import com.dignityhealth.myhome.utils.CommonUtil;
+import com.dignityhealth.myhome.utils.DateUtil;
 
 import java.util.ArrayList;
 
@@ -59,8 +59,8 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
                 }
 
                 if(appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()){
-                    holder.date.setText(CommonUtil.getDateFromUTC(appointment.appointmentStart));
-                    holder.time.setText(CommonUtil.getTimeFromUTC(appointment.appointmentStart));
+                    holder.date.setText(DateUtil.getDateFromUTC(appointment.appointmentStart));
+                    holder.time.setText(DateUtil.getTimeFromUTC(appointment.appointmentStart));
                 }
 
                 holder.setOnItemClickListener(appointment, onItemClickListener);
