@@ -5,6 +5,7 @@ import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
@@ -119,6 +120,10 @@ public class NetworkManager {
                                                 String displayName,
                                                 String zipCode) {
         return service.getProviders(queryString, lat, lon, displayName, zipCode);
+    }
+
+    public Call<ProviderDetailsResponse> getProviderDetails(String id) {
+        return service.getProviderDetails(id);
     }
 
     // Network Util

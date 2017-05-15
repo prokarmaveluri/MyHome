@@ -18,6 +18,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentFadBinding;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.utils.Constants;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
  */
 
 public class FadFragment extends BaseFragment implements FadInteractor.View,
-        TextView.OnEditorActionListener {
+        TextView.OnEditorActionListener, ProvidersAdapter.IProviderClick {
 
     private FragmentFadBinding binding;
     private ProvidersAdapter adapter;
@@ -50,9 +51,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fad, container, false);
 
-        adapter = new ProvidersAdapter(providerList, getActivity());
+        adapter = new ProvidersAdapter(providerList, getActivity(), this);
         binding.providersList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.providersList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         ((NavigationActivity) getActivity()).setActionBarTitle("Find a Doctor");
         presenter = new FadPresenter(this, getActivity());
@@ -143,23 +145,36 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-            if (binding.searchDoctor.getText().length() > 0) {
-                showProgress(true);
-
-                View view = getActivity().getCurrentFocus();
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-                presenter.getProviderList(binding.searchDoctor.getText().toString(),
-                        FadManager.getInstance().getLocation().getLat(),
-                        FadManager.getInstance().getLocation().getLong(),
-                        FadManager.getInstance().getLocation().getDisplayName(),
-                        FadManager.getInstance().getLocation().getZipCode());
-            } else {
+            if (binding.searchDoctor.getText().length() <= 0) {
                 Toast.makeText(getActivity(), "Enter valid query", Toast.LENGTH_LONG).show();
+                return true;
             }
+            if (null == FadManager.getInstance().getLocation()) {
+                Toast.makeText(getActivity(), "user location not available, select location",
+                        Toast.LENGTH_LONG).show();
+                return true;
+            }
+            showProgress(true);
+
+            View view = getActivity().getCurrentFocus();
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+            presenter.getProviderList(binding.searchDoctor.getText().toString(),
+                    FadManager.getInstance().getLocation().getLat(),
+                    FadManager.getInstance().getLocation().getLong(),
+                    FadManager.getInstance().getLocation().getDisplayName(),
+                    FadManager.getInstance().getLocation().getZipCode());
+
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void providerClick(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ProviderDetailsFragment.PROVIDER_ID, providerList.get(position).getProviderId());
+        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 }

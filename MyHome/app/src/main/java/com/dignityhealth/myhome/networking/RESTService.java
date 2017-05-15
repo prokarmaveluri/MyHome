@@ -4,6 +4,7 @@ import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
@@ -72,4 +73,7 @@ public interface RESTService {
                                          @Query("longitude") String lon,
                                          @Query("displayName") String displayName,
                                          @Query("zipCode") String zipCode);
+
+    @GET(RESTConstants.S2_BASE_URL + "api/providerdetails")
+    Call<ProviderDetailsResponse> getProviderDetails(@Query("providerid") String id);
 }

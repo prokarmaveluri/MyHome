@@ -22,12 +22,14 @@ import timber.log.Timber;
 public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.ProvidersVH> {
 
     private List<ProvidersResponse.Provider> providerList;
+    private IProviderClick listener;
     private Context mContext;
 
     public ProvidersAdapter(List<ProvidersResponse.Provider> providers,
-                            Context context) {
+                            Context context, IProviderClick listener) {
         providerList = providers;
         mContext = context;
+        this.listener = listener;
     }
 
     @Override
@@ -66,17 +68,21 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
 
         public void bind(ProvidersResponse.Provider provider, int position) {
 
-            binding.itemLayout.setTag(position);
-            binding.docDisplayName.setText(provider.getDisplayFullName());
-            binding.docSpeciality.setText(provider.getSpecialties().get(0));
-            binding.distance.setText(provider.getOffices().get(0).getDistanceMilesFromSearch() + " Miles");
-            binding.docAddress.setText(provider.getOffices().get(0).getAddress());
+            try {
+                binding.itemLayout.setTag(position);
+                binding.docDisplayName.setText(provider.getDisplayFullName());
+                binding.docSpeciality.setText(provider.getSpecialties().get(0));
+                binding.distance.setText(provider.getOffices().get(0).getDistanceMilesFromSearch() + " Miles");
+                binding.docAddress.setText(provider.getOffices().get(0).getAddress());
 
-            String url = provider.getImageUrl();
-            url = url.replace("w60h80", "w120h160");
-            Picasso.with(mContext)
-                    .load(url)
-                    .into(binding.docImage);
+                String url = provider.getImageUrl();
+                url = url.replace("w60h80", "w120h160");
+                Picasso.with(mContext)
+                        .load(url)
+                        .into(binding.docImage);
+            } catch (NullPointerException ex) {
+
+            }
 
             binding.executePendingBindings();
         }
@@ -85,6 +91,11 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
     public class ProviderClick {
         public void onClickProvider(View view) {
             Timber.i("Click " + view.getTag());
+            listener.providerClick((int) view.getTag());
         }
+    }
+
+    public interface IProviderClick {
+        void providerClick(int position);
     }
 }
