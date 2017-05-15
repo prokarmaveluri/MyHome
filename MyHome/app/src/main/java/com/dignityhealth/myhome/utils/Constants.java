@@ -13,6 +13,7 @@ public class Constants {
         HOME,
         FAD,
         APPOINTMENTS,
+        APPOINTMENTS_DETAILS,
         PROFILE_VIEW,
         PROFILE_EDIT,
         CONTACT_US,

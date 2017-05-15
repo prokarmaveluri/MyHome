@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.appointments.AppointmentsDetailsFragment;
 import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
 import com.dignityhealth.myhome.features.fad.FadFragment;
@@ -214,6 +215,21 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.APPOINTMENTS);
+                }
+                break;
+
+            case APPOINTMENTS_DETAILS:
+                if (getActivityTag() != ActivityTag.APPOINTMENTS_DETAILS) {
+                    AppointmentsDetailsFragment appointmentsDetailsFragment = AppointmentsDetailsFragment.newInstance();
+                    appointmentsDetailsFragment.setArguments(bundle);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, appointmentsDetailsFragment, AppointmentsDetailsFragment.APPOINTMENTS_DETAILS_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getFragmentManager().executePendingTransactions();
+
+                    setActivityTag(ActivityTag.APPOINTMENTS_DETAILS);
                 }
                 break;
 

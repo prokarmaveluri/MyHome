@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingEnd="24dp"
+        android:paddingStart="24dp"
+        android:paddingTop="12dp">
+
+        <TextView
+            android:id="@+id/date_header"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="January 28th, 2017"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/time_header"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_header"
+            android:text="9:00am - 9:45am"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/calendar"
+            android:layout_width="27dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/time_header"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/calendar" />
+
+        <ImageView
+            android:id="@+id/doctor_image"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_below="@id/time_header"
+            android:layout_marginTop="24dp"
+            android:src="@mipmap/logo" />
+
+        <TextView
+            android:id="@+id/doctor_name"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/doctor_image"
+            android:layout_alignTop="@id/doctor_image"
+            android:layout_below="@id/time_header"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@id/doctor_image"
+            android:gravity="center"
+            android:text="Dr. Steven M. Howard, MD"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/facility_name"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/doctor_image"
+            android:layout_marginTop="18dp"
+            android:text="Sequoia Hospital"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/facility_address"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/facility_name"
+            android:text="170 Alameda de las Pulgas\nRedwood City, CA 94062"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/pin_icon"
+            android:layout_width="20dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@id/facility_address"
+            android:layout_alignRight="@id/calendar"
+            android:src="@mipmap/map_blue" />
+
+        <TextView
+            android:id="@+id/reason"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/facility_address"
+            android:layout_marginTop="24dp"
+            android:text="Check up appointment. I am going out of the country for a few months and want to get a check up as well as get any shots that are necessary."
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/phone_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/reason"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="24dp"
+            android:src="@mipmap/phone" />
+
+        <TextView
+            android:id="@+id/phone_number"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/phone_icon"
+            android:layout_alignTop="@id/phone_icon"
+            android:layout_below="@id/reason"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_toRightOf="@id/phone_icon"
+            android:autoLink="phone"
+            android:gravity="center"
+            android:text="123-456-7890"
+            android:textColor="@color/primary"
+            android:textColorLink="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phone_icon"
+            android:layout_marginTop="38dp"
+            android:gravity="center"
+            android:text="To reschedule or cancel your appointment, please call your doctors location directly."
+            android:textColor="@color/red"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+</ScrollView>

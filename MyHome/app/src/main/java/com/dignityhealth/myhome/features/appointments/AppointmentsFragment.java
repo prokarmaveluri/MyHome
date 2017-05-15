@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
@@ -60,7 +59,9 @@ public class AppointmentsFragment extends BaseFragment {
             public void onItemClick(Object model, int position) {
                 //Appointment Clicked; Do something here...
                 Appointment appointment = (Appointment) model;
-                Toast.makeText(getActivity(), "Appointment " + appointment.toString(), Toast.LENGTH_SHORT).show();
+
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.APPOINTMENTS_DETAILS,
+                        null);
             }
         });
 
