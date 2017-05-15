@@ -57,10 +57,10 @@ public class DateUtil {
         return Constants.SIMPLE_DATE_FORMAT.format(date);
     }
 
-    public static String getDateFromUTC(String utcDate){
+    public static String getDateWordsFromUTC(String utcDate){
         try {
             Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
-            return Constants.SIMPLE_DATE_FORMAT.format(date);
+            return Constants.SIMPLE_DATE_WORDS_FORMAT.format(date);
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();

@@ -30,9 +30,11 @@ public class Constants {
 
     //Date formats
     public static final String DATE_FORMAT = "MM/dd/yy";
-    public static final String TIME_FORMAT = "hh:mm a";
+    public static final String DATE_WORDS_FORMAT = "EEE MMM dd";
+    public static final String TIME_FORMAT = "h:mm a";
     public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+    public static final SimpleDateFormat SIMPLE_DATE_WORDS_FORMAT = new SimpleDateFormat(DATE_WORDS_FORMAT, Locale.US);
     public static final SimpleDateFormat SIMPLE_TIME_FORMAT = new SimpleDateFormat(TIME_FORMAT, Locale.US);
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC = new SimpleDateFormat(DATE_FORMAT_UTC, Locale.US);
 

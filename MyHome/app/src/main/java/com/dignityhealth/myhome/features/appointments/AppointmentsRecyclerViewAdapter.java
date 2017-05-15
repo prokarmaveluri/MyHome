@@ -59,7 +59,7 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
                 }
 
                 if(appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()){
-                    holder.date.setText(DateUtil.getDateFromUTC(appointment.appointmentStart));
+                    holder.date.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
                     holder.time.setText(DateUtil.getTimeFromUTC(appointment.appointmentStart));
                 }
 
