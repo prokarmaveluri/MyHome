@@ -9,8 +9,8 @@
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/profile_label_marginTop"
         android:layout_marginBottom="@dimen/profile_label_marginBottom"
+        android:layout_marginTop="@dimen/profile_label_marginTop"
         android:padding="@dimen/profile_label_marginTop"
         android:text="@string/sign_out" />
 
@@ -31,6 +31,7 @@
 
             <TextView
                 android:id="@+id/name"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -42,6 +43,7 @@
 
             <TextView
                 android:id="@+id/preferred_name"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -51,6 +53,7 @@
 
             <TextView
                 android:id="@+id/gender"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -60,6 +63,7 @@
 
             <TextView
                 android:id="@+id/dob"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -69,6 +73,7 @@
 
             <TextView
                 android:id="@+id/address"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -80,6 +85,7 @@
 
             <TextView
                 android:id="@+id/phone"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -89,6 +95,7 @@
 
             <TextView
                 android:id="@+id/email"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/profile_label_marginTop"
@@ -99,6 +106,7 @@
 
             <TextView
                 android:id="@+id/provider_label"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -106,6 +114,7 @@
 
             <TextView
                 android:id="@+id/provider"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dignity Health"
@@ -114,6 +123,7 @@
 
             <TextView
                 android:id="@+id/id_label"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -121,6 +131,7 @@
 
             <TextView
                 android:id="@+id/id"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="800-588-2300"
@@ -129,6 +140,7 @@
 
             <TextView
                 android:id="@+id/group_label"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -136,6 +148,7 @@
 
             <TextView
                 android:id="@+id/group"
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="230-2333"
