@@ -121,7 +121,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 break;
 
             case R.id.fad_filter:
-                startFilterDialog();
+//                startFilterDialog();
                 break;
         }
 
