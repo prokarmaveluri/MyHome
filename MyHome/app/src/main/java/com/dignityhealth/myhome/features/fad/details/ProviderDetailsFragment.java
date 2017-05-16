@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
-import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.utils.Constants;
 
 public class ProviderDetailsFragment extends BaseFragment {
@@ -45,8 +44,6 @@ public class ProviderDetailsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        ((NavigationActivity) getActivity()).setActionBarTitle("Provider Details");
 
         return inflater.inflate(R.layout.fragment_provider_details, container, false);
     }

@@ -1,0 +1,99 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbarWhite"
+            layout="@layout/toolbar_white" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/md_blue_grey_650" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                tools:context="com.dignityhealth.myhome.features.fad.filter.FilterDialog">
+
+                <TextView
+                    android:id="@+id/sortByTitle"
+                    style="@style/tradeGothicLTStd_20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sort By"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/sortByGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sortByTitle"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <Button
+                        android:id="@+id/distance"
+                        style="@style/tradeGothicLTStd_16"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_boarder_acent"
+                        android:text="Distance"
+                        android:textAllCaps="false"
+                        android:textColor="@color/accent"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/bestMatch"
+                        style="@style/tradeGothicLTStd_16"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_boarder_acent"
+                        android:text="Best Match"
+                        android:textAllCaps="false"
+                        android:textColor="@color/accent"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/lastName"
+                        style="@style/tradeGothicLTStd_16"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_boarder_acent"
+                        android:text="Last Name"
+                        android:textAllCaps="false"
+                        android:textColor="@color/accent"
+                        android:textStyle="bold" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/filterByTitle"
+                    style="@style/tradeGothicLTStd_20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sortByGroup"
+                    android:layout_marginTop="16dp"
+                    android:text="Filter By"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>
