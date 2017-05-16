@@ -51,6 +51,8 @@ public class MyHomeApplication extends MultiDexApplication {
         }
 
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/TradeGothicLTStd.ttf");
+        FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/TradeGothicLTStd.ttf");
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/TradeGothicLTStd-Light.ttf");
         AuthManager.getInstance().fetchLockoutInfo();
     }
 }

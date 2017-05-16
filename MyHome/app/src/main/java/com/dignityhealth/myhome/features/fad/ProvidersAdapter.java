@@ -72,7 +72,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                 binding.itemLayout.setTag(position);
                 binding.docDisplayName.setText(provider.getDisplayFullName());
                 binding.docSpeciality.setText(provider.getSpecialties().get(0));
-                binding.distance.setText(provider.getOffices().get(0).getDistanceMilesFromSearch() + " Miles");
+                binding.distance.setText(provider.getOffices().get(0).getDistanceMilesFromSearch() + " mi");
                 binding.docAddress.setText(provider.getOffices().get(0).getAddress());
 
                 String url = provider.getImageUrl();

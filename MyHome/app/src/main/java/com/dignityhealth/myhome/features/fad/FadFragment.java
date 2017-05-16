@@ -21,7 +21,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentFadBinding;
-import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
+import com.dignityhealth.myhome.features.fad.filter.FilterDialog;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
@@ -121,6 +121,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 break;
 
             case R.id.fad_filter:
+                startFilterDialog();
                 break;
         }
 
@@ -184,9 +185,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void providerClick(int position) {
-        Bundle bundle = new Bundle();
-        bundle.putString(ProviderDetailsFragment.PROVIDER_ID, providerList.get(position).getProviderId());
-        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
+
+        return;
+//        Bundle bundle = new Bundle();
+//        bundle.putString(ProviderDetailsFragment.PROVIDER_ID, providerList.get(position).getProviderId());
+//        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 
     @Override
@@ -303,5 +306,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             binding.message.setVisibility(View.VISIBLE);
             binding.providersList.setVisibility(View.GONE);
         }
+    }
+
+    private void startFilterDialog(){
+        FilterDialog dialog = new FilterDialog();
+        dialog.show(getFragmentManager(), "Filter Dialog");
     }
 }
