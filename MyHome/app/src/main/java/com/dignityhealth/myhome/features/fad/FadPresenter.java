@@ -2,7 +2,11 @@ package com.dignityhealth.myhome.features.fad;
 
 import android.content.Context;
 
+import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.networking.NetworkManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,5 +74,17 @@ public class FadPresenter implements FadInteractor.Presenter {
     @Override
     public void providerDetails() {
 
+    }
+
+    @Override
+    public List<SearchSuggestionResponse> getQuickSearchSuggestions() {
+        List<SearchSuggestionResponse> list = new ArrayList<>();
+        SearchSuggestionResponse response = new SearchSuggestionResponse("Primary Care", "Search");
+        SearchSuggestionResponse response1 = new SearchSuggestionResponse("Cardiology", "Search");
+        SearchSuggestionResponse response2 = new SearchSuggestionResponse("Gynecology", "Search");
+        list.add(response);
+        list.add(response1);
+        list.add(response2);
+        return list;
     }
 }

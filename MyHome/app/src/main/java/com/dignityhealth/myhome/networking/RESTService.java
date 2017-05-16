@@ -6,6 +6,7 @@ import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
+import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
@@ -69,8 +70,15 @@ public interface RESTService {
     @POST(RESTConstants.CIAM_BASE_URL + "api/appointments")
     Call<Void> createAppointment(@Header("Authorization") String bearer, @Body Appointment appointment);
 
-    @GET(RESTConstants.S2_BASE_URL + "api/locationsuggestion/?query={queryString}")
-    Call<List<LocationSuggestionsResponse>> getLocationSuggestions(@Path("queryString") String queryString);
+    @GET(RESTConstants.S2_BASE_URL + "api/locationsuggestion")
+    Call<List<LocationSuggestionsResponse>> getLocationSuggestions(@Query("query") String queryString);
+
+    @GET(RESTConstants.S2_BASE_URL + "api/suggestion")
+    Call<List<SearchSuggestionResponse>> getSearchSuggestions(@Query("query") String queryString,
+                                                              @Query("latitude") String lat,
+                                                              @Query("longitude") String lon,
+                                                              @Query("displayName") String displayName,
+                                                              @Query("zipCode") String zipCode);
 
     @GET(RESTConstants.S2_BASE_URL + "api/location/")
     Call<LocationResponse> getUserLocation();

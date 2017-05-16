@@ -228,12 +228,8 @@ public class ProvidersResponse {
 
         public String getAddress() {
             StringBuilder fullAddress = new StringBuilder();
-            if (null != Address1)
-                fullAddress.append(Address1);
-            if (null != Address2)
-                fullAddress.append(Address2);
             if (null != City)
-                fullAddress.append("\n" + City);
+                fullAddress.append(City);
             if (null != State)
                 fullAddress.append(", " + State);
             if (null != ZipCode)

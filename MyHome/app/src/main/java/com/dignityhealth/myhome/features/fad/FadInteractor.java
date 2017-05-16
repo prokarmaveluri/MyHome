@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.features.fad;
 
 import com.dignityhealth.myhome.app.mvp.BasePresenter;
 import com.dignityhealth.myhome.app.mvp.BaseView;
+import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 
 import java.util.List;
 
@@ -77,5 +78,12 @@ public interface FadInteractor {
          * navigate to provider details
          */
         void providerDetails();
+
+        /**
+         * get most searched suggestionsa
+         *
+         * @return
+         */
+        List<SearchSuggestionResponse> getQuickSearchSuggestions();
     }
 }
