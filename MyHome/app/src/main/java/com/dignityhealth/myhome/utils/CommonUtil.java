@@ -20,6 +20,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import timber.log.Timber;
+
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 /**
@@ -232,6 +234,7 @@ public class CommonUtil {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
+            Timber.e(ex);
             Toast.makeText(context, "Please install a calendar application", Toast.LENGTH_LONG).show();
         }
     }
@@ -248,12 +251,58 @@ public class CommonUtil {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
+            Timber.e(ex);
             try {
                 Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=an+" + address.line1 + address.city));
                 context.startActivity(unrestrictedIntent);
             } catch (ActivityNotFoundException innerEx) {
+                Timber.e(innerEx);
                 Toast.makeText(context, "Please install a maps application", Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    public static void shareAppointment(Context context, Appointment appointment) {
+        String message = "";
+
+        if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
+            message = message + DateUtil.getDateWordsFromUTC(appointment.appointmentStart) + ".\n" + DateUtil.getTimeFromUTC(appointment.appointmentStart);
+        }
+
+        if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
+            message = message + ".\n" + appointment.doctorName;
+        }
+
+        if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
+            message = message + ".\n" + appointment.facilityName;
+        }
+
+        if (appointment.facilityAddress != null) {
+            message = message + ".\n" + CommonUtil.constructAddress(
+                    appointment.facilityAddress.line1,
+                    appointment.facilityAddress.line2,
+                    appointment.facilityAddress.city,
+                    appointment.facilityAddress.stateOrProvince,
+                    appointment.facilityAddress.zipCode);
+        }
+
+        if (appointment.visitReason != null && !appointment.visitReason.isEmpty()) {
+            message = message + ".\n" + appointment.visitReason;
+        }
+
+        if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
+            message = message + ".\n" + appointment.facilityPhoneNumber;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            Timber.e(ex);
+            Toast.makeText(context, "Couldn't find an app that can share appointments", Toast.LENGTH_LONG).show();
         }
     }
 }

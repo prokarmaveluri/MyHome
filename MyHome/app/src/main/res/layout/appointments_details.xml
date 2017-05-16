@@ -107,7 +107,7 @@
             android:layout_height="30dp"
             android:layout_below="@id/reason"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="35dp"
             android:src="@mipmap/phone" />
 
         <TextView
@@ -122,10 +122,36 @@
             android:layout_marginStart="18dp"
             android:layout_toRightOf="@id/phone_icon"
             android:autoLink="phone"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:text="123-456-7890"
             android:textColor="@color/primary"
             android:textColorLink="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/share_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/phone_icon"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="50dp"
+            android:src="@mipmap/show_password" />
+
+        <TextView
+            android:id="@+id/share_text"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/share_icon"
+            android:layout_alignTop="@id/share_icon"
+            android:layout_below="@id/phone_number"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_toRightOf="@id/phone_icon"
+            android:gravity="center_vertical"
+            android:text="@string/share_appointment"
+            android:textColor="@color/primary"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -133,7 +159,7 @@
             style="@style/tradeGothicLTStd_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/phone_icon"
+            android:layout_below="@id/share_icon"
             android:layout_marginTop="38dp"
             android:gravity="center"
             android:text="To reschedule or cancel your appointment, please call your doctors location directly."

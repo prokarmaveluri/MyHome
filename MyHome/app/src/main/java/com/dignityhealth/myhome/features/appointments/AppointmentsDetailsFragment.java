@@ -45,6 +45,13 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         TextView phoneNumber = (TextView) appointmentsView.findViewById(R.id.phone_number);
         ImageView calendar = (ImageView) appointmentsView.findViewById(R.id.calendar);
         ImageView pin = (ImageView) appointmentsView.findViewById(R.id.pin_icon);
+        TextView shareText = (TextView) appointmentsView.findViewById(R.id.share_text);
+        shareText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtil.shareAppointment(getActivity(), appointment);
+            }
+        });
 
         calendar.setOnClickListener(new View.OnClickListener() {
             @Override
