@@ -36,6 +36,7 @@ public class TosFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         tosView = inflater.inflate(R.layout.tos, container, false);
+        getActivity().setTitle(getString(R.string.terms_of_service));
 
         TextView accept = (TextView) tosView.findViewById(R.id.tc_accept);
         accept.setOnClickListener(new View.OnClickListener() {

@@ -59,5 +59,6 @@
     <string name="profile">Profile</string>
     <string name="details">Details</string>
     <string name="share_appointment">Share Appointment</string>
+    <string name="terms_of_service">Terms of Service</string>
 
 </resources>

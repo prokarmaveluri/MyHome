@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.app;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -87,6 +88,11 @@ public class OptionsActivity extends BaseActivity {
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
+        } else {
+            toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
+        }
         setSupportActionBar(toolbar);
     }
 }

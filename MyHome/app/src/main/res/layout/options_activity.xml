@@ -5,12 +5,16 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_white"
+        layout="@layout/toolbar_white" />
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
+        android:layout_height="1dp"
+        android:layout_below="@+id/toolbarWhite"
+        android:background="@color/md_blue_grey_650" />
 
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </LinearLayout>
