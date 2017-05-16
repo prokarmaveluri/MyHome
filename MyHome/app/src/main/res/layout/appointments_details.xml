@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/date_header"
             android:text="9:00am - 9:45am"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <ImageView

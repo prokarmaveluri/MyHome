@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
-import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
@@ -25,7 +24,7 @@ import timber.log.Timber;
  */
 
 public class TosFragment extends BaseFragment {
-    public static final String TOS_TAG = "settings_tag";
+    public static final String TOS_TAG = "tos_tag";
     View tosView;
 
     public static TosFragment newInstance() {
@@ -53,8 +52,8 @@ public class TosFragment extends BaseFragment {
             }
         });
 
-        getTosInfo("Bearer " + AuthManager.getInstance().getBearerToken());
-
+        //getTosInfo("Bearer " + AuthManager.getInstance().getBearerToken());
+        tosView.findViewById(R.id.tc_button_bar).setVisibility(View.GONE);  //Hide buttons when you're already logged into the app
         return tosView;
     }
 
