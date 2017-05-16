@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,9 @@ public class TosFragment extends BaseFragment {
                 cancelTerms();
             }
         });
+
+        WebView tos = (WebView) tosView.findViewById(R.id.terms_of_service);
+        tos.loadUrl("file:///android_asset/tos.htm");
 
         //getTosInfo("Bearer " + AuthManager.getInstance().getBearerToken());
         tosView.findViewById(R.id.tc_button_bar).setVisibility(View.GONE);  //Hide buttons when you're already logged into the app
