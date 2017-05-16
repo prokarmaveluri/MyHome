@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
@@ -36,6 +37,7 @@ public class AppointmentsFragment extends BaseFragment {
     protected static final String APPOINTMENT_KEY = "appointment_key";
 
     private View appointmentsView;
+    private ProgressBar progressBar;
     private RecyclerView appointmentsList;
     private AppointmentsRecyclerViewAdapter appointmentsAdapter;
 
@@ -48,6 +50,8 @@ public class AppointmentsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         appointmentsView = inflater.inflate(R.layout.appointments, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.appointments));
+
+        progressBar = (ProgressBar) appointmentsView.findViewById(R.id.appointments_progress);
 
         Button book = (Button) appointmentsView.findViewById(R.id.book_appointment);
         book.setOnClickListener(new View.OnClickListener() {
@@ -84,10 +88,13 @@ public class AppointmentsFragment extends BaseFragment {
     }
 
     private void getAppointmentInfo(String bearer) {
+        showLoading();
+
         Timber.i("Session bearer " + bearer);
         NetworkManager.getInstance().getAppointments(bearer).enqueue(new Callback<AppointmentResponse>() {
             @Override
             public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
+                showScreen();
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
                     AppointmentResponse result = response.body();
@@ -100,6 +107,7 @@ public class AppointmentsFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<AppointmentResponse> call, Throwable t) {
+                showScreen();
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
             }
@@ -128,6 +136,16 @@ public class AppointmentsFragment extends BaseFragment {
                 Timber.e("Throwable = " + t);
             }
         });
+    }
+
+    private void showLoading(){
+        progressBar.setVisibility(View.VISIBLE);
+        appointmentsList.setVisibility(View.GONE);
+    }
+
+    private void showScreen(){
+        progressBar.setVisibility(View.GONE);
+        appointmentsList.setVisibility(View.VISIBLE);
     }
 
     @Override
