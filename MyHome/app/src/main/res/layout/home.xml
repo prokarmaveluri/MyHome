@@ -10,6 +10,7 @@
 
         <TextView
             android:id="@+id/header"
+            style="@style/tradeGothicLTStd_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -19,6 +20,7 @@
 
         <TextView
             android:id="@+id/subheader"
+            style="@style/tradeGothicLTStd_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/header"
@@ -46,6 +48,7 @@
 
                 <TextView
                     android:id="@+id/dyk_header"
+                    style="@style/tradeGothicLTStd_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Did you know?"
@@ -53,6 +56,7 @@
 
                 <TextView
                     android:id="@+id/dyk_text"
+                    style="@style/tradeGothicLTStd_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dyk_header"
@@ -79,6 +83,7 @@
 
                 <TextView
                     android:id="@+id/tod_header"
+                    style="@style/tradeGothicLTStd_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tip of the Day"
@@ -86,6 +91,7 @@
 
                 <TextView
                     android:id="@+id/tod_text"
+                    style="@style/tradeGothicLTStd_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tod_header"
@@ -112,6 +118,7 @@
             android:weightSum="1">
 
             <TextView
+                style="@style/tradeGothicLTStd_14"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"

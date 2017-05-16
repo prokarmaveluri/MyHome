@@ -47,6 +47,7 @@ public class AppointmentsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         appointmentsView = inflater.inflate(R.layout.appointments, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.appointments));
 
         Button book = (Button) appointmentsView.findViewById(R.id.book_appointment);
         book.setOnClickListener(new View.OnClickListener() {

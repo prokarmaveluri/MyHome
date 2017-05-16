@@ -68,6 +68,7 @@ public class ProfileViewFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.profile_view, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.profile));
 
         name = (TextView) profileView.findViewById(R.id.name);
         preferredName = (TextView) profileView.findViewById(R.id.preferred_name);

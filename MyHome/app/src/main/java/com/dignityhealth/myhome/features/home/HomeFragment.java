@@ -28,6 +28,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         homeView = inflater.inflate(R.layout.home, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.home));
 
         Button goToProfile = (Button) homeView.findViewById(R.id.button_profile);
         goToProfile.setOnClickListener(new View.OnClickListener() {
