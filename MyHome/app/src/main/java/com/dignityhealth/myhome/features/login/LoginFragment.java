@@ -85,8 +85,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
         //Automatically populate developer builds with a test account
         if(BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")){
-            binder.email.setText("cmajji@gmail.com");
-            binder.password.setText("Password123*");
+            binder.email.setText("jjonnalagadda@prokarma.com");
+            binder.password.setText("Pass123*");
         }
 
         binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email,

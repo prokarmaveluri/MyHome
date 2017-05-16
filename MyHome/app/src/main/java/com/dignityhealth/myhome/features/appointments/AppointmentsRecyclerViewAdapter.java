@@ -64,6 +64,7 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
                 }
 
                 holder.setOnItemClickListener(appointment, onItemClickListener);
+                holder.setOnPinClickListener(appointment, onItemClickListener);
                 break;
 
             case VIEW_TYPE_EMPTY:
@@ -104,6 +105,7 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         public TextView time;
         public TextView facility;
         public TextView doctorName;
+        public ImageView pinImage;
 
         public ViewHolder(final Context context, final View view) {
             super(view);
@@ -114,6 +116,7 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
             time = (TextView) view.findViewById(R.id.time);
             facility = (TextView) view.findViewById(R.id.facility);
             doctorName = (TextView) view.findViewById(R.id.doctor_name);
+            pinImage = (ImageView) view.findViewById(R.id.pin_icon);
         }
 
         public void setOnItemClickListener(final Appointment appointment, final RecyclerViewListener onItemClickListener) {
@@ -121,6 +124,15 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onItemClick(appointment, getAdapterPosition());
+                }
+            });
+        }
+
+        public void setOnPinClickListener(final Appointment appointment, final RecyclerViewListener onItemClickListener) {
+            pinImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onPinClick(appointment, getAdapterPosition());
                 }
             });
         }

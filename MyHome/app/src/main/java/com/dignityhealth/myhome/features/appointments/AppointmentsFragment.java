@@ -16,6 +16,7 @@ import com.dignityhealth.myhome.app.RecyclerViewListener;
 import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
 import java.util.ArrayList;
@@ -62,6 +63,12 @@ public class AppointmentsFragment extends BaseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(APPOINTMENT_KEY, appointment);
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.APPOINTMENTS_DETAILS, bundle);
+            }
+
+            @Override
+            public void onPinClick(Object model, int position) {
+                Appointment appointment = (Appointment) model;
+                CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
             }
         });
 
