@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
+import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.DateUtil;
@@ -33,6 +34,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         appointment = getArguments().getParcelable(AppointmentsFragment.APPOINTMENT_KEY);
         appointmentsView = inflater.inflate(R.layout.appointments_details, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.details));
 
         TextView dateHeader = (TextView) appointmentsView.findViewById(R.id.date_header);
         TextView timeHeader = (TextView) appointmentsView.findViewById(R.id.time_header);

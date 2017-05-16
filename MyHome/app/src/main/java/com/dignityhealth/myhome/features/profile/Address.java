@@ -15,6 +15,15 @@ public class Address implements Parcelable {
     public String zipCode;
     public String countryCode;
 
+    public Address(String line1, String line2, String city, String stateOrProvince, String zipCode, String countryCode) {
+        this.line1 = line1;
+        this.line2 = line2;
+        this.city = city;
+        this.stateOrProvince = stateOrProvince;
+        this.zipCode = zipCode;
+        this.countryCode = countryCode;
+    }
+
     @Override
     public String toString() {
         return "Address{" +

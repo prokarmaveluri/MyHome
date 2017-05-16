@@ -53,6 +53,7 @@ public class AppointmentsFragment extends BaseFragment {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //createAppointment("Bearer " + AuthManager.getInstance().getBearerToken());
                 ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
             }
         });
@@ -78,7 +79,6 @@ public class AppointmentsFragment extends BaseFragment {
         appointmentsList.setAdapter(appointmentsAdapter);
         appointmentsList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-        //createAppointment("Bearer " + AuthManager.getInstance().getBearerToken());
         getAppointmentInfo("Bearer " + AuthManager.getInstance().getBearerToken());
         return appointmentsView;
     }
@@ -110,7 +110,7 @@ public class AppointmentsFragment extends BaseFragment {
         Timber.i("Session bearer " + bearer);
 
         Appointment dummyAppointment =
-                new Appointment(new Random().nextInt(500), false, "cmajji@gmail.com", "dateStart", "dermatology", false, "care giver name here", "This is a dummy appointment for testing", "make sure my skin is nice", "Dr.Seuss", "Facility name here...", "6168675309", new Address());
+                new Appointment(new Random().nextInt(100), false, "jjonnalagadda@gmail.com", "2017-07-11T17:02:04.43Z", "Dermatology", false, "care giver name here", "This is a dummy appointment for testing", "Make sure my skin is nice and silky smooth", "Dr.Seuss", "Facility name here...", "6168675309", new Address("1301 Shoreway Road", null, "Belmont", "CA", "94002", "US"));
 
         NetworkManager.getInstance().createAppointment(bearer, dummyAppointment).enqueue(new Callback<Void>() {
             @Override

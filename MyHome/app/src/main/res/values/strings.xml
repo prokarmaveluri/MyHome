@@ -58,5 +58,6 @@
     <string name="appointments">Appointments</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
+    <string name="details">Details</string>
 
 </resources>
