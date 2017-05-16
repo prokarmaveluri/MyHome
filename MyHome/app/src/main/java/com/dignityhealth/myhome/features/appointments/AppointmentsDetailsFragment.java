@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
@@ -40,6 +41,22 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         TextView facilityAddress = (TextView) appointmentsView.findViewById(R.id.facility_address);
         TextView reason = (TextView) appointmentsView.findViewById(R.id.reason);
         TextView phoneNumber = (TextView) appointmentsView.findViewById(R.id.phone_number);
+        ImageView calendar = (ImageView) appointmentsView.findViewById(R.id.calendar);
+        ImageView pin = (ImageView) appointmentsView.findViewById(R.id.pin_icon);
+
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtil.addCalendarEvent(getActivity(), appointment);
+            }
+        });
+
+        pin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
+            }
+        });
 
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
             dateHeader.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
@@ -68,7 +85,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         }
 
         if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
-            phoneNumber.setText(appointment.facilityPhoneNumber);
+            phoneNumber.setText(CommonUtil.constructPhoneNumber(appointment.facilityPhoneNumber));
         }
 
         return appointmentsView;

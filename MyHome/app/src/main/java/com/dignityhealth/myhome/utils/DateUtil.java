@@ -57,7 +57,7 @@ public class DateUtil {
         return Constants.SIMPLE_DATE_FORMAT.format(date);
     }
 
-    public static String getDateWordsFromUTC(String utcDate){
+    public static String getDateWordsFromUTC(String utcDate) {
         try {
             Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
             return Constants.SIMPLE_DATE_WORDS_FORMAT.format(date);
@@ -69,7 +69,7 @@ public class DateUtil {
         return utcDate;
     }
 
-    public static String getTimeFromUTC(String utcDate){
+    public static String getTimeFromUTC(String utcDate) {
         try {
             Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
             return Constants.SIMPLE_TIME_FORMAT.format(date);
@@ -79,5 +79,23 @@ public class DateUtil {
         }
 
         return utcDate;
+    }
+
+    /**
+     * Gets milliseconds of a UTC date. This is needed for Calendar Event times.
+     *
+     * @param utcDate the utc date
+     * @return the milliseconds since epoch of the UTC date
+     */
+    public static long getMilliseconds(String utcDate) {
+        try {
+            Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
+            return date.getTime();
+        } catch (ParseException e) {
+            Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 }

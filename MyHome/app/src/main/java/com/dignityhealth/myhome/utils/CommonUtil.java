@@ -1,9 +1,18 @@
 package com.dignityhealth.myhome.utils;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.CalendarContract;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.dignityhealth.myhome.features.appointments.Appointment;
+import com.dignityhealth.myhome.features.profile.Address;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -185,5 +194,66 @@ public class CommonUtil {
      */
     public static String stripPhoneNumber(String number) {
         return number.replaceAll("\\D", "").trim();
+    }
+
+    /**
+     * Create a calendar event for an appointment. Uses intents to call the system's calendar with a pre-populated event
+     *
+     * @param context
+     * @param appointment the appointment being created in the calendar
+     */
+    public static void addCalendarEvent(Context context, Appointment appointment) {
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+
+        if (appointment.appointmentStart != null) {
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateUtil.getMilliseconds(appointment.appointmentStart));
+        }
+
+        if (appointment.doctorName != null) {
+            intent.putExtra(CalendarContract.Events.TITLE, "Appointment with " + appointment.doctorName);
+        }
+
+        if (appointment.visitReason != null) {
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, appointment.visitReason);
+        }
+
+        if (appointment.facilityAddress != null) {
+            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, CommonUtil.constructAddress(
+                    appointment.facilityAddress.line1,
+                    appointment.facilityAddress.line2,
+                    appointment.facilityAddress.city,
+                    appointment.facilityAddress.stateOrProvince,
+                    appointment.facilityAddress.zipCode));
+        }
+
+        intent.setType("vnd.android.cursor.item/event");
+
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(context, "Please install a calendar application", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Launch Google Maps with address given
+     *
+     * @param context
+     * @param address the address where we are getting directions to
+     */
+    public static void getDirections(Context context, Address address) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("google.navigation:q=" + Uri.encode(address.line1 + "," + address.city + "," + address.stateOrProvince)));
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            try {
+                Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=an+" + address.line1 + address.city));
+                context.startActivity(unrestrictedIntent);
+            } catch (ActivityNotFoundException innerEx) {
+                Toast.makeText(context, "Please install a maps application", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
