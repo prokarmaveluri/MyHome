@@ -169,7 +169,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, fadFragment, FadFragment.FAD_TAG)
-                            .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getFragmentManager().executePendingTransactions();
 

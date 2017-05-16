@@ -15,74 +15,69 @@
         android:onClick="@{handlers::onClickProvider}"
         android:orientation="vertical">
 
-        <ImageView
+        <com.dignityhealth.myhome.views.CircularImageView
             android:id="@+id/docImage"
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:scaleType="fitXY" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:scaleType="centerCrop" />
 
         <RelativeLayout
             android:id="@+id/docInfoLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
             android:layout_toRightOf="@+id/docImage">
 
             <TextView
                 android:id="@+id/docDisplayName"
-                style="@style/tradeGothicLTStd_16"
-                android:layout_width="wrap_content"
+                style="@style/tradeGothicLTStd_20"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Richard paul, MD" />
+                android:layout_toLeftOf="@+id/distance"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Richard paul, MD"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/docSpeciality"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStd_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/docDisplayName"
+                android:layout_marginTop="8dp"
+                android:lines="1"
                 android:text="Richard paul, MD" />
 
             <TextView
                 android:id="@+id/distance"
+                style="@style/tradeGothicLTStd_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:lines="1"
                 android:text="10.4 miles" />
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/distance"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
-                android:drawableRight="@android:drawable/ic_menu_send"
                 android:gravity="center"
-                android:text="View"
-                android:textAlignment="center"
-                android:textColor="@color/light_blue" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/docInfoLayout"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/docImage">
-
-            <ImageView
-                android:id="@+id/locationIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_btn_speak_now" />
+                android:src="@mipmap/map_blue" />
 
             <TextView
                 android:id="@+id/docAddress"
+                style="@style/tradeGothicLTStd_18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/locationIcon"
+                android:layout_below="@+id/docSpeciality"
                 android:text="Denver, CO" />
         </RelativeLayout>
 

@@ -6,6 +6,7 @@ import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
+import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
@@ -114,6 +115,18 @@ public class NetworkManager {
 
     public Call<List<LocationSuggestionsResponse>> getLocationSuggestions(String queryString) {
         return service.getLocationSuggestions(queryString);
+    }
+
+    public Call<List<SearchSuggestionResponse>> getSearchSuggestions(String queryString,
+                                                                     String lat,
+                                                                     String lon,
+                                                                     String displayName,
+                                                                     String zipCode) {
+        return service.getSearchSuggestions(queryString,
+                lat,
+                lon,
+                displayName,
+                zipCode);
     }
 
     public Call<LocationResponse> getLocation() {

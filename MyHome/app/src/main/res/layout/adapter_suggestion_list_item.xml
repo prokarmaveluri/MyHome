@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter.SuggestionsClick" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:onClick="@{handlers::onClickSuggestion}"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/suggestionText"
+            style="@style/tradeGothicLTStd_18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/search"
+            android:textColor="@color/md_blue_grey_680"
+            android:ellipsize="end"
+            android:lines="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:background="@color/md_blue_grey_80" />
+    </RelativeLayout>
+</layout>

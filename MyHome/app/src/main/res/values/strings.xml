@@ -43,7 +43,13 @@
     <!-- FAD -->
     <string name="fad_search_hint">Search</string>
     <string name="fad_search_location_hint">Search Location</string>
-    <string name="find_a_doctor">Find a Doctor</string>
+    <string name="find_a_doctor">Find Care</string>
+    <string name="provider_details">Provider Details</string>
+    <string name="profile_view">Profile</string>
+    <string name="peofile_edit">Edit Profile</string>
+    <string name="my_home">My Home</string>
+    <string name="my_appointments">Appointments</string>
+    <string name="settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

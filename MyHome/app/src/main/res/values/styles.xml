@@ -48,6 +48,10 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="tradeGothicLTStd_18" parent="tradeGothicLTStd">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="tradeGothicLTStd_14" parent="tradeGothicLTStd">
         <item name="android:textSize">14sp</item>
     </style>
