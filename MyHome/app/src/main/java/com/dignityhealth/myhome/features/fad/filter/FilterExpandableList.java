@@ -126,20 +126,43 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition,
+                             final boolean isLastChild, View convertView,
+                             final ViewGroup parent) {
         convertView = LayoutInflater.from(mContext).inflate(R.layout.filter_child, parent, false);
         CheckBox view = (CheckBox) convertView.findViewById(R.id.expChild);
         if (groupPosition == GROUP.SPECIALTIES.getValue()) {
             view.setText(specialties.get(childPosition).getLabel());
+            view.setChecked(specialties.get(childPosition).getSelected());
         } else if (groupPosition == GROUP.GENDER.getValue()) {
             view.setText(gender.get(childPosition).getLabel());
+            view.setChecked(gender.get(childPosition).getSelected());
         } else if (groupPosition == GROUP.LANGUAGES.getValue()) {
             view.setText(languages.get(childPosition).getLabel());
+            view.setChecked(languages.get(childPosition).getSelected());
         } else if (groupPosition == GROUP.HOSPITALS.getValue()) {
             view.setText(hospitals.get(childPosition).getLabel());
+            view.setChecked(hospitals.get(childPosition).getSelected());
         } else if (groupPosition == GROUP.PRACTICE.getValue()) {
             view.setText(practices.get(childPosition).getLabel());
+            view.setChecked(practices.get(childPosition).getSelected());
         }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (groupPosition == GROUP.SPECIALTIES.getValue()) {
+                    specialties.get(childPosition).setSelected(!specialties.get(childPosition).getSelected());
+                } else if (groupPosition == GROUP.GENDER.getValue()) {
+                    gender.get(childPosition).setSelected(!gender.get(childPosition).getSelected());
+                } else if (groupPosition == GROUP.LANGUAGES.getValue()) {
+                    languages.get(childPosition).setSelected(!languages.get(childPosition).getSelected());
+                } else if (groupPosition == GROUP.HOSPITALS.getValue()) {
+                    hospitals.get(childPosition).setSelected(!hospitals.get(childPosition).getSelected());
+                } else if (groupPosition == GROUP.PRACTICE.getValue()) {
+                    practices.get(childPosition).setSelected(!practices.get(childPosition).getSelected());
+                }
+            }
+        });
         return convertView;
     }
 

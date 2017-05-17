@@ -335,12 +335,11 @@ public class CommonUtil {
             }
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight;
-        if (height < 320)
-            height = 320;
+        int height = totalHeight + 5;
+        if (height < 325)
+            height = 325;
         params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity());
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
-
 }

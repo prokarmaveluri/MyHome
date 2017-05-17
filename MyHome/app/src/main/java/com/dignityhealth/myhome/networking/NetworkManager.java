@@ -7,8 +7,8 @@ import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
-import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
+import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
@@ -142,8 +142,26 @@ public class NetworkManager {
                                                 String lat,
                                                 String lon,
                                                 String displayName,
-                                                String zipCode) {
-        return service.getProviders(queryString, lat, lon, displayName, zipCode);
+                                                String zipCode,
+                                                String page,
+                                                String pageSize,
+                                                String distance,
+                                                String gender,
+                                                String languages,
+                                                String specialties,
+                                                String facilities,
+                                                String practices,
+                                                String patients) {
+        return service.getProviders(queryString, lat, lon, displayName, zipCode,
+                page,
+                pageSize,
+                distance,
+                gender,
+                languages,
+                specialties,
+                facilities,
+                practices,
+                patients);
     }
 
     public Call<ProviderDetailsResponse> getProviderDetails(String id) {

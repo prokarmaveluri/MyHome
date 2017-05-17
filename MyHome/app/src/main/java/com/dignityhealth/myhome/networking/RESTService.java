@@ -88,7 +88,16 @@ public interface RESTService {
                                          @Query("latitude") String lat,
                                          @Query("longitude") String lon,
                                          @Query("displayName") String displayName,
-                                         @Query("zipCode") String zipCode);
+                                         @Query("zipCode") String zipCode,
+                                         @Query("page") String page,
+                                         @Query("pageSize") String pageSize,
+                                         @Query("distance") String distance,
+                                         @Query("gender") String gender,
+                                         @Query("languages") String languages,
+                                         @Query("specialties") String specialties,
+                                         @Query("facilities") String facilities,
+                                         @Query("practices") String practices,
+                                         @Query("patients") String patients);
 
     @GET(RESTConstants.S2_BASE_URL + "api/providerdetails")
     Call<ProviderDetailsResponse> getProviderDetails(@Query("providerid") String id);

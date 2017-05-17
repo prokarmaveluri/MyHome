@@ -36,6 +36,28 @@ public class CommonModel implements Parcelable {
         return GroupLabel;
     }
 
+
+    public void setLabel(String label) {
+        Label = label;
+    }
+
+    public void setValue(String value) {
+        Value = value;
+    }
+
+    public void setCount(Integer count) {
+        Count = count;
+    }
+
+    public void setSelected(Boolean selected) {
+        Selected = selected;
+    }
+
+    public void setGroupLabel(String groupLabel) {
+        GroupLabel = groupLabel;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;

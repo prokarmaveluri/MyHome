@@ -1,30 +1,40 @@
 package com.dignityhealth.myhome.features.fad.filter;
 
+import android.app.Activity;
 import android.app.DialogFragment;
-import android.os.Build;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.app.NavigationActivity;
+import com.dignityhealth.myhome.databinding.FragmentFilterBinding;
 import com.dignityhealth.myhome.features.fad.CommonModel;
+import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
+import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
+import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 /*
  * Fragment dialog to display the password criteria.
  *
  * Created by cmajji on 1/03/17.
  */
-public class FilterDialog extends DialogFragment {
+public class FilterDialog extends DialogFragment implements SuggestionsAdapter.ISuggestionClick {
 
     private ArrayList<CommonModel> specialties;
     private ArrayList<CommonModel> gender;
@@ -32,8 +42,10 @@ public class FilterDialog extends DialogFragment {
     private ArrayList<CommonModel> hospitals;
     private ArrayList<CommonModel> practices;
 
-    private ExpandableListView filterList;
     private int selectedGroup = -1;
+    private FragmentFilterBinding binding;
+    private SuggestionsAdapter adapter;
+    private boolean isHide = false;
 
     public FilterDialog() {
         // Required empty public constructor
@@ -62,71 +74,128 @@ public class FilterDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_filter, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_filter, container, false);
 
-        Toolbar appToolbar = (Toolbar) view.findViewById(R.id.toolbarWhite);
-        filterList = (ExpandableListView) view.findViewById(R.id.expandableList);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650,
-                    getActivity().getTheme()));
-        } else {
-            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
-        }
-        ((NavigationActivity) getActivity()).setSupportActionBar(appToolbar);
-
-        ((NavigationActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((NavigationActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.mipmap.xblue);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.find_a_doctor));
-
-        filterList.setAdapter(new FilterExpandableList(getActivity(), specialties,
+        binding.filterLocation.addTextChangedListener(new SuggestionTextSwitcher());
+        binding.expandableList.setAdapter(new FilterExpandableList(getActivity(), specialties,
                 gender, languages, hospitals, practices));
 
         listListeners();
         setHasOptionsMenu(true);
-        return view;
-    }
 
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.filter_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save_filter:
-                dismiss();
-                break;
-            case android.R.id.home:
-                dismiss();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
+        binding.setHandlers(new DialogClick());
+        return binding.getRoot();
     }
 
     private void listListeners() {
-        filterList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+        binding.expandableList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
                 if (selectedGroup != -1 && groupPosition != selectedGroup) {
-                    filterList.collapseGroup(selectedGroup);
+                    binding.expandableList.collapseGroup(selectedGroup);
                 }
                 selectedGroup = groupPosition;
             }
         });
 
-        filterList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        binding.expandableList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
-                CommonUtil.setListViewHeight(filterList, groupPosition, selectedGroup);
+                CommonUtil.setListViewHeight(binding.expandableList, groupPosition, selectedGroup);
                 return false;
             }
         });
     }
 
+    private void setResults() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("SPECIALITY", specialties);
+        bundle.putParcelableArrayList("GENDER", gender);
+        bundle.putParcelableArrayList("LANGUAGE", languages);
+        bundle.putParcelableArrayList("HOSPITALS", hospitals);
+        bundle.putParcelableArrayList("PRACTICES", practices);
+        intent.putExtras(bundle);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+    }
+
+    @Override
+    public void suggestionClick(String text) {
+        isHide = true;
+        binding.locationSugg.setVisibility(View.GONE);
+        binding.filterLocation.setText(text);
+    }
+
+    public class DialogClick {
+        public void onClickEvent(View view) {
+            switch (view.getId()) {
+                case R.id.dialog_close:
+                    dismiss();
+                    break;
+                case R.id.save_filter:
+                    setResults();
+                    dismiss();
+                    break;
+            }
+        }
+    }
+
+    private void locationSuggestions(List<String> list) {
+        binding.locationSugg.setVisibility(View.VISIBLE);
+        adapter = new SuggestionsAdapter(list, getActivity(), FilterDialog.this);
+        binding.locationSugg.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.locationSugg.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void getLocationSuggestions(String query) {
+        NetworkManager.getInstance().getLocationSuggestions(query)
+                .enqueue(new Callback<List<LocationSuggestionsResponse>>() {
+                    @Override
+                    public void onResponse(Call<List<LocationSuggestionsResponse>> call,
+                                           Response<List<LocationSuggestionsResponse>> response) {
+                        if (response.isSuccessful()) {
+                            locationSuggestions(getLocationNames(response.body()));
+                        } else {
+                            Timber.i("Something went wrong, LocationSuggestions");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<LocationSuggestionsResponse>> call, Throwable t) {
+                        Timber.i("LocationSuggestions, onFailure");
+                    }
+                });
+    }
+
+    private List<String> getLocationNames(List<LocationSuggestionsResponse> list) {
+        List<String> sug = new ArrayList<>();
+        for (LocationSuggestionsResponse resp : list) {
+            sug.add(resp.getDisplayName());
+
+        }
+        return sug;
+    }
+
+    public class SuggestionTextSwitcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (s.length() > 0 && !isHide) {
+                getLocationSuggestions(s.toString());
+            }
+            isHide = false;
+        }
+    }
 }

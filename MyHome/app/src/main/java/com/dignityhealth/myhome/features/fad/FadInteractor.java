@@ -77,7 +77,16 @@ public interface FadInteractor {
          * @param zipCode
          */
         void getProviderList(String queryString, String lat, String lon, String displayName,
-                             String zipCode);
+                             String zipCode,
+                             String page,
+                             String pageSize,
+                             String distance,
+                             String gender,
+                             String languages,
+                             String specialties,
+                             String facilities,
+                             String practices,
+                             String patients);
 
         /**
          * navigate to provider details
