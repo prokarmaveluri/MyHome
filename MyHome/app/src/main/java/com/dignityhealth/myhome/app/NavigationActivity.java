@@ -16,10 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 
+import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.appointments.AppointmentsDetailsFragment;
 import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
+import com.dignityhealth.myhome.features.dev.DeveloperFragment;
 import com.dignityhealth.myhome.features.fad.FadFragment;
 import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
@@ -273,6 +275,20 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 }
                 break;
 
+            case DEVELOPER:
+                if (getActivityTag() != ActivityTag.DEVELOPER) {
+                    DeveloperFragment developerFragment = DeveloperFragment.newInstance();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, developerFragment, DeveloperFragment.DEVELOPER_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getFragmentManager().executePendingTransactions();
+
+                    setActivityTag(ActivityTag.DEVELOPER);
+                }
+                break;
+
             case CONTACT_US:
                 if (getActivityTag() != ActivityTag.CONTACT_US) {
                     ContactUsFragment contactUsFragment = ContactUsFragment.newInstance();
@@ -293,6 +309,14 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
+
+        //Allow developer settings
+        if (BuildConfig.SHOW_SETTINGS) {
+            menu.findItem(R.id.developer).setVisible(true);
+        } else {
+            menu.findItem(R.id.developer).setVisible(false);
+        }
+
         return true;
     }
 
@@ -319,6 +343,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 setActivityTag(ActivityTag.TERMS_OF_SERVICE);
                 Intent intentTos = new Intent(this, OptionsActivity.class);
                 ActivityCompat.startActivity(this, intentTos, options.toBundle());
+                return true;
+            case R.id.developer:
+                setActivityTag(ActivityTag.DEVELOPER);
+                Intent intentDeveloper = new Intent(this, OptionsActivity.class);
+                ActivityCompat.startActivity(this, intentDeveloper, options.toBundle());
                 return true;
             case R.id.sign_out:
                 SessionUtil.logout(this, progressBar);

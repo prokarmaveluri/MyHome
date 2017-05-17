@@ -19,6 +19,7 @@ public class Constants {
         CONTACT_US,
         SETTINGS,
         HELP,
+        DEVELOPER,
         PREFERENCES,
         TERMS_OF_SERVICE,
         PROVIDER_DETAILS,

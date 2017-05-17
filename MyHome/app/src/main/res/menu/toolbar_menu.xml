@@ -33,6 +33,13 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/developer"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Developer"
+        android:visible="false"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/sign_out"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="Sign Out"

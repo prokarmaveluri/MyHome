@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
+import com.dignityhealth.myhome.features.dev.DeveloperFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
 import com.dignityhealth.myhome.features.tos.TosFragment;
 import com.dignityhealth.myhome.utils.Constants;
@@ -79,6 +80,17 @@ public class OptionsActivity extends BaseActivity {
                 getFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.TERMS_OF_SERVICE);
+                break;
+
+            case DEVELOPER:
+                DeveloperFragment developerFragment = DeveloperFragment.newInstance();
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, developerFragment, DeveloperFragment.DEVELOPER_TAG)
+                        .commitAllowingStateLoss();
+                getFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.DEVELOPER);
                 break;
 
             default:
