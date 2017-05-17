@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.features.appointments.Appointment;
+import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.Constants;
@@ -38,6 +40,13 @@ public class DeveloperFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         developerView = inflater.inflate(R.layout.developer, container, false);
         getActivity().setTitle(getString(R.string.developer_settings));
+
+        TextView bearer = (TextView) developerView.findViewById(R.id.bearer);
+        bearer.setText("Bearer " + AuthManager.getInstance().getBearerToken());
+        TextView session = (TextView) developerView.findViewById(R.id.session);
+        session.setText(AuthManager.getInstance().getSessionToken());
+        TextView profile = (TextView) developerView.findViewById(R.id.profile);
+        profile.setText(ProfileManager.getProfile() != null ? ProfileManager.getProfile().toString() : "Profile Not Retrieved Yet");
 
         Button addAppointment = (Button) developerView.findViewById(R.id.add_appointment);
         addAppointment.setOnClickListener(new View.OnClickListener() {
