@@ -40,7 +40,7 @@ public class DevUtil {
     public static String getRandomAppointmentDate() {
         Date date = new Date();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            date.setTime(System.currentTimeMillis() + ThreadLocalRandom.current().nextLong(1000000, 100000000));
+            date.setTime(System.currentTimeMillis() + ThreadLocalRandom.current().nextLong(10000000, 1000000000));
         } else {
             long random = (long) (new Random().nextLong() * 1.5);
             date.setTime(System.currentTimeMillis() + random);

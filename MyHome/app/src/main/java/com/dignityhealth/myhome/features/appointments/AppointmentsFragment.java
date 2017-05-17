@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.features.appointments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,14 +15,12 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.app.RecyclerViewListener;
-import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +56,6 @@ public class AppointmentsFragment extends BaseFragment {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //createAppointment("Bearer " + AuthManager.getInstance().getBearerToken());
                 ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
             }
         });
@@ -79,9 +77,11 @@ public class AppointmentsFragment extends BaseFragment {
         });
 
         appointmentsList = (RecyclerView) appointmentsView.findViewById(R.id.list_appointments);
-        appointmentsList.setClickable(true);
         appointmentsList.setAdapter(appointmentsAdapter);
         appointmentsList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        appointmentsList.addItemDecoration(itemDecoration);
 
         getAppointmentInfo("Bearer " + AuthManager.getInstance().getBearerToken());
         return appointmentsView;
@@ -108,30 +108,6 @@ public class AppointmentsFragment extends BaseFragment {
             @Override
             public void onFailure(Call<AppointmentResponse> call, Throwable t) {
                 showScreen();
-                Timber.e("Something failed! :/");
-                Timber.e("Throwable = " + t);
-            }
-        });
-    }
-
-    private void createAppointment(String bearer) {
-        Timber.i("Session bearer " + bearer);
-
-        Appointment dummyAppointment =
-                new Appointment(new Random().nextInt(100), false, "jjonnalagadda@gmail.com", "2017-07-11T17:02:04.43Z", "Dermatology", false, "care giver name here", "This is a dummy appointment for testing", "Make sure my skin is nice and silky smooth", "Dr.Seuss", "Facility name here...", "6168675309", new Address("1301 Shoreway Road", null, "Belmont", "CA", "94002", "US"));
-
-        NetworkManager.getInstance().createAppointment(bearer, dummyAppointment).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
             }
