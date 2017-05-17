@@ -60,5 +60,6 @@
     <string name="details">Details</string>
     <string name="share_appointment">Share Appointment</string>
     <string name="terms_of_service">Terms of Service</string>
+    <string name="developer_settings">Developer Settings</string>
 
 </resources>

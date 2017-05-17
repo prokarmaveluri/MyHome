@@ -5,20 +5,31 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
+import com.dignityhealth.myhome.features.appointments.Appointment;
+import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.DevUtil;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 5/17/17.
  */
 
-public class DeveloperFragment extends BaseFragment{
+public class DeveloperFragment extends BaseFragment {
     public static final String DEVELOPER_TAG = "dev_tag";
     View developerView;
 
-    public static DeveloperFragment newInstance(){
+    public static DeveloperFragment newInstance() {
         return new DeveloperFragment();
     }
 
@@ -26,7 +37,57 @@ public class DeveloperFragment extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         developerView = inflater.inflate(R.layout.developer, container, false);
+        getActivity().setTitle(getString(R.string.developer_settings));
+
+        Button addAppointment = (Button) developerView.findViewById(R.id.add_appointment);
+        addAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addRandomAppointment("Bearer " + AuthManager.getInstance().getBearerToken());
+            }
+        });
+
         return developerView;
+    }
+
+    private void addRandomAppointment(String bearer) {
+        Timber.i("Session bearer " + bearer);
+
+        final Appointment dummyAppointment =
+                new Appointment(
+                        DevUtil.getRandomID(),
+                        true,
+                        DevUtil.getEmail(),
+                        DevUtil.getRandomAppointmentDate(),
+                        "Dermatology",
+                        DevUtil.getRandomBoolean(),
+                        "care giver name here",
+                        "This is a dummy appointment for testing",
+                        DevUtil.getRandomAppointmentReason(),
+                        DevUtil.getRandomDoctor(),
+                        DevUtil.getRandomFacilityName(),
+                        DevUtil.getRandomPhoneNumber(),
+                        DevUtil.getRandomAddress());
+
+        NetworkManager.getInstance().createAppointment(bearer, dummyAppointment).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                    Toast.makeText(getActivity(), "Appointment Created!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                    Toast.makeText(getActivity(), "Appointment Creation Failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+                Toast.makeText(getActivity(), "Appointment Creation Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

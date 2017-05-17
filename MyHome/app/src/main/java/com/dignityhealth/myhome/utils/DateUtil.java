@@ -57,6 +57,16 @@ public class DateUtil {
         return Constants.SIMPLE_DATE_FORMAT.format(date);
     }
 
+    /**
+     * Convert a Date object into a UTC format.
+     *
+     * @param date the date object. This object's date should already be set and finalized before making this call.
+     * @return a UTC string of the given date
+     */
+    public static String convertDateToUTC(Date date) {
+        return Constants.SIMPLE_DATE_FORMAT_UTC.format(date);
+    }
+
     public static String getDateWordsFromUTC(String utcDate) {
         try {
             Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
