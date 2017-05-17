@@ -26,7 +26,8 @@
         android:gravity="center"
         android:text="Thurs May 26"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:transitionName="@string/transition_appointment_date" />
 
     <TextView
         android:id="@+id/time"
@@ -73,6 +74,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="12dp"
         android:layout_marginLeft="10dp"
-        android:src="@mipmap/map_blue" />
+        android:src="@mipmap/map_blue"
+        android:transitionName="@string/transition_appointment_map_pin" />
 
 </RelativeLayout>

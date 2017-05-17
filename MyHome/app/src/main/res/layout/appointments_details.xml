@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:text="January 28th, 2017"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:transitionName="@string/transition_appointment_date" />
 
         <TextView
             android:id="@+id/time_header"
@@ -89,7 +90,8 @@
             android:layout_height="24dp"
             android:layout_alignBottom="@id/facility_address"
             android:layout_alignRight="@id/calendar"
-            android:src="@mipmap/map_blue" />
+            android:src="@mipmap/map_blue"
+            android:transitionName="@string/transition_appointment_map_pin" />
 
         <TextView
             android:id="@+id/reason"

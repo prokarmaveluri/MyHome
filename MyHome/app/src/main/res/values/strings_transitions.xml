@@ -1,0 +1,4 @@
+<resources>
+    <string name="transition_appointment_date">transition:NAME</string>
+    <string name="transition_appointment_map_pin">transitionAppointmentsMapPin</string>
+</resources>

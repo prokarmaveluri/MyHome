@@ -11,10 +11,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
@@ -152,6 +156,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      * @param activityTag The page we want to navigate to
      */
     public void loadFragment(ActivityTag activityTag, Bundle bundle) {
+        Transition moveTransition = TransitionInflater.from(this).
+                inflateTransition(android.R.transition.move);
+
         switch (activityTag) {
             case HOME:
                 if (getActivityTag() != ActivityTag.HOME) {
@@ -209,10 +216,13 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case APPOINTMENTS:
                 if (getActivityTag() != ActivityTag.APPOINTMENTS) {
                     AppointmentsFragment appointmentsFragment = AppointmentsFragment.newInstance();
+                    appointmentsFragment.setSharedElementReturnTransition(moveTransition);
+                    appointmentsFragment.setExitTransition(moveTransition);
+
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, appointmentsFragment, AppointmentsFragment.APPOINTMENTS_TAG)
-                            .commitAllowingStateLoss();
+                            .commit();
                     getFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.APPOINTMENTS);
@@ -221,13 +231,21 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
             case APPOINTMENTS_DETAILS:
                 if (getActivityTag() != ActivityTag.APPOINTMENTS_DETAILS) {
+                    ImageView mapPin = (ImageView) findViewById(R.id.pin_icon);
+                    TextView dateHeader = (TextView) findViewById(R.id.date);
+
                     AppointmentsDetailsFragment appointmentsDetailsFragment = AppointmentsDetailsFragment.newInstance();
+                    appointmentsDetailsFragment.setSharedElementEnterTransition(moveTransition);
+                    appointmentsDetailsFragment.setEnterTransition(moveTransition);
+
                     appointmentsDetailsFragment.setArguments(bundle);
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, appointmentsDetailsFragment, AppointmentsDetailsFragment.APPOINTMENTS_DETAILS_TAG)
                             .addToBackStack(null)
-                            .commitAllowingStateLoss();
+                            .addSharedElement(mapPin, getString(R.string.transition_appointment_map_pin))
+                            .addSharedElement(dateHeader, getString(R.string.transition_appointment_date))
+                            .commit();
                     getFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.APPOINTMENTS_DETAILS);
