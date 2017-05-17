@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.features.fad;
 
 import android.content.Context;
 
+import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.networking.NetworkManager;
 
@@ -46,15 +47,39 @@ public class FadPresenter implements FadInteractor.Presenter {
      */
     @Override
     public void getProviderList(String queryString, String lat, String lon, String displayName,
-                                String zipCode) {
-        NetworkManager.getInstance().getProviders(queryString, lat, lon, displayName, zipCode)
+                                String zipCode,
+                                String page,
+                                String pageSize,
+                                String distance,
+                                String gender,
+                                String languages,
+                                String specialties,
+                                String facilities,
+                                String practices,
+                                String patients) {
+        NetworkManager.getInstance().getProviders(queryString, lat, lon, displayName, zipCode,
+                page,
+                pageSize,
+                distance,
+                gender,
+                languages,
+                specialties,
+                facilities,
+                practices,
+                patients)
                 .enqueue(new Callback<ProvidersResponse>() {
                     @Override
                     public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
                         if (response.isSuccessful() && response.body().getProviders().size() > 0) {
-                            mView.updateProviderList(response.body().getProviders());
+                            mView.updateProviderList(response.body().getProviders(),
+                                    response.body().getSpecialties(),
+                                    response.body().getGenders(),
+                                    response.body().getLanguages(),
+                                    response.body().getHospitals(),
+                                    response.body().getPractices());
                         } else {
-                            mView.showErrorMessage("There are no providers for the search");
+                            mView.showErrorMessage(mContext.getString(R.string.no_providers));
+                            mView.providersListError();
                         }
                         mView.showProgress(false);
                     }
@@ -63,6 +88,7 @@ public class FadPresenter implements FadInteractor.Presenter {
                     public void onFailure(Call<ProvidersResponse> call, Throwable t) {
                         mView.showProgress(false);
                         mView.showErrorMessage("Something went wrong!");
+                        mView.providersListError();
                     }
                 });
 

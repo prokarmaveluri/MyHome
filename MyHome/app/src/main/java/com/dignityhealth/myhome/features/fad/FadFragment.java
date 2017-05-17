@@ -1,8 +1,10 @@
 package com.dignityhealth.myhome.features.fad;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,6 +28,7 @@ import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionRespons
 import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +50,21 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         ProvidersAdapter.IProviderClick, SearchView.OnQueryTextListener,
         SuggestionsAdapter.ISuggestionClick, View.OnFocusChangeListener {
 
+    private static final int FILTER_REQUEST = 100;
+    private static String currentSearchQuery = "";
+
     private FragmentFadBinding binding;
     private SuggestionsAdapter suggestionAdapter;
     private ProvidersAdapter adapter;
     private FadInteractor.Presenter presenter;
     private SearchView searchView;
     private List<ProvidersResponse.Provider> providerList = new ArrayList<>();
+    private ArrayList<CommonModel> specialties = new ArrayList<>();
+    private ArrayList<CommonModel> gender = new ArrayList<>();
+    private ArrayList<CommonModel> languages = new ArrayList<>();
+    private ArrayList<CommonModel> hospitals = new ArrayList<>();
+    private ArrayList<CommonModel> practices = new ArrayList<>();
+    private ArrayList<CommonModel> acceptNew = new ArrayList<>();
 
     private enum State {
         LIST,
@@ -121,7 +133,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 break;
 
             case R.id.fad_filter:
-//                startFilterDialog();
+                startFilterDialog();
+                break;
+            case R.id.fad_more:
                 break;
         }
 
@@ -158,16 +172,29 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     @Override
-    public void updateProviderList(List<ProvidersResponse.Provider> providers) {
+    public void updateProviderList(List<ProvidersResponse.Provider> providers,
+                                   List<CommonModel> specialties,
+                                   List<CommonModel> gender,
+                                   List<CommonModel> languages,
+                                   List<CommonModel> hospitals,
+                                   List<CommonModel> practices) {
         providerList.clear();
         providerList.addAll(providers);
         adapter.notifyDataSetChanged();
         showErrorMessage(false, "");
+
+        clearFilters();
+
+        this.specialties.addAll(specialties);
+        this.gender.addAll(gender);
+        this.languages.addAll(languages);
+        this.hospitals.addAll(hospitals);
+        this.practices.addAll(practices);
     }
 
     @Override
     public void providersListError() {
-
+        clearFilters();
     }
 
     private void showViews() {
@@ -195,6 +222,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Override
     public boolean onQueryTextSubmit(String query) {
         binding.suggestionList.setVisibility(View.GONE);
+        clearFilters();
         searchForQuery(query);
         return true;
     }
@@ -217,7 +245,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 return;
             }
             showProgress(true);
-
+            currentSearchQuery = query;
             View view = getActivity().getCurrentFocus();
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -226,7 +254,16 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     FadManager.getInstance().getLocation().getLat(),
                     FadManager.getInstance().getLocation().getLong(),
                     FadManager.getInstance().getLocation().getDisplayName(),
-                    FadManager.getInstance().getLocation().getZipCode());
+                    FadManager.getInstance().getLocation().getZipCode(),
+                    RESTConstants.PROVIDER_PAGE_NO,
+                    RESTConstants.PROVIDER_PAGE_SIZE,
+                    RESTConstants.PROVIDER_DISTANCE,
+                    getParam(gender),
+                    getParam(languages),
+                    getParam(specialties),
+                    getParam(hospitals),
+                    getParam(practices),
+                    getParam(acceptNew));
         } catch (NullPointerException ex) {
         }
     }
@@ -270,7 +307,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     private void updateSuggestionList(List<SearchSuggestionResponse> list) {
 
-        suggestionAdapter = new SuggestionsAdapter(list, getActivity(),
+        suggestionAdapter = new SuggestionsAdapter(getSuggestions(list), getActivity(),
                 FadFragment.this);
         binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.suggestionList.setAdapter(suggestionAdapter);
@@ -308,8 +345,64 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         }
     }
 
-    private void startFilterDialog(){
+    private void startFilterDialog() {
         FilterDialog dialog = new FilterDialog();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("SPECIALITY", specialties);
+        bundle.putParcelableArrayList("GENDER", gender);
+        bundle.putParcelableArrayList("LANGUAGE", languages);
+        bundle.putParcelableArrayList("HOSPITALS", hospitals);
+        bundle.putParcelableArrayList("PRACTICES", practices);
+        dialog.setArguments(bundle);
+        dialog.setTargetFragment(this, FILTER_REQUEST);
         dialog.show(getFragmentManager(), "Filter Dialog");
+    }
+
+    private void clearFilters() {
+        specialties.clear();
+        gender.clear();
+        languages.clear();
+        hospitals.clear();
+        practices.clear();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FILTER_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data.getExtras() != null) {
+                    specialties = data.getExtras().getParcelableArrayList("SPECIALITY");
+                    gender = data.getExtras().getParcelableArrayList("GENDER");
+                    languages = data.getExtras().getParcelableArrayList("LANGUAGE");
+                    hospitals = data.getExtras().getParcelableArrayList("HOSPITALS");
+                    practices = data.getExtras().getParcelableArrayList("PRACTICES");
+                }
+                // update list with filter
+                searchForQuery(currentSearchQuery);
+            }
+        }
+    }
+
+    private String getParam(List<CommonModel> listModel) {
+        StringBuilder build = new StringBuilder();
+
+        for (CommonModel model : listModel) {
+            if (build.length() <= 0 && model.getSelected() && !model.getValue().isEmpty())
+                build.append(model.getValue());
+            else if (model.getSelected() && !model.getValue().isEmpty())
+                build.append("," + model.getValue());
+        }
+        return build.toString();
+    }
+
+    private List<String> getSuggestions(List<SearchSuggestionResponse> list){
+        List<String> sug = new ArrayList<>();
+        for (SearchSuggestionResponse resp: list){
+            if (resp.getType().contains("Search")){
+                sug.add(resp.getTitle());
+            }
+        }
+        return sug;
     }
 }

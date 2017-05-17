@@ -20,11 +20,11 @@ import timber.log.Timber;
 
 public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.SuggestionsVH> {
 
-    private List<SearchSuggestionResponse> list;
+    private List<String> list;
     private ISuggestionClick listener;
     private Context mContext;
 
-    public SuggestionsAdapter(List<SearchSuggestionResponse> list,
+    public SuggestionsAdapter(List<String> list,
                               Context context, ISuggestionClick listener) {
         this.list = list;
         mContext = context;
@@ -65,11 +65,11 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
             binding = itemView;
         }
 
-        public void bind(SearchSuggestionResponse suggestion, int position) {
+        public void bind(String suggestion, int position) {
 
             try {
-                binding.itemLayout.setTag(suggestion.getTitle());
-                binding.suggestionText.setText(suggestion.getTitle());
+                binding.itemLayout.setTag(suggestion);
+                binding.suggestionText.setText(suggestion);
             } catch (NullPointerException ex) {
 
             }

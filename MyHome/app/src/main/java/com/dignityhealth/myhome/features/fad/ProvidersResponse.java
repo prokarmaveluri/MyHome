@@ -102,36 +102,6 @@ public class ProvidersResponse {
         return LocationError;
     }
 
-
-    public class CommonModel {
-
-        private String Label;
-        private String Value;
-        private Integer Count;
-        private Boolean Selected;
-        private String GroupLabel;
-
-        public String getLabel() {
-            return Label;
-        }
-
-        public String getValue() {
-            return Value;
-        }
-
-        public Integer getCount() {
-            return Count;
-        }
-
-        public Boolean getSelected() {
-            return Selected;
-        }
-
-        public String getGroupLabel() {
-            return GroupLabel;
-        }
-    }
-
     public class Office {
 
         private String Name;
