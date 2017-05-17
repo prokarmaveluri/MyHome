@@ -11,11 +11,11 @@ import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.utils.Constants;
 
 public class ProviderDetailsFragment extends BaseFragment {
-
-    private String providerId;
-
     public static final String PROVIDER_ID = "PROVIDER_ID";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
+
+    private String providerId;
+    private View providerDetailsView;
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
@@ -41,11 +41,10 @@ public class ProviderDetailsFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
 
-        return inflater.inflate(R.layout.fragment_provider_details, container, false);
+        return providerDetailsView;
     }
 
     @Override
