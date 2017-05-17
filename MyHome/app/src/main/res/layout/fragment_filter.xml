@@ -1,26 +1,26 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/toolbarWhite"
-            layout="@layout/toolbar_white" />
-
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/md_blue_grey_650" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <include
+                android:id="@+id/toolbarWhite"
+                layout="@layout/toolbar_white" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/md_blue_grey_650" />
 
             <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
@@ -45,9 +45,9 @@
 
                     <Button
                         android:id="@+id/distance"
-                        style="@style/tradeGothicLTStd_16"
+                        style="@style/tradeGothicLTStd_14"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="40dp"
                         android:layout_margin="4dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_boarder_acent"
@@ -58,9 +58,9 @@
 
                     <Button
                         android:id="@+id/bestMatch"
-                        style="@style/tradeGothicLTStd_16"
+                        style="@style/tradeGothicLTStd_14"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="40dp"
                         android:layout_margin="4dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_boarder_acent"
@@ -71,9 +71,9 @@
 
                     <Button
                         android:id="@+id/lastName"
-                        style="@style/tradeGothicLTStd_16"
+                        style="@style/tradeGothicLTStd_14"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="40dp"
                         android:layout_margin="4dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_boarder_acent"
@@ -93,7 +93,64 @@
                     android:text="Filter By"
                     android:textStyle="bold" />
 
+                <LinearLayout
+                    android:id="@+id/newPatients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/filterByTitle"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.SwitchCompat
+                        style="@style/tradeGothicLTStd_18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        style="@style/tradeGothicLTStd_18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="Accepting New Patients" />
+                </LinearLayout>
+
+                <ExpandableListView
+                    android:id="@+id/expandableList"
+                    android:layout_width="match_parent"
+                    android:layout_height="320dp"
+                    android:layout_below="@+id/newPatients"
+                    android:layout_marginTop="16dp"
+                    android:groupIndicator="@null"
+                    android:nestedScrollingEnabled="false"
+                    android:textAlignment="viewStart" />
+
+                <LinearLayout
+                    android:id="@+id/recentDocs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/expandableList"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.SwitchCompat
+                        style="@style/tradeGothicLTStd_18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        style="@style/tradeGothicLTStd_18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="Display recently viewed doctors" />
+                </LinearLayout>
+
             </RelativeLayout>
-        </ScrollView>
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </layout>

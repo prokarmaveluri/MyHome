@@ -53,6 +53,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private FadInteractor.Presenter presenter;
     private SearchView searchView;
     private List<ProvidersResponse.Provider> providerList = new ArrayList<>();
+    private ArrayList<CommonModel> specialties = new ArrayList<>();
+    private ArrayList<CommonModel> gender = new ArrayList<>();
+    private ArrayList<CommonModel> languages = new ArrayList<>();
+    private ArrayList<CommonModel> hospitals = new ArrayList<>();
+    private ArrayList<CommonModel> practices = new ArrayList<>();
 
     private enum State {
         LIST,
@@ -121,7 +126,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 break;
 
             case R.id.fad_filter:
-//                startFilterDialog();
+                startFilterDialog();
                 break;
         }
 
@@ -158,11 +163,28 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     @Override
-    public void updateProviderList(List<ProvidersResponse.Provider> providers) {
+    public void updateProviderList(List<ProvidersResponse.Provider> providers,
+                                   List<CommonModel> specialties,
+                                   List<CommonModel> gender,
+                                   List<CommonModel> languages,
+                                   List<CommonModel> hospitals,
+                                   List<CommonModel> practices) {
         providerList.clear();
         providerList.addAll(providers);
         adapter.notifyDataSetChanged();
         showErrorMessage(false, "");
+
+        this.specialties.clear();
+        this.practices.clear();
+        this.gender.clear();
+        this.languages.clear();
+        this.hospitals.clear();
+
+        this.specialties.addAll(specialties);
+        this.gender.addAll(gender);
+        this.languages.addAll(languages);
+        this.hospitals.addAll(hospitals);
+        this.practices.addAll(practices);
     }
 
     @Override
@@ -308,8 +330,15 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         }
     }
 
-    private void startFilterDialog(){
+    private void startFilterDialog() {
         FilterDialog dialog = new FilterDialog();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("SPECIALITY", specialties);
+        bundle.putParcelableArrayList("GENDER", gender);
+        bundle.putParcelableArrayList("LANGUAGE", languages);
+        bundle.putParcelableArrayList("HOSPITALS", hospitals);
+        bundle.putParcelableArrayList("PRACTICES", practices);
+        dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), "Filter Dialog");
     }
 }

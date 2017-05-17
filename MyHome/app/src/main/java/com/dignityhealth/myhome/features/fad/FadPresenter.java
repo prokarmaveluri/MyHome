@@ -52,7 +52,12 @@ public class FadPresenter implements FadInteractor.Presenter {
                     @Override
                     public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
                         if (response.isSuccessful() && response.body().getProviders().size() > 0) {
-                            mView.updateProviderList(response.body().getProviders());
+                            mView.updateProviderList(response.body().getProviders(),
+                                    response.body().getSpecialties(),
+                                    response.body().getGenders(),
+                                    response.body().getLanguages(),
+                                    response.body().getHospitals(),
+                                    response.body().getPractices());
                         } else {
                             mView.showErrorMessage("There are no providers for the search");
                         }
