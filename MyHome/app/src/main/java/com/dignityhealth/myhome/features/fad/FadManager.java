@@ -7,6 +7,7 @@ package com.dignityhealth.myhome.features.fad;
 public class FadManager {
 
     private LocationResponse location;
+    private LocationResponse currentLocation;
 
     private static final FadManager ourInstance = new FadManager();
 
@@ -33,5 +34,13 @@ public class FadManager {
      */
     public void setLocation(LocationResponse location) {
         this.location = location;
+    }
+
+    public LocationResponse getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(LocationResponse currentLocation) {
+        this.currentLocation = currentLocation;
     }
 }

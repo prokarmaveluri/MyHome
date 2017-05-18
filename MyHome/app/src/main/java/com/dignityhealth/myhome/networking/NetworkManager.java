@@ -5,7 +5,6 @@ import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
-import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
@@ -17,6 +16,7 @@ import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionRequest;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.features.tos.Tos;
+import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.io.IOException;
@@ -118,7 +118,7 @@ public class NetworkManager {
         return service.createAppointment(bearer, appointment);
     }
 
-    public Call<List<LocationSuggestionsResponse>> getLocationSuggestions(String queryString) {
+    public Call<List<LocationResponse>> getLocationSuggestions(String queryString) {
         return service.getLocationSuggestions(queryString);
     }
 
@@ -177,13 +177,19 @@ public class NetworkManager {
             @Override
             public void onResponse(Call<LocationResponse> call, retrofit2.Response<LocationResponse> response) {
                 if (response.isSuccessful()) {
-                    FadManager.getInstance().setLocation(response.body());
+                    FadManager.getInstance().setCurrentLocation(response.body());
+                    AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", true);
+                }else {
+                    AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", false);
+                    FadManager.getInstance().setCurrentLocation(null);
                 }
             }
 
             @Override
             public void onFailure(Call<LocationResponse> call, Throwable t) {
                 Timber.i("get user location failed");
+                AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", false);
+                FadManager.getInstance().setCurrentLocation(null);
             }
         });
     }
