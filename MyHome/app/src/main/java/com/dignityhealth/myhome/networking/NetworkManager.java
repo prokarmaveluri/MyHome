@@ -175,13 +175,17 @@ public class NetworkManager {
             @Override
             public void onResponse(Call<LocationResponse> call, retrofit2.Response<LocationResponse> response) {
                 if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
                     FadManager.getInstance().setLocation(response.body());
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<LocationResponse> call, Throwable t) {
-                Timber.i("get user location failed");
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
             }
         });
     }

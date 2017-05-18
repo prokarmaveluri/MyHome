@@ -289,16 +289,19 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     public void onResponse(Call<List<SearchSuggestionResponse>> call,
                                            Response<List<SearchSuggestionResponse>> response) {
                         if (response.isSuccessful() && response.body().size() > 0) {
-
+                            Timber.d("Successful Response\n" + response);
                             binding.suggestionList.setVisibility(View.VISIBLE);
                             updateSuggestionList(response.body());
                         } else {
+                            Timber.e("Response, but not successful?\n" + response);
                             binding.suggestionList.setVisibility(View.GONE);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<SearchSuggestionResponse>> call, Throwable t) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + t);
                         binding.suggestionList.setVisibility(View.GONE);
                     }
                 });

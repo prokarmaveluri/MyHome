@@ -156,15 +156,17 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                     public void onResponse(Call<List<LocationSuggestionsResponse>> call,
                                            Response<List<LocationSuggestionsResponse>> response) {
                         if (response.isSuccessful()) {
+                            Timber.e("Response, but not successful?\n" + response);
                             locationSuggestions(getLocationNames(response.body()));
                         } else {
-                            Timber.i("Something went wrong, LocationSuggestions");
+                            Timber.e("Response, but not successful?\n" + response);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<LocationSuggestionsResponse>> call, Throwable t) {
-                        Timber.i("LocationSuggestions, onFailure");
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + t);
                     }
                 });
     }

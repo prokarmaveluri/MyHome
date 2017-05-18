@@ -78,6 +78,7 @@ public class TosFragment extends BaseFragment {
             @Override
             public void onFailure(Call<Tos> call, Throwable t) {
                 Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
             }
         });
     }

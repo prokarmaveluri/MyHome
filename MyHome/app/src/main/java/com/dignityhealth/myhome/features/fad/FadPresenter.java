@@ -12,6 +12,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by cmajji on 5/12/17.
@@ -71,6 +72,7 @@ public class FadPresenter implements FadInteractor.Presenter {
                     @Override
                     public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
                         if (response.isSuccessful() && response.body().getProviders().size() > 0) {
+                            Timber.d("Successful Response\n" + response);
                             mView.updateProviderList(response.body().getProviders(),
                                     response.body().getSpecialties(),
                                     response.body().getGenders(),
@@ -78,6 +80,7 @@ public class FadPresenter implements FadInteractor.Presenter {
                                     response.body().getHospitals(),
                                     response.body().getPractices());
                         } else {
+                            Timber.e("Response, but not successful?\n" + response);
                             mView.showErrorMessage(mContext.getString(R.string.no_providers));
                             mView.providersListError();
                         }
@@ -86,6 +89,8 @@ public class FadPresenter implements FadInteractor.Presenter {
 
                     @Override
                     public void onFailure(Call<ProvidersResponse> call, Throwable t) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + t);
                         mView.showProgress(false);
                         mView.showErrorMessage("Something went wrong!");
                         mView.providersListError();
