@@ -9,7 +9,8 @@
 
     <ScrollView xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -75,8 +76,10 @@
                 android:drawableLeft="@mipmap/map_icon_blue"
                 android:drawablePadding="8dp"
                 android:imeOptions="actionDone"
+                android:inputType="textNoSuggestions"
                 android:maxLines="1"
-                android:text="Current Location" />
+                android:shadowColor="@color/accent"
+                android:text="User Location" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

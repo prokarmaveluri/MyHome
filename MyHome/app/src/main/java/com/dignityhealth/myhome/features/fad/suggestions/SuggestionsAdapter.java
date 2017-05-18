@@ -69,6 +69,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 
             try {
                 binding.itemLayout.setTag(suggestion);
+                binding.itemLayout.setId(position);
                 binding.suggestionText.setText(suggestion);
             } catch (NullPointerException ex) {
 
@@ -80,11 +81,11 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     public class SuggestionsClick {
         public void onClickSuggestion(View view) {
             Timber.i("Click " + view.getTag());
-            listener.suggestionClick((String) view.getTag());
+            listener.suggestionClick((String) view.getTag(), (int)view.getId());
         }
     }
 
     public interface ISuggestionClick {
-        void suggestionClick(String text);
+        void suggestionClick(String text, int position);
     }
 }
