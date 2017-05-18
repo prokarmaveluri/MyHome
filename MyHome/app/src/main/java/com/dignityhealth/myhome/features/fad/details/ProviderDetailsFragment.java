@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
+import com.dignityhealth.myhome.features.fad.Provider;
 import com.dignityhealth.myhome.utils.Constants;
 
 public class ProviderDetailsFragment extends BaseFragment {
-    public static final String PROVIDER_ID = "PROVIDER_ID";
+    public static final String PROVIDER_KEY = "PROVIDER_KEY";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
 
-    private String providerId;
+    private Provider provider;
     private View providerDetailsView;
 
     public ProviderDetailsFragment() {
@@ -36,7 +37,7 @@ public class ProviderDetailsFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            providerId = getArguments().getString(PROVIDER_ID);
+            provider = getArguments().getParcelable(PROVIDER_KEY);
         }
     }
 

@@ -214,7 +214,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Override
     public void providerClick(int position) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_ID, providerList.get(position));
+        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, providerList.get(position));
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 
