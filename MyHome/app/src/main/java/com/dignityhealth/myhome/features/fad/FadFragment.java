@@ -357,7 +357,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         bundle.putParcelableArrayList("PRACTICES", practices);
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, FILTER_REQUEST);
-        dialog.show(getFragmentManager(), "Filter Dialog");
+        dialog.show(getActivity().getSupportFragmentManager(), "Filter Dialog");
     }
 
     private void clearFilters() {

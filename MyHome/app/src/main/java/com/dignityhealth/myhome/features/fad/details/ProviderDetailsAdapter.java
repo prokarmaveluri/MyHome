@@ -33,4 +33,18 @@ public class ProviderDetailsAdapter extends FragmentPagerAdapter {
                 return null;
         }
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
+            case 0: // Profile
+                return ProviderDetailsProfileFragment.PAGER_TITLE;
+            case 1: // Education
+                return ProviderDetailsEducationFragment.PAGER_TITLE;
+            case 2: // Experience
+                return ProviderDetailsExperienceFragment.PAGER_TITLE;
+            default:
+                return "";
+        }
+    }
 }

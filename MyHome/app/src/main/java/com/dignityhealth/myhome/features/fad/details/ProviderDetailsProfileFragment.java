@@ -11,6 +11,7 @@ import com.dignityhealth.myhome.R;
 
 public class ProviderDetailsProfileFragment extends Fragment {
     public static final String PROVIDER_DETAILS_PROFILE_TAG = "provider_details_profile_tag";
+    public static final String PAGER_TITLE = "Profile";
     private View profileView;
 
     public ProviderDetailsProfileFragment() {

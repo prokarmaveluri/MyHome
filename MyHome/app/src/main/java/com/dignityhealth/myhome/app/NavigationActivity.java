@@ -156,11 +156,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case HOME:
                 if (getActivityTag() != ActivityTag.HOME) {
                     HomeFragment homeFragment = HomeFragment.newInstance();
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, homeFragment, HomeFragment.HOME_TAG)
                             .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.HOME);
                 }
@@ -169,11 +169,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case FAD:
                 if (getActivityTag() != ActivityTag.FAD) {
                     FadFragment fadFragment = FadFragment.newInstance();
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, fadFragment, FadFragment.FAD_TAG)
                             .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.FAD);
                 }
@@ -183,12 +183,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.PROVIDER_DETAILS) {
                     ProviderDetailsFragment fragment = ProviderDetailsFragment.newInstance();
                     fragment.setArguments(bundle);
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .add(R.id.frame, fragment, ProviderDetailsFragment.PROVIDER_DETAILS_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.PROVIDER_DETAILS);
                 }
@@ -197,11 +197,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case PROVIDERS_FILTER:
                 if (getActivityTag() != ActivityTag.PROVIDERS_FILTER) {
                     FadFragment fadFragment = FadFragment.newInstance();
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, fadFragment, FadFragment.FAD_TAG)
                             .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.FAD);
                 }
@@ -210,11 +210,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case APPOINTMENTS:
                 if (getActivityTag() != ActivityTag.APPOINTMENTS) {
                     AppointmentsFragment appointmentsFragment = AppointmentsFragment.newInstance();
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, appointmentsFragment, AppointmentsFragment.APPOINTMENTS_TAG)
                             .commit();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.APPOINTMENTS);
                 }
@@ -224,12 +224,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.APPOINTMENTS_DETAILS) {
                     AppointmentsDetailsFragment appointmentsDetailsFragment = AppointmentsDetailsFragment.newInstance();
                     appointmentsDetailsFragment.setArguments(bundle);
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, appointmentsDetailsFragment, AppointmentsDetailsFragment.APPOINTMENTS_DETAILS_TAG)
                             .addToBackStack(null)
                             .commit();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.APPOINTMENTS_DETAILS);
                 }
@@ -238,11 +238,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case PROFILE_VIEW:
                 if (getActivityTag() != ActivityTag.PROFILE_VIEW) {
                     ProfileViewFragment profileViewFragment = ProfileViewFragment.newInstance();
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, profileViewFragment, ProfileViewFragment.PROFILE_VIEW_TAG)
                             .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.PROFILE_VIEW);
                 }
@@ -251,12 +251,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case PROFILE_EDIT:
                 if (getActivityTag() != ActivityTag.PROFILE_EDIT) {
                     ProfileEditFragment profileEditFragment = ProfileEditFragment.newInstance();
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, profileEditFragment, ProfileEditFragment.PROFILE_EDIT_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.PROFILE_EDIT);
                 }
@@ -265,12 +265,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case SETTINGS:
                 if (getActivityTag() != ActivityTag.SETTINGS) {
                     SettingsFragment settingsFragment = SettingsFragment.newInstance();
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, settingsFragment, SettingsFragment.SETTINGS_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.SETTINGS);
                 }
@@ -279,12 +279,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case DEVELOPER:
                 if (getActivityTag() != ActivityTag.DEVELOPER) {
                     DeveloperFragment developerFragment = DeveloperFragment.newInstance();
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, developerFragment, DeveloperFragment.DEVELOPER_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.DEVELOPER);
                 }
@@ -293,12 +293,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case CONTACT_US:
                 if (getActivityTag() != ActivityTag.CONTACT_US) {
                     ContactUsFragment contactUsFragment = ContactUsFragment.newInstance();
-                    getFragmentManager()
+                    getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, contactUsFragment, ContactUsFragment.CONTACT_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
-                    getFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.CONTACT_US);
                 }

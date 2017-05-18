@@ -2,6 +2,8 @@ package com.dignityhealth.myhome.features.fad.details;
 
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,9 @@ public class ProviderDetailsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
+        ViewPager viewPager = (ViewPager) providerDetailsView.findViewById(R.id.view_pager);
+        FragmentPagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
         return providerDetailsView;
     }
 

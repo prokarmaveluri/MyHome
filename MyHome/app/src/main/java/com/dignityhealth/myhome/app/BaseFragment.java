@@ -1,6 +1,6 @@
 package com.dignityhealth.myhome.app;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by kwelsh on 4/27/17.
