@@ -22,7 +22,8 @@ import android.widget.RadioGroup;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentFilterBinding;
 import com.dignityhealth.myhome.features.fad.CommonModel;
-import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
+import com.dignityhealth.myhome.features.fad.FadManager;
+import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
@@ -57,6 +58,8 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
     private SuggestionsAdapter adapter;
     private boolean isHide = false;
     private List<String> currentLocationSug = new ArrayList<>();
+    private List<LocationResponse> locationSug = new ArrayList<>();
+    private LocationResponse location = null;
 
     public FilterDialog() {
         // Required empty public constructor
@@ -79,6 +82,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             languages = getArguments().getParcelableArrayList("LANGUAGE");
             hospitals = getArguments().getParcelableArrayList("HOSPITALS");
             practices = getArguments().getParcelableArrayList("PRACTICES");
+            location = getArguments().getParcelable("LOCATION");
         }
     }
 
@@ -99,13 +103,16 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
 
             if (newPatients.size() > 0)
                 binding.newPatientsSwitch.setChecked(newPatients.get(0).getSelected());
+
+            listListeners();
+            updateSortBy();
+            setHasOptionsMenu(true);
+            if (null != location) {
+                binding.filterLocation.setText(location.getDisplayName());
+                binding.filterLocation.setSelection(location.getDisplayName().length());
+            }
         } catch (NullPointerException ex) {
         }
-
-        listListeners();
-        updateSortBy();
-        setHasOptionsMenu(true);
-
         binding.setHandlers(new DialogClick());
         return binding.getRoot();
     }
@@ -143,6 +150,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             bundle.putParcelableArrayList("LANGUAGE", languages);
             bundle.putParcelableArrayList("HOSPITALS", hospitals);
             bundle.putParcelableArrayList("PRACTICES", practices);
+            bundle.putParcelable("LOCATION", location);
             intent.putExtras(bundle);
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
         } catch (NullPointerException ex) {
@@ -154,6 +162,12 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         isHide = true;
         binding.locationSugg.setVisibility(View.GONE);
         binding.filterLocation.setText(text);
+        if (position == 0) {
+            location = FadManager.getInstance().getCurrentLocation();
+        } else {
+            if (locationSug.size() >= position + 1)
+                location = locationSug.get(position - 1);
+        }
     }
 
     @Override
@@ -204,12 +218,14 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
 
     private void getLocationSuggestions(String query) {
         NetworkManager.getInstance().getLocationSuggestions(query)
-                .enqueue(new Callback<List<LocationSuggestionsResponse>>() {
+                .enqueue(new Callback<List<LocationResponse>>() {
                     @Override
-                    public void onResponse(Call<List<LocationSuggestionsResponse>> call,
-                                           Response<List<LocationSuggestionsResponse>> response) {
+                    public void onResponse(Call<List<LocationResponse>> call,
+                                           Response<List<LocationResponse>> response) {
                         if (response.isSuccessful()) {
                             Timber.e("Response, but not successful?\n" + response);
+                            locationSug.clear();
+                            locationSug.addAll(response.body());
                             locationSuggestions(getLocationNames(response.body()));
                         } else {
                             Timber.e("Response, but not successful?\n" + response);
@@ -217,17 +233,17 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                     }
 
                     @Override
-                    public void onFailure(Call<List<LocationSuggestionsResponse>> call, Throwable t) {
+                    public void onFailure(Call<List<LocationResponse>> call, Throwable t) {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + t);
                     }
                 });
     }
 
-    private List<String> getLocationNames(List<LocationSuggestionsResponse> list) {
+    private List<String> getLocationNames(List<LocationResponse> list) {
         currentLocationSug.clear();
         currentLocationSug.add("User Location");
-        for (LocationSuggestionsResponse resp : list) {
+        for (LocationResponse resp : list) {
             currentLocationSug.add(resp.getDisplayName());
 
         }
