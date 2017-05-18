@@ -2,7 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <TextView
+        style="@style/tradeGothicLTStd_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Board Certifications"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/certifications"
+        style="@style/tradeGothicLTStd_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Internal Medicine, American Board of Medical Specialities"
+        android:textSize="18sp" />
+
+    <TextView
+        style="@style/tradeGothicLTStd_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Awards &amp; Recognitions"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/awards"
+        style="@style/tradeGothicLTStd_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recognized Doctor"
+        android:textSize="18sp" />
 
 </LinearLayout>
