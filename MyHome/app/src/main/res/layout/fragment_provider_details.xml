@@ -7,10 +7,8 @@
         android:background="@color/white"
         tools:context="com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment">
 
-        <TextView
-            android:text="Details"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <include
+            android:id="@+id/provider_details"
+            layout="@layout/provider_details" />
     </FrameLayout>
 </layout>

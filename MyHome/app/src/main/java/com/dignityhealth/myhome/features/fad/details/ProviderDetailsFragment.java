@@ -44,7 +44,6 @@ public class ProviderDetailsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
-
         return providerDetailsView;
     }
 
