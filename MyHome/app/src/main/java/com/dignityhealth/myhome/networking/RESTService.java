@@ -92,6 +92,7 @@ public interface RESTService {
                                          @Query("page") String page,
                                          @Query("pageSize") String pageSize,
                                          @Query("distance") String distance,
+                                         @Query("sortby") String sortBy,
                                          @Query("gender") String gender,
                                          @Query("languages") String languages,
                                          @Query("specialties") String specialties,

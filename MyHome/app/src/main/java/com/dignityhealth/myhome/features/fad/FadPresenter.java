@@ -51,6 +51,7 @@ public class FadPresenter implements FadInteractor.Presenter {
                                 String page,
                                 String pageSize,
                                 String distance,
+                                String sortBy,
                                 String gender,
                                 String languages,
                                 String specialties,
@@ -61,6 +62,7 @@ public class FadPresenter implements FadInteractor.Presenter {
                 page,
                 pageSize,
                 distance,
+                sortBy,
                 gender,
                 languages,
                 specialties,
@@ -72,6 +74,7 @@ public class FadPresenter implements FadInteractor.Presenter {
                     public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
                         if (response.isSuccessful() && response.body().getProviders().size() > 0) {
                             mView.updateProviderList(response.body().getProviders(),
+                                    response.body().getAcceptsNewPatients(),
                                     response.body().getSpecialties(),
                                     response.body().getGenders(),
                                     response.body().getLanguages(),
