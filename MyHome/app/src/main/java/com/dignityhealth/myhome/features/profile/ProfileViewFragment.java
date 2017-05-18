@@ -154,6 +154,7 @@ public class ProfileViewFragment extends BaseFragment {
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
                 Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
                 progressBar.setVisibility(View.GONE);
             }
         });
