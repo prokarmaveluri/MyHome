@@ -47,7 +47,7 @@ public interface FadInteractor {
          *
          * @param providers
          */
-        void updateProviderList(List<ProvidersResponse.Provider> providers,
+        void updateProviderList(List<Provider> providers,
                                 List<CommonModel> specialties,
                                 List<CommonModel> gender,
                                 List<CommonModel> languages,

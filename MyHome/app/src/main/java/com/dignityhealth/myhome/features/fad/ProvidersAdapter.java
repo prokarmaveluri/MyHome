@@ -21,11 +21,11 @@ import timber.log.Timber;
 
 public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.ProvidersVH> {
 
-    private List<ProvidersResponse.Provider> providerList;
+    private List<Provider> providerList;
     private IProviderClick listener;
     private Context mContext;
 
-    public ProvidersAdapter(List<ProvidersResponse.Provider> providers,
+    public ProvidersAdapter(List<Provider> providers,
                             Context context, IProviderClick listener) {
         providerList = providers;
         mContext = context;
@@ -66,7 +66,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
             binding = itemView;
         }
 
-        public void bind(ProvidersResponse.Provider provider, int position) {
+        public void bind(Provider provider, int position) {
 
             try {
                 binding.itemLayout.setTag(position);

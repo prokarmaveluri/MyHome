@@ -23,6 +23,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentFadBinding;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.filter.FilterDialog;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
@@ -58,7 +59,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private ProvidersAdapter adapter;
     private FadInteractor.Presenter presenter;
     private SearchView searchView;
-    private List<ProvidersResponse.Provider> providerList = new ArrayList<>();
+    private List<Provider> providerList = new ArrayList<>();
     private ArrayList<CommonModel> specialties = new ArrayList<>();
     private ArrayList<CommonModel> gender = new ArrayList<>();
     private ArrayList<CommonModel> languages = new ArrayList<>();
@@ -172,7 +173,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     @Override
-    public void updateProviderList(List<ProvidersResponse.Provider> providers,
+    public void updateProviderList(List<Provider> providers,
                                    List<CommonModel> specialties,
                                    List<CommonModel> gender,
                                    List<CommonModel> languages,
@@ -212,11 +213,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void providerClick(int position) {
-
-        return;
-//        Bundle bundle = new Bundle();
-//        bundle.putString(ProviderDetailsFragment.PROVIDER_ID, providerList.get(position).getProviderId());
-//        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_ID, providerList.get(position));
+        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 
     @Override

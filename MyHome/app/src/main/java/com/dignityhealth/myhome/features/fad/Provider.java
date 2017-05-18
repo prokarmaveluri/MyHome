@@ -1,47 +1,50 @@
 package com.dignityhealth.myhome.features.fad;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by kwelsh on 5/18/17.
  */
 
-public class Provider {
+public class Provider implements Parcelable {
 
     private Integer RecordNumber;
     private String ProviderId;
     private String Npi;
-    private Object Title;
+    private String Title;
     private String FirstName;
-    private Object MiddleName;
-    private Object MiddleInitialDot;
+    private String MiddleName;
+    private String MiddleInitialDot;
     private String LastName;
     private String DisplayFullName;
     private String DisplayLastName;
-    private Object DisplayLastNamePlural;
+    private String DisplayLastNamePlural;
     private String DateOfBirth;
-    private Object CommonModel;
-    private Object YearsOfExperience;
+    private String CommonModel;
+    private String YearsOfExperience;
     private Boolean CommonModels;
     private String ImageUrl;
-    private Object Quote;
-    private Object Philosophy;
-    private Object InMyOwnWords;
+    private String Quote;
+    private String Philosophy;
+    private String InMyOwnWords;
     private List<String> Specialties;
     private List<String> Languages;
-    private Object Degree;
-    private Object MedicalSchools;
-    private Object Residencies;
-    private Object Fellowships;
-    private Object Internships;
-    private Object Practicums;
-    private Object Facilities;
+    private String Degree;
+    private String MedicalSchools;
+    private String Residencies;
+    private String Fellowships;
+    private String Internships;
+    private String Practicums;
+    private String Facilities;
     private List<Office> Offices;
-    private Object Memberships;
-    private Object Certifications;
-    private Object Awards;
+    private String Memberships;
+    private String Certifications;
+    private String Awards;
     private Boolean HasAppointments;
-    private Object ServiceErrors;
+    private String ServiceErrors;
 
     public Integer getRecordNumber() {
         return RecordNumber;
@@ -178,4 +181,99 @@ public class Provider {
     public Object getServiceErrors() {
         return ServiceErrors;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.RecordNumber);
+        dest.writeString(this.ProviderId);
+        dest.writeString(this.Npi);
+        dest.writeString(this.Title);
+        dest.writeString(this.FirstName);
+        dest.writeString(this.MiddleName);
+        dest.writeString(this.MiddleInitialDot);
+        dest.writeString(this.LastName);
+        dest.writeString(this.DisplayFullName);
+        dest.writeString(this.DisplayLastName);
+        dest.writeString(this.DisplayLastNamePlural);
+        dest.writeString(this.DateOfBirth);
+        dest.writeString(this.CommonModel);
+        dest.writeString(this.YearsOfExperience);
+        dest.writeValue(this.CommonModels);
+        dest.writeString(this.ImageUrl);
+        dest.writeString(this.Quote);
+        dest.writeString(this.Philosophy);
+        dest.writeString(this.InMyOwnWords);
+        dest.writeStringList(this.Specialties);
+        dest.writeStringList(this.Languages);
+        dest.writeString(this.Degree);
+        dest.writeString(this.MedicalSchools);
+        dest.writeString(this.Residencies);
+        dest.writeString(this.Fellowships);
+        dest.writeString(this.Internships);
+        dest.writeString(this.Practicums);
+        dest.writeString(this.Facilities);
+        dest.writeTypedList(this.Offices);
+        dest.writeString(this.Memberships);
+        dest.writeString(this.Certifications);
+        dest.writeString(this.Awards);
+        dest.writeValue(this.HasAppointments);
+        dest.writeString(this.ServiceErrors);
+    }
+
+    public Provider() {
+    }
+
+    protected Provider(Parcel in) {
+        this.RecordNumber = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.ProviderId = in.readString();
+        this.Npi = in.readString();
+        this.Title = in.readString();
+        this.FirstName = in.readString();
+        this.MiddleName = in.readString();
+        this.MiddleInitialDot = in.readString();
+        this.LastName = in.readString();
+        this.DisplayFullName = in.readString();
+        this.DisplayLastName = in.readString();
+        this.DisplayLastNamePlural = in.readString();
+        this.DateOfBirth = in.readString();
+        this.CommonModel = in.readString();
+        this.YearsOfExperience = in.readString();
+        this.CommonModels = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.ImageUrl = in.readString();
+        this.Quote = in.readString();
+        this.Philosophy = in.readString();
+        this.InMyOwnWords = in.readString();
+        this.Specialties = in.createStringArrayList();
+        this.Languages = in.createStringArrayList();
+        this.Degree = in.readString();
+        this.MedicalSchools = in.readString();
+        this.Residencies = in.readString();
+        this.Fellowships = in.readString();
+        this.Internships = in.readString();
+        this.Practicums = in.readString();
+        this.Facilities = in.readString();
+        this.Offices = in.createTypedArrayList(Office.CREATOR);
+        this.Memberships = in.readString();
+        this.Certifications = in.readString();
+        this.Awards = in.readString();
+        this.HasAppointments = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.ServiceErrors = in.readString();
+    }
+
+    public static final Parcelable.Creator<Provider> CREATOR = new Parcelable.Creator<Provider>() {
+        @Override
+        public Provider createFromParcel(Parcel source) {
+            return new Provider(source);
+        }
+
+        @Override
+        public Provider[] newArray(int size) {
+            return new Provider[size];
+        }
+    };
 }

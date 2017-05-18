@@ -11,8 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -154,9 +152,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      * @param activityTag The page we want to navigate to
      */
     public void loadFragment(ActivityTag activityTag, Bundle bundle) {
-        Transition moveTransition = TransitionInflater.from(this).
-                inflateTransition(android.R.transition.move);
-
         switch (activityTag) {
             case HOME:
                 if (getActivityTag() != ActivityTag.HOME) {
@@ -198,6 +193,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     setActivityTag(ActivityTag.PROVIDER_DETAILS);
                 }
                 break;
+
             case PROVIDERS_FILTER:
                 if (getActivityTag() != ActivityTag.PROVIDERS_FILTER) {
                     FadFragment fadFragment = FadFragment.newInstance();
