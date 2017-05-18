@@ -8,10 +8,14 @@ import android.os.Build;
 import android.provider.CalendarContract;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.features.appointments.Appointment;
+import com.dignityhealth.myhome.features.fad.filter.FilterExpandableList;
 import com.dignityhealth.myhome.features.profile.Address;
 
 import java.util.ArrayList;
@@ -304,5 +308,38 @@ public class CommonUtil {
             Timber.e(ex);
             Toast.makeText(context, "Couldn't find an app that can share appointments", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static void setListViewHeight(ExpandableListView listView, int group, int lastGroup) {
+        int totalHeight = 0;
+        FilterExpandableList listAdapter = (FilterExpandableList) listView.getExpandableListAdapter();
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
+
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+//            totalHeight += groupItem.getMeasuredHeight();
+            totalHeight += 64;
+
+            if (((listView.isGroupExpanded(i)) && (i != group))
+                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
+                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                    if (lastGroup != i || lastGroup == group) {
+                        View listItem = listAdapter.getChildView(i, j, false, null, listView);
+                        listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+//                        totalHeight += listItem.getMeasuredHeight();
+                        totalHeight += 64;
+                    }
+                }
+            }
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight + 5;
+        if (height < 325)
+            height = 325;
+        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity());
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }

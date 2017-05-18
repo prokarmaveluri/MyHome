@@ -61,5 +61,6 @@
     <string name="share_appointment">Share Appointment</string>
     <string name="terms_of_service">Terms of Service</string>
     <string name="developer_settings">Developer Settings</string>
+    <string name="no_providers">No Providers found\n Please change your search criteria.</string>
 
 </resources>

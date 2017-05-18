@@ -47,7 +47,12 @@ public interface FadInteractor {
          *
          * @param providers
          */
-        void updateProviderList(List<ProvidersResponse.Provider> providers);
+        void updateProviderList(List<ProvidersResponse.Provider> providers,
+                                List<CommonModel> specialties,
+                                List<CommonModel> gender,
+                                List<CommonModel> languages,
+                                List<CommonModel> hospitals,
+                                List<CommonModel> practices);
 
         /**
          * error message from REST API for providers list.
@@ -72,7 +77,16 @@ public interface FadInteractor {
          * @param zipCode
          */
         void getProviderList(String queryString, String lat, String lon, String displayName,
-                             String zipCode);
+                             String zipCode,
+                             String page,
+                             String pageSize,
+                             String distance,
+                             String gender,
+                             String languages,
+                             String specialties,
+                             String facilities,
+                             String practices,
+                             String patients);
 
         /**
          * navigate to provider details
