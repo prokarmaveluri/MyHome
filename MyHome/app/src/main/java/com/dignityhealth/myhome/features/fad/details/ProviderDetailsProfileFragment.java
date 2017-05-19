@@ -81,7 +81,17 @@ public class ProviderDetailsProfileFragment extends Fragment {
 
         acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? "Yes" : "No");
         languages.setText(providerDetailsResponse.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getLanguages()) : "Unknown");
-        gender.setText(providerDetailsResponse.getGender() != null ? providerDetailsResponse.getGender() : "Unknown");
+
+        if (providerDetailsResponse.getGender() != null && !providerDetailsResponse.getGender().isEmpty()) {
+            if (providerDetailsResponse.getGender().equalsIgnoreCase("M") || providerDetailsResponse.getGender().equalsIgnoreCase("Male")) {
+                gender.setText("Male");
+            } else if (providerDetailsResponse.getGender().equalsIgnoreCase("F") || providerDetailsResponse.getGender().equalsIgnoreCase("Female")) {
+                gender.setText("Female");
+            } else {
+                gender.setText("Unknown");
+            }
+        }
+
         experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() : "Unknown");
         philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? providerDetailsResponse.getPhilosophy() : "Unknown");
         locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getOffices()) : "Unknown");
