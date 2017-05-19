@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="18dp">
+
+        <TextView
+            android:id="@+id/label_accepting_new_patients"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:maxWidth="200dp"
+            android:layout_height="wrap_content"
+            android:text="Accepting New Patients"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/accepting_new_patients"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_accepting_new_patients"
+            android:text="Yes"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/label_languages"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Languages"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/languages"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/label_languages"
+            android:layout_below="@id/label_languages"
+            android:text="English"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/label_gender"
+            style="@style/tradeGothicLTStd_14"
+            android:maxWidth="200dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accepting_new_patients"
+            android:layout_marginTop="24dp"
+            android:text="Gender"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/gender"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_gender"
+            android:text="Male"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/label_experience"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/languages"
+            android:text="Experience"
+            android:layout_alignTop="@id/label_gender"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/experience"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/label_experience"
+            android:layout_below="@id/label_experience"
+            android:text="30 Years"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/label_philosophy"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gender"
+            android:layout_marginTop="24dp"
+            android:text="Care Philosophy"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/philosophy"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_philosophy"
+            android:text="Specialities Request: Pediatric\nGastroenterology"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/label_locations"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/philosophy"
+            android:text="Locations"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/locations"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_locations"
+            android:text="90 Madison St\nSte 504\nDenver, CO 80206"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+</ScrollView>

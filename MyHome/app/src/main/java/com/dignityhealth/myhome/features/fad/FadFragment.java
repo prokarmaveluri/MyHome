@@ -377,7 +377,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         bundle.putParcelable("LOCATION", location);
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, FILTER_REQUEST);
-        dialog.show(getFragmentManager(), "Filter Dialog");
+        dialog.show(getActivity().getSupportFragmentManager(), "Filter Dialog");
     }
 
     private void clearFilters() {

@@ -39,7 +39,8 @@
     <string name="forgot_password_sub_header">An email will be sent to entered email address with reset instructions.</string>
     <string name="forgot_password_header">Please enter your email address.</string>
     <string name="sign_out">Sign Out</string>
-    <string name="book_appointment">Book an Appointment</string>
+    <string name="book_an_appointment">Book an Appointment</string>
+    <string name="book_appointment">Book Appointment</string>
     <string name="no_appointments">No Appointments</string>
 
     <!-- FAD -->
@@ -62,5 +63,6 @@
     <string name="terms_of_service">Terms of Service</string>
     <string name="developer_settings">Developer Settings</string>
     <string name="no_providers">No Providers found\n Please change your search criteria.</string>
+    <string name="no_education_found">No Education Found</string>
 
 </resources>

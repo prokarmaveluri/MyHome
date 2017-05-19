@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.features.fad.details;
 
-import com.google.gson.annotations.SerializedName;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  */
 
 
-public class ProviderDetailsResponse {
+public class ProviderDetailsResponse implements Parcelable {
 
     public Integer RecordNumber;
     public String ProviderId;
@@ -27,7 +28,7 @@ public class ProviderDetailsResponse {
     public String YearsOfExperience;
     public Boolean AcceptsNewPatients;
     public String ImageUrl;
-    public Object Quote;
+    public String Quote;
     public String Philosophy;
     public String InMyOwnWords;
     public List<String> Specialties;
@@ -37,14 +38,14 @@ public class ProviderDetailsResponse {
     public List<String> Residencies;
     public List<String> Fellowships;
     public List<String> Internships;
-    public List<Object> Practicums;
-    public List<Object> Facilities;
+    public List<String> Practicums; //These will probably not be strings, but addresses...
+    public List<String> Facilities;
     public List<Office> Offices;
-    public List<Object> Memberships;
-    public List<Object> Certifications;
+    public List<String> Memberships;
+    public List<String> Certifications;
     public List<String> Awards;
     public Boolean HasAppointments;
-    public List<Object> ServiceErrors;
+    public List<String> ServiceErrors;
 
 
     public Integer getRecordNumber() {
@@ -151,11 +152,11 @@ public class ProviderDetailsResponse {
         return Internships;
     }
 
-    public List<Object> getPracticums() {
+    public List<String> getPracticums() {
         return Practicums;
     }
 
-    public List<Object> getFacilities() {
+    public List<String> getFacilities() {
         return Facilities;
     }
 
@@ -163,11 +164,11 @@ public class ProviderDetailsResponse {
         return Offices;
     }
 
-    public List<Object> getMemberships() {
+    public List<String> getMemberships() {
         return Memberships;
     }
 
-    public List<Object> getCertifications() {
+    public List<String> getCertifications() {
         return Certifications;
     }
 
@@ -179,104 +180,102 @@ public class ProviderDetailsResponse {
         return HasAppointments;
     }
 
-    public List<Object> getServiceErrors() {
+    public List<String> getServiceErrors() {
         return ServiceErrors;
     }
 
-
-    public class Office {
-
-        public String Name;
-        public String Address1;
-        public Object Address2;
-        public String City;
-        public String State;
-        public String ZipCode;
-        public String Phone;
-        public String Fax;
-        public String Url;
-        public String Lat;
-        @SerializedName(value = "Long")
-        public String lon;
-        public Integer SortRank;
-        public Object DistanceMilesFromSearch;
-        public String DirectionsLink;
-        public String Hash;
-        public String LatLongHash;
-        public List<Object> Appointments;
-        public Boolean LocationMatch;
-
-        public String getName() {
-            return Name;
-        }
-
-        public String getAddress1() {
-            return Address1;
-        }
-
-        public Object getAddress2() {
-            return Address2;
-        }
-
-        public String getCity() {
-            return City;
-        }
-
-        public String getState() {
-            return State;
-        }
-
-        public String getZipCode() {
-            return ZipCode;
-        }
-
-        public String getPhone() {
-            return Phone;
-        }
-
-        public String getFax() {
-            return Fax;
-        }
-
-        public String getUrl() {
-            return Url;
-        }
-
-        public String getLat() {
-            return Lat;
-        }
-
-        public String getLon() {
-            return lon;
-        }
-
-        public Integer getSortRank() {
-            return SortRank;
-        }
-
-        public Object getDistanceMilesFromSearch() {
-            return DistanceMilesFromSearch;
-        }
-
-        public String getDirectionsLink() {
-            return DirectionsLink;
-        }
-
-        public String getHash() {
-            return Hash;
-        }
-
-        public String getLatLongHash() {
-            return LatLongHash;
-        }
-
-        public List<Object> getAppointments() {
-            return Appointments;
-        }
-
-        public Boolean getLocationMatch() {
-            return LocationMatch;
-        }
-
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.RecordNumber);
+        dest.writeString(this.ProviderId);
+        dest.writeString(this.Npi);
+        dest.writeString(this.Title);
+        dest.writeString(this.FirstName);
+        dest.writeString(this.MiddleName);
+        dest.writeString(this.MiddleInitialDot);
+        dest.writeString(this.LastName);
+        dest.writeString(this.DisplayFullName);
+        dest.writeString(this.DisplayLastName);
+        dest.writeString(this.DisplayLastNamePlural);
+        dest.writeString(this.DateOfBirth);
+        dest.writeString(this.Gender);
+        dest.writeString(this.YearsOfExperience);
+        dest.writeValue(this.AcceptsNewPatients);
+        dest.writeString(this.ImageUrl);
+        dest.writeString(this.Quote);
+        dest.writeString(this.Philosophy);
+        dest.writeString(this.InMyOwnWords);
+        dest.writeStringList(this.Specialties);
+        dest.writeStringList(this.Languages);
+        dest.writeString(this.Degree);
+        dest.writeStringList(this.MedicalSchools);
+        dest.writeStringList(this.Residencies);
+        dest.writeStringList(this.Fellowships);
+        dest.writeStringList(this.Internships);
+        dest.writeStringList(this.Practicums);
+        dest.writeStringList(this.Facilities);
+        dest.writeTypedList(this.Offices);
+        dest.writeStringList(this.Memberships);
+        dest.writeStringList(this.Certifications);
+        dest.writeStringList(this.Awards);
+        dest.writeValue(this.HasAppointments);
+        dest.writeStringList(this.ServiceErrors);
+    }
+
+    public ProviderDetailsResponse() {
+    }
+
+    protected ProviderDetailsResponse(Parcel in) {
+        this.RecordNumber = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.ProviderId = in.readString();
+        this.Npi = in.readString();
+        this.Title = in.readString();
+        this.FirstName = in.readString();
+        this.MiddleName = in.readString();
+        this.MiddleInitialDot = in.readString();
+        this.LastName = in.readString();
+        this.DisplayFullName = in.readString();
+        this.DisplayLastName = in.readString();
+        this.DisplayLastNamePlural = in.readString();
+        this.DateOfBirth = in.readString();
+        this.Gender = in.readString();
+        this.YearsOfExperience = in.readString();
+        this.AcceptsNewPatients = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.ImageUrl = in.readString();
+        this.Quote = in.readString();
+        this.Philosophy = in.readString();
+        this.InMyOwnWords = in.readString();
+        this.Specialties = in.createStringArrayList();
+        this.Languages = in.createStringArrayList();
+        this.Degree = in.readString();
+        this.MedicalSchools = in.createStringArrayList();
+        this.Residencies = in.createStringArrayList();
+        this.Fellowships = in.createStringArrayList();
+        this.Internships = in.createStringArrayList();
+        this.Practicums = in.createStringArrayList();
+        this.Facilities = in.createStringArrayList();
+        this.Offices = in.createTypedArrayList(Office.CREATOR);
+        this.Memberships = in.createStringArrayList();
+        this.Certifications = in.createStringArrayList();
+        this.Awards = in.createStringArrayList();
+        this.HasAppointments = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.ServiceErrors = in.createStringArrayList();
+    }
+
+    public static final Parcelable.Creator<ProviderDetailsResponse> CREATOR = new Parcelable.Creator<ProviderDetailsResponse>() {
+        @Override
+        public ProviderDetailsResponse createFromParcel(Parcel source) {
+            return new ProviderDetailsResponse(source);
+        }
+
+        @Override
+        public ProviderDetailsResponse[] newArray(int size) {
+            return new ProviderDetailsResponse[size];
+        }
+    };
 }

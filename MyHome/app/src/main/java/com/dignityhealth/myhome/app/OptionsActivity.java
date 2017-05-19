@@ -29,66 +29,66 @@ public class OptionsActivity extends BaseActivity {
         switch (NavigationActivity.getActivityTag()) {
             case CONTACT_US:
                 ContactUsFragment contactUsFragment = ContactUsFragment.newInstance();
-                getFragmentManager()
+                getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, contactUsFragment, ContactUsFragment.CONTACT_TAG)
                         .commitAllowingStateLoss();
-                getFragmentManager().executePendingTransactions();
+                getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.CONTACT_US);
                 break;
 
             case SETTINGS:
                 SettingsFragment settingsFragment = SettingsFragment.newInstance();
-                getFragmentManager()
+                getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, settingsFragment, SettingsFragment.SETTINGS_TAG)
                         .commitAllowingStateLoss();
-                getFragmentManager().executePendingTransactions();
+                getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.SETTINGS);
                 break;
 
             case PREFERENCES:
                 SettingsFragment preferencesFragment = SettingsFragment.newInstance();
-                getFragmentManager()
+                getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, preferencesFragment, SettingsFragment.SETTINGS_TAG)
                         .commitAllowingStateLoss();
-                getFragmentManager().executePendingTransactions();
+                getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.PREFERENCES);
                 break;
 
             case HELP:
                 SettingsFragment helpFragment = SettingsFragment.newInstance();
-                getFragmentManager()
+                getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, helpFragment, SettingsFragment.SETTINGS_TAG)
                         .commitAllowingStateLoss();
-                getFragmentManager().executePendingTransactions();
+                getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.HELP);
                 break;
 
             case TERMS_OF_SERVICE:
                 TosFragment tosFragment = TosFragment.newInstance();
-                getFragmentManager()
+                getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, tosFragment, TosFragment.TOS_TAG)
                         .commitAllowingStateLoss();
-                getFragmentManager().executePendingTransactions();
+                getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.TERMS_OF_SERVICE);
                 break;
 
             case DEVELOPER:
                 DeveloperFragment developerFragment = DeveloperFragment.newInstance();
-                getFragmentManager()
+                getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, developerFragment, DeveloperFragment.DEVELOPER_TAG)
                         .commitAllowingStateLoss();
-                getFragmentManager().executePendingTransactions();
+                getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.DEVELOPER);
                 break;

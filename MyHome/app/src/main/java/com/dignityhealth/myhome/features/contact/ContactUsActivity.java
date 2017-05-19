@@ -1,11 +1,11 @@
 package com.dignityhealth.myhome.features.contact;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 
 import com.dignityhealth.myhome.R;
@@ -38,7 +38,7 @@ public class ContactUsActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_contact_us);
 
         ContactUsFragment fragment = ContactUsFragment.newInstance();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(binding.contactUsFrame.getId(), fragment).commit();
 
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
