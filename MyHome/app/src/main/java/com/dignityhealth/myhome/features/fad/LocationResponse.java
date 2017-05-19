@@ -1,12 +1,15 @@
 package com.dignityhealth.myhome.features.fad;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by cmajji on 5/13/17.
  */
 
-public class LocationResponse {
+public class LocationResponse implements Parcelable {
 
     private String City;
     private String State;
@@ -39,4 +42,43 @@ public class LocationResponse {
     public String getDisplayName() {
         return DisplayName;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.City);
+        dest.writeString(this.State);
+        dest.writeString(this.ZipCode);
+        dest.writeString(this.Lat);
+        dest.writeString(this.lon);
+        dest.writeString(this.DisplayName);
+    }
+
+    public LocationResponse() {
+    }
+
+    protected LocationResponse(Parcel in) {
+        this.City = in.readString();
+        this.State = in.readString();
+        this.ZipCode = in.readString();
+        this.Lat = in.readString();
+        this.lon = in.readString();
+        this.DisplayName = in.readString();
+    }
+
+    public static final Parcelable.Creator<LocationResponse> CREATOR = new Parcelable.Creator<LocationResponse>() {
+        @Override
+        public LocationResponse createFromParcel(Parcel source) {
+            return new LocationResponse(source);
+        }
+
+        @Override
+        public LocationResponse[] newArray(int size) {
+            return new LocationResponse[size];
+        }
+    };
 }

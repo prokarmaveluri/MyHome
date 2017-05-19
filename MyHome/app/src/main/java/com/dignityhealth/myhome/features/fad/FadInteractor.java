@@ -48,6 +48,7 @@ public interface FadInteractor {
          * @param providers
          */
         void updateProviderList(List<Provider> providers,
+                                List<CommonModel> newPatients,
                                 List<CommonModel> specialties,
                                 List<CommonModel> gender,
                                 List<CommonModel> languages,
@@ -81,6 +82,7 @@ public interface FadInteractor {
                              String page,
                              String pageSize,
                              String distance,
+                             String sortBy,
                              String gender,
                              String languages,
                              String specialties,

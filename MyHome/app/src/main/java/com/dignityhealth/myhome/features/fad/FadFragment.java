@@ -28,6 +28,7 @@ import com.dignityhealth.myhome.features.fad.filter.FilterDialog;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 
@@ -59,13 +60,16 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private ProvidersAdapter adapter;
     private FadInteractor.Presenter presenter;
     private SearchView searchView;
+
+    private LocationResponse location = null;
     private List<Provider> providerList = new ArrayList<>();
+
+    private ArrayList<CommonModel> newPatients = new ArrayList<>();
     private ArrayList<CommonModel> specialties = new ArrayList<>();
     private ArrayList<CommonModel> gender = new ArrayList<>();
     private ArrayList<CommonModel> languages = new ArrayList<>();
     private ArrayList<CommonModel> hospitals = new ArrayList<>();
     private ArrayList<CommonModel> practices = new ArrayList<>();
-    private ArrayList<CommonModel> acceptNew = new ArrayList<>();
 
     private enum State {
         LIST,
@@ -100,6 +104,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void onResume() {
         super.onResume();
 
+        getLocation();
         adapter = new ProvidersAdapter(providerList, getActivity(), this);
         binding.providersList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.providersList.setAdapter(adapter);
@@ -174,6 +179,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void updateProviderList(List<Provider> providers,
+                                   List<CommonModel> newPatients,
                                    List<CommonModel> specialties,
                                    List<CommonModel> gender,
                                    List<CommonModel> languages,
@@ -186,6 +192,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         clearFilters();
 
+        this.newPatients.addAll(newPatients);
         this.specialties.addAll(specialties);
         this.gender.addAll(gender);
         this.languages.addAll(languages);
@@ -222,6 +229,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public boolean onQueryTextSubmit(String query) {
         binding.suggestionList.setVisibility(View.GONE);
         clearFilters();
+        AppPreferences.getInstance().setPreference("SORT_BY", ""); // default/best match search
         searchForQuery(query);
         return true;
     }
@@ -238,31 +246,33 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 Toast.makeText(getActivity(), "Enter valid query", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (null == FadManager.getInstance().getLocation()) {
-                Toast.makeText(getActivity(), "user location not available, select location",
+            if (null == location) {
+                Toast.makeText(getActivity(), "location not available, select location in filter",
                         Toast.LENGTH_LONG).show();
                 return;
             }
             showProgress(true);
             currentSearchQuery = query;
+
             View view = getActivity().getCurrentFocus();
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
             presenter.getProviderList(query,
-                    FadManager.getInstance().getLocation().getLat(),
-                    FadManager.getInstance().getLocation().getLong(),
-                    FadManager.getInstance().getLocation().getDisplayName(),
-                    FadManager.getInstance().getLocation().getZipCode(),
+                    location.getLat(),
+                    location.getLong(),
+                    location.getDisplayName(),
+                    location.getZipCode(),
                     RESTConstants.PROVIDER_PAGE_NO,
                     RESTConstants.PROVIDER_PAGE_SIZE,
                     RESTConstants.PROVIDER_DISTANCE,
+                    getSortBy(),
                     getParam(gender),
                     getParam(languages),
                     getParam(specialties),
                     getParam(hospitals),
                     getParam(practices),
-                    getParam(acceptNew));
+                    getParam(newPatients));
         } catch (NullPointerException ex) {
         }
     }
@@ -273,16 +283,17 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             Timber.i("Quick Search");
             return;
         }
-        if (null == FadManager.getInstance().getLocation()) {
-            Toast.makeText(getActivity(), "user location not available, select location",
+        if (null == location) {
+            Toast.makeText(getActivity(), "location not available, select location in filter",
                     Toast.LENGTH_LONG).show();
             return;
         }
+
         NetworkManager.getInstance().getSearchSuggestions(query,
-                FadManager.getInstance().getLocation().getLat(),
-                FadManager.getInstance().getLocation().getLong(),
-                FadManager.getInstance().getLocation().getDisplayName(),
-                FadManager.getInstance().getLocation().getZipCode())
+                location.getLat(),
+                location.getLong(),
+                location.getDisplayName(),
+                location.getZipCode())
 
                 .enqueue(new Callback<List<SearchSuggestionResponse>>() {
                     @Override
@@ -317,7 +328,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     @Override
-    public void suggestionClick(String query) {
+    public void suggestionClick(String query, int position) {
         binding.suggestionList.setVisibility(View.GONE);
         searchView.setQuery(query, false);
     }
@@ -350,17 +361,25 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private void startFilterDialog() {
         FilterDialog dialog = new FilterDialog();
         Bundle bundle = new Bundle();
+        if (providerList.size() <= 0 || gender.size() <= 0) {
+            Toast.makeText(getActivity(), "No filter available",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        bundle.putParcelableArrayList("NEW_PATIENTS", newPatients);
         bundle.putParcelableArrayList("SPECIALITY", specialties);
         bundle.putParcelableArrayList("GENDER", gender);
         bundle.putParcelableArrayList("LANGUAGE", languages);
         bundle.putParcelableArrayList("HOSPITALS", hospitals);
         bundle.putParcelableArrayList("PRACTICES", practices);
+        bundle.putParcelable("LOCATION", location);
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, FILTER_REQUEST);
         dialog.show(getActivity().getSupportFragmentManager(), "Filter Dialog");
     }
 
     private void clearFilters() {
+        newPatients.clear();
         specialties.clear();
         gender.clear();
         languages.clear();
@@ -374,11 +393,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         if (requestCode == FILTER_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data.getExtras() != null) {
+                    newPatients = data.getExtras().getParcelableArrayList("NEW_PATIENTS");
                     specialties = data.getExtras().getParcelableArrayList("SPECIALITY");
                     gender = data.getExtras().getParcelableArrayList("GENDER");
                     languages = data.getExtras().getParcelableArrayList("LANGUAGE");
                     hospitals = data.getExtras().getParcelableArrayList("HOSPITALS");
                     practices = data.getExtras().getParcelableArrayList("PRACTICES");
+                    location = data.getExtras().getParcelable("LOCATION");
                 }
                 // update list with filter
                 searchForQuery(currentSearchQuery);
@@ -398,13 +419,28 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         return build.toString();
     }
 
-    private List<String> getSuggestions(List<SearchSuggestionResponse> list){
+    private List<String> getSuggestions(List<SearchSuggestionResponse> list) {
         List<String> sug = new ArrayList<>();
-        for (SearchSuggestionResponse resp: list){
-            if (resp.getType().contains("Search")){
+        for (SearchSuggestionResponse resp : list) {
+            if (resp.getType().contains("Search")) {
                 sug.add(resp.getTitle());
             }
         }
         return sug;
+    }
+
+    private String getSortBy() {
+        String sort = AppPreferences.getInstance().getPreference("SORT_BY");
+        if (null != sort)
+            return sort;
+        return "";
+    }
+
+    private LocationResponse getLocation() {
+
+        if (AppPreferences.getInstance().getBooleanPreference("IS_USER_LOCATION")) {
+            location = FadManager.getInstance().getCurrentLocation();
+        }
+        return location;
     }
 }

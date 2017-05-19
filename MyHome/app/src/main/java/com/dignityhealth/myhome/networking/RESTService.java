@@ -4,7 +4,6 @@ import com.dignityhealth.myhome.features.appointments.Appointment;
 import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
-import com.dignityhealth.myhome.features.fad.LocationSuggestionsResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
@@ -71,7 +70,7 @@ public interface RESTService {
     Call<Void> createAppointment(@Header("Authorization") String bearer, @Body Appointment appointment);
 
     @GET(RESTConstants.S2_BASE_URL + "api/locationsuggestion")
-    Call<List<LocationSuggestionsResponse>> getLocationSuggestions(@Query("query") String queryString);
+    Call<List<LocationResponse>> getLocationSuggestions(@Query("query") String queryString);
 
     @GET(RESTConstants.S2_BASE_URL + "api/suggestion")
     Call<List<SearchSuggestionResponse>> getSearchSuggestions(@Query("query") String queryString,
@@ -92,6 +91,7 @@ public interface RESTService {
                                          @Query("page") String page,
                                          @Query("pageSize") String pageSize,
                                          @Query("distance") String distance,
+                                         @Query("sortby") String sortBy,
                                          @Query("gender") String gender,
                                          @Query("languages") String languages,
                                          @Query("specialties") String specialties,
