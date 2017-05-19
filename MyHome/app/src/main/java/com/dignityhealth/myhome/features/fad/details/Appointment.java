@@ -3,8 +3,6 @@ package com.dignityhealth.myhome.features.fad.details;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-
 /**
  * Created by kwelsh on 5/18/17.
  */
@@ -19,7 +17,7 @@ public class Appointment implements Parcelable {
     public String FacilityZip;
     public String FacilityLat;
     public String FacilityLong;
-    public ArrayList<String> RegistrationUrl;
+    public String RegistrationUrl;
     public String FullAddress;
 
 
@@ -39,7 +37,7 @@ public class Appointment implements Parcelable {
         dest.writeString(this.FacilityZip);
         dest.writeString(this.FacilityLat);
         dest.writeString(this.FacilityLong);
-        dest.writeStringList(this.RegistrationUrl);
+        dest.writeString(this.RegistrationUrl);
         dest.writeString(this.FullAddress);
     }
 
@@ -56,7 +54,7 @@ public class Appointment implements Parcelable {
         this.FacilityZip = in.readString();
         this.FacilityLat = in.readString();
         this.FacilityLong = in.readString();
-        this.RegistrationUrl = in.createStringArrayList();
+        this.RegistrationUrl = in.readString();
         this.FullAddress = in.readString();
     }
 
