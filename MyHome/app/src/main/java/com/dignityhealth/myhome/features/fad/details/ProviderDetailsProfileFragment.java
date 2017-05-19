@@ -1,15 +1,19 @@
 package com.dignityhealth.myhome.features.fad.details;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.utils.CommonUtil;
+import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 
 public class ProviderDetailsProfileFragment extends Fragment {
     public static final String PROVIDER_DETAILS_PROFILE_TAG = "provider_details_profile_tag";
@@ -25,6 +29,7 @@ public class ProviderDetailsProfileFragment extends Fragment {
     private TextView experience;
     private TextView philosophy;
     private TextView locations;
+    private TextView locationsLabel;
 
 
     public ProviderDetailsProfileFragment() {
@@ -68,6 +73,7 @@ public class ProviderDetailsProfileFragment extends Fragment {
         experience = (TextView) profileView.findViewById(R.id.experience);
         philosophy = (TextView) profileView.findViewById(R.id.philosophy);
         locations = (TextView) profileView.findViewById(R.id.locations);
+        locationsLabel = (TextView) profileView.findViewById(R.id.label_locations);
 
         setupViews();
 
@@ -93,7 +99,28 @@ public class ProviderDetailsProfileFragment extends Fragment {
         }
 
         experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() : "Unknown");
-        philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? providerDetailsResponse.getPhilosophy() : "Unknown");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy(), Html.FROM_HTML_MODE_COMPACT) : "Unknown");
+        } else {
+            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy()) : "Unknown");
+        }
+
+        //Adjust Margin to account for HTML paragraph break
+        if (providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty()) {
+            philosophy.setVisibility(View.VISIBLE);
+            profileView.findViewById(R.id.label_philosophy).setVisibility(View.VISIBLE);
+        } else {
+            //Adjust to no philosophy
+            philosophy.setVisibility(View.GONE);
+            profileView.findViewById(R.id.label_philosophy).setVisibility(View.GONE);
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.BELOW, gender.getId());
+            params.setMargins(0, DeviceDisplayManager.dpToPx(getContext(), 24), 0, 0);
+            locationsLabel.setLayoutParams(params);
+        }
+
         locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getOffices()) : "Unknown");
     }
 }
