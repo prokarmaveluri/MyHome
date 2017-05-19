@@ -2,13 +2,13 @@ package com.dignityhealth.myhome.features.fad.details;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * Created by kwelsh on 5/18/17.
  */
 
-public class ProviderDetailsAdapter extends FragmentPagerAdapter {
+public class ProviderDetailsAdapter extends FragmentStatePagerAdapter {
     private static int NUM_ITEMS = 3;
     private ProviderDetailsResponse providerDetailsResponse;
 
@@ -30,11 +30,23 @@ public class ProviderDetailsAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: // Profile
-                return ProviderDetailsProfileFragment.newInstance(providerDetailsResponse);
+                if(providerDetailsResponse == null){
+                    return ProviderDetailsProfileFragment.newInstance();
+                } else {
+                    return ProviderDetailsProfileFragment.newInstance(providerDetailsResponse);
+                }
             case 1: // Education
-                return ProviderDetailsEducationFragment.newInstance(providerDetailsResponse);
+                if(providerDetailsResponse == null){
+                    return ProviderDetailsEducationFragment.newInstance();
+                } else {
+                    return ProviderDetailsEducationFragment.newInstance(providerDetailsResponse);
+                }
             case 2: // Experience
-                return ProviderDetailsExperienceFragment.newInstance(providerDetailsResponse);
+                if(providerDetailsResponse == null){
+                    return ProviderDetailsExperienceFragment.newInstance();
+                } else {
+                    return ProviderDetailsExperienceFragment.newInstance(providerDetailsResponse);
+                }
             default:
                 return null;
         }

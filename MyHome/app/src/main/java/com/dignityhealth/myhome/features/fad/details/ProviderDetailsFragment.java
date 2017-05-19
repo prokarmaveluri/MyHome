@@ -3,7 +3,7 @@ package com.dignityhealth.myhome.features.fad.details;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +70,7 @@ public class ProviderDetailsFragment extends BaseFragment {
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
 
         viewPager = (ViewPager) providerDetailsView.findViewById(R.id.view_pager);
-        FragmentPagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), null);
+        FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
         TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.sliding_tabs);
@@ -104,7 +104,7 @@ public class ProviderDetailsFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
                     ProviderDetailsResponse providerDetailsResponse = response.body();
-                    FragmentPagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
+                    FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
                     viewPager.setAdapter(pagerAdapter);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);

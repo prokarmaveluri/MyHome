@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
@@ -24,6 +25,8 @@ public class ProviderDetailsExperienceFragment extends Fragment {
     private TextView certifications;
     private TextView awardsLabel;
     private TextView awards;
+    private ProgressBar progressBar;
+    private View profileDetailsInfo;
 
     public ProviderDetailsExperienceFragment() {
         // Required empty public constructor
@@ -59,6 +62,8 @@ public class ProviderDetailsExperienceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         experienceView = inflater.inflate(R.layout.provider_details_experience, container, false);
+        profileDetailsInfo = experienceView.findViewById(R.id.profile_details_info);
+        progressBar = (ProgressBar) experienceView.findViewById(R.id.progress_bar);
 
         certificationsLabel = (TextView) experienceView.findViewById(R.id.certifications_label);
         certifications = (TextView) experienceView.findViewById(R.id.certifications);
@@ -72,9 +77,11 @@ public class ProviderDetailsExperienceFragment extends Fragment {
 
     private void setupViews() {
         if (providerDetailsResponse == null) {
+            showProgressBar();
             return;
         }
 
+        showView();
         if (providerDetailsResponse.getCertifications() != null && !providerDetailsResponse.getCertifications().isEmpty()) {
             certificationsLabel.setVisibility(View.VISIBLE);
             certifications.setVisibility(View.VISIBLE);
@@ -97,5 +104,15 @@ public class ProviderDetailsExperienceFragment extends Fragment {
             awardsLabel.setVisibility(View.GONE);
             awards.setVisibility(View.GONE);
         }
+    }
+
+    private void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+        profileDetailsInfo.setVisibility(View.GONE);
+    }
+
+    private void showView(){
+        progressBar.setVisibility(View.GONE);
+        profileDetailsInfo.setVisibility(View.VISIBLE);
     }
 }

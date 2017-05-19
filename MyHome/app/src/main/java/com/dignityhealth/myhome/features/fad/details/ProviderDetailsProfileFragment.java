@@ -133,11 +133,11 @@ public class ProviderDetailsProfileFragment extends Fragment {
 
     private void showProgressBar(){
         progressBar.setVisibility(View.VISIBLE);
-        profileView.setVisibility(View.GONE);
+        profileDetailsInfo.setVisibility(View.GONE);
     }
 
     private void showView(){
         progressBar.setVisibility(View.GONE);
-        profileView.setVisibility(View.VISIBLE);
+        profileDetailsInfo.setVisibility(View.VISIBLE);
     }
 }

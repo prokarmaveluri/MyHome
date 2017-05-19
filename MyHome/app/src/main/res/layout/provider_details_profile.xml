@@ -8,10 +8,18 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
         <RelativeLayout
             android:id="@+id/profile_details_info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="18dp">
 
             <TextView
@@ -136,15 +144,5 @@
                 android:textSize="18sp" />
 
         </RelativeLayout>
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="8dp"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
     </LinearLayout>
 </ScrollView>

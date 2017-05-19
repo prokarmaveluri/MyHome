@@ -5,39 +5,53 @@
     android:orientation="vertical"
     android:padding="18dp">
 
-    <TextView
-        android:id="@+id/certifications_label"
-        style="@style/tradeGothicLTStd_14"
+    <ProgressBar
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Board Certifications"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/certifications"
-        style="@style/tradeGothicLTStd_14"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/profile_details_info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Internal Medicine, American Board of Medical Specialities"
-        android:textSize="18sp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/awards_label"
-        style="@style/tradeGothicLTStd_14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Awards &amp; Recognitions"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/certifications_label"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Board Certifications"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/awards"
-        style="@style/tradeGothicLTStd_14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recognized Doctor"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/certifications"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Internal Medicine, American Board of Medical Specialities"
+            android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/awards_label"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Awards &amp; Recognitions"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/awards"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recognized Doctor"
+            android:textSize="18sp" />
+    </LinearLayout>
 </LinearLayout>

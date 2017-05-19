@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.dignityhealth.myhome.R;
 
@@ -22,7 +23,8 @@ public class ProviderDetailsEducationFragment extends Fragment {
     private ProviderDetailsResponse providerDetailsResponse;
 
     private View educationView;
-    private RecyclerView experienceLayout;
+    private RecyclerView experienceList;
+    private ProgressBar progressBar;
 
     public ProviderDetailsEducationFragment() {
         // Required empty public constructor
@@ -58,24 +60,46 @@ public class ProviderDetailsEducationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         educationView = inflater.inflate(R.layout.provider_details_education, container, false);
+        experienceList = (RecyclerView) educationView.findViewById(R.id.education_list);
+        progressBar = (ProgressBar) educationView.findViewById(R.id.progress_bar);
 
-        experienceLayout = (RecyclerView) educationView.findViewById(R.id.education_layout);
-        experienceLayout.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false) {
+        if (providerDetailsResponse == null) {
+            showProgressBar();
+            return educationView;
+        }
+
+        showView();
+        experienceList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         });
 
-        List<String> curriculum = new ArrayList<String>(){{
-            addAll(providerDetailsResponse.getMedicalSchools());
-            addAll(providerDetailsResponse.getResidencies());
-            addAll(providerDetailsResponse.getFellowships());
-            addAll(providerDetailsResponse.getInternships());
-        }};
+        if(providerDetailsResponse != null){
+            List<String> curriculum = new ArrayList<String>(){{
+                addAll(providerDetailsResponse.getMedicalSchools());
+                addAll(providerDetailsResponse.getResidencies());
+                addAll(providerDetailsResponse.getFellowships());
+                addAll(providerDetailsResponse.getInternships());
+            }};
 
-        experienceLayout.setAdapter(new ProfileDetailsEducationAdapter(getActivity(), curriculum));
+            experienceList.setAdapter(new ProfileDetailsEducationAdapter(getActivity(), curriculum));
+        } else {
+            experienceList.setAdapter(new ProfileDetailsEducationAdapter(getActivity(), null));
+        }
+
 
         return educationView;
+    }
+
+    private void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+        experienceList.setVisibility(View.GONE);
+    }
+
+    private void showView(){
+        progressBar.setVisibility(View.GONE);
+        experienceList.setVisibility(View.VISIBLE);
     }
 }

@@ -39,7 +39,7 @@ public class ProviderDetailsResponse implements Parcelable {
     public List<String> Fellowships;
     public List<String> Internships;
     public List<String> Practicums; //These will probably not be strings, but addresses...
-    public List<String> Facilities;
+    public List<Facility> Facilities;
     public List<Office> Offices;
     public List<String> Memberships;
     public List<String> Certifications;
@@ -156,7 +156,7 @@ public class ProviderDetailsResponse implements Parcelable {
         return Practicums;
     }
 
-    public List<String> getFacilities() {
+    public List<Facility> getFacilities() {
         return Facilities;
     }
 
@@ -218,7 +218,7 @@ public class ProviderDetailsResponse implements Parcelable {
         dest.writeStringList(this.Fellowships);
         dest.writeStringList(this.Internships);
         dest.writeStringList(this.Practicums);
-        dest.writeStringList(this.Facilities);
+        dest.writeTypedList(this.Facilities);
         dest.writeTypedList(this.Offices);
         dest.writeStringList(this.Memberships);
         dest.writeStringList(this.Certifications);
@@ -258,7 +258,7 @@ public class ProviderDetailsResponse implements Parcelable {
         this.Fellowships = in.createStringArrayList();
         this.Internships = in.createStringArrayList();
         this.Practicums = in.createStringArrayList();
-        this.Facilities = in.createStringArrayList();
+        this.Facilities = in.createTypedArrayList(Facility.CREATOR);
         this.Offices = in.createTypedArrayList(Office.CREATOR);
         this.Memberships = in.createStringArrayList();
         this.Certifications = in.createStringArrayList();
