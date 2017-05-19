@@ -259,10 +259,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             currentSearchQuery = query;
             binding.suggestionList.setVisibility(View.GONE);
 
-            View view = getActivity().getCurrentFocus();
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
             presenter.getProviderList(query,
                     location.getLat(),
                     location.getLong(),
@@ -278,6 +274,12 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     getParam(hospitals),
                     getParam(practices),
                     getParam(newPatients));
+
+            View view = getActivity().getCurrentFocus();
+            InputMethodManager imm = (InputMethodManager) getActivity()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
         } catch (NullPointerException ex) {
         }
     }
