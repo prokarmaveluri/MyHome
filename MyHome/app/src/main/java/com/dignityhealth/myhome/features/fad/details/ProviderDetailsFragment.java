@@ -1,10 +1,14 @@
 package com.dignityhealth.myhome.features.fad.details;
 
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +20,13 @@ import com.dignityhealth.myhome.features.fad.Provider;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.views.CircularImageView;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.squareup.picasso.Picasso;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +73,7 @@ public class ProviderDetailsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
         getProviderDetails();
+        checkMapsKey();
 
         doctorImage = (CircularImageView) providerDetailsView.findViewById(R.id.doctor_image);
         name = (TextView) providerDetailsView.findViewById(R.id.doctor_name);
@@ -119,4 +130,30 @@ public class ProviderDetailsFragment extends BaseFragment {
         });
     }
 
+
+    private void checkMapsKey() {
+        try {
+            PackageInfo info = getActivity().getPackageManager().getPackageInfo("com.dignityhealth.myhome",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Timber.v("KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+
+            SupportMapFragment myMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
+            if (myMap != null) {
+                myMap.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
+                        Timber.d("Map is ready\n" + googleMap.toString());
+                    }
+                });
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
 }

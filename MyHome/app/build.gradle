@@ -15,6 +15,7 @@ android {
     }
 
     def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""   //Old App ID? Get's redefined anyways...
+    def GOOGLE_MAPS_ID = "\"AIzaSyCMC_4NOuwJxhfDs7tD-kJeRjdswCwbowc\""
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -24,7 +25,7 @@ android {
         multiDexEnabled true
         versionCode 9
         versionName "0.1.9"
-        manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
+        manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID, GOOGLE_MAPS_ID: GOOGLE_MAPS_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -34,12 +35,14 @@ android {
         def FALSE = "false"
         def REPORT_LOGS = "REPORT_LOGS"
         def HOCKEY_ID = "HOCKEY_ID"
+        def MAPS_ID = "MAPS_ID"
         def REPORT_CRASHES = "REPORT_CRASHES"
         def REPORT_ANALYTICS = "REPORT_ANALYTICS"
         def SHOW_SETTINGS = "SHOW_SETTINGS"
         release {
             HOCKEYAPP_APP_ID = "\"4583013ff4e54e8d86a1d136ed7a82c9\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
+            buildConfigField STRING, MAPS_ID, GOOGLE_MAPS_ID
             buildConfigField BOOLEAN, REPORT_LOGS, FALSE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
@@ -63,6 +66,7 @@ android {
         debug {
             HOCKEYAPP_APP_ID = "\"c13b9b9cbc224c31b8e04f5a07da9799\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
+            buildConfigField STRING, MAPS_ID, GOOGLE_MAPS_ID
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
@@ -77,6 +81,7 @@ android {
         }
         developer {
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
+            buildConfigField STRING, MAPS_ID, GOOGLE_MAPS_ID
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, FALSE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
@@ -93,6 +98,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.google.android.gms:play-services-maps:10.2.6'
+    compile 'com.google.android.gms:play-services-location:10.2.6'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:multidex:1.0.1'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'

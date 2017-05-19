@@ -109,11 +109,31 @@
             android:text="Hockey id here..." />
 
         <TextView
-            android:id="@+id/type_label"
+            android:id="@+id/maps_label"
             style="@style/tradeGothicLTStd_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/hockey"
+            android:layout_margin="6dp"
+            android:text="Maps ID"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/maps"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/maps_label"
+            android:layout_margin="6dp"
+            android:text="Maps id key..." />
+
+        <TextView
+            android:id="@+id/type_label"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/maps"
             android:layout_margin="6dp"
             android:text="Type"
             android:textSize="18sp"

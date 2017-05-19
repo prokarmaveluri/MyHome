@@ -53,6 +53,8 @@ public class DeveloperFragment extends BaseFragment {
         location.setText(FadManager.getInstance().getCurrentLocation() != null ? FadManager.getInstance().getCurrentLocation().toString() : "Location Not Retrieved Yet");
         TextView hockey = (TextView) developerView.findViewById(R.id.hockey);
         hockey.setText(BuildConfig.HOCKEY_ID != null ? BuildConfig.HOCKEY_ID : "Unknown");
+        TextView maps = (TextView) developerView.findViewById(R.id.maps);
+        maps.setText(BuildConfig.MAPS_ID != null ? BuildConfig.MAPS_ID : "Unknown");
         TextView type = (TextView) developerView.findViewById(R.id.type);
         type.setText(BuildConfig.BUILD_TYPE != null ? BuildConfig.BUILD_TYPE : "Unknown");
 
