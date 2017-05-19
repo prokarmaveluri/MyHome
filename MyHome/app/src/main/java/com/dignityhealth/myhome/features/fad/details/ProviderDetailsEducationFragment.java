@@ -12,6 +12,10 @@ import com.dignityhealth.myhome.R;
 public class ProviderDetailsEducationFragment extends Fragment {
     public static final String PROVIDER_DETAILS_EDUCATION_TAG = "provider_details_education_tag";
     public static final String PAGER_TITLE = "Education";
+    public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response_key";
+
+    private ProviderDetailsResponse providerDetailsResponse;
+
     private View educationView;
 
     public ProviderDetailsEducationFragment() {
@@ -29,9 +33,20 @@ public class ProviderDetailsEducationFragment extends Fragment {
         return fragment;
     }
 
+    public static ProviderDetailsEducationFragment newInstance(ProviderDetailsResponse providerDetailsResponse) {
+        ProviderDetailsEducationFragment fragment = new ProviderDetailsEducationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(PROVIDER_DETAILS_RESPONSE_KEY, providerDetailsResponse);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            providerDetailsResponse = getArguments().getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
+        }
     }
 
     @Override

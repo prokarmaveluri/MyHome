@@ -13,9 +13,15 @@ import android.widget.TextView;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.features.fad.Provider;
+import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 public class ProviderDetailsFragment extends BaseFragment {
     public static final String PROVIDER_KEY = "PROVIDER_KEY";
@@ -55,12 +61,7 @@ public class ProviderDetailsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
-        ViewPager viewPager = (ViewPager) providerDetailsView.findViewById(R.id.view_pager);
-        FragmentPagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        getProviderDetails();
 
         doctorImage = (CircularImageView) providerDetailsView.findViewById(R.id.doctor_image);
         name = (TextView) providerDetailsView.findViewById(R.id.doctor_name);
@@ -68,7 +69,6 @@ public class ProviderDetailsFragment extends BaseFragment {
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
 
         setupInitialView();
-
         return providerDetailsView;
     }
 
@@ -87,6 +87,33 @@ public class ProviderDetailsFragment extends BaseFragment {
         name.setText(provider.getDisplayFullName() != null ? provider.getDisplayFullName() : "Name Unknown");
         speciality.setText(provider.getSpecialties() != null ? provider.getSpecialties().get(0) : "Specialities Unknown");
         address.setText(provider.getOffices() != null ? provider.getOffices().get(0).getAddress1() + "\n" + provider.getOffices().get(0).getAddress() : "Address Unknown");
+    }
+
+    private void getProviderDetails() {
+        NetworkManager.getInstance().getProviderDetails(provider.getProviderId()).enqueue(new Callback<ProviderDetailsResponse>() {
+            @Override
+            public void onResponse(Call<ProviderDetailsResponse> call, Response<ProviderDetailsResponse> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                    ProviderDetailsResponse providerDetailsResponse = response.body();
+
+                    ViewPager viewPager = (ViewPager) providerDetailsView.findViewById(R.id.view_pager);
+                    FragmentPagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
+                    viewPager.setAdapter(pagerAdapter);
+
+                    TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.sliding_tabs);
+                    tabLayout.setupWithViewPager(viewPager);
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProviderDetailsResponse> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+            }
+        });
     }
 
 }

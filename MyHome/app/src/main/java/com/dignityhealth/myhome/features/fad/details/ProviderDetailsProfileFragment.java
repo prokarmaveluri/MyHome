@@ -13,6 +13,9 @@ import com.dignityhealth.myhome.R;
 public class ProviderDetailsProfileFragment extends Fragment {
     public static final String PROVIDER_DETAILS_PROFILE_TAG = "provider_details_profile_tag";
     public static final String PAGER_TITLE = "Profile";
+    public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response_key";
+
+    private ProviderDetailsResponse providerDetailsResponse;
 
     private View profileView;
     private TextView acceptingNewPatients;
@@ -38,10 +41,20 @@ public class ProviderDetailsProfileFragment extends Fragment {
         return fragment;
     }
 
+    public static ProviderDetailsProfileFragment newInstance(ProviderDetailsResponse providerDetailsResponse) {
+        ProviderDetailsProfileFragment fragment = new ProviderDetailsProfileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(PROVIDER_DETAILS_RESPONSE_KEY, providerDetailsResponse);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (getArguments() != null) {
+            providerDetailsResponse = getArguments().getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
+        }
     }
 
     @Override
@@ -55,6 +68,21 @@ public class ProviderDetailsProfileFragment extends Fragment {
         philosophy = (TextView) profileView.findViewById(R.id.philosophy);
         locations = (TextView) profileView.findViewById(R.id.locations);
 
+        setupViews();
+
         return profileView;
+    }
+
+    private void setupViews() {
+        if (providerDetailsResponse == null) {
+            return;
+        }
+
+        acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? "Yes" : "No");
+        languages.setText(providerDetailsResponse.getLanguages() != null ? providerDetailsResponse.getLanguages().toString() : "Unknown");
+        gender.setText(providerDetailsResponse.getGender() != null ? providerDetailsResponse.getGender() : "Unknown");
+        experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() : "Unknown");
+        philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? providerDetailsResponse.getPhilosophy() : "Unknown");
+        locations.setText(providerDetailsResponse.getOffices() != null ? providerDetailsResponse.getOffices().toString() : "Unknown");
     }
 }
