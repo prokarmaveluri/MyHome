@@ -236,7 +236,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        getSearchSuggestions(newText);
+        if (newText.length() > 0 && !newText.isEmpty()) {
+            getSearchSuggestions(newText);
+        } else {
+            binding.suggestionList.setVisibility(View.GONE);
+        }
         return false;
     }
 
@@ -253,6 +257,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             }
             showProgress(true);
             currentSearchQuery = query;
+            binding.suggestionList.setVisibility(View.GONE);
 
             View view = getActivity().getCurrentFocus();
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -361,11 +366,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private void startFilterDialog() {
         FilterDialog dialog = new FilterDialog();
         Bundle bundle = new Bundle();
-        if (providerList.size() <= 0 || gender.size() <= 0) {
-            Toast.makeText(getActivity(), "No filter available",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
+
         bundle.putParcelableArrayList("NEW_PATIENTS", newPatients);
         bundle.putParcelableArrayList("SPECIALITY", specialties);
         bundle.putParcelableArrayList("GENDER", gender);
@@ -373,6 +374,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         bundle.putParcelableArrayList("HOSPITALS", hospitals);
         bundle.putParcelableArrayList("PRACTICES", practices);
         bundle.putParcelable("LOCATION", location);
+
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, FILTER_REQUEST);
         dialog.show(getActivity().getSupportFragmentManager(), "Filter Dialog");
