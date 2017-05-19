@@ -60,7 +60,12 @@ public class ProviderDetailsEducationFragment extends Fragment {
         educationView = inflater.inflate(R.layout.provider_details_education, container, false);
 
         experienceLayout = (RecyclerView) educationView.findViewById(R.id.education_layout);
-        experienceLayout.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        experienceLayout.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
 
         List<String> curriculum = new ArrayList<String>(){{
             addAll(providerDetailsResponse.getMedicalSchools());

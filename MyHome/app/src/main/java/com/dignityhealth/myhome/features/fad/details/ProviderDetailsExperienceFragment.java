@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
@@ -19,7 +20,9 @@ public class ProviderDetailsExperienceFragment extends Fragment {
     private ProviderDetailsResponse providerDetailsResponse;
 
     private View experienceView;
+    private TextView certificationsLabel;
     private TextView certifications;
+    private TextView awardsLabel;
     private TextView awards;
 
     public ProviderDetailsExperienceFragment() {
@@ -57,7 +60,9 @@ public class ProviderDetailsExperienceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         experienceView = inflater.inflate(R.layout.provider_details_experience, container, false);
 
+        certificationsLabel = (TextView) experienceView.findViewById(R.id.certifications_label);
         certifications = (TextView) experienceView.findViewById(R.id.certifications);
+        awardsLabel = (TextView) experienceView.findViewById(R.id.awards_label);
         awards = (TextView) experienceView.findViewById(R.id.awards);
 
         setupViews();
@@ -70,7 +75,27 @@ public class ProviderDetailsExperienceFragment extends Fragment {
             return;
         }
 
-        certifications.setText(providerDetailsResponse.getCertifications() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getCertifications()) : "Unknown");
-        awards.setText(providerDetailsResponse.getAwards() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getAwards()) : "Unknown");
+        if (providerDetailsResponse.getCertifications() != null && !providerDetailsResponse.getCertifications().isEmpty()) {
+            certificationsLabel.setVisibility(View.VISIBLE);
+            certifications.setVisibility(View.VISIBLE);
+            CommonUtil.prettyPrint(providerDetailsResponse.getCertifications());
+        } else {
+            certificationsLabel.setVisibility(View.GONE);
+            certifications.setVisibility(View.GONE);
+
+            //Remove Margin
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 0, 0);
+            awardsLabel.setLayoutParams(params);
+        }
+
+        if (providerDetailsResponse.getAwards() != null && !providerDetailsResponse.getAwards().isEmpty()) {
+            awardsLabel.setVisibility(View.VISIBLE);
+            awards.setVisibility(View.VISIBLE);
+            CommonUtil.prettyPrint(providerDetailsResponse.getAwards());
+        } else {
+            awardsLabel.setVisibility(View.GONE);
+            awards.setVisibility(View.GONE);
+        }
     }
 }
