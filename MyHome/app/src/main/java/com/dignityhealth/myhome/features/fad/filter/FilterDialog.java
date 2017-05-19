@@ -7,17 +7,20 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.annotation.IdRes;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ExpandableListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentFilterBinding;
@@ -43,7 +46,7 @@ import timber.log.Timber;
  * Created by cmajji on 1/03/17.
  */
 public class FilterDialog extends DialogFragment implements SuggestionsAdapter.ISuggestionClick,
-        RadioGroup.OnCheckedChangeListener {
+        RadioGroup.OnCheckedChangeListener, TextView.OnEditorActionListener {
 
     private ArrayList<CommonModel> newPatients;
     private ArrayList<CommonModel> specialties;
@@ -100,6 +103,8 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             binding.sortByGroup.setOnCheckedChangeListener(this);
             binding.filterLocation.getBackground().mutate().setColorFilter(getResources().getColor(R.color.accent),
                     PorterDuff.Mode.SRC_ATOP);
+
+            binding.filterLocation.setOnEditorActionListener(this);
 
             if (newPatients.size() > 0)
                 binding.newPatientsSwitch.setChecked(newPatients.get(0).getSelected());
@@ -194,6 +199,17 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         }
     }
 
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE
+                || event.getAction() == KeyEvent.ACTION_DOWN
+                && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            binding.locationSugg.setVisibility(View.GONE);
+            return true;
+        }
+        return false;
+    }
+
     public class DialogClick {
         public void onClickEvent(View view) {
             switch (view.getId()) {
@@ -264,7 +280,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (s.length() > 0 && !isHide) {
+            if (s.length() > 1 && !isHide) {
                 binding.locationSugg.setVisibility(View.VISIBLE);
                 getLocationSuggestions(s.toString());
             } else {
