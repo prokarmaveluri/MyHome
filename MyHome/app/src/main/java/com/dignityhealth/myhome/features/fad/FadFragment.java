@@ -253,6 +253,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             }
             showProgress(true);
             currentSearchQuery = query;
+            binding.suggestionList.setVisibility(View.GONE);
 
             View view = getActivity().getCurrentFocus();
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -329,6 +330,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void suggestionClick(String query, int position) {
+        location = FadManager.getInstance().getCurrentLocation();
         binding.suggestionList.setVisibility(View.GONE);
         searchView.setQuery(query, false);
     }
