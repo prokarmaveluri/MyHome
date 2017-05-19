@@ -205,7 +205,8 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                 || event.getAction() == KeyEvent.ACTION_DOWN
                 && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
             binding.locationSugg.setVisibility(View.GONE);
-            return true;
+
+            return false;
         }
         return false;
     }
