@@ -334,7 +334,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void suggestionClick(String query, int position) {
-        location = FadManager.getInstance().getCurrentLocation();
         binding.suggestionList.setVisibility(View.GONE);
         searchView.setQuery(query, false);
     }
@@ -367,11 +366,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private void startFilterDialog() {
         FilterDialog dialog = new FilterDialog();
         Bundle bundle = new Bundle();
-        if (providerList.size() <= 0 || gender.size() <= 0) {
-            Toast.makeText(getActivity(), "No filter available",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
+
         bundle.putParcelableArrayList("NEW_PATIENTS", newPatients);
         bundle.putParcelableArrayList("SPECIALITY", specialties);
         bundle.putParcelableArrayList("GENDER", gender);
@@ -379,6 +374,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         bundle.putParcelableArrayList("HOSPITALS", hospitals);
         bundle.putParcelableArrayList("PRACTICES", practices);
         bundle.putParcelable("LOCATION", location);
+
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, FILTER_REQUEST);
         dialog.show(getActivity().getSupportFragmentManager(), "Filter Dialog");
