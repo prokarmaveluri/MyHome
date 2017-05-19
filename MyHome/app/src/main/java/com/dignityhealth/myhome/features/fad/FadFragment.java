@@ -236,7 +236,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        getSearchSuggestions(newText);
+        if (newText.length() > 0 && !newText.isEmpty()) {
+            getSearchSuggestions(newText);
+        } else {
+            binding.suggestionList.setVisibility(View.GONE);
+        }
         return false;
     }
 
