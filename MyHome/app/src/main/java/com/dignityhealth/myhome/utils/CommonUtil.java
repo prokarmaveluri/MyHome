@@ -343,15 +343,6 @@ public class CommonUtil {
         listView.requestLayout();
     }
 
-//    public static String prettyPrint(ArrayList<Object> objects){
-//        String prettyString = "";
-//        for (Object object : objects) {
-//            prettyString = prettyString + object.toString() + "\n";
-//        }
-//
-//        return prettyString;
-//    }
-
     public static String prettyPrint(List<? extends Object> objects){
         String prettyString = "";
         for (Object object : objects) {

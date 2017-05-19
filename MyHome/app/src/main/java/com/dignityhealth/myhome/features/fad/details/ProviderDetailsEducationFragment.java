@@ -3,11 +3,16 @@ package com.dignityhealth.myhome.features.fad.details;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dignityhealth.myhome.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProviderDetailsEducationFragment extends Fragment {
     public static final String PROVIDER_DETAILS_EDUCATION_TAG = "provider_details_education_tag";
@@ -17,6 +22,7 @@ public class ProviderDetailsEducationFragment extends Fragment {
     private ProviderDetailsResponse providerDetailsResponse;
 
     private View educationView;
+    private RecyclerView experienceLayout;
 
     public ProviderDetailsEducationFragment() {
         // Required empty public constructor
@@ -52,6 +58,19 @@ public class ProviderDetailsEducationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         educationView = inflater.inflate(R.layout.provider_details_education, container, false);
+
+        experienceLayout = (RecyclerView) educationView.findViewById(R.id.education_layout);
+        experienceLayout.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+        List<String> curriculum = new ArrayList<String>(){{
+            addAll(providerDetailsResponse.getMedicalSchools());
+            addAll(providerDetailsResponse.getResidencies());
+            addAll(providerDetailsResponse.getFellowships());
+            addAll(providerDetailsResponse.getInternships());
+        }};
+
+        experienceLayout.setAdapter(new ProfileDetailsEducationAdapter(getActivity(), curriculum));
+
         return educationView;
     }
 }
