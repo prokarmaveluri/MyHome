@@ -30,6 +30,7 @@ public class ProviderDetailsFragment extends BaseFragment {
     private Provider provider;
 
     private View providerDetailsView;
+    private ViewPager viewPager;
     private CircularImageView doctorImage;
     private TextView name;
     private TextView speciality;
@@ -68,6 +69,13 @@ public class ProviderDetailsFragment extends BaseFragment {
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
 
+        viewPager = (ViewPager) providerDetailsView.findViewById(R.id.view_pager);
+        FragmentPagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), null);
+        viewPager.setAdapter(pagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
         setupInitialView();
         return providerDetailsView;
     }
@@ -96,13 +104,8 @@ public class ProviderDetailsFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
                     ProviderDetailsResponse providerDetailsResponse = response.body();
-
-                    ViewPager viewPager = (ViewPager) providerDetailsView.findViewById(R.id.view_pager);
                     FragmentPagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
                     viewPager.setAdapter(pagerAdapter);
-
-                    TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.sliding_tabs);
-                    tabLayout.setupWithViewPager(viewPager);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }

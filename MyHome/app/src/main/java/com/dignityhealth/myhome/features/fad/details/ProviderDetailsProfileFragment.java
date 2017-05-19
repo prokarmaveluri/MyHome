@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class ProviderDetailsProfileFragment extends Fragment {
     private TextView philosophy;
     private TextView locations;
     private TextView locationsLabel;
+    private ProgressBar progressBar;
+    private View profileDetailsInfo;
 
 
     public ProviderDetailsProfileFragment() {
@@ -66,6 +69,8 @@ public class ProviderDetailsProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.provider_details_profile, container, false);
+        profileDetailsInfo = profileView.findViewById(R.id.profile_details_info);
+        progressBar = (ProgressBar) profileView.findViewById(R.id.progress_bar);
 
         acceptingNewPatients = (TextView) profileView.findViewById(R.id.accepting_new_patients);
         languages = (TextView) profileView.findViewById(R.id.languages);
@@ -82,9 +87,11 @@ public class ProviderDetailsProfileFragment extends Fragment {
 
     private void setupViews() {
         if (providerDetailsResponse == null) {
+            showProgressBar();
             return;
         }
 
+        showView();
         acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? "Yes" : "No");
         languages.setText(providerDetailsResponse.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getLanguages()) : "Unknown");
 
@@ -122,5 +129,15 @@ public class ProviderDetailsProfileFragment extends Fragment {
         }
 
         locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getOffices()) : "Unknown");
+    }
+
+    private void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+        profileView.setVisibility(View.GONE);
+    }
+
+    private void showView(){
+        progressBar.setVisibility(View.GONE);
+        profileView.setVisibility(View.VISIBLE);
     }
 }
