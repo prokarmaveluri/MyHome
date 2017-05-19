@@ -50,6 +50,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         progressBar = (ProgressBar) findViewById(R.id.dash_progress);
+        setActivityTag(ActivityTag.NONE);
         initializeBottomView();
 
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbar);

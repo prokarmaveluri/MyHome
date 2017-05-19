@@ -236,7 +236,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText.length() > 0 && !newText.isEmpty()) {
+        if (newText.length() > 1 && !newText.isEmpty()) {
             getSearchSuggestions(newText);
         } else {
             binding.suggestionList.setVisibility(View.GONE);
@@ -424,7 +424,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private List<String> getSuggestions(List<SearchSuggestionResponse> list) {
         List<String> sug = new ArrayList<>();
         for (SearchSuggestionResponse resp : list) {
-            if (resp.getType().contains("Search")) {
+            if (resp.getType().contains("Search") || resp.getType().contains("Provider")) {
                 sug.add(resp.getTitle());
             }
         }
