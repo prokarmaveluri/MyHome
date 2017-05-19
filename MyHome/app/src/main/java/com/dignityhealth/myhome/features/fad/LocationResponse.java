@@ -81,4 +81,16 @@ public class LocationResponse implements Parcelable {
             return new LocationResponse[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "LocationResponse{" +
+                "City='" + City + '\'' +
+                ", State='" + State + '\'' +
+                ", ZipCode='" + ZipCode + '\'' +
+                ", Lat='" + Lat + '\'' +
+                ", lon='" + lon + '\'' +
+                ", DisplayName='" + DisplayName + '\'' +
+                '}';
+    }
 }
