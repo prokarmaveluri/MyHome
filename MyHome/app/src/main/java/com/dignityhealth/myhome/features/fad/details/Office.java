@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.features.fad.details;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -170,25 +171,9 @@ public class Office implements Parcelable {
 
     @Override
     public String toString() {
-        return "Office{" +
-                "Name='" + Name + '\'' +
-                ", Address1='" + Address1 + '\'' +
-                ", Address2='" + Address2 + '\'' +
-                ", City='" + City + '\'' +
-                ", State='" + State + '\'' +
-                ", ZipCode='" + ZipCode + '\'' +
-                ", Phone='" + Phone + '\'' +
-                ", Fax='" + Fax + '\'' +
-                ", Url='" + Url + '\'' +
-                ", Lat='" + Lat + '\'' +
-                ", lon='" + lon + '\'' +
-                ", SortRank=" + SortRank +
-                ", DistanceMilesFromSearch='" + DistanceMilesFromSearch + '\'' +
-                ", DirectionsLink='" + DirectionsLink + '\'' +
-                ", Hash='" + Hash + '\'' +
-                ", LatLongHash='" + LatLongHash + '\'' +
-                ", Appointments=" + Appointments +
-                ", LocationMatch=" + LocationMatch +
-                '}';
+        String officeString = "";
+        officeString = officeString +
+                (Name != null && !Name.isEmpty() ? Name + "\n" : "") + CommonUtil.constructAddress(Address1, Address2, City, State, ZipCode);
+        return officeString;
     }
 }

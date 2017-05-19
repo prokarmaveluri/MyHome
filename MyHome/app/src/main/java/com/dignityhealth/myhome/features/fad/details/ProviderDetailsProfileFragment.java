@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.utils.CommonUtil;
 
 public class ProviderDetailsProfileFragment extends Fragment {
     public static final String PROVIDER_DETAILS_PROFILE_TAG = "provider_details_profile_tag";
@@ -79,10 +80,10 @@ public class ProviderDetailsProfileFragment extends Fragment {
         }
 
         acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? "Yes" : "No");
-        languages.setText(providerDetailsResponse.getLanguages() != null ? providerDetailsResponse.getLanguages().toString() : "Unknown");
+        languages.setText(providerDetailsResponse.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getLanguages()) : "Unknown");
         gender.setText(providerDetailsResponse.getGender() != null ? providerDetailsResponse.getGender() : "Unknown");
         experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() : "Unknown");
         philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? providerDetailsResponse.getPhilosophy() : "Unknown");
-        locations.setText(providerDetailsResponse.getOffices() != null ? providerDetailsResponse.getOffices().toString() : "Unknown");
+        locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getOffices()) : "Unknown");
     }
 }

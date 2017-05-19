@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.utils.CommonUtil;
 
 public class ProviderDetailsExperienceFragment extends Fragment {
     public static final String PROVIDER_DETAILS_EXPERIENCE_TAG = "provider_details_experience_tag";
@@ -17,6 +19,8 @@ public class ProviderDetailsExperienceFragment extends Fragment {
     private ProviderDetailsResponse providerDetailsResponse;
 
     private View experienceView;
+    private TextView certifications;
+    private TextView awards;
 
     public ProviderDetailsExperienceFragment() {
         // Required empty public constructor
@@ -52,6 +56,21 @@ public class ProviderDetailsExperienceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         experienceView = inflater.inflate(R.layout.provider_details_experience, container, false);
+
+        certifications = (TextView) experienceView.findViewById(R.id.certifications);
+        awards = (TextView) experienceView.findViewById(R.id.awards);
+
+        setupViews();
+
         return experienceView;
+    }
+
+    private void setupViews() {
+        if (providerDetailsResponse == null) {
+            return;
+        }
+
+        certifications.setText(providerDetailsResponse.getCertifications() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getCertifications()) : "Unknown");
+        awards.setText(providerDetailsResponse.getAwards() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getAwards()) : "Unknown");
     }
 }
