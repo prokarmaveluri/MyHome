@@ -59,18 +59,16 @@
             android:layout_height="160dp"
             android:layout_below="@id/book_appointment"
             android:layout_marginTop="24dp"
-            map:cameraBearing="112.5"
-            map:cameraTargetLat="37.7749"
-            map:cameraTargetLng="122.4194"
-            map:cameraTilt="30"
-            map:cameraZoom="13"
+            map:cameraTargetLat="39.720050"
+            map:cameraTargetLng="-104.817219"
+            map:cameraZoom="3"
             map:mapType="normal"
             map:uiCompass="false"
-            map:uiRotateGestures="true"
+            map:uiRotateGestures="false"
             map:uiScrollGestures="false"
-            map:uiTiltGestures="true"
+            map:uiTiltGestures="false"
             map:uiZoomControls="false"
-            map:uiZoomGestures="true" />
+            map:uiZoomGestures="false" />
 
         <TextView
             android:id="@+id/facility_address"
