@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +63,9 @@ public class TosActivity extends BaseActivity {
                 cancelTerms();
             }
         });
+
+        WebView tos = (WebView) findViewById(R.id.terms_of_service);
+        tos.loadUrl("file:///android_asset/tos.htm");
 
         enrollmentRequest = (EnrollmentRequest) getIntent()
                 .getParcelableExtra(Constants.ENROLLMENT_REQUEST);
