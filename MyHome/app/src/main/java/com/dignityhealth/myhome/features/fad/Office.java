@@ -3,7 +3,10 @@ package com.dignityhealth.myhome.features.fad;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 /**
  * Created by kwelsh on 5/18/17.
@@ -28,7 +31,7 @@ public class Office implements Parcelable {
     private String DirectionsLink;
     private String Hash;
     private String LatLongHash;
-    private String Appointments;
+    private ArrayList<Appointment> Appointments;
     private Boolean LocationMatch;
 
     public String getName() {
@@ -39,7 +42,7 @@ public class Office implements Parcelable {
         return Address1;
     }
 
-    public Object getAddress2() {
+    public String getAddress2() {
         return Address2;
     }
 
@@ -59,11 +62,11 @@ public class Office implements Parcelable {
         return Phone;
     }
 
-    public Object getFax() {
+    public String getFax() {
         return Fax;
     }
 
-    public Object getUrl() {
+    public String getUrl() {
         return Url;
     }
 
@@ -95,7 +98,7 @@ public class Office implements Parcelable {
         return LatLongHash;
     }
 
-    public Object getAppointments() {
+    public ArrayList<Appointment> getAppointments() {
         return Appointments;
     }
 
@@ -112,6 +115,14 @@ public class Office implements Parcelable {
         if (null != ZipCode)
             fullAddress.append(" " + ZipCode);
         return fullAddress.toString();
+    }
+
+    @Override
+    public String toString() {
+        String officeString = "";
+        officeString = officeString +
+                (Name != null && !Name.isEmpty() ? Name + "\n" : "") + CommonUtil.constructAddress(Address1, Address2, City, State, ZipCode);
+        return officeString;
     }
 
     @Override
@@ -137,7 +148,7 @@ public class Office implements Parcelable {
         dest.writeString(this.DirectionsLink);
         dest.writeString(this.Hash);
         dest.writeString(this.LatLongHash);
-        dest.writeString(this.Appointments);
+        dest.writeTypedList(this.Appointments);
         dest.writeValue(this.LocationMatch);
     }
 
@@ -161,7 +172,7 @@ public class Office implements Parcelable {
         this.DirectionsLink = in.readString();
         this.Hash = in.readString();
         this.LatLongHash = in.readString();
-        this.Appointments = in.readString();
+        this.Appointments = in.createTypedArrayList(Appointment.CREATOR);
         this.LocationMatch = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 

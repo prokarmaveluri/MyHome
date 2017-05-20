@@ -68,12 +68,92 @@
             android:layout_margin="6dp"
             android:text="profile here..." />
 
+        <TextView
+            android:id="@+id/location_label"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile"
+            android:layout_margin="6dp"
+            android:text="Location"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/location"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/location_label"
+            android:layout_margin="6dp"
+            android:text="location here..." />
+
+        <TextView
+            android:id="@+id/hockey_label"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/location"
+            android:layout_margin="6dp"
+            android:text="Hockey App ID"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hockey"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hockey_label"
+            android:layout_margin="6dp"
+            android:text="Hockey id here..." />
+
+        <TextView
+            android:id="@+id/maps_label"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hockey"
+            android:layout_margin="6dp"
+            android:text="Maps ID"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/maps"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/maps_label"
+            android:layout_margin="6dp"
+            android:text="Maps id key..." />
+
+        <TextView
+            android:id="@+id/type_label"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/maps"
+            android:layout_margin="6dp"
+            android:text="Type"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/type"
+            style="@style/tradeGothicLTStd_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/type_label"
+            android:layout_margin="6dp"
+            android:text="type here" />
+
         <Button
             android:id="@+id/add_appointment"
             style="@style/enableButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profile"
+            android:layout_below="@id/type"
             android:layout_margin="6dp"
             android:padding="12dp"
             android:text="Add a random appointment" />

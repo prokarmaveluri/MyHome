@@ -1,9 +1,8 @@
-package com.dignityhealth.myhome.features.fad.details;
+package com.dignityhealth.myhome.features.fad;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.dignityhealth.myhome.utils.CommonUtil;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  * Created by kwelsh on 5/18/17.
  */
 
-public class Office implements Parcelable {
+public class Facility implements Parcelable {
 
     public String Name;
     public String Address1;
@@ -31,7 +30,7 @@ public class Office implements Parcelable {
     public String DirectionsLink;
     public String Hash;
     public String LatLongHash;
-    public List<Appointment> Appointments;
+    public List<Appointment> Appointments;   //TODO This will probably be Appointments, not Strings
     public Boolean LocationMatch;
 
     public String getName() {
@@ -107,14 +106,6 @@ public class Office implements Parcelable {
     }
 
     @Override
-    public String toString() {
-        String officeString = "";
-        officeString = officeString +
-                (Name != null && !Name.isEmpty() ? Name + "\n" : "") + CommonUtil.constructAddress(Address1, Address2, City, State, ZipCode);
-        return officeString;
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -141,10 +132,10 @@ public class Office implements Parcelable {
         dest.writeValue(this.LocationMatch);
     }
 
-    public Office() {
+    public Facility() {
     }
 
-    protected Office(Parcel in) {
+    protected Facility(Parcel in) {
         this.Name = in.readString();
         this.Address1 = in.readString();
         this.Address2 = in.readString();
@@ -165,15 +156,15 @@ public class Office implements Parcelable {
         this.LocationMatch = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Office> CREATOR = new Parcelable.Creator<Office>() {
+    public static final Parcelable.Creator<Facility> CREATOR = new Parcelable.Creator<Facility>() {
         @Override
-        public Office createFromParcel(Parcel source) {
-            return new Office(source);
+        public Facility createFromParcel(Parcel source) {
+            return new Facility(source);
         }
 
         @Override
-        public Office[] newArray(int size) {
-            return new Office[size];
+        public Facility[] newArray(int size) {
+            return new Facility[size];
         }
     };
 }

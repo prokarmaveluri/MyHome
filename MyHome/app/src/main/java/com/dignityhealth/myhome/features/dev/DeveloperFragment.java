@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.features.appointments.Appointment;
+import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
@@ -47,6 +49,14 @@ public class DeveloperFragment extends BaseFragment {
         session.setText(AuthManager.getInstance().getSessionToken() != null ? AuthManager.getInstance().getSessionToken() : "Session Token couldn't be found");
         TextView profile = (TextView) developerView.findViewById(R.id.profile);
         profile.setText(ProfileManager.getProfile() != null ? ProfileManager.getProfile().toString() : "Profile Not Retrieved Yet");
+        TextView location = (TextView) developerView.findViewById(R.id.location);
+        location.setText(FadManager.getInstance().getCurrentLocation() != null ? FadManager.getInstance().getCurrentLocation().toString() : "Location Not Retrieved Yet");
+        TextView hockey = (TextView) developerView.findViewById(R.id.hockey);
+        hockey.setText(BuildConfig.HOCKEY_ID != null ? BuildConfig.HOCKEY_ID : "Unknown");
+        TextView maps = (TextView) developerView.findViewById(R.id.maps);
+        maps.setText(getString(R.string.google_maps_api_key));
+        TextView type = (TextView) developerView.findViewById(R.id.type);
+        type.setText(BuildConfig.BUILD_TYPE != null ? BuildConfig.BUILD_TYPE : "Unknown");
 
         Button addAppointment = (Button) developerView.findViewById(R.id.add_appointment);
         addAppointment.setOnClickListener(new View.OnClickListener() {
