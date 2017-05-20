@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.networking.auth;
 
 import android.content.Context;
 
+import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.utils.AppPreferences;
 
@@ -92,8 +93,14 @@ public class AuthManager {
         return (System.currentTimeMillis() - prevTimestamp >= MINITUES_5);
     }
 
+    /**
+     * If the user tries to log in more than three times unsuccessfully, lock him out.
+     * Developers are excluded from this.
+     *
+     * @return
+     */
     public boolean isMaxFailureAttemptsReached() {
-        if (count >= 3) {
+        if (count >= 3 && !BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")) {
             return true;
         }
         return false;
