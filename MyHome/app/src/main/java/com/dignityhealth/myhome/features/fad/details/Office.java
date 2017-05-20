@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by kwelsh on 5/18/17.
@@ -31,7 +31,7 @@ public class Office implements Parcelable {
     public String DirectionsLink;
     public String Hash;
     public String LatLongHash;
-    public List<Appointment> Appointments;
+    public ArrayList<Appointment> Appointments;
     public Boolean LocationMatch;
 
     public String getName() {
@@ -98,7 +98,7 @@ public class Office implements Parcelable {
         return LatLongHash;
     }
 
-    public List<Appointment> getAppointments() {
+    public ArrayList<Appointment> getAppointments() {
         return Appointments;
     }
 

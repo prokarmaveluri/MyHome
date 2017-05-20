@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.features.fad;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class Provider implements Parcelable {
     private String Internships;
     private String Practicums;
     private String Facilities;
-    private List<Office> Offices;
+    private ArrayList<Office> Offices;
     private String Memberships;
     private String Certifications;
     private String Awards;
@@ -158,7 +159,7 @@ public class Provider implements Parcelable {
         return Facilities;
     }
 
-    public List<Office> getOffices() {
+    public ArrayList<Office> getOffices() {
         return Offices;
     }
 

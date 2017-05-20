@@ -39,7 +39,7 @@ public class Office implements Parcelable {
         return Address1;
     }
 
-    public Object getAddress2() {
+    public String getAddress2() {
         return Address2;
     }
 
@@ -59,11 +59,11 @@ public class Office implements Parcelable {
         return Phone;
     }
 
-    public Object getFax() {
+    public String getFax() {
         return Fax;
     }
 
-    public Object getUrl() {
+    public String getUrl() {
         return Url;
     }
 
@@ -95,7 +95,7 @@ public class Office implements Parcelable {
         return LatLongHash;
     }
 
-    public Object getAppointments() {
+    public String getAppointments() {
         return Appointments;
     }
 
