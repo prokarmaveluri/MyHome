@@ -46,6 +46,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView address;
 
     private GoogleMap providerMap;
+    private ArrayList<Marker> markers = new ArrayList<>();
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
@@ -121,14 +122,17 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
                     viewPager.setAdapter(pagerAdapter);
 
-                    ArrayList<Marker> markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+                    MapUtil.clearMarkers(getContext(), providerMap);
+                    markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
                         @Override
                         public boolean onMarkerClick(Marker marker) {
+                            handleMarkerClick(marker);
                             //marker.showInfoWindow(); Won't fit with the zoom if states apart
                             return true;
                         }
                     });
 
+                    MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
                     MapUtil.zoomMap(getContext(), providerMap, markers);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
@@ -149,13 +153,21 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         providerMap = googleMap;
 
         //Add markers
-        ArrayList<Marker> markers = MapUtil.addMapMarkers(getActivity(), providerMap, provider.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+        markers = MapUtil.addMapMarkers(getActivity(), providerMap, provider.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
             public boolean onMarkerClick(Marker marker) {
+                handleMarkerClick(marker);
                 //marker.showInfoWindow(); Won't fit with the zoom if states apart
                 return true;
             }
         });
 
+        MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
         MapUtil.zoomMap(getContext(), providerMap, markers);
+    }
+
+    //Set address text, then make sure to change selected icon
+    private void handleMarkerClick(Marker marker) {
+        address.setText(marker.getSnippet());
+        MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
     }
 }

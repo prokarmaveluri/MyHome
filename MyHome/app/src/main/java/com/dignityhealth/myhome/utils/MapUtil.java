@@ -7,11 +7,13 @@ import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.util.Base64;
 
+import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.Office;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -68,7 +70,7 @@ public class MapUtil {
                 markers.add(googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(office.getLat()), Double.parseDouble(office.getLong())))
                         .title(office.getName() != null ? office.getName() : office.getAddress1())
-                        .snippet(office.getAddress1())
+                        .snippet(office.getAddress1() != null ? office.getAddress1() + "\n" + office.getAddress() : "Address Unknown")
                         .icon(bitmapDescriptor)));
 
                 if (listener != null) {
@@ -121,5 +123,19 @@ public class MapUtil {
         }
 
         googleMap.animateCamera(MapUtil.calculateZoom(context, markers));
+    }
+
+    public static void setMarkerSelectedIcon(Context context, ArrayList<Marker> markers, String address){
+        for (Marker marker : markers) {
+            if(marker.getSnippet().equalsIgnoreCase(address)){
+                marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_blue));
+            } else {
+                marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
+            }
+        }
+    }
+
+    public static void clearMarkers(Context context, GoogleMap googleMap) {
+        googleMap.clear();
     }
 }
