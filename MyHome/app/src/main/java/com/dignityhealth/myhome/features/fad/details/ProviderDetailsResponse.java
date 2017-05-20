@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.dignityhealth.myhome.features.fad.Facility;
 import com.dignityhealth.myhome.features.fad.Office;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,21 +35,21 @@ public class ProviderDetailsResponse implements Parcelable {
     public String Quote;
     public String Philosophy;
     public String InMyOwnWords;
-    public List<String> Specialties;
-    public List<String> Languages;
+    public ArrayList<String> Specialties;
+    public ArrayList<String> Languages;
     public String Degree;
-    public List<String> MedicalSchools;
-    public List<String> Residencies;
-    public List<String> Fellowships;
-    public List<String> Internships;
-    public List<String> Practicums; //These will probably not be strings, but addresses...
-    public List<Facility> Facilities;
-    public List<Office> Offices;
-    public List<String> Memberships;
-    public List<String> Certifications;
-    public List<String> Awards;
+    public ArrayList<String> MedicalSchools;
+    public ArrayList<String> Residencies;
+    public ArrayList<String> Fellowships;
+    public ArrayList<String> Internships;
+    public ArrayList<String> Practicums; //These will probably not be strings, but addresses...
+    public ArrayList<Facility> Facilities;
+    public ArrayList<Office> Offices;
+    public ArrayList<String> Memberships;
+    public ArrayList<String> Certifications;
+    public ArrayList<String> Awards;
     public Boolean HasAppointments;
-    public List<String> ServiceErrors;
+    public ArrayList<String> ServiceErrors;
 
 
     public Integer getRecordNumber() {
@@ -163,7 +164,7 @@ public class ProviderDetailsResponse implements Parcelable {
         return Facilities;
     }
 
-    public List<Office> getOffices() {
+    public ArrayList<Office> getOffices() {
         return Offices;
     }
 

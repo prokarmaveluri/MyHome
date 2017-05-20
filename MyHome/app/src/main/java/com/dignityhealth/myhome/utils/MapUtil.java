@@ -71,7 +71,7 @@ public class MapUtil {
                         .snippet(office.getAddress1())
                         .icon(bitmapDescriptor)));
 
-                if(listener != null){
+                if (listener != null) {
                     googleMap.setOnMarkerClickListener(listener);
                 }
             }
@@ -105,5 +105,21 @@ public class MapUtil {
 
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
         return cu;
+    }
+
+    /**
+     * Handles the zooming logic for maps.
+     * Maps with one or fewer markers need to make sure max zoom is set or the zoom will be way too close
+     *
+     * @param context   the context
+     * @param googleMap the map needing zoom help
+     * @param markers   the markers the need to be zoomed in on
+     */
+    public static void zoomMap(Context context, GoogleMap googleMap, ArrayList<Marker> markers) {
+        if (markers.size() <= 1) {
+            googleMap.setMaxZoomPreference(15f);
+        }
+
+        googleMap.animateCamera(MapUtil.calculateZoom(context, markers));
     }
 }

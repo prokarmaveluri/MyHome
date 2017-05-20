@@ -121,15 +121,15 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
                     viewPager.setAdapter(pagerAdapter);
 
-                    //TODO Kevin - Add this back in when we are able to standardize the Office models
-//                    ArrayList<Marker> markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
-//                        @Override
-//                        public boolean onMarkerClick(Marker marker) {
-//                            return true;
-//                        }
-//                    });
-//
-//                    providerMap.animateCamera(MapUtil.calculateZoom(getContext(), markers));
+                    ArrayList<Marker> markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            //marker.showInfoWindow(); Won't fit with the zoom if states apart
+                            return true;
+                        }
+                    });
+
+                    MapUtil.zoomMap(getContext(), providerMap, markers);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
@@ -156,8 +156,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         });
 
-        //The higher the float, the more zoom allowed
-        //providerMap.setMaxZoomPreference(15f);
-        providerMap.animateCamera(MapUtil.calculateZoom(getContext(), markers));
+        MapUtil.zoomMap(getContext(), providerMap, markers);
     }
 }
