@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="fabric_key">key here....</string>
+    <string name="google_maps_api_key">AIzaSyCMC_4NOuwJxhfDs7tD-kJeRjdswCwbowc</string>
 </resources>

@@ -33,12 +33,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-public class ProviderDetailsFragment extends BaseFragment {
+public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback{
     public static final String PROVIDER_KEY = "PROVIDER_KEY";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
 
     private Provider provider;
 
+    private SupportMapFragment myMap;
     private View providerDetailsView;
     private ViewPager viewPager;
     private CircularImageView doctorImage;
@@ -75,10 +76,13 @@ public class ProviderDetailsFragment extends BaseFragment {
         getProviderDetails();
         checkMapsKey();
 
+        myMap = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map));
         doctorImage = (CircularImageView) providerDetailsView.findViewById(R.id.doctor_image);
         name = (TextView) providerDetailsView.findViewById(R.id.doctor_name);
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
+
+        //myMap.getMapAsync(this);
 
         viewPager = (ViewPager) providerDetailsView.findViewById(R.id.view_pager);
         FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager());
@@ -141,19 +145,15 @@ public class ProviderDetailsFragment extends BaseFragment {
                 Timber.v("KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
 
-            SupportMapFragment myMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
-            if (myMap != null) {
-                myMap.getMapAsync(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(GoogleMap googleMap) {
-                        Timber.d("Map is ready\n" + googleMap.toString());
-                    }
-                });
-            }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Timber.d("Map is ready\n" + googleMap.toString());
     }
 }

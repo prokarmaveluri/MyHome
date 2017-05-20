@@ -54,7 +54,7 @@ public class DeveloperFragment extends BaseFragment {
         TextView hockey = (TextView) developerView.findViewById(R.id.hockey);
         hockey.setText(BuildConfig.HOCKEY_ID != null ? BuildConfig.HOCKEY_ID : "Unknown");
         TextView maps = (TextView) developerView.findViewById(R.id.maps);
-        maps.setText(BuildConfig.MAPS_ID != null ? BuildConfig.MAPS_ID : "Unknown");
+        maps.setText(getString(R.string.google_maps_api_key));
         TextView type = (TextView) developerView.findViewById(R.id.type);
         type.setText(BuildConfig.BUILD_TYPE != null ? BuildConfig.BUILD_TYPE : "Unknown");
 
