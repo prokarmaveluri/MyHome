@@ -1,43 +1,29 @@
 package com.dignityhealth.myhome.features.fad.details;
 
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
-import com.dignityhealth.myhome.features.fad.Office;
 import com.dignityhealth.myhome.features.fad.Provider;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.MapUtil;
 import com.dignityhealth.myhome.views.CircularImageView;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -58,6 +44,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView name;
     private TextView speciality;
     private TextView address;
+
+    private GoogleMap providerMap;
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
@@ -87,6 +75,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
 
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
+        myMap.getMapAsync(this);
         getProviderDetails();
 
         doctorImage = (CircularImageView) providerDetailsView.findViewById(R.id.doctor_image);
@@ -101,15 +90,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        checkMapsKey();
         setupInitialView();
         return providerDetailsView;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        myMap.getMapAsync(this);
     }
 
     @Override
@@ -138,6 +120,16 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     ProviderDetailsResponse providerDetailsResponse = response.body();
                     FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
                     viewPager.setAdapter(pagerAdapter);
+
+                    //TODO Kevin - Add this back in when we are able to standardize the Office models
+//                    ArrayList<Marker> markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+//                        @Override
+//                        public boolean onMarkerClick(Marker marker) {
+//                            return true;
+//                        }
+//                    });
+//
+//                    providerMap.animateCamera(MapUtil.calculateZoom(getContext(), markers));
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
@@ -151,72 +143,21 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
     }
 
-
-    private void checkMapsKey() {
-        try {
-            PackageInfo info = getActivity().getPackageManager().getPackageInfo("com.dignityhealth.myhome",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Timber.v("KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Timber.d("Map is ready\n" + googleMap);
+        Timber.v("Map is ready\n" + googleMap);
+        providerMap = googleMap;
 
         //Add markers
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue);
-        ArrayList<Marker> markers = new ArrayList<>();
-        for (Office office : provider.getOffices()) {
-            markers.add(googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(Double.parseDouble(office.getLat()), Double.parseDouble(office.getLong())))
-                    .title("Some title here")
-                    .snippet("Some description here")
-                    .icon(icon)));
-
-            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                public boolean onMarkerClick(Marker marker) {
-                    Toast.makeText(getContext(), "Clicked on marker " + marker, Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
-        }
+        ArrayList<Marker> markers = MapUtil.addMapMarkers(getActivity(), providerMap, provider.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+            public boolean onMarkerClick(Marker marker) {
+                //marker.showInfoWindow(); Won't fit with the zoom if states apart
+                return true;
+            }
+        });
 
         //The higher the float, the more zoom allowed
-        googleMap.setMaxZoomPreference(15f);
-        googleMap.animateCamera(calculateZoom(markers));
-    }
-
-    /**
-     * Used to calculate the zoom if multiple markers need to fit on the map
-     *
-     * @param markers
-     * @return
-     */
-    private CameraUpdate calculateZoom(ArrayList<Marker> markers) {
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-        //the include method will calculate the min and max bound.
-        for (Marker marker : markers) {
-            builder.include(marker.getPosition());
-        }
-
-        LatLngBounds bounds = builder.build();
-
-        int width = getResources().getDisplayMetrics().widthPixels;
-        int height = getResources().getDisplayMetrics().heightPixels;
-        int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
-
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
-        return cu;
+        //providerMap.setMaxZoomPreference(15f);
+        providerMap.animateCamera(MapUtil.calculateZoom(getContext(), markers));
     }
 }
