@@ -46,7 +46,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView address;
 
     private GoogleMap providerMap;
-    private Marker previousMarker = null;
     private ArrayList<Marker> markers = new ArrayList<>();
 
     public ProviderDetailsFragment() {
@@ -133,6 +132,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         }
                     });
 
+                    MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
                     MapUtil.zoomMap(getContext(), providerMap, markers);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
@@ -161,16 +161,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         });
 
+        MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
         MapUtil.zoomMap(getContext(), providerMap, markers);
     }
 
+    //Set address text, then make sure to change selected icon
     private void handleMarkerClick(Marker marker) {
-        if (previousMarker != null) {
-            previousMarker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
-        }
-
-        marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_blue));
         address.setText(marker.getSnippet());
-        previousMarker = marker;
+        MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
     }
 }
