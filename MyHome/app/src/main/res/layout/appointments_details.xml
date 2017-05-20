@@ -40,24 +40,13 @@
             android:layout_alignParentEnd="true"
             android:src="@mipmap/calendar" />
 
-        <ImageView
-            android:id="@+id/doctor_image"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_below="@id/time_header"
-            android:layout_marginTop="24dp"
-            android:src="@mipmap/logo" />
-
         <TextView
             android:id="@+id/doctor_name"
             style="@style/tradeGothicLTStd_14"
+            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/doctor_image"
-            android:layout_alignTop="@id/doctor_image"
             android:layout_below="@id/time_header"
-            android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/doctor_image"
             android:gravity="center"
             android:text="Dr. Steven M. Howard, MD"
             android:textSize="20sp"
@@ -68,8 +57,8 @@
             style="@style/tradeGothicLTStd_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/doctor_image"
-            android:layout_marginTop="18dp"
+            android:layout_below="@id/doctor_name"
+            android:layout_marginTop="12dp"
             android:text="Sequoia Hospital"
             android:textSize="20sp"
             android:textStyle="bold" />
