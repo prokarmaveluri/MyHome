@@ -3,6 +3,9 @@ package com.dignityhealth.myhome.features.fad.details;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.dignityhealth.myhome.features.fad.Facility;
+import com.dignityhealth.myhome.features.fad.Office;
+
 import java.util.List;
 
 /**
