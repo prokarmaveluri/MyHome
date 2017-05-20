@@ -1,6 +1,5 @@
 package com.dignityhealth.myhome.app;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -192,7 +192,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .beginTransaction()
                             .add(R.id.frame, fragment, ProviderDetailsFragment.PROVIDER_DETAILS_TAG)
                             .addToBackStack(null)
-                            .commitAllowingStateLoss();
+                            .commit();
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.PROVIDER_DETAILS);
@@ -205,7 +205,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, fadFragment, FadFragment.FAD_TAG)
-                            .commitAllowingStateLoss();
+                            .commit();
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.FAD);
@@ -246,7 +246,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, profileViewFragment, ProfileViewFragment.PROFILE_VIEW_TAG)
-                            .commitAllowingStateLoss();
+                            .commit();
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.PROFILE_VIEW);
@@ -260,7 +260,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .beginTransaction()
                             .replace(R.id.frame, profileEditFragment, ProfileEditFragment.PROFILE_EDIT_TAG)
                             .addToBackStack(null)
-                            .commitAllowingStateLoss();
+                            .commit();
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.PROFILE_EDIT);
@@ -274,7 +274,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .beginTransaction()
                             .replace(R.id.frame, settingsFragment, SettingsFragment.SETTINGS_TAG)
                             .addToBackStack(null)
-                            .commitAllowingStateLoss();
+                            .commit();
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.SETTINGS);
@@ -288,7 +288,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .beginTransaction()
                             .replace(R.id.frame, developerFragment, DeveloperFragment.DEVELOPER_TAG)
                             .addToBackStack(null)
-                            .commitAllowingStateLoss();
+                            .commit();
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.DEVELOPER);
@@ -302,7 +302,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .beginTransaction()
                             .replace(R.id.frame, contactUsFragment, ContactUsFragment.CONTACT_TAG)
                             .addToBackStack(null)
-                            .commitAllowingStateLoss();
+                            .commit();
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(ActivityTag.CONTACT_US);
@@ -371,7 +371,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      */
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
         } else if (activityTag != ActivityTag.HOME) {
@@ -386,7 +386,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      * Code inspired from: http://stackoverflow.com/a/17107067/2128921
      */
     private void clearBackstack() {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager != null) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
