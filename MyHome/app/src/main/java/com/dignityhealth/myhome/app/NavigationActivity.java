@@ -32,6 +32,7 @@ import com.dignityhealth.myhome.features.settings.SettingsFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
+import com.google.android.gms.maps.MapView;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -89,6 +90,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                         return true;
                     }
                 });
+
+        //Pre-load Google Play Services
+        loadGooglePlayServices();
     }
 
     @Override
@@ -392,4 +396,24 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         getSupportActionBar().setTitle(title);
     }
 
+    /**
+     * Hacky way to avoid terrible load times due to Google Play Services loading for the first time
+     * on views with maps (Provider Details).
+     * See: http://stackoverflow.com/questions/26265526/what-makes-my-map-fragment-loading-slow
+     */
+    public void loadGooglePlayServices() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    MapView mv = new MapView(getApplicationContext());
+                    mv.onCreate(null);
+                    mv.onPause();
+                    mv.onDestroy();
+                } catch (Exception ignored) {
+                    //This almost always causes an exception, but we don't care because Google Play Services is already loaded
+                }
+            }
+        }).start();
+    }
 }

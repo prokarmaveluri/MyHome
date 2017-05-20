@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -86,7 +87,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
 
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
-        myMap.getMapAsync(this);
         getProviderDetails();
 
         doctorImage = (CircularImageView) providerDetailsView.findViewById(R.id.doctor_image);
@@ -104,6 +104,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         checkMapsKey();
         setupInitialView();
         return providerDetailsView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        myMap.getMapAsync(this);
     }
 
     @Override
