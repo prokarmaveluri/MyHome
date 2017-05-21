@@ -19,6 +19,14 @@ public class ProviderDetailsAdapter extends FragmentStatePagerAdapter {
     public ProviderDetailsAdapter(FragmentManager fragmentManager, ProviderDetailsResponse providerDetailsResponse) {
         super(fragmentManager);
         this.providerDetailsResponse = providerDetailsResponse;
+
+        //Cuts off the last item (Experience) if no awards/certifications present
+        if(providerDetailsResponse != null &&
+                providerDetailsResponse.getCertifications().isEmpty() &&
+                providerDetailsResponse.getAwards().isEmpty()){
+
+            NUM_ITEMS = 2;
+        }
     }
 
     @Override
