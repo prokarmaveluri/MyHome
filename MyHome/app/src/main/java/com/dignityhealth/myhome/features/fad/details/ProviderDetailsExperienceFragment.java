@@ -106,12 +106,12 @@ public class ProviderDetailsExperienceFragment extends Fragment {
         }
     }
 
-    private void showProgressBar(){
+    private void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
         profileDetailsInfo.setVisibility(View.GONE);
     }
 
-    private void showView(){
+    private void showView() {
         progressBar.setVisibility(View.GONE);
         profileDetailsInfo.setVisibility(View.VISIBLE);
     }

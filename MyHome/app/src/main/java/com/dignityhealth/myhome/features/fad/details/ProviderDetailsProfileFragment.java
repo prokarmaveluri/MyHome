@@ -131,12 +131,12 @@ public class ProviderDetailsProfileFragment extends Fragment {
         locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getOffices()) : "Unknown");
     }
 
-    private void showProgressBar(){
+    private void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
         profileDetailsInfo.setVisibility(View.GONE);
     }
 
-    private void showView(){
+    private void showView() {
         progressBar.setVisibility(View.GONE);
         profileDetailsInfo.setVisibility(View.VISIBLE);
     }

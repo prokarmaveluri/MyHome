@@ -4,7 +4,6 @@ package com.dignityhealth.myhome.features.fad.details;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.MapUtil;
 import com.dignityhealth.myhome.views.CircularImageView;
+import com.dignityhealth.myhome.views.WrappingViewPager;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -39,7 +39,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private SupportMapFragment myMap;
     private View providerDetailsView;
-    private ViewPager viewPager;
+    private WrappingViewPager viewPager;
     private CircularImageView doctorImage;
     private TextView name;
     private TextView speciality;
@@ -84,11 +84,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
 
-        viewPager = (ViewPager) providerDetailsView.findViewById(R.id.view_pager);
+        viewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(2); //Let's us load all three of the fragments for the pager and keep them in memory
         FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.sliding_tabs);
+        TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         setupInitialView();
@@ -170,4 +171,5 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         address.setText(marker.getSnippet());
         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
     }
+
 }

@@ -76,8 +76,8 @@ public class ProviderDetailsEducationFragment extends Fragment {
             }
         });
 
-        if(providerDetailsResponse != null){
-            List<String> curriculum = new ArrayList<String>(){{
+        if (providerDetailsResponse != null) {
+            List<String> curriculum = new ArrayList<String>() {{
                 addAll(providerDetailsResponse.getMedicalSchools());
                 addAll(providerDetailsResponse.getResidencies());
                 addAll(providerDetailsResponse.getFellowships());
@@ -93,12 +93,12 @@ public class ProviderDetailsEducationFragment extends Fragment {
         return educationView;
     }
 
-    private void showProgressBar(){
+    private void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
         experienceList.setVisibility(View.GONE);
     }
 
-    private void showView(){
+    private void showView() {
         progressBar.setVisibility(View.GONE);
         experienceList.setVisibility(View.VISIBLE);
     }

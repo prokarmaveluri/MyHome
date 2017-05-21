@@ -343,7 +343,13 @@ public class CommonUtil {
         listView.requestLayout();
     }
 
-    public static String prettyPrint(List<? extends Object> objects){
+    /**
+     * Merely prints all the objects in a list using their toString methods and break lines.
+     *
+     * @param objects the objects we wish to print
+     * @return the string representing all the objects in the list
+     */
+    public static String prettyPrint(List<? extends Object> objects) {
         String prettyString = "";
         for (Object object : objects) {
             prettyString = prettyString + object.toString() + "\n";

@@ -12,11 +12,11 @@ public class ProviderDetailsAdapter extends FragmentStatePagerAdapter {
     private static int NUM_ITEMS = 3;
     private ProviderDetailsResponse providerDetailsResponse;
 
-    public ProviderDetailsAdapter(FragmentManager fragmentManager){
+    public ProviderDetailsAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 
-    public ProviderDetailsAdapter(FragmentManager fragmentManager, ProviderDetailsResponse providerDetailsResponse){
+    public ProviderDetailsAdapter(FragmentManager fragmentManager, ProviderDetailsResponse providerDetailsResponse) {
         super(fragmentManager);
         this.providerDetailsResponse = providerDetailsResponse;
     }
@@ -30,19 +30,19 @@ public class ProviderDetailsAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: // Profile
-                if(providerDetailsResponse == null){
+                if (providerDetailsResponse == null) {
                     return ProviderDetailsProfileFragment.newInstance();
                 } else {
                     return ProviderDetailsProfileFragment.newInstance(providerDetailsResponse);
                 }
             case 1: // Education
-                if(providerDetailsResponse == null){
+                if (providerDetailsResponse == null) {
                     return ProviderDetailsEducationFragment.newInstance();
                 } else {
                     return ProviderDetailsEducationFragment.newInstance(providerDetailsResponse);
                 }
             case 2: // Experience
-                if(providerDetailsResponse == null){
+                if (providerDetailsResponse == null) {
                     return ProviderDetailsExperienceFragment.newInstance();
                 } else {
                     return ProviderDetailsExperienceFragment.newInstance(providerDetailsResponse);
