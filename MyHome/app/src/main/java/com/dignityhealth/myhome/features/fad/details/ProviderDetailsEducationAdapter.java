@@ -15,14 +15,14 @@ import java.util.List;
  * Created by kwelsh on 5/15/17.
  */
 
-public class ProfileDetailsEducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProviderDetailsEducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_EMPTY = 0;
     private final int VIEW_TYPE_NORMAL = 1;
 
     public final Context context;
     public List<String> curriculum;
 
-    public ProfileDetailsEducationAdapter(Context context, List<String> curriculum) {
+    public ProviderDetailsEducationAdapter(Context context, List<String> curriculum) {
         this.context = context;
         this.curriculum = curriculum;
     }

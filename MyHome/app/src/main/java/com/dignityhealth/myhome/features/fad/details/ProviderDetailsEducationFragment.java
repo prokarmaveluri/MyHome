@@ -84,9 +84,9 @@ public class ProviderDetailsEducationFragment extends Fragment {
                 addAll(providerDetailsResponse.getInternships());
             }};
 
-            experienceList.setAdapter(new ProfileDetailsEducationAdapter(getActivity(), curriculum));
+            experienceList.setAdapter(new ProviderDetailsEducationAdapter(getActivity(), curriculum));
         } else {
-            experienceList.setAdapter(new ProfileDetailsEducationAdapter(getActivity(), null));
+            experienceList.setAdapter(new ProviderDetailsEducationAdapter(getActivity(), null));
         }
 
 
