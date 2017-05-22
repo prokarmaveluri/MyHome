@@ -70,6 +70,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private boolean isSugShow = false;
     private SuggestionsAdapter suggestionAdapter;
     private FadInteractor.Presenter presenter;
+    private FragmentStatePagerAdapter pagerAdapter;
 
     private static ArrayList<Provider> providerList = new ArrayList<>();
     private static ArrayList<CommonModel> newPatients = new ArrayList<>();
@@ -103,7 +104,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.fadProgress.setVisibility(View.GONE);
 
         presenter = new FadPresenter(this, getActivity());
-        FragmentStatePagerAdapter pagerAdapter =
+        pagerAdapter =
                 new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, "");
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
@@ -450,7 +451,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         hideSoftKeyboard();
         binding.searchLayout.setVisibility(View.GONE);
-        FragmentStatePagerAdapter pagerAdapter =
+        pagerAdapter =
                 new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, "");
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
@@ -510,7 +511,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         hideSoftKeyboard();
         binding.searchLayout.setVisibility(View.GONE);
-        FragmentStatePagerAdapter pagerAdapter =
+        pagerAdapter =
                 new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, message);
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
@@ -523,14 +524,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     }
 
-
     @Override
     public void providersListError() {
         clearFilters();
-    }
-
-    private void showViews() {
-
     }
 
     private void drawableClickEvent() {

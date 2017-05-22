@@ -256,13 +256,6 @@ public class CommonUtil {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Timber.e(ex);
-            try {
-                Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=an+" + address.line1 + address.city));
-                context.startActivity(unrestrictedIntent);
-            } catch (ActivityNotFoundException innerEx) {
-                Timber.e(innerEx);
-                Toast.makeText(context, "Please install a maps application", Toast.LENGTH_LONG).show();
-            }
         }
     }
 
