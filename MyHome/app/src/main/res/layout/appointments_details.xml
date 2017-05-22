@@ -112,11 +112,9 @@
             android:layout_marginEnd="18dp"
             android:layout_marginStart="18dp"
             android:layout_toRightOf="@id/phone_icon"
-            android:autoLink="phone"
             android:gravity="center_vertical"
             android:text="123-456-7890"
             android:textColor="@color/primary"
-            android:textColorLink="@color/primary"
             android:textSize="20sp"
             android:textStyle="bold" />
 
