@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.AdapterProvidersListItemBinding;
+import com.dignityhealth.myhome.features.profile.Address;
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -70,6 +73,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
 
             try {
                 binding.itemLayout.setTag(position);
+                binding.directions.setTag(position);
                 binding.docDisplayName.setText(provider.getDisplayFullName());
                 binding.docSpeciality.setText(provider.getSpecialties().get(0));
                 binding.distance.setText(provider.getOffices().get(0).getDistanceMilesFromSearch() + " mi");
@@ -90,8 +94,26 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
 
     public class ProviderClick {
         public void onClickProvider(View view) {
-            Timber.i("Click " + view.getTag());
-            listener.providerClick((int) view.getTag());
+            int id = view.getId();
+            switch (id) {
+                case R.id.itemLayout:
+                    Timber.i("Click " + view.getTag());
+                    listener.providerClick((int) view.getTag());
+                    break;
+                case R.id.directions:
+                    try {
+                        Timber.i("Directions " + view.getTag());
+                        Provider provider = providerList.get((int) view.getTag());
+                        Address address = new Address(provider.getOffices().get(0).getAddress1(),
+                                provider.getOffices().get(0).getAddress2(),
+                                provider.getOffices().get(0).getCity(),
+                                provider.getOffices().get(0).getState(),
+                                provider.getOffices().get(0).getZipCode(), "");
+                        CommonUtil.getDirections(mContext, address);
+                    } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+                    }
+                    break;
+            }
         }
     }
 

@@ -173,7 +173,7 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
 
     private static List<String> getGroupTitles() {
         List<String> groups = new ArrayList<>();
-        groups.add("Speciality");
+        groups.add("Specialty");
         groups.add("Gender");
         groups.add("Language");
         groups.add("Hospital");
