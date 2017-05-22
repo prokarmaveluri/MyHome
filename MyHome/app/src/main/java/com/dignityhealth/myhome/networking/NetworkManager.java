@@ -179,11 +179,13 @@ public class NetworkManager {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
                     FadManager.getInstance().setCurrentLocation(response.body());
+                    FadManager.getInstance().setLocation(response.body());
                     AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", true);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                     AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", false);
                     FadManager.getInstance().setCurrentLocation(null);
+                    FadManager.getInstance().setLocation(null);
                 }
             }
 
@@ -194,6 +196,7 @@ public class NetworkManager {
                 Timber.i("get user location failed");
                 AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", false);
                 FadManager.getInstance().setCurrentLocation(null);
+                FadManager.getInstance().setLocation(null);
             }
         });
     }

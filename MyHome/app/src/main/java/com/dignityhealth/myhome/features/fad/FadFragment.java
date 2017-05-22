@@ -1,29 +1,37 @@
 package com.dignityhealth.myhome.features.fad;
 
 import android.app.Activity;
-import android.app.SearchManager;
-import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.SearchView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
+import com.dignityhealth.myhome.app.OptionsActivity;
 import com.dignityhealth.myhome.databinding.FragmentFadBinding;
-import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.filter.FilterDialog;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
@@ -31,6 +39,7 @@ import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
+import com.dignityhealth.myhome.utils.SessionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,27 +58,25 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
  */
 
 public class FadFragment extends BaseFragment implements FadInteractor.View,
-        ProvidersAdapter.IProviderClick, SearchView.OnQueryTextListener,
-        SuggestionsAdapter.ISuggestionClick, View.OnFocusChangeListener {
+        View.OnClickListener,
+        TextView.OnEditorActionListener, View.OnFocusChangeListener,
+        TextWatcher, SuggestionsAdapter.ISuggestionClick {
 
     private static final int FILTER_REQUEST = 100;
     private static String currentSearchQuery = "";
 
     private FragmentFadBinding binding;
+    private boolean isSugShow = false;
     private SuggestionsAdapter suggestionAdapter;
-    private ProvidersAdapter adapter;
     private FadInteractor.Presenter presenter;
-    private SearchView searchView;
 
-    private LocationResponse location = null;
-    private List<Provider> providerList = new ArrayList<>();
-
-    private ArrayList<CommonModel> newPatients = new ArrayList<>();
-    private ArrayList<CommonModel> specialties = new ArrayList<>();
-    private ArrayList<CommonModel> gender = new ArrayList<>();
-    private ArrayList<CommonModel> languages = new ArrayList<>();
-    private ArrayList<CommonModel> hospitals = new ArrayList<>();
-    private ArrayList<CommonModel> practices = new ArrayList<>();
+    private static ArrayList<Provider> providerList = new ArrayList<>();
+    private static ArrayList<CommonModel> newPatients = new ArrayList<>();
+    private static ArrayList<CommonModel> specialties = new ArrayList<>();
+    private static ArrayList<CommonModel> gender = new ArrayList<>();
+    private static ArrayList<CommonModel> languages = new ArrayList<>();
+    private static ArrayList<CommonModel> hospitals = new ArrayList<>();
+    private static ArrayList<CommonModel> practices = new ArrayList<>();
 
     private enum State {
         LIST,
@@ -88,10 +95,26 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fad, container, false);
 
-        presenter = new FadPresenter(this, getActivity());
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.find_a_doctor));
+        ((NavigationActivity) getActivity()).getNavigationActionBar().hide();
 
-        setHasOptionsMenu(true);
+        binding.suggestionList.setVisibility(View.GONE);
+        binding.searchLayout.setVisibility(View.GONE);
+        binding.fadProgress.setVisibility(View.GONE);
+
+        presenter = new FadPresenter(this, getActivity());
+        FragmentStatePagerAdapter pagerAdapter =
+                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList);
+        binding.fadPager.setAdapter(pagerAdapter);
+        binding.fadTabs.setupWithViewPager(binding.fadPager);
+
+        binding.fadMore.setOnClickListener(this);
+        binding.fadFilter.setOnClickListener(this);
+        binding.fadSearch.setOnClickListener(this);
+
+        binding.searchQuery.setOnEditorActionListener(this);
+        binding.searchQuery.setOnFocusChangeListener(this);
+        binding.searchQuery.addTextChangedListener(this);
+
         return binding.getRoot();
     }
 
@@ -104,203 +127,64 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void onResume() {
         super.onResume();
 
-        getLocation();
-        adapter = new ProvidersAdapter(providerList, getActivity(), this);
-        binding.providersList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.providersList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
         presenter.start();
-        showViews(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.fad_menu, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        searchView =
-                (SearchView) menu.findItem(R.id.fad_search).getActionView();
-
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnQueryTextFocusChangeListener(this);
-        SearchableInfo info = searchManager.getSearchableInfo(getActivity().getComponentName());
-        searchView.setSearchableInfo(info);
+        ((NavigationActivity) getActivity()).getNavigationActionBar().hide();
+        setActionBar();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
+                R.anim.slide_in_right, R.anim.slide_out_left);
         switch (item.getItemId()) {
-            case R.id.fad_search:
-                break;
-
-            case R.id.fad_filter:
-                startFilterDialog();
-                break;
-            case R.id.fad_more:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void setPresenter(FadInteractor.Presenter presenter) {
-        this.presenter = checkNotNull(presenter);
-    }
-
-    @Override
-    public void showViews(boolean show) {
-
-    }
-
-    @Override
-    public void showProgress(boolean inProgress) {
-        if (inProgress) {
-            binding.fadProgress.setVisibility(View.VISIBLE);
-        } else {
-            binding.fadProgress.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showErrorMessage(String message) {
-        showErrorMessage(true, message);
-    }
-
-    @Override
-    public void updateLocationSuggestions() {
-
-    }
-
-    @Override
-    public void updateProviderList(List<Provider> providers,
-                                   List<CommonModel> newPatients,
-                                   List<CommonModel> specialties,
-                                   List<CommonModel> gender,
-                                   List<CommonModel> languages,
-                                   List<CommonModel> hospitals,
-                                   List<CommonModel> practices) {
-        providerList.clear();
-        providerList.addAll(providers);
-        adapter.notifyDataSetChanged();
-        showErrorMessage(false, "");
-
-        clearFilters();
-
-        this.newPatients.addAll(newPatients);
-        this.specialties.addAll(specialties);
-        this.gender.addAll(gender);
-        this.languages.addAll(languages);
-        this.hospitals.addAll(hospitals);
-        this.practices.addAll(practices);
-    }
-
-    @Override
-    public void providersListError() {
-        clearFilters();
-    }
-
-    private void showViews() {
-
-    }
-
-    private void showErrorMessage(boolean show, String message) {
-        if (show) {
-            viewState(State.MESSAGE);
-            binding.message.setText(message);
-        } else {
-            viewState(State.LIST);
-        }
-    }
-
-    @Override
-    public void providerClick(int position) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, providerList.get(position));
-        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        binding.suggestionList.setVisibility(View.GONE);
-        clearFilters();
-        AppPreferences.getInstance().setPreference("SORT_BY", ""); // default/best match search
-        searchForQuery(query);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        if (newText.length() > 1 && !newText.isEmpty()) {
-            getSearchSuggestions(newText);
-        } else {
-            binding.suggestionList.setVisibility(View.GONE);
-        }
-        return false;
-    }
-
-    private void searchForQuery(String query) {
-        try {
-            if (query.length() <= 0) {
-                Toast.makeText(getActivity(), "Enter valid query", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if (null == location) {
-                Toast.makeText(getActivity(), "location not available, select location in filter",
-                        Toast.LENGTH_LONG).show();
-                return;
-            }
-            showProgress(true);
-            currentSearchQuery = query;
-            binding.suggestionList.setVisibility(View.GONE);
-
-            presenter.getProviderList(query,
-                    location.getLat(),
-                    location.getLong(),
-                    location.getDisplayName(),
-                    location.getZipCode(),
-                    RESTConstants.PROVIDER_PAGE_NO,
-                    RESTConstants.PROVIDER_PAGE_SIZE,
-                    RESTConstants.PROVIDER_DISTANCE,
-                    getSortBy(),
-                    getParam(gender),
-                    getParam(languages),
-                    getParam(specialties),
-                    getParam(hospitals),
-                    getParam(practices),
-                    getParam(newPatients));
-
-            View view = getActivity().getCurrentFocus();
-            InputMethodManager imm = (InputMethodManager) getActivity()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-        } catch (NullPointerException ex) {
+            case R.id.help:
+                return true;
+            case R.id.settings:
+                NavigationActivity.setActivityTag(Constants.ActivityTag.SETTINGS);
+                Intent intentSettings = new Intent(getActivity(), OptionsActivity.class);
+                ActivityCompat.startActivity(getActivity(), intentSettings, options.toBundle());
+                return true;
+            case R.id.preferences:
+                return true;
+            case R.id.contact_us:
+                NavigationActivity.setActivityTag(Constants.ActivityTag.CONTACT_US);
+                Intent intentContactUs = new Intent(getActivity(), OptionsActivity.class);
+                ActivityCompat.startActivity(getActivity(), intentContactUs, options.toBundle());
+                return true;
+            case R.id.terms_of_service:
+                NavigationActivity.setActivityTag(Constants.ActivityTag.TERMS_OF_SERVICE);
+                Intent intentTos = new Intent(getActivity(), OptionsActivity.class);
+                ActivityCompat.startActivity(getActivity(), intentTos, options.toBundle());
+                return true;
+            case R.id.developer:
+                NavigationActivity.setActivityTag(Constants.ActivityTag.DEVELOPER);
+                Intent intentDeveloper = new Intent(getActivity(), OptionsActivity.class);
+                ActivityCompat.startActivity(getActivity(), intentDeveloper, options.toBundle());
+                return true;
+            case R.id.sign_out:
+                SessionUtil.logout(getActivity(), binding.fadProgress);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
     private void getSearchSuggestions(String query) {
         if (query.length() <= 0) {
-            updateSuggestionList(presenter.getQuickSearchSuggestions());
+            //get quick suggestions
             Timber.i("Quick Search");
             return;
         }
-        if (null == location) {
+        if (null == FadManager.getInstance().getLocation()) {
             Toast.makeText(getActivity(), "location not available, select location in filter",
                     Toast.LENGTH_LONG).show();
             return;
         }
-
         NetworkManager.getInstance().getSearchSuggestions(query,
-                location.getLat(),
-                location.getLong(),
-                location.getDisplayName(),
-                location.getZipCode())
+                FadManager.getInstance().getLocation().getLat(),
+                FadManager.getInstance().getLocation().getLong(),
+                FadManager.getInstance().getLocation().getDisplayName(),
+                FadManager.getInstance().getLocation().getZipCode())
 
                 .enqueue(new Callback<List<SearchSuggestionResponse>>() {
                     @Override
@@ -308,11 +192,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                                            Response<List<SearchSuggestionResponse>> response) {
                         if (response.isSuccessful() && response.body().size() > 0) {
                             Timber.d("Successful Response\n" + response);
-                            binding.suggestionList.setVisibility(View.VISIBLE);
                             updateSuggestionList(response.body());
+                            if (isSugShow && binding.searchLayout.isShown())
+                                binding.suggestionList.setVisibility(View.VISIBLE);
                         } else {
                             Timber.e("Response, but not successful?\n" + response);
                             binding.suggestionList.setVisibility(View.GONE);
+                            isSugShow = false;
                         }
                     }
 
@@ -321,23 +207,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + t);
                         binding.suggestionList.setVisibility(View.GONE);
+                        isSugShow = false;
                     }
                 });
-    }
-
-    private void updateSuggestionList(List<SearchSuggestionResponse> list) {
-
-        suggestionAdapter = new SuggestionsAdapter(getSuggestions(list), getActivity(),
-                FadFragment.this);
-        binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.suggestionList.setAdapter(suggestionAdapter);
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void suggestionClick(String query, int position) {
-        binding.suggestionList.setVisibility(View.GONE);
-        searchView.setQuery(query, false);
     }
 
     @Override
@@ -346,22 +218,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             binding.suggestionList.setVisibility(View.GONE);
         } else {
             binding.suggestionList.setVisibility(View.VISIBLE);
-            if (searchView.getQuery().length() <= 0) {
-                updateSuggestionList(presenter.getQuickSearchSuggestions());
+            if (((EditText) v).getText().toString().length() <= 0) {
+                //Display Quick suggestions
                 Timber.i("Quick Search on Focus");
             }
-        }
-
-    }
-
-    private void viewState(State current) {
-        if (current == State.LIST) {
-            binding.providersList.setVisibility(View.VISIBLE);
-            binding.message.setVisibility(View.GONE);
-
-        } else if (current == State.MESSAGE) {
-            binding.message.setVisibility(View.VISIBLE);
-            binding.providersList.setVisibility(View.GONE);
         }
     }
 
@@ -375,7 +235,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         bundle.putParcelableArrayList("LANGUAGE", languages);
         bundle.putParcelableArrayList("HOSPITALS", hospitals);
         bundle.putParcelableArrayList("PRACTICES", practices);
-        bundle.putParcelable("LOCATION", location);
+        bundle.putParcelable("LOCATION", FadManager.getInstance().getLocation());
 
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, FILTER_REQUEST);
@@ -403,12 +263,196 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     languages = data.getExtras().getParcelableArrayList("LANGUAGE");
                     hospitals = data.getExtras().getParcelableArrayList("HOSPITALS");
                     practices = data.getExtras().getParcelableArrayList("PRACTICES");
-                    location = data.getExtras().getParcelable("LOCATION");
+                    LocationResponse location = data.getExtras().getParcelable("LOCATION");
+                    FadManager.getInstance().setLocation(location);
                 }
                 // update list with filter
                 searchForQuery(currentSearchQuery);
             }
         }
+    }
+
+
+    private void setActionBar() {
+        Toolbar appToolbar = (Toolbar) binding.getRoot().findViewById(R.id.toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650,
+                    getActivity().getTheme()));
+        } else {
+            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
+        }
+        appToolbar.setTitle("Find Care");
+    }
+
+    public boolean onCreateOptionsMenu(ImageView actionMore) {
+        PopupMenu popup = new PopupMenu(getActivity(), actionMore);
+        popup.getMenuInflater().inflate(R.menu.toolbar_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                onOptionsItemSelected(item);
+                return true;
+            }
+        });
+        popup.show();
+        return false;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.fad_more:
+                onCreateOptionsMenu(binding.fadMore);
+                break;
+            case R.id.fad_filter:
+                startFilterDialog();
+                break;
+            case R.id.fad_search:
+                binding.searchLayout.setVisibility(View.VISIBLE);
+                binding.searchQuery.requestFocus();
+                break;
+        }
+
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE ||
+                actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+            binding.suggestionList.setVisibility(View.GONE);
+            clearFilters();
+            AppPreferences.getInstance().setPreference("SORT_BY", ""); // default/best match search
+            searchForQuery(v.getText().toString());
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (s.length() > 1 && !s.toString().isEmpty() && binding.searchLayout.isShown()) {
+            getSearchSuggestions(s.toString());
+        } else {
+            // hide suggestion list
+            binding.suggestionList.setVisibility(View.GONE);
+        }
+        isSugShow = true;
+        return;
+    }
+
+
+    private void updateSuggestionList(List<SearchSuggestionResponse> list) {
+
+        suggestionAdapter = new SuggestionsAdapter(getSuggestions(list), getActivity(),
+                FadFragment.this);
+        binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.suggestionList.setAdapter(suggestionAdapter);
+    }
+
+    @Override
+    public void suggestionClick(String query, int position) {
+        isSugShow = false;
+        binding.suggestionList.setVisibility(View.GONE);
+        binding.searchQuery.setText(query);
+        binding.searchQuery.setSelection(query.length());
+        searchForQuery(query);
+    }
+
+    private List<String> getSuggestions(List<SearchSuggestionResponse> list) {
+        List<String> sug = new ArrayList<>();
+        for (SearchSuggestionResponse resp : list) {
+            if (resp.getType().contains("Search") || resp.getType().contains("Provider")) {
+                sug.add(resp.getTitle());
+            }
+        }
+        return sug;
+    }
+
+    private void hideSoftKeyboard() {
+        try {
+            View view = getActivity().getCurrentFocus();
+            InputMethodManager imm = (InputMethodManager) getActivity()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } catch (NullPointerException ex) {
+
+        }
+    }
+
+
+    private void searchForQuery(String query) {
+        try {
+            if (query.length() <= 0) {
+                Toast.makeText(getActivity(), "Enter valid query", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (null == FadManager.getInstance().getLocation()) {
+                Toast.makeText(getActivity(), "location not available, select location in filter",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            showProgress(true);
+            currentSearchQuery = query;
+            presenter.getProviderList(query,
+                    FadManager.getInstance().getLocation().getLat(),
+                    FadManager.getInstance().getLocation().getLong(),
+                    FadManager.getInstance().getLocation().getDisplayName(),
+                    FadManager.getInstance().getLocation().getZipCode(),
+                    RESTConstants.PROVIDER_PAGE_NO,
+                    RESTConstants.PROVIDER_PAGE_SIZE,
+                    RESTConstants.PROVIDER_DISTANCE,
+                    getSortBy(),
+                    getParam(gender),
+                    getParam(languages),
+                    getParam(specialties),
+                    getParam(hospitals),
+                    getParam(practices),
+                    getParam(newPatients));
+        } catch (NullPointerException ex) {
+        }
+    }
+
+    @Override
+    public void updateProviderList(List<Provider> providers,
+                                   List<CommonModel> newPatients,
+                                   List<CommonModel> specialties,
+                                   List<CommonModel> gender,
+                                   List<CommonModel> languages,
+                                   List<CommonModel> hospitals,
+                                   List<CommonModel> practices) {
+        providerList.clear();
+        providerList.addAll(providers);
+        // Update list
+
+        hideSoftKeyboard();
+        binding.searchLayout.setVisibility(View.GONE);
+        FragmentStatePagerAdapter pagerAdapter =
+                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList);
+        binding.fadPager.setAdapter(pagerAdapter);
+        binding.fadTabs.setupWithViewPager(binding.fadPager);
+
+        clearFilters();
+
+        this.newPatients.addAll(newPatients);
+        this.specialties.addAll(specialties);
+        this.gender.addAll(gender);
+        this.languages.addAll(languages);
+        this.hospitals.addAll(hospitals);
+        this.practices.addAll(practices);
     }
 
     private String getParam(List<CommonModel> listModel) {
@@ -423,16 +467,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         return build.toString();
     }
 
-    private List<String> getSuggestions(List<SearchSuggestionResponse> list) {
-        List<String> sug = new ArrayList<>();
-        for (SearchSuggestionResponse resp : list) {
-            if (resp.getType().contains("Search") || resp.getType().contains("Provider")) {
-                sug.add(resp.getTitle());
-            }
-        }
-        return sug;
-    }
-
     private String getSortBy() {
         String sort = AppPreferences.getInstance().getPreference("SORT_BY");
         if (null != sort)
@@ -440,11 +474,42 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         return "";
     }
 
-    private LocationResponse getLocation() {
-
-        if (AppPreferences.getInstance().getBooleanPreference("IS_USER_LOCATION")) {
-            location = FadManager.getInstance().getCurrentLocation();
-        }
-        return location;
+    @Override
+    public void setPresenter(FadInteractor.Presenter presenter) {
+        this.presenter = checkNotNull(presenter);
     }
+
+    @Override
+    public void showViews(boolean show) {
+
+    }
+
+    @Override
+    public void showProgress(boolean inProgress) {
+        if (inProgress) {
+            binding.fadProgress.setVisibility(View.VISIBLE);
+        } else {
+            binding.fadProgress.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+    }
+
+    @Override
+    public void updateLocationSuggestions() {
+
+    }
+
+
+    @Override
+    public void providersListError() {
+        clearFilters();
+    }
+
+    private void showViews() {
+
+    }
+
 }

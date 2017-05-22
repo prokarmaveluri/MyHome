@@ -29,17 +29,21 @@ public class SessionUtil {
      * @param activity the activity context
      */
     public static void logout(final Activity activity, final ProgressBar progressBar) {
-        progressBar.setVisibility(View.VISIBLE);
+        if (null != progressBar)
+            progressBar.setVisibility(View.VISIBLE);
         if (null == AuthManager.getInstance().getIdTokenForSignOut()) {
             Timber.i("AuthManager didn't have an Id Token for Sign Out.\nSending User to log in again...");
             Toast.makeText(activity, "No valid session, please login again",
                     Toast.LENGTH_SHORT).show();
 
             clearData();
-            progressBar.setVisibility(View.GONE);
-            Intent intent = LoginActivity.getLoginIntent(activity);
-            activity.startActivity(intent);
-            activity.finish();
+            if (null != progressBar)
+                progressBar.setVisibility(View.GONE);
+            if (null != activity) {
+                Intent intent = LoginActivity.getLoginIntent(activity);
+                activity.startActivity(intent);
+                activity.finish();
+            }
             return;
         }
 
