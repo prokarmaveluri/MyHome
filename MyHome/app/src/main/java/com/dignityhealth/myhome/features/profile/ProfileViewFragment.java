@@ -51,6 +51,7 @@ public class ProfileViewFragment extends BaseFragment {
     TextView group;
     private Button logout;
     ProgressBar progressBar;
+    TextView errorText;
     RelativeLayout viewProfile;
 
     private final String placeholderText = "Not Available";
@@ -83,6 +84,7 @@ public class ProfileViewFragment extends BaseFragment {
         group = (TextView) profileView.findViewById(R.id.group);
         logout = (Button) profileView.findViewById(R.id.sign_out);
         progressBar = (ProgressBar) profileView.findViewById(R.id.profile_view_progress);
+        errorText = (TextView) profileView.findViewById(R.id.profile_unavailable);
         viewProfile = (RelativeLayout) profileView.findViewById(R.id.viewProfile);
 
         if (ProfileManager.getProfile() == null) {
@@ -142,7 +144,9 @@ public class ProfileViewFragment extends BaseFragment {
 
     private void getProfileInfo(String bearer) {
         Timber.i("Session bearer " + bearer);
+        viewProfile.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
+        errorText.setVisibility(View.GONE);
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -151,17 +155,23 @@ public class ProfileViewFragment extends BaseFragment {
                     ProfileManager.setProfile(response.body());
                     updateProfileViews(response.body());
                     viewProfile.setVisibility(View.VISIBLE);
+                    errorText.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
+                    viewProfile.setVisibility(View.GONE);
+                    errorText.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 }
-                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
+                viewProfile.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
+                errorText.setVisibility(View.VISIBLE);
             }
         });
     }
