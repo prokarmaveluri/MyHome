@@ -14,10 +14,13 @@ import java.util.ArrayList;
 public class FadPagerAdapter extends FragmentStatePagerAdapter {
     private static int NUM_ITEMS = 2;
     private ArrayList<Provider> providerList;
+    private String message;
 
-    public FadPagerAdapter(FragmentManager fragmentManager, ArrayList<Provider> list) {
+    public FadPagerAdapter(FragmentManager fragmentManager, ArrayList<Provider> list,
+                           String message) {
         super(fragmentManager);
         this.providerList = list;
+        this.message = message;
     }
 
     @Override
@@ -32,6 +35,7 @@ public class FadPagerAdapter extends FragmentStatePagerAdapter {
                 Fragment fragment = ProviderListFragment.newInstance();
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
+                bundle.putString("PROVIDER_MSG", message);
                 fragment.setArguments(bundle);
                 return fragment;
             case 1: // Map

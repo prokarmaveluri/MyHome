@@ -29,6 +29,7 @@ public class ProviderListFragment extends BaseFragment implements
 
     private FragmentProviderListBinding binding;
     private ProvidersAdapter adapter;
+    private String errorMsg;
     private List<Provider> providerList = new ArrayList<>();
 
     private enum State {
@@ -37,7 +38,7 @@ public class ProviderListFragment extends BaseFragment implements
         SUGGESTION
     }
 
-    public static final String FAD_TAG = "fad_tag";
+    public static final String FAD_TAG = "fad_list_tag";
 
     public static ProviderListFragment newInstance() {
         return new ProviderListFragment();
@@ -48,6 +49,7 @@ public class ProviderListFragment extends BaseFragment implements
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             providerList = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            errorMsg = getArguments().getString("PROVIDER_MSG");
         }
     }
 
@@ -68,11 +70,19 @@ public class ProviderListFragment extends BaseFragment implements
     public void onResume() {
         super.onResume();
 
-        adapter = new ProvidersAdapter(providerList, getActivity(), this);
-        binding.providersList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.providersList.setAdapter(adapter);
-        viewState(State.LIST);
-        adapter.notifyDataSetChanged();
+        if (providerList != null && providerList.size() > 0) {
+            adapter = new ProvidersAdapter(providerList, getActivity(), this);
+            binding.providersList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            binding.providersList.setAdapter(adapter);
+            viewState(State.LIST);
+            adapter.notifyDataSetChanged();
+        } else if (errorMsg != null && !errorMsg.isEmpty()) {
+            viewState(State.MESSAGE);
+            binding.message.setText(errorMsg);
+        } else {
+            viewState(State.MESSAGE);
+            binding.message.setText("Find Care");
+        }
 
         showProgress(false);
     }
