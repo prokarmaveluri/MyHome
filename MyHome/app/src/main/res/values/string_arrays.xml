@@ -23,7 +23,7 @@
 
     <!--States for Profile Edit-->
     <string-array name="profile_states">
-        <item>Not Available</item>
+        <item>State</item>
         <item>AL</item>
         <item>AK</item>
         <item>AZ</item>

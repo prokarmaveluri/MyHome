@@ -336,7 +336,7 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.city = city.getText().toString().trim();
         }
 
-        if (!state.getSelectedItem().toString().isEmpty()) {
+        if (!state.getSelectedItem().toString().isEmpty() && state.getSelectedItemPosition() != 0) {
             profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 
