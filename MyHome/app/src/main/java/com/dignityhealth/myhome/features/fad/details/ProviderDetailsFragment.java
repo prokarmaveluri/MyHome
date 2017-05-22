@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
@@ -17,6 +18,7 @@ import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.MapUtil;
 import com.dignityhealth.myhome.views.CircularImageView;
 import com.dignityhealth.myhome.views.WrappingViewPager;
+import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -44,6 +46,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView name;
     private TextView speciality;
     private TextView address;
+    private Button bookAppointment;
+    private ExpandableLinearLayout expandableLinearLayout;
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
@@ -83,6 +87,15 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         name = (TextView) providerDetailsView.findViewById(R.id.doctor_name);
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
+
+        bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
+        bookAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandableLinearLayout.toggle();
+            }
+        });
+        expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
 
         viewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(2); //Let's us load all three of the fragments for the pager and keep them in memory

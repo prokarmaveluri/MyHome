@@ -53,12 +53,28 @@
             android:layout_marginTop="18dp"
             android:text="@string/book_appointment" />
 
+        <com.github.aakira.expandablelayout.ExpandableLinearLayout
+            android:id="@+id/expandable_layout"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/book_appointment"
+            android:layout_marginTop="24dp"
+            android:background="@color/blazing_purple"
+            android:orientation="vertical">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/expandable_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+        </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
         <fragment
             android:id="@+id/provider_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:layout_below="@id/book_appointment"
+            android:layout_below="@id/expandable_layout"
             android:layout_marginTop="24dp"
             map:cameraTargetLat="39.720050"
             map:cameraTargetLng="-104.817219"
