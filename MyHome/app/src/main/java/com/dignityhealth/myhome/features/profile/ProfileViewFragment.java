@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
@@ -51,7 +51,7 @@ public class ProfileViewFragment extends BaseFragment {
     TextView group;
     private Button logout;
     ProgressBar progressBar;
-    LinearLayout viewProfile;
+    RelativeLayout viewProfile;
 
     private final String placeholderText = "Not Available";
 
@@ -83,7 +83,7 @@ public class ProfileViewFragment extends BaseFragment {
         group = (TextView) profileView.findViewById(R.id.group);
         logout = (Button) profileView.findViewById(R.id.sign_out);
         progressBar = (ProgressBar) profileView.findViewById(R.id.profile_view_progress);
-        viewProfile = (LinearLayout) profileView.findViewById(R.id.viewProfile);
+        viewProfile = (RelativeLayout) profileView.findViewById(R.id.viewProfile);
 
         if (ProfileManager.getProfile() == null) {
             viewProfile.setVisibility(View.INVISIBLE);
