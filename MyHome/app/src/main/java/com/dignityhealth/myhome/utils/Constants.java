@@ -40,7 +40,8 @@ public class Constants {
     public static final String TIME_FORMAT = "h:mm a";
 
     //TODO Fix this damn UTC formatting thing...
-    public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";    //For Profile to work, need to remove milliseconds
+    //public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";    //For Profile to work, need to remove milliseconds
+    public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";    //Some appointments will appear ugly without milliseconds...
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.US);
     public static final SimpleDateFormat SIMPLE_DATE_WORDS_FORMAT = new SimpleDateFormat(DATE_WORDS_FORMAT, Locale.US);
     public static final SimpleDateFormat SIMPLE_TIME_FORMAT = new SimpleDateFormat(TIME_FORMAT, Locale.US);
