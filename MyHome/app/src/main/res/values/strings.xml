@@ -64,5 +64,6 @@
     <string name="developer_settings">Developer Settings</string>
     <string name="no_providers">No Providers found\n Please change your search criteria.</string>
     <string name="no_education_found">No Education Found</string>
+    <string name="appointment_reschedule">To reschedule or cancel your appointment, please call your doctor\'s location directly.</string>
 
 </resources>
