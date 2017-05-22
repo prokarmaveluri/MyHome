@@ -79,6 +79,12 @@
             app:tabIndicatorHeight="2dp"
             app:tabMode="fixed" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/fadTabs"
+            android:background="@color/md_blue_grey_650" />
+
         <android.support.v4.view.ViewPager
             android:id="@+id/fadPager"
             android:layout_width="match_parent"
