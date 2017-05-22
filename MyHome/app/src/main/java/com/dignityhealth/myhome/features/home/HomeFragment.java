@@ -42,6 +42,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((NavigationActivity) getActivity()).getNavigationActionBar().show();
+    }
+
+    @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.HOME;
     }

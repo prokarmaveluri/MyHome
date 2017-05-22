@@ -9,6 +9,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -190,7 +191,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     fragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .add(R.id.frame, fragment, ProviderDetailsFragment.PROVIDER_DETAILS_TAG)
+                            .replace(R.id.frame, fragment, ProviderDetailsFragment.PROVIDER_DETAILS_TAG)
                             .addToBackStack(null)
                             .commit();
                     getSupportFragmentManager().executePendingTransactions();
@@ -390,6 +391,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (fragmentManager != null) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
+    }
+
+    public ActionBar getNavigationActionBar() {
+        return getSupportActionBar();
     }
 
     public void setActionBarTitle(String title) {

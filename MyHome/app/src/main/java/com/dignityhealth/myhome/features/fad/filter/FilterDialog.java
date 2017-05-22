@@ -59,7 +59,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
     private int selectedGroup = -1;
     private FragmentFilterBinding binding;
     private SuggestionsAdapter adapter;
-    private boolean isHide = false;
+    private boolean isHide = true;
     private List<String> currentLocationSug = new ArrayList<>();
     private List<LocationResponse> locationSug = new ArrayList<>();
     private LocationResponse location = null;
@@ -116,6 +116,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                 binding.filterLocation.setText(location.getDisplayName());
                 binding.filterLocation.setSelection(location.getDisplayName().length());
             }
+            binding.locationSugg.setVisibility(View.GONE);
         } catch (NullPointerException ex) {
         }
         binding.setHandlers(new DialogClick());
@@ -172,6 +173,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         } else {
             if (locationSug.size() >= position + 1)
                 location = locationSug.get(position - 1);
+            FadManager.getInstance().setLocation(locationSug.get(position - 1));
         }
     }
 

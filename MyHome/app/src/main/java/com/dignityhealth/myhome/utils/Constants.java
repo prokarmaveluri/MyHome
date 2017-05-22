@@ -22,6 +22,8 @@ public class Constants {
         DEVELOPER,
         PREFERENCES,
         TERMS_OF_SERVICE,
+        FAD_LIST,
+        FAD_MAP,
         PROVIDER_DETAILS,
         PROVIDERS_FILTER
     }
