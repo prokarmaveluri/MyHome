@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.dignityhealth.myhome.BuildConfig;
@@ -50,7 +51,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         setContentView(R.layout.navigation_activity);
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
+        bottomNavigationView = (BottomNavigationView) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
         progressBar = (ProgressBar) findViewById(R.id.dash_progress);
         setActivityTag(ActivityTag.NONE);
         initializeBottomView();
