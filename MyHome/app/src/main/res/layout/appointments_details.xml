@@ -35,7 +35,7 @@
         <ImageView
             android:id="@+id/calendar"
             android:layout_width="27dp"
-            android:layout_height="30dp"
+            android:layout_height="31dp"
             android:layout_alignBottom="@id/time_header"
             android:layout_alignParentEnd="true"
             android:src="@mipmap/calendar" />
@@ -75,8 +75,8 @@
 
         <ImageView
             android:id="@+id/pin_icon"
-            android:layout_width="20dp"
-            android:layout_height="24dp"
+            android:layout_width="24dp"
+            android:layout_height="30dp"
             android:layout_alignBottom="@id/facility_address"
             android:layout_alignRight="@id/calendar"
             android:src="@mipmap/map_blue"
