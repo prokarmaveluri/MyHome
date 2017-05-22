@@ -220,8 +220,8 @@ public class CommonUtil {
             intent.putExtra(CalendarContract.Events.TITLE, "Appointment with " + appointment.doctorName);
         }
 
-        if (appointment.visitReason != null) {
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, appointment.visitReason);
+        if (appointment.facilityPhoneNumber != null || appointment.visitReason != null) {
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, appointment.facilityPhoneNumber + "\n" + appointment.visitReason);
         }
 
         if (appointment.facilityAddress != null) {
