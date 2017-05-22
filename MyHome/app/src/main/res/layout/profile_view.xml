@@ -176,4 +176,14 @@
         android:layout_marginBottom="8dp"
         android:indeterminate="true"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/profile_unavailable"
+        style="@style/tradeGothicLTStdLight_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:text="Profile Unavailable"
+        android:textSize="@dimen/profile_text_size" />
 </RelativeLayout>
