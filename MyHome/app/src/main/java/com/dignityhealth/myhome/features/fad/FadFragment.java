@@ -1,7 +1,6 @@
 package com.dignityhealth.myhome.features.fad;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
@@ -22,7 +21,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +36,7 @@ import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionRespons
 import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 import com.dignityhealth.myhome.utils.SessionUtil;
@@ -393,18 +392,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         return sug;
     }
 
-    private void hideSoftKeyboard() {
-        try {
-            View view = getActivity().getCurrentFocus();
-            InputMethodManager imm = (InputMethodManager) getActivity()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        } catch (NullPointerException ex) {
-
-        }
-    }
-
-
     private void searchForQuery(String query) {
         try {
             if (query.length() <= 0) {
@@ -449,7 +436,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         providerList.addAll(providers);
         // Update list
 
-        hideSoftKeyboard();
+        CommonUtil.hideSoftKeyboard(getActivity());
         binding.searchLayout.setVisibility(View.GONE);
         pagerAdapter =
                 new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, "");
@@ -509,7 +496,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         providerList.clear();
         // Update list
 
-        hideSoftKeyboard();
+        CommonUtil.hideSoftKeyboard(getActivity());
         binding.searchLayout.setVisibility(View.GONE);
         pagerAdapter =
                 new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, message);
