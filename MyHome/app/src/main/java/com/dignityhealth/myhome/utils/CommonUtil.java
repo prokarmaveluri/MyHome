@@ -288,7 +288,7 @@ public class CommonUtil {
         }
 
         if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
-            message = message + ".\n" + appointment.facilityPhoneNumber;
+            message = message + ".\n" + constructPhoneNumber(appointment.facilityPhoneNumber);
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
