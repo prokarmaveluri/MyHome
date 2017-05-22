@@ -17,9 +17,9 @@
 
         <com.dignityhealth.myhome.views.CircularImageView
             android:id="@+id/docImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
             android:layout_margin="8dp"
             android:scaleType="centerCrop" />
 
