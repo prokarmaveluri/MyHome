@@ -11,7 +11,7 @@
     <item
         android:id="@+id/fad"
         android:icon="@mipmap/fad_blue"
-        android:title="Find A Doctor"
+        android:title="Find Care"
         app:showAsAction="ifRoom" />
 
     <item
