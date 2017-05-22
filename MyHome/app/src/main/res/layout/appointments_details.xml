@@ -127,7 +127,7 @@
             android:layout_below="@id/phone_icon"
             android:layout_marginStart="30dp"
             android:layout_marginTop="40dp"
-            android:src="@mipmap/show_password" />
+            android:src="@drawable/share_blue" />
 
         <TextView
             android:id="@+id/share_text"
