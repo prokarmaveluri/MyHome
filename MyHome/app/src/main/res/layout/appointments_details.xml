@@ -126,7 +126,7 @@
             android:layout_height="30dp"
             android:layout_below="@id/phone_icon"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:src="@mipmap/show_password" />
 
         <TextView
