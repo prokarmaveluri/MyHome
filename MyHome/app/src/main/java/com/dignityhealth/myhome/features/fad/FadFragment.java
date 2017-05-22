@@ -18,6 +18,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -115,6 +116,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setOnFocusChangeListener(this);
         binding.searchQuery.addTextChangedListener(this);
 
+        drawableClickEvent();
         return binding.getRoot();
     }
 
@@ -368,6 +370,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 FadFragment.this);
         binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.suggestionList.setAdapter(suggestionAdapter);
+        suggestionAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -528,6 +531,27 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     private void showViews() {
 
+    }
+
+    private void drawableClickEvent() {
+        binding.searchQuery.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        final int DRAWABLE_RIGHT = 2;
+
+                        if (event.getAction() == MotionEvent.ACTION_UP) {
+                            if ((int) event.getRawX() >= (binding.searchQuery.getRight() -
+                                    binding.searchQuery.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                                binding.searchLayout.setVisibility(View.GONE);
+                                binding.suggestionList.setVisibility(View.GONE);
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
     }
 
 }
