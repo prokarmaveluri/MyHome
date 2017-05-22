@@ -55,7 +55,7 @@ public class TosFragment extends BaseFragment {
         });
 
         WebView tos = (WebView) tosView.findViewById(R.id.terms_of_service);
-        tos.loadUrl("file:///android_asset/tos.htm");
+        tos.loadUrl("file:///android_asset/tos_short.htm");
 
         //getTosInfo("Bearer " + AuthManager.getInstance().getBearerToken());
         tosView.findViewById(R.id.tc_button_bar).setVisibility(View.GONE);  //Hide buttons when you're already logged into the app
