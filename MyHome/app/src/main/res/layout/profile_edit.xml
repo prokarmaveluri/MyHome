@@ -65,7 +65,7 @@
 
             <TextView
                 android:id="@+id/gender_label"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
@@ -211,7 +211,7 @@
 
             <TextView
                 android:id="@+id/email_label"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -219,7 +219,7 @@
 
             <TextView
                 android:id="@+id/email"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="kwelsh@prokarma.com"
@@ -228,7 +228,7 @@
 
             <TextView
                 android:id="@+id/email_notice"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/profile_label_marginTop"

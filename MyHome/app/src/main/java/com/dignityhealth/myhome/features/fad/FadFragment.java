@@ -103,7 +103,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         presenter = new FadPresenter(this, getActivity());
         FragmentStatePagerAdapter pagerAdapter =
-                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList);
+                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, "");
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
 
@@ -173,6 +173,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         if (query.length() <= 0) {
             //get quick suggestions
             Timber.i("Quick Search");
+            binding.suggestionList.setVisibility(View.VISIBLE);
+            updateSuggestionList(presenter.getQuickSearchSuggestions());
             return;
         }
         if (null == FadManager.getInstance().getLocation()) {
@@ -221,6 +223,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             if (((EditText) v).getText().toString().length() <= 0) {
                 //Display Quick suggestions
                 Timber.i("Quick Search on Focus");
+                binding.suggestionList.setVisibility(View.VISIBLE);
+                updateSuggestionList(presenter.getQuickSearchSuggestions());
             }
         }
     }
@@ -346,8 +350,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void afterTextChanged(Editable s) {
         if (s.length() > 1 && !s.toString().isEmpty() && binding.searchLayout.isShown()) {
             getSearchSuggestions(s.toString());
-        } else {
+        } else if (s.length() <= 0 && binding.searchLayout.isShown()){
             // hide suggestion list
+            binding.suggestionList.setVisibility(View.VISIBLE);
+            updateSuggestionList(presenter.getQuickSearchSuggestions());
+        }else {
             binding.suggestionList.setVisibility(View.GONE);
         }
         isSugShow = true;
@@ -441,7 +448,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         hideSoftKeyboard();
         binding.searchLayout.setVisibility(View.GONE);
         FragmentStatePagerAdapter pagerAdapter =
-                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList);
+                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, "");
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
 
@@ -495,6 +502,17 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void showErrorMessage(String message) {
+        providerList.clear();
+        // Update list
+
+        hideSoftKeyboard();
+        binding.searchLayout.setVisibility(View.GONE);
+        FragmentStatePagerAdapter pagerAdapter =
+                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, message);
+        binding.fadPager.setAdapter(pagerAdapter);
+        binding.fadTabs.setupWithViewPager(binding.fadPager);
+
+        clearFilters();
     }
 
     @Override
