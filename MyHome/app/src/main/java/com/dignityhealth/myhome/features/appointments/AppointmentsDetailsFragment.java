@@ -68,7 +68,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         });
 
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-            dateHeader.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
+            dateHeader.setText(DateUtil.getDateWords2FromUTC(appointment.appointmentStart));
             timeHeader.setText(DateUtil.getTimeFromUTC(appointment.appointmentStart));
         }
 
