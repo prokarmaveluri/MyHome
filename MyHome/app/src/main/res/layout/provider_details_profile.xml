@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/label_accepting_new_patients"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="200dp"
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/accepting_new_patients"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/label_accepting_new_patients"
@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/label_languages"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -59,7 +59,7 @@
 
         <TextView
             android:id="@+id/label_gender"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/accepting_new_patients"
@@ -71,7 +71,7 @@
 
         <TextView
             android:id="@+id/gender"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/label_gender"
@@ -80,7 +80,7 @@
 
         <TextView
             android:id="@+id/label_experience"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -92,7 +92,7 @@
 
         <TextView
             android:id="@+id/experience"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/label_experience"
@@ -102,7 +102,7 @@
 
         <TextView
             android:id="@+id/label_philosophy"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/gender"
@@ -113,7 +113,7 @@
 
         <TextView
             android:id="@+id/philosophy"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/label_philosophy"
@@ -122,7 +122,7 @@
 
         <TextView
             android:id="@+id/label_locations"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/philosophy"
@@ -132,7 +132,7 @@
 
         <TextView
             android:id="@+id/locations"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/label_locations"

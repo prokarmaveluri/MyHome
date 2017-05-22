@@ -71,7 +71,7 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/fadTabs"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/toolbarLayout"

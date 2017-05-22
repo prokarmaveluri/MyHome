@@ -1,5 +1,7 @@
 package com.dignityhealth.myhome.features.appointments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -42,7 +44,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         TextView facilityName = (TextView) appointmentsView.findViewById(R.id.facility_name);
         TextView facilityAddress = (TextView) appointmentsView.findViewById(R.id.facility_address);
         TextView reason = (TextView) appointmentsView.findViewById(R.id.reason);
-        TextView phoneNumber = (TextView) appointmentsView.findViewById(R.id.phone_number);
+        final TextView phoneNumber = (TextView) appointmentsView.findViewById(R.id.phone_number);
         ImageView calendar = (ImageView) appointmentsView.findViewById(R.id.calendar);
         ImageView pin = (ImageView) appointmentsView.findViewById(R.id.pin_icon);
         TextView shareText = (TextView) appointmentsView.findViewById(R.id.share_text);
@@ -67,8 +69,17 @@ public class AppointmentsDetailsFragment extends BaseFragment {
             }
         });
 
+        phoneNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber.getText().toString()));
+                intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intentPhone);
+            }
+        });
+
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-            dateHeader.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
+            dateHeader.setText(DateUtil.getDateWords2FromUTC(appointment.appointmentStart));
             timeHeader.setText(DateUtil.getTimeFromUTC(appointment.appointmentStart));
         }
 

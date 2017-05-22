@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/date_header"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="January 28th, 2017"
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/time_header"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/date_header"
@@ -35,14 +35,14 @@
         <ImageView
             android:id="@+id/calendar"
             android:layout_width="27dp"
-            android:layout_height="30dp"
+            android:layout_height="31dp"
             android:layout_alignBottom="@id/time_header"
             android:layout_alignParentEnd="true"
             android:src="@mipmap/calendar" />
 
         <TextView
             android:id="@+id/doctor_name"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
 
         <TextView
             android:id="@+id/facility_name"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/doctor_name"
@@ -65,7 +65,7 @@
 
         <TextView
             android:id="@+id/facility_address"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/facility_name"
@@ -75,8 +75,8 @@
 
         <ImageView
             android:id="@+id/pin_icon"
-            android:layout_width="20dp"
-            android:layout_height="24dp"
+            android:layout_width="24dp"
+            android:layout_height="30dp"
             android:layout_alignBottom="@id/facility_address"
             android:layout_alignRight="@id/calendar"
             android:src="@mipmap/map_blue"
@@ -84,7 +84,7 @@
 
         <TextView
             android:id="@+id/reason"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/facility_address"
@@ -103,7 +103,7 @@
 
         <TextView
             android:id="@+id/phone_number"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/phone_icon"
@@ -112,11 +112,9 @@
             android:layout_marginEnd="18dp"
             android:layout_marginStart="18dp"
             android:layout_toRightOf="@id/phone_icon"
-            android:autoLink="phone"
             android:gravity="center_vertical"
             android:text="123-456-7890"
             android:textColor="@color/primary"
-            android:textColorLink="@color/primary"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -126,12 +124,12 @@
             android:layout_height="30dp"
             android:layout_below="@id/phone_icon"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="50dp"
-            android:src="@mipmap/show_password" />
+            android:layout_marginTop="40dp"
+            android:src="@drawable/share_blue" />
 
         <TextView
             android:id="@+id/share_text"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/share_icon"
@@ -147,12 +145,13 @@
             android:textStyle="bold" />
 
         <TextView
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/share_icon"
-            android:layout_marginTop="38dp"
+            android:layout_marginTop="45dp"
             android:gravity="center"
+            android:paddingBottom="35dp"
             android:text="To reschedule or cancel your appointment, please call your doctors location directly."
             android:textColor="@color/red"
             android:textSize="16sp" />

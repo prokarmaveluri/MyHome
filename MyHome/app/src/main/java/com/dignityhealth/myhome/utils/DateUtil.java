@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.utils;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 import timber.log.Timber;
@@ -67,10 +68,51 @@ public class DateUtil {
         return Constants.SIMPLE_DATE_FORMAT_UTC.format(date);
     }
 
+    /**
+     * Gets a string of the date.
+     * Formatted as such: "Tue Jun 06"
+     *
+     * @param utcDate
+     * @return a string representation of the date similar to this format "Tue Jun 06"
+     */
     public static String getDateWordsFromUTC(String utcDate) {
         try {
             Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
-            return Constants.SIMPLE_DATE_WORDS_FORMAT.format(date);
+            return Constants.SIMPLE_DATE_SHORT_WORDS_FORMAT.format(date);
+        } catch (ParseException e) {
+            Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+
+        return utcDate;
+    }
+
+    /**
+     * Gets a string of the date.
+     * Formatted as such: "January 28th, 2017"
+     * Inspired: https://stackoverflow.com/a/33540720/2128921
+     *
+     * @param utcDate
+     * @return a string representation of the date similar to this format "January 28th, 2017"
+     */
+    public static String getDateWords2FromUTC(String utcDate) {
+        try {
+            Date date = Constants.SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int day = cal.get(Calendar.DATE);
+            if (!((day > 10) && (day < 19)))
+                switch (day % 10) {
+                    case 1:
+                        return Constants.SIMPLE_DATE_WORDS_1st_FORMAT.format(date);
+                    case 2:
+                        return Constants.SIMPLE_DATE_WORDS_2nd_FORMAT.format(date);
+                    case 3:
+                        return Constants.SIMPLE_DATE_WORDS_3rd_FORMAT.format(date);
+                    default:
+                        return Constants.SIMPLE_DATE_WORDS_4th_FORMAT.format(date);
+                }
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();

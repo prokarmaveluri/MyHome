@@ -33,7 +33,7 @@
                     android:src="@mipmap/xblue" />
 
                 <TextView
-                    style="@style/tradeGothicLTStd_20"
+                    style="@style/tradeGothicLTStdLight_20"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
@@ -44,7 +44,7 @@
 
                 <TextView
                     android:id="@+id/save_filter"
-                    style="@style/tradeGothicLTStd_13"
+                    style="@style/tradeGothicLTStdLight_13"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
@@ -66,7 +66,7 @@
 
             <EditText
                 android:id="@+id/filterLocation"
-                style="@style/tradeGothicLTStd_18"
+                style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/titleBarSeparator"
@@ -92,7 +92,7 @@
 
                 <TextView
                     android:id="@+id/sortByTitle"
-                    style="@style/tradeGothicLTStd_20"
+                    style="@style/tradeGothicLTStdLight_20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sort By"
@@ -109,7 +109,7 @@
 
                     <RadioButton
                         android:id="@+id/distance"
-                        style="@style/tradeGothicLTStd_14"
+                        style="@style/tradeGothicLTStdLight_14"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_margin="4dp"
@@ -124,7 +124,7 @@
 
                     <RadioButton
                         android:id="@+id/bestMatch"
-                        style="@style/tradeGothicLTStd_14"
+                        style="@style/tradeGothicLTStdLight_14"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_margin="4dp"
@@ -139,7 +139,7 @@
 
                     <RadioButton
                         android:id="@+id/lastName"
-                        style="@style/tradeGothicLTStd_14"
+                        style="@style/tradeGothicLTStdLight_14"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_margin="4dp"
@@ -155,7 +155,7 @@
 
                 <TextView
                     android:id="@+id/filterByTitle"
-                    style="@style/tradeGothicLTStd_20"
+                    style="@style/tradeGothicLTStdLight_20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/sortByGroup"
@@ -173,14 +173,14 @@
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/newPatientsSwitch"
-                        style="@style/tradeGothicLTStd_18"
+                        style="@style/tradeGothicLTStdLight_18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:textAlignment="textEnd" />
 
                     <TextView
-                        style="@style/tradeGothicLTStd_18"
+                        style="@style/tradeGothicLTStdLight_18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
@@ -207,14 +207,14 @@
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.SwitchCompat
-                        style="@style/tradeGothicLTStd_18"
+                        style="@style/tradeGothicLTStdLight_18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:textAlignment="textEnd" />
 
                     <TextView
-                        style="@style/tradeGothicLTStd_18"
+                        style="@style/tradeGothicLTStdLight_18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"

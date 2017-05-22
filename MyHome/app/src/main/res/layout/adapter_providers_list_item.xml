@@ -34,7 +34,7 @@
 
             <TextView
                 android:id="@+id/docDisplayName"
-                style="@style/tradeGothicLTStd_20"
+                style="@style/tradeGothicLTStdLight_20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/distance"
@@ -45,7 +45,7 @@
 
             <TextView
                 android:id="@+id/docSpeciality"
-                style="@style/tradeGothicLTStd_18"
+                style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/docDisplayName"
@@ -55,7 +55,7 @@
 
             <TextView
                 android:id="@+id/distance"
-                style="@style/tradeGothicLTStd_18"
+                style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -74,7 +74,7 @@
 
             <TextView
                 android:id="@+id/docAddress"
-                style="@style/tradeGothicLTStd_18"
+                style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/docSpeciality"

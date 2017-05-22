@@ -10,7 +10,7 @@
 
         <TextView
             android:id="@+id/header"
-            style="@style/tradeGothicLTStd_24"
+            style="@style/tradeGothicLTStdLight_24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -21,7 +21,7 @@
 
         <TextView
             android:id="@+id/subheader"
-            style="@style/tradeGothicLTStd_20"
+            style="@style/tradeGothicLTStdLight_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/header"
@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/warning"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/subheader"
