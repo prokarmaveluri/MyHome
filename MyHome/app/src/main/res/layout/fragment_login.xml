@@ -34,7 +34,7 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/email"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/password"
@@ -52,7 +52,7 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/password"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/log_in_button"
@@ -83,7 +83,7 @@
 
             <TextView
                 android:id="@+id/forgot_password"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/login_help"
@@ -98,7 +98,7 @@
 
             <TextView
                 android:id="@+id/login_help"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/enroll_now"
@@ -112,7 +112,7 @@
 
             <TextView
                 android:id="@+id/enroll_now"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

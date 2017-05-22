@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/doctor_name"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/doctor_image"
@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/speciality"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/doctor_name"
@@ -72,7 +72,7 @@
 
         <TextView
             android:id="@+id/facility_address"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/provider_map"
@@ -99,7 +99,7 @@
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/sliding_tabs"
-                style="@style/tradeGothicLTStd_14"
+                style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabIndicatorColor="@color/primary"

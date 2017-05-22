@@ -11,7 +11,7 @@
 
         <TextView
             android:id="@+id/bearer_label"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
@@ -21,7 +21,7 @@
 
         <TextView
             android:id="@+id/bearer"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bearer_label"
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/session_label"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bearer"
@@ -41,7 +41,7 @@
 
         <TextView
             android:id="@+id/session"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/session_label"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/profile_label"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/session"
@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/profile"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/profile_label"
@@ -70,7 +70,7 @@
 
         <TextView
             android:id="@+id/location_label"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/profile"
@@ -81,7 +81,7 @@
 
         <TextView
             android:id="@+id/location"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/location_label"
@@ -90,7 +90,7 @@
 
         <TextView
             android:id="@+id/hockey_label"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/location"
@@ -101,7 +101,7 @@
 
         <TextView
             android:id="@+id/hockey"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/hockey_label"
@@ -110,7 +110,7 @@
 
         <TextView
             android:id="@+id/maps_label"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/hockey"
@@ -121,7 +121,7 @@
 
         <TextView
             android:id="@+id/maps"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/maps_label"
@@ -130,7 +130,7 @@
 
         <TextView
             android:id="@+id/type_label"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/maps"
@@ -141,7 +141,7 @@
 
         <TextView
             android:id="@+id/type"
-            style="@style/tradeGothicLTStd_14"
+            style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/type_label"

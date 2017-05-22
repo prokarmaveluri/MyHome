@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/date"
-        style="@style/tradeGothicLTStd_14"
+        style="@style/tradeGothicLTStdLight_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/time"
-        style="@style/tradeGothicLTStd_14"
+        style="@style/tradeGothicLTStdLight_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/facility"
-        style="@style/tradeGothicLTStd_14"
+        style="@style/tradeGothicLTStdLight_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/date"
@@ -47,7 +47,7 @@
 
     <TextView
         android:id="@+id/doctor_name"
-        style="@style/tradeGothicLTStd_14"
+        style="@style/tradeGothicLTStdLight_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/facility"
