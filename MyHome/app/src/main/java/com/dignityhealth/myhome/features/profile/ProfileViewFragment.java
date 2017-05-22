@@ -130,6 +130,12 @@ public class ProfileViewFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((NavigationActivity) getActivity()).getNavigationActionBar().show();
+    }
+
+    @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.PROFILE_VIEW;
     }

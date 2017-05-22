@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
+import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Provider;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants;
@@ -73,6 +74,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         if (getArguments() != null) {
             provider = getArguments().getParcelable(PROVIDER_KEY);
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((NavigationActivity) getActivity()).setActionBarTitle("Find Care");
+        ((NavigationActivity) getActivity()).getNavigationActionBar().show();
     }
 
     @Override

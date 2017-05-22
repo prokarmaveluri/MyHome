@@ -3,9 +3,9 @@
     android:id="@+id/toolbar"
     style="@style/tradeGothicLTStd_20"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/actionBarSize"
+    android:layout_height="58dp"
     android:background="@android:color/transparent"
-    android:elevation="7dp"
+    android:elevation="0dp"
     android:fitsSystemWindows="true"
     android:titleTextColor="@color/md_blue_grey_650"
     app:theme="@style/ToolBarTheme.ToolBarStyle.Light" />
