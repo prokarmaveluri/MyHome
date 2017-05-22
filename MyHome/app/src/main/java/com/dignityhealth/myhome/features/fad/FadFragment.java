@@ -18,6 +18,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -69,6 +70,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private boolean isSugShow = false;
     private SuggestionsAdapter suggestionAdapter;
     private FadInteractor.Presenter presenter;
+    private FragmentStatePagerAdapter pagerAdapter;
 
     private static ArrayList<Provider> providerList = new ArrayList<>();
     private static ArrayList<CommonModel> newPatients = new ArrayList<>();
@@ -102,7 +104,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.fadProgress.setVisibility(View.GONE);
 
         presenter = new FadPresenter(this, getActivity());
-        FragmentStatePagerAdapter pagerAdapter =
+        pagerAdapter =
                 new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, "");
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
@@ -115,6 +117,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setOnFocusChangeListener(this);
         binding.searchQuery.addTextChangedListener(this);
 
+        drawableClickEvent();
         return binding.getRoot();
     }
 
@@ -368,6 +371,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 FadFragment.this);
         binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.suggestionList.setAdapter(suggestionAdapter);
+        suggestionAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -447,7 +451,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         hideSoftKeyboard();
         binding.searchLayout.setVisibility(View.GONE);
-        FragmentStatePagerAdapter pagerAdapter =
+        pagerAdapter =
                 new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, "");
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
@@ -507,7 +511,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         hideSoftKeyboard();
         binding.searchLayout.setVisibility(View.GONE);
-        FragmentStatePagerAdapter pagerAdapter =
+        pagerAdapter =
                 new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, message);
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
@@ -520,14 +524,30 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     }
 
-
     @Override
     public void providersListError() {
         clearFilters();
     }
 
-    private void showViews() {
+    private void drawableClickEvent() {
+        binding.searchQuery.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        final int DRAWABLE_RIGHT = 2;
 
+                        if (event.getAction() == MotionEvent.ACTION_UP) {
+                            if ((int) event.getRawX() >= (binding.searchQuery.getRight() -
+                                    binding.searchQuery.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                                binding.searchLayout.setVisibility(View.GONE);
+                                binding.suggestionList.setVisibility(View.GONE);
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
     }
 
 }

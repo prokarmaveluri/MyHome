@@ -152,7 +152,7 @@
             android:layout_marginTop="45dp"
             android:gravity="center"
             android:paddingBottom="35dp"
-            android:text="To reschedule or cancel your appointment, please call your doctors location directly."
+            android:text="@string/appointment_reschedule"
             android:textColor="@color/red"
             android:textSize="16sp" />
 

@@ -220,8 +220,8 @@ public class CommonUtil {
             intent.putExtra(CalendarContract.Events.TITLE, "Appointment with " + appointment.doctorName);
         }
 
-        if (appointment.visitReason != null) {
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, appointment.visitReason);
+        if (appointment.facilityPhoneNumber != null || appointment.visitReason != null) {
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, appointment.facilityPhoneNumber + "\n" + appointment.visitReason);
         }
 
         if (appointment.facilityAddress != null) {
@@ -256,13 +256,6 @@ public class CommonUtil {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Timber.e(ex);
-            try {
-                Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=an+" + address.line1 + address.city));
-                context.startActivity(unrestrictedIntent);
-            } catch (ActivityNotFoundException innerEx) {
-                Timber.e(innerEx);
-                Toast.makeText(context, "Please install a maps application", Toast.LENGTH_LONG).show();
-            }
         }
     }
 
@@ -295,7 +288,7 @@ public class CommonUtil {
         }
 
         if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
-            message = message + ".\n" + appointment.facilityPhoneNumber;
+            message = message + ".\n" + constructPhoneNumber(appointment.facilityPhoneNumber);
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
