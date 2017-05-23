@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.features.appointments;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.dignityhealth.myhome.features.profile.Address;
 
@@ -9,7 +10,7 @@ import com.dignityhealth.myhome.features.profile.Address;
  * Created by kwelsh on 5/11/17.
  */
 
-public class Appointment implements Parcelable {
+public class Appointment implements Parcelable, Comparable {
     public int appointmentId;
     public boolean isActive;
     public String username;
@@ -57,6 +58,12 @@ public class Appointment implements Parcelable {
                 ", facilityPhoneNumber='" + facilityPhoneNumber + '\'' +
                 ", facilityAddress=" + facilityAddress +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NonNull Object anotherAppointment) {
+        String compareDate = ((Appointment)anotherAppointment).appointmentStart;
+        return this.appointmentStart.compareTo(compareDate);
     }
 
     @Override

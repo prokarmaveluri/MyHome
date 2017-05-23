@@ -21,6 +21,7 @@ import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,7 +100,14 @@ public class AppointmentsFragment extends BaseFragment {
                     Timber.d("Successful Response\n" + response);
                     AppointmentResponse result = response.body();
                     ArrayList<Appointment> appointments = result.result.appointments;
-                    appointmentsAdapter.setAppointments(appointments);
+
+                    try {
+                        //Attempt to sort the appointments by startTime
+                        Collections.sort(appointments);
+                        appointmentsAdapter.setAppointments(appointments);
+                    } catch (Exception e) {
+                        appointmentsAdapter.setAppointments(appointments);
+                    }
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
@@ -114,12 +122,12 @@ public class AppointmentsFragment extends BaseFragment {
         });
     }
 
-    private void showLoading(){
+    private void showLoading() {
         progressBar.setVisibility(View.VISIBLE);
         appointmentsList.setVisibility(View.GONE);
     }
 
-    private void showScreen(){
+    private void showScreen() {
         progressBar.setVisibility(View.GONE);
         appointmentsList.setVisibility(View.VISIBLE);
     }
