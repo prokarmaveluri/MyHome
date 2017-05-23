@@ -182,6 +182,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         if (null == FadManager.getInstance().getLocation()) {
             Toast.makeText(getActivity(), "location not available, select location in filter",
                     Toast.LENGTH_LONG).show();
+            binding.suggestionList.setVisibility(View.GONE);
             return;
         }
         NetworkManager.getInstance().getSearchSuggestions(query,
@@ -350,15 +351,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (s.length() > 1 && !s.toString().isEmpty() && binding.searchLayout.isShown()) {
+        if (isSugShow)
             getSearchSuggestions(s.toString());
-        } else if (s.length() <= 0 && binding.searchLayout.isShown()){
-            // hide suggestion list
-            binding.suggestionList.setVisibility(View.VISIBLE);
-            updateSuggestionList(presenter.getQuickSearchSuggestions());
-        }else {
-            binding.suggestionList.setVisibility(View.GONE);
-        }
         isSugShow = true;
         return;
     }
@@ -376,9 +370,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Override
     public void suggestionClick(String query, int position) {
         isSugShow = false;
-        binding.suggestionList.setVisibility(View.GONE);
         binding.searchQuery.setText(query);
         binding.searchQuery.setSelection(query.length());
+        binding.suggestionList.setVisibility(View.GONE);
+        CommonUtil.hideSoftKeyboard(getActivity());
         searchForQuery(query);
     }
 
@@ -403,8 +398,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                         Toast.LENGTH_LONG).show();
                 return;
             }
+            Timber.i("search, requst ");
             showProgress(true);
             currentSearchQuery = query;
+            binding.suggestionList.setVisibility(View.GONE);
             presenter.getProviderList(query,
                     FadManager.getInstance().getLocation().getLat(),
                     FadManager.getInstance().getLocation().getLong(),
