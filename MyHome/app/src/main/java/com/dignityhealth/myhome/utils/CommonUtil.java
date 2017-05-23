@@ -339,7 +339,7 @@ public class CommonUtil {
     }
 
     /**
-     * Merely prints all the objects in a list using their toString methods and break lines.
+     * Merely prints all the objects in a list using their toString methods.
      *
      * @param objects the objects we wish to print
      * @return the string representing all the objects in the list
@@ -353,6 +353,20 @@ public class CommonUtil {
         return prettyString;
     }
 
+    /**
+     * Merely prints all the objects in a list using their toString methods and break lines.
+     *
+     * @param objects the objects we wish to print
+     * @return the string representing all the objects in the list
+     */
+    public static String prettyPrintLineBreak(List<? extends Object> objects) {
+        String prettyString = "";
+        for (Object object : objects) {
+            prettyString = prettyString + object.toString() + "\n\n";
+        }
+
+        return prettyString;
+    }
 
     public static void hideSoftKeyboard(Activity activity) {
         try {
