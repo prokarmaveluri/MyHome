@@ -18,6 +18,7 @@
             android:layout_height="100dp"
             android:layout_marginStart="9dp"
             android:layout_marginTop="12dp"
+            android:scaleType="centerCrop"
             android:src="@mipmap/logo" />
 
         <TextView
@@ -66,9 +67,8 @@
             <com.dignityhealth.myhome.views.CustomCalendar
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
-                app:mcv_arrowColor="@color/primary"
-                app:mcv_monthLabels="@color/primary"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                app:mcv_arrowColor="@color/primary" />
 
         </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 
