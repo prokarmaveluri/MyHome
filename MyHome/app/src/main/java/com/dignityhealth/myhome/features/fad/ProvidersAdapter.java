@@ -76,11 +76,22 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                 binding.directions.setTag(position);
                 binding.docDisplayName.setText(provider.getDisplayFullName());
                 binding.docSpeciality.setText(provider.getSpecialties().get(0));
-                binding.distance.setText(provider.getOffices().get(0).getDistanceMilesFromSearch() + " mi");
+                
+                if (null != provider.getOffices().get(0).getDistanceMilesFromSearch() &&
+                        !provider.getOffices().get(0).getDistanceMilesFromSearch().isEmpty()) {
+
+                    //round distance to one decimal
+                    Double distance = Double.valueOf(provider.getOffices().get(0).getDistanceMilesFromSearch());
+                    String format = String.format("%.1f", distance);
+                    binding.distance.setText(format + " mi");
+                } else {
+                    binding.distance.setText("");
+                }
                 binding.docAddress.setText(provider.getOffices().get(0).getAddress());
 
                 String url = provider.getImageUrl();
                 url = url.replace("w60h80", "w120h160");
+
                 Picasso.with(mContext)
                         .load(url)
                         .into(binding.docImage);
