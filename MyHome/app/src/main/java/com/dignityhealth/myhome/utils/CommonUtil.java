@@ -350,7 +350,7 @@ public class CommonUtil {
             prettyString = prettyString + object.toString() + "\n";
         }
 
-        return prettyString;
+        return prettyString.trim();
     }
 
     /**
@@ -365,7 +365,7 @@ public class CommonUtil {
             prettyString = prettyString + object.toString() + "\n\n";
         }
 
-        return prettyString;
+        return prettyString.trim();
     }
 
     public static void hideSoftKeyboard(Activity activity) {
