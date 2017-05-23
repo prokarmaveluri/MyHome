@@ -128,7 +128,7 @@ public class ProviderDetailsProfileFragment extends Fragment {
             locationsLabel.setLayoutParams(params);
         }
 
-        locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getOffices()) : "Unknown");
+        locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrintLineBreak(providerDetailsResponse.getOffices()) : "Unknown");
     }
 
     private void showProgressBar() {

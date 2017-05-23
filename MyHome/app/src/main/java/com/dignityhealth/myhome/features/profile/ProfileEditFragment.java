@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -106,12 +107,29 @@ public class ProfileEditFragment extends BaseFragment {
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CommonUtil.hideSoftKeyboard(getActivity());
                 new DatePickerDialog(getActivity(), dateSetListener,
                         myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
         phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+
+        gender.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                CommonUtil.hideSoftKeyboard(getActivity());
+                return false;
+            }
+        });
+
+        state.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                CommonUtil.hideSoftKeyboard(getActivity());
+                return false;
+            }
+        });
 
         if (ProfileManager.getProfile() == null) {
             Timber.i("Don't have a saved Profile. Retrieving profile now...");
@@ -336,7 +354,7 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.city = city.getText().toString().trim();
         }
 
-        if (!state.getSelectedItem().toString().isEmpty()) {
+        if (!state.getSelectedItem().toString().isEmpty() && state.getSelectedItemPosition() != 0) {
             profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 

@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/label_languages"
             android:layout_below="@id/label_languages"
+            android:minHeight="70dp"
             android:text="English"
             android:textSize="18sp" />
 
@@ -84,7 +85,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/label_gender"
             android:layout_below="@id/languages"
             android:text="Experience"
             android:textSize="20sp"

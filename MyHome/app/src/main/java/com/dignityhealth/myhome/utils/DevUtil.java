@@ -5,9 +5,7 @@ import android.os.Build;
 import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -46,9 +44,7 @@ public class DevUtil {
             date.setTime(System.currentTimeMillis() + random);
         }
 
-        String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss.SS'Z'";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_UTC, Locale.US);
-        return sdf.format(date);
+        return Constants.SIMPLE_DATE_FORMAT_UTC.format(date);
     }
 
     public static String getRandomDoctor() {

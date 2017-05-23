@@ -102,7 +102,8 @@ public class MapUtil {
         LatLngBounds bounds = builder.build();
 
         int width = context.getResources().getDisplayMetrics().widthPixels;
-        int height = context.getResources().getDisplayMetrics().heightPixels;
+        //int height = context.getResources().getDisplayMetrics().heightPixels; //only if map is using entire height
+        int height = DeviceDisplayManager.dpToPx(context, 160);     //The Height of the Map View
         int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
 
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);

@@ -139,7 +139,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             public void onResponse(Call<ProviderDetailsResponse> call, Response<ProviderDetailsResponse> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
-                    ProviderDetailsResponse providerDetailsResponse = response.body();
+                    final ProviderDetailsResponse providerDetailsResponse = response.body();
                     FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
                     viewPager.setAdapter(pagerAdapter);
 
@@ -154,16 +154,18 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     });
 
                     MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
-                    MapUtil.zoomMap(getContext(), providerMap, markers);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
+
+                MapUtil.zoomMap(getContext(), providerMap, markers);
             }
 
             @Override
             public void onFailure(Call<ProviderDetailsResponse> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
+                MapUtil.zoomMap(getContext(), providerMap, markers);
             }
         });
     }
@@ -183,7 +185,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
 
         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
-        MapUtil.zoomMap(getContext(), providerMap, markers);
+        //MapUtil.zoomMap(getContext(), providerMap, markers);
     }
 
     //Set address text, then make sure to change selected icon

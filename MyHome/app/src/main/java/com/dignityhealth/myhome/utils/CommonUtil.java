@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.utils;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -337,7 +339,7 @@ public class CommonUtil {
     }
 
     /**
-     * Merely prints all the objects in a list using their toString methods and break lines.
+     * Merely prints all the objects in a list using their toString methods.
      *
      * @param objects the objects we wish to print
      * @return the string representing all the objects in the list
@@ -349,5 +351,30 @@ public class CommonUtil {
         }
 
         return prettyString;
+    }
+
+    /**
+     * Merely prints all the objects in a list using their toString methods and break lines.
+     *
+     * @param objects the objects we wish to print
+     * @return the string representing all the objects in the list
+     */
+    public static String prettyPrintLineBreak(List<? extends Object> objects) {
+        String prettyString = "";
+        for (Object object : objects) {
+            prettyString = prettyString + object.toString() + "\n\n";
+        }
+
+        return prettyString;
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        try {
+            View view = activity.getCurrentFocus();
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } catch (NullPointerException ex) {
+        }
     }
 }
