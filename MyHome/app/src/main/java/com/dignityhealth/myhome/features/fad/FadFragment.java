@@ -359,12 +359,14 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
 
     private void updateSuggestionList(List<SearchSuggestionResponse> list) {
-
-        suggestionAdapter = new SuggestionsAdapter(getSuggestions(list), getActivity(),
-                FadFragment.this);
-        binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.suggestionList.setAdapter(suggestionAdapter);
-        suggestionAdapter.notifyDataSetChanged();
+        try {
+            suggestionAdapter = new SuggestionsAdapter(getSuggestions(list), getActivity(),
+                    FadFragment.this);
+            binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            binding.suggestionList.setAdapter(suggestionAdapter);
+            suggestionAdapter.notifyDataSetChanged();
+        } catch (NullPointerException | IllegalStateException ex) {
+        }
     }
 
     @Override
@@ -379,10 +381,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     private List<String> getSuggestions(List<SearchSuggestionResponse> list) {
         List<String> sug = new ArrayList<>();
-        for (SearchSuggestionResponse resp : list) {
-            if (resp.getType().contains("Search") || resp.getType().contains("Provider")) {
-                sug.add(resp.getTitle());
+        try {
+            for (SearchSuggestionResponse resp : list) {
+                if (resp.getType().contains("Search") || resp.getType().contains("Provider")) {
+                    sug.add(resp.getTitle());
+                }
             }
+        } catch (NullPointerException ex) {
         }
         return sug;
     }
@@ -433,21 +438,27 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         providerList.addAll(providers);
         // Update list
 
-        CommonUtil.hideSoftKeyboard(getActivity());
-        binding.searchLayout.setVisibility(View.GONE);
-        pagerAdapter =
-                new FadPagerAdapter(getChildFragmentManager(), providerList, "");
-        binding.fadPager.setAdapter(pagerAdapter);
-        binding.fadTabs.setupWithViewPager(binding.fadPager);
+        try {
+            if (isResumed() && null == getActivity() && getChildFragmentManager() == null)
+                return;
 
-        clearFilters();
+            CommonUtil.hideSoftKeyboard(getActivity());
+            binding.searchLayout.setVisibility(View.GONE);
+            pagerAdapter =
+                    new FadPagerAdapter(getChildFragmentManager(), providerList, "");
+            binding.fadPager.setAdapter(pagerAdapter);
+            binding.fadTabs.setupWithViewPager(binding.fadPager);
 
-        this.newPatients.addAll(newPatients);
-        this.specialties.addAll(specialties);
-        this.gender.addAll(gender);
-        this.languages.addAll(languages);
-        this.hospitals.addAll(hospitals);
-        this.practices.addAll(practices);
+            clearFilters();
+
+            this.newPatients.addAll(newPatients);
+            this.specialties.addAll(specialties);
+            this.gender.addAll(gender);
+            this.languages.addAll(languages);
+            this.hospitals.addAll(hospitals);
+            this.practices.addAll(practices);
+        } catch (IllegalStateException | NullPointerException ex) {
+        }
     }
 
     private String getParam(List<CommonModel> listModel) {
