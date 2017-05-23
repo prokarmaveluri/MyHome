@@ -223,7 +223,7 @@ public class CommonUtil {
         }
 
         if (appointment.facilityPhoneNumber != null || appointment.visitReason != null) {
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, appointment.facilityPhoneNumber + "\n" + appointment.visitReason);
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumber(appointment.facilityPhoneNumber) + "\n" + appointment.visitReason);
         }
 
         if (appointment.facilityAddress != null) {
