@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--For transparency, see here: https://stackoverflow.com/a/11019879/2128921-->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
     <!--Theme Colors -->
 
@@ -19,6 +19,7 @@
     <color name="text_light">@color/white</color>
     <color name="text_dark">#4D525A</color>
     <color name="text_darker">#484B4D</color>
+    <color name="text_darker_20">#33484B4D</color>
     <color name="text_darkest">@color/black</color>
     <color name="text_shadow">#99000000</color>
 

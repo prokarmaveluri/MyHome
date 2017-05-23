@@ -100,7 +100,7 @@
     </style>
 
     <style name="DayTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
-        <!--<item name="android:textColor">@color/primary</item>-->
+        <item name="android:textColor">@color/calendar_date_text</item>
         <item name="android:typeface">normal</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textStyle">normal</item>
