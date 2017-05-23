@@ -104,7 +104,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         presenter = new FadPresenter(this, getActivity());
         pagerAdapter =
-                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, "");
+                new FadPagerAdapter(getChildFragmentManager(), providerList, "");
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
 
@@ -245,7 +245,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, FILTER_REQUEST);
-        dialog.show(getActivity().getSupportFragmentManager(), "Filter Dialog");
+        dialog.show(getChildFragmentManager(), "Filter Dialog");
     }
 
     private void clearFilters() {
@@ -439,7 +439,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         CommonUtil.hideSoftKeyboard(getActivity());
         binding.searchLayout.setVisibility(View.GONE);
         pagerAdapter =
-                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, "");
+                new FadPagerAdapter(getChildFragmentManager(), providerList, "");
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
 
@@ -499,7 +499,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         CommonUtil.hideSoftKeyboard(getActivity());
         binding.searchLayout.setVisibility(View.GONE);
         pagerAdapter =
-                new FadPagerAdapter(getActivity().getSupportFragmentManager(), providerList, message);
+                new FadPagerAdapter(getChildFragmentManager(), providerList, message);
         binding.fadPager.setAdapter(pagerAdapter);
         binding.fadTabs.setupWithViewPager(binding.fadPager);
 
