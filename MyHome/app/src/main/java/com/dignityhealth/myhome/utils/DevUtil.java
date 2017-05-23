@@ -69,7 +69,7 @@ public class DevUtil {
         int random = new Random().nextInt(5);
         switch (random) {
             case 0:
-                return new Address("1301 Shoreway Road", null, "Belmont", "CA", "94002", "US");
+                return new Address("1301 Shoreway Road", "Floor 4", "Belmont", "CA", "94002", "US");
             case 1:
                 return new Address("8820 Saddlehorn Drive", null, "Irving", "TX", "75063", "US");
             case 2:
@@ -79,7 +79,7 @@ public class DevUtil {
             case 4:
                 return new Address("8280 W. Warm Springs Rd.", null, "Las Vegas", "NV", "89113", "US");
             default:
-                return new Address("155 Glasson Way", null, "Grass Valley", "CA", "95945", "US");
+                return new Address("155 Glasson Way", "Room 321", "Grass Valley", "CA", "95945", "US");
         }
     }
 
@@ -93,9 +93,9 @@ public class DevUtil {
             case 2:
                 return "5555555555";
             case 3:
-                return "1234567890";
+                return "6168261635";
             case 4:
-                return "0987654321";
+                return "6165605016";
             default:
                 return "8006060842";
         }
