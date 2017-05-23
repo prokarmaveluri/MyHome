@@ -78,6 +78,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             provider = getArguments().getParcelable(PROVIDER_KEY);
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -97,8 +98,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         name = (TextView) providerDetailsView.findViewById(R.id.doctor_name);
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
+
         materialCalendarView = (MaterialCalendarView) providerDetailsView.findViewById(R.id.calendar);
         materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
+        materialCalendarView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
+        materialCalendarView.setTitleAnimationOrientation(MaterialCalendarView.HORIZONTAL);
+        materialCalendarView.setHeaderTextAppearance(R.style.MonthTextAppearance);
+        materialCalendarView.setWeekDayTextAppearance(R.style.WeekDayTextAppearance);
+        materialCalendarView.setDateTextAppearance(R.style.DayTextAppearance);
 
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
         bookAppointment.setOnClickListener(new View.OnClickListener() {
