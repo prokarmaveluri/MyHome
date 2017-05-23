@@ -68,7 +68,12 @@
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:mcv_arrowColor="@color/primary" />
+                app:mcv_arrowColor="@color/primary"
+                app:mcv_dateTextAppearance="@style/DayTextAppearance"
+                app:mcv_headerTextAppearance="@style/MonthTextAppearance"
+                app:mcv_showOtherDates="out_of_range"
+                app:mcv_titleAnimationOrientation="horizontal"
+                app:mcv_weekDayTextAppearance="@style/WeekDayTextAppearance" />
 
         </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 

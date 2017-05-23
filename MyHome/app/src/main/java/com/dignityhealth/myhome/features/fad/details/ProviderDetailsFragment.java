@@ -102,11 +102,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         materialCalendarView = (MaterialCalendarView) providerDetailsView.findViewById(R.id.calendar);
         materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
-        materialCalendarView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
-        materialCalendarView.setTitleAnimationOrientation(MaterialCalendarView.HORIZONTAL);
-        materialCalendarView.setHeaderTextAppearance(R.style.MonthTextAppearance);
-        materialCalendarView.setWeekDayTextAppearance(R.style.WeekDayTextAppearance);
-        materialCalendarView.setDateTextAppearance(R.style.DayTextAppearance);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             materialCalendarView.setLeftArrowMask(getResources().getDrawable(R.mipmap.caret_blue, getActivity().getTheme()));
