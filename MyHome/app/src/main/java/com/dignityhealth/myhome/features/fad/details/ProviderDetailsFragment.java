@@ -131,7 +131,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return;
         }
 
-        Picasso.with(getActivity()).load(provider.getImageUrl()).into(doctorImage);
+        String url = provider.getImageUrl();
+        url = url.replace("w60h80", "w120h160");
+        Picasso.with(getActivity())
+                .load(url)
+                .into(doctorImage);
 
         name.setText(provider.getDisplayFullName() != null ? provider.getDisplayFullName() : "Name Unknown");
         speciality.setText(provider.getSpecialties() != null ? provider.getSpecialties().get(0) : "Specialities Unknown");
