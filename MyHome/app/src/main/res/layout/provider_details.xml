@@ -61,13 +61,14 @@
             android:layout_height="300dp"
             android:layout_below="@id/book_appointment"
             android:layout_marginTop="24dp"
-            android:background="@color/blazing_purple"
             android:orientation="vertical">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/expandable_view_pager"
+            <com.dignityhealth.myhome.views.CustomCalendar
+                android:id="@+id/calendar"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                app:mcv_arrowColor="@color/primary"
+                app:mcv_monthLabels="@color/primary"
+                android:layout_height="match_parent"/>
 
         </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 

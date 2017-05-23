@@ -25,9 +25,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +51,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView address;
     private Button bookAppointment;
     private ExpandableLinearLayout expandableLinearLayout;
+    private MaterialCalendarView materialCalendarView;
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
@@ -94,6 +97,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         name = (TextView) providerDetailsView.findViewById(R.id.doctor_name);
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
+        materialCalendarView = (MaterialCalendarView) providerDetailsView.findViewById(R.id.calendar);
+        materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
 
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
         bookAppointment.setOnClickListener(new View.OnClickListener() {
