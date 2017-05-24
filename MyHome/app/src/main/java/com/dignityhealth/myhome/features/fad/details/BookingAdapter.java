@@ -2,14 +2,19 @@ package com.dignityhealth.myhome.features.fad.details;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -18,7 +23,7 @@ import java.util.Calendar;
 
 public class BookingAdapter extends PagerAdapter {
     private Context context;
-    private static int NUM_ITEMS = 2;
+    private static int NUM_ITEMS = 3;
 
     public BookingAdapter(Context context) {
         this.context = context;
@@ -28,7 +33,6 @@ public class BookingAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
         ViewGroup layout;
-        MaterialCalendarView materialCalendarView;
 
         switch (position) {
             case 0:
@@ -38,16 +42,16 @@ public class BookingAdapter extends PagerAdapter {
 
             case 1:
                 layout = (ViewGroup) inflater.inflate(R.layout.book_calendar, container, false);
-                materialCalendarView = (MaterialCalendarView) layout.findViewById(R.id.calendar);
-                materialCalendarView.setPagingEnabled(false);
-                materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
+                setupCalendar(layout);
+                break;
+
+            case 2:
+                layout = (ViewGroup) inflater.inflate(R.layout.book_select_time, container, false);
+                setupSelectTime(layout);
                 break;
 
             default:
-                layout = (ViewGroup) inflater.inflate(R.layout.book_calendar, container, false);
-                materialCalendarView = (MaterialCalendarView) layout.findViewById(R.id.calendar);
-                materialCalendarView.setPagingEnabled(false);
-                materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
+                layout = null;
                 break;
         }
 
@@ -71,9 +75,22 @@ public class BookingAdapter extends PagerAdapter {
     }
 
     /**
-     * Handles setting up the layout for Booking Select Person
+     * Handles setting up the layout for selecting the calendar of the appointment
+     *
+     * @param layout
      */
-    private void setupSelectPerson(ViewGroup layout){
+    private void setupCalendar(ViewGroup layout) {
+        MaterialCalendarView materialCalendarView = (MaterialCalendarView) layout.findViewById(R.id.calendar);
+        materialCalendarView.setPagingEnabled(false);
+        materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
+    }
+
+    /**
+     * Handles setting up the layout for selecting the person the appointment is for
+     *
+     * @param layout
+     */
+    private void setupSelectPerson(ViewGroup layout) {
         final ToggleButton buttonMe = (ToggleButton) layout.findViewById(R.id.book_me);
         final ToggleButton buttonOther = (ToggleButton) layout.findViewById(R.id.book_other);
         buttonMe.setOnClickListener(new View.OnClickListener() {
@@ -89,5 +106,42 @@ public class BookingAdapter extends PagerAdapter {
                 buttonMe.setChecked(false);
             }
         });
+    }
+
+    /**
+     * Handles setting up the layout for selecting the time of the appointment
+     *
+     * @param layout
+     */
+    private void setupSelectTime(ViewGroup layout) {
+        ArrayList<String> times = new ArrayList<>();
+        times.add("9:15am");
+        times.add("10:30am");
+        times.add("11:45am");
+        times.add("1:00pm");
+        times.add("3:00pm");
+        times.add("3:15pm");
+        times.add("3:30pm");
+
+        setAppointmentTimes((ViewGroup) layout.findViewById(R.id.time_group), times);
+    }
+
+    private void setAppointmentTimes(final ViewGroup timeGroup, final ArrayList<String> times) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4));
+
+        for (String time : times) {
+            ToggleButton timeToggle = new ToggleButton(new ContextThemeWrapper(context, R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
+            timeToggle.setPadding(DeviceDisplayManager.dpToPx(context, 12), DeviceDisplayManager.dpToPx(context, 12), DeviceDisplayManager.dpToPx(context, 12), DeviceDisplayManager.dpToPx(context, 12));
+            timeToggle.setGravity(Gravity.CENTER);
+            //timeToggle.setLayoutParams(layoutParams);
+            timeToggle.setTextOn(time);
+            timeToggle.setTextOff(time);
+            timeToggle.setChecked(false);
+            timeGroup.addView(timeToggle, layoutParams);
+
+            timeGroup.requestLayout();
+            timeGroup.invalidate();
+        }
     }
 }

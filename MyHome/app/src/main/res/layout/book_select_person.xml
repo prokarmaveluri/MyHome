@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="18dp">
 
     <TextView
         style="@style/tradeGothicLTStdLight_14"
@@ -16,29 +16,29 @@
         android:textSize="20sp" />
 
     <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <ToggleButton
+            android:id="@+id/book_me"
+            style="@style/selectableButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            android:textOff="Me"
+            android:textOn="Me" />
 
-    <ToggleButton
-        android:id="@+id/book_me"
-        style="@style/selectableButtonStyle"
-        android:layout_width="255dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="18dp"
-        android:gravity="center"
-        android:textOff="Me"
-        android:textOn="Me" />
-
-    <ToggleButton
-        android:id="@+id/book_other"
-        style="@style/selectableButtonStyle"
-        android:layout_width="255dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="18dp"
-        android:gravity="center"
-        android:textOn="Family Member"
-        android:textOff="Family Member" />
+        <ToggleButton
+            android:id="@+id/book_other"
+            style="@style/selectableButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            android:textOff="Family Member"
+            android:textOn="Family Member" />
 
     </RadioGroup>
 
