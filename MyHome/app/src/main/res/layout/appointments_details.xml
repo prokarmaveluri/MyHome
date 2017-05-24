@@ -43,12 +43,13 @@
         <TextView
             android:id="@+id/doctor_name"
             style="@style/tradeGothicLTStdLight_14"
-            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/time_header"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="Dr. Steven M. Howard, MD"
+            android:textIsSelectable="true"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -60,6 +61,7 @@
             android:layout_below="@id/doctor_name"
             android:layout_marginTop="12dp"
             android:text="Sequoia Hospital"
+            android:textIsSelectable="true"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -69,7 +71,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/facility_name"
+            android:selectAllOnFocus="true"
             android:text="170 Alameda de las Pulgas\nRedwood City, CA 94062"
+            android:textIsSelectable="true"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -90,6 +94,7 @@
             android:layout_below="@id/facility_address"
             android:layout_marginTop="24dp"
             android:text="Check up appointment. I am going out of the country for a few months and want to get a check up as well as get any shots that are necessary."
+            android:textIsSelectable="true"
             android:textSize="18sp" />
 
         <ImageView
