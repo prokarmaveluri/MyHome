@@ -1,7 +1,6 @@
 package com.dignityhealth.myhome.features.fad.details;
 
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -102,14 +101,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         materialCalendarView = (MaterialCalendarView) providerDetailsView.findViewById(R.id.calendar);
         materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            materialCalendarView.setLeftArrowMask(getResources().getDrawable(R.mipmap.caret_blue, getActivity().getTheme()));
-            materialCalendarView.setRightArrowMask(getResources().getDrawable(R.mipmap.caret_blue, getActivity().getTheme()));
-        } else {
-            materialCalendarView.setLeftArrowMask(getResources().getDrawable(R.mipmap.caret_blue));
-            materialCalendarView.setRightArrowMask(getResources().getDrawable(R.mipmap.caret_blue));
-        }
 
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
         bookAppointment.setOnClickListener(new View.OnClickListener() {

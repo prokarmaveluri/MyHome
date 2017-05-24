@@ -59,21 +59,15 @@
         <com.github.aakira.expandablelayout.ExpandableLinearLayout
             android:id="@+id/expandable_layout"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="330dp"
             android:layout_below="@id/book_appointment"
             android:layout_marginTop="24dp"
+            android:background="@color/beige"
             android:orientation="vertical">
 
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            <include
                 android:id="@+id/calendar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:mcv_arrowColor="@color/primary"
-                app:mcv_dateTextAppearance="@style/DayTextAppearance"
-                app:mcv_headerTextAppearance="@style/MonthTextAppearance"
-                app:mcv_showOtherDates="out_of_range"
-                app:mcv_titleAnimationOrientation="horizontal"
-                app:mcv_weekDayTextAppearance="@style/WeekDayTextAppearance" />
+                layout="@layout/book_calendar" />
 
         </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 
