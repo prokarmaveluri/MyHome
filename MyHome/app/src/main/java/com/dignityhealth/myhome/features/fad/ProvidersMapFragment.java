@@ -15,14 +15,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by cmajji on 4/26/17.
@@ -37,6 +38,7 @@ public class ProvidersMapFragment extends BaseFragment implements
     private LocationResponse location = null;
     private List<Provider> providerList = new ArrayList<>();
     private ArrayList<Marker> markers = new ArrayList<>();
+    private ClusterManager<MapClusterItem> mClusterManager;
 
     public static final String FAD_TAG = "fad_map";
 
@@ -82,6 +84,9 @@ public class ProvidersMapFragment extends BaseFragment implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        mClusterManager = new ClusterManager<>(getActivity(), map);
+        map.setOnCameraIdleListener(mClusterManager);
+        map.setOnMarkerClickListener(mClusterManager);
         addMarkers();
     }
 
@@ -90,30 +95,30 @@ public class ProvidersMapFragment extends BaseFragment implements
             Toast.makeText(getActivity(), "No Providers", Toast.LENGTH_LONG).show();
             return;
         }
-
+        int count = 0;
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        ArrayList<LatLng> positions = new ArrayList<>();
-        positions.clear();
 
         for (Provider provider : providerList) {
             for (Office office : provider.getOffices()) {
                 LatLng position = new LatLng(Double.valueOf(office.getLat()),
                         Double.valueOf(office.getLong()));
                 builder.include(position);
-                MarkerOptions marker = new MarkerOptions().position(position).title(provider.getDisplayFullName())
-                        .snippet(office.getAddress())
-//                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
-                map.addMarker(marker);
+//                MarkerOptions marker = new MarkerOptions().position(position).title(provider.getDisplayFullName())
+//                        .snippet(office.getAddress())
+////                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+//                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
+//                count++;
+//                Timber.i("markers "+position.toString());
+//                map.addMarker(marker);
+                MapClusterItem item = new MapClusterItem(Double.valueOf(office.getLat()),
+                        Double.valueOf(office.getLong()),
+                        provider.getDisplayFullName(),
+                        office.getAddress());
+                mClusterManager.addItem(item);
             }
         }
+        Timber.i("No. Of markers "+count);
         LatLngBounds bounds = builder.build();
-
-        int width = getActivity().getResources().getDisplayMetrics().widthPixels;
-        //int height = context.getResources().getDisplayMetrics().heightPixels; //only if map is using entire height
-        int height = getActivity().getResources().getDisplayMetrics().heightPixels;
-
-
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 20);
         map.animateCamera(cu);
     }

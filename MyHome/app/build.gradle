@@ -14,7 +14,8 @@ android {
         enabled = true
     }
 
-    def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""   //Old App ID? Get's redefined anyways...
+    def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""
+    //Old App ID? Get's redefined anyways...
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -110,4 +111,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:cardview-v7:25.3.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.google.maps.android:android-maps-utils:0.5+'
 }
