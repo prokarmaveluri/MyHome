@@ -4,6 +4,7 @@ package com.dignityhealth.myhome.features.fad.details;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,7 +50,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView address;
     private Button bookAppointment;
     private ExpandableLinearLayout expandableLinearLayout;
-    private MaterialCalendarView materialCalendarView;
+
+    private ViewPager bookingViewPager;
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
@@ -99,9 +99,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
 
-        materialCalendarView = (MaterialCalendarView) providerDetailsView.findViewById(R.id.calendar);
-        materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
-
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
         bookAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +115,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(statsViewPager);
+
+        bookingViewPager = (ViewPager) providerDetailsView.findViewById(R.id.booking_view_pager);
+        bookingViewPager.setOffscreenPageLimit(3);
+        bookingViewPager.setAdapter(new BookingAdapter(getContext()));
 
         setupInitialView();
         return providerDetailsView;
