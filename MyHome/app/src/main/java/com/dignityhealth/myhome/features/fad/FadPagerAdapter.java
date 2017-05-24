@@ -39,7 +39,11 @@ public class FadPagerAdapter extends FragmentStatePagerAdapter {
                 fragment.setArguments(bundle);
                 return fragment;
             case 1: // Map
-                return ProvidersMapFragment.newInstance();
+                Fragment mapFragment = ProvidersMapFragment.newInstance();
+                bundle = new Bundle();
+                bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
+                mapFragment.setArguments(bundle);
+                return mapFragment;
             default:
                 return null;
         }
