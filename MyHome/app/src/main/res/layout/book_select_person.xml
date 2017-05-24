@@ -15,22 +15,31 @@
         android:text="Who is this appointment for?"
         android:textSize="20sp" />
 
-    <Button
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+    <ToggleButton
         android:id="@+id/book_me"
         style="@style/selectableButtonStyle"
         android:layout_width="255dp"
         android:layout_height="45dp"
         android:layout_marginTop="18dp"
         android:gravity="center"
-        android:text="Me" />
+        android:textOff="Me"
+        android:textOn="Me" />
 
-    <Button
-        android:id="@+id/book_family_member"
+    <ToggleButton
+        android:id="@+id/book_other"
         style="@style/selectableButtonStyle"
         android:layout_width="255dp"
         android:layout_height="45dp"
         android:layout_marginTop="18dp"
         android:gravity="center"
-        android:text="Family Member" />
+        android:textOn="Family Member"
+        android:textOff="Family Member" />
+
+    </RadioGroup>
 
 </LinearLayout>

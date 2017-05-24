@@ -5,6 +5,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ToggleButton;
 
 import com.dignityhealth.myhome.R;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -32,6 +33,7 @@ public class BookingAdapter extends PagerAdapter {
         switch (position) {
             case 0:
                 layout = (ViewGroup) inflater.inflate(R.layout.book_select_person, container, false);
+                setupSelectPerson(layout);
                 break;
 
             case 1:
@@ -66,5 +68,26 @@ public class BookingAdapter extends PagerAdapter {
     @Override
     public int getCount() {
         return NUM_ITEMS;
+    }
+
+    /**
+     * Handles setting up the layout for Booking Select Person
+     */
+    private void setupSelectPerson(ViewGroup layout){
+        final ToggleButton buttonMe = (ToggleButton) layout.findViewById(R.id.book_me);
+        final ToggleButton buttonOther = (ToggleButton) layout.findViewById(R.id.book_other);
+        buttonMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonOther.setChecked(false);
+            }
+        });
+
+        buttonOther.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonMe.setChecked(false);
+            }
+        });
     }
 }
