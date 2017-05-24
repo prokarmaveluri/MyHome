@@ -44,7 +44,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private SupportMapFragment myMap;
     private View providerDetailsView;
-    private WrappingViewPager viewPager;
+    private WrappingViewPager statsViewPager;
     private CircularImageView doctorImage;
     private TextView name;
     private TextView speciality;
@@ -111,13 +111,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
 
-        viewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.view_pager);
-        viewPager.setOffscreenPageLimit(2); //Let's us load all three of the fragments for the pager and keep them in memory
+        statsViewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.stats_view_pager);
+        statsViewPager.setOffscreenPageLimit(2); //Let's us load all three of the fragments for the pager and keep them in memory
         FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
+        statsViewPager.setAdapter(pagerAdapter);
 
         TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(statsViewPager);
 
         setupInitialView();
         return providerDetailsView;
@@ -152,7 +152,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     Timber.d("Successful Response\n" + response);
                     final ProviderDetailsResponse providerDetailsResponse = response.body();
                     FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
-                    viewPager.setAdapter(pagerAdapter);
+                    statsViewPager.setAdapter(pagerAdapter);
 
                     MapUtil.clearMarkers(getContext(), providerMap);
                     markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
