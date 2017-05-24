@@ -15,5 +15,5 @@ public class RESTConstants {
 
     public static final String PROVIDER_PAGE_NO = "1";
     public static final String PROVIDER_PAGE_SIZE = "20";
-    public static final String PROVIDER_DISTANCE = "50";
+    public static final String PROVIDER_DISTANCE = "100";
 }
