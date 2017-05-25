@@ -8,7 +8,8 @@
     android:padding="18dp">
 
     <TextView
-        style="@style/tradeGothicLTStdLight_14"
+        android:id="@+id/date_header"
+        style="@style/MonthTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -17,9 +18,9 @@
 
     <com.dignityhealth.myhome.views.FlowLayout
         android:id="@+id/time_group"
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <!--We add buttons dynamically-->
@@ -52,8 +53,8 @@
         android:id="@+id/booking_reason"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:gravity="left"
         android:background="@drawable/edit_text_boarder_grey"
+        android:gravity="left"
         android:hint="Please tell us the purpose of your visit." />
 
     <Button

@@ -1,18 +1,23 @@
 package com.dignityhealth.myhome.features.fad.details.booking;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.utils.DateUtil;
 import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.dignityhealth.myhome.views.FlowLayout;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +34,8 @@ public class BookingAdapter extends PagerAdapter {
     private ViewGroup selectDateLayout;
     private ViewGroup selectTimeLayout;
     private ViewGroup selectReasonLayout;
+
+    private String selectedDateHeader;
 
     ArrayList<BookingTimeSlot> times = new ArrayList<>();
     int timeIndex = -1;
@@ -104,6 +111,15 @@ public class BookingAdapter extends PagerAdapter {
         MaterialCalendarView materialCalendarView = (MaterialCalendarView) selectDateLayout.findViewById(R.id.calendar);
         materialCalendarView.setPagingEnabled(false);
         materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
+
+        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                selectedDateHeader = DateUtil.convertDateToReadable(date.getDate());
+                refreshSelectTime();
+                refreshSelectReason();
+            }
+        });
     }
 
     /**
@@ -131,6 +147,7 @@ public class BookingAdapter extends PagerAdapter {
      * Handles setting up the layout for selecting the time of the appointment
      */
     private void setupSelectTime() {
+        ((TextView) selectTimeLayout.findViewById(R.id.date_header)).setText(selectedDateHeader);
         setAppointmentTimes((FlowLayout) selectTimeLayout.findViewById(R.id.time_group), times);
     }
 
@@ -138,6 +155,7 @@ public class BookingAdapter extends PagerAdapter {
      * Handles setting up the layout for the select reason of the appointment
      */
     private void setupSelectReason() {
+        ((TextView) selectReasonLayout.findViewById(R.id.date_header)).setText(selectedDateHeader);
         setAppointmentTimes((FlowLayout) selectReasonLayout.findViewById(R.id.time_group), getTopTimeChoices());
     }
 

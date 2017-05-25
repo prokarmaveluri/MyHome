@@ -8,7 +8,8 @@
     android:padding="18dp">
 
     <TextView
-        style="@style/tradeGothicLTStdLight_14"
+        android:id="@+id/date_header"
+        style="@style/MonthTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
