@@ -147,7 +147,9 @@ public class BookingAdapter extends PagerAdapter {
      * Handles setting up the layout for selecting the time of the appointment
      */
     private void setupSelectTime() {
-        ((TextView) selectTimeLayout.findViewById(R.id.date_header)).setText(selectedDateHeader);
+        ((TextView) selectTimeLayout.findViewById(R.id.date_header)).setText(
+                selectedDateHeader != null && !selectedDateHeader.isEmpty() ?
+                        selectedDateHeader : DateUtil.convertDateToReadable(Calendar.getInstance().getTime()));
         setAppointmentTimes((FlowLayout) selectTimeLayout.findViewById(R.id.time_group), times);
     }
 
@@ -155,7 +157,9 @@ public class BookingAdapter extends PagerAdapter {
      * Handles setting up the layout for the select reason of the appointment
      */
     private void setupSelectReason() {
-        ((TextView) selectReasonLayout.findViewById(R.id.date_header)).setText(selectedDateHeader);
+        ((TextView) selectReasonLayout.findViewById(R.id.date_header)).setText(
+                selectedDateHeader != null && !selectedDateHeader.isEmpty() ?
+                        selectedDateHeader : DateUtil.convertDateToReadable(Calendar.getInstance().getTime()));
         setAppointmentTimes((FlowLayout) selectReasonLayout.findViewById(R.id.time_group), getTopTimeChoices());
     }
 
