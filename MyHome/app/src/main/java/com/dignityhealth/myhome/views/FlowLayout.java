@@ -33,6 +33,7 @@ import java.util.List;
 
 /**
  * Created by kwelsh on 5/24/17.
+ * Modified from: https://github.com/blazsolar/FlowLayout
  * Removed Overrides that get Layout params as they reset the margins of the children.
  */
 
