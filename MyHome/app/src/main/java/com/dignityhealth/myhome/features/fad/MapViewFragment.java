@@ -2,12 +2,9 @@ package com.dignityhealth.myhome.features.fad;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
@@ -17,34 +14,33 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
 /**
  * Created by cmajji on 4/26/17.
  * <p>
- * Fragment for Find a doctor, display list of doctors with search feature.
+ * Fragment for providers map view, display doctors with search feature.
  */
 
-public class ProvidersMapFragment extends BaseFragment implements
+public class MapViewFragment extends BaseFragment implements
         ProvidersAdapter.IProviderClick, OnMapReadyCallback {
 
     private GoogleMap map;
-    private LocationResponse location = null;
-    private ArrayList<Provider> providerList = new ArrayList<>();
-    private ArrayList<Marker> markers = new ArrayList<>();
+    private List<Provider> providerList = new ArrayList<>();
     private ClusterManager<MapClusterItem> mClusterManager;
 
     public static final String FAD_TAG = "fad_map";
 
-    public static ProvidersMapFragment newInstance() {
-        return new ProvidersMapFragment();
+    public static MapViewFragment newInstance() {
+        return new MapViewFragment();
     }
 
     @Override
@@ -52,7 +48,6 @@ public class ProvidersMapFragment extends BaseFragment implements
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             providerList = getArguments().getParcelableArrayList("PROVIDER_LIST");
-            location = FadManager.getInstance().getCurrentLocation();
         }
     }
 
@@ -60,18 +55,9 @@ public class ProvidersMapFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_providers_map, container, false);
-
-        FrameLayout mapFrame = (FrameLayout) view.findViewById(R.id.mapFrame);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment fragment = MapViewFragment.newInstance();
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
-        fragment.setArguments(bundle);
-        transaction.replace(mapFrame.getId(), fragment).commit();
-
-//        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.providersMap);
-//        map.getMapAsync(this);
+        View view = inflater.inflate(R.layout.fragment_map_view, container, false);
+        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.providersMap);
+        map.getMapAsync(this);
         return view;
     }
 
@@ -133,13 +119,4 @@ public class ProvidersMapFragment extends BaseFragment implements
         map.animateCamera(cu);
     }
 
-//    public static class MapViewFragment extends Fragment {
-//
-//        @Nullable
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//            View view = inflater.inflate(R.layout.fragment_providers_map, container, false);
-//            return view;
-//        }
-//    }
 }

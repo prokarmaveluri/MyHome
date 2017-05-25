@@ -13,6 +13,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Provider;
+import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.MapUtil;
@@ -74,6 +75,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onResume() {
         super.onResume();
+        RecentlyViewedDataSourceDB.getInstance().createEntry(provider.getProviderId());
         ((NavigationActivity) getActivity()).setActionBarTitle("Find Care");
         ((NavigationActivity) getActivity()).getNavigationActionBar().show();
     }

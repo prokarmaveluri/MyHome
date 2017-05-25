@@ -66,8 +66,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/distance"
-                android:onClick="@{handlers::onClickProvider}"
                 android:gravity="center"
+                android:onClick="@{handlers::onClickProvider}"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="16dp"
@@ -80,6 +80,18 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/docSpeciality"
                 android:text="Denver, CO" />
+
+            <TextView
+                android:id="@+id/recentlyViewed"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/docAddress"
+                android:layout_marginTop="4dp"
+                android:drawableLeft="@drawable/ic_recent_blue"
+                android:drawablePadding="8dp"
+                android:text="Recently viewed"
+                android:visibility="visible" />
         </RelativeLayout>
 
         <View

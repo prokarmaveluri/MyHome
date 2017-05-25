@@ -13,6 +13,7 @@ import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentProviderListBinding;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
+import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.utils.Constants;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class ProviderListFragment extends BaseFragment implements
     private FragmentProviderListBinding binding;
     private ProvidersAdapter adapter;
     private String errorMsg;
+    private ArrayList<String> recentlyViewed = new ArrayList<>();
     private List<Provider> providerList = new ArrayList<>();
 
     private enum State {
@@ -57,7 +59,7 @@ public class ProviderListFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_provider_list, container, false);
-
+        recentlyViewed = RecentlyViewedDataSourceDB.getInstance().getAllEntry();
         return binding.getRoot();
     }
 
@@ -71,7 +73,7 @@ public class ProviderListFragment extends BaseFragment implements
         super.onResume();
 
         if (providerList != null && providerList.size() > 0) {
-            adapter = new ProvidersAdapter(providerList, getActivity(), this);
+            adapter = new ProvidersAdapter(providerList, getActivity(), this, recentlyViewed);
             binding.providersList.setLayoutManager(new LinearLayoutManager(getActivity()));
             binding.providersList.setAdapter(adapter);
             viewState(State.LIST);
