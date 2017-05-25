@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,7 +18,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
             android:gravity="center"
-            android:text="Thank you for visiting\n Dignity Health." />
+            android:text="@string/contact_us_header" />
 
         <TextView
             android:id="@+id/subheader"
@@ -30,7 +31,7 @@
             android:layout_margin="16dp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="We're here when you need us." />
+            android:text="@string/contact_us_subheader" />
 
         <TextView
             android:id="@+id/warning"
@@ -43,7 +44,7 @@
             android:layout_margin="16dp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="If this is a medical emergency, please call 911 immediately."
+            android:text="@string/contact_us_warning"
             android:textColor="@color/red" />
 
         <ImageView
@@ -70,7 +71,8 @@
             android:text="hello@dignityhealth.org"
             android:textColor="@color/text_darker"
             android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <View
             android:id="@+id/divider"
@@ -105,6 +107,7 @@
             android:text="1-844-274-8497"
             android:textColorLink="@color/text_darker"
             android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
     </RelativeLayout>
 </ScrollView>

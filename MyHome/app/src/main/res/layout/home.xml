@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,7 +17,8 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="Welcome Kevin!"
-            android:textSize="32sp" />
+            android:textSize="32sp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/subheader"
@@ -27,7 +29,8 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="This is your new home for personalized health."
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            tools:ignore="HardcodedText" />
 
         <LinearLayout
             android:id="@+id/dyk_tod_layout"
@@ -51,7 +54,7 @@
                     style="@style/tradeGothicLTStdLight_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Did you know?"
+                    android:text="@string/did_you_know"
                     android:textStyle="bold" />
 
                 <TextView
@@ -60,7 +63,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dyk_header"
-                    android:text="Sun is good for you. Leave your apartment for once, Kevin..." />
+                    android:text="Sun is good for you. Leave your apartment for once, Kevin..."
+                    tools:ignore="HardcodedText" />
 
                 <Button
                     android:id="@+id/dyk_button"
@@ -68,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dyk_text"
                     android:layout_centerHorizontal="true"
-                    android:text="Learn more" />
+                    android:text="@string/learn_more" />
 
             </RelativeLayout>
 
@@ -86,7 +90,7 @@
                     style="@style/tradeGothicLTStdLight_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tip of the Day"
+                    android:text="@string/tip_of_the_day"
                     android:textStyle="bold" />
 
                 <TextView
@@ -95,7 +99,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tod_header"
-                    android:text="If you want to be less pale, we recommend you don't live in your cubicle." />
+                    android:text="If you want to be less pale, we recommend you don't live in your cubicle."
+                    tools:ignore="HardcodedText" />
 
                 <Button
                     android:id="@+id/tod_button"
@@ -103,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tod_text"
                     android:layout_centerHorizontal="true"
-                    android:text="Learn more" />
+                    android:text="@string/learn_more" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -124,7 +129,8 @@
                 android:layout_margin="12dp"
                 android:layout_weight=".5"
                 android:gravity="center"
-                android:text="Tell us a little more about yourself by updating your profile." />
+                android:text="Tell us a little more about yourself by updating your profile."
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/button_profile"
@@ -132,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:layout_weight=".5"
-                android:text="Go to Profile" />
+                android:text="@string/go_to_profile" />
         </LinearLayout>
 
     </RelativeLayout>

@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,7 +24,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:hint="First Name"
+                    android:hint="@string/first_name"
                     android:inputType="textCapWords"
                     android:maxLines="1" />
 
@@ -40,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:hint="Last Name"
+                    android:hint="@string/last_name"
                     android:inputType="textCapWords"
                     android:maxLines="1" />
 
@@ -57,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:hint="Preferred Name"
+                    android:hint="@string/preferred_name"
                     android:inputType="textCapWords"
                     android:maxLines="1" />
 
@@ -69,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="Gender"
+                android:text="@string/gender"
                 android:textSize="13sp" />
 
             <Spinner
@@ -92,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:focusable="false"
-                    android:hint="Date of Birth"
+                    android:hint="@string/date_of_birth"
                     android:inputType="text"
                     android:maxLines="2" />
 
@@ -109,7 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:hint="Address"
+                    android:hint="@string/address"
                     android:inputType="text"
                     android:maxLines="2" />
 
@@ -126,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:hint="Address 2"
+                    android:hint="@string/address_2"
                     android:inputType="text"
                     android:maxLines="2" />
 
@@ -149,7 +150,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:hint="City"
+                        android:hint="@string/city"
                         android:inputType="text"
                         android:maxLines="2" />
 
@@ -182,7 +183,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:hint="Zip"
+                        android:hint="@string/zip"
                         android:inputType="number"
                         android:maxLength="5" />
 
@@ -201,7 +202,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:ems="10"
-                        android:hint="Phone Number"
+                        android:hint="@string/phone_number"
                         android:inputType="phone"
                         android:maxLength="14"
                         android:maxLines="1" />
@@ -215,7 +216,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
-                android:text="Email" />
+                android:text="@string/email" />
 
             <TextView
                 android:id="@+id/email"
@@ -224,7 +225,8 @@
                 android:layout_height="wrap_content"
                 android:text="kwelsh@prokarma.com"
                 android:textSize="@dimen/profile_text_size"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/email_notice"
@@ -233,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/profile_label_marginTop"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
-                android:text="You cannot edit email address"
+                android:text="@string/you_cannot_edit_email_address"
                 android:textSize="13sp" />
 
             <android.support.design.widget.TextInputLayout
@@ -247,7 +249,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:hint="Insurance Provider"
+                    android:hint="@string/insurance_provider"
                     android:inputType="text"
                     android:maxLines="1" />
 
@@ -264,7 +266,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:hint="Member ID"
+                    android:hint="@string/member_id"
                     android:inputType="text"
                     android:maxLines="1" />
 
@@ -281,7 +283,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:hint="Group ID"
+                    android:hint="@string/group_id"
                     android:inputType="text"
                     android:maxLines="1" />
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,7 +21,8 @@
             android:text="January 28th, 2017"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:transitionName="@string/transition_appointment_date" />
+            android:transitionName="@string/transition_appointment_date"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/time_header"
@@ -30,7 +32,8 @@
             android:layout_below="@id/date_header"
             android:text="9:00am - 9:45am"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/calendar"
@@ -51,7 +54,8 @@
             android:text="Dr. Steven M. Howard, MD"
             android:textIsSelectable="true"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/facility_name"
@@ -63,7 +67,8 @@
             android:text="Sequoia Hospital"
             android:textIsSelectable="true"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/facility_address"
@@ -75,7 +80,8 @@
             android:text="170 Alameda de las Pulgas\nRedwood City, CA 94062"
             android:textIsSelectable="true"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/pin_icon"
@@ -95,7 +101,8 @@
             android:layout_marginTop="24dp"
             android:text="Check up appointment. I am going out of the country for a few months and want to get a check up as well as get any shots that are necessary."
             android:textIsSelectable="true"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/phone_icon"
@@ -121,7 +128,8 @@
             android:text="123-456-7890"
             android:textColor="@color/primary"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/share_icon"

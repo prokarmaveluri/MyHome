@@ -93,15 +93,15 @@ public class ProviderDetailsProfileFragment extends Fragment {
 
         showView();
         acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? "Yes" : "No");
-        languages.setText(providerDetailsResponse.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getLanguages()) : "Unknown");
+        languages.setText(providerDetailsResponse.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getLanguages()) : getString(R.string.unknown));
 
         if (providerDetailsResponse.getGender() != null && !providerDetailsResponse.getGender().isEmpty()) {
-            if (providerDetailsResponse.getGender().equalsIgnoreCase("M") || providerDetailsResponse.getGender().equalsIgnoreCase("Male")) {
-                gender.setText("Male");
-            } else if (providerDetailsResponse.getGender().equalsIgnoreCase("F") || providerDetailsResponse.getGender().equalsIgnoreCase("Female")) {
-                gender.setText("Female");
+            if (providerDetailsResponse.getGender().equalsIgnoreCase("M") || providerDetailsResponse.getGender().equalsIgnoreCase(getString(R.string.male))) {
+                gender.setText(getString(R.string.male));
+            } else if (providerDetailsResponse.getGender().equalsIgnoreCase("F") || providerDetailsResponse.getGender().equalsIgnoreCase(getString(R.string.female))) {
+                gender.setText(getString(R.string.female));
             } else {
-                gender.setText("Unknown");
+                gender.setText(getString(R.string.unknown));
             }
         }
 

@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -32,7 +33,8 @@
             android:layout_toRightOf="@id/doctor_image"
             android:text="Dr. Edward Patterson, MD"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/speciality"
@@ -43,7 +45,8 @@
             android:layout_below="@id/doctor_name"
             android:layout_marginEnd="18dp"
             android:text="Family Medicine"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/book_appointment"
@@ -101,7 +104,8 @@
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="170 Alameda de las Pulgas\nRedwood City, CA 94062"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="HardcodedText" />
 
         <View
             android:id="@+id/divider"

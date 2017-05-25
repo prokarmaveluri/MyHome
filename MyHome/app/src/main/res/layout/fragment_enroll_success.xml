@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Password Criteria" />
+            android:text="@string/password_criteria" />
 
         <TextView
             android:id="@+id/password_criteria_text"

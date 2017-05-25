@@ -61,7 +61,7 @@
                     android:drawablePadding="8dp"
                     android:drawableRight="@mipmap/xblue"
                     android:gravity="center_vertical"
-                    android:hint="Search care or condition"
+                    android:hint="@string/search_care_or_condition"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:padding="8dp" />

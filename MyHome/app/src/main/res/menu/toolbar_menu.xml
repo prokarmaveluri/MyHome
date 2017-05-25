@@ -5,43 +5,43 @@
     <item
         android:id="@+id/help"
         android:icon="@android:drawable/ic_menu_view"
-        android:title="Help"
+        android:title="@string/help"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/settings"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="Settings"
+        android:title="@string/settings"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/preferences"
         android:icon="@android:drawable/ic_menu_manage"
-        android:title="Preferences"
+        android:title="@string/preferences"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/contact_us"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="Contact Us"
+        android:title="@string/contact_us"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/terms_of_service"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="Terms of Service"
+        android:title="@string/terms_of_service"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/developer"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="Developer"
+        android:title="@string/developer"
         android:visible="false"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/sign_out"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="Sign Out"
+        android:title="@string/sign_out"
         app:showAsAction="never" />
 </menu>

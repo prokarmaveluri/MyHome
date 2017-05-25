@@ -5,24 +5,24 @@
     <item
         android:id="@+id/home"
         android:icon="@mipmap/home_blue"
-        android:title="Home"
+        android:title="@string/home"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/fad"
         android:icon="@mipmap/fad_blue"
-        android:title="Find Care"
+        android:title="@string/find_care"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/appointments"
         android:icon="@mipmap/appointments_blue"
-        android:title="Appointments"
+        android:title="@string/appointments"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/profile"
         android:icon="@mipmap/profile_blue"
-        android:title="Profile"
+        android:title="@string/profile"
         app:showAsAction="ifRoom" />
 </menu>

@@ -81,7 +81,7 @@ public class ProviderListFragment extends BaseFragment implements
             binding.message.setText(errorMsg);
         } else {
             viewState(State.MESSAGE);
-            binding.message.setText("Find Care");
+            binding.message.setText(getString(R.string.find_care));
         }
 
         showProgress(false);

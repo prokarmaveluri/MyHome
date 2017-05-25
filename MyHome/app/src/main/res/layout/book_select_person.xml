@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Who is this appointment for?"
+        android:text="@string/booking_select_person_header"
         android:textSize="20sp" />
 
     <RadioGroup
@@ -27,8 +27,8 @@
             android:layout_height="45dp"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:textOff="Me"
-            android:textOn="Me" />
+            android:textOff="@string/me"
+            android:textOn="@string/me" />
 
         <ToggleButton
             android:id="@+id/book_other"
@@ -37,8 +37,8 @@
             android:layout_height="45dp"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:textOff="Family Member"
-            android:textOn="Family Member" />
+            android:textOff="@string/family_member"
+            android:textOn="@string/family_member" />
 
     </RadioGroup>
 

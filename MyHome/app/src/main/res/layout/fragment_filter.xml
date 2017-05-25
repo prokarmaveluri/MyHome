@@ -35,7 +35,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@+id/dialog_close"
                 android:gravity="center_vertical"
-                android:text="Find Care" />
+                android:text="@string/find_care" />
 
             <TextView
                 android:id="@+id/save_filter"
@@ -47,7 +47,7 @@
                 android:gravity="center_vertical"
                 android:onClick="@{handlers::onClickEvent}"
                 android:padding="16dp"
-                android:text="Save"
+                android:text="@string/save"
                 android:textAllCaps="true"
                 android:textColor="@color/accent" />
         </RelativeLayout>
@@ -84,7 +84,7 @@
                     android:inputType="textNoSuggestions"
                     android:maxLines="1"
                     android:shadowColor="@color/accent"
-                    android:text="User Location" />
+                    android:text="@string/user_location" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                         style="@style/tradeGothicLTStdLight_20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sort By"
+                        android:text="@string/sort_by"
                         android:textStyle="bold" />
 
                     <RadioGroup
@@ -121,7 +121,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/button_boarder_acent"
                             android:button="@null"
-                            android:text="Distance"
+                            android:text="@string/distance"
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
@@ -136,7 +136,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/button_boarder_acent"
                             android:button="@null"
-                            android:text="Best Match"
+                            android:text="@string/best_match"
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
@@ -151,7 +151,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/button_boarder_acent"
                             android:button="@null"
-                            android:text="Last Name"
+                            android:text="@string/last_name"
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/sortByGroup"
                         android:layout_marginTop="16dp"
-                        android:text="Filter By"
+                        android:text="@string/filter_by"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -189,7 +189,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
-                            android:text="Accepting New Patients" />
+                            android:text="@string/accepting_new_patients" />
                     </LinearLayout>
 
                     <ExpandableListView
@@ -223,7 +223,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
-                            android:text="Display recently viewed doctors" />
+                            android:text="@string/display_recently_viewed_doctors" />
                     </LinearLayout>
 
                 </RelativeLayout>
