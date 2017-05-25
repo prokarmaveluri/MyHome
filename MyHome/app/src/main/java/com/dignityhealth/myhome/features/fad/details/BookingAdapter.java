@@ -123,21 +123,28 @@ public class BookingAdapter extends PagerAdapter {
         times.add("3:15pm");
         times.add("3:30pm");
 
-        setAppointmentTimes((ViewGroup) layout.findViewById(R.id.time_group), times);
+        setAppointmentTimes((FlowLayout) layout.findViewById(R.id.time_group), times);
     }
 
-    private void setAppointmentTimes(final ViewGroup timeGroup, final ArrayList<String> times) {
+    private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<String> times) {
         FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4));
 
         for (String time : times) {
-            ToggleButton timeToggle = new ToggleButton(new ContextThemeWrapper(context, R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
+            final ToggleButton timeToggle = new ToggleButton(new ContextThemeWrapper(context, R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
             timeToggle.setPadding(DeviceDisplayManager.dpToPx(context, 12), DeviceDisplayManager.dpToPx(context, 12), DeviceDisplayManager.dpToPx(context, 12), DeviceDisplayManager.dpToPx(context, 12));
             timeToggle.setGravity(Gravity.CENTER);
             timeToggle.setLayoutParams(layoutParams);
             timeToggle.setTextOn(time);
             timeToggle.setTextOff(time);
             timeToggle.setChecked(false);
+            timeToggle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    timeGroup.setCurrentCheckedChild(timeToggle);
+                }
+            });
+
             timeGroup.addView(timeToggle, layoutParams);
         }
     }

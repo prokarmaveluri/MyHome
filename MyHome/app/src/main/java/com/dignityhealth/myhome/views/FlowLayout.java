@@ -24,6 +24,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ToggleButton;
 
 import com.dignityhealth.myhome.R;
 
@@ -41,6 +42,8 @@ public class FlowLayout extends ViewGroup {
     private final List<List<View>> mLines = new ArrayList<List<View>>();
     private final List<Integer> mLineHeights = new ArrayList<Integer>();
     private final List<Integer> mLineMargins = new ArrayList<Integer>();
+
+    private ToggleButton currentCheckedChild;
 
     public FlowLayout(Context context) {
         super(context, null);
@@ -373,5 +376,22 @@ public class FlowLayout extends ViewGroup {
             super(source);
         }
 
+    }
+
+    public boolean hasCurrentlyCheckedChild(){
+        return currentCheckedChild != null;
+    }
+
+    public ToggleButton getCurrentCheckedChild(){
+        return currentCheckedChild;
+    }
+
+    public void setCurrentCheckedChild(ToggleButton newCheckedChild){
+        if(currentCheckedChild != null){
+            currentCheckedChild.setChecked(false);
+        }
+
+        newCheckedChild.setChecked(true);
+        currentCheckedChild = newCheckedChild;
     }
 }
