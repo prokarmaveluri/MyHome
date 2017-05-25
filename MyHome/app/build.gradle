@@ -14,7 +14,8 @@ android {
         enabled = true
     }
 
-    def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""   //Old App ID? Get's redefined anyways...
+    def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""
+    //Old App ID? Get's redefined anyways...
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -112,4 +113,5 @@ dependencies {
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
     testCompile 'junit:junit:4.12'
+    compile 'com.google.maps.android:android-maps-utils:0.5+'
 }

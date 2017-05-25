@@ -200,22 +200,29 @@ public class ProfileEditFragment extends BaseFragment {
         NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    Toast.makeText(getActivity(), "Information saved", Toast.LENGTH_SHORT).show();
-                    getActivity().onBackPressed();
+                if (isAdded()) {
+                    if (response.isSuccessful()) {
+                        Timber.d("Successful Response\n" + response);
+                        Toast.makeText(getActivity(), "Information saved", Toast.LENGTH_SHORT).show();
+                        getActivity().onBackPressed();
+                    }
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
-                    Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
+                    if (isAdded()) {
+                        Timber.e("Response, but not successful?\n" + response);
+                        Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
+                    }
                 }
+
                 progress.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Timber.e("Something failed! :/");
-                Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
-                progress.setVisibility(View.GONE);
+                if (isAdded()) {
+                    Timber.e("Something failed! :/");
+                    Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
+                    progress.setVisibility(View.GONE);
+                }
             }
         });
     }
