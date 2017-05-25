@@ -71,6 +71,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             provider = getArguments().getParcelable(PROVIDER_KEY);
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -93,7 +94,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         viewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(2); //Let's us load all three of the fragments for the pager and keep them in memory
-        FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager());
+        FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
         TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.tabs);
@@ -128,35 +129,40 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         NetworkManager.getInstance().getProviderDetails(provider.getProviderId()).enqueue(new Callback<ProviderDetailsResponse>() {
             @Override
             public void onResponse(Call<ProviderDetailsResponse> call, Response<ProviderDetailsResponse> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    final ProviderDetailsResponse providerDetailsResponse = response.body();
-                    FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getActivity().getSupportFragmentManager(), providerDetailsResponse);
-                    viewPager.setAdapter(pagerAdapter);
+                if (isAdded()) {
+                    if (response.isSuccessful()) {
+                        Timber.d("Successful Response\n" + response);
+                        final ProviderDetailsResponse providerDetailsResponse = response.body();
+                        FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getChildFragmentManager(), providerDetailsResponse);
+                        viewPager.setAdapter(pagerAdapter);
 
-                    MapUtil.clearMarkers(getContext(), providerMap);
-                    markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            handleMarkerClick(marker);
-                            //marker.showInfoWindow(); Won't fit with the zoom if states apart
-                            return true;
-                        }
-                    });
+                        MapUtil.clearMarkers(getContext(), providerMap);
+                        markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+                            @Override
+                            public boolean onMarkerClick(Marker marker) {
+                                handleMarkerClick(marker);
+                                //marker.showInfoWindow(); Won't fit with the zoom if states apart
+                                return true;
+                            }
+                        });
 
-                    MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                        MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
+
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
+                    }
+
+                    MapUtil.zoomMap(getContext(), providerMap, markers);
                 }
-
-                MapUtil.zoomMap(getContext(), providerMap, markers);
             }
 
             @Override
             public void onFailure(Call<ProviderDetailsResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
-                Timber.e("Throwable = " + t);
-                MapUtil.zoomMap(getContext(), providerMap, markers);
+                if (isAdded()) {
+                    Timber.e("Something failed! :/");
+                    Timber.e("Throwable = " + t);
+                    MapUtil.zoomMap(getContext(), providerMap, markers);
+                }
             }
         });
     }

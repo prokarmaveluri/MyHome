@@ -95,29 +95,33 @@ public class AppointmentsFragment extends BaseFragment {
         NetworkManager.getInstance().getAppointments(bearer).enqueue(new Callback<AppointmentResponse>() {
             @Override
             public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
-                showScreen();
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    AppointmentResponse result = response.body();
-                    ArrayList<Appointment> appointments = result.result.appointments;
+                if (isAdded()) {
+                    showScreen();
+                    if (response.isSuccessful()) {
+                        Timber.d("Successful Response\n" + response);
+                        AppointmentResponse result = response.body();
+                        ArrayList<Appointment> appointments = result.result.appointments;
 
-                    try {
-                        //Attempt to sort the appointments by startTime
-                        Collections.sort(appointments);
-                        appointmentsAdapter.setAppointments(appointments);
-                    } catch (Exception e) {
-                        appointmentsAdapter.setAppointments(appointments);
+                        try {
+                            //Attempt to sort the appointments by startTime
+                            Collections.sort(appointments);
+                            appointmentsAdapter.setAppointments(appointments);
+                        } catch (Exception e) {
+                            appointmentsAdapter.setAppointments(appointments);
+                        }
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
                     }
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<AppointmentResponse> call, Throwable t) {
-                showScreen();
-                Timber.e("Something failed! :/");
-                Timber.e("Throwable = " + t);
+                if (isAdded()) {
+                    showScreen();
+                    Timber.e("Something failed! :/");
+                    Timber.e("Throwable = " + t);
+                }
             }
         });
     }
