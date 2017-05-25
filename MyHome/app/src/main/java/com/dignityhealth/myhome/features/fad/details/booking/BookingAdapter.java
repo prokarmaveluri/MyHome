@@ -261,4 +261,8 @@ public class BookingAdapter extends PagerAdapter {
     public boolean isDateSelected() {
         return isDateSelected;
     }
+
+    public int getTimeIndex() {
+        return timeIndex;
+    }
 }

@@ -128,9 +128,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
             @Override
             public boolean onSwipeLeft() {
-                if (bookingViewPager.getCurrentItem() == 1 && ((BookingAdapter)bookingViewPager.getAdapter()).isDateSelected()){
+                if (bookingViewPager.getCurrentItem() == 2 && ((BookingAdapter)bookingViewPager.getAdapter()).getTimeIndex() != -1){
+                    //If you're on Time page and have selected a time, allow swipe
+                    return true;
+                } else if (bookingViewPager.getCurrentItem() == 1 && ((BookingAdapter)bookingViewPager.getAdapter()).isDateSelected()){
+                    //If you're on Calendar page and have selected a date, allow swipe
                     return true;
                 } else if(bookingViewPager.getCurrentItem() == 0 && ((BookingAdapter)bookingViewPager.getAdapter()).getPerson() != -1){
+                    //If you're on Select Person page and have selected a person, allow swipe
                     return true;
                 }
 
