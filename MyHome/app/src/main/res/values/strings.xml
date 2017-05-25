@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">My Home</string>
 
-    <string name="drawer_open">Drawer is open</string>
-    <string name="drawer_closed">Drawer is closed</string>
-    <string name="title_activity_login">Sign in</string>
-
     <!-- Strings related to login & enrollment-->
     <string name="prompt_first_name">First Name</string>
     <string name="prompt_last_name">Last Name</string>
@@ -12,11 +8,9 @@
     <string name="prompt_password">Password</string>
     <string name="prompt_answer">Answer</string>
     <string name="prompt_re_enter_password">Re-enter Password</string>
-    <string name="prompt_select_question">Select security Question</string>
     <string name="action_Login">Sign In</string>
     <string name="action_reset_password">Reset Password</string>
     <string name="action_next">Next</string>
-    <string name="signup_suggestion">Not Registered? Sign up here</string>
     <string name="enroll_now">Don\'t have an account?</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="login_help">Help</string>
@@ -25,34 +19,21 @@
     <string name="valid_email">Enter valid email</string>
     <string name="valid_password">Enter valid password</string>
     <string name="valid_password_match">Password not matching</string>
-    <string name="password_not_matching">Password not matching!</string>
-    <string name="registered_successfully">Registered Successfully.</string>
     <string name="something_went_wrong">Something went wrong, please try again!</string>
     <string name="sign_in_failure_msg">Sign in failed</string>
     <string name="forgot_password_success_msg">Please check your mail and reset password!</string>
-    <string name="enrollment">Enrollment</string>
     <string name="enrollment_success">You are successfully registered.</string>
     <string name="no_network_msg">Please check your network, try again!</string>
 
     <string name="enrollment_success_dialog_tittle">Validation sent to email address entered.</string>
     <string name="enrollment_success_dialog_msg">Validation must be completed in 30days or you will be prompted to validate again.</string>
-    <string name="forgot_password_sub_header">An email will be sent to entered email address with reset instructions.</string>
-    <string name="forgot_password_header">Please enter your email address.</string>
     <string name="sign_out">Sign Out</string>
     <string name="book_an_appointment">Book an Appointment</string>
     <string name="book_appointment">Book Appointment</string>
     <string name="no_appointments">No Appointments</string>
 
     <!-- FAD -->
-    <string name="fad_search_hint">Search</string>
-    <string name="fad_search_location_hint">Search Location</string>
     <string name="find_a_doctor">Find Care</string>
-    <string name="provider_details">Provider Details</string>
-    <string name="profile_view">Profile</string>
-    <string name="profile_edit">Edit Profile</string>
-    <string name="my_home">My Home</string>
-    <string name="my_appointments">Appointments</string>
-    <string name="settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="appointments">Appointments</string>
