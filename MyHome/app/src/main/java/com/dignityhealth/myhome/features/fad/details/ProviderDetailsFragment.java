@@ -20,6 +20,7 @@ import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.MapUtil;
 import com.dignityhealth.myhome.views.CircularImageView;
 import com.dignityhealth.myhome.views.WrappingViewPager;
+import com.dignityhealth.myhome.views.WrappingViewPagerSwipeInterface;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -117,8 +118,25 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         tabLayout.setupWithViewPager(statsViewPager);
 
         bookingViewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.booking_view_pager);
-        bookingViewPager.setOffscreenPageLimit(3);
+        bookingViewPager.setOffscreenPageLimit(5);
         bookingViewPager.setAdapter(new BookingAdapter(getContext()));
+        bookingViewPager.setSwipeInterface(new WrappingViewPagerSwipeInterface() {
+            @Override
+            public boolean onSwipeRight() {
+                return true;
+            }
+
+            @Override
+            public boolean onSwipeLeft() {
+                if (bookingViewPager.getCurrentItem() == 1 && ((BookingAdapter)bookingViewPager.getAdapter()).isDateSelected()){
+                    return true;
+                } else if(bookingViewPager.getCurrentItem() == 0 && ((BookingAdapter)bookingViewPager.getAdapter()).getPerson() != -1){
+                    return true;
+                }
+
+                return false;
+            }
+        });
 
         setupInitialView();
         return providerDetailsView;

@@ -29,6 +29,8 @@ import java.util.Calendar;
 public class BookingAdapter extends PagerAdapter {
     private Context context;
     private static int NUM_ITEMS = 4;
+    private int person = -1;    //-1 = not set, 0 = me, 1 = family member
+    private boolean isDateSelected = false;
 
     private ViewGroup selectPersonLayout;
     private ViewGroup selectDateLayout;
@@ -116,6 +118,7 @@ public class BookingAdapter extends PagerAdapter {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 selectedDateHeader = DateUtil.convertDateToReadable(date.getDate());
+                isDateSelected = true;
                 refreshSelectTime();
                 refreshSelectReason();
             }
@@ -132,6 +135,7 @@ public class BookingAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 buttonOther.setChecked(false);
+                person = 0;
             }
         });
 
@@ -139,6 +143,7 @@ public class BookingAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 buttonMe.setChecked(false);
+                person = 1;
             }
         });
     }
@@ -247,5 +252,13 @@ public class BookingAdapter extends PagerAdapter {
                 refreshSelectTime();
             }
         };
+    }
+
+    public int getPerson() {
+        return person;
+    }
+
+    public boolean isDateSelected() {
+        return isDateSelected;
     }
 }

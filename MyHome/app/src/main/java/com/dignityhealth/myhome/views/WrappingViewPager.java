@@ -3,17 +3,22 @@ package com.dignityhealth.myhome.views;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
  * Created by kwelsh on 5/20/17.
  * This is a ViewPager that can use wrap_content as it's height (unlike the native ViewPager).
  * It does this by calculating the height of the children, finding the tallest, and using that as it's height.
- *
+ * <p>
  * http://stackoverflow.com/a/24666987/2128921
+ * https://stackoverflow.com/questions/19602369/how-to-disable-viewpager-from-swiping-in-one-direction
  */
 
 public class WrappingViewPager extends ViewPager {
+    private float initialXValue;
+    private WrappingViewPagerSwipeInterface swipeInterface;
+
     public WrappingViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -37,5 +42,65 @@ public class WrappingViewPager extends ViewPager {
         }
         // super has to be called again so the new specs are treated as exact measurements
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (this.IsSwipeAllowed(event)) {
+            return super.onTouchEvent(event);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (this.IsSwipeAllowed(event)) {
+            return super.onInterceptTouchEvent(event);
+        }
+
+        return false;
+    }
+
+
+    private boolean IsSwipeAllowed(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            initialXValue = event.getX();
+            return true;
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            try {
+                float diffX = event.getX() - initialXValue;
+                if (diffX > 0) {
+                    // swipe from left to right detected
+                    if (swipeInterface != null) {
+                        return swipeInterface.onSwipeRight();
+                    } else {
+                        return true;
+                    }
+
+                } else if (diffX < 0) {
+                    // swipe from right to left detected
+                    if (swipeInterface != null) {
+                        return swipeInterface.onSwipeLeft();
+                    } else {
+                        return true;
+                    }
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+
+        return true;
+    }
+
+    public WrappingViewPagerSwipeInterface getSwipeInterface() {
+        return swipeInterface;
+    }
+
+    public void setSwipeInterface(WrappingViewPagerSwipeInterface swipeInterface) {
+        this.swipeInterface = swipeInterface;
     }
 }
