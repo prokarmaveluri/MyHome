@@ -32,24 +32,25 @@ import java.util.List;
 
 /**
  * Created by kwelsh on 5/24/17.
+ * Removed Overrides that get Layout params as they reset the margins of the children.
  */
 
-public class WrappingRadioGroup extends ViewGroup {
+public class FlowLayout extends ViewGroup {
     private int mGravity = (isIcs() ? Gravity.START : Gravity.LEFT) | Gravity.TOP;
 
     private final List<List<View>> mLines = new ArrayList<List<View>>();
     private final List<Integer> mLineHeights = new ArrayList<Integer>();
     private final List<Integer> mLineMargins = new ArrayList<Integer>();
 
-    public WrappingRadioGroup(Context context) {
+    public FlowLayout(Context context) {
         super(context, null);
     }
 
-    public WrappingRadioGroup(Context context, AttributeSet attrs) {
+    public FlowLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public WrappingRadioGroup(Context context, AttributeSet attrs, int defStyle) {
+    public FlowLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout, defStyle, 0);
@@ -316,27 +317,6 @@ public class WrappingRadioGroup extends ViewGroup {
             top += lineHeight;
         }
 
-    }
-
-    @Override
-    protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
-        return new LayoutParams(p);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new LayoutParams(getContext(), attrs);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected LayoutParams generateDefaultLayoutParams() {
-        return new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
     @Override

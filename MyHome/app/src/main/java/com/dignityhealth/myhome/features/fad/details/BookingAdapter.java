@@ -7,11 +7,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.utils.DeviceDisplayManager;
+import com.dignityhealth.myhome.views.FlowLayout;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
@@ -127,21 +127,18 @@ public class BookingAdapter extends PagerAdapter {
     }
 
     private void setAppointmentTimes(final ViewGroup timeGroup, final ArrayList<String> times) {
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4));
 
         for (String time : times) {
             ToggleButton timeToggle = new ToggleButton(new ContextThemeWrapper(context, R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
             timeToggle.setPadding(DeviceDisplayManager.dpToPx(context, 12), DeviceDisplayManager.dpToPx(context, 12), DeviceDisplayManager.dpToPx(context, 12), DeviceDisplayManager.dpToPx(context, 12));
             timeToggle.setGravity(Gravity.CENTER);
-            //timeToggle.setLayoutParams(layoutParams);
+            timeToggle.setLayoutParams(layoutParams);
             timeToggle.setTextOn(time);
             timeToggle.setTextOff(time);
             timeToggle.setChecked(false);
             timeGroup.addView(timeToggle, layoutParams);
-
-            timeGroup.requestLayout();
-            timeGroup.invalidate();
         }
     }
 }

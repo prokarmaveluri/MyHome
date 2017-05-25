@@ -15,7 +15,7 @@
         android:text="Date Stuff Here..."
         android:textSize="20sp" />
 
-    <com.dignityhealth.myhome.views.WrappingRadioGroup
+    <com.dignityhealth.myhome.views.FlowLayout
         android:id="@+id/time_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,6 +45,6 @@
             <!--android:textOff="10:30am"-->
             <!--android:textOn="10:30am" />-->
 
-    </com.dignityhealth.myhome.views.WrappingRadioGroup>
+    </com.dignityhealth.myhome.views.FlowLayout>
 
 </LinearLayout>
