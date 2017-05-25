@@ -157,7 +157,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                     Toast.LENGTH_LONG).show();
             return null;
         }
-        if (!binding.password.getText().toString().equals(binding.reEnterPassword.getText().toString())){
+        if (!binding.password.getText().toString().equals(binding.reEnterPassword.getText().toString())) {
             Toast.makeText(getActivity(), getResources().getString(R.string.valid_password_match),
                     Toast.LENGTH_LONG).show();
             return null;
@@ -285,7 +285,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
         PopupWindow popup = new PopupWindow(activity);
         View layout = getActivity().getLayoutInflater().inflate(R.layout.popup_content, null);
         TextView textView = (TextView) layout.findViewById(R.id.criteria_text);
-        textView.setText(CommonUtil.getBulletPoints());
+        textView.setText(CommonUtil.getBulletPoints(activity));
         popup.setContentView(layout);
         // Set content width and height
         popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);

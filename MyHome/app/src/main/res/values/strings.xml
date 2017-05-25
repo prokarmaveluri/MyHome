@@ -120,5 +120,11 @@
     <string name="appointment_creation_failed">Appointment Creation Failed!</string>
     <string name="query_empty">Enter valid query</string>
     <string name="query_location_unavailable">location not available, select location in filter</string>
+    <string name="password_criteria_8char">Password must be at least 8 characters</string>
+    <string name="password_criteria_name">Password must not contain part of your name</string>
+    <string name="password_criteria_uppercase">At least one UPPERCASE letter</string>
+    <string name="password_criteria_lowercase">At least one lowercase letter</string>
+    <string name="password_criteria_number">At least one number</string>
+    <string name="password_criteria_special_char"><![CDATA[At least one special character: !@#$%^&*]]></string>
 
 </resources>
