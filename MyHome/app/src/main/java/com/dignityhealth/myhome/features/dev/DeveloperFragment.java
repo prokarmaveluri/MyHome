@@ -52,11 +52,11 @@ public class DeveloperFragment extends BaseFragment {
         TextView location = (TextView) developerView.findViewById(R.id.location);
         location.setText(FadManager.getInstance().getCurrentLocation() != null ? FadManager.getInstance().getCurrentLocation().toString() : "Location Not Retrieved Yet");
         TextView hockey = (TextView) developerView.findViewById(R.id.hockey);
-        hockey.setText(BuildConfig.HOCKEY_ID != null ? BuildConfig.HOCKEY_ID : "Unknown");
+        hockey.setText(BuildConfig.HOCKEY_ID != null ? BuildConfig.HOCKEY_ID : getString(R.string.unknown));
         TextView maps = (TextView) developerView.findViewById(R.id.maps);
         maps.setText(getString(R.string.google_maps_api_key));
         TextView type = (TextView) developerView.findViewById(R.id.type);
-        type.setText(BuildConfig.BUILD_TYPE != null ? BuildConfig.BUILD_TYPE : "Unknown");
+        type.setText(BuildConfig.BUILD_TYPE != null ? BuildConfig.BUILD_TYPE : getString(R.string.unknown));
 
         Button addAppointment = (Button) developerView.findViewById(R.id.add_appointment);
         addAppointment.setOnClickListener(new View.OnClickListener() {
@@ -93,10 +93,10 @@ public class DeveloperFragment extends BaseFragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
-                    Toast.makeText(getActivity(), "Appointment Created!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.appointment_created), Toast.LENGTH_SHORT).show();
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
-                    Toast.makeText(getActivity(), "Appointment Creation Failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.appointment_creation_failed), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -104,7 +104,7 @@ public class DeveloperFragment extends BaseFragment {
             public void onFailure(Call<Void> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
-                Toast.makeText(getActivity(), "Appointment Creation Failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.appointment_creation_failed), Toast.LENGTH_SHORT).show();
             }
         });
     }

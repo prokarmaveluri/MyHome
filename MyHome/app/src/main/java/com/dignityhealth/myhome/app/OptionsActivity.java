@@ -95,7 +95,7 @@ public class OptionsActivity extends BaseActivity {
 
             default:
                 Timber.w("Options Activity found an activity tag that isn't being handled!");
-                Toast.makeText(this, "Unknown Activity Tag", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.unknown_activity_tag), Toast.LENGTH_SHORT).show();
                 break;
         }
 

@@ -92,7 +92,7 @@ public class ProvidersMapFragment extends BaseFragment implements
 
     private void addMarkers() {
         if (providerList == null || providerList.size() <= 0) {
-            Toast.makeText(getActivity(), "No Providers", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.no_providers), Toast.LENGTH_LONG).show();
             return;
         }
         int count = 0;

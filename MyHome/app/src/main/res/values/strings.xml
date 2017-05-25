@@ -108,5 +108,17 @@
     <string name="developer">Developer</string>
     <string name="cancel">Cancel</string>
     <string name="accept">Accept</string>
+    <string name="no_valid_session">No valid session, please login again</string>
+    <string name="signed_out_successfully">Signed out successfully</string>
+    <string name="profile_saved">Information saved</string>
+    <string name="profile_save_failed">Unable to update Profile</string>
+    <string name="please_install_calendar_app">Please install a calendar application</string>
+    <string name="no_app_share_appointments">Couldn\'t find an app that can share appointments</string>
+    <string name="unknown_activity_tag">Unknown Activity Tag</string>
+    <string name="max_login_tries_reached">You reached maximum failure attempts, try after 5 minutes</string>
+    <string name="appointment_created">Appointment Created!</string>
+    <string name="appointment_creation_failed">Appointment Creation Failed!</string>
+    <string name="query_empty">Enter valid query</string>
+    <string name="query_location_unavailable">location not available, select location in filter</string>
 
 </resources>

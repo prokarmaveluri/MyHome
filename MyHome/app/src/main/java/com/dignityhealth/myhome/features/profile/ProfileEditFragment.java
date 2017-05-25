@@ -203,13 +203,13 @@ public class ProfileEditFragment extends BaseFragment {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
-                        Toast.makeText(getActivity(), "Information saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
                     }
                 } else {
                     if (isAdded()) {
                         Timber.e("Response, but not successful?\n" + response);
-                        Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -220,7 +220,7 @@ public class ProfileEditFragment extends BaseFragment {
             public void onFailure(Call<Void> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
-                    Toast.makeText(getActivity(), "Unable to update Profile", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);
                 }
             }

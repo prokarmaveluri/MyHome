@@ -33,7 +33,7 @@ public class SessionUtil {
             progressBar.setVisibility(View.VISIBLE);
         if (null == AuthManager.getInstance().getIdTokenForSignOut()) {
             Timber.i("AuthManager didn't have an Id Token for Sign Out.\nSending User to log in again...");
-            Toast.makeText(activity, "No valid session, please login again",
+            Toast.makeText(activity, activity.getString(R.string.no_valid_session),
                     Toast.LENGTH_SHORT).show();
 
             clearData();
@@ -56,7 +56,7 @@ public class SessionUtil {
                     Timber.i("Response successful: " + response);
 
                     activity.finishAffinity();
-                    Toast.makeText(activity, "Signed out successfully",
+                    Toast.makeText(activity, activity.getString(R.string.signed_out_successfully),
                             Toast.LENGTH_SHORT).show();
 
                     clearData();

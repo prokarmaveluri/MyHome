@@ -16,6 +16,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.appointments.Appointment;
 import com.dignityhealth.myhome.features.fad.filter.FilterExpandableList;
 import com.dignityhealth.myhome.features.profile.Address;
@@ -241,7 +242,7 @@ public class CommonUtil {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Timber.e(ex);
-            Toast.makeText(context, "Please install a calendar application", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.please_install_calendar_app), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -301,7 +302,7 @@ public class CommonUtil {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Timber.e(ex);
-            Toast.makeText(context, "Couldn't find an app that can share appointments", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.no_app_share_appointments), Toast.LENGTH_LONG).show();
         }
     }
 

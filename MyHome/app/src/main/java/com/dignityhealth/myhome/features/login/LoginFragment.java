@@ -211,8 +211,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
         if (AuthManager.getInstance().isMaxFailureAttemptsReached() &&
                 !AuthManager.getInstance().isTimeStampGreaterThan5Mins()) {
-            Toast.makeText(getActivity(), "You reached maximum failure attempts, " +
-                            "try after 5 minutes",
+            Toast.makeText(getActivity(), getString(R.string.max_login_tries_reached),
                     Toast.LENGTH_LONG).show();
             return null;
         }

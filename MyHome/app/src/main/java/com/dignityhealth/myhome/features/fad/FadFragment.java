@@ -180,7 +180,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             return;
         }
         if (null == FadManager.getInstance().getLocation()) {
-            Toast.makeText(getActivity(), "location not available, select location in filter",
+            Toast.makeText(getActivity(), getString(R.string.query_location_unavailable),
                     Toast.LENGTH_LONG).show();
             binding.suggestionList.setVisibility(View.GONE);
             return;
@@ -395,15 +395,15 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private void searchForQuery(String query) {
         try {
             if (query.length() <= 0) {
-                Toast.makeText(getActivity(), "Enter valid query", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), getString(R.string.query_empty), Toast.LENGTH_LONG).show();
                 return;
             }
             if (null == FadManager.getInstance().getLocation()) {
-                Toast.makeText(getActivity(), "location not available, select location in filter",
+                Toast.makeText(getActivity(), getString(R.string.query_location_unavailable),
                         Toast.LENGTH_LONG).show();
                 return;
             }
-            Timber.i("search, requst ");
+            Timber.i("search, request ");
             showProgress(true);
             currentSearchQuery = query;
             binding.suggestionList.setVisibility(View.GONE);
