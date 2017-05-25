@@ -4,7 +4,6 @@ package com.dignityhealth.myhome.features.fad.details;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private Button bookAppointment;
     private ExpandableLinearLayout expandableLinearLayout;
 
-    private ViewPager bookingViewPager;
+    private WrappingViewPager bookingViewPager;
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
@@ -116,7 +115,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(statsViewPager);
 
-        bookingViewPager = (ViewPager) providerDetailsView.findViewById(R.id.booking_view_pager);
+        bookingViewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.booking_view_pager);
         bookingViewPager.setOffscreenPageLimit(3);
         bookingViewPager.setAdapter(new BookingAdapter(getContext()));
 

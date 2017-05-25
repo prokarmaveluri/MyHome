@@ -23,7 +23,9 @@ import java.util.Calendar;
 
 public class BookingAdapter extends PagerAdapter {
     private Context context;
-    private static int NUM_ITEMS = 3;
+    private static int NUM_ITEMS = 4;
+
+    ArrayList<String> times = new ArrayList<>();
 
     public BookingAdapter(Context context) {
         this.context = context;
@@ -47,6 +49,11 @@ public class BookingAdapter extends PagerAdapter {
 
             case 2:
                 layout = (ViewGroup) inflater.inflate(R.layout.book_select_time, container, false);
+                setupSelectTime(layout);
+                break;
+
+            case 3:
+                layout = (ViewGroup) inflater.inflate(R.layout.book_reason, container, false);
                 setupSelectTime(layout);
                 break;
 
@@ -114,7 +121,6 @@ public class BookingAdapter extends PagerAdapter {
      * @param layout
      */
     private void setupSelectTime(ViewGroup layout) {
-        ArrayList<String> times = new ArrayList<>();
         times.add("9:15am");
         times.add("10:30am");
         times.add("11:45am");
@@ -126,6 +132,16 @@ public class BookingAdapter extends PagerAdapter {
         setAppointmentTimes((FlowLayout) layout.findViewById(R.id.time_group), times);
     }
 
+    private void setupSelectReason(ViewGroup layout){
+
+    }
+
+    /**
+     * Method for adding times to a Flow Layout
+     *
+     * @param timeGroup Flow Layout where Times will be added
+     * @param times the times being added to the Flow Layout
+     */
     private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<String> times) {
         FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4), DeviceDisplayManager.dpToPx(context, 4));

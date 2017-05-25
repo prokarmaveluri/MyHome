@@ -59,13 +59,13 @@
         <com.github.aakira.expandablelayout.ExpandableLinearLayout
             android:id="@+id/expandable_layout"
             android:layout_width="match_parent"
-            android:layout_height="330dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/book_appointment"
             android:layout_marginTop="24dp"
             android:background="@color/google_white"
             android:orientation="vertical">
 
-            <android.support.v4.view.ViewPager
+            <com.dignityhealth.myhome.views.WrappingViewPager
                 android:id="@+id/booking_view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
