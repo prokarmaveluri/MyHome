@@ -14,6 +14,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Provider;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.MapUtil;

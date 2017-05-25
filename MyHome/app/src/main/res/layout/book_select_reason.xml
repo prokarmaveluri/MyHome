@@ -17,6 +17,7 @@
 
     <com.dignityhealth.myhome.views.FlowLayout
         android:id="@+id/time_group"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

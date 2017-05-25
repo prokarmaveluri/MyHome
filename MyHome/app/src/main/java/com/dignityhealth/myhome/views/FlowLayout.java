@@ -378,21 +378,4 @@ public class FlowLayout extends ViewGroup {
         }
 
     }
-
-    public boolean hasCurrentlyCheckedChild(){
-        return currentCheckedChild != null;
-    }
-
-    public ToggleButton getCurrentCheckedChild(){
-        return currentCheckedChild;
-    }
-
-    public void setCurrentCheckedChild(ToggleButton newCheckedChild){
-        if(currentCheckedChild != null){
-            currentCheckedChild.setChecked(false);
-        }
-
-        newCheckedChild.setChecked(true);
-        currentCheckedChild = newCheckedChild;
-    }
 }
