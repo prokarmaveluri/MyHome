@@ -7,10 +7,21 @@
     android:padding="18dp">
 
     <TextView
+        android:id="@+id/profile_header"
+        style="@style/tradeGothicLTStdLight_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/label_accepting_new_patients"
         style="@style/tradeGothicLTStdLight_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/profile_header"
+        android:layout_marginTop="18dp"
         android:maxWidth="200dp"
         android:text="@string/accepting_new_patients"
         android:textSize="20sp"
@@ -31,6 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/label_accepting_new_patients"
         android:text="@string/languages"
         android:textSize="20sp"
         android:textStyle="bold" />

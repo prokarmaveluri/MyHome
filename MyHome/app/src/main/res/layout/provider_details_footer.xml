@@ -15,11 +15,12 @@
 
     <TextView
         android:id="@+id/stats_unavailable"
-        android:layout_width="wrap_content"
         style="@style/tradeGothicLTStdLight_14"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/provider_details_unavailable"
+        android:textSize="18sp"
         android:visibility="gone" />
 
     <RelativeLayout

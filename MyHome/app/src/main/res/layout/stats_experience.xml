@@ -8,9 +8,19 @@
     android:padding="18dp">
 
     <TextView
+        android:id="@+id/experience_header"
+        style="@style/tradeGothicLTStdLight_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/experience"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/certifications_label"
         style="@style/tradeGothicLTStdLight_14"
         android:layout_width="wrap_content"
+        android:layout_marginTop="18dp"
         android:layout_height="wrap_content"
         android:text="@string/board_certifications"
         android:textSize="20sp"
