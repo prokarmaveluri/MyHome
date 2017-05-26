@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -71,7 +70,7 @@
             <com.dignityhealth.myhome.views.WrappingViewPager
                 android:id="@+id/booking_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 
@@ -117,22 +116,12 @@
             android:layout_marginTop="12dp"
             android:background="@color/beige" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            style="@style/tradeGothicLTStdLight_14"
+        <include
+            android:id="@+id/provider_details_footer"
+            layout="@layout/provider_details_footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/divider"
-            android:layout_marginTop="28dp"
-            app:tabIndicatorColor="@color/primary"
-            app:tabIndicatorHeight="3dp"
-            app:tabMode="fixed" />
-
-        <com.dignityhealth.myhome.views.WrappingViewPager
-            android:id="@+id/stats_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tabs" />
+            android:layout_below="@id/divider" />
 
     </RelativeLayout>
 </ScrollView>

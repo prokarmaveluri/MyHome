@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_details_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <TextView
+        android:id="@+id/certifications_label"
+        style="@style/tradeGothicLTStdLight_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/board_certifications"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/certifications"
+        style="@style/tradeGothicLTStdLight_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Internal Medicine, American Board of Medical Specialities"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/awards_label"
+        style="@style/tradeGothicLTStdLight_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/awards_amp_recognitions"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/awards"
+        style="@style/tradeGothicLTStdLight_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recognized Doctor"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
+</LinearLayout>

@@ -1,13 +1,18 @@
 package com.dignityhealth.myhome.features.fad.details;
 
 
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
@@ -16,7 +21,9 @@ import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Provider;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.dignityhealth.myhome.utils.MapUtil;
 import com.dignityhealth.myhome.views.CircularImageView;
 import com.dignityhealth.myhome.views.WrappingViewPager;
@@ -30,6 +37,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,13 +52,38 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private SupportMapFragment myMap;
     private View providerDetailsView;
-    private WrappingViewPager statsViewPager;
     private CircularImageView doctorImage;
     private TextView name;
     private TextView speciality;
     private TextView address;
     private Button bookAppointment;
     private ExpandableLinearLayout expandableLinearLayout;
+
+    private LinearLayout footerLayout;
+    private ProgressBar statsProgressBar;
+    private TextView statsUnavailable;
+    private RelativeLayout statsView;
+
+    //stats profile
+    private View statsProfileView;
+    private TextView acceptingNewPatients;
+    private TextView languages;
+    private TextView gender;
+    private TextView experience;
+    private TextView philosophy;
+    private TextView locations;
+    private TextView locationsLabel;
+
+    //stats Experience
+    private View statsExperienceView;
+    private TextView certificationsLabel;
+    private TextView certifications;
+    private TextView awardsLabel;
+    private TextView awards;
+
+    //stats Education
+    private View statsEducationView;
+    private RecyclerView educationList;
 
     private WrappingViewPager bookingViewPager;
 
@@ -93,12 +126,21 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
         myMap.getMapAsync(this);
-        getProviderDetails();
 
         doctorImage = (CircularImageView) providerDetailsView.findViewById(R.id.doctor_image);
         name = (TextView) providerDetailsView.findViewById(R.id.doctor_name);
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
+
+        footerLayout = (LinearLayout) providerDetailsView.findViewById(R.id.provider_details_footer);
+        statsProgressBar = (ProgressBar) footerLayout.findViewById(R.id.stats_progress_bar);
+        statsUnavailable = (TextView) footerLayout.findViewById(R.id.stats_unavailable);
+        statsView = (RelativeLayout) footerLayout.findViewById(R.id.stats_view);
+        statsProfileView = (RelativeLayout) footerLayout.findViewById(R.id.stats_profile);
+        statsEducationView = (LinearLayout) footerLayout.findViewById(R.id.stats_education);
+        statsExperienceView = (LinearLayout) footerLayout.findViewById(R.id.stats_experience);
+
+        getProviderDetails();
 
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
         bookAppointment.setOnClickListener(new View.OnClickListener() {
@@ -108,14 +150,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         });
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
-
-        statsViewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.stats_view_pager);
-        statsViewPager.setOffscreenPageLimit(2); //Let's us load all three of the fragments for the pager and keep them in memory
-        FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getChildFragmentManager());
-        statsViewPager.setAdapter(pagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) providerDetailsView.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(statsViewPager);
 
         bookingViewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.booking_view_pager);
         bookingViewPager.setOffscreenPageLimit(5);
@@ -128,13 +162,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
             @Override
             public boolean onSwipeLeft() {
-                if (bookingViewPager.getCurrentItem() == 2 && ((BookingAdapter)bookingViewPager.getAdapter()).getTimeIndex() != -1){
+                if (bookingViewPager.getCurrentItem() == 2 && ((BookingAdapter) bookingViewPager.getAdapter()).getTimeIndex() != -1) {
                     //If you're on Time page and have selected a time, allow swipe
                     return true;
-                } else if (bookingViewPager.getCurrentItem() == 1 && ((BookingAdapter)bookingViewPager.getAdapter()).isDateSelected()){
+                } else if (bookingViewPager.getCurrentItem() == 1 && ((BookingAdapter) bookingViewPager.getAdapter()).isDateSelected()) {
                     //If you're on Calendar page and have selected a date, allow swipe
                     return true;
-                } else if(bookingViewPager.getCurrentItem() == 0 && ((BookingAdapter)bookingViewPager.getAdapter()).getPerson() != -1){
+                } else if (bookingViewPager.getCurrentItem() == 0 && ((BookingAdapter) bookingViewPager.getAdapter()).getPerson() != -1) {
                     //If you're on Select Person page and have selected a person, allow swipe
                     return true;
                 }
@@ -169,6 +203,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void getProviderDetails() {
+        showStatsLoading();
         NetworkManager.getInstance().getProviderDetails(provider.getProviderId()).enqueue(new Callback<ProviderDetailsResponse>() {
             @Override
             public void onResponse(Call<ProviderDetailsResponse> call, Response<ProviderDetailsResponse> response) {
@@ -176,8 +211,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
                         final ProviderDetailsResponse providerDetailsResponse = response.body();
-                        FragmentStatePagerAdapter pagerAdapter = new ProviderDetailsAdapter(getChildFragmentManager(), providerDetailsResponse);
-                        statsViewPager.setAdapter(pagerAdapter);
+
+                        if (providerDetailsResponse == null) {
+                            showStatsUnavailable();
+                            return;
+                        }
+
+                        showStatsView();
+                        updateStatsView(providerDetailsResponse);
 
                         MapUtil.clearMarkers(getContext(), providerMap);
                         markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
@@ -190,9 +231,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         });
 
                         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
-
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
+                        showStatsUnavailable();
                     }
 
                     MapUtil.zoomMap(getContext(), providerMap, markers);
@@ -205,6 +246,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);
                     MapUtil.zoomMap(getContext(), providerMap, markers);
+                    showStatsUnavailable();
                 }
             }
         });
@@ -234,4 +276,129 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
     }
 
+    private void showStatsUnavailable() {
+        statsProgressBar.setVisibility(View.GONE);
+        statsUnavailable.setVisibility(View.VISIBLE);
+        statsView.setVisibility(View.GONE);
+    }
+
+    private void showStatsView() {
+        statsProgressBar.setVisibility(View.GONE);
+        statsUnavailable.setVisibility(View.GONE);
+        statsView.setVisibility(View.VISIBLE);
+    }
+
+    private void showStatsLoading() {
+        statsProgressBar.setVisibility(View.VISIBLE);
+        statsUnavailable.setVisibility(View.GONE);
+        statsView.setVisibility(View.GONE);
+    }
+
+    private void updateStatsView(final ProviderDetailsResponse providerDetailsResponse) {
+        updateStatsViewProfile(providerDetailsResponse);
+        updateStatsViewEducation(providerDetailsResponse);
+        updateStatsViewExperience(providerDetailsResponse);
+    }
+
+    private void updateStatsViewProfile(final ProviderDetailsResponse providerDetailsResponse) {
+        acceptingNewPatients = (TextView) statsProfileView.findViewById(R.id.accepting_new_patients);
+        languages = (TextView) statsProfileView.findViewById(R.id.languages);
+        gender = (TextView) statsProfileView.findViewById(R.id.gender);
+        experience = (TextView) statsProfileView.findViewById(R.id.experience);
+        philosophy = (TextView) statsProfileView.findViewById(R.id.philosophy);
+        locations = (TextView) statsProfileView.findViewById(R.id.locations);
+        locationsLabel = (TextView) statsProfileView.findViewById(R.id.label_locations);
+
+        acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? "Yes" : "No");
+        languages.setText(providerDetailsResponse.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getLanguages()) : getString(R.string.unknown));
+
+        if (providerDetailsResponse.getGender() != null && !providerDetailsResponse.getGender().isEmpty()) {
+            if (providerDetailsResponse.getGender().equalsIgnoreCase("M") || providerDetailsResponse.getGender().equalsIgnoreCase(getString(R.string.male))) {
+                gender.setText(getString(R.string.male));
+            } else if (providerDetailsResponse.getGender().equalsIgnoreCase("F") || providerDetailsResponse.getGender().equalsIgnoreCase(getString(R.string.female))) {
+                gender.setText(getString(R.string.female));
+            } else {
+                gender.setText(getString(R.string.unknown));
+            }
+        }
+
+        experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() : "Unknown");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy(), Html.FROM_HTML_MODE_COMPACT) : "Unknown");
+        } else {
+            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy()) : "Unknown");
+        }
+
+        //Adjust Margin to account for HTML paragraph break
+        if (providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty()) {
+            philosophy.setVisibility(View.VISIBLE);
+            statsProfileView.findViewById(R.id.label_philosophy).setVisibility(View.VISIBLE);
+        } else {
+            //Adjust to no philosophy
+            philosophy.setVisibility(View.GONE);
+            statsProfileView.findViewById(R.id.label_philosophy).setVisibility(View.GONE);
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.BELOW, gender.getId());
+            params.setMargins(0, DeviceDisplayManager.dpToPx(getContext(), 24), 0, 0);
+            locationsLabel.setLayoutParams(params);
+        }
+
+        locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrintLineBreak(providerDetailsResponse.getOffices()) : "Unknown");
+    }
+
+    private void updateStatsViewEducation(final ProviderDetailsResponse providerDetailsResponse) {
+        educationList = (RecyclerView) statsEducationView.findViewById(R.id.education_list);
+
+        educationList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+
+        if (providerDetailsResponse != null) {
+            List<String> curriculum = new ArrayList<String>() {{
+                addAll(providerDetailsResponse.getMedicalSchools());
+                addAll(providerDetailsResponse.getResidencies());
+                addAll(providerDetailsResponse.getFellowships());
+                addAll(providerDetailsResponse.getInternships());
+            }};
+
+            educationList.setAdapter(new ProviderDetailsEducationAdapter(getActivity(), curriculum));
+        } else {
+            educationList.setAdapter(new ProviderDetailsEducationAdapter(getActivity(), null));
+        }
+    }
+
+    private void updateStatsViewExperience(ProviderDetailsResponse providerDetailsResponse) {
+        certificationsLabel = (TextView) statsExperienceView.findViewById(R.id.certifications_label);
+        certifications = (TextView) statsExperienceView.findViewById(R.id.certifications);
+        awardsLabel = (TextView) statsExperienceView.findViewById(R.id.awards_label);
+        awards = (TextView) statsExperienceView.findViewById(R.id.awards);
+
+        if (providerDetailsResponse.getCertifications() != null && !providerDetailsResponse.getCertifications().isEmpty()) {
+            certificationsLabel.setVisibility(View.VISIBLE);
+            certifications.setVisibility(View.VISIBLE);
+            CommonUtil.prettyPrint(providerDetailsResponse.getCertifications());
+        } else {
+            certificationsLabel.setVisibility(View.GONE);
+            certifications.setVisibility(View.GONE);
+
+            //Remove Margin
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 0, 0);
+            awardsLabel.setLayoutParams(params);
+        }
+
+        if (providerDetailsResponse.getAwards() != null && !providerDetailsResponse.getAwards().isEmpty()) {
+            awardsLabel.setVisibility(View.VISIBLE);
+            awards.setVisibility(View.VISIBLE);
+            CommonUtil.prettyPrint(providerDetailsResponse.getAwards());
+        } else {
+            awardsLabel.setVisibility(View.GONE);
+            awards.setVisibility(View.GONE);
+        }
+    }
 }

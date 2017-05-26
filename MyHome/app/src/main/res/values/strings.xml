@@ -120,5 +120,6 @@
     <string name="appointment_creation_failed">Appointment Creation Failed!</string>
     <string name="query_empty">Enter valid query</string>
     <string name="query_location_unavailable">location not available, select location in filter</string>
+    <string name="provider_details_unavailable">Provider Details Unavailable</string>
 
 </resources>

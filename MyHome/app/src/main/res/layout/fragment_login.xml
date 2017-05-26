@@ -8,7 +8,7 @@
             type="com.dignityhealth.myhome.features.login.LoginFragment.LoginViewClickEvent" />
     </data>
 
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"

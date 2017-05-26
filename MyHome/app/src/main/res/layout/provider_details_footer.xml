@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/provider_details_footer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/stats_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/stats_unavailable"
+        android:layout_width="wrap_content"
+        style="@style/tradeGothicLTStdLight_14"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/provider_details_unavailable"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/stats_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/stats_profile"
+            layout="@layout/stats_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/stats_education"
+            layout="@layout/stats_education"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stats_profile" />
+
+        <include
+            android:id="@+id/stats_experience"
+            layout="@layout/stats_experience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stats_education" />
+
+    </RelativeLayout>
+</LinearLayout>
