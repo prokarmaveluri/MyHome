@@ -143,26 +143,15 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         getProviderDetails();
 
+        expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
+        bookAppointment.setEnabled(false);
         bookAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expandableLinearLayout.toggle();
             }
         });
-        expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
-
-        bookingFrame = (FrameLayout) providerDetailsView.findViewById(R.id.booking_frame);
-
-        BookingFragment bookingFragment = BookingFragment.newInstance();
-        bookingFragment.setArguments(null);
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.booking_frame, bookingFragment, BookingFragment.BOOKING_TAG)
-                .addToBackStack(null)
-                .commit();
-        getChildFragmentManager().executePendingTransactions();
-
 
 //        bookingViewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.booking_view_pager);
 //        bookingViewPager.setOffscreenPageLimit(5);
@@ -244,6 +233,18 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         });
 
                         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
+
+                        //Setup Booking
+                        bookAppointment.setEnabled(true);
+                        bookingFrame = (FrameLayout) providerDetailsView.findViewById(R.id.booking_frame);
+                        BookingFragment bookingFragment = BookingFragment.newInstance(providerDetailsResponse);
+                        getChildFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.booking_frame, bookingFragment, BookingFragment.BOOKING_TAG)
+                                .addToBackStack(null)
+                                .commit();
+                        getChildFragmentManager().executePendingTransactions();
+                        expandableLinearLayout.initLayout();
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                         showStatsUnavailable();
