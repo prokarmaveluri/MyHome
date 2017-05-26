@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
@@ -23,7 +24,9 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPerson
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
-import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeLongFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeInterface;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingTimeSlot;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -47,7 +50,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface {
+public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface, BookingSelectTimeInterface {
     public static final String PROVIDER_KEY = "PROVIDER_KEY";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
 
@@ -154,32 +157,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 expandableLinearLayout.toggle();
             }
         });
-
-//        bookingViewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.booking_view_pager);
-//        bookingViewPager.setOffscreenPageLimit(5);
-//        bookingViewPager.setAdapter(new BookingAdapter(getContext()));
-//        bookingViewPager.setSwipeInterface(new WrappingViewPagerSwipeInterface() {
-//            @Override
-//            public boolean onSwipeRight() {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onSwipeLeft() {
-//                if (bookingViewPager.getCurrentItem() == 2 && ((BookingAdapter) bookingViewPager.getAdapter()).getTimeIndex() != -1) {
-//                    //If you're on Time page and have selected a time, allow swipe
-//                    return true;
-//                } else if (bookingViewPager.getCurrentItem() == 1 && ((BookingAdapter) bookingViewPager.getAdapter()).isDateSelected()) {
-//                    //If you're on Calendar page and have selected a date, allow swipe
-//                    return true;
-//                } else if (bookingViewPager.getCurrentItem() == 0 && ((BookingAdapter) bookingViewPager.getAdapter()).getPerson() != -1) {
-//                    //If you're on Select Person page and have selected a person, allow swipe
-//                    return true;
-//                }
-//
-//                return false;
-//            }
-//        });
 
         setupInitialView();
         return providerDetailsView;
@@ -441,16 +418,50 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 .addToBackStack(null)
                 .commit();
         getChildFragmentManager().executePendingTransactions();
+        expandableLinearLayout.initLayout();
+        expandableLinearLayout.expand();
     }
 
     @Override
     public void onStatusSelected(boolean isUserNew) {
-        BookingSelectTimeLongFragment bookingFragment = BookingSelectTimeLongFragment.newInstance(providerDetailsResponse);
+        ArrayList<BookingTimeSlot> times = new ArrayList<>();
+        times.add(new BookingTimeSlot("9:15am", false));
+        times.add(new BookingTimeSlot("10:30am", false));
+        times.add(new BookingTimeSlot("11:45am", false));
+        times.add(new BookingTimeSlot("1:00pm", false));
+        times.add(new BookingTimeSlot("3:00pm", false));
+        times.add(new BookingTimeSlot("3:15pm", false));
+        times.add(new BookingTimeSlot("3:30pm", false));
+
+        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(times);
+        bookingFragment.setSelectTimeInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.booking_frame, bookingFragment, BookingSelectTimeLongFragment.BOOKING_SELECT_TIME_LONG_TAG)
+                .replace(R.id.booking_frame, bookingFragment, BookingSelectTimeFragment.BOOKING_SELECT_TIME_TAG)
                 .addToBackStack(null)
                 .commit();
         getChildFragmentManager().executePendingTransactions();
+        expandableLinearLayout.initLayout();
+        expandableLinearLayout.expand();
+    }
+
+    @Override
+    public void onTimeSelected(BookingTimeSlot bookingTimeSlot) {
+        Toast.makeText(getContext(), "Time Clicked: " + bookingTimeSlot.time, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackArrowClicked() {
+
+    }
+
+    @Override
+    public void onFrontArrowClicked() {
+
+    }
+
+    @Override
+    public void onMonthHeaderClicked() {
+
     }
 }
