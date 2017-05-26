@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.features.fad.details;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -20,6 +21,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Provider;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingDialogFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
@@ -448,6 +450,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onTimeSelected(BookingTimeSlot bookingTimeSlot) {
         Toast.makeText(getContext(), "Time Clicked: " + bookingTimeSlot.time, Toast.LENGTH_SHORT).show();
+
+        DialogFragment dialogFragment = BookingDialogFragment.newInstance();
+        dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
     }
 
     @Override

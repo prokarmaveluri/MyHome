@@ -42,4 +42,24 @@ public class BookingSelectCalendarFragment extends Fragment {
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
         return bookingView;
     }
+
+//    /**
+//     * Handles setting up the layout for selecting the calendar of the appointment
+//     */
+//    private void setupDate() {
+//        MaterialCalendarView materialCalendarView = (MaterialCalendarView) selectDateLayout.findViewById(R.id.calendar);
+//        materialCalendarView.setPagingEnabled(false);
+//        materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
+//
+//        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+//            @Override
+//            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+//                selectedDateHeader = DateUtil.convertDateToReadable(date.getDate());
+//                isDateSelected = true;
+//                refreshSelectTime();
+//                refreshSelectReason();
+//            }
+//        });
+//    }
+
 }
