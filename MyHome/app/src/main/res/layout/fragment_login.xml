@@ -1,5 +1,5 @@
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -43,12 +43,12 @@
                 android:layout_marginLeft="52dp"
                 android:layout_marginRight="52dp"
                 android:hint="@string/prompt_email"
-                android:text="cmajji@gmail.com"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:text="cmajji@gmail.com"
                 tools:ignore="HardcodedText" />
 
 
@@ -63,12 +63,12 @@
                 android:layout_marginRight="52dp"
                 android:drawableRight="@mipmap/show_password"
                 android:hint="@string/prompt_password"
-                android:text="Password123*"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:text="Password123*"
                 tools:ignore="HardcodedText" />
 
             <Button

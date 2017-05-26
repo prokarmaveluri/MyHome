@@ -27,6 +27,7 @@ import com.dignityhealth.myhome.features.dev.DeveloperFragment;
 import com.dignityhealth.myhome.features.fad.FadFragment;
 import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
+import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.home.HomeFragment;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
@@ -56,6 +57,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         progressBar = (ProgressBar) findViewById(R.id.dash_progress);
         setActivityTag(ActivityTag.NONE);
         initializeBottomView();
+
+        RecentlyViewedDataSourceDB.getInstance().setAppContext(getApplicationContext());
+        RecentlyViewedDataSourceDB.getInstance().open();
 
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -102,6 +106,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     protected void onDestroy() {
         super.onDestroy();
         FadManager.getInstance().setLocation(null);
+        RecentlyViewedDataSourceDB.getInstance().close();
     }
 
     /**

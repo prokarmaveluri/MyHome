@@ -12,6 +12,7 @@ import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
@@ -27,12 +28,14 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
     private List<Provider> providerList;
     private IProviderClick listener;
     private Context mContext;
+    private ArrayList<String> recentProviders;
 
     public ProvidersAdapter(List<Provider> providers,
-                            Context context, IProviderClick listener) {
+                            Context context, IProviderClick listener, ArrayList<String> recentProviders) {
         providerList = providers;
         mContext = context;
         this.listener = listener;
+        this.recentProviders = recentProviders;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                 binding.directions.setTag(position);
                 binding.docDisplayName.setText(provider.getDisplayFullName());
                 binding.docSpeciality.setText(provider.getSpecialties().get(0));
-                
+
                 if (null != provider.getOffices().get(0).getDistanceMilesFromSearch() &&
                         !provider.getOffices().get(0).getDistanceMilesFromSearch().isEmpty()) {
 
@@ -95,6 +98,11 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                 Picasso.with(mContext)
                         .load(url)
                         .into(binding.docImage);
+
+                if (recentProviders.contains(provider.getProviderId()))
+                    binding.recentlyViewed.setVisibility(View.VISIBLE);
+                else
+                    binding.recentlyViewed.setVisibility(View.GONE);
             } catch (NullPointerException ex) {
 
             }

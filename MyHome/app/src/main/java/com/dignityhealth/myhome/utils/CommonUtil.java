@@ -73,26 +73,26 @@ public class CommonUtil {
     }
 
 
-    public static String getBulletPoints() {
+    public static String getBulletPoints(Context context) {
         String points = "";
-        for (int index = 0; index < getCriteria().size(); index++) {
-            if (index != getCriteria().size() - 1) {
-                points = points.concat("\u2022 " + getCriteria().get(index) + "\n");
+        for (int index = 0; index < getCriteria(context).size(); index++) {
+            if (index != getCriteria(context).size() - 1) {
+                points = points.concat("\u2022 " + getCriteria(context).get(index) + "\n");
             } else {
-                points = points.concat("\u2022 " + getCriteria().get(index));
+                points = points.concat("\u2022 " + getCriteria(context).get(index));
             }
         }
         return points;
     }
 
-    public static List<String> getCriteria() {
+    public static List<String> getCriteria(Context context) {
         List<String> criteria = new ArrayList<>();
-        criteria.add("Password must be at least 8 characters");
-        criteria.add("Password must not contain part of your name");
-        criteria.add("At least one UPPERCASE letter");
-        criteria.add("At least one lowercase letter");
-        criteria.add("At least one number");
-        criteria.add("At least one special character: !@#$%^&*");
+        criteria.add(context.getString(R.string.password_criteria_8char));
+        criteria.add(context.getString(R.string.password_criteria_name));
+        criteria.add(context.getString(R.string.password_criteria_uppercase));
+        criteria.add(context.getString(R.string.password_criteria_lowercase));
+        criteria.add(context.getString(R.string.password_criteria_number));
+        criteria.add(context.getString(R.string.password_criteria_special_char));
         return criteria;
     }
 
