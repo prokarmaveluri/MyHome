@@ -43,7 +43,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 return personalLayout;
 
             case 2:
-                reasonForVisitLayout = (ViewGroup) inflater.inflate(R.layout.book_select_person, container, false);
+                reasonForVisitLayout = (ViewGroup) inflater.inflate(R.layout.book_dialog_reason, container, false);
                 //setupReasonForVisitView
                 container.addView(reasonForVisitLayout, position);
                 return reasonForVisitLayout;
