@@ -54,7 +54,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
     private ArrayList<CommonModel> languages;
     private ArrayList<CommonModel> hospitals;
     private ArrayList<CommonModel> practices;
-    private String sortBy;
+    private String sortBy = "";
 
     private int selectedGroup = -1;
     private FragmentFilterBinding binding;
@@ -94,6 +94,8 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_filter, container, false);
+        binding.recentlyViewed.setChecked(AppPreferences.getInstance()
+                .getBooleanPreference("RECENTLY_VIEWED"));
 
         try {
             binding.filterLocation.addTextChangedListener(new SuggestionTextSwitcher());
@@ -148,6 +150,11 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         try {
+            AppPreferences.getInstance().setBooleanPreference("RECENTLY_VIEWED",
+                    binding.recentlyViewed.isChecked());
+
+            AppPreferences.getInstance().setPreference("SORT_BY", sortBy);
+
             if (newPatients.size() > 0)
                 newPatients.get(0).setSelected(binding.newPatientsSwitch.isChecked());
             bundle.putParcelableArrayList("NEW_PATIENTS", newPatients);
@@ -185,17 +192,14 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         switch (checkedId) {
             case R.id.distance:
                 sortBy = "5";
-                AppPreferences.getInstance().setPreference("SORT_BY", sortBy);
                 updateSortByButtons(binding.distance, true);
                 break;
             case R.id.bestMatch:
                 sortBy = "";
-                AppPreferences.getInstance().setPreference("SORT_BY", sortBy);
                 updateSortByButtons(binding.bestMatch, true);
                 break;
             case R.id.lastName:
                 sortBy = "4";
-                AppPreferences.getInstance().setPreference("SORT_BY", sortBy);
                 updateSortByButtons(binding.lastName, true);
                 break;
         }
