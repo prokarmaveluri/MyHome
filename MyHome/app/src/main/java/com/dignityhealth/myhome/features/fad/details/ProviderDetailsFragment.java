@@ -351,56 +351,69 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void updateStatsViewEducation(final ProviderDetailsResponse providerDetailsResponse) {
-        educationList = (RecyclerView) statsEducationView.findViewById(R.id.education_list);
-
-        educationList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-
-        if (providerDetailsResponse != null) {
-            List<String> curriculum = new ArrayList<String>() {{
-                addAll(providerDetailsResponse.getMedicalSchools());
-                addAll(providerDetailsResponse.getResidencies());
-                addAll(providerDetailsResponse.getFellowships());
-                addAll(providerDetailsResponse.getInternships());
-            }};
-
-            educationList.setAdapter(new ProviderDetailsEducationAdapter(getActivity(), curriculum));
+        if ((providerDetailsResponse.getMedicalSchools() == null || providerDetailsResponse.getMedicalSchools().isEmpty()) &&
+                (providerDetailsResponse.getResidencies() == null || providerDetailsResponse.getResidencies().isEmpty()) &&
+                (providerDetailsResponse.getFellowships() == null || providerDetailsResponse.getFellowships().isEmpty()) &&
+                (providerDetailsResponse.getInternships() == null || providerDetailsResponse.getInternships().isEmpty())) {
+            statsEducationView.setVisibility(View.GONE);
         } else {
-            educationList.setAdapter(new ProviderDetailsEducationAdapter(getActivity(), null));
+            statsEducationView.setVisibility(View.VISIBLE);
+            educationList = (RecyclerView) statsEducationView.findViewById(R.id.education_list);
+            educationList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false) {
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            });
+
+            if (providerDetailsResponse != null) {
+                List<String> curriculum = new ArrayList<String>() {{
+                    addAll(providerDetailsResponse.getMedicalSchools());
+                    addAll(providerDetailsResponse.getResidencies());
+                    addAll(providerDetailsResponse.getFellowships());
+                    addAll(providerDetailsResponse.getInternships());
+                }};
+
+                educationList.setAdapter(new ProviderDetailsEducationAdapter(getActivity(), curriculum));
+            } else {
+                educationList.setAdapter(new ProviderDetailsEducationAdapter(getActivity(), null));
+            }
         }
     }
 
     private void updateStatsViewExperience(ProviderDetailsResponse providerDetailsResponse) {
-        certificationsLabel = (TextView) statsExperienceView.findViewById(R.id.certifications_label);
-        certifications = (TextView) statsExperienceView.findViewById(R.id.certifications);
-        awardsLabel = (TextView) statsExperienceView.findViewById(R.id.awards_label);
-        awards = (TextView) statsExperienceView.findViewById(R.id.awards);
-
-        if (providerDetailsResponse.getCertifications() != null && !providerDetailsResponse.getCertifications().isEmpty()) {
-            certificationsLabel.setVisibility(View.VISIBLE);
-            certifications.setVisibility(View.VISIBLE);
-            CommonUtil.prettyPrint(providerDetailsResponse.getCertifications());
+        if ((providerDetailsResponse.getAwards() == null || providerDetailsResponse.getAwards().isEmpty()) &&
+                (providerDetailsResponse.getCertifications() == null || providerDetailsResponse.getCertifications().isEmpty())) {
+            statsExperienceView.setVisibility(View.GONE);
         } else {
-            certificationsLabel.setVisibility(View.GONE);
-            certifications.setVisibility(View.GONE);
+            statsExperienceView.setVisibility(View.VISIBLE);
+            certificationsLabel = (TextView) statsExperienceView.findViewById(R.id.certifications_label);
+            certifications = (TextView) statsExperienceView.findViewById(R.id.certifications);
+            awardsLabel = (TextView) statsExperienceView.findViewById(R.id.awards_label);
+            awards = (TextView) statsExperienceView.findViewById(R.id.awards);
 
-            //Remove Margin
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 0, 0, 0);
-            awardsLabel.setLayoutParams(params);
-        }
+            if (providerDetailsResponse.getCertifications() != null && !providerDetailsResponse.getCertifications().isEmpty()) {
+                certificationsLabel.setVisibility(View.VISIBLE);
+                certifications.setVisibility(View.VISIBLE);
+                CommonUtil.prettyPrint(providerDetailsResponse.getCertifications());
+            } else {
+                certificationsLabel.setVisibility(View.GONE);
+                certifications.setVisibility(View.GONE);
 
-        if (providerDetailsResponse.getAwards() != null && !providerDetailsResponse.getAwards().isEmpty()) {
-            awardsLabel.setVisibility(View.VISIBLE);
-            awards.setVisibility(View.VISIBLE);
-            CommonUtil.prettyPrint(providerDetailsResponse.getAwards());
-        } else {
-            awardsLabel.setVisibility(View.GONE);
-            awards.setVisibility(View.GONE);
+                //Remove Margin
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 0, 0, 0);
+                awardsLabel.setLayoutParams(params);
+            }
+
+            if (providerDetailsResponse.getAwards() != null && !providerDetailsResponse.getAwards().isEmpty()) {
+                awardsLabel.setVisibility(View.VISIBLE);
+                awards.setVisibility(View.VISIBLE);
+                CommonUtil.prettyPrint(providerDetailsResponse.getAwards());
+            } else {
+                awardsLabel.setVisibility(View.GONE);
+                awards.setVisibility(View.GONE);
+            }
         }
     }
 }
