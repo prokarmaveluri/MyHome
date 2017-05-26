@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -19,7 +20,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Provider;
-import com.dignityhealth.myhome.features.fad.details.booking.BookingAdapter;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingFragment;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -27,8 +28,6 @@ import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.dignityhealth.myhome.utils.MapUtil;
 import com.dignityhealth.myhome.views.CircularImageView;
-import com.dignityhealth.myhome.views.WrappingViewPager;
-import com.dignityhealth.myhome.views.WrappingViewPagerSwipeInterface;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -86,7 +85,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private View statsEducationView;
     private RecyclerView educationList;
 
-    private WrappingViewPager bookingViewPager;
+    private FrameLayout bookingFrame;
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
@@ -153,31 +152,43 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
 
-        bookingViewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.booking_view_pager);
-        bookingViewPager.setOffscreenPageLimit(5);
-        bookingViewPager.setAdapter(new BookingAdapter(getContext()));
-        bookingViewPager.setSwipeInterface(new WrappingViewPagerSwipeInterface() {
-            @Override
-            public boolean onSwipeRight() {
-                return true;
-            }
+        bookingFrame = (FrameLayout) providerDetailsView.findViewById(R.id.booking_frame);
 
-            @Override
-            public boolean onSwipeLeft() {
-                if (bookingViewPager.getCurrentItem() == 2 && ((BookingAdapter) bookingViewPager.getAdapter()).getTimeIndex() != -1) {
-                    //If you're on Time page and have selected a time, allow swipe
-                    return true;
-                } else if (bookingViewPager.getCurrentItem() == 1 && ((BookingAdapter) bookingViewPager.getAdapter()).isDateSelected()) {
-                    //If you're on Calendar page and have selected a date, allow swipe
-                    return true;
-                } else if (bookingViewPager.getCurrentItem() == 0 && ((BookingAdapter) bookingViewPager.getAdapter()).getPerson() != -1) {
-                    //If you're on Select Person page and have selected a person, allow swipe
-                    return true;
-                }
+        BookingFragment bookingFragment = BookingFragment.newInstance();
+        bookingFragment.setArguments(null);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.booking_frame, bookingFragment, BookingFragment.BOOKING_TAG)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
 
-                return false;
-            }
-        });
+
+//        bookingViewPager = (WrappingViewPager) providerDetailsView.findViewById(R.id.booking_view_pager);
+//        bookingViewPager.setOffscreenPageLimit(5);
+//        bookingViewPager.setAdapter(new BookingAdapter(getContext()));
+//        bookingViewPager.setSwipeInterface(new WrappingViewPagerSwipeInterface() {
+//            @Override
+//            public boolean onSwipeRight() {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onSwipeLeft() {
+//                if (bookingViewPager.getCurrentItem() == 2 && ((BookingAdapter) bookingViewPager.getAdapter()).getTimeIndex() != -1) {
+//                    //If you're on Time page and have selected a time, allow swipe
+//                    return true;
+//                } else if (bookingViewPager.getCurrentItem() == 1 && ((BookingAdapter) bookingViewPager.getAdapter()).isDateSelected()) {
+//                    //If you're on Calendar page and have selected a date, allow swipe
+//                    return true;
+//                } else if (bookingViewPager.getCurrentItem() == 0 && ((BookingAdapter) bookingViewPager.getAdapter()).getPerson() != -1) {
+//                    //If you're on Select Person page and have selected a person, allow swipe
+//                    return true;
+//                }
+//
+//                return false;
+//            }
+//        });
 
         setupInitialView();
         return providerDetailsView;

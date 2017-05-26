@@ -67,11 +67,10 @@
             android:background="@color/google_white"
             android:orientation="vertical">
 
-            <com.dignityhealth.myhome.views.WrappingViewPager
-                android:id="@+id/booking_view_pager"
+            <FrameLayout
+                android:id="@+id/booking_frame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
         </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 
         <fragment
