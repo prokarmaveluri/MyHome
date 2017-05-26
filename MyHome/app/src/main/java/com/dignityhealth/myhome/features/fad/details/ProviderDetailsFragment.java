@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -20,7 +19,11 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Provider;
-import com.dignityhealth.myhome.features.fad.details.booking.BookingFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonInterface;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeLongFragment;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -44,11 +47,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback {
+public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface {
     public static final String PROVIDER_KEY = "PROVIDER_KEY";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
 
     private Provider provider;
+    private ProviderDetailsResponse providerDetailsResponse;
 
     private SupportMapFragment myMap;
     private View providerDetailsView;
@@ -84,8 +88,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     //stats Education
     private View statsEducationView;
     private RecyclerView educationList;
-
-    private FrameLayout bookingFrame;
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
@@ -212,7 +214,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
-                        final ProviderDetailsResponse providerDetailsResponse = response.body();
+                        providerDetailsResponse = response.body();
 
                         if (providerDetailsResponse == null) {
                             showStatsUnavailable();
@@ -236,11 +238,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                         //Setup Booking
                         bookAppointment.setEnabled(true);
-                        bookingFrame = (FrameLayout) providerDetailsView.findViewById(R.id.booking_frame);
-                        BookingFragment bookingFragment = BookingFragment.newInstance(providerDetailsResponse);
+                        BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance(providerDetailsResponse);
+                        bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.booking_frame, bookingFragment, BookingFragment.BOOKING_TAG)
+                                .replace(R.id.booking_frame, bookingFragment, BookingSelectPersonFragment.BOOKING_SELECT_PERSON_TAG)
                                 .addToBackStack(null)
                                 .commit();
                         getChildFragmentManager().executePendingTransactions();
@@ -427,5 +429,28 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 awards.setVisibility(View.GONE);
             }
         }
+    }
+
+    @Override
+    public void onPersonSelected(boolean isBookingForMe) {
+        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(providerDetailsResponse);
+        bookingFragment.setSelectStatusInterface(this);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.booking_frame, bookingFragment, BookingSelectStatusFragment.BOOKING_SELECT_STATUS_TAG)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
+    }
+
+    @Override
+    public void onStatusSelected(boolean isUserNew) {
+        BookingSelectTimeLongFragment bookingFragment = BookingSelectTimeLongFragment.newInstance(providerDetailsResponse);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.booking_frame, bookingFragment, BookingSelectTimeLongFragment.BOOKING_SELECT_TIME_LONG_TAG)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
     }
 }

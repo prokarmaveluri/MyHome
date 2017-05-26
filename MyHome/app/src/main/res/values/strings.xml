@@ -127,5 +127,7 @@
     <string name="password_criteria_lowercase">At least one lowercase letter</string>
     <string name="password_criteria_number">At least one number</string>
     <string name="password_criteria_special_char"><![CDATA[At least one special character: !@#$%^&*]]></string>
+    <string name="new_patient">New Patient</string>
+    <string name="existing_patient">Existing Patient</string>
 
 </resources>

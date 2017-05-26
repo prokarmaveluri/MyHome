@@ -20,24 +20,24 @@
         android:orientation="vertical">
 
         <ToggleButton
-            android:id="@+id/book_me"
+            android:id="@+id/book_new"
             style="@style/selectableButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:textOff="@string/me"
-            android:textOn="@string/me" />
+            android:textOff="@string/new_patient"
+            android:textOn="@string/new_patient" />
 
         <ToggleButton
-            android:id="@+id/book_other"
+            android:id="@+id/book_existing"
             style="@style/selectableButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:textOff="@string/family_member"
-            android:textOn="@string/family_member" />
+            android:textOff="@string/existing_patient"
+            android:textOn="@string/existing_patient" />
 
     </RadioGroup>
 
