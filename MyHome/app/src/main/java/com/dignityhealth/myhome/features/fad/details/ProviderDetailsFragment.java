@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
+import com.dignityhealth.myhome.features.fad.Office;
 import com.dignityhealth.myhome.features.fad.Provider;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDateHeaderInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDialogFragment;
@@ -60,6 +61,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private Provider provider;
     private ProviderDetailsResponse providerDetailsResponse;
+
+    private Office currentOffice;
 
     private SupportMapFragment myMap;
     private View providerDetailsView;
@@ -185,6 +188,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         name.setText(provider.getDisplayFullName() != null ? provider.getDisplayFullName() : "Name Unknown");
         speciality.setText(provider.getSpecialties() != null ? provider.getSpecialties().get(0) : "Specialities Unknown");
         address.setText(provider.getOffices() != null ? provider.getOffices().get(0).getAddress1() + "\n" + provider.getOffices().get(0).getAddress() : "Address Unknown");
+        currentOffice = provider.getOffices().get(0);
     }
 
     private void getProviderDetails() {
@@ -269,6 +273,15 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     //Set address text, then make sure to change selected icon
     private void handleMarkerClick(Marker marker) {
+        if(providerDetailsResponse != null){
+            for (Office office : providerDetailsResponse.getOffices()) {
+                if(MapUtil.isOfficeSelected(office, marker)){
+                    currentOffice = office;
+                    break;
+                }
+            }
+        }
+
         address.setText(marker.getSnippet());
         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
     }
