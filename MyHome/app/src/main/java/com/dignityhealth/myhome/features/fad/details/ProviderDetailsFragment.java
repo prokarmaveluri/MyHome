@@ -4,6 +4,7 @@ package com.dignityhealth.myhome.features.fad.details;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -21,13 +22,14 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Provider;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingDateHeaderInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDialogFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectCalendarFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeFragment;
-import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingTimeSlot;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.networking.NetworkManager;
@@ -52,7 +54,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface, BookingSelectTimeInterface {
+public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface, BookingDateHeaderInterface {
     public static final String PROVIDER_KEY = "PROVIDER_KEY";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
 
@@ -221,7 +223,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.booking_frame, bookingFragment, BookingSelectPersonFragment.BOOKING_SELECT_PERSON_TAG)
+                                .replace(R.id.booking_frame, bookingFragment)
                                 .addToBackStack(null)
                                 .commit();
                         getChildFragmentManager().executePendingTransactions();
@@ -416,7 +418,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         bookingFragment.setSelectStatusInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.booking_frame, bookingFragment, BookingSelectStatusFragment.BOOKING_SELECT_STATUS_TAG)
+                .replace(R.id.booking_frame, bookingFragment)
                 .addToBackStack(null)
                 .commit();
         getChildFragmentManager().executePendingTransactions();
@@ -439,7 +441,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         bookingFragment.setSelectTimeInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.booking_frame, bookingFragment, BookingSelectTimeFragment.BOOKING_SELECT_TIME_TAG)
+                .replace(R.id.booking_frame, bookingFragment)
                 .addToBackStack(null)
                 .commit();
         getChildFragmentManager().executePendingTransactions();
@@ -467,6 +469,39 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onMonthHeaderClicked() {
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
+
+        if(fragment instanceof BookingSelectCalendarFragment){
+            //You're on the calendar
+            ArrayList<BookingTimeSlot> times = new ArrayList<>();
+            times.add(new BookingTimeSlot("9:15am", false));
+            times.add(new BookingTimeSlot("10:30am", false));
+            times.add(new BookingTimeSlot("11:45am", false));
+
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(times);
+            bookingFragment.setSelectTimeInterface(this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.booking_frame, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
+            expandableLinearLayout.initLayout();
+            expandableLinearLayout.expand();
+        } else if(fragment instanceof BookingSelectTimeFragment){
+            //You were on the times
+
+            BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance();
+            bookingFragment.setSelectTimeInterface(this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.booking_frame, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
+            expandableLinearLayout.initLayout();
+            expandableLinearLayout.expand();
+        }
 
     }
 }

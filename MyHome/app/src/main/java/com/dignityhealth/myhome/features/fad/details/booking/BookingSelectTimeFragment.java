@@ -8,6 +8,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.dignityhealth.myhome.R;
@@ -25,7 +28,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public static final String TIMES_KEY = "booking_times";
 
     public ArrayList<BookingTimeSlot> times;
-    public BookingSelectTimeInterface selectTimeInterface;
+    public BookingDateHeaderInterface selectTimeInterface;
 
     View bookingView;
 
@@ -48,6 +51,39 @@ public class BookingSelectTimeFragment extends Fragment {
         times = args.getParcelableArrayList(TIMES_KEY);
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
         setAppointmentTimes((FlowLayout) bookingView.findViewById(R.id.time_group), times);
+
+        RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
+        ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
+        ImageView rightArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
+        TextView monthLabel = (TextView) dateHeader.findViewById(R.id.date);
+
+        leftArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectTimeInterface != null) {
+                    selectTimeInterface.onBackArrowClicked();
+                }
+            }
+        });
+
+        rightArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectTimeInterface != null) {
+                    selectTimeInterface.onFrontArrowClicked();
+                }
+            }
+        });
+
+        monthLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectTimeInterface != null) {
+                    selectTimeInterface.onMonthHeaderClicked();
+                }
+            }
+        });
+
         return bookingView;
     }
 
@@ -112,7 +148,7 @@ public class BookingSelectTimeFragment extends Fragment {
 //    }
 
 
-    public void setSelectTimeInterface(BookingSelectTimeInterface selectTimeInterface) {
+    public void setSelectTimeInterface(BookingDateHeaderInterface selectTimeInterface) {
         this.selectTimeInterface = selectTimeInterface;
     }
 }
