@@ -222,7 +222,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
 
                         //Setup Booking
-                        bookAppointment.setEnabled(true);
+                        bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
                         BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance(providerDetailsResponse);
                         bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
@@ -273,13 +273,36 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     //Set address text, then make sure to change selected icon
     private void handleMarkerClick(Marker marker) {
-        if(providerDetailsResponse != null){
+        //set the current office
+        if (providerDetailsResponse != null) {
             for (Office office : providerDetailsResponse.getOffices()) {
-                if(MapUtil.isOfficeSelected(office, marker)){
+                if (MapUtil.isOfficeSelected(office, marker)) {
                     currentOffice = office;
                     break;
                 }
             }
+        }
+
+        //enable book appointments if there are times
+        if (currentOffice.getAppointments() == null || currentOffice.getAppointments().isEmpty()) {
+            bookAppointment.setEnabled(false);
+        } else {
+            bookAppointment.setEnabled(true);
+        }
+
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
+        if(fragment != null){
+            //Close book appointments and reset flow again
+            expandableLinearLayout.collapse();
+            bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
+            BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance(providerDetailsResponse);
+            bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.booking_frame, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
         }
 
         address.setText(marker.getSnippet());
@@ -484,7 +507,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onMonthHeaderClicked() {
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
 
-        if(fragment instanceof BookingSelectCalendarFragment){
+        if (fragment instanceof BookingSelectCalendarFragment) {
             //You're on the calendar
             ArrayList<BookingTimeSlot> times = new ArrayList<>();
             times.add(new BookingTimeSlot("9:15am", false));
@@ -501,7 +524,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().executePendingTransactions();
             expandableLinearLayout.initLayout();
             expandableLinearLayout.expand();
-        } else if(fragment instanceof BookingSelectTimeFragment){
+        } else if (fragment instanceof BookingSelectTimeFragment) {
             //You were on the times
 
             BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance();
@@ -515,6 +538,5 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             expandableLinearLayout.initLayout();
             expandableLinearLayout.expand();
         }
-
     }
 }
