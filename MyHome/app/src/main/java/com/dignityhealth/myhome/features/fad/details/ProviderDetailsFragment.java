@@ -303,6 +303,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     .addToBackStack(null)
                     .commit();
             getChildFragmentManager().executePendingTransactions();
+            expandableLinearLayout.initLayout();
         }
 
         address.setText(marker.getSnippet());
