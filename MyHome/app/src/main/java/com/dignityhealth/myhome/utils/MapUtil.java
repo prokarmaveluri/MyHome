@@ -85,6 +85,21 @@ public class MapUtil {
     }
 
     /**
+     * Compares address for office versus the address we formatted for the marker in MapUtil.addMapMarker
+     *
+     * @param office
+     * @param marker
+     * @return if the office has the same address as the marker, return true. Otherwise, return false.
+     */
+    public static boolean isOfficeSelected(Office office, Marker marker) {
+        if ((office.getAddress1() + "\n" + office.getAddress()).equalsIgnoreCase(marker.getSnippet())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Used to calculate the zoom if multiple markers need to fit on the map
      * Inspired From: http://stackoverflow.com/questions/14828217/android-map-v2-zoom-to-show-all-the-markers
      *
@@ -126,9 +141,9 @@ public class MapUtil {
         googleMap.animateCamera(MapUtil.calculateZoom(context, markers));
     }
 
-    public static void setMarkerSelectedIcon(Context context, ArrayList<Marker> markers, String address){
+    public static void setMarkerSelectedIcon(Context context, ArrayList<Marker> markers, String address) {
         for (Marker marker : markers) {
-            if(marker.getSnippet().equalsIgnoreCase(address)){
+            if (marker.getSnippet().equalsIgnoreCase(address)) {
                 marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_blue));
             } else {
                 marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));

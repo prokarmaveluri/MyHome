@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="36dp">
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/MonthTextAppearance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Wed, May 17"
+        android:textSize="20sp"
+        tools:ignore="HardcodedText" />
+
+    <ImageView
+        android:id="@+id/left_date_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/date"
+        android:layout_alignTop="@id/date"
+        android:layout_marginRight="42dp"
+        android:layout_toLeftOf="@id/date"
+        android:src="@mipmap/caret_blue" />
+
+    <ImageView
+        android:id="@+id/right_date_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/date"
+        android:layout_alignTop="@id/date"
+        android:layout_marginLeft="42dp"
+        android:layout_toRightOf="@id/date"
+        android:rotation="180"
+        android:src="@mipmap/caret_blue" />
+
+</RelativeLayout>

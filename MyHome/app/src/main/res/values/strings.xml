@@ -129,5 +129,6 @@
     <string name="password_criteria_special_char"><![CDATA[At least one special character: !@#$%^&*]]></string>
     <string name="new_patient">New Patient</string>
     <string name="existing_patient">Existing Patient</string>
+    <string name="education">Education</string>
 
 </resources>
