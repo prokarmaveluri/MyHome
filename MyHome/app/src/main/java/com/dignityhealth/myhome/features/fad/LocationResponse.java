@@ -61,6 +61,15 @@ public class LocationResponse implements Parcelable {
     public LocationResponse() {
     }
 
+    public LocationResponse(String city, String state, String zipCode, String lat, String lon, String displayName) {
+        City = city;
+        State = state;
+        ZipCode = zipCode;
+        Lat = lat;
+        this.lon = lon;
+        DisplayName = displayName;
+    }
+
     protected LocationResponse(Parcel in) {
         this.City = in.readString();
         this.State = in.readString();
