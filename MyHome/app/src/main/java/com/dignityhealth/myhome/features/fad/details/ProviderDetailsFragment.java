@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
+import com.dignityhealth.myhome.features.fad.Appointment;
 import com.dignityhealth.myhome.features.fad.Office;
 import com.dignityhealth.myhome.features.fad.Provider;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDateHeaderInterface;
@@ -31,7 +32,6 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPerson
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeFragment;
-import com.dignityhealth.myhome.features.fad.details.booking.BookingTimeSlot;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -464,16 +464,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onStatusSelected(boolean isUserNew) {
-        ArrayList<BookingTimeSlot> times = new ArrayList<>();
-        times.add(new BookingTimeSlot("9:15am", false));
-        times.add(new BookingTimeSlot("10:30am", false));
-        times.add(new BookingTimeSlot("11:45am", false));
-        times.add(new BookingTimeSlot("1:00pm", false));
-        times.add(new BookingTimeSlot("3:00pm", false));
-        times.add(new BookingTimeSlot("3:15pm", false));
-        times.add(new BookingTimeSlot("3:30pm", false));
-
-        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(times);
+        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(currentOffice.getAppointments());
         bookingFragment.setSelectTimeInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
@@ -486,8 +477,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     @Override
-    public void onTimeSelected(BookingTimeSlot bookingTimeSlot) {
-        Toast.makeText(getContext(), "Time Clicked: " + bookingTimeSlot.time, Toast.LENGTH_SHORT).show();
+    public void onTimeSelected(Appointment appointment) {
+        Toast.makeText(getContext(), "Time Clicked: " + appointment.Time, Toast.LENGTH_SHORT).show();
 
         DialogFragment dialogFragment = BookingDialogFragment.newInstance();
         dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
@@ -509,12 +500,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         if (fragment instanceof BookingSelectCalendarFragment) {
             //You're on the calendar
-            ArrayList<BookingTimeSlot> times = new ArrayList<>();
-            times.add(new BookingTimeSlot("9:15am", false));
-            times.add(new BookingTimeSlot("10:30am", false));
-            times.add(new BookingTimeSlot("11:45am", false));
-
-            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(times);
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(currentOffice.getAppointments());
             bookingFragment.setSelectTimeInterface(this);
             getChildFragmentManager()
                     .beginTransaction()

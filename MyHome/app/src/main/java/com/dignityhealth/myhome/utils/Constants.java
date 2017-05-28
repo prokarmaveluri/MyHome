@@ -44,11 +44,13 @@ public class Constants {
     public static final String TIME_FORMAT = "h:mm a";
     //public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";    //For Profile to work, need to remove milliseconds
     public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";    //Some appointments will appear ugly without milliseconds...
+    public static final String DATE_RANGE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss-HH:mm";    //For appointments with time slots
 
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.US);
     public static final SimpleDateFormat SIMPLE_DATE_SHORT_WORDS_FORMAT = new SimpleDateFormat(DATE_SHORT_WORDS_FORMAT, Locale.US);
     public static final SimpleDateFormat SIMPLE_TIME_FORMAT = new SimpleDateFormat(TIME_FORMAT, Locale.US);
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC = new SimpleDateFormat(DATE_FORMAT_UTC, Locale.US);
+    public static final SimpleDateFormat SIMPLE_DATE_RANGE_FORMAT_UTC = new SimpleDateFormat(DATE_RANGE_FORMAT_UTC, Locale.US);
     public static final SimpleDateFormat SIMPLE_DATE_WORDS_1st_FORMAT = new SimpleDateFormat(DATE_WORDS_1st_FORMAT, Locale.US);
     public static final SimpleDateFormat SIMPLE_DATE_WORDS_2nd_FORMAT = new SimpleDateFormat(DATE_WORDS_2nd_FORMAT, Locale.US);
     public static final SimpleDateFormat SIMPLE_DATE_WORDS_3rd_FORMAT = new SimpleDateFormat(DATE_WORDS_3rd_FORMAT, Locale.US);

@@ -133,6 +133,19 @@ public class DateUtil {
         return utcDate;
     }
 
+    public static String getTimeRangeFromUTC(String utcDate){
+        try {
+            Date date = Constants.SIMPLE_DATE_RANGE_FORMAT_UTC.parse(utcDate);
+            Timber.i(date.toString());
+            return Constants.SIMPLE_TIME_FORMAT.format(date);
+        } catch (ParseException e) {
+            Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+
+        return utcDate;
+    }
+
     /**
      * Gets milliseconds of a UTC date. This is needed for Calendar Event times.
      *

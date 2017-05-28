@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.fad.Appointment;
+import com.dignityhealth.myhome.utils.DateUtil;
 import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.dignityhealth.myhome.views.FlowLayout;
 
@@ -25,9 +27,9 @@ import java.util.ArrayList;
 
 public class BookingSelectTimeFragment extends Fragment {
     public static final String BOOKING_SELECT_TIME_TAG = "booking_select_time_tag";
-    public static final String TIMES_KEY = "booking_times";
+    public static final String APPOINTMENTS = "appointments";
 
-    public ArrayList<BookingTimeSlot> times;
+    public ArrayList<Appointment> appointments;
     public BookingDateHeaderInterface selectTimeInterface;
 
     View bookingView;
@@ -36,10 +38,10 @@ public class BookingSelectTimeFragment extends Fragment {
         return new BookingSelectTimeFragment();
     }
 
-    public static BookingSelectTimeFragment newInstance(ArrayList<BookingTimeSlot> times) {
+    public static BookingSelectTimeFragment newInstance(ArrayList<Appointment> appointments) {
         BookingSelectTimeFragment bookingFragment = new BookingSelectTimeFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(TIMES_KEY, times);
+        args.putParcelableArrayList(APPOINTMENTS, appointments);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -48,9 +50,9 @@ public class BookingSelectTimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
-        times = args.getParcelableArrayList(TIMES_KEY);
+        appointments = args.getParcelableArrayList(APPOINTMENTS);
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
-        setAppointmentTimes((FlowLayout) bookingView.findViewById(R.id.time_group), times);
+        setAppointmentTimes((FlowLayout) bookingView.findViewById(R.id.time_group), appointments);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -90,29 +92,29 @@ public class BookingSelectTimeFragment extends Fragment {
     /**
      * Method for adding times to a Flow Layout
      *
-     * @param timeGroup Flow Layout where Times will be added
-     * @param times     the times being added to the Flow Layout
+     * @param timeGroup    Flow Layout where Times will be added
+     * @param appointments the appointments being added to the Flow Layout
      */
-    private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<BookingTimeSlot> times) {
+    private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<Appointment> appointments) {
         FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 4));
 
         View.OnClickListener timeClickedListener;
 
-        for (final BookingTimeSlot time : times) {
+        for (final Appointment appointment : appointments) {
             final ToggleButton timeToggle = new ToggleButton(new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
             timeToggle.setPadding(DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12));
             timeToggle.setGravity(Gravity.CENTER);
             timeToggle.setLayoutParams(layoutParams);
-            timeToggle.setTextOn(time.time);
-            timeToggle.setTextOff(time.time);
-            timeToggle.setChecked(time.isPicked);
+            timeToggle.setTextOn(DateUtil.getTimeRangeFromUTC(appointment.Time));
+            timeToggle.setTextOff(DateUtil.getTimeRangeFromUTC(appointment.Time));
+            timeToggle.setChecked(appointment.Selected);
 
             timeClickedListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (selectTimeInterface != null) {
-                        selectTimeInterface.onTimeSelected(time);
+                        selectTimeInterface.onTimeSelected(appointment);
                     }
                 }
             };
