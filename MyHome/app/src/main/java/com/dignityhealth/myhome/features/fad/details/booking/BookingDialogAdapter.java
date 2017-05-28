@@ -14,6 +14,7 @@ import com.dignityhealth.myhome.R;
 
 public class BookingDialogAdapter extends PagerAdapter {
     private Context context;
+    private BookingDialogToolbarInterface bookingDialogToolbarInterface;
     private static int NUM_ITEMS = 3;
 
     private ViewGroup insuranceLayout;
@@ -21,8 +22,9 @@ public class BookingDialogAdapter extends PagerAdapter {
     private ViewGroup reasonForVisitLayout;
 
 
-    public BookingDialogAdapter(Context context) {
+    public BookingDialogAdapter(Context context, BookingDialogToolbarInterface bookingDialogToolbarInterface) {
         this.context = context;
+        this.bookingDialogToolbarInterface = bookingDialogToolbarInterface;
     }
 
     @Override
@@ -66,5 +68,14 @@ public class BookingDialogAdapter extends PagerAdapter {
     @Override
     public int getCount() {
         return NUM_ITEMS;
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
+
+        if (bookingDialogToolbarInterface != null) {
+            bookingDialogToolbarInterface.setToolbarMenu(position);
+        }
     }
 }

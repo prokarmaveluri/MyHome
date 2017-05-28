@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -20,13 +21,15 @@ import com.dignityhealth.myhome.views.WrappingViewPager;
  * Created by kwelsh on 5/25/17.
  */
 
-public class BookingDialogFragment extends DialogFragment {
+public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface {
     public static final String BOOKING_DIALOG_TAG = "booking_dialog_tag";
     public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response";
 
     public ProviderDetailsResponse providerDetailsResponse;
 
     View bookingView;
+    WrappingViewPager bookingViewPager;
+    Toolbar toolbar;
 
     public static BookingDialogFragment newInstance() {
         return new BookingDialogFragment();
@@ -47,11 +50,26 @@ public class BookingDialogFragment extends DialogFragment {
         //providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
         bookingView = inflater.inflate(R.layout.book_dialog, container, false);
 
-        Toolbar toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
+        toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.find_care));
+        toolbar.inflateMenu(R.menu.booking_dialog_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.next_page:
+                        bookingViewPager.setCurrentItem(bookingViewPager.getCurrentItem() + 1, true);
+                        break;
+                    case R.id.finish_dialog:
+                        finishBooking();
+                        break;
+                }
+                return true;
+            }
+        });
 
-        WrappingViewPager bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext()));
+        bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this));
 
         return bookingView;
     }
@@ -73,5 +91,36 @@ public class BookingDialogFragment extends DialogFragment {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         }
+    }
+
+    @Override
+    public void setToolbarMenu(int position) {
+        switch (position) {
+            case 0:
+                //Insurance Page
+                if (toolbar != null && toolbar.getMenu() != null) {
+                    toolbar.getMenu().findItem(R.id.next_page).setVisible(true);
+                    toolbar.getMenu().findItem(R.id.finish_dialog).setVisible(false);
+                }
+                break;
+            case 1:
+                //Personal Page
+                if (toolbar != null && toolbar.getMenu() != null) {
+                    toolbar.getMenu().findItem(R.id.next_page).setVisible(true);
+                    toolbar.getMenu().findItem(R.id.finish_dialog).setVisible(false);
+                }
+                break;
+            case 2:
+                //Dynamic Page
+                if (toolbar != null && toolbar.getMenu() != null) {
+                    toolbar.getMenu().findItem(R.id.next_page).setVisible(false);
+                    toolbar.getMenu().findItem(R.id.finish_dialog).setVisible(true);
+                }
+                break;
+        }
+    }
+
+    private void finishBooking() {
+
     }
 }

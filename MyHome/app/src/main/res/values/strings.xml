@@ -130,5 +130,6 @@
     <string name="new_patient">New Patient</string>
     <string name="existing_patient">Existing Patient</string>
     <string name="education">Education</string>
+    <string name="done">Done</string>
 
 </resources>
