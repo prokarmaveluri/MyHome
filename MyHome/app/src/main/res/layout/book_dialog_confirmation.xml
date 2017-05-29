@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="18dp"
+        android:paddingEnd="64dp"
+        android:paddingStart="64dp"
+        android:paddingTop="18dp">
+
+        <TextView
+            android:id="@+id/book_success"
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/book_success"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_success"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:text="Wednesday, May 18th"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/time"
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="10:30am"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/address"
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:text="90 Madison St, Ste 504\nDenver, CO 80206"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/phone_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/address"
+            android:layout_marginTop="35dp"
+            android:src="@mipmap/map_blue" />
+
+        <TextView
+            android:id="@+id/phone_number"
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/phone_icon"
+            android:layout_alignTop="@id/phone_icon"
+            android:layout_below="@id/reason"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_toRightOf="@id/phone_icon"
+            android:gravity="center_vertical"
+            android:text="@string/get_directions"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/share_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/phone_icon"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/share_blue" />
+
+        <TextView
+            android:id="@+id/share_text"
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/share_icon"
+            android:layout_alignTop="@id/share_icon"
+            android:layout_below="@id/phone_number"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_toRightOf="@id/phone_icon"
+            android:gravity="center_vertical"
+            android:text="@string/share_appointment"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/calendar_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/share_icon"
+            android:layout_marginTop="40dp"
+            android:src="@mipmap/calendar" />
+
+        <TextView
+            android:id="@+id/calendar_text"
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/calendar_icon"
+            android:layout_alignTop="@id/calendar_icon"
+            android:layout_below="@id/share_text"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_toRightOf="@id/calendar_icon"
+            android:gravity="center_vertical"
+            android:text="Add to Calendar"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+</ScrollView>

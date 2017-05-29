@@ -131,5 +131,8 @@
     <string name="existing_patient">Existing Patient</string>
     <string name="education">Education</string>
     <string name="done">Done</string>
+    <string name="book">Book</string>
+    <string name="book_success">Your appointment has been successfully booked.</string>
+    <string name="get_directions">Get Directions</string>
 
 </resources>
