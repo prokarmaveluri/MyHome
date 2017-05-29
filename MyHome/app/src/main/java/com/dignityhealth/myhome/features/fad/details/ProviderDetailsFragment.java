@@ -226,6 +226,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
 
                         //Setup Booking
+                        currentOffice = providerDetailsResponse.getOffices().get(0);
                         bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
                         BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance(providerDetailsResponse);
                         bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
