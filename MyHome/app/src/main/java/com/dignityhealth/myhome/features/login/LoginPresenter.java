@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentActivity;
-import com.dignityhealth.myhome.features.profile.signout.CreateSessionRequest;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
@@ -63,8 +62,8 @@ public class LoginPresenter implements LoginInteractor.Presenter {
     }
 
     @Override
-    public void createSession(String sessionToken) {
-        mView.showView(false);
+    public void createSession(String sid) {
+        createSessionId(sid);
     }
 
     private void login(final LoginRequest request) {
@@ -75,14 +74,12 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                     // get id_token & session id
                     AuthManager.getInstance().setSessionToken(response.body().getSessionToken());
                     Timber.d("Session token : " + response.body().getSessionToken());
-                    getSessionId(response.body().getSessionToken());
-                    AuthManager.getInstance().setCount(0);
+                    mView.fetchIdToken(response.body().getSessionToken());
                 } else {
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                     mView.showProgress(false);
                     Timber.e("Response, but not successful?\n" + response);
                     mView.showView(true);
-                    AuthManager.getInstance().setFailureAttempt();
                 }
             }
 
@@ -97,15 +94,13 @@ public class LoginPresenter implements LoginInteractor.Presenter {
         });
     }
 
-    public void getSessionId(String sessionToken) {
-        CreateSessionRequest request = new CreateSessionRequest(sessionToken);
-        NetworkManager.getInstance().createSession(request).enqueue(new Callback<CreateSessionResponse>() {
+    public void createSessionId(String sid) {
+        NetworkManager.getInstance().createSession("sid=" + sid).enqueue(new Callback<CreateSessionResponse>() {
             @Override
             public void onResponse(Call<CreateSessionResponse> call, Response<CreateSessionResponse> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Session Id: " + response.body().getId());
-                    AuthManager.getInstance().setIdTokenForSignOut(response.body().getId());
-                    mView.fetchIdToken(response.body().getCookieToken());
+                    AuthManager.getInstance().setSessionId(response.body().getId());
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
@@ -119,7 +114,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                 Timber.e("Session Id: Failed");
                 Timber.e("Throwable = " + t);
                 Timber.e(mContext.getString(R.string.something_went_wrong));
-                AuthManager.getInstance().setIdTokenForSignOut(null);
+                AuthManager.getInstance().setSessionId(null);
                 mView.showView(true);
                 mView.showProgress(false);
             }

@@ -5,14 +5,13 @@ import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
-import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
+import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
-import com.dignityhealth.myhome.features.profile.signout.CreateSessionRequest;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.features.tos.Tos;
 import com.dignityhealth.myhome.utils.RESTConstants;
@@ -26,7 +25,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -54,11 +52,11 @@ public interface RESTService {
     @POST(RESTConstants.OKTA_BASE_URL + "api/v1/authn/recovery/password")
     Call<ForgotPasswordResponse> forgotPassword(@Body ForgotPasswordRequest request);
 
-    @POST(RESTConstants.OKTA_BASE_URL + "api/v1/sessions?additionalFields=cookieToken")
-    Call<CreateSessionResponse> createSession(@Body CreateSessionRequest request);
+    @GET(RESTConstants.OKTA_BASE_URL + "api/v1/sessions/me")
+    Call<CreateSessionResponse> createSession(@Header("Cookie") String sid);
 
-    @DELETE(RESTConstants.OKTA_BASE_URL + "api/v1/sessions/{id}")
-    Call<Void> logout(@Header("Authorization") String auth, @Path("id") String id);
+    @DELETE(RESTConstants.OKTA_BASE_URL + "api/v1/sessions/me")
+    Call<Void> logout(@Header("Cookie") String sid);
 
     @GET(RESTConstants.CIAM_BASE_URL + "api/terms-and-conditions")
     Call<Tos> getTos(@Header("Authorization") String bearer);

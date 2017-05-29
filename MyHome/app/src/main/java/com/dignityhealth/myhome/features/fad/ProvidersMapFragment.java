@@ -70,8 +70,6 @@ public class ProvidersMapFragment extends BaseFragment implements
         fragment.setArguments(bundle);
         transaction.replace(mapFrame.getId(), fragment).commit();
 
-//        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.providersMap);
-//        map.getMapAsync(this);
         return view;
     }
 
