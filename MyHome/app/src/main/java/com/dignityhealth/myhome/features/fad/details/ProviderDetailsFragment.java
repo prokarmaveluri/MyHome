@@ -3,7 +3,6 @@ package com.dignityhealth.myhome.features.fad.details;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,8 +23,13 @@ import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Appointment;
 import com.dignityhealth.myhome.features.fad.Office;
 import com.dignityhealth.myhome.features.fad.Provider;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingConfirmationFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingConfirmationInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDateHeaderInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDialogFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingDialogInterface;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingDoneFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingDoneInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectCalendarFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonInterface;
@@ -55,7 +59,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface, BookingDateHeaderInterface {
+public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface, BookingDateHeaderInterface, BookingDialogInterface, BookingConfirmationInterface, BookingDoneInterface {
     public static final String PROVIDER_KEY = "PROVIDER_KEY";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
 
@@ -481,7 +485,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onTimeSelected(Appointment appointment) {
         Toast.makeText(getContext(), "Time Clicked: " + appointment.Time, Toast.LENGTH_SHORT).show();
 
-        DialogFragment dialogFragment = BookingDialogFragment.newInstance();
+        BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance();
+        dialogFragment.setBookingDialogInterface(this);
         dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
     }
 
@@ -525,5 +530,48 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             expandableLinearLayout.initLayout();
             expandableLinearLayout.expand();
         }
+    }
+
+    @Override
+    public void onBookingDialogFinished() {
+        BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance();
+        bookingFragment.setBookingConfirmationInterface(this);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.booking_frame, bookingFragment)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
+        expandableLinearLayout.initLayout();
+        expandableLinearLayout.expand();
+    }
+
+    @Override
+    public void onClickBook() {
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance();
+        bookingFragment.setBookingDoneInterface(this);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.booking_frame, bookingFragment)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
+        expandableLinearLayout.initLayout();
+        expandableLinearLayout.expand();
+    }
+
+    @Override
+    public void onClickDirections() {
+
+    }
+
+    @Override
+    public void onClickShare() {
+
+    }
+
+    @Override
+    public void onClickAddToCalendar() {
+
     }
 }

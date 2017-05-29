@@ -63,7 +63,7 @@
             tools:ignore="HardcodedText" />
 
         <ImageView
-            android:id="@+id/phone_icon"
+            android:id="@+id/directions_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_below="@id/address"
@@ -71,16 +71,16 @@
             android:src="@mipmap/map_blue" />
 
         <TextView
-            android:id="@+id/phone_number"
+            android:id="@+id/directions_text"
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/phone_icon"
-            android:layout_alignTop="@id/phone_icon"
+            android:layout_alignBottom="@id/directions_icon"
+            android:layout_alignTop="@id/directions_icon"
             android:layout_below="@id/reason"
             android:layout_marginEnd="18dp"
             android:layout_marginStart="18dp"
-            android:layout_toRightOf="@id/phone_icon"
+            android:layout_toRightOf="@id/directions_icon"
             android:gravity="center_vertical"
             android:text="@string/get_directions"
             android:textColor="@color/primary"
@@ -91,7 +91,7 @@
             android:id="@+id/share_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_below="@id/phone_icon"
+            android:layout_below="@id/directions_icon"
             android:layout_marginTop="40dp"
             android:src="@drawable/share_blue" />
 
@@ -102,10 +102,10 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/share_icon"
             android:layout_alignTop="@id/share_icon"
-            android:layout_below="@id/phone_number"
+            android:layout_below="@id/directions_text"
             android:layout_marginEnd="18dp"
             android:layout_marginStart="18dp"
-            android:layout_toRightOf="@id/phone_icon"
+            android:layout_toRightOf="@id/share_icon"
             android:gravity="center_vertical"
             android:text="@string/share_appointment"
             android:textColor="@color/primary"

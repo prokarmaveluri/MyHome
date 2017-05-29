@@ -26,6 +26,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response";
 
     public ProviderDetailsResponse providerDetailsResponse;
+    public BookingDialogInterface bookingDialogInterface;
 
     View bookingView;
     WrappingViewPager bookingViewPager;
@@ -120,7 +121,15 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         }
     }
 
-    private void finishBooking() {
+    public void setBookingDialogInterface(BookingDialogInterface bookingDialogInterface) {
+        this.bookingDialogInterface = bookingDialogInterface;
+    }
 
+    private void finishBooking() {
+        if(bookingDialogInterface != null){
+            bookingDialogInterface.onBookingDialogFinished();
+        }
+
+        this.getDialog().dismiss();
     }
 }
