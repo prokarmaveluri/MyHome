@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -43,9 +44,11 @@ import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.ValidateInputsOnFocusChange;
 
 import java.io.IOException;
+import java.net.CookieHandler;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -86,7 +89,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
 
         //Automatically populate developer builds with a test account
-        if(BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")){
+        if (BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")) {
             binder.email.setText("jjonnalagadda@prokarma.com");
             binder.password.setText("Pass123*");
         }
@@ -215,6 +218,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     Toast.LENGTH_LONG).show();
             return null;
         }
+        AuthManager.getInstance().setCount(0);
         LoginRequest.Options options = new LoginRequest.Options(true, true);
         request = new LoginRequest(binder.email.getText().toString(),
                 binder.password.getText().toString(), options);
@@ -241,10 +245,18 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             cookieManager.removeAllCookie();
         }
 
-        binder.webViewRedirect.setWebViewClient(new RedirectClient());
-        binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
-        binder.webViewRedirect.loadUrl(Constants.auth2Url + sessionToken);
-//        thread.start();
+        if (false) { // webView
+            CookieManager.getInstance().setAcceptCookie(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                CookieManager.getInstance().setAcceptThirdPartyCookies(binder.webViewRedirect, true);
+            }
+            binder.webViewRedirect.setWebViewClient(new RedirectClient());
+            binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
+            binder.webViewRedirect.loadUrl(Constants.auth2Url + sessionToken);
+        } else {
+            Thread thread = new Thread(urlRunnable);
+            thread.start();
+        }
     }
 
     private class RedirectClient extends WebViewClient {
@@ -264,10 +276,29 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
 
         @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest resourceRequest) {
+
+//            String cookies = CookieManager.getInstance().getCookie(view.getUrl());
+//            Timber.i("Cookie " + cookies);
+            return super.shouldInterceptRequest(view, resourceRequest);
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+
+            String cookies = CookieManager.getInstance().getCookie(url);
+            Timber.i("Cookie " + cookies);
             return super.shouldInterceptRequest(view, url);
         }
 
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return super.shouldOverrideUrlLoading(view, request);
+        }
+
+        @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             String token = parseIDToken(url);
@@ -292,7 +323,15 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         int index = url.indexOf("id_token=");
         if (-1 != index) {
             String token = url.substring(index + "id_token=".length(), url.indexOf("&"));
-            Timber.i("Session id_token ** " + token);
+            return token;
+        }
+        return null;
+    }
+
+    private String parseSid(String cookie) {
+        int index = cookie.indexOf("sid=");
+        if (-1 != index) {
+            String token = cookie.substring(index + "sid=".length(), cookie.indexOf(";"));
             return token;
         }
         return null;
@@ -306,6 +345,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 case ACTION_FINISH:
                     //received token and stored it in AuthManager. start nav activity
                     if (isAdded()) {
+                        AuthManager.getInstance().setCount(0);
                         Intent intentHome = new Intent(getActivity(), NavigationActivity.class);
                         intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
@@ -316,6 +356,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     break;
                 case TOKEN_ERROR:
                     if (isAdded()) {
+                        AuthManager.getInstance().setFailureAttempt();
                         showProgress(false);
                         AuthManager.getInstance().setBearerToken(null);
                         Toast.makeText(getActivity(), getString(R.string.sign_in_failure_msg),
@@ -422,12 +463,12 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         binder.password.setCompoundDrawables(null, null, drawable, null);
     }
 
-    Thread thread = new Thread(new Runnable() {
+    Runnable urlRunnable = new Runnable() {
         @Override
         public void run() {
             fetchIdTokenUrlConnection();
         }
-    });
+    };
 
     private void fetchIdTokenUrlConnection() {
 
@@ -435,16 +476,23 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             URL url = new URL(Constants.auth2Url + sessionToken);
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                java.net.CookieManager manager = new java.net.CookieManager();
+                CookieHandler.setDefault(manager);
+                urlConnection.setInstanceFollowRedirects(false);
                 urlConnection.connect();
-                urlConnection.getResponseCode();
-                urlConnection.getRequestMethod();
-                URL redirectUrl = urlConnection.getURL();
 
-                String token = parseIDToken(redirectUrl.toString());
-                Timber.i("Session, redirectUrl " + redirectUrl);
-                Timber.i("Session, id token " + token);
+                String location = urlConnection.getHeaderField("Location");
+                List<String> setCookie = urlConnection.getHeaderFields().get("Set-Cookie");
+                String token = parseIDToken(location);
+
+                Timber.i("Session, id token : " + token);
+                Timber.i("Session, sid : " + retrieveSid(setCookie));
+
                 if (null != token) {
+                    AuthManager.getInstance().setSid(retrieveSid(setCookie));
                     AuthManager.getInstance().setBearerToken(token);
+                    if (null != AuthManager.getInstance().getSid())
+                        presenter.createSession(AuthManager.getInstance().getSid());
                     mHandler.sendEmptyMessage(ACTION_FINISH);
                 } else {
                     mHandler.sendEmptyMessage(TOKEN_ERROR);
@@ -458,5 +506,16 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     }
 
+    String retrieveSid(List<String> cookies) {
+        String cookieValue = null;
+        if (null != cookies) {
+            for (String cookie : cookies) {
+                if (cookie.contains("sid")) {
+                    return parseSid(cookie);
+                }
+            }
+        }
+        return cookieValue;
+    }
 }
 

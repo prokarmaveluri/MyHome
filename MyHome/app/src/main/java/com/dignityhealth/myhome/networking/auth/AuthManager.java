@@ -14,7 +14,8 @@ public class AuthManager {
 
     private static String bearerToken;
     private static String sessionToken;
-    private static String idTokenForSignOut;
+    private static String sessionId;
+    private static String sid;
 
     private static int count = 0;
     private static Context context;
@@ -29,6 +30,14 @@ public class AuthManager {
     }
 
     private AuthManager() {
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        AuthManager.sid = sid;
     }
 
     public Context getContext() {
@@ -71,12 +80,12 @@ public class AuthManager {
         AuthManager.sessionToken = sessionToken;
     }
 
-    public String getIdTokenForSignOut() {
-        return idTokenForSignOut;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setIdTokenForSignOut(String idTokenForSignOut) {
-        AuthManager.idTokenForSignOut = idTokenForSignOut;
+    public void setSessionId(String sessionId) {
+        AuthManager.sessionId = sessionId;
     }
 
     public void setFailureAttempt() {

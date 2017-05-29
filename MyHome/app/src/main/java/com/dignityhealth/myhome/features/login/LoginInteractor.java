@@ -9,7 +9,7 @@ import com.dignityhealth.myhome.app.mvp.BaseView;
 
 public interface LoginInteractor {
 
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {
 
         void showProgress(boolean show);
 
@@ -21,13 +21,13 @@ public interface LoginInteractor {
 
     }
 
-    interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter {
 
         void openSignUpPage();
 
         void signIn(LoginRequest request);
 
-        void createSession(String sessionToken);
+        void createSession(String sid);
 
     }
 
