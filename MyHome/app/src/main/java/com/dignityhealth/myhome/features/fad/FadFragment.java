@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
@@ -58,12 +59,13 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
  */
 
 public class FadFragment extends BaseFragment implements FadInteractor.View,
-        View.OnClickListener,
+        View.OnClickListener, ViewPager.OnPageChangeListener,
         TextView.OnEditorActionListener, View.OnFocusChangeListener,
         TextWatcher, SuggestionsAdapter.ISuggestionClick {
 
     private static final int FILTER_REQUEST = 100;
     private static String currentSearchQuery = "";
+    private static int currentPageSelection = 0;
 
     private FragmentFadBinding binding;
     private boolean isSugShow = false;
@@ -78,12 +80,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private static ArrayList<CommonModel> languages = new ArrayList<>();
     private static ArrayList<CommonModel> hospitals = new ArrayList<>();
     private static ArrayList<CommonModel> practices = new ArrayList<>();
-
-    private enum State {
-        LIST,
-        MESSAGE,
-        SUGGESTION
-    }
 
     public static final String FAD_TAG = "fad_tag";
 
@@ -103,10 +99,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.fadProgress.setVisibility(View.GONE);
 
         presenter = new FadPresenter(this, getActivity());
-        pagerAdapter =
-                new FadPagerAdapter(getChildFragmentManager(), providerList, "");
-        binding.fadPager.setAdapter(pagerAdapter);
-        binding.fadTabs.setupWithViewPager(binding.fadPager);
+        setPager();
 
         binding.fadMore.setOnClickListener(this);
         binding.fadFilter.setOnClickListener(this);
@@ -444,10 +437,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
             CommonUtil.hideSoftKeyboard(getActivity());
             binding.searchLayout.setVisibility(View.GONE);
-            pagerAdapter =
-                    new FadPagerAdapter(getChildFragmentManager(), providerList, "");
-            binding.fadPager.setAdapter(pagerAdapter);
-            binding.fadTabs.setupWithViewPager(binding.fadPager);
+            setPager();
 
             clearFilters();
 
@@ -545,4 +535,30 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 });
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        currentPageSelection = position;
+        ProviderListFragment.listener = null;
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    private void setPager() {
+        pagerAdapter =
+                new FadPagerAdapter(getChildFragmentManager(), providerList, "");
+        binding.fadPager.setAdapter(pagerAdapter);
+        binding.fadTabs.setupWithViewPager(binding.fadPager);
+        binding.fadPager.addOnPageChangeListener(this);
+
+        binding.fadTabs.setScrollPosition(currentPageSelection, 0f, true);
+        binding.fadPager.setCurrentItem(currentPageSelection);
+    }
 }

@@ -8,23 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.app.BaseFragment;
-import com.dignityhealth.myhome.utils.Constants;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
-
-import timber.log.Timber;
 
 /**
  * Created by cmajji on 4/26/17.
@@ -32,14 +19,11 @@ import timber.log.Timber;
  * Fragment for Find a doctor, display list of doctors with search feature.
  */
 
-public class ProvidersMapFragment extends BaseFragment implements
-        ProvidersAdapter.IProviderClick, OnMapReadyCallback {
+public class ProvidersMapFragment extends Fragment implements
+        ProvidersAdapter.IProviderClick {
 
-    private GoogleMap map;
     private LocationResponse location = null;
     private ArrayList<Provider> providerList = new ArrayList<>();
-    private ArrayList<Marker> markers = new ArrayList<>();
-    private ClusterManager<MapClusterItem> mClusterManager;
 
     public static final String FAD_TAG = "fad_map";
 
@@ -74,11 +58,6 @@ public class ProvidersMapFragment extends BaseFragment implements
     }
 
     @Override
-    public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.FAD_MAP;
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
@@ -88,56 +67,4 @@ public class ProvidersMapFragment extends BaseFragment implements
     public void providerClick(int position) {
 
     }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-        mClusterManager = new ClusterManager<>(getActivity(), map);
-        map.setOnCameraIdleListener(mClusterManager);
-        map.setOnMarkerClickListener(mClusterManager);
-        addMarkers();
-    }
-
-    private void addMarkers() {
-        if (providerList == null || providerList.size() <= 0) {
-            Toast.makeText(getActivity(), getString(R.string.no_providers), Toast.LENGTH_LONG).show();
-            return;
-        }
-        int count = 0;
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-        for (Provider provider : providerList) {
-            for (Office office : provider.getOffices()) {
-                LatLng position = new LatLng(Double.valueOf(office.getLat()),
-                        Double.valueOf(office.getLong()));
-                builder.include(position);
-//                MarkerOptions marker = new MarkerOptions().position(position).title(provider.getDisplayFullName())
-//                        .snippet(office.getAddress())
-////                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-//                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
-//                count++;
-//                Timber.i("markers "+position.toString());
-//                map.addMarker(marker);
-                MapClusterItem item = new MapClusterItem(Double.valueOf(office.getLat()),
-                        Double.valueOf(office.getLong()),
-                        provider.getDisplayFullName(),
-                        office.getAddress());
-                mClusterManager.addItem(item);
-            }
-        }
-        Timber.i("No. Of markers "+count);
-        LatLngBounds bounds = builder.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 20);
-        map.animateCamera(cu);
-    }
-
-//    public static class MapViewFragment extends Fragment {
-//
-//        @Nullable
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//            View view = inflater.inflate(R.layout.fragment_providers_map, container, false);
-//            return view;
-//        }
-//    }
 }
