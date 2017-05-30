@@ -138,7 +138,8 @@ public class MapUtil {
             googleMap.setMaxZoomPreference(15f);
         }
 
-        googleMap.animateCamera(MapUtil.calculateZoom(context, markers));
+//        googleMap.animateCamera(MapUtil.calculateZoom(context, markers));
+        googleMap.moveCamera(MapUtil.calculateZoom(context, markers));
     }
 
     public static void setMarkerSelectedIcon(Context context, ArrayList<Marker> markers, String address) {
