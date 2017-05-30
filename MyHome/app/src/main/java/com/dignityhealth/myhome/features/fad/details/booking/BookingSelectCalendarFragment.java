@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.features.fad.details.booking;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.utils.DateUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -96,6 +98,15 @@ public class BookingSelectCalendarFragment extends Fragment {
             public void onClick(View v) {
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onMonthHeaderClicked();
+                }
+            }
+        });
+
+        calendar.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                if(selected){
+                    setMonthHeader(date);
                 }
             }
         });
