@@ -28,7 +28,9 @@ import java.util.Date;
 public class BookingSelectCalendarFragment extends Fragment {
     public static final String BOOKING_SELECT_CALENDAR_TAG = "booking_select_calendar_tag";
     public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response";
+    public static final String DATE_KEY = "date";
 
+    public Date bookingDate;
     public ProviderDetailsResponse providerDetailsResponse;
     public BookingDateHeaderInterface selectTimeInterface;
 
@@ -48,6 +50,14 @@ public class BookingSelectCalendarFragment extends Fragment {
         return bookingFragment;
     }
 
+    public static BookingSelectCalendarFragment newInstance(Date date) {
+        BookingSelectCalendarFragment bookingFragment = new BookingSelectCalendarFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(DATE_KEY, date);
+        bookingFragment.setArguments(args);
+        return bookingFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -55,15 +65,23 @@ public class BookingSelectCalendarFragment extends Fragment {
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
 
         final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 1);
+        //cal.add(Calendar.DATE, 1);
 
         calendar = (MaterialCalendarView) bookingView.findViewById(R.id.calendar);
         calendar.setTopbarVisible(false);
         calendar.setPagingEnabled(false);
-        calendar.setSelectedDate(cal);
-        calendar.setDateSelected(cal, true);
-        calendar.setCurrentDate(CalendarDay.from(cal), true);
         calendar.state().edit().setMinimumDate(cal).commit();
+
+        if(args != null && args.getSerializable(DATE_KEY) != null){
+            bookingDate = (Date) args.getSerializable(DATE_KEY);
+            calendar.setSelectedDate(bookingDate);
+            calendar.setDateSelected(bookingDate, true);
+            calendar.setCurrentDate(CalendarDay.from(bookingDate), true);
+        } else {
+            calendar.setSelectedDate(cal);
+            calendar.setDateSelected(cal, true);
+            calendar.setCurrentDate(CalendarDay.from(cal), true);
+        }
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -116,6 +134,10 @@ public class BookingSelectCalendarFragment extends Fragment {
 
     public void setMonthHeader(CalendarDay calendarDay) {
         monthLabel.setText(DateUtil.convertDateToReadable(calendarDay.getDate()));
+
+        if(selectTimeInterface != null){
+            selectTimeInterface.onDateChanged(calendarDay.getDate());
+        }
     }
 
     public void moveSelectedDay(int daysToMove) {

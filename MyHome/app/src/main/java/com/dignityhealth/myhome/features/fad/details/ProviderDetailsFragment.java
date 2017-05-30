@@ -51,6 +51,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -105,6 +106,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
+
+    //Booking
+    Date bookingDate;
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
@@ -510,7 +514,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         if (fragment instanceof BookingSelectCalendarFragment) {
             //You're on the calendar
-            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(currentOffice.getAppointments());
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(currentOffice.getAppointments(), bookingDate);
             bookingFragment.setSelectTimeInterface(this);
             getChildFragmentManager()
                     .beginTransaction()
@@ -523,7 +527,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         } else if (fragment instanceof BookingSelectTimeFragment) {
             //You were on the times
 
-            BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance();
+            BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(bookingDate);
             bookingFragment.setSelectTimeInterface(this);
             getChildFragmentManager()
                     .beginTransaction()
@@ -534,6 +538,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             expandableLinearLayout.initLayout();
             expandableLinearLayout.expand();
         }
+    }
+
+    @Override
+    public void onDateChanged(Date date) {
+        bookingDate = date;
     }
 
     @Override
