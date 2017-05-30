@@ -12,7 +12,12 @@ import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
+import com.dignityhealth.myhome.utils.DateUtil;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by kwelsh on 5/25/17.
@@ -26,6 +31,8 @@ public class BookingSelectCalendarFragment extends Fragment {
     public BookingDateHeaderInterface selectTimeInterface;
 
     View bookingView;
+    MaterialCalendarView calendar;
+    TextView monthLabel;
 
     public static BookingSelectCalendarFragment newInstance() {
         return new BookingSelectCalendarFragment();
@@ -45,13 +52,22 @@ public class BookingSelectCalendarFragment extends Fragment {
         Bundle args = getArguments();
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
 
-        MaterialCalendarView calendar = (MaterialCalendarView) bookingView.findViewById(R.id.calendar);
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 1);
+
+        calendar = (MaterialCalendarView) bookingView.findViewById(R.id.calendar);
         calendar.setTopbarVisible(false);
+        calendar.setPagingEnabled(false);
+        calendar.setSelectedDate(cal);
+        calendar.setDateSelected(cal, true);
+        calendar.setCurrentDate(CalendarDay.from(cal), true);
+        calendar.state().edit().setMinimumDate(cal).commit();
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
-        ImageView rightArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
-        TextView monthLabel = (TextView) dateHeader.findViewById(R.id.date);
+        ImageView rightArrow = (ImageView) dateHeader.findViewById(R.id.right_date_arrow);
+        monthLabel = (TextView) dateHeader.findViewById(R.id.date);
+        setMonthHeader(calendar.getSelectedDate());
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +75,8 @@ public class BookingSelectCalendarFragment extends Fragment {
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onBackArrowClicked();
                 }
+
+                moveSelectedDay(-1);
             }
         });
 
@@ -68,6 +86,8 @@ public class BookingSelectCalendarFragment extends Fragment {
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onFrontArrowClicked();
                 }
+
+                moveSelectedDay(1);
             }
         });
 
@@ -83,25 +103,25 @@ public class BookingSelectCalendarFragment extends Fragment {
         return bookingView;
     }
 
-//    /**
-//     * Handles setting up the layout for selecting the calendar of the appointment
-//     */
-//    private void setupDate() {
-//        MaterialCalendarView materialCalendarView = (MaterialCalendarView) selectDateLayout.findViewById(R.id.calendar);
-//        materialCalendarView.setPagingEnabled(false);
-//        materialCalendarView.state().edit().setMinimumDate(Calendar.getInstance()).commit();
-//
-//        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-//            @Override
-//            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-//                selectedDateHeader = DateUtil.convertDateToReadable(date.getDate());
-//                isDateSelected = true;
-//                refreshSelectTime();
-//                refreshSelectReason();
-//            }
-//        });
-//    }
+    public void setMonthHeader(CalendarDay calendarDay) {
+        monthLabel.setText(DateUtil.convertDateToReadable(calendarDay.getDate()));
+    }
 
+    public void moveSelectedDay(int daysToMove) {
+        Date date = calendar.getSelectedDate().getDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, daysToMove);
+        CalendarDay calendarDay = CalendarDay.from(cal);
+
+        if(calendarDay.isInRange(calendar.getMinimumDate(), calendar.getMaximumDate())){
+            calendar.clearSelection();
+            calendar.setSelectedDate(calendarDay);
+            calendar.setDateSelected(calendarDay, true);
+            calendar.setCurrentDate(calendarDay, true);
+            setMonthHeader(calendarDay);
+        }
+    }
 
     public void setSelectTimeInterface(BookingDateHeaderInterface selectTimeInterface) {
         this.selectTimeInterface = selectTimeInterface;

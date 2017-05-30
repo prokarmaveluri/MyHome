@@ -1,55 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/calendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="18dp">
-
-    <TextView
-        android:id="@+id/date_header"
-        style="@style/MonthTextAppearance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Date Stuff Here..."
-        android:textSize="20sp"
-        tools:ignore="HardcodedText" />
-
-    <com.dignityhealth.myhome.views.FlowLayout
-        android:id="@+id/time_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <!--We add buttons dynamically-->
-        <!--<ToggleButton-->
-        <!--android:id="@+id/book_me"-->
-        <!--style="@style/selectableButtonStyle"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="18dp"-->
-        <!--android:gravity="center"-->
-        <!--android:padding="12dp"-->
-        <!--android:layout_margin="64dp"-->
-        <!--android:textOff="9:15am"-->
-        <!--android:textOn="9:15am" />-->
-
-        <!--<ToggleButton-->
-        <!--android:id="@+id/book_other"-->
-        <!--style="@style/selectableButtonStyle"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="18dp"-->
-        <!--android:gravity="center"-->
-        <!--android:padding="12dp"-->
-        <!--android:textOff="10:30am"-->
-        <!--android:textOn="10:30am" />-->
-
-    </com.dignityhealth.myhome.views.FlowLayout>
 
     <EditText
         android:id="@+id/booking_reason"
