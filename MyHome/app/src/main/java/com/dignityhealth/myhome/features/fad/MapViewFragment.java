@@ -93,6 +93,8 @@ public class MapViewFragment extends Fragment implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+//        map.setMyLocationEnabled(true);
+
         mClusterManager = new ClusterManager<>(getActivity(), map);
         map.setOnCameraIdleListener(mClusterManager);
         map.setOnMarkerClickListener(mClusterManager);
@@ -124,7 +126,8 @@ public class MapViewFragment extends Fragment implements
 
         LatLngBounds bounds = builder.build();
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 20);
-        map.animateCamera(cu);
+//        map.animateCamera(cu);
+        map.moveCamera(cu);
         map.setOnInfoWindowClickListener(this);
         map.setOnCameraMoveCanceledListener(this);
     }
