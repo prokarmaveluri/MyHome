@@ -73,6 +73,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView name;
     private TextView speciality;
     private TextView address;
+    private TextView phone;
     private Button bookAppointment;
     private ExpandableLinearLayout expandableLinearLayout;
 
@@ -147,6 +148,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         name = (TextView) providerDetailsView.findViewById(R.id.doctor_name);
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
+        phone = (TextView) providerDetailsView.findViewById(R.id.phone);
 
         footerLayout = (LinearLayout) providerDetailsView.findViewById(R.id.provider_details_footer);
         statsProgressBar = (ProgressBar) footerLayout.findViewById(R.id.stats_progress_bar);
@@ -191,6 +193,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         name.setText(provider.getDisplayFullName() != null ? provider.getDisplayFullName() : "Name Unknown");
         speciality.setText(provider.getSpecialties() != null ? provider.getSpecialties().get(0) : "Specialities Unknown");
         address.setText(provider.getOffices() != null ? provider.getOffices().get(0).getAddress1() + "\n" + provider.getOffices().get(0).getAddress() : "Address Unknown");
+        phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumber(provider.getOffices().get(0).getPhone()) : "Phone Number Unknown");
         currentOffice = provider.getOffices().get(0);
     }
 
@@ -311,6 +314,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         address.setText(marker.getSnippet());
+        phone.setText(CommonUtil.constructPhoneNumber(currentOffice.getPhone()));
         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
     }
 
