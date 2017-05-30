@@ -31,7 +31,6 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingDialogInterf
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDoneFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDoneInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectCalendarFragment;
-import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
@@ -228,8 +227,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         //Setup Booking
                         currentOffice = providerDetailsResponse.getOffices().get(0);
                         bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
-                        BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance(providerDetailsResponse);
-                        bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+                        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(providerDetailsResponse);
+                        bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.booking_frame, bookingFragment)
@@ -300,8 +299,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             //Close book appointments and reset flow again
             expandableLinearLayout.collapse();
             bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
-            BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance(providerDetailsResponse);
-            bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(providerDetailsResponse);
+            bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
             getChildFragmentManager()
                     .beginTransaction()
                     .replace(R.id.booking_frame, bookingFragment)
