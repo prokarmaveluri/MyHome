@@ -282,4 +282,44 @@ public class ProviderDetailsResponse implements Parcelable {
             return new ProviderDetailsResponse[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "ProviderDetailsResponse{" +
+                "RecordNumber=" + RecordNumber +
+                ", ProviderId='" + ProviderId + '\'' +
+                ", Npi='" + Npi + '\'' +
+                ", Title='" + Title + '\'' +
+                ", FirstName='" + FirstName + '\'' +
+                ", MiddleName='" + MiddleName + '\'' +
+                ", MiddleInitialDot='" + MiddleInitialDot + '\'' +
+                ", LastName='" + LastName + '\'' +
+                ", DisplayFullName='" + DisplayFullName + '\'' +
+                ", DisplayLastName='" + DisplayLastName + '\'' +
+                ", DisplayLastNamePlural='" + DisplayLastNamePlural + '\'' +
+                ", DateOfBirth='" + DateOfBirth + '\'' +
+                ", Gender='" + Gender + '\'' +
+                ", YearsOfExperience='" + YearsOfExperience + '\'' +
+                ", AcceptsNewPatients=" + AcceptsNewPatients +
+                ", ImageUrl='" + ImageUrl + '\'' +
+                ", Quote='" + Quote + '\'' +
+                ", Philosophy='" + Philosophy + '\'' +
+                ", InMyOwnWords='" + InMyOwnWords + '\'' +
+                ", Specialties=" + Specialties +
+                ", Languages=" + Languages +
+                ", Degree='" + Degree + '\'' +
+                ", MedicalSchools=" + MedicalSchools +
+                ", Residencies=" + Residencies +
+                ", Fellowships=" + Fellowships +
+                ", Internships=" + Internships +
+                ", Practicums=" + Practicums +
+                ", Facilities=" + Facilities +
+                ", Offices=" + Offices +
+                ", Memberships=" + Memberships +
+                ", Certifications=" + Certifications +
+                ", Awards=" + Awards +
+                ", HasAppointments=" + HasAppointments +
+                ", ServiceErrors=" + ServiceErrors +
+                '}';
+    }
 }
