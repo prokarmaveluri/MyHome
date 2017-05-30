@@ -3,13 +3,13 @@ package com.dignityhealth.myhome.features.fad;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentProviderListBinding;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
@@ -25,14 +25,16 @@ import java.util.List;
  * Fragment for Find a doctor, display list of doctors with search feature.
  */
 
-public class ProviderListFragment extends BaseFragment implements
+public class ProviderListFragment extends Fragment implements
         ProvidersAdapter.IProviderClick {
 
-    private FragmentProviderListBinding binding;
-    private ProvidersAdapter adapter;
     private String errorMsg;
+    private ProvidersAdapter adapter;
+    private FragmentProviderListBinding binding;
     private ArrayList<String> recentlyViewed = new ArrayList<>();
     private List<Provider> providerList = new ArrayList<>();
+
+    public static ProvidersAdapter.IProviderClick listener;
 
     private enum State {
         LIST,
@@ -42,7 +44,8 @@ public class ProviderListFragment extends BaseFragment implements
 
     public static final String FAD_TAG = "fad_list_tag";
 
-    public static ProviderListFragment newInstance() {
+    public static ProviderListFragment newInstance(ProvidersAdapter.IProviderClick listener) {
+        ProviderListFragment.listener = listener;
         return new ProviderListFragment();
     }
 
@@ -64,16 +67,15 @@ public class ProviderListFragment extends BaseFragment implements
     }
 
     @Override
-    public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.FAD_LIST;
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
         if (providerList != null && providerList.size() > 0) {
-            adapter = new ProvidersAdapter(providerList, getActivity(), this, recentlyViewed);
+            if (listener == null) {
+                adapter = new ProvidersAdapter(providerList, getActivity(), this, recentlyViewed);
+            } else {
+                adapter = new ProvidersAdapter(providerList, getActivity(), listener, recentlyViewed);
+            }
             binding.providersList.setLayoutManager(new LinearLayoutManager(getActivity()));
             binding.providersList.setAdapter(adapter);
             viewState(State.LIST);

@@ -543,6 +543,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Override
     public void onPageSelected(int position) {
         currentPageSelection = position;
+        ProviderListFragment.listener = null;
     }
 
     @Override
@@ -550,7 +551,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     }
 
-    private void setPager(){
+    private void setPager() {
         pagerAdapter =
                 new FadPagerAdapter(getChildFragmentManager(), providerList, "");
         binding.fadPager.setAdapter(pagerAdapter);

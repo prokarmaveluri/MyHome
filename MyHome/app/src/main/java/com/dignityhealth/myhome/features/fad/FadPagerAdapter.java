@@ -32,7 +32,7 @@ public class FadPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: //List
-                Fragment fragment = ProviderListFragment.newInstance();
+                Fragment fragment = ProviderListFragment.newInstance(null);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
                 bundle.putString("PROVIDER_MSG", message);
