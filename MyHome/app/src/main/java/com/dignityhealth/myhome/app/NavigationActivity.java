@@ -36,6 +36,7 @@ import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.MapView;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -43,7 +44,7 @@ import com.google.android.gms.maps.MapView;
 
 public class NavigationActivity extends AppCompatActivity implements NavigationInterface {
     private static ActivityTag activityTag = ActivityTag.NONE;
-    private BottomNavigationView bottomNavigationView;
+    private BottomNavigationViewEx bottomNavigationView;
     private ProgressBar progressBar;
 
     @Override
@@ -53,7 +54,13 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         setContentView(R.layout.navigation_activity);
 
         LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
-        bottomNavigationView = (BottomNavigationView) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
+        bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
+        bottomNavigationView.enableAnimation(false);
+        bottomNavigationView.enableShiftingMode(false);
+        bottomNavigationView.enableItemShiftingMode(false);
+        bottomNavigationView.setTextVisibility(true);
+        bottomNavigationView.setTextSize(13f);
+
         progressBar = (ProgressBar) findViewById(R.id.dash_progress);
         setActivityTag(ActivityTag.NONE);
         initializeBottomView();
