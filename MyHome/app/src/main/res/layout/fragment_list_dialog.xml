@@ -1,0 +1,53 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.dignityhealth.myhome.features.fad.ProviderListDialog.DialogClick" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:id="@+id/dialog_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:onClick="@{handlers::onClickEvent}"
+                android:padding="16dp"
+                android:src="@mipmap/xblue" />
+
+            <TextView
+                style="@style/tradeGothicLTStdLight_20"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/dialog_close"
+                android:gravity="center_vertical"
+                android:text="@string/find_care" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/titleBarSeparator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/titleBar"
+            android:background="@color/md_blue_grey_650" />
+
+        <FrameLayout
+            android:id="@+id/listFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/titleBarSeparator" />
+    </RelativeLayout>
+</layout>
