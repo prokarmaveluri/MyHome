@@ -133,7 +133,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onResume() {
         super.onResume();
         RecentlyViewedDataSourceDB.getInstance().createEntry(provider.getProviderId());
-        ((NavigationActivity) getActivity()).setActionBarTitle("Find Care");
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.find_care));
         ((NavigationActivity) getActivity()).getNavigationActionBar().show();
     }
 

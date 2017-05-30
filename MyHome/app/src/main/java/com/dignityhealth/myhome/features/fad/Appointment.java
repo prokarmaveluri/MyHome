@@ -69,4 +69,21 @@ public class Appointment implements Parcelable {
             return new Appointment[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "Time='" + Time + '\'' +
+                ", Selected=" + Selected +
+                ", FacilityId='" + FacilityId + '\'' +
+                ", FacilityAddress='" + FacilityAddress + '\'' +
+                ", FacilityCity='" + FacilityCity + '\'' +
+                ", FacilityState='" + FacilityState + '\'' +
+                ", FacilityZip='" + FacilityZip + '\'' +
+                ", FacilityLat='" + FacilityLat + '\'' +
+                ", FacilityLong='" + FacilityLong + '\'' +
+                ", RegistrationUrl='" + RegistrationUrl + '\'' +
+                ", FullAddress='" + FullAddress + '\'' +
+                '}';
+    }
 }
