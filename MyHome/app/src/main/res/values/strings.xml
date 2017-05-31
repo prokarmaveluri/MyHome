@@ -134,5 +134,6 @@
     <string name="book">Book</string>
     <string name="book_success">Your appointment has been successfully booked.</string>
     <string name="get_directions">Get Directions</string>
+    <string name="search_this_area">Search This Area</string>
 
 </resources>

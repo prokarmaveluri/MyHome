@@ -20,6 +20,8 @@ import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.dignityhealth.myhome.views.FlowLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by kwelsh on 5/25/17.
@@ -27,12 +29,16 @@ import java.util.ArrayList;
 
 public class BookingSelectTimeFragment extends Fragment {
     public static final String BOOKING_SELECT_TIME_TAG = "booking_select_time_tag";
-    public static final String APPOINTMENTS = "appointments";
+    public static final String APPOINTMENTS_KEY = "appointments";
+    public static final String DATE_KEY = "date";
 
     public ArrayList<Appointment> appointments;
+    public Date bookingDate;
     public BookingDateHeaderInterface selectTimeInterface;
 
     View bookingView;
+    TextView monthLabel;
+
 
     public static BookingSelectTimeFragment newInstance() {
         return new BookingSelectTimeFragment();
@@ -41,7 +47,16 @@ public class BookingSelectTimeFragment extends Fragment {
     public static BookingSelectTimeFragment newInstance(ArrayList<Appointment> appointments) {
         BookingSelectTimeFragment bookingFragment = new BookingSelectTimeFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(APPOINTMENTS, appointments);
+        args.putParcelableArrayList(APPOINTMENTS_KEY, appointments);
+        bookingFragment.setArguments(args);
+        return bookingFragment;
+    }
+
+    public static BookingSelectTimeFragment newInstance(ArrayList<Appointment> appointments, Date date) {
+        BookingSelectTimeFragment bookingFragment = new BookingSelectTimeFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(APPOINTMENTS_KEY, appointments);
+        args.putSerializable(DATE_KEY, date);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -50,14 +65,24 @@ public class BookingSelectTimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
-        appointments = args.getParcelableArrayList(APPOINTMENTS);
+        appointments = args.getParcelableArrayList(APPOINTMENTS_KEY);
+
+        if (args != null && args.getSerializable(DATE_KEY) != null) {
+            bookingDate = (Date) args.getSerializable(DATE_KEY);
+        } else {
+            Calendar calendar = Calendar.getInstance();
+            //calendar.add(Calendar.DATE, 1);
+            bookingDate = calendar.getTime();
+        }
+
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
         setAppointmentTimes((FlowLayout) bookingView.findViewById(R.id.time_group), appointments);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
-        ImageView rightArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
-        TextView monthLabel = (TextView) dateHeader.findViewById(R.id.date);
+        ImageView rightArrow = (ImageView) dateHeader.findViewById(R.id.right_date_arrow);
+        monthLabel = (TextView) dateHeader.findViewById(R.id.date);
+        setMonthHeader(bookingDate);
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +90,9 @@ public class BookingSelectTimeFragment extends Fragment {
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onBackArrowClicked();
                 }
+
+                bookingDate = DateUtil.moveDate(bookingDate, -1);
+                setMonthHeader(bookingDate);
             }
         });
 
@@ -74,6 +102,9 @@ public class BookingSelectTimeFragment extends Fragment {
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onFrontArrowClicked();
                 }
+
+                bookingDate = DateUtil.moveDate(bookingDate, 1);
+                setMonthHeader(bookingDate);
             }
         });
 
@@ -149,6 +180,13 @@ public class BookingSelectTimeFragment extends Fragment {
 //        return topTimes;
 //    }
 
+    public void setMonthHeader(Date date) {
+        monthLabel.setText(DateUtil.convertDateToReadable(date));
+
+        if(selectTimeInterface != null){
+            selectTimeInterface.onDateChanged(bookingDate);
+        }
+    }
 
     public void setSelectTimeInterface(BookingDateHeaderInterface selectTimeInterface) {
         this.selectTimeInterface = selectTimeInterface;

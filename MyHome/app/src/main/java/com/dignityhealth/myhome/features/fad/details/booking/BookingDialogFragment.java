@@ -12,9 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
+import com.dignityhealth.myhome.features.profile.Profile;
+import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.views.WrappingViewPager;
 
 /**
@@ -70,7 +73,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         });
 
         bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this));
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this, true, ProfileManager.getProfile()));
 
         return bookingView;
     }
@@ -126,10 +129,16 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     }
 
     private void finishBooking() {
-        if(bookingDialogInterface != null){
+        if (bookingDialogInterface != null) {
             bookingDialogInterface.onBookingDialogFinished();
         }
 
-        this.getDialog().dismiss();
+        Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();
+
+        if (!formsProfile.equalsSansEmails(ProfileManager.getProfile())) {
+            Toast.makeText(getContext(), "Do you want to save information to Profile?", Toast.LENGTH_SHORT).show();
+        } else {
+            this.getDialog().dismiss();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.features.fad.details.booking;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.utils.DateUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -26,7 +28,9 @@ import java.util.Date;
 public class BookingSelectCalendarFragment extends Fragment {
     public static final String BOOKING_SELECT_CALENDAR_TAG = "booking_select_calendar_tag";
     public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response";
+    public static final String DATE_KEY = "date";
 
+    public Date bookingDate;
     public ProviderDetailsResponse providerDetailsResponse;
     public BookingDateHeaderInterface selectTimeInterface;
 
@@ -46,6 +50,14 @@ public class BookingSelectCalendarFragment extends Fragment {
         return bookingFragment;
     }
 
+    public static BookingSelectCalendarFragment newInstance(Date date) {
+        BookingSelectCalendarFragment bookingFragment = new BookingSelectCalendarFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(DATE_KEY, date);
+        bookingFragment.setArguments(args);
+        return bookingFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -53,15 +65,23 @@ public class BookingSelectCalendarFragment extends Fragment {
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
 
         final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 1);
+        //cal.add(Calendar.DATE, 1);
 
         calendar = (MaterialCalendarView) bookingView.findViewById(R.id.calendar);
         calendar.setTopbarVisible(false);
         calendar.setPagingEnabled(false);
-        calendar.setSelectedDate(cal);
-        calendar.setDateSelected(cal, true);
-        calendar.setCurrentDate(CalendarDay.from(cal), true);
         calendar.state().edit().setMinimumDate(cal).commit();
+
+        if(args != null && args.getSerializable(DATE_KEY) != null){
+            bookingDate = (Date) args.getSerializable(DATE_KEY);
+            calendar.setSelectedDate(bookingDate);
+            calendar.setDateSelected(bookingDate, true);
+            calendar.setCurrentDate(CalendarDay.from(bookingDate), true);
+        } else {
+            calendar.setSelectedDate(cal);
+            calendar.setDateSelected(cal, true);
+            calendar.setCurrentDate(CalendarDay.from(cal), true);
+        }
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -100,19 +120,30 @@ public class BookingSelectCalendarFragment extends Fragment {
             }
         });
 
+        calendar.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                if(selected){
+                    setMonthHeader(date);
+                }
+            }
+        });
+
         return bookingView;
     }
 
     public void setMonthHeader(CalendarDay calendarDay) {
         monthLabel.setText(DateUtil.convertDateToReadable(calendarDay.getDate()));
+
+        if(selectTimeInterface != null){
+            selectTimeInterface.onDateChanged(calendarDay.getDate());
+        }
     }
 
     public void moveSelectedDay(int daysToMove) {
         Date date = calendar.getSelectedDate().getDate();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, daysToMove);
-        CalendarDay calendarDay = CalendarDay.from(cal);
+        date = DateUtil.moveDate(date, daysToMove);
+        CalendarDay calendarDay = CalendarDay.from(date);
 
         if(calendarDay.isInRange(calendar.getMinimumDate(), calendar.getMaximumDate())){
             calendar.clearSelection();
