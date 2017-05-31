@@ -9,10 +9,10 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.profile.Profile;
+import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 
@@ -110,26 +110,17 @@ public class BookingSaveProfileDialog extends DialogFragment {
         NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (isAdded()) {
-                    if (response.isSuccessful()) {
-                        Timber.d("Successful Response\n" + response);
-                        Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
-                    }
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                    ProfileManager.setProfile(formsProfile);
                 } else {
-                    if (isAdded()) {
-                        Timber.e("Response, but not successful?\n" + response);
-                        Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
-                    }
+                    Timber.e("Response, but not successful?\n" + response);
                 }
-
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                if (isAdded()) {
-                    Timber.e("Something failed! :/");
-                    Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
-                }
+                Timber.e("Something failed! :/");
             }
         });
     }
