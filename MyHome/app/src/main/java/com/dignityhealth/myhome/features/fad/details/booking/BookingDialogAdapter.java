@@ -10,8 +10,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.profile.Address;
+import com.dignityhealth.myhome.features.profile.InsuranceProvider;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
+import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.DateUtil;
 
 /**
@@ -28,7 +31,24 @@ public class BookingDialogAdapter extends PagerAdapter {
     private ViewGroup personalLayout;
     private ViewGroup reasonForVisitLayout;
 
-    private Profile profile;
+    TextInputEditText firstName;
+    TextInputEditText lastName;
+    TextInputEditText preferredName;
+    Spinner gender;
+    TextInputEditText dateOfBirth;
+    TextInputEditText address;
+    TextInputEditText address2;
+    TextInputEditText city;
+    Spinner state;
+    TextInputEditText zip;
+    TextInputEditText phone;
+    TextView email;
+
+    TextInputEditText insuranceProvider;
+    TextInputEditText memberId;
+    TextInputEditText group;
+
+    private Profile formsProfile;
 
     public BookingDialogAdapter(Context context, BookingDialogToolbarInterface bookingDialogToolbarInterface, boolean autoPopulateFromProfile) {
         this.context = context;
@@ -36,7 +56,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         this.autoPopulateFromProfile = autoPopulateFromProfile;
 
         if (autoPopulateFromProfile) {
-            profile = ProfileManager.getProfile();
+            formsProfile = Profile.copy(ProfileManager.getProfile());
         }
     }
 
@@ -44,7 +64,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         this.context = context;
         this.bookingDialogToolbarInterface = bookingDialogToolbarInterface;
         this.autoPopulateFromProfile = autoPopulateFromProfile;
-        this.profile = profile;
+        formsProfile = Profile.copy(profile);
     }
 
     @Override
@@ -113,24 +133,20 @@ public class BookingDialogAdapter extends PagerAdapter {
      * Auto-populates Insurance page with values from Profile Singleton
      */
     private void populateInsuranceLayout() {
-        TextInputEditText insuranceProvider;
-        TextInputEditText memberId;
-        TextInputEditText group;
-
         insuranceProvider = (TextInputEditText) insuranceLayout.findViewById(R.id.provider);
         memberId = (TextInputEditText) insuranceLayout.findViewById(R.id.id);
         group = (TextInputEditText) insuranceLayout.findViewById(R.id.group);
 
-        if (profile.insuranceProvider != null && profile.insuranceProvider.providerName != null) {
-            insuranceProvider.setText(profile.insuranceProvider.providerName);
+        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.providerName != null) {
+            insuranceProvider.setText(formsProfile.insuranceProvider.providerName);
         }
 
-        if (profile.insuranceProvider != null && profile.insuranceProvider.memberNumber != null) {
-            memberId.setText(profile.insuranceProvider.memberNumber);
+        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.memberNumber != null) {
+            memberId.setText(formsProfile.insuranceProvider.memberNumber);
         }
 
-        if (profile.insuranceProvider != null && profile.insuranceProvider.groupNumber != null) {
-            group.setText(profile.insuranceProvider.groupNumber);
+        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.groupNumber != null) {
+            group.setText(formsProfile.insuranceProvider.groupNumber);
         }
     }
 
@@ -138,19 +154,6 @@ public class BookingDialogAdapter extends PagerAdapter {
      * Auto-populates Personal page with values from Profile Singleton
      */
     private void populatePersonalLayout() {
-        TextInputEditText firstName;
-        TextInputEditText lastName;
-        TextInputEditText preferredName;
-        Spinner gender;
-        TextInputEditText dateOfBirth;
-        TextInputEditText address;
-        TextInputEditText address2;
-        TextInputEditText city;
-        Spinner state;
-        TextInputEditText zip;
-        TextInputEditText phone;
-        TextView email;
-
         firstName = (TextInputEditText) personalLayout.findViewById(R.id.first_name);
         lastName = (TextInputEditText) personalLayout.findViewById(R.id.last_name);
         preferredName = (TextInputEditText) personalLayout.findViewById(R.id.preferred_name);
@@ -164,23 +167,23 @@ public class BookingDialogAdapter extends PagerAdapter {
         phone = (TextInputEditText) personalLayout.findViewById(R.id.phone);
         email = (TextView) personalLayout.findViewById(R.id.email);
 
-        if (profile.firstName != null) {
-            firstName.setText(profile.firstName);
+        if (formsProfile.firstName != null) {
+            firstName.setText(formsProfile.firstName);
         }
 
-        if (profile.lastName != null) {
-            lastName.setText(profile.lastName);
+        if (formsProfile.lastName != null) {
+            lastName.setText(formsProfile.lastName);
         }
 
-        if (profile.preferredName != null) {
-            preferredName.setText(profile.preferredName);
+        if (formsProfile.preferredName != null) {
+            preferredName.setText(formsProfile.preferredName);
         }
 
-        if (profile.gender != null) {
+        if (formsProfile.gender != null) {
 
             //Loop through genders until we find a match, then set gender spinner selection
             for (int i = 0; i < gender.getAdapter().getCount(); i++) {
-                if (profile.gender.equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
+                if (formsProfile.gender.equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
                     gender.setSelection(i);
                     break;
                 }
@@ -189,27 +192,27 @@ public class BookingDialogAdapter extends PagerAdapter {
             gender.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (profile.dateOfBirth != null) {
-            dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
+        if (formsProfile.dateOfBirth != null) {
+            dateOfBirth.setText(DateUtil.convertUTCtoReadable(formsProfile.dateOfBirth));
         }
 
-        if (profile.address != null && profile.address.line1 != null) {
-            address.setText(profile.address.line1);
+        if (formsProfile.address != null && formsProfile.address.line1 != null) {
+            address.setText(formsProfile.address.line1);
         }
 
-        if (profile.address != null && profile.address.line2 != null) {
-            address2.setText(profile.address.line2);
+        if (formsProfile.address != null && formsProfile.address.line2 != null) {
+            address2.setText(formsProfile.address.line2);
         }
 
-        if (profile.address != null && profile.address.city != null) {
-            city.setText(profile.address.city);
+        if (formsProfile.address != null && formsProfile.address.city != null) {
+            city.setText(formsProfile.address.city);
         }
 
-        if (profile.address != null && profile.address.stateOrProvince != null) {
+        if (formsProfile.address != null && formsProfile.address.stateOrProvince != null) {
 
             //Loop through states until we find a match, then set state spinner selection
             for (int i = 0; i < state.getAdapter().getCount(); i++) {
-                if (profile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
+                if (formsProfile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
                     state.setSelection(i);
                     break;
                 }
@@ -218,24 +221,90 @@ public class BookingDialogAdapter extends PagerAdapter {
             state.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (profile.address != null && profile.address.zipCode != null) {
-            zip.setText(profile.address.zipCode);
+        if (formsProfile.address != null && formsProfile.address.zipCode != null) {
+            zip.setText(formsProfile.address.zipCode);
         }
 
-        if (profile.phoneNumber != null) {
-            phone.setText(profile.phoneNumber);
+        if (formsProfile.phoneNumber != null) {
+            phone.setText(formsProfile.phoneNumber);
         }
 
-        if (profile.email != null) {
-            email.setText(profile.email);
+        if (formsProfile.email != null) {
+            email.setText(formsProfile.email);
         }
     }
 
+    /**
+     * Gets the Profile constructed from the values in the forms
+     *
+     * @return a Profile that accurately represents the forms filled out
+     */
     public Profile getProfile() {
-        return profile;
-    }
+        if (formsProfile.address == null) {
+            formsProfile.address = new Address();
+        }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+        if (formsProfile.insuranceProvider == null) {
+            formsProfile.insuranceProvider = new InsuranceProvider();
+        }
+
+        if (firstName.getText() != null && !firstName.getText().toString().isEmpty()) {
+            formsProfile.firstName = firstName.getText().toString().trim();
+        }
+
+        if (lastName.getText() != null && !lastName.getText().toString().isEmpty()) {
+            formsProfile.lastName = lastName.getText().toString().trim();
+        }
+
+        if (preferredName.getText() != null && !preferredName.getText().toString().isEmpty()) {
+            formsProfile.preferredName = preferredName.getText().toString().trim();
+        }
+
+        if (!gender.getSelectedItem().toString().isEmpty()) {
+            formsProfile.gender = gender.getSelectedItem().toString().trim();
+        }
+
+        if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().isEmpty()) {
+            formsProfile.dateOfBirth = DateUtil.convertReadableToUTC(dateOfBirth.getText().toString().trim());
+        }
+
+        if (address.getText() != null && !address.getText().toString().isEmpty()) {
+            formsProfile.address.line1 = address.getText().toString().trim();
+        }
+
+        if (address2.getText() != null && !address2.getText().toString().isEmpty()) {
+            formsProfile.address.line2 = address2.getText().toString().trim();
+        }
+
+        if (city.getText() != null && !city.getText().toString().isEmpty()) {
+            formsProfile.address.city = city.getText().toString().trim();
+        }
+
+        if (!state.getSelectedItem().toString().isEmpty() && state.getSelectedItemPosition() != 0) {
+            formsProfile.address.stateOrProvince = state.getSelectedItem().toString().trim();
+        }
+
+        if (zip.getText() != null && !zip.getText().toString().isEmpty()) {
+            formsProfile.address.zipCode = zip.getText().toString().trim();
+        }
+
+        //Make sure to strip phone number of any non-digits
+        if (phone.getText() != null && !phone.getText().toString().isEmpty()) {
+            formsProfile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
+        }
+
+        if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().isEmpty()) {
+            formsProfile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();
+        }
+
+        if (memberId.getText() != null && !memberId.getText().toString().isEmpty()) {
+            formsProfile.insuranceProvider.memberNumber = memberId.getText().toString().trim();
+        }
+
+        if (group.getText() != null && !group.getText().toString().isEmpty()) {
+            formsProfile.insuranceProvider.groupNumber = group.getText().toString().trim();
+        }
+
+        return formsProfile;
     }
 }

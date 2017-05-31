@@ -3,6 +3,8 @@ package com.dignityhealth.myhome.features.profile;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 /**
  * Created by kwelsh on 5/2/17.
  */
@@ -74,4 +76,22 @@ public class Address implements Parcelable {
             return new Address[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(line1, address.line1) &&
+                Objects.equals(line2, address.line2) &&
+                Objects.equals(city, address.city) &&
+                Objects.equals(stateOrProvince, address.stateOrProvince) &&
+                Objects.equals(zipCode, address.zipCode) &&
+                Objects.equals(countryCode, address.countryCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(line1, line2, city, stateOrProvince, zipCode, countryCode);
+    }
 }
