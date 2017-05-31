@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
@@ -24,7 +23,7 @@ import com.dignityhealth.myhome.views.WrappingViewPager;
  * Created by kwelsh on 5/25/17.
  */
 
-public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface {
+public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface, BookingSaveProfileInterface {
     public static final String BOOKING_DIALOG_TAG = "booking_dialog_tag";
     public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response";
 
@@ -133,12 +132,19 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             bookingDialogInterface.onBookingDialogFinished();
         }
 
-        Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();
+        final Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();
 
         if (!formsProfile.equalsSansEmails(ProfileManager.getProfile())) {
-            Toast.makeText(getContext(), "Do you want to save information to Profile?", Toast.LENGTH_SHORT).show();
+            BookingSaveProfileDialog dialog = BookingSaveProfileDialog.newInstance(formsProfile);
+            dialog.setSaveProfileInterface(this);
+            dialog.show(getChildFragmentManager(), "BookingSaveProfileDialog");
         } else {
             this.getDialog().dismiss();
         }
+    }
+
+    @Override
+    public void onPromptDismissed(boolean isProfileUpdated) {
+        this.getDialog().dismiss();
     }
 }

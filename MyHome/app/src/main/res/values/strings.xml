@@ -97,6 +97,7 @@
     <string name="board_certifications">Board Certifications</string>
     <string name="awards_amp_recognitions"><![CDATA[Awards & Recognitions]]></string>
     <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="languages">Languages</string>
     <string name="experience">Experience</string>
     <string name="care_philosophy">Care Philosophy</string>
@@ -134,5 +135,7 @@
     <string name="book">Book</string>
     <string name="book_success">Your appointment has been successfully booked.</string>
     <string name="get_directions">Get Directions</string>
+    <string name="save_profile_title">Save Changes</string>
+    <string name="save_profile_message">Do you wish to save this information for later?</string>
 
 </resources>
