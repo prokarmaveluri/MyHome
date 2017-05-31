@@ -133,7 +133,7 @@ public class DateUtil {
         return utcDate;
     }
 
-    public static String getTimeRangeFromUTC(String utcDate){
+    public static String getTimeRangeFromUTC(String utcDate) {
         try {
             Date date = Constants.SIMPLE_DATE_RANGE_FORMAT_UTC.parse(utcDate);
             Timber.i(date.toString());
@@ -162,5 +162,20 @@ public class DateUtil {
         }
 
         return 0;
+    }
+
+    /**
+     * Method to move a certain date a certain amount of days
+     *
+     * @param date       the date to be modified
+     * @param daysToMove the amount of days we wish to move the date. Can be negative to go back in time.
+     * @return the new date after the move
+     */
+    public static Date moveDate(Date date, int daysToMove) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, daysToMove);
+
+        return calendar.getTime();
     }
 }

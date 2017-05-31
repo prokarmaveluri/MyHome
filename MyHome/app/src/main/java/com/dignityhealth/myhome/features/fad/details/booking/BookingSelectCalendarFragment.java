@@ -142,10 +142,8 @@ public class BookingSelectCalendarFragment extends Fragment {
 
     public void moveSelectedDay(int daysToMove) {
         Date date = calendar.getSelectedDate().getDate();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, daysToMove);
-        CalendarDay calendarDay = CalendarDay.from(cal);
+        date = DateUtil.moveDate(date, daysToMove);
+        CalendarDay calendarDay = CalendarDay.from(date);
 
         if(calendarDay.isInRange(calendar.getMinimumDate(), calendar.getMaximumDate())){
             calendar.clearSelection();

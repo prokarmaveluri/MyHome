@@ -90,6 +90,9 @@ public class BookingSelectTimeFragment extends Fragment {
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onBackArrowClicked();
                 }
+
+                bookingDate = DateUtil.moveDate(bookingDate, -1);
+                setMonthHeader(bookingDate);
             }
         });
 
@@ -99,6 +102,9 @@ public class BookingSelectTimeFragment extends Fragment {
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onFrontArrowClicked();
                 }
+
+                bookingDate = DateUtil.moveDate(bookingDate, 1);
+                setMonthHeader(bookingDate);
             }
         });
 
@@ -176,6 +182,10 @@ public class BookingSelectTimeFragment extends Fragment {
 
     public void setMonthHeader(Date date) {
         monthLabel.setText(DateUtil.convertDateToReadable(date));
+
+        if(selectTimeInterface != null){
+            selectTimeInterface.onDateChanged(bookingDate);
+        }
     }
 
     public void setSelectTimeInterface(BookingDateHeaderInterface selectTimeInterface) {
