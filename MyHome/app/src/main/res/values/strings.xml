@@ -137,5 +137,6 @@
     <string name="get_directions">Get Directions</string>
     <string name="save_profile_title">Save Changes</string>
     <string name="save_profile_message">Do you wish to save this information for later?</string>
+    <string name="search_this_area">Search This Area</string>
 
 </resources>
