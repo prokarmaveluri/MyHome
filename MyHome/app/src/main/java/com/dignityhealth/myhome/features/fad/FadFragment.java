@@ -73,6 +73,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private FadInteractor.Presenter presenter;
     private FragmentStatePagerAdapter pagerAdapter;
 
+    private int distanceRange = 100;
     private static ArrayList<Provider> providerList = new ArrayList<>();
     private static ArrayList<CommonModel> newPatients = new ArrayList<>();
     private static ArrayList<CommonModel> specialties = new ArrayList<>();
@@ -229,6 +230,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         FilterDialog dialog = new FilterDialog();
         Bundle bundle = new Bundle();
 
+        bundle.putInt("DISTANCE", distanceRange);
         bundle.putParcelableArrayList("NEW_PATIENTS", newPatients);
         bundle.putParcelableArrayList("SPECIALITY", specialties);
         bundle.putParcelableArrayList("GENDER", gender);
@@ -257,6 +259,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         if (requestCode == FILTER_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data.getExtras() != null) {
+                    distanceRange = data.getExtras().getInt("DISTANCE");
                     newPatients = data.getExtras().getParcelableArrayList("NEW_PATIENTS");
                     specialties = data.getExtras().getParcelableArrayList("SPECIALITY");
                     gender = data.getExtras().getParcelableArrayList("GENDER");
@@ -267,7 +270,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     FadManager.getInstance().setLocation(location);
                 }
                 // update list with filter
-                searchForQuery(currentSearchQuery);
+                searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
             }
         }
     }
@@ -325,7 +328,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             binding.suggestionList.setVisibility(View.GONE);
             clearFilters();
             AppPreferences.getInstance().setPreference("SORT_BY", ""); // default/best match search
-            searchForQuery(v.getText().toString());
+            searchForQuery(v.getText().toString(), RESTConstants.PROVIDER_DISTANCE);
             return true;
         }
         return false;
@@ -369,7 +372,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setSelection(query.length());
         binding.suggestionList.setVisibility(View.GONE);
         CommonUtil.hideSoftKeyboard(getActivity());
-        searchForQuery(query);
+        searchForQuery(query, RESTConstants.PROVIDER_DISTANCE);
     }
 
     private List<String> getSuggestions(List<SearchSuggestionResponse> list) {
@@ -385,7 +388,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         return sug;
     }
 
-    private void searchForQuery(String query) {
+    private void searchForQuery(String query, String distanceRange) {
         try {
             if (query.length() <= 0) {
                 Toast.makeText(getActivity(), getString(R.string.query_empty), Toast.LENGTH_LONG).show();
@@ -407,7 +410,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     FadManager.getInstance().getLocation().getZipCode(),
                     RESTConstants.PROVIDER_PAGE_NO,
                     RESTConstants.PROVIDER_PAGE_SIZE,
-                    RESTConstants.PROVIDER_DISTANCE,
+                    distanceRange,
                     getSortBy(),
                     getParam(gender),
                     getParam(languages),

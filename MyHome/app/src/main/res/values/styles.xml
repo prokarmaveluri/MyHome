@@ -125,4 +125,8 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
+    <style name="SeekBarTheme" parent="Widget.AppCompat.SeekBar" >
+        <item name="colorAccent">@color/accent</item>
+    </style>
+
 </resources>

@@ -167,9 +167,12 @@
 
                         <android.support.v7.widget.AppCompatSeekBar
                             android:id="@+id/distanceRange"
+                            style="@style/SeekBarTheme"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:layout_marginTop="16dp"
+                            android:progressTint="@color/accent"
+                            android:thumbTint="@color/accent"
                             android:layout_toLeftOf="@+id/distanceRangeText"
                             android:max="100"
                             android:secondaryProgress="@color/accent" />

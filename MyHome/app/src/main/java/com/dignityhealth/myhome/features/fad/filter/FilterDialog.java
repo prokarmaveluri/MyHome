@@ -32,7 +32,6 @@ import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.CommonUtil;
-import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         RadioGroup.OnCheckedChangeListener, TextView.OnEditorActionListener,
         SeekBar.OnSeekBarChangeListener {
 
-    private int distanceRange;
+    private int distanceRange = 100;
     private ArrayList<CommonModel> newPatients;
     private ArrayList<CommonModel> specialties;
     private ArrayList<CommonModel> gender;
@@ -83,6 +82,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         setStyle(STYLE_NO_FRAME, android.R.style.Theme_DeviceDefault_Light);
 
         if (getArguments() != null) {
+            distanceRange = getArguments().getInt("DISTANCE");
             newPatients = getArguments().getParcelableArrayList("NEW_PATIENTS");
             specialties = getArguments().getParcelableArrayList("SPECIALITY");
             gender = getArguments().getParcelableArrayList("GENDER");
@@ -101,6 +101,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         binding.recentlyViewed.setChecked(AppPreferences.getInstance()
                 .getBooleanPreference("RECENTLY_VIEWED"));
 
+        sortBy = AppPreferences.getInstance().getPreference("SORT_BY");
         try {
             binding.filterLocation.addTextChangedListener(new SuggestionTextSwitcher());
             binding.expandableList.setAdapter(new FilterExpandableList(getActivity(), specialties,
@@ -123,8 +124,8 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                 binding.filterLocation.setSelection(location.getDisplayName().length());
             }
             binding.locationSugg.setVisibility(View.GONE);
-            distanceRange = Integer.valueOf(RESTConstants.PROVIDER_DISTANCE);
             binding.distanceRange.setProgress(distanceRange);
+            binding.distanceRangeText.setText(distanceRange + "mi");
             binding.distanceRange.setOnSeekBarChangeListener(this);
         } catch (NullPointerException ex) {
         }
@@ -160,7 +161,10 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             AppPreferences.getInstance().setBooleanPreference("RECENTLY_VIEWED",
                     binding.recentlyViewed.isChecked());
 
-            AppPreferences.getInstance().setPreference("SORT_BY", sortBy);
+            if (null != sortBy)
+                AppPreferences.getInstance().setPreference("SORT_BY", sortBy);
+            else
+                AppPreferences.getInstance().setPreference("SORT_BY", "");
 
             if (newPatients.size() > 0)
                 newPatients.get(0).setSelected(binding.newPatientsSwitch.isChecked());
@@ -171,6 +175,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             bundle.putParcelableArrayList("HOSPITALS", hospitals);
             bundle.putParcelableArrayList("PRACTICES", practices);
             bundle.putParcelable("LOCATION", location);
+            bundle.putInt("DISTANCE", distanceRange);
             intent.putExtras(bundle);
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
         } catch (NullPointerException ex) {
@@ -345,6 +350,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             return;
         if (sort.equals("5")) {
             updateSortByButtons(binding.distance, true);
+            binding.distanceRangeLayout.setVisibility(View.VISIBLE);
         } else if (sort.equals("4")) {
             updateSortByButtons(binding.lastName, true);
         } else if (sort.equals("")) {
