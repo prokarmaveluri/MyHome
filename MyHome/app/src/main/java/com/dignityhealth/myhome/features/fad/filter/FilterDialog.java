@@ -20,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ExpandableListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
@@ -31,6 +32,7 @@ import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.CommonUtil;
+import com.dignityhealth.myhome.utils.RESTConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +48,10 @@ import timber.log.Timber;
  * Created by cmajji on 1/03/17.
  */
 public class FilterDialog extends DialogFragment implements SuggestionsAdapter.ISuggestionClick,
-        RadioGroup.OnCheckedChangeListener, TextView.OnEditorActionListener {
+        RadioGroup.OnCheckedChangeListener, TextView.OnEditorActionListener,
+        SeekBar.OnSeekBarChangeListener {
 
+    private int distanceRange;
     private ArrayList<CommonModel> newPatients;
     private ArrayList<CommonModel> specialties;
     private ArrayList<CommonModel> gender;
@@ -119,6 +123,9 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                 binding.filterLocation.setSelection(location.getDisplayName().length());
             }
             binding.locationSugg.setVisibility(View.GONE);
+            distanceRange = Integer.valueOf(RESTConstants.PROVIDER_DISTANCE);
+            binding.distanceRange.setProgress(distanceRange);
+            binding.distanceRange.setOnSeekBarChangeListener(this);
         } catch (NullPointerException ex) {
         }
         binding.setHandlers(new DialogClick());
@@ -193,14 +200,17 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             case R.id.distance:
                 sortBy = "5";
                 updateSortByButtons(binding.distance, true);
+                binding.distanceRangeLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.bestMatch:
                 sortBy = "";
                 updateSortByButtons(binding.bestMatch, true);
+                binding.distanceRangeLayout.setVisibility(View.GONE);
                 break;
             case R.id.lastName:
                 sortBy = "4";
                 updateSortByButtons(binding.lastName, true);
+                binding.distanceRangeLayout.setVisibility(View.GONE);
                 break;
         }
     }
@@ -215,6 +225,23 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             return false;
         }
         return false;
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        Timber.i("distance progress " + progress);
+        distanceRange = progress;
+        binding.distanceRangeText.setText(progress + " mi");
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 
     public class DialogClick {

@@ -1,7 +1,9 @@
 package com.dignityhealth.myhome.features.fad;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -115,6 +118,7 @@ public class MapViewFragment extends Fragment implements
         mClusterManager = new ClusterManager<>(getActivity(), map);
         map.setOnCameraIdleListener(mClusterManager);
         map.setOnMarkerClickListener(mClusterManager);
+        mClusterManager.setRenderer(new MapClusterRenderer(getActivity(), map, mClusterManager));
         mClusterManager.setOnClusterClickListener(this);
         map.setOnCameraMoveListener(this);
         addMarkers();
@@ -274,5 +278,18 @@ public class MapViewFragment extends Fragment implements
         if (distance >= DISTANCE_SEARCH_THIS_AREA)
             return true;
         return false;
+    }
+
+    public class MapClusterRenderer extends DefaultClusterRenderer<MapClusterItem> {
+
+        public MapClusterRenderer(Context context, GoogleMap map,
+                                     ClusterManager<MapClusterItem> clusterManager) {
+            super(context, map, clusterManager);
+        }
+
+        @Override
+        protected int getColor(int clusterSize) {
+            return Color.parseColor("#097288");
+        }
     }
 }
