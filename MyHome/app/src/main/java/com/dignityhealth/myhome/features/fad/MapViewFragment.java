@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +28,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
@@ -283,13 +287,20 @@ public class MapViewFragment extends Fragment implements
     public class MapClusterRenderer extends DefaultClusterRenderer<MapClusterItem> {
 
         public MapClusterRenderer(Context context, GoogleMap map,
-                                     ClusterManager<MapClusterItem> clusterManager) {
+                                  ClusterManager<MapClusterItem> clusterManager) {
             super(context, map, clusterManager);
         }
 
         @Override
         protected int getColor(int clusterSize) {
             return Color.parseColor("#097288");
+        }
+
+        @Override
+        protected void onBeforeClusterItemRendered(MapClusterItem item, MarkerOptions markerOptions) {
+            super.onBeforeClusterItemRendered(item, markerOptions);
+            BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(getActivity(), R.mipmap.map_icon_blue);
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawable.getBitmap()));
         }
     }
 }
