@@ -30,6 +30,7 @@ import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.home.HomeFragment;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
+import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
@@ -68,6 +69,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
         NetworkManager.getInstance().getUserLocation();
+        ProfileManager.queryProfile();
         setSupportActionBar(appToolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -106,6 +108,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     protected void onDestroy() {
         super.onDestroy();
         FadManager.getInstance().setLocation(null);
+        ProfileManager.setProfile(null);
         RecentlyViewedDataSourceDB.getInstance().close();
     }
 
