@@ -153,6 +153,7 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
                 if (groupPosition == GROUP.SPECIALTIES.getValue()) {
                     specialties.get(childPosition).setSelected(!specialties.get(childPosition).getSelected());
                 } else if (groupPosition == GROUP.GENDER.getValue()) {
+                    updateGender();
                     gender.get(childPosition).setSelected(!gender.get(childPosition).getSelected());
                 } else if (groupPosition == GROUP.LANGUAGES.getValue()) {
                     languages.get(childPosition).setSelected(!languages.get(childPosition).getSelected());
@@ -161,6 +162,7 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
                 } else if (groupPosition == GROUP.PRACTICE.getValue()) {
                     practices.get(childPosition).setSelected(!practices.get(childPosition).getSelected());
                 }
+                notifyDataSetChanged();
             }
         });
         return convertView;
@@ -179,5 +181,11 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
         groups.add("Hospital");
         groups.add("Group Practice");
         return groups;
+    }
+
+    private void updateGender() {
+        for (CommonModel gen : gender) {
+            gen.setSelected(false);
+        }
     }
 }
