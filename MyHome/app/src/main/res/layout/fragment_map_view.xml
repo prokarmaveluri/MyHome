@@ -18,4 +18,20 @@
         map:uiTiltGestures="false"
         map:uiZoomControls="true"
         map:uiZoomGestures="true" />
+
+    <Button
+        android:id="@+id/searchThisArea"
+        style="@style/tradeGothicLTStdLight_18"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_enabled"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="@string/search_this_area"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone" />
 </RelativeLayout>

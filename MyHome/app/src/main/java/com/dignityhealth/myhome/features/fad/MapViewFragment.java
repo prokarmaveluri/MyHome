@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.features.fad;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,12 +11,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.RESTConstants;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,6 +51,8 @@ public class MapViewFragment extends Fragment implements
     private GoogleMap map;
     private Marker marker;
     private Provider provider;
+    private Button searchThisArea;
+    private LocationResponse location = null;
     private List<Provider> providerList = new ArrayList<>();
     private ClusterManager<MapClusterItem> mClusterManager;
 
@@ -66,16 +71,28 @@ public class MapViewFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             providerList = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            location = FadManager.getInstance().getCurrentLocation();
         }
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_map_view, container, false);
-        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.providersMap);
+        searchThisArea = (Button) view.findViewById(R.id.searchThisArea);
+
+        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.providersMap);
         map.getMapAsync(this);
+
+        searchThisArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Dev In progress...", Toast.LENGTH_LONG).show();
+            }
+        });
         return view;
     }
 
@@ -146,7 +163,7 @@ public class MapViewFragment extends Fragment implements
     public void onCameraMove() {
         if (map != null) {
             mapHandler.removeMessages(MAP_UPDATE_LOCATION);
-            mapHandler.sendEmptyMessageDelayed(MAP_UPDATE_LOCATION, 3000);
+            mapHandler.sendEmptyMessageDelayed(MAP_UPDATE_LOCATION, 600);
         }
     }
 
@@ -157,6 +174,9 @@ public class MapViewFragment extends Fragment implements
             switch (msg.what) {
                 case MAP_UPDATE_LOCATION:
                     Timber.i("Update Map Location " + map.getCameraPosition().target);
+                    if (isLocationSearchable()) {
+                        searchThisArea.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case MAP_PROVIDER_DETAILS:
                     if (marker != null)
@@ -236,5 +256,23 @@ public class MapViewFragment extends Fragment implements
             }
         }
         return null;
+    }
+
+    static float DISTANCE_SEARCH_THIS_AREA =
+            Float.valueOf(RESTConstants.PROVIDER_DISTANCE) * 1609.34f; // PROVIDER_DISTANCE miles in meters
+
+    private boolean isLocationSearchable() {
+        Location locCurr = new Location("curLocation");
+        locCurr.setLatitude(Double.valueOf(location.getLat()));
+        locCurr.setLongitude(Double.valueOf(location.getLong()));
+
+        Location newLoc = new Location("newLocation");
+        newLoc.setLatitude(Double.valueOf(map.getCameraPosition().target.latitude));
+        newLoc.setLongitude(Double.valueOf(map.getCameraPosition().target.longitude));
+        float distance = locCurr.distanceTo(newLoc); // distance in meters
+
+        if (distance >= DISTANCE_SEARCH_THIS_AREA)
+            return true;
+        return false;
     }
 }
