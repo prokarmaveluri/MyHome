@@ -15,6 +15,7 @@ import android.view.Window;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
+import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.views.WrappingViewPager;
 
 /**
@@ -70,7 +71,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         });
 
         bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this));
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this, true, ProfileManager.getProfile()));
 
         return bookingView;
     }
