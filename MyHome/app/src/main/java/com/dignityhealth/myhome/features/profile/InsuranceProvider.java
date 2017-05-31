@@ -1,12 +1,15 @@
 package com.dignityhealth.myhome.features.profile;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Objects;
 
 /**
  * Created by kwelsh on 5/2/17.
  */
 
-public class InsuranceProvider {
+public class InsuranceProvider implements Parcelable {
     public String providerName;
     public String insurancePlan;
     public String groupNumber;
@@ -53,4 +56,39 @@ public class InsuranceProvider {
 
         return insuranceProvider;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.providerName);
+        dest.writeString(this.insurancePlan);
+        dest.writeString(this.groupNumber);
+        dest.writeString(this.memberNumber);
+    }
+
+    public InsuranceProvider() {
+    }
+
+    protected InsuranceProvider(Parcel in) {
+        this.providerName = in.readString();
+        this.insurancePlan = in.readString();
+        this.groupNumber = in.readString();
+        this.memberNumber = in.readString();
+    }
+
+    public static final Parcelable.Creator<InsuranceProvider> CREATOR = new Parcelable.Creator<InsuranceProvider>() {
+        @Override
+        public InsuranceProvider createFromParcel(Parcel source) {
+            return new InsuranceProvider(source);
+        }
+
+        @Override
+        public InsuranceProvider[] newArray(int size) {
+            return new InsuranceProvider[size];
+        }
+    };
 }

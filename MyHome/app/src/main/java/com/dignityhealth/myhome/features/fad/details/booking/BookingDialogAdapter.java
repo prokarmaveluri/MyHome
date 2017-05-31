@@ -1,11 +1,15 @@
 package com.dignityhealth.myhome.features.fad.details.booking;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.view.PagerAdapter;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -14,6 +18,8 @@ import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.DateUtil;
+
+import java.util.Calendar;
 
 /**
  * Created by kwelsh on 5/18/17.
@@ -45,6 +51,19 @@ public class BookingDialogAdapter extends PagerAdapter {
     TextInputEditText insuranceProvider;
     TextInputEditText memberId;
     TextInputEditText group;
+
+    Calendar myCalendar = Calendar.getInstance();
+    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
+        }
+    };
 
     private Profile formsProfile;
 
@@ -164,6 +183,32 @@ public class BookingDialogAdapter extends PagerAdapter {
         zip = (TextInputEditText) personalLayout.findViewById(R.id.zip);
         phone = (TextInputEditText) personalLayout.findViewById(R.id.phone);
         email = (TextView) personalLayout.findViewById(R.id.email);
+
+        dateOfBirth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtil.hideSoftKeyboard(context, dateOfBirth);
+                new DatePickerDialog(context, dateSetListener, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+
+        gender.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                CommonUtil.hideSoftKeyboard(context, gender);
+                return false;
+            }
+        });
+
+        state.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                CommonUtil.hideSoftKeyboard(context, state);
+                return false;
+            }
+        });
 
         if (formsProfile.firstName != null) {
             firstName.setText(formsProfile.firstName);
