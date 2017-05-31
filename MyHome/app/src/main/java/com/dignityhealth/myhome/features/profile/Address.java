@@ -94,4 +94,22 @@ public class Address implements Parcelable {
     public int hashCode() {
         return Objects.hash(line1, line2, city, stateOrProvince, zipCode, countryCode);
     }
+
+    /**
+     * Simple Copy-By-Value method to avoid copy by reference problems when using a Singleton
+     *
+     * @param otherAddress
+     * @return
+     */
+    public static Address copy(Address otherAddress) {
+        Address address = new Address();
+        address.line1 = otherAddress.line1;
+        address.line2 = otherAddress.line2;
+        address.city = otherAddress.city;
+        address.stateOrProvince = otherAddress.stateOrProvince;
+        address.zipCode = otherAddress.zipCode;
+        address.countryCode = otherAddress.countryCode;
+
+        return address;
+    }
 }

@@ -131,6 +131,12 @@ public class Profile {
                 Objects.equals(remoteID, profile.remoteID);
     }
 
+    /**
+     * Simple Copy-By-Value method to avoid copy by reference problems when using a Singleton
+     *
+     * @param otherProfile
+     * @return
+     */
     public static Profile copy(Profile otherProfile) {
         Profile profile = new Profile();
         profile.firstName = otherProfile.firstName;
@@ -139,14 +145,14 @@ public class Profile {
         profile.preferredName = otherProfile.preferredName;
         profile.gender = otherProfile.gender;
         profile.dateOfBirth = otherProfile.dateOfBirth;
-        profile.address = otherProfile.address;
+        profile.address = Address.copy(otherProfile.address);
         profile.phoneNumber = otherProfile.phoneNumber;
         profile.phoneNumberType = otherProfile.phoneNumberType;
         profile.contactName = otherProfile.contactName;
         profile.contactPhoneNumber = otherProfile.contactPhoneNumber;
         profile.primaryCaregiverName = otherProfile.primaryCaregiverName;
         profile.weeksPregnant = otherProfile.weeksPregnant;
-        profile.insuranceProvider = otherProfile.insuranceProvider;
+        profile.insuranceProvider = InsuranceProvider.copy(otherProfile.insuranceProvider);
         profile.clientID = otherProfile.clientID;
         profile.remoteID = otherProfile.remoteID;
 

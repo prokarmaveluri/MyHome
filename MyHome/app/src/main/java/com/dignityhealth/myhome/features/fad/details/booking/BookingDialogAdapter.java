@@ -10,8 +10,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.features.profile.Address;
-import com.dignityhealth.myhome.features.profile.InsuranceProvider;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -240,13 +238,13 @@ public class BookingDialogAdapter extends PagerAdapter {
      * @return a Profile that accurately represents the forms filled out
      */
     public Profile getProfile() {
-        if (formsProfile.address == null) {
-            formsProfile.address = new Address();
-        }
-
-        if (formsProfile.insuranceProvider == null) {
-            formsProfile.insuranceProvider = new InsuranceProvider();
-        }
+//        if (formsProfile.address == null) {
+//            formsProfile.address = new Address();
+//        }
+//
+//        if (formsProfile.insuranceProvider == null) {
+//            formsProfile.insuranceProvider = new InsuranceProvider();
+//        }
 
         if (firstName.getText() != null && !firstName.getText().toString().isEmpty()) {
             formsProfile.firstName = firstName.getText().toString().trim();
