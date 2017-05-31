@@ -378,4 +378,12 @@ public class CommonUtil {
         } catch (NullPointerException | IllegalStateException ex) {
         }
     }
+
+    public static void hideSoftKeyboard(Context context, View currentFocusView) {
+        try {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(currentFocusView.getWindowToken(), 0);
+        } catch (NullPointerException | IllegalStateException ex) {
+        }
+    }
 }
