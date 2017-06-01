@@ -65,7 +65,7 @@ public class TosActivity extends BaseActivity {
         });
 
         WebView tos = (WebView) findViewById(R.id.terms_of_service);
-        tos.loadUrl("file:///android_asset/tos_short.htm");
+        tos.loadUrl("file:///android_asset/tos.html");
 
         enrollmentRequest = (EnrollmentRequest) getIntent()
                 .getParcelableExtra(Constants.ENROLLMENT_REQUEST);
