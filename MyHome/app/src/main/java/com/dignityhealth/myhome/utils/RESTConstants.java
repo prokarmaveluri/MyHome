@@ -11,9 +11,6 @@ public class RESTConstants {
 //    public static final String S2_BASE_URL = "https://e3findadocapp.azurewebsites.net/";
     public static final String S2_BASE_URL = "https://e0findadocapprel7.azurewebsites.net/";
 
-
-    public static final String LOGOUT_AUTH = "SSWS 00rbbEVSzYmHtjK7UQay-2CtdjegDZWHe-9u_xXmAf";
-
     public static final String PROVIDER_PAGE_NO = "1";
     public static final String PROVIDER_PAGE_SIZE = "50";
     public static final String PROVIDER_DISTANCE = "100";
