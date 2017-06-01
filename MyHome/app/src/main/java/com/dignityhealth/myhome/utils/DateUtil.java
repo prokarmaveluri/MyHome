@@ -67,7 +67,7 @@ public class DateUtil {
      * Convert a UTC date to a more "human-friendly" format.
      *
      * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
-     * @return a human-friendly string of the given date
+     * @return a String representing the UTC Date (formatted like such: "MM/dd/yy")
      */
     public static String convertUTCtoReadable(String utcDate) {
         try {
@@ -83,8 +83,8 @@ public class DateUtil {
     /**
      * Convert a human-friendly date to UTC format.
      *
-     * @param readableDate human-friendly date in a String format
-     * @return a UTC date
+     * @param readableDate human-friendly date in a String format (formatted like such: "MM/dd/yy")
+     * @return a String representing the UTC Date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss'Z'")
      */
     public static String convertReadableToUTC(String readableDate) {
         try {
@@ -102,7 +102,7 @@ public class DateUtil {
      * Convert a Date object into a human-friendly format.
      *
      * @param date the date object. This object's date should already be set and finalized before making this call.
-     * @return a human-friendly string of the given date
+     * @return a String representing the UTC Date (formatted like such: "MM/dd/yy")
      */
     public static String convertDateToReadable(Date date) {
         return SIMPLE_DATE_FORMAT.format(date);
@@ -112,7 +112,7 @@ public class DateUtil {
      * Convert a Date object into a UTC format.
      *
      * @param date the date object. This object's date should already be set and finalized before making this call.
-     * @return a UTC string of the given date
+     * @return a String representing the UTC Date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss'Z'")
      */
     public static String convertDateToUTC(Date date) {
         return SIMPLE_DATE_FORMAT_UTC.format(date);
