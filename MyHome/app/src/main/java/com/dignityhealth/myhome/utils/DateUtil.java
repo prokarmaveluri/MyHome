@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import timber.log.Timber;
 
@@ -29,22 +30,48 @@ public class DateUtil {
     public static final SimpleDateFormat SIMPLE_DATE_WORDS_4th_FORMAT = new SimpleDateFormat(DATE_WORDS_4th_FORMAT, Locale.US);
     public static final String TIME_FORMAT = "h:mm a";
     public static final SimpleDateFormat SIMPLE_TIME_FORMAT = new SimpleDateFormat(TIME_FORMAT, Locale.US);
-    //public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";    //For Profile to work, need to remove milliseconds
-    public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";    //Some appointments will appear ugly without milliseconds...
-    public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC = new SimpleDateFormat(DATE_FORMAT_UTC, Locale.US);
-    public static final String DATE_RANGE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss-HH:mm";    //For appointments with time slots
-    public static final SimpleDateFormat SIMPLE_DATE_RANGE_FORMAT_UTC = new SimpleDateFormat(DATE_RANGE_FORMAT_UTC, Locale.US);
+
+    public static final String DATE_FORMAT_UTC_TIMEZONE = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC_TIMEZONE = new SimpleDateFormat(DATE_FORMAT_UTC_TIMEZONE, Locale.getDefault());
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC = new SimpleDateFormat(DATE_FORMAT_UTC, Locale.getDefault());
+
+    /**
+     * Gets the date given a UTC-formatted string
+     *
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
+     * @return Date object representing the UTC date
+     */
+    public static Date getDateTimeZone(String utcDate) throws ParseException {
+        SimpleDateFormat sdf = SIMPLE_DATE_FORMAT_UTC_TIMEZONE;
+        sdf.setTimeZone(TimeZone.getDefault());
+
+        return sdf.parse(utcDate);
+    }
+
+    /**
+     * Gets the date given a UTC-formatted string
+     *
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss'Z'", has a trailing 'Z')
+     * @return Date object representing the UTC date
+     */
+    public static Date getDateNoTimeZone(String utcDate) throws ParseException {
+        SimpleDateFormat sdf = SIMPLE_DATE_FORMAT_UTC;
+        sdf.setTimeZone(TimeZone.getDefault());
+
+        return sdf.parse(utcDate);
+    }
 
     /**
      * Convert a UTC date to a more "human-friendly" format.
      *
-     * @param utcDate a String representation of a UTC date
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
      * @return a human-friendly string of the given date
      */
     public static String convertUTCtoReadable(String utcDate) {
         try {
-            Date date = SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
-            return SIMPLE_DATE_FORMAT.format(date);
+            return SIMPLE_DATE_FORMAT.format(getDateTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -95,13 +122,13 @@ public class DateUtil {
      * Gets a string of the date.
      * Formatted as such: "Tue Jun 06"
      *
-     * @param utcDate
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
      * @return a string representation of the date similar to this format "Tue Jun 06"
      */
     public static String getDateWordsFromUTC(String utcDate) {
         try {
-            Date date = SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
-            return SIMPLE_DATE_SHORT_WORDS_FORMAT.format(date);
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_SHORT_WORDS_FORMAT, Locale.US);
+            return sdf.format(getDateTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -115,17 +142,17 @@ public class DateUtil {
      * Formatted as such: "January 28th, 2017"
      * Inspired: https://stackoverflow.com/a/33540720/2128921
      *
-     * @param utcDate
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
      * @return a string representation of the date similar to this format "January 28th, 2017"
      */
     public static String getDateWords2FromUTC(String utcDate) {
         try {
-            Date date = SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
+            Date date = getDateTimeZone(utcDate);
 
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             int day = cal.get(Calendar.DATE);
-            if (!((day > 10) && (day < 19)))
+            if (!((day > 10) && (day < 19))) {
                 switch (day % 10) {
                     case 1:
                         return SIMPLE_DATE_WORDS_1st_FORMAT.format(date);
@@ -136,6 +163,9 @@ public class DateUtil {
                     default:
                         return SIMPLE_DATE_WORDS_4th_FORMAT.format(date);
                 }
+            } else {
+                return SIMPLE_DATE_WORDS_4th_FORMAT.format(date);
+            }
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -144,23 +174,15 @@ public class DateUtil {
         return utcDate;
     }
 
-    public static String getTimeFromUTC(String utcDate) {
+    /**
+     * Gets the Time from a UTC Date
+     *
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
+     * @return a String representing the time (formatted like such: "h:mm a")
+     */
+    public static String getTime(String utcDate) {
         try {
-            Date date = SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
-            return SIMPLE_TIME_FORMAT.format(date);
-        } catch (ParseException e) {
-            Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
-            e.printStackTrace();
-        }
-
-        return utcDate;
-    }
-
-    public static String getTimeRangeFromUTC(String utcDate) {
-        try {
-            Date date = SIMPLE_DATE_RANGE_FORMAT_UTC.parse(utcDate);
-            Timber.i(date.toString());
-            return SIMPLE_TIME_FORMAT.format(date);
+            return SIMPLE_TIME_FORMAT.format(getDateTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -172,13 +194,12 @@ public class DateUtil {
     /**
      * Gets milliseconds of a UTC date. This is needed for Calendar Event times.
      *
-     * @param utcDate the utc date
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
      * @return the milliseconds since epoch of the UTC date
      */
     public static long getMilliseconds(String utcDate) {
         try {
-            Date date = SIMPLE_DATE_FORMAT_UTC.parse(utcDate);
-            return date.getTime();
+            return getDateTimeZone(utcDate).getTime();
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();

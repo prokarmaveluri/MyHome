@@ -199,8 +199,8 @@ public class ProfileViewFragment extends BaseFragment {
         if (profile.dateOfBirth != null) {
             Calendar myCalendar = Calendar.getInstance();
             try {
-                myCalendar.setTime(DateUtil.SIMPLE_DATE_FORMAT_UTC.parse(profile.dateOfBirth));
-                dateOfBirth.setText(DateUtil.SIMPLE_DATE_FORMAT.format(myCalendar.getTime()));
+                myCalendar.setTime(DateUtil.getDateNoTimeZone(profile.dateOfBirth));
+                dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
             } catch (ParseException e) {
                 e.printStackTrace();
                 dateOfBirth.setText(placeholderText);

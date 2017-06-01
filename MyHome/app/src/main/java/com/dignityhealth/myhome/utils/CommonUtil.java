@@ -284,7 +284,7 @@ public class CommonUtil {
         String message = "";
 
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-            message = message + DateUtil.getDateWordsFromUTC(appointment.appointmentStart) + ".\n" + DateUtil.getTimeFromUTC(appointment.appointmentStart);
+            message = message + DateUtil.getDateWordsFromUTC(appointment.appointmentStart) + ".\n" + DateUtil.getTime(appointment.appointmentStart);
         }
 
         if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
