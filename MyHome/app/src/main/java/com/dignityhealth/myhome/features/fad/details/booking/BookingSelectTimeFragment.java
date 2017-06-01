@@ -137,8 +137,8 @@ public class BookingSelectTimeFragment extends Fragment {
             timeToggle.setPadding(DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12));
             timeToggle.setGravity(Gravity.CENTER);
             timeToggle.setLayoutParams(layoutParams);
-            timeToggle.setTextOn(DateUtil.getTimeRangeFromUTC(appointment.Time));
-            timeToggle.setTextOff(DateUtil.getTimeRangeFromUTC(appointment.Time));
+            timeToggle.setTextOn(DateUtil.getTime(appointment.Time));
+            timeToggle.setTextOff(DateUtil.getTime(appointment.Time));
             timeToggle.setChecked(appointment.Selected);
 
             timeClickedListener = new View.OnClickListener() {

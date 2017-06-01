@@ -25,6 +25,7 @@ public class FadManager {
      */
     public LocationResponse getLocation() {
         //return new LocationResponse("Belmont", "CA", "", "37.518341", "-122.276207", "Belmont, CA");
+        //return new LocationResponse("Redding", "CA", "", "40.587509", "-122.392929", "Redding, CA");
         return location;
     }
 

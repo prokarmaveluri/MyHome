@@ -80,7 +80,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
 
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
             dateHeader.setText(DateUtil.getDateWords2FromUTC(appointment.appointmentStart));
-            timeHeader.setText(DateUtil.getTimeFromUTC(appointment.appointmentStart));
+            timeHeader.setText(DateUtil.getTime(appointment.appointmentStart));
         }
 
         if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
