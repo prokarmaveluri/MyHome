@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.dignityhealth.myhome.features.fad.Facility;
 import com.dignityhealth.myhome.features.fad.Office;
+import com.dignityhealth.myhome.features.fad.ServiceError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +50,7 @@ public class ProviderDetailsResponse implements Parcelable {
     public ArrayList<String> Certifications;
     public ArrayList<String> Awards;
     public Boolean HasAppointments;
-    public ArrayList<String> ServiceErrors;
-
+    public ArrayList<ServiceError> ServiceErrors;
 
     public Integer getRecordNumber() {
         return RecordNumber;
@@ -184,8 +184,48 @@ public class ProviderDetailsResponse implements Parcelable {
         return HasAppointments;
     }
 
-    public List<String> getServiceErrors() {
+    public List<ServiceError> getServiceErrors() {
         return ServiceErrors;
+    }
+
+    @Override
+    public String toString() {
+        return "ProviderDetailsResponse{" +
+                "RecordNumber=" + RecordNumber +
+                ", ProviderId='" + ProviderId + '\'' +
+                ", Npi='" + Npi + '\'' +
+                ", Title='" + Title + '\'' +
+                ", FirstName='" + FirstName + '\'' +
+                ", MiddleName='" + MiddleName + '\'' +
+                ", MiddleInitialDot='" + MiddleInitialDot + '\'' +
+                ", LastName='" + LastName + '\'' +
+                ", DisplayFullName='" + DisplayFullName + '\'' +
+                ", DisplayLastName='" + DisplayLastName + '\'' +
+                ", DisplayLastNamePlural='" + DisplayLastNamePlural + '\'' +
+                ", DateOfBirth='" + DateOfBirth + '\'' +
+                ", Gender='" + Gender + '\'' +
+                ", YearsOfExperience='" + YearsOfExperience + '\'' +
+                ", AcceptsNewPatients=" + AcceptsNewPatients +
+                ", ImageUrl='" + ImageUrl + '\'' +
+                ", Quote='" + Quote + '\'' +
+                ", Philosophy='" + Philosophy + '\'' +
+                ", InMyOwnWords='" + InMyOwnWords + '\'' +
+                ", Specialties=" + Specialties +
+                ", Languages=" + Languages +
+                ", Degree='" + Degree + '\'' +
+                ", MedicalSchools=" + MedicalSchools +
+                ", Residencies=" + Residencies +
+                ", Fellowships=" + Fellowships +
+                ", Internships=" + Internships +
+                ", Practicums=" + Practicums +
+                ", Facilities=" + Facilities +
+                ", Offices=" + Offices +
+                ", Memberships=" + Memberships +
+                ", Certifications=" + Certifications +
+                ", Awards=" + Awards +
+                ", HasAppointments=" + HasAppointments +
+                ", ServiceErrors=" + ServiceErrors +
+                '}';
     }
 
     @Override
@@ -228,7 +268,7 @@ public class ProviderDetailsResponse implements Parcelable {
         dest.writeStringList(this.Certifications);
         dest.writeStringList(this.Awards);
         dest.writeValue(this.HasAppointments);
-        dest.writeStringList(this.ServiceErrors);
+        dest.writeTypedList(this.ServiceErrors);
     }
 
     public ProviderDetailsResponse() {
@@ -268,7 +308,7 @@ public class ProviderDetailsResponse implements Parcelable {
         this.Certifications = in.createStringArrayList();
         this.Awards = in.createStringArrayList();
         this.HasAppointments = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.ServiceErrors = in.createStringArrayList();
+        this.ServiceErrors = in.createTypedArrayList(ServiceError.CREATOR);
     }
 
     public static final Parcelable.Creator<ProviderDetailsResponse> CREATOR = new Parcelable.Creator<ProviderDetailsResponse>() {
@@ -282,44 +322,4 @@ public class ProviderDetailsResponse implements Parcelable {
             return new ProviderDetailsResponse[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return "ProviderDetailsResponse{" +
-                "RecordNumber=" + RecordNumber +
-                ", ProviderId='" + ProviderId + '\'' +
-                ", Npi='" + Npi + '\'' +
-                ", Title='" + Title + '\'' +
-                ", FirstName='" + FirstName + '\'' +
-                ", MiddleName='" + MiddleName + '\'' +
-                ", MiddleInitialDot='" + MiddleInitialDot + '\'' +
-                ", LastName='" + LastName + '\'' +
-                ", DisplayFullName='" + DisplayFullName + '\'' +
-                ", DisplayLastName='" + DisplayLastName + '\'' +
-                ", DisplayLastNamePlural='" + DisplayLastNamePlural + '\'' +
-                ", DateOfBirth='" + DateOfBirth + '\'' +
-                ", Gender='" + Gender + '\'' +
-                ", YearsOfExperience='" + YearsOfExperience + '\'' +
-                ", AcceptsNewPatients=" + AcceptsNewPatients +
-                ", ImageUrl='" + ImageUrl + '\'' +
-                ", Quote='" + Quote + '\'' +
-                ", Philosophy='" + Philosophy + '\'' +
-                ", InMyOwnWords='" + InMyOwnWords + '\'' +
-                ", Specialties=" + Specialties +
-                ", Languages=" + Languages +
-                ", Degree='" + Degree + '\'' +
-                ", MedicalSchools=" + MedicalSchools +
-                ", Residencies=" + Residencies +
-                ", Fellowships=" + Fellowships +
-                ", Internships=" + Internships +
-                ", Practicums=" + Practicums +
-                ", Facilities=" + Facilities +
-                ", Offices=" + Offices +
-                ", Memberships=" + Memberships +
-                ", Certifications=" + Certifications +
-                ", Awards=" + Awards +
-                ", HasAppointments=" + HasAppointments +
-                ", ServiceErrors=" + ServiceErrors +
-                '}';
-    }
 }

@@ -25,7 +25,7 @@ public class ProvidersResponse {
     private List<Object> NearbyCities;
     private String DataUrl;
     private String SearchLocation;
-    private List<Object> ServiceErrors;
+    private List<ServiceError> ServiceErrors;
     private Object LocationError;
 
     public List<Provider> getProviders() {
@@ -92,7 +92,7 @@ public class ProvidersResponse {
         return SearchLocation;
     }
 
-    public List<Object> getServiceErrors() {
+    public List<ServiceError> getServiceErrors() {
         return ServiceErrors;
     }
 
