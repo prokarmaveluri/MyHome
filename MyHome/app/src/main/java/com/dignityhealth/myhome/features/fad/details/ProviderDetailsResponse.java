@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.dignityhealth.myhome.features.fad.Facility;
 import com.dignityhealth.myhome.features.fad.Office;
+import com.dignityhealth.myhome.features.fad.ServiceError;
 
 import java.util.ArrayList;
 import java.util.List;

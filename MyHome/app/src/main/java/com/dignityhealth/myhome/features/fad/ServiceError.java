@@ -1,4 +1,4 @@
-package com.dignityhealth.myhome.features.fad.details;
+package com.dignityhealth.myhome.features.fad;
 
 import android.os.Parcel;
 import android.os.Parcelable;
