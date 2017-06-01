@@ -77,50 +77,129 @@ public class NetworkManager {
         service = retrofit.create(RESTService.class);
     }
 
+    /**
+     * Register a user
+     *
+     * @param request the Enrollment object to be sent
+     * @return Void
+     */
     public Call<Void> register(EnrollmentRequest request) {
         return service.register(request);
     }
 
+    /**
+     * Get a Profile
+     *
+     * @param bearer the bearer token of the user whose Profile we want
+     * @return a Profile object of the user
+     */
     public Call<Profile> getProfile(String bearer) {
         return service.getProfile(bearer);
     }
 
+    /**
+     * Update a Profile for a particular user
+     *
+     * @param bearer             the bearer token of the user whose Profile we wish to modify
+     * @param updatedProfileData the new Profile we wish to save to the user
+     * @return Void
+     */
     public Call<Void> updateProfile(String bearer, Profile updatedProfileData) {
         return service.updateProfile(bearer, updatedProfileData);
     }
 
+    /**
+     * Attempt to Log In
+     *
+     * @param request the Login object of the user we wish to log in
+     * @return the LoginReponse with many valuable fields such as expiration dates, session ID...
+     */
     public Call<LoginResponse> login(LoginRequest request) {
         return service.login(request);
     }
 
+    /**
+     * Send a Forgot Password request to the server
+     *
+     * @param request a ForgotPasswordRequest object of the user who forgot their password
+     * @return a ForgotPasswordReponse denoting the status of the request
+     */
     public Call<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request) {
         return service.forgotPassword(request);
     }
 
+    /**
+     * Create a session
+     *
+     * @param sid the session ID we use to create a Session
+     * @return a CreateSessionReponse containing many valuable fields such as status, expiration, cookieToken...
+     */
     public Call<CreateSessionResponse> createSession(String sid) {
         return service.createSession(sid);
     }
 
+    /**
+     * Attempt to logout
+     *
+     * @param id the Session ID we're attempting to log out
+     * @return Void
+     */
     public Call<Void> logout(String id) {
         return service.logout("sid=" + id);
     }
 
+    /**
+     * Get Terms of Service.
+     * This API is still heavily under construction, but not used currently in MVP
+     *
+     * @param bearer the bearer token of the user
+     * @return a ToS object. Currently not very helpful
+     */
     public Call<Tos> getTos(String bearer) {
         return service.getTos(bearer);
     }
 
+    /**
+     * Get the Appointments for the user.
+     *
+     * @param bearer the bearer token of the user whose appointments we want
+     * @return AppointmentReponse that should contain a user's appointments
+     */
     public Call<AppointmentResponse> getAppointments(String bearer) {
         return service.getAppointments(bearer);
     }
 
+    /**
+     * Create an Appointment
+     *
+     * @param bearer      the bearer token of the user who we want to create an appointment for
+     * @param appointment the appointment we wish to create
+     * @return Void
+     */
     public Call<Void> createAppointment(String bearer, Appointment appointment) {
         return service.createAppointment(bearer, appointment);
     }
 
+    /**
+     * Get the Location Suggestions when a user enters their location in the filter
+     *
+     * @param queryString the query of the user entering their location
+     * @return List of Locations to suggest
+     */
     public Call<List<LocationResponse>> getLocationSuggestions(String queryString) {
         return service.getLocationSuggestions(queryString);
     }
 
+    /**
+     * Get Search suggestions for a query
+     *
+     * @param queryString the query
+     * @param lat         the latitude of the user's location
+     * @param lon         the longitude of the user's location
+     * @param displayName the display name of user's location
+     * @param zipCode     the zipcode of the user's location
+     * @return List of Search suggestions
+     */
     public Call<List<SearchSuggestionResponse>> getSearchSuggestions(String queryString,
                                                                      String lat,
                                                                      String lon,
@@ -133,10 +212,36 @@ public class NetworkManager {
                 zipCode);
     }
 
+    /**
+     * Get the location of the device.
+     * Dignity Health is most likely using a service to look up addresses via IP address of calls.
+     *
+     * @return The Location found
+     */
     public Call<LocationResponse> getLocation() {
         return service.getUserLocation();
     }
 
+    /**
+     * Get a list of providers/doctors based on multiple criteria.
+     *
+     * @param queryString the query
+     * @param lat         the latitude of the user's location
+     * @param lon         the longitude of the user's location
+     * @param displayName the display name of the user's location
+     * @param zipCode     the zip code of the user's location
+     * @param page        the page
+     * @param pageSize    the size of the page
+     * @param distance    the distance
+     * @param sortBy      sorting of the reponse
+     * @param gender      the gender filter
+     * @param languages   the language filter
+     * @param specialties the specialties filter
+     * @param facilities  the facilities filter
+     * @param practices   the practices filter
+     * @param patients    the filter that denotes whether to show doctors that only take existing patients or not
+     * @return a List of Providers
+     */
     public Call<ProvidersResponse> getProviders(String queryString,
                                                 String lat,
                                                 String lon,
@@ -165,12 +270,21 @@ public class NetworkManager {
                 patients);
     }
 
+    /**
+     * Get a detailed profile of a provider
+     *
+     * @param id the Provider ID
+     * @return a More in-depth look of the provider
+     */
     public Call<ProviderDetailsResponse> getProviderDetails(String id) {
         return service.getProviderDetails(id);
     }
 
     // Network Util
 
+    /**
+     * Attempt to get a user's location
+     */
     public void getUserLocation() {
         NetworkManager.getInstance().getLocation().enqueue(new Callback<LocationResponse>() {
             @Override

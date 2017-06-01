@@ -20,6 +20,7 @@ import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.DateUtil;
 import com.dignityhealth.myhome.utils.SessionUtil;
 
 import java.text.ParseException;
@@ -198,8 +199,8 @@ public class ProfileViewFragment extends BaseFragment {
         if (profile.dateOfBirth != null) {
             Calendar myCalendar = Calendar.getInstance();
             try {
-                myCalendar.setTime(Constants.SIMPLE_DATE_FORMAT_UTC.parse(profile.dateOfBirth));
-                dateOfBirth.setText(Constants.SIMPLE_DATE_FORMAT.format(myCalendar.getTime()));
+                myCalendar.setTime(DateUtil.getDateNoTimeZone(profile.dateOfBirth));
+                dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
             } catch (ParseException e) {
                 e.printStackTrace();
                 dateOfBirth.setText(placeholderText);

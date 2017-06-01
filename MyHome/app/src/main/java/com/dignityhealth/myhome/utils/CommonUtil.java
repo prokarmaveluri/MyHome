@@ -72,7 +72,6 @@ public class CommonUtil {
         }
     }
 
-
     public static String getBulletPoints(Context context) {
         String points = "";
         for (int index = 0; index < getCriteria(context).size(); index++) {
@@ -85,6 +84,12 @@ public class CommonUtil {
         return points;
     }
 
+    /**
+     * The list of criteria for passwords
+     *
+     * @param context
+     * @return a list of all the criteria for passwords
+     */
     public static List<String> getCriteria(Context context) {
         List<String> criteria = new ArrayList<>();
         criteria.add(context.getString(R.string.password_criteria_8char));
@@ -186,6 +191,12 @@ public class CommonUtil {
         return fullAddress;
     }
 
+    /**
+     * Adds dashes and parentheses to a phone number
+     *
+     * @param number the number being formatted
+     * @return a String representation of the phone number, formatted with dashes and parentheses
+     */
     public static String constructPhoneNumber(String number) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
@@ -262,11 +273,18 @@ public class CommonUtil {
         }
     }
 
+    /**
+     * Constructs the Intent for Sharing an Appointment.
+     * We format the appointment values appropriately.
+     *
+     * @param context
+     * @param appointment the appointment object being shared
+     */
     public static void shareAppointment(Context context, Appointment appointment) {
         String message = "";
 
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-            message = message + DateUtil.getDateWordsFromUTC(appointment.appointmentStart) + ".\n" + DateUtil.getTimeFromUTC(appointment.appointmentStart);
+            message = message + DateUtil.getDateWordsFromUTC(appointment.appointmentStart) + ".\n" + DateUtil.getTime(appointment.appointmentStart);
         }
 
         if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
@@ -369,12 +387,31 @@ public class CommonUtil {
         return prettyString.trim();
     }
 
+    /**
+     * Hides Keyboard
+     *
+     * @param activity the activtity that we are currently on at the time we want to hide the keyboard.
+     */
     public static void hideSoftKeyboard(Activity activity) {
         try {
             View view = activity.getCurrentFocus();
             InputMethodManager imm = (InputMethodManager) activity
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } catch (NullPointerException | IllegalStateException ex) {
+        }
+    }
+
+    /**
+     * Hides Keyboard
+     *
+     * @param context
+     * @param currentFocusView the view that has the current focus (probably a Spinner or EditText that launches a Calendar)
+     */
+    public static void hideSoftKeyboard(Context context, View currentFocusView) {
+        try {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(currentFocusView.getWindowToken(), 0);
         } catch (NullPointerException | IllegalStateException ex) {
         }
     }

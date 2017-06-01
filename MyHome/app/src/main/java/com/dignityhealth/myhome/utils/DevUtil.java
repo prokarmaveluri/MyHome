@@ -44,7 +44,7 @@ public class DevUtil {
             date.setTime(System.currentTimeMillis() + random);
         }
 
-        return Constants.SIMPLE_DATE_FORMAT_UTC.format(date);
+        return DateUtil.SIMPLE_DATE_FORMAT_UTC.format(date);
     }
 
     public static String getRandomDoctor() {

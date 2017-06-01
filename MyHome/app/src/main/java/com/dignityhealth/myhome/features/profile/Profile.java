@@ -1,12 +1,15 @@
 package com.dignityhealth.myhome.features.profile;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Objects;
 
 /**
  * Created by kwelsh on 4/28/17.
  */
 
-public class Profile {
+public class Profile implements Parcelable {
 
     public String firstName;
     public String middleInitial;
@@ -163,4 +166,64 @@ public class Profile {
     public int hashCode() {
         return Objects.hash(firstName, middleInitial, lastName, preferredName, gender, dateOfBirth, address, phoneNumber, phoneNumberType, contactName, contactPhoneNumber, primaryCaregiverName, isPregnant, weeksPregnant, insuranceProvider, clientID, remoteID, email);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.firstName);
+        dest.writeString(this.middleInitial);
+        dest.writeString(this.lastName);
+        dest.writeString(this.preferredName);
+        dest.writeString(this.gender);
+        dest.writeString(this.dateOfBirth);
+        dest.writeParcelable(this.address, flags);
+        dest.writeString(this.phoneNumber);
+        dest.writeString(this.phoneNumberType);
+        dest.writeString(this.contactName);
+        dest.writeString(this.contactPhoneNumber);
+        dest.writeString(this.primaryCaregiverName);
+        dest.writeByte(this.isPregnant ? (byte) 1 : (byte) 0);
+        dest.writeString(this.weeksPregnant);
+        dest.writeParcelable(this.insuranceProvider, flags);
+        dest.writeString(this.clientID);
+        dest.writeString(this.remoteID);
+        dest.writeString(this.email);
+    }
+
+    protected Profile(Parcel in) {
+        this.firstName = in.readString();
+        this.middleInitial = in.readString();
+        this.lastName = in.readString();
+        this.preferredName = in.readString();
+        this.gender = in.readString();
+        this.dateOfBirth = in.readString();
+        this.address = in.readParcelable(Address.class.getClassLoader());
+        this.phoneNumber = in.readString();
+        this.phoneNumberType = in.readString();
+        this.contactName = in.readString();
+        this.contactPhoneNumber = in.readString();
+        this.primaryCaregiverName = in.readString();
+        this.isPregnant = in.readByte() != 0;
+        this.weeksPregnant = in.readString();
+        this.insuranceProvider = in.readParcelable(InsuranceProvider.class.getClassLoader());
+        this.clientID = in.readString();
+        this.remoteID = in.readString();
+        this.email = in.readString();
+    }
+
+    public static final Parcelable.Creator<Profile> CREATOR = new Parcelable.Creator<Profile>() {
+        @Override
+        public Profile createFromParcel(Parcel source) {
+            return new Profile(source);
+        }
+
+        @Override
+        public Profile[] newArray(int size) {
+            return new Profile[size];
+        }
+    };
 }
