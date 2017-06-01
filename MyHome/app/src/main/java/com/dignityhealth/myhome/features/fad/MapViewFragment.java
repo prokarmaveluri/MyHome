@@ -118,43 +118,50 @@ public class MapViewFragment extends Fragment implements
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 //        map.setMyLocationEnabled(true);
+        try {
+            mClusterManager = new ClusterManager<>(getActivity(), map);
+            map.setOnCameraIdleListener(mClusterManager);
+            map.setOnMarkerClickListener(mClusterManager);
+            mClusterManager.setRenderer(new MapClusterRenderer(getActivity(), map, mClusterManager));
+            mClusterManager.setOnClusterClickListener(this);
+            map.setOnCameraMoveListener(this);
+            addMarkers();
+        } catch (NullPointerException | IllegalStateException ex) {
 
-        mClusterManager = new ClusterManager<>(getActivity(), map);
-        map.setOnCameraIdleListener(mClusterManager);
-        map.setOnMarkerClickListener(mClusterManager);
-        mClusterManager.setRenderer(new MapClusterRenderer(getActivity(), map, mClusterManager));
-        mClusterManager.setOnClusterClickListener(this);
-        map.setOnCameraMoveListener(this);
-        addMarkers();
+        }
     }
 
     private void addMarkers() {
-        if (providerList == null || providerList.size() <= 0) {
-            Toast.makeText(getActivity(), "No Providers", Toast.LENGTH_LONG).show();
-            return;
-        }
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        try {
 
-        for (Provider provider : providerList) {
-            for (Office office : provider.getOffices()) {
-                LatLng position = new LatLng(Double.valueOf(office.getLat()),
-                        Double.valueOf(office.getLong()));
-                builder.include(position);
-
-                MapClusterItem item = new MapClusterItem(Double.valueOf(office.getLat()),
-                        Double.valueOf(office.getLong()),
-                        provider.getDisplayFullName(),
-                        office.getAddress(), provider);
-                mClusterManager.addItem(item);
+            if (providerList == null || providerList.size() <= 0) {
+                Toast.makeText(getActivity(), "No Providers", Toast.LENGTH_LONG).show();
+                return;
             }
-        }
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-        LatLngBounds bounds = builder.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 20);
+            for (Provider provider : providerList) {
+                for (Office office : provider.getOffices()) {
+                    LatLng position = new LatLng(Double.valueOf(office.getLat()),
+                            Double.valueOf(office.getLong()));
+                    builder.include(position);
+
+                    MapClusterItem item = new MapClusterItem(Double.valueOf(office.getLat()),
+                            Double.valueOf(office.getLong()),
+                            provider.getDisplayFullName(),
+                            office.getAddress(), provider);
+                    mClusterManager.addItem(item);
+                }
+            }
+
+            LatLngBounds bounds = builder.build();
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 20);
 //        map.animateCamera(cu);
-        map.moveCamera(cu);
-        map.setOnInfoWindowClickListener(this);
-        map.setOnCameraMoveCanceledListener(this);
+            map.moveCamera(cu);
+            map.setOnInfoWindowClickListener(this);
+            map.setOnCameraMoveCanceledListener(this);
+        } catch (NullPointerException | IllegalStateException ex) {
+        }
     }
 
     @Override
@@ -254,34 +261,44 @@ public class MapViewFragment extends Fragment implements
     }
 
     private Provider getProvider(String title, LatLng position) {
-        for (Provider provider : providerList) {
-            for (Office office : provider.getOffices()) {
-                LatLng officePosition = new LatLng(Double.valueOf(office.getLat()),
-                        Double.valueOf(office.getLong()));
-                if (provider.getDisplayFullName().contains(title) && officePosition.equals(position)) {
-                    return provider;
+        try {
+
+            for (Provider provider : providerList) {
+                for (Office office : provider.getOffices()) {
+                    LatLng officePosition = new LatLng(Double.valueOf(office.getLat()),
+                            Double.valueOf(office.getLong()));
+                    if (provider.getDisplayFullName().contains(title) && officePosition.equals(position)) {
+                        return provider;
+                    }
                 }
             }
+            return null;
+        } catch (NullPointerException | IllegalStateException | NumberFormatException ex) {
+            return null;
         }
-        return null;
     }
 
     static float DISTANCE_SEARCH_THIS_AREA =
             Float.valueOf(RESTConstants.PROVIDER_DISTANCE) * 1609.34f; // PROVIDER_DISTANCE miles in meters
 
     private boolean isLocationSearchable() {
-        Location locCurr = new Location("curLocation");
-        locCurr.setLatitude(Double.valueOf(location.getLat()));
-        locCurr.setLongitude(Double.valueOf(location.getLong()));
+        try {
+            Location locCurr = new Location("curLocation");
+            locCurr.setLatitude(Double.valueOf(location.getLat()));
+            locCurr.setLongitude(Double.valueOf(location.getLong()));
 
-        Location newLoc = new Location("newLocation");
-        newLoc.setLatitude(Double.valueOf(map.getCameraPosition().target.latitude));
-        newLoc.setLongitude(Double.valueOf(map.getCameraPosition().target.longitude));
-        float distance = locCurr.distanceTo(newLoc); // distance in meters
+            Location newLoc = new Location("newLocation");
+            newLoc.setLatitude(Double.valueOf(map.getCameraPosition().target.latitude));
+            newLoc.setLongitude(Double.valueOf(map.getCameraPosition().target.longitude));
+            float distance = locCurr.distanceTo(newLoc); // distance in meters
+            Timber.i("Search Map Location " + location);
 
-        if (distance >= DISTANCE_SEARCH_THIS_AREA)
-            return true;
-        return false;
+            if (distance >= DISTANCE_SEARCH_THIS_AREA)
+                return true;
+            return false;
+        } catch (NumberFormatException | NullPointerException | IllegalStateException ex) {
+            return false;
+        }
     }
 
     public class MapClusterRenderer extends DefaultClusterRenderer<MapClusterItem> {
@@ -299,7 +316,7 @@ public class MapViewFragment extends Fragment implements
         @Override
         protected void onBeforeClusterItemRendered(MapClusterItem item, MarkerOptions markerOptions) {
             super.onBeforeClusterItemRendered(item, markerOptions);
-            BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(getActivity(), R.mipmap.map_icon_blue);
+            BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(getActivity(), R.mipmap.one_pin);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawable.getBitmap()));
         }
     }
