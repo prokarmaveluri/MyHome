@@ -19,25 +19,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ToggleButton
+        <Button
             android:id="@+id/book_new"
             style="@style/selectableButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:textOff="@string/new_patient"
-            android:textOn="@string/new_patient" />
+            android:text="@string/new_patient" />
 
-        <ToggleButton
+        <Button
             android:id="@+id/book_existing"
             style="@style/selectableButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:textOff="@string/existing_patient"
-            android:textOn="@string/existing_patient" />
+            android:text="@string/existing_patient" />
 
     </RadioGroup>
 

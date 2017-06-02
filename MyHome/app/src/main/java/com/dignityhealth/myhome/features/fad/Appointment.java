@@ -11,6 +11,9 @@ import java.util.ArrayList;
  */
 
 public class Appointment implements Parcelable, Comparable {
+    public static final String TYPE_EXISTING = "established-patient";
+    public static final String TYPE_NEW = "new-patient";    //TODO Kevin - is this correct? Dr.Dong of Redding doesn't seem to have any new patient type appointments...
+
     public String Time;
     public ArrayList<AppointmentType> AppointmentTypes;
     public boolean Selected;
