@@ -453,11 +453,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             this.maxCount = maxCount;
             if (isResumed() && null == getActivity() && getChildFragmentManager() == null)
                 return;
-
-            NavigationActivity.eventBus.post(providerList);
             CommonUtil.hideSoftKeyboard(getActivity());
             binding.searchLayout.setVisibility(View.GONE);
-//            setPager();
+            setPager();
             pagerAdapter.notifyDataSetChanged();
 
             clearFilters();

@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,8 +78,10 @@ public class MapViewFragment extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            providerList = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            providerList.clear();
+            ArrayList<Provider> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
             location = FadManager.getInstance().getCurrentLocation();
+            providerList.addAll(list);
         }
     }
 
@@ -106,7 +109,13 @@ public class MapViewFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
+        NavigationActivity.eventBus.register(this);
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        NavigationActivity.eventBus.unregister(this);
     }
 
     @Override
@@ -133,7 +142,9 @@ public class MapViewFragment extends Fragment implements
 
     private void addMarkers() {
         try {
-
+            map.clear();
+            mClusterManager.clearItems();
+            
             if (providerList == null || providerList.size() <= 0) {
                 Timber.i("No Providers");
                 return;
@@ -319,5 +330,14 @@ public class MapViewFragment extends Fragment implements
             BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(getActivity(), R.mipmap.one_pin);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawable.getBitmap()));
         }
+    }
+
+
+    @Subscribe
+    public void updateNewPageList(FadFragment.NewPageData pageData) {
+        Timber.i("update new page list");
+        this.providerList.addAll(pageData.getList());
+        addMarkers();
+
     }
 }
