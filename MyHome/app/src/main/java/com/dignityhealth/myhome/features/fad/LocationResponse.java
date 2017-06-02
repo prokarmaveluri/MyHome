@@ -27,6 +27,10 @@ public class LocationResponse implements Parcelable {
         this.lon = lon;
     }
 
+    public void setDisplayName(String displayName) {
+        DisplayName = displayName;
+    }
+
     public String getCity() {
         return City;
     }

@@ -103,6 +103,7 @@ public class MapViewFragment extends Fragment implements
                 searchThisArea.setVisibility(View.INVISIBLE);
                 location.setLat(String.valueOf(latlon.latitude));
                 location.setLon(String.valueOf(latlon.longitude));
+                location.setDisplayName("Map Search Location");
                 FadManager.getInstance().setLocation(location);
                 NavigationActivity.eventBus.post(latlon);
             }
