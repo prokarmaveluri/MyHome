@@ -127,8 +127,7 @@ public class DateUtil {
      */
     public static String getDateWordsFromUTC(String utcDate) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_SHORT_WORDS_FORMAT, Locale.US);
-            return sdf.format(getDateTimeZone(utcDate));
+            return SIMPLE_DATE_SHORT_WORDS_FORMAT.format(getDateTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -221,5 +220,95 @@ public class DateUtil {
         calendar.add(Calendar.DATE, daysToMove);
 
         return calendar.getTime();
+    }
+
+    /**
+     * Compares two dates to see if they are on the same day.
+     * We compare year, month, and day (not time)
+     *
+     * @param date1
+     * @param date2
+     * @return whether or not the dates are on the same day
+     */
+    public static boolean isOnSameDay(Date date1, Date date2) {
+        if (date1 != null && date2 != null) {
+            Calendar cal1 = Calendar.getInstance();
+            cal1.setTime(date1);
+            cal1.setTimeZone(TimeZone.getDefault());
+
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(date2);
+            cal2.setTimeZone(TimeZone.getDefault());
+
+            if (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                    cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                    cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Compares if one date is before another
+     * We compare year, month, and day (not time)
+     *
+     * @param date1
+     * @param date2
+     * @return whether or not date1 is before date2
+     */
+    public static boolean isBefore(Date date1, Date date2) {
+        if (date1 != null && date2 != null) {
+            Calendar cal1 = Calendar.getInstance();
+            cal1.setTime(date1);
+            cal1.setTimeZone(TimeZone.getDefault());
+
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(date2);
+            cal2.setTimeZone(TimeZone.getDefault());
+
+            if (cal1.get(Calendar.YEAR) < cal2.get(Calendar.YEAR) ||
+                    cal1.get(Calendar.MONTH) < cal2.get(Calendar.MONTH) ||
+                    cal1.get(Calendar.DAY_OF_MONTH) < cal2.get(Calendar.DAY_OF_MONTH)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Compares if one date is after another
+     * We compare year, month, and day (not time)
+     *
+     * @param date1
+     * @param date2
+     * @return whether or not date1 is after date2
+     */
+    public static boolean isAfter(Date date1, Date date2) {
+        if (date1 != null && date2 != null) {
+            Calendar cal1 = Calendar.getInstance();
+            cal1.setTime(date1);
+            cal1.setTimeZone(TimeZone.getDefault());
+
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(date2);
+            cal2.setTimeZone(TimeZone.getDefault());
+
+            if (cal1.get(Calendar.YEAR) > cal2.get(Calendar.YEAR) ||
+                    cal1.get(Calendar.MONTH) > cal2.get(Calendar.MONTH) ||
+                    cal1.get(Calendar.DAY_OF_MONTH) > cal2.get(Calendar.DAY_OF_MONTH)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

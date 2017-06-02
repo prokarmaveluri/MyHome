@@ -6,10 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ToggleButton;
+import android.widget.Button;
 
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 
 /**
  * Created by kwelsh on 5/25/17.
@@ -17,21 +16,29 @@ import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 
 public class BookingSelectStatusFragment extends Fragment {
     public static final String BOOKING_SELECT_STATUS_TAG = "booking_select_status_tag";
-    public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response";
+    public static final String SHOW_NEW_KEY = "show_new";
+    public static final String SHOW_EXISTING_KEY = "show_existing";
 
-    public ProviderDetailsResponse providerDetailsResponse;
     public BookingSelectStatusInterface selectStatusInterface;
 
     View bookingView;
+    boolean showNew;
+    boolean showExisting;
 
     public static BookingSelectStatusFragment newInstance() {
-        return new BookingSelectStatusFragment();
-    }
-
-    public static BookingSelectStatusFragment newInstance(ProviderDetailsResponse providerDetailsResponse) {
         BookingSelectStatusFragment bookingFragment = new BookingSelectStatusFragment();
         Bundle args = new Bundle();
-        args.putParcelable(PROVIDER_DETAILS_RESPONSE_KEY, providerDetailsResponse);
+        args.putBoolean(SHOW_NEW_KEY, true);
+        args.putBoolean(SHOW_EXISTING_KEY, true);
+        bookingFragment.setArguments(args);
+        return bookingFragment;
+    }
+
+    public static BookingSelectStatusFragment newInstance(boolean showNew, boolean showExisting) {
+        BookingSelectStatusFragment bookingFragment = new BookingSelectStatusFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(SHOW_NEW_KEY, showNew);
+        args.putBoolean(SHOW_EXISTING_KEY, showExisting);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -40,11 +47,13 @@ public class BookingSelectStatusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
-        providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
+
+        showNew = args.getBoolean(SHOW_NEW_KEY);
+        showExisting = args.getBoolean(SHOW_EXISTING_KEY);
+
         bookingView = inflater.inflate(R.layout.book_select_status, container, false);
 
-        final ToggleButton buttonNew = (ToggleButton) bookingView.findViewById(R.id.book_new);
-        final ToggleButton buttonExisting = (ToggleButton) bookingView.findViewById(R.id.book_existing);
+        final Button buttonNew = (Button) bookingView.findViewById(R.id.book_new);
         buttonNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +63,7 @@ public class BookingSelectStatusFragment extends Fragment {
             }
         });
 
+        final Button buttonExisting = (Button) bookingView.findViewById(R.id.book_existing);
         buttonExisting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +72,9 @@ public class BookingSelectStatusFragment extends Fragment {
                 }
             }
         });
+
+        buttonNew.setEnabled(showNew);
+        buttonExisting.setEnabled(showExisting);
 
         return bookingView;
     }
