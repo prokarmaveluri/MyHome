@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.NavigationActivity;
@@ -60,6 +59,7 @@ public class MapViewFragment extends Fragment implements
     private Marker marker;
     private Provider provider;
     private Button searchThisArea;
+    private LatLng latlon;
     private LocationResponse location = null;
     private List<Provider> providerList = new ArrayList<>();
     private ClusterManager<MapClusterItem> mClusterManager;
@@ -93,14 +93,18 @@ public class MapViewFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_map_view, container, false);
         searchThisArea = (Button) view.findViewById(R.id.searchThisArea);
 
-        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
+        final SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.providersMap);
         map.getMapAsync(this);
 
         searchThisArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Dev In progress...", Toast.LENGTH_LONG).show();
+                searchThisArea.setVisibility(View.INVISIBLE);
+                location.setLat(String.valueOf(latlon.latitude));
+                location.setLon(String.valueOf(latlon.longitude));
+                FadManager.getInstance().setLocation(location);
+                NavigationActivity.eventBus.post(latlon);
             }
         });
         return view;
@@ -144,7 +148,7 @@ public class MapViewFragment extends Fragment implements
         try {
             map.clear();
             mClusterManager.clearItems();
-            
+
             if (providerList == null || providerList.size() <= 0) {
                 Timber.i("No Providers");
                 return;
@@ -201,6 +205,7 @@ public class MapViewFragment extends Fragment implements
                 case MAP_UPDATE_LOCATION:
                     Timber.i("Update Map Location " + map.getCameraPosition().target);
                     if (isLocationSearchable()) {
+                        latlon = map.getCameraPosition().target;
                         searchThisArea.setVisibility(View.VISIBLE);
                     }
                     break;
@@ -338,6 +343,5 @@ public class MapViewFragment extends Fragment implements
         Timber.i("update new page list");
         this.providerList.addAll(pageData.getList());
         addMarkers();
-
     }
 }

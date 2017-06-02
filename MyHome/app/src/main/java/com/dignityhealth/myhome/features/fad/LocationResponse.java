@@ -19,6 +19,14 @@ public class LocationResponse implements Parcelable {
     private String lon;
     private String DisplayName;
 
+    public void setLat(String lat) {
+        Lat = lat;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
     public String getCity() {
         return City;
     }

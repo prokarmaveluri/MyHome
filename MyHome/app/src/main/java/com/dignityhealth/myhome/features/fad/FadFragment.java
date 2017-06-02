@@ -584,6 +584,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Subscribe
     public void newLocation(LatLng location) {
         Timber.i("New Location " + location);
+        searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
     }
 
     @Subscribe
