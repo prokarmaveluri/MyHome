@@ -140,5 +140,7 @@
     <string name="save_profile_message">Do you wish to save this information for later?</string>
     <string name="search_this_area">Search This Area</string>
     <string name="no_appointments_available">No Appointments Available</string>
+    <string name="no_appointments_new_patients">There are no appointments available for new patients</string>
+    <string name="no_appointments_existing_patients">There are no appointments available for existing patients</string>
 
 </resources>

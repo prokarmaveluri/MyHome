@@ -303,7 +303,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
-        if(fragment != null){
+        if (fragment != null) {
             //Close book appointments and reset flow again
             expandableLinearLayout.collapse();
             bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
@@ -356,7 +356,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         locations = (TextView) statsProfileView.findViewById(R.id.locations);
         locationsLabel = (TextView) statsProfileView.findViewById(R.id.label_locations);
 
-        acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? "Yes" : "No");
+        acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? getString(R.string.yes) : getString(R.string.no));
         languages.setText(providerDetailsResponse.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getLanguages()) : getString(R.string.unknown));
 
         if (providerDetailsResponse.getGender() != null && !providerDetailsResponse.getGender().isEmpty()) {
@@ -369,12 +369,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         }
 
-        experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() : "Unknown");
+        experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() : getString(R.string.unknown));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy(), Html.FROM_HTML_MODE_COMPACT) : "Unknown");
+            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy(), Html.FROM_HTML_MODE_COMPACT) : getString(R.string.unknown));
         } else {
-            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy()) : "Unknown");
+            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy()) : getString(R.string.unknown));
         }
 
         //Adjust Margin to account for HTML paragraph break
@@ -392,7 +392,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             locationsLabel.setLayoutParams(params);
         }
 
-        locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrintLineBreak(providerDetailsResponse.getOffices()) : "Unknown");
+        locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrintLineBreak(providerDetailsResponse.getOffices()) : getString(R.string.unknown));
     }
 
     private void updateStatsViewEducation(final ProviderDetailsResponse providerDetailsResponse) {
@@ -462,13 +462,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     }
 
-    private ArrayList<Appointment> filterAppointments(boolean isNewPatient, ArrayList<Appointment> appointments){
+    private ArrayList<Appointment> filterAppointments(boolean isNewPatient, ArrayList<Appointment> appointments) {
         ArrayList<Appointment> filteredAppointments = new ArrayList<>();
 
         for (Appointment appointment : appointments) {
-            if(!isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_EXISTING)){
+            if (!isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_EXISTING)) {
                 filteredAppointments.add(appointment);
-            } else if(isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_NEW)){
+            } else if (isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_NEW)) {
                 filteredAppointments.add(appointment);
             }
         }

@@ -7,6 +7,7 @@
     android:padding="18dp">
 
     <TextView
+        android:id="@+id/status_header"
         style="@style/tradeGothicLTStdLight_14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,29 +15,32 @@
         android:text="@string/booking_select_status_header"
         android:textSize="20sp" />
 
-    <RadioGroup
+    <Button
+        android:id="@+id/book_new"
+        style="@style/selectableButtonStyle"
         android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:text="@string/yes" />
+
+    <Button
+        android:id="@+id/book_existing"
+        style="@style/selectableButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:text="@string/no" />
+
+    <TextView
+        android:id="@+id/no_times_available"
+        style="@style/tradeGothicLTStdLight_14"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/book_new"
-            style="@style/selectableButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="18dp"
-            android:gravity="center"
-            android:text="@string/yes" />
-
-        <Button
-            android:id="@+id/book_existing"
-            style="@style/selectableButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="18dp"
-            android:gravity="center"
-            android:text="@string/no" />
-
-    </RadioGroup>
+        android:layout_marginTop="18dp"
+        android:text="@string/no_appointments_new_patients"
+        android:textSize="20sp"
+        android:visibility="visible" />
 
 </LinearLayout>
