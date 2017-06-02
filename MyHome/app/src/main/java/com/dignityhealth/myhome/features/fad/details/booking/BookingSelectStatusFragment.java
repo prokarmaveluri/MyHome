@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 
@@ -52,29 +53,44 @@ public class BookingSelectStatusFragment extends Fragment {
         showExisting = args.getBoolean(SHOW_EXISTING_KEY);
 
         bookingView = inflater.inflate(R.layout.book_select_status, container, false);
-
+        final TextView header = (TextView) bookingView.findViewById(R.id.status_header);
+        final TextView noAppointments = (TextView) bookingView.findViewById(R.id.no_times_available);
         final Button buttonNew = (Button) bookingView.findViewById(R.id.book_new);
+        final Button buttonExisting = (Button) bookingView.findViewById(R.id.book_existing);
+
         buttonNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectStatusInterface != null) {
-                    selectStatusInterface.onStatusSelected(true);
+                if (showNew) {
+                    if (selectStatusInterface != null) {
+                        selectStatusInterface.onStatusSelected(true);
+                    }
+                } else {
+                    header.setVisibility(View.GONE);
+                    buttonNew.setVisibility(View.GONE);
+                    buttonExisting.setVisibility(View.GONE);
+                    noAppointments.setVisibility(View.VISIBLE);
+                    noAppointments.setText(getString(R.string.no_appointments_new_patients));
                 }
             }
         });
 
-        final Button buttonExisting = (Button) bookingView.findViewById(R.id.book_existing);
         buttonExisting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectStatusInterface != null) {
-                    selectStatusInterface.onStatusSelected(false);
+                if (showExisting) {
+                    if (selectStatusInterface != null) {
+                        selectStatusInterface.onStatusSelected(false);
+                    }
+                } else {
+                    header.setVisibility(View.GONE);
+                    buttonNew.setVisibility(View.GONE);
+                    buttonExisting.setVisibility(View.GONE);
+                    noAppointments.setVisibility(View.VISIBLE);
+                    noAppointments.setText(getString(R.string.no_appointments_existing_patients));
                 }
             }
         });
-
-        buttonNew.setEnabled(showNew);
-        buttonExisting.setEnabled(showExisting);
 
         return bookingView;
     }
