@@ -75,13 +75,8 @@ public class FadPresenter implements FadInteractor.Presenter {
                     public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
                         if (response.isSuccessful() && response.body().getProviders().size() > 0) {
                             Timber.d("Successful Response\n" + response);
-                            mView.updateProviderList(response.body().getProviders(),
-                                    response.body().getAcceptsNewPatients(),
-                                    response.body().getSpecialties(),
-                                    response.body().getGenders(),
-                                    response.body().getLanguages(),
-                                    response.body().getHospitals(),
-                                    response.body().getPractices());
+                            mView.updateProviderList(response.body());
+                            FadFragment.maxCount = response.body().getNumResults();
                         } else {
                             Timber.e("Response, but not successful?\n" + response);
                             mView.showErrorMessage(mContext.getString(R.string.no_providers));
