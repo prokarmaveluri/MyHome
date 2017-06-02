@@ -80,7 +80,7 @@ public class MapViewFragment extends Fragment implements
         if (getArguments() != null) {
             providerList.clear();
             ArrayList<Provider> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
-            location = FadManager.getInstance().getCurrentLocation();
+            location = FadManager.getInstance().getLocation();
             providerList.addAll(list);
         }
     }
