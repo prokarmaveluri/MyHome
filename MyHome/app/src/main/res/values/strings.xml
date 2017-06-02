@@ -138,5 +138,6 @@
     <string name="save_profile_title">Save Changes</string>
     <string name="save_profile_message">Do you wish to save this information for later?</string>
     <string name="search_this_area">Search This Area</string>
+    <string name="no_appointments_available">No Appointments Available</string>
 
 </resources>
