@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
@@ -109,6 +108,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     //Booking
     Date bookingDate;
+    boolean isNewPatient = false;
+    Appointment bookedAppointment;
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
@@ -234,7 +235,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         //Setup Booking
                         currentOffice = providerDetailsResponse.getOffices().get(0);
                         bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
-                        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(providerDetailsResponse);
+                        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
                         bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
                                 .beginTransaction()
@@ -306,7 +307,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             //Close book appointments and reset flow again
             expandableLinearLayout.collapse();
             bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
-            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(providerDetailsResponse);
+            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
             bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
             getChildFragmentManager()
                     .beginTransaction()
@@ -461,9 +462,23 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     }
 
+    private ArrayList<Appointment> filterAppointments(boolean isNewPatient, ArrayList<Appointment> appointments){
+        ArrayList<Appointment> filteredAppointments = new ArrayList<>();
+
+        for (Appointment appointment : appointments) {
+            if(!isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_EXISTING)){
+                filteredAppointments.add(appointment);
+            } else if(isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_NEW)){
+                filteredAppointments.add(appointment);
+            }
+        }
+
+        return filteredAppointments;
+    }
+
     @Override
     public void onPersonSelected(boolean isBookingForMe) {
-        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(providerDetailsResponse);
+        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
         bookingFragment.setSelectStatusInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
@@ -477,7 +492,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onStatusSelected(boolean isUserNew) {
-        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(currentOffice.getAppointments());
+        isNewPatient = isUserNew;
+        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient, currentOffice.getAppointments()));
         bookingFragment.setSelectTimeInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
@@ -491,7 +507,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onTimeSelected(Appointment appointment) {
-        Toast.makeText(getContext(), "Time Clicked: " + appointment.Time, Toast.LENGTH_SHORT).show();
+        bookedAppointment = appointment;
 
         BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance();
         dialogFragment.setBookingDialogInterface(this);
@@ -500,12 +516,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onBackArrowClicked() {
-
+        expandableLinearLayout.initLayout();
+        expandableLinearLayout.expand();
     }
 
     @Override
     public void onFrontArrowClicked() {
-
+        expandableLinearLayout.initLayout();
+        expandableLinearLayout.expand();
     }
 
     @Override
