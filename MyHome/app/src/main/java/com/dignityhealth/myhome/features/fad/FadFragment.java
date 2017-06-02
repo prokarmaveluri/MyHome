@@ -460,12 +460,12 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
             clearFilters();
 
-            this.newPatients.addAll(newPatients);
-            this.specialties.addAll(specialties);
-            this.gender.addAll(gender);
-            this.languages.addAll(languages);
-            this.hospitals.addAll(hospitals);
-            this.practices.addAll(practices);
+            this.newPatients.addAll(response.getAcceptsNewPatients());
+            this.specialties.addAll(response.getSpecialties());
+            this.gender.addAll(response.getGenders());
+            this.languages.addAll(response.getLanguages());
+            this.hospitals.addAll(response.getHospitals());
+            this.practices.addAll(response.getPractices());
         } catch (IllegalStateException | NullPointerException ex) {
         }
     }
