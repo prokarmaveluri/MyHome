@@ -41,6 +41,8 @@ import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 import com.dignityhealth.myhome.utils.SessionUtil;
+import com.google.android.gms.maps.model.LatLng;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +76,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private FragmentStatePagerAdapter pagerAdapter;
 
     private int distanceRange = 100;
+    public static int maxCount = 0, mPageIndex = 1;
     private static ArrayList<Provider> providerList = new ArrayList<>();
     private static ArrayList<CommonModel> newPatients = new ArrayList<>();
     private static ArrayList<CommonModel> specialties = new ArrayList<>();
@@ -124,8 +127,15 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         super.onResume();
 
         presenter.start();
+        NavigationActivity.eventBus.register(this);
         ((NavigationActivity) getActivity()).getNavigationActionBar().hide();
         setActionBar();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        NavigationActivity.eventBus.unregister(this);
     }
 
     @Override
@@ -270,6 +280,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     FadManager.getInstance().setLocation(location);
                 }
                 // update list with filter
+                mPageIndex = 1;
                 searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
             }
         }
@@ -328,6 +339,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             binding.suggestionList.setVisibility(View.GONE);
             clearFilters();
             AppPreferences.getInstance().setPreference("SORT_BY", ""); // default/best match search
+            mPageIndex = 1;
             searchForQuery(v.getText().toString(), RESTConstants.PROVIDER_DISTANCE);
             return true;
         }
@@ -372,6 +384,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setSelection(query.length());
         binding.suggestionList.setVisibility(View.GONE);
         CommonUtil.hideSoftKeyboard(getActivity());
+        mPageIndex = 1;
         searchForQuery(query, RESTConstants.PROVIDER_DISTANCE);
     }
 
@@ -408,7 +421,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     FadManager.getInstance().getLocation().getLong(),
                     FadManager.getInstance().getLocation().getDisplayName(),
                     FadManager.getInstance().getLocation().getZipCode(),
-                    RESTConstants.PROVIDER_PAGE_NO,
+                    String.valueOf(mPageIndex),
                     RESTConstants.PROVIDER_PAGE_SIZE,
                     distanceRange,
                     getSortBy(),
@@ -423,24 +436,29 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     @Override
-    public void updateProviderList(List<Provider> providers,
-                                   List<CommonModel> newPatients,
-                                   List<CommonModel> specialties,
-                                   List<CommonModel> gender,
-                                   List<CommonModel> languages,
-                                   List<CommonModel> hospitals,
-                                   List<CommonModel> practices) {
+    public void updateProviderList(ProvidersResponse response) {
         providerList.clear();
-        providerList.addAll(providers);
+        providerList.addAll(response.getProviders());
+        mPageIndex = response.getCurrentPageNum();
         // Update list
+        if (mPageIndex > 1) {
+            NewPageData data = new NewPageData();
+            data.setPageNo(mPageIndex);
+            data.setList(providerList);
+            NavigationActivity.eventBus.post(data);
+            return;
+        }
 
         try {
+            this.maxCount = maxCount;
             if (isResumed() && null == getActivity() && getChildFragmentManager() == null)
                 return;
 
+            NavigationActivity.eventBus.post(providerList);
             CommonUtil.hideSoftKeyboard(getActivity());
             binding.searchLayout.setVisibility(View.GONE);
-            setPager();
+//            setPager();
+            pagerAdapter.notifyDataSetChanged();
 
             clearFilters();
 
@@ -563,5 +581,38 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         binding.fadTabs.setScrollPosition(currentPageSelection, 0f, true);
         binding.fadPager.setCurrentItem(currentPageSelection);
+    }
+
+    @Subscribe
+    public void newLocation(LatLng location) {
+        Timber.i("New Location " + location);
+    }
+
+    @Subscribe
+    public void newPage(ProviderListFragment.PageData data) {
+        Timber.i("New Page " + data.getPageNo());
+        mPageIndex = data.getPageNo();
+        searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
+    }
+
+    public class NewPageData {
+        private ArrayList<Provider> list;
+        private int pageNo;
+
+        public ArrayList<Provider> getList() {
+            return list;
+        }
+
+        public void setList(ArrayList<Provider> list) {
+            this.list = list;
+        }
+
+        public int getPageNo() {
+            return pageNo;
+        }
+
+        public void setPageNo(int pageNo) {
+            this.pageNo = pageNo;
+        }
     }
 }

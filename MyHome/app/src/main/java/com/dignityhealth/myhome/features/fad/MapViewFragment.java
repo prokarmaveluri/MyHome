@@ -135,7 +135,7 @@ public class MapViewFragment extends Fragment implements
         try {
 
             if (providerList == null || providerList.size() <= 0) {
-                Toast.makeText(getActivity(), "No Providers", Toast.LENGTH_LONG).show();
+                Timber.i("No Providers");
                 return;
             }
             LatLngBounds.Builder builder = new LatLngBounds.Builder();

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,13 @@ import com.dignityhealth.myhome.databinding.FragmentProviderListBinding;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.RESTConstants;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by cmajji on 4/26/17.
@@ -28,8 +33,11 @@ import java.util.List;
 public class ProviderListFragment extends Fragment implements
         ProvidersAdapter.IProviderClick {
 
+    private int mIndex = 1;
     private String errorMsg;
+    private boolean loadingMore = false;
     private ProvidersAdapter adapter;
+    private LinearLayoutManager manager;
     private FragmentProviderListBinding binding;
     private ArrayList<String> recentlyViewed = new ArrayList<>();
     private List<Provider> providerList = new ArrayList<>();
@@ -53,8 +61,10 @@ public class ProviderListFragment extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            providerList = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            providerList.clear();
+            ArrayList<Provider> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
             errorMsg = getArguments().getString("PROVIDER_MSG");
+            providerList.addAll(list);
         }
     }
 
@@ -63,6 +73,7 @@ public class ProviderListFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_provider_list, container, false);
         recentlyViewed = RecentlyViewedDataSourceDB.getInstance().getAllEntry();
+
         return binding.getRoot();
     }
 
@@ -70,13 +81,15 @@ public class ProviderListFragment extends Fragment implements
     public void onResume() {
         super.onResume();
 
+        NavigationActivity.eventBus.register(this);
         if (providerList != null && providerList.size() > 0) {
             if (listener == null) {
                 adapter = new ProvidersAdapter(providerList, getActivity(), this, recentlyViewed);
             } else {
                 adapter = new ProvidersAdapter(providerList, getActivity(), listener, recentlyViewed);
             }
-            binding.providersList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            manager = new LinearLayoutManager(getActivity());
+            binding.providersList.setLayoutManager(manager);
             binding.providersList.setAdapter(adapter);
             viewState(State.LIST);
             adapter.notifyDataSetChanged();
@@ -88,7 +101,14 @@ public class ProviderListFragment extends Fragment implements
             binding.message.setText(getString(R.string.find_care));
         }
 
+        binding.providersList.addOnScrollListener(new ListScroll());
         showProgress(false);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        NavigationActivity.eventBus.unregister(this);
     }
 
     public void showProgress(boolean inProgress) {
@@ -115,7 +135,6 @@ public class ProviderListFragment extends Fragment implements
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 
-
     private void viewState(State current) {
         if (current == State.LIST) {
             binding.providersList.setVisibility(View.VISIBLE);
@@ -127,4 +146,66 @@ public class ProviderListFragment extends Fragment implements
         }
     }
 
+    private class ListScroll extends RecyclerView.OnScrollListener {
+        /**
+         * Callback method to be invoked when the RecyclerView has been scrolled. This will be
+         * called after the scroll has completed.
+         * <p>
+         * This callback will also be called if visible item range changes after a layout
+         * calculation. In that case, dx and dy will be 0.
+         *
+         * @param recyclerView The RecyclerView which scrolled.
+         * @param dx           The amount of horizontal scroll.
+         * @param dy           The amount of vertical scroll.
+         */
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int totalItemCount = manager.getItemCount();
+            int lastVisibleItem = manager.findLastVisibleItemPosition();
+            int currentScroll = manager.findFirstVisibleItemPosition();
+
+            if (totalItemCount != FadFragment.maxCount && ((totalItemCount - 10) <= (lastVisibleItem + 1))) {
+                onLoadMoreData();
+            }
+            if (totalItemCount == FadFragment.maxCount && (lastVisibleItem + 1) == FadFragment.maxCount) {
+//                Toast.makeText(getActivity(), "end of the list", Toast.LENGTH_SHORT).show();
+                Timber.i("list count maxCount " + FadFragment.maxCount);
+            }
+        }
+    }
+
+    private void onLoadMoreData() {
+        if (loadingMore)
+            return;
+
+        loadingMore = true;
+        if (mIndex * Integer.valueOf(RESTConstants.PROVIDER_PAGE_SIZE) < FadFragment.maxCount) {
+            mIndex = mIndex + 1;
+            PageData data = new PageData();
+            data.setPageNo(mIndex);
+            NavigationActivity.eventBus.post(data);
+        } else {
+        }
+    }
+
+    public class PageData {
+        public int getPageNo() {
+            return pageNo;
+        }
+
+        public void setPageNo(int pageNo) {
+            this.pageNo = pageNo;
+        }
+
+        int pageNo;
+    }
+
+    @Subscribe
+    public void updateNewPageList(FadFragment.NewPageData pageData) {
+        loadingMore = false;
+        Timber.i("update new page list");
+        this.providerList.addAll(pageData.getList());
+        adapter.notifyDataSetChanged();
+    }
 }

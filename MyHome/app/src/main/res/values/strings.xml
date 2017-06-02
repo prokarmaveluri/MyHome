@@ -119,7 +119,7 @@
     <string name="max_login_tries_reached">You reached maximum failure attempts, try after 5 minutes</string>
     <string name="appointment_created">Appointment Created!</string>
     <string name="appointment_creation_failed">Appointment Creation Failed!</string>
-    <string name="query_empty">Enter valid query</string>
+    <string name="query_empty">Enter search query</string>
     <string name="query_location_unavailable">location not available, select location in filter</string>
     <string name="provider_details_unavailable">Provider Details Unavailable</string>
     <string name="password_criteria_8char">Password must be at least 8 characters</string>
