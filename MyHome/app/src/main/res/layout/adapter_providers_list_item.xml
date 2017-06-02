@@ -83,17 +83,37 @@
                 android:layout_below="@+id/docSpeciality"
                 android:text="Denver, CO" />
 
-            <TextView
-                android:id="@+id/recentlyViewed"
-                style="@style/tradeGothicLTStdLight_18"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/docAddress"
-                android:layout_marginTop="4dp"
-                android:drawableLeft="@drawable/ic_recent_blue"
-                android:drawablePadding="8dp"
-                android:text="Recently viewed"
-                android:visibility="visible" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/bookOnline"
+                    style="@style/tradeGothicLTStdLight_18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="8dp"
+                    android:drawableLeft="@mipmap/calendar_blue"
+                    android:drawablePadding="8dp"
+                    android:text="Book Online"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/recentlyViewed"
+                    style="@style/tradeGothicLTStdLight_18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:drawableLeft="@drawable/ic_recent_blue"
+                    android:drawablePadding="8dp"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Recently viewed"
+                    android:visibility="visible" />
+            </LinearLayout>
         </RelativeLayout>
 
         <View
