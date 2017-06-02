@@ -45,15 +45,9 @@ public interface FadInteractor {
         /**
          * update the providers list
          *
-         * @param providers
+         * @param response
          */
-        void updateProviderList(List<Provider> providers,
-                                List<CommonModel> newPatients,
-                                List<CommonModel> specialties,
-                                List<CommonModel> gender,
-                                List<CommonModel> languages,
-                                List<CommonModel> hospitals,
-                                List<CommonModel> practices);
+        void updateProviderList(ProvidersResponse response);
 
         /**
          * error message from REST API for providers list.

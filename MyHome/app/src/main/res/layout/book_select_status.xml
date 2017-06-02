@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/booking_select_person_header"
+        android:text="@string/booking_select_status_header"
         android:textSize="20sp" />
 
     <RadioGroup
@@ -26,7 +26,7 @@
             android:layout_height="45dp"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:text="@string/new_patient" />
+            android:text="@string/yes" />
 
         <Button
             android:id="@+id/book_existing"
@@ -35,7 +35,7 @@
             android:layout_height="45dp"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:text="@string/existing_patient" />
+            android:text="@string/no" />
 
     </RadioGroup>
 

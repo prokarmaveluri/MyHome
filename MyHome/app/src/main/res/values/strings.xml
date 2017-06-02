@@ -54,6 +54,7 @@
     <string name="forgot_password_header">Please enter your email address.</string>
     <string name="forgot_password_subheader">An email will be sent to entered address with reset instructions</string>
     <string name="booking_select_person_header">Who is this appointment for?</string>
+    <string name="booking_select_status_header">Are you a new patient?</string>
     <string name="me">Me</string>
     <string name="family_member">Family Member</string>
     <string name="booking_reason_hint">Please tell us the purpose of your visit.</string>
@@ -119,7 +120,7 @@
     <string name="max_login_tries_reached">You reached maximum failure attempts, try after 5 minutes</string>
     <string name="appointment_created">Appointment Created!</string>
     <string name="appointment_creation_failed">Appointment Creation Failed!</string>
-    <string name="query_empty">Enter valid query</string>
+    <string name="query_empty">Enter search query</string>
     <string name="query_location_unavailable">location not available, select location in filter</string>
     <string name="provider_details_unavailable">Provider Details Unavailable</string>
     <string name="password_criteria_8char">Password must be at least 8 characters</string>

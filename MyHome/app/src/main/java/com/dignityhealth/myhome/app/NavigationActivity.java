@@ -37,6 +37,8 @@ import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.MapView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -46,6 +48,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     private static ActivityTag activityTag = ActivityTag.NONE;
     private BottomNavigationViewEx bottomNavigationView;
     private ProgressBar progressBar;
+
+    public static Bus eventBus;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         setActivityTag(ActivityTag.NONE);
         initializeBottomView();
 
+        eventBus = new Bus(ThreadEnforcer.MAIN);
         RecentlyViewedDataSourceDB.getInstance().setAppContext(getApplicationContext());
         RecentlyViewedDataSourceDB.getInstance().open();
 
@@ -113,6 +118,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        eventBus = null;
         FadManager.getInstance().setLocation(null);
         ProfileManager.setProfile(null);
         RecentlyViewedDataSourceDB.getInstance().close();
