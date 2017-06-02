@@ -142,6 +142,13 @@ public class BookingSelectTimeFragment extends Fragment {
         } else {
             timeLayout.setVisibility(View.GONE);
             noAppointments.setVisibility(View.VISIBLE);
+
+            Appointment nextAppointment = findNextAppointment(bookingDate, allAppointments);
+            if(nextAppointment != null){
+                noAppointments.setText("Next Available: " + DateUtil.getDateWordsFromUTC(nextAppointment.Time));
+            } else {
+                noAppointments.setText(getString(R.string.no_appointments_available));
+            }
         }
     }
 
@@ -199,6 +206,27 @@ public class BookingSelectTimeFragment extends Fragment {
         return todaysAppointments;
     }
 
+    @Nullable
+    private Appointment findNextAppointment(final Date todaysDate, final ArrayList<Appointment> allAppointments){
+        Appointment nextAppointment = null;
+
+        Date appointmentDate = new Date();
+        for (Appointment appointment : allAppointments) {
+            try {
+                appointmentDate = DateUtil.getDateTimeZone(appointment.Time);
+            } catch (ParseException e) {
+                Timber.e(e);
+                e.printStackTrace();
+            }
+
+            if(appointmentDate.after(todaysDate)){
+                nextAppointment = appointment;
+                break;
+            }
+        }
+
+        return nextAppointment;
+    }
 
 //    private ArrayList<Appointment> getTodaysAppointments(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
 //        Calendar todayCalendar = Calendar.getInstance();

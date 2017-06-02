@@ -53,7 +53,7 @@
         android:clickable="false"
         android:gravity="center"
         android:padding="12dp"
-        android:text="No Appointments Today"
+        android:text="@string/no_appointments_available"
         android:visibility="gone" />
 
 </LinearLayout>

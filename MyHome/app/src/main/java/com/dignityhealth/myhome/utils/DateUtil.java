@@ -127,8 +127,7 @@ public class DateUtil {
      */
     public static String getDateWordsFromUTC(String utcDate) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_SHORT_WORDS_FORMAT, Locale.US);
-            return sdf.format(getDateTimeZone(utcDate));
+            return SIMPLE_DATE_SHORT_WORDS_FORMAT.format(getDateTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
