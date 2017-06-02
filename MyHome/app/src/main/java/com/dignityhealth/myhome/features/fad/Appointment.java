@@ -2,13 +2,17 @@ package com.dignityhealth.myhome.features.fad;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
 
 /**
  * Created by kwelsh on 5/18/17.
  */
 
-public class Appointment implements Parcelable {
+public class Appointment implements Parcelable, Comparable {
     public String Time;
+    public ArrayList<AppointmentType> AppointmentTypes;
     public boolean Selected;
     public String FacilityId;
     public String FacilityAddress;
@@ -20,7 +24,6 @@ public class Appointment implements Parcelable {
     public String RegistrationUrl;
     public String FullAddress;
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -29,6 +32,7 @@ public class Appointment implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.Time);
+        dest.writeTypedList(this.AppointmentTypes);
         dest.writeByte(this.Selected ? (byte) 1 : (byte) 0);
         dest.writeString(this.FacilityId);
         dest.writeString(this.FacilityAddress);
@@ -46,6 +50,7 @@ public class Appointment implements Parcelable {
 
     protected Appointment(Parcel in) {
         this.Time = in.readString();
+        this.AppointmentTypes = in.createTypedArrayList(AppointmentType.CREATOR);
         this.Selected = in.readByte() != 0;
         this.FacilityId = in.readString();
         this.FacilityAddress = in.readString();
@@ -58,7 +63,7 @@ public class Appointment implements Parcelable {
         this.FullAddress = in.readString();
     }
 
-    public static final Parcelable.Creator<Appointment> CREATOR = new Parcelable.Creator<Appointment>() {
+    public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
         @Override
         public Appointment createFromParcel(Parcel source) {
             return new Appointment(source);
@@ -71,19 +76,8 @@ public class Appointment implements Parcelable {
     };
 
     @Override
-    public String toString() {
-        return "Appointment{" +
-                "Time='" + Time + '\'' +
-                ", Selected=" + Selected +
-                ", FacilityId='" + FacilityId + '\'' +
-                ", FacilityAddress='" + FacilityAddress + '\'' +
-                ", FacilityCity='" + FacilityCity + '\'' +
-                ", FacilityState='" + FacilityState + '\'' +
-                ", FacilityZip='" + FacilityZip + '\'' +
-                ", FacilityLat='" + FacilityLat + '\'' +
-                ", FacilityLong='" + FacilityLong + '\'' +
-                ", RegistrationUrl='" + RegistrationUrl + '\'' +
-                ", FullAddress='" + FullAddress + '\'' +
-                '}';
+    public int compareTo(@NonNull Object anotherAppointment) {
+        String compareDate = ((Appointment) anotherAppointment).Time;
+        return this.Time.compareTo(compareDate);
     }
 }

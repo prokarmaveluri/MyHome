@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.features.fad.details.booking;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.dignityhealth.myhome.views.FlowLayout;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import timber.log.Timber;
@@ -38,10 +40,14 @@ public class BookingSelectTimeFragment extends Fragment {
     public ArrayList<Appointment> allAppointments;
     public ArrayList<Appointment> todaysAppointments = new ArrayList<>();
     public Date bookingDate;
+    public Date firstAppointmentDate;
+    public Date lastAppointmentDate;
     public BookingDateHeaderInterface selectTimeInterface;
 
     View bookingView;
     TextView monthLabel;
+    ImageView rightArrow;
+    ImageView leftArrow;
     FlowLayout timeLayout;
     Button noAppointments;
 
@@ -73,6 +79,8 @@ public class BookingSelectTimeFragment extends Fragment {
         Bundle args = getArguments();
         allAppointments = args.getParcelableArrayList(APPOINTMENTS_KEY);
 
+        Collections.sort(allAppointments);
+
         if (args != null && args.getSerializable(DATE_KEY) != null) {
             bookingDate = (Date) args.getSerializable(DATE_KEY);
         } else {
@@ -86,17 +94,30 @@ public class BookingSelectTimeFragment extends Fragment {
         noAppointments = (Button) bookingView.findViewById(R.id.empty_appointments);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
-        ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
-        ImageView rightArrow = (ImageView) dateHeader.findViewById(R.id.right_date_arrow);
+        leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
+        rightArrow = (ImageView) dateHeader.findViewById(R.id.right_date_arrow);
         monthLabel = (TextView) dateHeader.findViewById(R.id.date);
         setMonthHeader(bookingDate);
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bookingDate = DateUtil.moveDate(bookingDate, -1);
-                setMonthHeader(bookingDate);
-                setupView();
+                //Adjust left arrow color and register click if in range
+                if (DateUtil.isOnSameDay(bookingDate, firstAppointmentDate)) {
+                    leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
+                } else {
+                    leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
+                    bookingDate = DateUtil.moveDate(bookingDate, -1);
+                    setMonthHeader(bookingDate);
+                    setupView();
+                }
+
+                //Adjust right arrow color
+                if(DateUtil.isOnSameDay(bookingDate, lastAppointmentDate)){
+                    rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
+                } else {
+                    rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
+                }
 
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onBackArrowClicked();
@@ -107,9 +128,22 @@ public class BookingSelectTimeFragment extends Fragment {
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bookingDate = DateUtil.moveDate(bookingDate, 1);
-                setMonthHeader(bookingDate);
-                setupView();
+                //Adjust right arrow color and register click if in range
+                if (DateUtil.isOnSameDay(bookingDate, lastAppointmentDate)) {
+                    rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
+                } else {
+                    rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
+                    bookingDate = DateUtil.moveDate(bookingDate, 1);
+                    setMonthHeader(bookingDate);
+                    setupView();
+                }
+
+                //Adjust left arrow color
+                if(DateUtil.isOnSameDay(bookingDate, firstAppointmentDate)){
+                    leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
+                } else {
+                    leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
+                }
 
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onFrontArrowClicked();
@@ -131,11 +165,13 @@ public class BookingSelectTimeFragment extends Fragment {
         return bookingView;
     }
 
-    private void setupView(){
+    private void setupView() {
         todaysAppointments.clear();
         todaysAppointments = getTodaysAppointments(bookingDate, allAppointments);
+        firstAppointmentDate = findFirstAppointmentDate(allAppointments);
+        lastAppointmentDate = findLastAppointmentDate(allAppointments);
 
-        if(todaysAppointments != null && !todaysAppointments.isEmpty()){
+        if (todaysAppointments != null && !todaysAppointments.isEmpty()) {
             timeLayout.setVisibility(View.VISIBLE);
             noAppointments.setVisibility(View.GONE);
             setAppointmentTimes(timeLayout, todaysAppointments);
@@ -144,7 +180,7 @@ public class BookingSelectTimeFragment extends Fragment {
             noAppointments.setVisibility(View.VISIBLE);
 
             Appointment nextAppointment = findNextAppointment(bookingDate, allAppointments);
-            if(nextAppointment != null){
+            if (nextAppointment != null) {
                 noAppointments.setText("Next Available: " + DateUtil.getDateWordsFromUTC(nextAppointment.Time));
             } else {
                 noAppointments.setText(getString(R.string.no_appointments_available));
@@ -207,7 +243,7 @@ public class BookingSelectTimeFragment extends Fragment {
     }
 
     @Nullable
-    private Appointment findNextAppointment(final Date todaysDate, final ArrayList<Appointment> allAppointments){
+    private Appointment findNextAppointment(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
         Appointment nextAppointment = null;
 
         Date appointmentDate = new Date();
@@ -219,13 +255,49 @@ public class BookingSelectTimeFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            if(appointmentDate.after(todaysDate)){
+            if (appointmentDate.after(todaysDate)) {
                 nextAppointment = appointment;
                 break;
             }
         }
 
         return nextAppointment;
+    }
+
+    /**
+     * Gets the first appointment's date from a list.
+     * Assumes that the list is sorted.
+     *
+     * @param appointments
+     * @return the date of the first appointment in the list
+     */
+    @Nullable
+    private Date findFirstAppointmentDate(ArrayList<Appointment> appointments) {
+        try {
+            return DateUtil.getDateTimeZone(appointments.get(0).Time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the last appointment's date from a list.
+     * Assumes that the list is sorted.
+     *
+     * @param appointments
+     * @return the date of the last appointment in the list
+     */
+    @Nullable
+    private Date findLastAppointmentDate(ArrayList<Appointment> appointments) {
+        try {
+            return DateUtil.getDateTimeZone(appointments.get(appointments.size() - 1).Time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 //    private ArrayList<Appointment> getTodaysAppointments(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
