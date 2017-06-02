@@ -19,9 +19,12 @@ import com.dignityhealth.myhome.utils.DateUtil;
 import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.dignityhealth.myhome.views.FlowLayout;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 5/25/17.
@@ -75,8 +78,10 @@ public class BookingSelectTimeFragment extends Fragment {
             bookingDate = calendar.getTime();
         }
 
+        ArrayList<Appointment> todaysAppointments = getTodaysAppointments(bookingDate, appointments);
+
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
-        setAppointmentTimes((FlowLayout) bookingView.findViewById(R.id.time_group), appointments);
+        setAppointmentTimes((FlowLayout) bookingView.findViewById(R.id.time_group), todaysAppointments);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -155,6 +160,50 @@ public class BookingSelectTimeFragment extends Fragment {
         }
     }
 
+    private ArrayList<Appointment> getTodaysAppointments(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
+        ArrayList<Appointment> todaysAppointments = new ArrayList<>();
+
+        Date appointmentDate = new Date();
+        for (Appointment appointment : allAppointments) {
+            try {
+                appointmentDate = DateUtil.getDateTimeZone(appointment.Time);
+            } catch (ParseException e) {
+                Timber.e(e);
+                e.printStackTrace();
+            }
+
+            if (DateUtil.isOnSameDay(todaysDate, appointmentDate)) {
+                todaysAppointments.add(appointment);
+            }
+        }
+
+        return todaysAppointments;
+    }
+
+
+//    private ArrayList<Appointment> getTodaysAppointments(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
+//        Calendar todayCalendar = Calendar.getInstance();
+//        todayCalendar.setTime(todaysDate);
+//
+//        ArrayList<Appointment> todaysAppointments = new ArrayList<>();
+//
+//        Calendar appointmentCalendar = Calendar.getInstance();
+//        for (Appointment appointment : allAppointments) {
+//            try {
+//                appointmentCalendar.setTime(DateUtil.getDateTimeZone(appointment.Time));
+//            } catch (ParseException e) {
+//                Timber.e(e);
+//                e.printStackTrace();
+//            }
+//
+//            if(appointmentCalendar != null && appointmentCalendar.compareTo(todayCalendar) == 0){
+//                todaysAppointments.add(appointment);
+//            }
+//        }
+//
+//        return todaysAppointments;
+//    }
+
 //    /**
 //     * Gets the top three choices of dates
 //     *
@@ -183,7 +232,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public void setMonthHeader(Date date) {
         monthLabel.setText(DateUtil.convertDateToReadable(date));
 
-        if(selectTimeInterface != null){
+        if (selectTimeInterface != null) {
             selectTimeInterface.onDateChanged(bookingDate);
         }
     }
