@@ -38,9 +38,11 @@
         style="@style/tradeGothicLTStdLight_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:layout_marginTop="18dp"
         android:text="@string/no_appointments_new_patients"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </LinearLayout>

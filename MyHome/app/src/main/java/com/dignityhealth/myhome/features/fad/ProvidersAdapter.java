@@ -99,12 +99,15 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                 Picasso.with(mContext)
                         .load(url)
                         .into(binding.docImage);
-
+                binding.recentlyViewed.setVisibility(View.GONE);
                 if (recentProviders.contains(provider.getProviderId()) && AppPreferences.getInstance()
                         .getBooleanPreference("RECENTLY_VIEWED"))
                     binding.recentlyViewed.setVisibility(View.VISIBLE);
-                else
-                    binding.recentlyViewed.setVisibility(View.GONE);
+
+                binding.bookOnline.setVisibility(View.GONE);
+                if (provider.getHasAppointments()){
+                    binding.bookOnline.setVisibility(View.VISIBLE);
+                }
             } catch (NullPointerException ex) {
 
             }
