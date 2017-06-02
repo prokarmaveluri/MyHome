@@ -500,12 +500,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onBackArrowClicked() {
-
+        expandableLinearLayout.initLayout();
+        expandableLinearLayout.expand();
     }
 
     @Override
     public void onFrontArrowClicked() {
-
+        expandableLinearLayout.initLayout();
+        expandableLinearLayout.expand();
     }
 
     @Override

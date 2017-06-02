@@ -8,10 +8,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.Appointment;
@@ -35,12 +35,15 @@ public class BookingSelectTimeFragment extends Fragment {
     public static final String APPOINTMENTS_KEY = "appointments";
     public static final String DATE_KEY = "date";
 
-    public ArrayList<Appointment> appointments;
+    public ArrayList<Appointment> allAppointments;
+    public ArrayList<Appointment> todaysAppointments = new ArrayList<>();
     public Date bookingDate;
     public BookingDateHeaderInterface selectTimeInterface;
 
     View bookingView;
     TextView monthLabel;
+    FlowLayout timeLayout;
+    Button noAppointments;
 
 
     public static BookingSelectTimeFragment newInstance() {
@@ -68,7 +71,7 @@ public class BookingSelectTimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
-        appointments = args.getParcelableArrayList(APPOINTMENTS_KEY);
+        allAppointments = args.getParcelableArrayList(APPOINTMENTS_KEY);
 
         if (args != null && args.getSerializable(DATE_KEY) != null) {
             bookingDate = (Date) args.getSerializable(DATE_KEY);
@@ -78,10 +81,9 @@ public class BookingSelectTimeFragment extends Fragment {
             bookingDate = calendar.getTime();
         }
 
-        ArrayList<Appointment> todaysAppointments = getTodaysAppointments(bookingDate, appointments);
-
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
-        setAppointmentTimes((FlowLayout) bookingView.findViewById(R.id.time_group), todaysAppointments);
+        timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
+        noAppointments = (Button) bookingView.findViewById(R.id.empty_appointments);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -92,24 +94,26 @@ public class BookingSelectTimeFragment extends Fragment {
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bookingDate = DateUtil.moveDate(bookingDate, -1);
+                setMonthHeader(bookingDate);
+                setupView();
+
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onBackArrowClicked();
                 }
-
-                bookingDate = DateUtil.moveDate(bookingDate, -1);
-                setMonthHeader(bookingDate);
             }
         });
 
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bookingDate = DateUtil.moveDate(bookingDate, 1);
+                setMonthHeader(bookingDate);
+                setupView();
+
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onFrontArrowClicked();
                 }
-
-                bookingDate = DateUtil.moveDate(bookingDate, 1);
-                setMonthHeader(bookingDate);
             }
         });
 
@@ -122,7 +126,23 @@ public class BookingSelectTimeFragment extends Fragment {
             }
         });
 
+        setupView();
+
         return bookingView;
+    }
+
+    private void setupView(){
+        todaysAppointments.clear();
+        todaysAppointments = getTodaysAppointments(bookingDate, allAppointments);
+
+        if(todaysAppointments != null && !todaysAppointments.isEmpty()){
+            timeLayout.setVisibility(View.VISIBLE);
+            noAppointments.setVisibility(View.GONE);
+            setAppointmentTimes(timeLayout, todaysAppointments);
+        } else {
+            timeLayout.setVisibility(View.GONE);
+            noAppointments.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -132,19 +152,18 @@ public class BookingSelectTimeFragment extends Fragment {
      * @param appointments the appointments being added to the Flow Layout
      */
     private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<Appointment> appointments) {
+        timeGroup.removeAllViews();
         FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 4));
 
         View.OnClickListener timeClickedListener;
 
         for (final Appointment appointment : appointments) {
-            final ToggleButton timeToggle = new ToggleButton(new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
-            timeToggle.setPadding(DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12));
-            timeToggle.setGravity(Gravity.CENTER);
-            timeToggle.setLayoutParams(layoutParams);
-            timeToggle.setTextOn(DateUtil.getTime(appointment.Time));
-            timeToggle.setTextOff(DateUtil.getTime(appointment.Time));
-            timeToggle.setChecked(appointment.Selected);
+            final Button timeButton = new Button(new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
+            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12));
+            timeButton.setGravity(Gravity.CENTER);
+            timeButton.setLayoutParams(layoutParams);
+            timeButton.setText(DateUtil.getTime(appointment.Time));
 
             timeClickedListener = new View.OnClickListener() {
                 @Override
@@ -154,9 +173,9 @@ public class BookingSelectTimeFragment extends Fragment {
                     }
                 }
             };
-            timeToggle.setOnClickListener(timeClickedListener);
+            timeButton.setOnClickListener(timeClickedListener);
 
-            timeGroup.addView(timeToggle, layoutParams);
+            timeGroup.addView(timeButton, layoutParams);
         }
     }
 
