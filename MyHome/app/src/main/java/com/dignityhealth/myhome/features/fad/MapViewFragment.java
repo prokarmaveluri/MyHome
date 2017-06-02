@@ -171,8 +171,9 @@ public class MapViewFragment extends Fragment implements
             }
 
             LatLngBounds bounds = builder.build();
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 20);
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 16);
 //        map.animateCamera(cu);
+            map.setMaxZoomPreference(16);
             map.moveCamera(cu);
             map.setOnInfoWindowClickListener(this);
             map.setOnCameraMoveCanceledListener(this);
@@ -193,6 +194,7 @@ public class MapViewFragment extends Fragment implements
     @Override
     public void onCameraMove() {
         if (map != null) {
+            Timber.i("Zoom " + map.getCameraPosition().zoom);
             mapHandler.removeMessages(MAP_UPDATE_LOCATION);
             mapHandler.sendEmptyMessageDelayed(MAP_UPDATE_LOCATION, 600);
         }
@@ -279,7 +281,6 @@ public class MapViewFragment extends Fragment implements
 
     private Provider getProvider(String title, LatLng position) {
         try {
-
             for (Provider provider : providerList) {
                 for (Office office : provider.getOffices()) {
                     LatLng officePosition = new LatLng(Double.valueOf(office.getLat()),
