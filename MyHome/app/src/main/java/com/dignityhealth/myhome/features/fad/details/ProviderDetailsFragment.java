@@ -22,6 +22,7 @@ import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.features.fad.Appointment;
 import com.dignityhealth.myhome.features.fad.Office;
 import com.dignityhealth.myhome.features.fad.Provider;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingBackButton;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingConfirmationFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingConfirmationInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDateHeaderInterface;
@@ -58,12 +59,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface, BookingDateHeaderInterface, BookingDialogInterface, BookingConfirmationInterface, BookingDoneInterface {
+public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface, BookingDateHeaderInterface, BookingDialogInterface, BookingConfirmationInterface, BookingDoneInterface, BookingBackButton {
     public static final String PROVIDER_KEY = "PROVIDER_KEY";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
 
     private Provider provider;
     private ProviderDetailsResponse providerDetailsResponse;
+
+    private boolean isBookingAppointment = false;
 
     private Office currentOffice;
 
@@ -83,7 +86,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private RelativeLayout statsView;
 
     //stats profile
-    private View statsProfileView;
+    private RelativeLayout statsProfileView;
     private TextView acceptingNewPatients;
     private TextView languages;
     private TextView gender;
@@ -93,23 +96,23 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView locationsLabel;
 
     //stats Experience
-    private View statsExperienceView;
+    private LinearLayout statsExperienceView;
     private TextView certificationsLabel;
     private TextView certifications;
     private TextView awardsLabel;
     private TextView awards;
 
     //stats Education
-    private View statsEducationView;
+    private LinearLayout statsEducationView;
     private RecyclerView educationList;
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
 
     //Booking
-    Date bookingDate;
-    boolean isNewPatient = false;
-    Appointment bookedAppointment;
+    private Date bookingDate;
+    private boolean isNewPatient = false;
+    private Appointment bookedAppointment;
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
@@ -171,7 +174,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         bookAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expandableLinearLayout.toggle();
+                if (isBookingAppointment) {
+                    expandableLinearLayout.collapse();
+                } else {
+                    expandableLinearLayout.expand();
+                }
+
+                isBookingAppointment = !isBookingAppointment;
             }
         });
 
@@ -316,6 +325,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     .commit();
             getChildFragmentManager().executePendingTransactions();
             expandableLinearLayout.initLayout();
+            isBookingAppointment = false;
         }
 
         address.setText(marker.getSnippet());
@@ -604,5 +614,20 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onClickAddToCalendar() {
 
+    }
+
+
+    /**
+     * @return true if you wish to eat the back button action, false if you don't (calls the super)
+     */
+    @Override
+    public boolean onBackButtonPressed() {
+        if (isBookingAppointment) {
+            expandableLinearLayout.collapse();
+            isBookingAppointment = false;
+            return true;
+        } else {
+            return false;
+        }
     }
 }

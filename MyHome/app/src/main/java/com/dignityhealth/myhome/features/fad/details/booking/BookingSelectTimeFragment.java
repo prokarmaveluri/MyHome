@@ -50,7 +50,7 @@ public class BookingSelectTimeFragment extends Fragment {
     ImageView leftArrow;
     FlowLayout timeLayout;
     Button noAppointments;
-
+    Button callForAppointments;
 
     public static BookingSelectTimeFragment newInstance() {
         return new BookingSelectTimeFragment();
@@ -92,6 +92,7 @@ public class BookingSelectTimeFragment extends Fragment {
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
         timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
         noAppointments = (Button) bookingView.findViewById(R.id.empty_appointments);
+        callForAppointments = (Button) bookingView.findViewById(R.id.call_for_appointment);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -103,7 +104,7 @@ public class BookingSelectTimeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Adjust left arrow color and register click if in range
-                if (DateUtil.isOnSameDay(bookingDate, firstAppointmentDate)) {
+                if (DateUtil.isOnSameDay(bookingDate, firstAppointmentDate) || DateUtil.isBefore(bookingDate, firstAppointmentDate)) {
                     leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
                 } else {
                     leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
@@ -113,7 +114,7 @@ public class BookingSelectTimeFragment extends Fragment {
                 }
 
                 //Adjust right arrow color
-                if(DateUtil.isOnSameDay(bookingDate, lastAppointmentDate)){
+                if (DateUtil.isOnSameDay(bookingDate, lastAppointmentDate) || DateUtil.isAfter(bookingDate, lastAppointmentDate)) {
                     rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
                 } else {
                     rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
@@ -139,7 +140,7 @@ public class BookingSelectTimeFragment extends Fragment {
                 }
 
                 //Adjust left arrow color
-                if(DateUtil.isOnSameDay(bookingDate, firstAppointmentDate)){
+                if (DateUtil.isOnSameDay(bookingDate, firstAppointmentDate)) {
                     leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
                 } else {
                     leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
@@ -174,16 +175,40 @@ public class BookingSelectTimeFragment extends Fragment {
         if (todaysAppointments != null && !todaysAppointments.isEmpty()) {
             timeLayout.setVisibility(View.VISIBLE);
             noAppointments.setVisibility(View.GONE);
+            callForAppointments.setVisibility(View.GONE);
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
             timeLayout.setVisibility(View.GONE);
             noAppointments.setVisibility(View.VISIBLE);
 
-            Appointment nextAppointment = findNextAppointment(bookingDate, allAppointments);
+            final Appointment nextAppointment = findNextAppointment(bookingDate, allAppointments);
             if (nextAppointment != null) {
-                noAppointments.setText("Next Available: " + DateUtil.getDateWordsFromUTC(nextAppointment.Time));
+                noAppointments.setText(getString(R.string.next_available) + ": " + DateUtil.getDateWordsFromUTC(nextAppointment.Time));
+                noAppointments.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            bookingDate = DateUtil.getDateTimeZone(nextAppointment.Time);
+                            setMonthHeader(bookingDate);
+                            setupView();
+
+                            //You're moving forward, so we can piggy back on this interface call for now. Might need it's own in the future...
+                            if (selectTimeInterface != null) {
+                                selectTimeInterface.onFrontArrowClicked();
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             } else {
                 noAppointments.setText(getString(R.string.no_appointments_available));
+            }
+
+            if(DateUtil.isToday(bookingDate)){
+                callForAppointments.setVisibility(View.VISIBLE);
+            } else {
+                callForAppointments.setVisibility(View.GONE);
             }
         }
     }

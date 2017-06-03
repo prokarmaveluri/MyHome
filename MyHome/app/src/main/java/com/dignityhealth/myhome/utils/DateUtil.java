@@ -253,7 +253,7 @@ public class DateUtil {
     }
 
     /**
-     * Compares if one date is before another
+     * Compares if one date is before another.
      * We compare year, month, and day (not time)
      *
      * @param date1
@@ -283,7 +283,7 @@ public class DateUtil {
     }
 
     /**
-     * Compares if one date is after another
+     * Compares if one date is after another.
      * We compare year, month, and day (not time)
      *
      * @param date1
@@ -310,5 +310,16 @@ public class DateUtil {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Checks to see if the given date is today.
+     * We compare year, month, and day (not time).
+     *
+     * @param date
+     * @return
+     */
+    public static boolean isToday(Date date) {
+        return isOnSameDay(date, new Date());
     }
 }
