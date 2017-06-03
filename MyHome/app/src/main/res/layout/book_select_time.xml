@@ -50,7 +50,6 @@
         style="@style/selectableButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
         android:gravity="center"
         android:padding="12dp"
         android:text="@string/no_appointments_available"

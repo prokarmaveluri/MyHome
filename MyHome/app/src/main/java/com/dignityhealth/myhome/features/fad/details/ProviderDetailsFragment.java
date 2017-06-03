@@ -66,7 +66,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private Provider provider;
     private ProviderDetailsResponse providerDetailsResponse;
 
-    public static boolean isBookingAppointment = false;
+    private boolean isBookingAppointment = false;
 
     private Office currentOffice;
 
@@ -110,9 +110,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private ArrayList<Marker> markers = new ArrayList<>();
 
     //Booking
-    Date bookingDate;
-    boolean isNewPatient = false;
-    Appointment bookedAppointment;
+    private Date bookingDate;
+    private boolean isNewPatient = false;
+    private Appointment bookedAppointment;
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
