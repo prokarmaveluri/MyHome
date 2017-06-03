@@ -181,7 +181,7 @@ public class BookingSelectTimeFragment extends Fragment {
 
             final Appointment nextAppointment = findNextAppointment(bookingDate, allAppointments);
             if (nextAppointment != null) {
-                noAppointments.setText("Next Available: " + DateUtil.getDateWordsFromUTC(nextAppointment.Time));
+                noAppointments.setText(getString(R.string.next_available) + ": " + DateUtil.getDateWordsFromUTC(nextAppointment.Time));
                 noAppointments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -189,6 +189,11 @@ public class BookingSelectTimeFragment extends Fragment {
                             bookingDate = DateUtil.getDateTimeZone(nextAppointment.Time);
                             setMonthHeader(bookingDate);
                             setupView();
+
+                            //You're moving forward, so we can piggy back on this interface call for now. Might need it's own in the future...
+                            if (selectTimeInterface != null) {
+                                selectTimeInterface.onFrontArrowClicked();
+                            }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
