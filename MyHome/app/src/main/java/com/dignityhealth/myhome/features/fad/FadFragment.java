@@ -103,6 +103,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.fadProgress.setVisibility(View.GONE);
 
         presenter = new FadPresenter(this, getActivity());
+        presenter.start();
         setPager();
 
         binding.fadMore.setOnClickListener(this);
@@ -113,6 +114,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setOnFocusChangeListener(this);
         binding.searchQuery.addTextChangedListener(this);
 
+        if (providerList.size() <= 0)
+            searchForQuery(Constants.DEFAULT_FAD_QUERY, RESTConstants.PROVIDER_DISTANCE);
         drawableClickEvent();
         return binding.getRoot();
     }
@@ -126,8 +129,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void onResume() {
         super.onResume();
 
-        presenter.start();
         NavigationActivity.eventBus.register(this);
+        binding.suggestionList.setVisibility(View.GONE);
         ((NavigationActivity) getActivity()).getNavigationActionBar().hide();
         setActionBar();
     }

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.AdapterProvidersListItemBinding;
 import com.dignityhealth.myhome.features.profile.Address;
-import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.squareup.picasso.Picasso;
 
@@ -100,12 +99,11 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                         .load(url)
                         .into(binding.docImage);
                 binding.recentlyViewed.setVisibility(View.GONE);
-                if (recentProviders.contains(provider.getProviderId()) && AppPreferences.getInstance()
-                        .getBooleanPreference("RECENTLY_VIEWED"))
+                if (recentProviders.contains(provider.getProviderId()))
                     binding.recentlyViewed.setVisibility(View.VISIBLE);
 
                 binding.bookOnline.setVisibility(View.GONE);
-                if (provider.getHasAppointments()){
+                if (provider.getHasAppointments()) {
                     binding.bookOnline.setVisibility(View.VISIBLE);
                 }
             } catch (NullPointerException ex) {
