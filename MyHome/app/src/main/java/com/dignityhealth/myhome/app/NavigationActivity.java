@@ -395,7 +395,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.getBackStackEntryCount() > 0) {
+        if(activityTag == ActivityTag.PROVIDER_DETAILS){
+            if(!((ProviderDetailsFragment)fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG)).onBackButtonPressed()){
+                super.onBackPressed();
+            }
+        } else if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
         } else if (activityTag != ActivityTag.HOME) {
             goToPage(ActivityTag.HOME);
