@@ -50,7 +50,7 @@ public class BookingSelectTimeFragment extends Fragment {
     ImageView leftArrow;
     FlowLayout timeLayout;
     Button noAppointments;
-
+    Button callForAppointments;
 
     public static BookingSelectTimeFragment newInstance() {
         return new BookingSelectTimeFragment();
@@ -92,6 +92,7 @@ public class BookingSelectTimeFragment extends Fragment {
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
         timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
         noAppointments = (Button) bookingView.findViewById(R.id.empty_appointments);
+        callForAppointments = (Button) bookingView.findViewById(R.id.call_for_appointment);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -174,6 +175,7 @@ public class BookingSelectTimeFragment extends Fragment {
         if (todaysAppointments != null && !todaysAppointments.isEmpty()) {
             timeLayout.setVisibility(View.VISIBLE);
             noAppointments.setVisibility(View.GONE);
+            callForAppointments.setVisibility(View.GONE);
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
             timeLayout.setVisibility(View.GONE);
@@ -201,6 +203,12 @@ public class BookingSelectTimeFragment extends Fragment {
                 });
             } else {
                 noAppointments.setText(getString(R.string.no_appointments_available));
+            }
+
+            if(DateUtil.isToday(bookingDate)){
+                callForAppointments.setVisibility(View.VISIBLE);
+            } else {
+                callForAppointments.setVisibility(View.GONE);
             }
         }
     }

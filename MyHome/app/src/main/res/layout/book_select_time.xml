@@ -15,6 +15,7 @@
         android:id="@+id/time_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:orientation="horizontal">
@@ -48,11 +49,23 @@
     <Button
         android:id="@+id/empty_appointments"
         style="@style/selectableButtonStyle"
+        android:layout_marginTop="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="12dp"
         android:text="@string/no_appointments_available"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/call_for_appointment"
+        style="@style/selectableButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/call_for_todays_appointmentss"
         android:visibility="gone" />
 
 </LinearLayout>

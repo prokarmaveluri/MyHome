@@ -143,5 +143,6 @@
     <string name="no_appointments_new_patients">There are no appointments available for new patients</string>
     <string name="no_appointments_existing_patients">There are no appointments available for existing patients</string>
     <string name="next_available">Next Available</string>
+    <string name="call_for_todays_appointmentss">Please call for today\'s appointments</string>
 
 </resources>
