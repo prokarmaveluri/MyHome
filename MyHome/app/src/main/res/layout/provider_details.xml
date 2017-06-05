@@ -63,8 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/book_appointment"
-            android:layout_marginTop="24dp"
-            android:background="@color/google_white"
+            android:layout_marginTop="12dp"
             android:orientation="vertical">
 
             <FrameLayout

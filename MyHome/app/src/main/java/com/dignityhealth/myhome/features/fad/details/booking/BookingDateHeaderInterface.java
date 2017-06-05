@@ -14,4 +14,5 @@ public interface BookingDateHeaderInterface {
     void onFrontArrowClicked();
     void onMonthHeaderClicked();
     void onDateChanged(Date date);
+    void onPhoneNumberClicked();
 }
