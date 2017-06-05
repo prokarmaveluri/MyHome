@@ -44,7 +44,7 @@ public class DeveloperFragment extends BaseFragment {
         getActivity().setTitle(getString(R.string.developer_settings));
 
         TextView bearer = (TextView) developerView.findViewById(R.id.bearer);
-        bearer.setText(AuthManager.getInstance().getBearerToken() != null ? "Bearer " + AuthManager.getInstance().getBearerToken() : "Couldn't find Bearer Token");
+        bearer.setText(AuthManager.getInstance().getBearerToken() != null ? AuthManager.getInstance().getBearerToken() : "Couldn't find Bearer Token");
         TextView session = (TextView) developerView.findViewById(R.id.session);
         session.setText(AuthManager.getInstance().getSessionToken() != null ? AuthManager.getInstance().getSessionToken() : "Session Token couldn't be found");
         TextView profile = (TextView) developerView.findViewById(R.id.profile);
@@ -62,7 +62,7 @@ public class DeveloperFragment extends BaseFragment {
         addAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addRandomAppointment("Bearer " + AuthManager.getInstance().getBearerToken());
+                addRandomAppointment(AuthManager.getInstance().getBearerToken());
             }
         });
 

@@ -37,7 +37,7 @@ public class ProfileManager {
      * Simply makes the network call for getting the Profile of the currently logged in user and loads it into Singleton
      */
     public static void queryProfile() {
-        String bearerToken = "Bearer " + AuthManager.getInstance().getBearerToken();
+        String bearerToken = AuthManager.getInstance().getBearerToken();
         NetworkManager.getInstance().getProfile(bearerToken).enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {

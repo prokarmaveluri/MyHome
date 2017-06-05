@@ -38,10 +38,11 @@ import timber.log.Timber;
  */
 
 public class NetworkManager {
-
     private RESTService service = null;
     private static NetworkManager instance = null;
     private static OkHttpClient.Builder httpClient = null;
+
+    private final String BEARER = "Bearer ";
 
     public static NetworkManager getInstance() {
 
@@ -94,7 +95,7 @@ public class NetworkManager {
      * @return a Profile object of the user
      */
     public Call<Profile> getProfile(String bearer) {
-        return service.getProfile(bearer);
+        return service.getProfile(BEARER + bearer);
     }
 
     /**
@@ -105,7 +106,7 @@ public class NetworkManager {
      * @return Void
      */
     public Call<Void> updateProfile(String bearer, Profile updatedProfileData) {
-        return service.updateProfile(bearer, updatedProfileData);
+        return service.updateProfile(BEARER + bearer, updatedProfileData);
     }
 
     /**
@@ -156,7 +157,7 @@ public class NetworkManager {
      * @return a ToS object. Currently not very helpful
      */
     public Call<Tos> getTos(String bearer) {
-        return service.getTos(bearer);
+        return service.getTos(BEARER + bearer);
     }
 
     /**
@@ -166,7 +167,7 @@ public class NetworkManager {
      * @return AppointmentReponse that should contain a user's appointments
      */
     public Call<AppointmentResponse> getAppointments(String bearer) {
-        return service.getAppointments(bearer);
+        return service.getAppointments(BEARER + bearer);
     }
 
     /**
@@ -177,7 +178,7 @@ public class NetworkManager {
      * @return Void
      */
     public Call<Void> createAppointment(String bearer, Appointment appointment) {
-        return service.createAppointment(bearer, appointment);
+        return service.createAppointment(BEARER + bearer, appointment);
     }
 
     /**

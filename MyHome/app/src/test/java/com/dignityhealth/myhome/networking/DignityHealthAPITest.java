@@ -24,8 +24,8 @@ import timber.log.Timber;
  */
 
 public class DignityHealthAPITest {
-    private static final String STATIC_BEARER_TOKEN = "Bearer " + "insert_bearer_token_here...";
-    private static final String CURRENT_BEARER_TOKEN = "Bearer " + AuthManager.getInstance().getBearerToken();
+    private static final String STATIC_BEARER_TOKEN = "insert_bearer_token_here...";
+    private static final String CURRENT_BEARER_TOKEN = AuthManager.getInstance().getBearerToken();
     private static final LoginRequest LOGIN_REQUEST = new LoginRequest("cmajji@gmail.com", "Password123*", new LoginRequest.Options(true, true));
 
     @Before
