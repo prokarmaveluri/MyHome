@@ -98,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
                     android:drawableLeft="@mipmap/calendar_blue"
                     android:drawablePadding="8dp"
                     android:text="Book Online"
@@ -112,6 +113,7 @@
                     android:drawableLeft="@drawable/ic_recentgrey"
                     android:drawablePadding="8dp"
                     android:lines="1"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
                     android:text="Recently viewed"
                     android:visibility="visible" />

@@ -440,20 +440,18 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void updateProviderList(ProvidersResponse response) {
-        providerList.clear();
-        providerList.addAll(response.getProviders());
         mPageIndex = response.getCurrentPageNum();
         // Update list
         if (mPageIndex > 1) {
             NewPageData data = new NewPageData();
             data.setPageNo(mPageIndex);
-            data.setList(providerList);
+            data.setList(response.getProviders());
             NavigationActivity.eventBus.post(data);
             return;
         }
-
+        providerList.clear();
+        providerList.addAll(response.getProviders());
         try {
-            this.maxCount = maxCount;
             if (isResumed() && null == getActivity() && getChildFragmentManager() == null)
                 return;
             CommonUtil.hideSoftKeyboard(getActivity());
@@ -518,10 +516,12 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         CommonUtil.hideSoftKeyboard(getActivity());
         binding.searchLayout.setVisibility(View.GONE);
-        pagerAdapter =
-                new FadPagerAdapter(getChildFragmentManager(), providerList, message);
-        binding.fadPager.setAdapter(pagerAdapter);
-        binding.fadTabs.setupWithViewPager(binding.fadPager);
+        if (isResumed()) {
+            pagerAdapter =
+                    new FadPagerAdapter(getChildFragmentManager(), providerList, message);
+            binding.fadPager.setAdapter(pagerAdapter);
+            binding.fadTabs.setupWithViewPager(binding.fadPager);
+        }
 
         clearFilters();
     }
@@ -593,19 +593,21 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Subscribe
     public void newPage(ProviderListFragment.PageData data) {
         Timber.i("New Page " + data.getPageNo());
-        mPageIndex = data.getPageNo();
-        searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
+        if (mPageIndex != data.getPageNo() && data.getPageNo() > mPageIndex) {
+            mPageIndex = data.getPageNo();
+            searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
+        }
     }
 
     public class NewPageData {
-        private ArrayList<Provider> list;
+        private List<Provider> list;
         private int pageNo;
 
-        public ArrayList<Provider> getList() {
+        public List<Provider> getList() {
             return list;
         }
 
-        public void setList(ArrayList<Provider> list) {
+        public void setList(List<Provider> list) {
             this.list = list;
         }
 
