@@ -232,31 +232,6 @@
                         android:nestedScrollingEnabled="false"
                         android:textAlignment="viewStart" />
 
-                    <LinearLayout
-                        android:id="@+id/recentDocs"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/expandableList"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal">
-
-                        <android.support.v7.widget.SwitchCompat
-                            android:id="@+id/recentlyViewed"
-                            style="@style/tradeGothicLTStdLight_18"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textAlignment="textEnd" />
-
-                        <TextView
-                            style="@style/tradeGothicLTStdLight_18"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="@string/display_recently_viewed_doctors" />
-                    </LinearLayout>
-
                 </RelativeLayout>
 
                 <android.support.v7.widget.RecyclerView

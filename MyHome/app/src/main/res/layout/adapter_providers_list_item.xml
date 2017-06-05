@@ -116,7 +116,7 @@
                     android:gravity="center_vertical"
                     android:maxLines="1"
                     android:text="Recently viewed"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
             </LinearLayout>
         </RelativeLayout>
 

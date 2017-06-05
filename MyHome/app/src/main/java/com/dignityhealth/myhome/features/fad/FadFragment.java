@@ -239,6 +239,18 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         }
     }
 
+    private void startListDialog() {
+
+        ProviderListDialog dialog = new ProviderListDialog();
+        Bundle bundle = new Bundle();
+
+        bundle.putParcelableArrayList("PROVIDER_LIST", null);
+        bundle.putBoolean("PROVIDER_RECENT", true);
+        dialog.setArguments(bundle);
+        dialog.setTargetFragment(this, 10);
+        dialog.show(getChildFragmentManager(), "List Dialog");
+    }
+
     private void startFilterDialog() {
         FilterDialog dialog = new FilterDialog();
         Bundle bundle = new Bundle();
@@ -329,6 +341,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             case R.id.fad_search:
                 binding.searchLayout.setVisibility(View.VISIBLE);
                 binding.searchQuery.requestFocus();
+                break;
+            case R.id.fad_recent:
                 break;
         }
 

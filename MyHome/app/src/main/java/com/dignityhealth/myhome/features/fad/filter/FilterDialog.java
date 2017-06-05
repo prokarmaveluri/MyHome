@@ -98,8 +98,6 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_filter, container, false);
-        binding.recentlyViewed.setChecked(AppPreferences.getInstance()
-                .getBooleanPreference("RECENTLY_VIEWED"));
 
         sortBy = AppPreferences.getInstance().getPreference("SORT_BY");
         try {
@@ -158,9 +156,6 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         try {
-            AppPreferences.getInstance().setBooleanPreference("RECENTLY_VIEWED",
-                    binding.recentlyViewed.isChecked());
-
             if (null != sortBy)
                 AppPreferences.getInstance().setPreference("SORT_BY", sortBy);
             else

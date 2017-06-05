@@ -272,7 +272,7 @@ public class MapViewFragment extends Fragment implements
         bundle.putParcelableArrayList("PROVIDER_LIST", list);
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, MAP_CLUSTER_LIST);
-        dialog.show(getChildFragmentManager(), "Filter Dialog");
+        dialog.show(getChildFragmentManager(), "List Dialog");
     }
 
     private boolean isClusterSameLocation(Collection<MapClusterItem> cluster) {

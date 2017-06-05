@@ -24,11 +24,20 @@
                 android:src="@mipmap/more" />
 
             <ImageView
+                android:id="@+id/fad_recent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/fad_more"
+                android:layout_centerVertical="true"
+                android:padding="16dp"
+                android:src="@drawable/ic_recent_blue" />
+
+            <ImageView
                 android:id="@+id/fad_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/fad_more"
+                android:layout_toLeftOf="@+id/fad_recent"
                 android:padding="16dp"
                 android:src="@mipmap/filter_blue" />
 
