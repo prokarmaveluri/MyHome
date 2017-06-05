@@ -78,7 +78,7 @@ public class BookingSaveProfileDialog extends DialogFragment {
                 .setMessage(getString(R.string.save_profile_message))
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        sendUpdatedProfile("Bearer " + AuthManager.getInstance().getBearerToken(), formsProfile);
+                        sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), formsProfile);
                         dismiss();
 
                         if (saveProfileInterface != null) {
