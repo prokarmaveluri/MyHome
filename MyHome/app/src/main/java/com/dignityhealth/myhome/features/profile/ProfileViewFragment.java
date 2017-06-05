@@ -55,8 +55,6 @@ public class ProfileViewFragment extends BaseFragment {
     TextView errorText;
     RelativeLayout viewProfile;
 
-    private final String placeholderText = "Not Available";
-
     public static ProfileViewFragment newInstance() {
         return new ProfileViewFragment();
     }
@@ -151,28 +149,32 @@ public class ProfileViewFragment extends BaseFragment {
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    ProfileManager.setProfile(response.body());
-                    updateProfileViews(response.body());
-                    viewProfile.setVisibility(View.VISIBLE);
-                    errorText.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
-                    viewProfile.setVisibility(View.GONE);
-                    errorText.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
+                if (isAdded()) {
+                    if (response.isSuccessful()) {
+                        Timber.d("Successful Response\n" + response);
+                        ProfileManager.setProfile(response.body());
+                        updateProfileViews(response.body());
+                        viewProfile.setVisibility(View.VISIBLE);
+                        errorText.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
+                        viewProfile.setVisibility(View.GONE);
+                        errorText.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
-                Timber.e("Something failed! :/");
-                Timber.e("Throwable = " + t);
-                viewProfile.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
-                errorText.setVisibility(View.VISIBLE);
+                if (isAdded()) {
+                    Timber.e("Something failed! :/");
+                    Timber.e("Throwable = " + t);
+                    viewProfile.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                    errorText.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -181,19 +183,19 @@ public class ProfileViewFragment extends BaseFragment {
         if (profile.firstName != null || profile.lastName != null) {
             name.setText(CommonUtil.constructName(profile.firstName, profile.lastName));
         } else {
-            name.setText(placeholderText);
+            name.setText(getString(R.string.not_available));
         }
 
         if (profile.preferredName != null) {
             preferredName.setText(profile.preferredName);
         } else {
-            preferredName.setText(placeholderText);
+            preferredName.setText(getString(R.string.not_available));
         }
 
         if (profile.gender != null) {
             gender.setText(CommonUtil.capitalize(profile.gender));
         } else {
-            gender.setText(placeholderText);
+            gender.setText(getString(R.string.not_available));
         }
 
         if (profile.dateOfBirth != null) {
@@ -203,47 +205,47 @@ public class ProfileViewFragment extends BaseFragment {
                 dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
             } catch (ParseException e) {
                 e.printStackTrace();
-                dateOfBirth.setText(placeholderText);
+                dateOfBirth.setText(getString(R.string.not_available));
             }
         } else {
-            dateOfBirth.setText(placeholderText);
+            dateOfBirth.setText(getString(R.string.not_available));
         }
 
         if (profile.address != null &&
                 (profile.address.line1 != null || profile.address.line2 != null || profile.address.city != null || profile.address.stateOrProvince != null || profile.address.zipCode != null)) {
             address.setText(CommonUtil.constructAddress(profile.address.line1, profile.address.line2, profile.address.city, profile.address.stateOrProvince, profile.address.zipCode));
         } else {
-            address.setText(placeholderText);
+            address.setText(getString(R.string.not_available));
         }
 
         if (profile.phoneNumber != null) {
             phone.setText(CommonUtil.constructPhoneNumber(profile.phoneNumber));
         } else {
-            phone.setText(placeholderText);
+            phone.setText(getString(R.string.not_available));
         }
 
         if (profile.email != null) {
             email.setText(profile.email);
         } else {
-            email.setText(placeholderText);
+            email.setText(getString(R.string.not_available));
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.providerName != null) {
             insuranceProvider.setText(profile.insuranceProvider.providerName);
         } else {
-            insuranceProvider.setText(placeholderText);
+            insuranceProvider.setText(getString(R.string.not_available));
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.memberNumber != null) {
             memberId.setText(profile.insuranceProvider.memberNumber);
         } else {
-            memberId.setText(placeholderText);
+            memberId.setText(getString(R.string.not_available));
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.groupNumber != null) {
             group.setText(profile.insuranceProvider.groupNumber);
         } else {
-            group.setText(placeholderText);
+            group.setText(getString(R.string.not_available));
         }
     }
 }

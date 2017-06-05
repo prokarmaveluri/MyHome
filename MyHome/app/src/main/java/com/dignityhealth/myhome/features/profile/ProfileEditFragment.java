@@ -171,20 +171,24 @@ public class ProfileEditFragment extends BaseFragment {
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    ProfileManager.setProfile(response.body());
-                    updateProfileViews(response.body());
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                if (isAdded()) {
+                    if (response.isSuccessful()) {
+                        Timber.d("Successful Response\n" + response);
+                        ProfileManager.setProfile(response.body());
+                        updateProfileViews(response.body());
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
+                    }
+                    progress.setVisibility(View.GONE);
                 }
-                progress.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
-                Timber.e("Something failed! :/");
-                progress.setVisibility(View.GONE);
+                if (isAdded()) {
+                    Timber.e("Something failed! :/");
+                    progress.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -205,15 +209,13 @@ public class ProfileEditFragment extends BaseFragment {
                         Timber.d("Successful Response\n" + response);
                         Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
-                    }
-                } else {
-                    if (isAdded()) {
+                    } else {
                         Timber.e("Response, but not successful?\n" + response);
                         Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     }
-                }
 
-                progress.setVisibility(View.GONE);
+                    progress.setVisibility(View.GONE);
+                }
             }
 
             @Override

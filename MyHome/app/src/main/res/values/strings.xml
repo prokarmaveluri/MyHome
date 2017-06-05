@@ -35,7 +35,6 @@
     <!-- FAD -->
     <string name="find_a_doctor">Find Care</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="appointments">Appointments</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
@@ -49,6 +48,7 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="unknown">Unknown</string>
+    <string name="not_available">Not Available</string>
     <string name="find_care">Find Care</string>
     <string name="miles_concat">mi</string>
     <string name="forgot_password_header">Please enter your email address.</string>
