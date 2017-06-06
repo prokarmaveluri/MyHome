@@ -123,7 +123,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             }
             binding.locationSugg.setVisibility(View.GONE);
             binding.distanceRange.setProgress(distanceRange);
-            binding.distanceRangeText.setText(distanceRange + "mi");
+            binding.distanceRangeText.setText(distanceRange + " mi");
             binding.distanceRange.setOnSeekBarChangeListener(this);
         } catch (NullPointerException ex) {
         }
