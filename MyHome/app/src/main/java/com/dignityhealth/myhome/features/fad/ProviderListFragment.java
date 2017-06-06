@@ -36,6 +36,7 @@ public class ProviderListFragment extends Fragment implements
     private String errorMsg;
     private boolean loadingMore = false;
     private boolean pagination = true;
+    private boolean recent = false;
     private ProvidersAdapter adapter;
     private LinearLayoutManager manager;
     private FragmentProviderListBinding binding;
@@ -65,6 +66,7 @@ public class ProviderListFragment extends Fragment implements
             providerList = getArguments().getParcelableArrayList("PROVIDER_LIST");
             errorMsg = getArguments().getString("PROVIDER_MSG");
             pagination = getArguments().getBoolean("PROVIDER_PAGINATION");
+            recent = getArguments().getBoolean("PROVIDER_RECENT");
         }
     }
 
@@ -88,6 +90,7 @@ public class ProviderListFragment extends Fragment implements
             } else {
                 adapter = new ProvidersAdapter(providerList, getActivity(), listener, recentlyViewed);
             }
+
             manager = new LinearLayoutManager(getActivity());
             binding.providersList.setLayoutManager(manager);
             binding.providersList.setAdapter(adapter);

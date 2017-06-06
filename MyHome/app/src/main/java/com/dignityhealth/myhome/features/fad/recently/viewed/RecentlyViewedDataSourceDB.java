@@ -10,6 +10,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.dignityhealth.myhome.features.fad.Provider;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 /**
@@ -23,10 +26,12 @@ public class RecentlyViewedDataSourceDB {
     private final int MAX_ROW_COUNT = 10;
 
     private String[] allColumns = {RecentlyViewedSQLiteHelper.COLUMN_ID,
-            RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID};
+            RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID, RecentlyViewedSQLiteHelper.COLUMN_PROVIDER};
 
     private String[] columnsToUpdate = {
-            RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID};
+            RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID,
+            RecentlyViewedSQLiteHelper.COLUMN_PROVIDER,
+            RecentlyViewedSQLiteHelper.COLUMN_TIMESTAMP};
 
     private static RecentlyViewedDataSourceDB ourInstance = null;
 
@@ -67,7 +72,24 @@ public class RecentlyViewedDataSourceDB {
         return entryList;
     }
 
-    public void createEntry(String providerId) {
+    public ArrayList<String> getAllProviderEntry() {
+        ArrayList<String> entryList = new ArrayList<>();
+
+        Cursor cursor = database.query(RecentlyViewedSQLiteHelper.TABLE_NAME,
+                allColumns, null, null, null, null, RecentlyViewedSQLiteHelper.COLUMN_TIMESTAMP + " DESC");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            entryList.add(cursor.getString(2));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return entryList;
+    }
+
+    public void createEntry(Provider provider) {
+        String providerId = provider.getProviderId();
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(provider);
         String dbPin = getMyEntry(providerId);
         if (dbPin != null) {
             deleteEntry(providerId);
@@ -75,6 +97,7 @@ public class RecentlyViewedDataSourceDB {
 
         ContentValues values = new ContentValues();
         values.put(RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID, providerId);
+        values.put(RecentlyViewedSQLiteHelper.COLUMN_PROVIDER, jsonString);
         if (getRowCount() >= MAX_ROW_COUNT) {
             String query = "DELETE FROM " + RecentlyViewedSQLiteHelper.TABLE_NAME + " WHERE " +
                     RecentlyViewedSQLiteHelper.COLUMN_ID + " IN  (SELECT " + RecentlyViewedSQLiteHelper.COLUMN_ID
@@ -97,7 +120,7 @@ public class RecentlyViewedDataSourceDB {
     public void deleteEntry(String providerId) {
         if (null != database)
             database.delete(RecentlyViewedSQLiteHelper.TABLE_NAME, RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID
-                    + "=?", new String[] { providerId });
+                    + "=?", new String[]{providerId});
     }
 
     public void deleteTable() {

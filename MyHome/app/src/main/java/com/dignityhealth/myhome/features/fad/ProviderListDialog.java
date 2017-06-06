@@ -59,6 +59,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
         bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
         bundle.putString("PROVIDER_MSG", "");
         bundle.putBoolean("PROVIDER_PAGINATION", false);
+        bundle.putBoolean("PROVIDER_RECENT", recent);
         fragment.setArguments(bundle);
         transaction.replace(binding.listFrame.getId(), fragment).commit();
 
