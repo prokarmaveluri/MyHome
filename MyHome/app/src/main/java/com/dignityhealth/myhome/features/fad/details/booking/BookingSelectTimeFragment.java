@@ -52,6 +52,8 @@ public class BookingSelectTimeFragment extends Fragment {
     Button noAppointments;
     Button callForAppointments;
 
+    Appointment nextAppointment;
+
     public static BookingSelectTimeFragment newInstance() {
         return new BookingSelectTimeFragment();
     }
@@ -172,7 +174,7 @@ public class BookingSelectTimeFragment extends Fragment {
         firstAppointmentDate = findFirstAppointmentDate(allAppointments);
         lastAppointmentDate = findLastAppointmentDate(allAppointments);
 
-        if (todaysAppointments != null && !todaysAppointments.isEmpty()) {
+        if (todaysAppointments != null && !todaysAppointments.isEmpty() && !DateUtil.isToday(bookingDate)) {
             timeLayout.setVisibility(View.VISIBLE);
             noAppointments.setVisibility(View.GONE);
             callForAppointments.setVisibility(View.GONE);
@@ -181,7 +183,12 @@ public class BookingSelectTimeFragment extends Fragment {
             timeLayout.setVisibility(View.GONE);
             noAppointments.setVisibility(View.VISIBLE);
 
-            final Appointment nextAppointment = findNextAppointment(bookingDate, allAppointments);
+            if(DateUtil.isToday(bookingDate)){
+                nextAppointment = findNextAppointment(DateUtil.moveDate(bookingDate, 1), allAppointments);
+            } else {
+                nextAppointment = findNextAppointment(bookingDate, allAppointments);
+            }
+
             if (nextAppointment != null) {
                 noAppointments.setText(getString(R.string.next_available) + ": " + DateUtil.getDateWordsFromUTC(nextAppointment.Time));
                 noAppointments.setOnClickListener(new View.OnClickListener() {

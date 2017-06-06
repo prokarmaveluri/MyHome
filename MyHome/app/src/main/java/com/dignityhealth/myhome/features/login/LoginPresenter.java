@@ -72,10 +72,12 @@ public class LoginPresenter implements LoginInteractor.Presenter {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
                     // get id_token & session id
+                    AuthManager.getInstance().setCount(0);
                     AuthManager.getInstance().setSessionToken(response.body().getSessionToken());
                     Timber.d("Session token : " + response.body().getSessionToken());
                     mView.fetchIdToken(response.body().getSessionToken());
                 } else {
+                    AuthManager.getInstance().setFailureAttempt();
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                     mView.showProgress(false);
                     Timber.e("Response, but not successful?\n" + response);

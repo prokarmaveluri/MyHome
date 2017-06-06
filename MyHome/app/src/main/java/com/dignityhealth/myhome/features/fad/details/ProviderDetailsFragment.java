@@ -145,6 +145,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         RecentlyViewedDataSourceDB.getInstance().createEntry(provider);
         ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.find_care));
         ((NavigationActivity) getActivity()).getNavigationActionBar().show();
+        ((NavigationActivity) getActivity()).showHomeButton();
     }
 
     @Override
@@ -179,6 +180,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 if (isBookingAppointment) {
                     expandableLinearLayout.collapse();
                 } else {
+                    bookAppointment.setVisibility(View.INVISIBLE);
                     expandableLinearLayout.expand();
                 }
 
@@ -633,6 +635,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public boolean onBackButtonPressed() {
         if (isBookingAppointment) {
             expandableLinearLayout.collapse();
+            bookAppointment.setVisibility(View.VISIBLE);
             isBookingAppointment = false;
             return true;
         } else {
