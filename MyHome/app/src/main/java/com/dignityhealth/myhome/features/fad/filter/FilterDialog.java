@@ -200,17 +200,14 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             case R.id.distance:
                 sortBy = "5";
                 updateSortByButtons(binding.distance, true);
-                binding.distanceRangeLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.bestMatch:
                 sortBy = "";
                 updateSortByButtons(binding.bestMatch, true);
-                binding.distanceRangeLayout.setVisibility(View.GONE);
                 break;
             case R.id.lastName:
                 sortBy = "4";
                 updateSortByButtons(binding.lastName, true);
-                binding.distanceRangeLayout.setVisibility(View.GONE);
                 break;
         }
     }
@@ -345,7 +342,6 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             return;
         if (sort.equals("5")) {
             updateSortByButtons(binding.distance, true);
-            binding.distanceRangeLayout.setVisibility(View.VISIBLE);
         } else if (sort.equals("4")) {
             updateSortByButtons(binding.lastName, true);
         } else if (sort.equals("")) {
