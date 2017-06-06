@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:theme="@style/textInputLayoutStyle"
         tools:context="com.dignityhealth.myhome.features.login.LoginActivity">
 
         <ImageView
@@ -48,7 +49,6 @@
                 android:maxLines="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="cmajji@gmail.com"
                 tools:ignore="HardcodedText" />
 
 
@@ -68,7 +68,6 @@
                 android:maxLines="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="Password123*"
                 tools:ignore="HardcodedText" />
 
             <Button

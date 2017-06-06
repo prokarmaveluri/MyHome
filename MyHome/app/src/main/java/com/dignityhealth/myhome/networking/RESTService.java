@@ -64,7 +64,7 @@ public interface RESTService {
     @GET(RESTConstants.CIAM_BASE_URL + "api/appointments")
     Call<AppointmentResponse> getAppointments(@Header("Authorization") String bearer);
 
-    @POST(RESTConstants.CIAM_BASE_URL + "api/appointments")
+    @POST(RESTConstants.SCHEDULING_BASE + "api/v1/visit")
     Call<Void> createAppointment(@Header("Authorization") String bearer, @Body Appointment appointment);
 
     @GET(RESTConstants.S2_BASE_URL + "api/locationsuggestion")

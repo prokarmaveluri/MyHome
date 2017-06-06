@@ -13,6 +13,7 @@ public class RecentlyViewedSQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "table_recently_viewed";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_PROVIDER_ID = "_provider_id";
+    public static final String COLUMN_PROVIDER = "_provider";
     public static final String COLUMN_TIMESTAMP = "timestamp";
 
     private static final String DATABASE_NAME = "recently.db";
@@ -21,7 +22,8 @@ public class RecentlyViewedSQLiteHelper extends SQLiteOpenHelper {
     // Database creation sql statement
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
             + TABLE_NAME + "(" + COLUMN_ID + " INTEGER PRIMARY KEY, "
-            + COLUMN_PROVIDER_ID + " varchar not null,  " + COLUMN_TIMESTAMP
+            + COLUMN_PROVIDER_ID + " varchar not null,  "
+            + COLUMN_PROVIDER + " varchar not null,  " + COLUMN_TIMESTAMP
             + " DATETIME DEFAULT CURRENT_TIMESTAMP" + " )";
 
     public RecentlyViewedSQLiteHelper(Context context) {

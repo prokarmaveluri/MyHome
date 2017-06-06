@@ -32,6 +32,7 @@
         android:layout_marginEnd="12dp"
         android:layout_marginLeft="10dp"
         android:gravity="center"
+        android:maxWidth="285dp"
         android:text="2:45 PM"
         android:textSize="18sp" />
 
@@ -43,6 +44,7 @@
         android:layout_below="@id/date"
         android:layout_marginLeft="12dp"
         android:gravity="center"
+        android:maxWidth="285dp"
         android:text="Sequoia Hospital"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -54,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/facility"
         android:layout_marginLeft="12dp"
-        android:gravity="center"
+        android:maxWidth="285dp"
         android:text="Dr. Steven M. Howard, MD"
         android:textSize="16sp" />
 

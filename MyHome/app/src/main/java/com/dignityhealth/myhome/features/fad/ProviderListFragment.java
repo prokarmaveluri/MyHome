@@ -33,9 +33,10 @@ import timber.log.Timber;
 public class ProviderListFragment extends Fragment implements
         ProvidersAdapter.IProviderClick {
 
-    private int mIndex = 1;
     private String errorMsg;
     private boolean loadingMore = false;
+    private boolean pagination = true;
+    private boolean recent = false;
     private ProvidersAdapter adapter;
     private LinearLayoutManager manager;
     private FragmentProviderListBinding binding;
@@ -62,9 +63,10 @@ public class ProviderListFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             providerList.clear();
-            ArrayList<Provider> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            providerList = getArguments().getParcelableArrayList("PROVIDER_LIST");
             errorMsg = getArguments().getString("PROVIDER_MSG");
-            providerList.addAll(list);
+            pagination = getArguments().getBoolean("PROVIDER_PAGINATION");
+            recent = getArguments().getBoolean("PROVIDER_RECENT");
         }
     }
 
@@ -88,6 +90,7 @@ public class ProviderListFragment extends Fragment implements
             } else {
                 adapter = new ProvidersAdapter(providerList, getActivity(), listener, recentlyViewed);
             }
+
             manager = new LinearLayoutManager(getActivity());
             binding.providersList.setLayoutManager(manager);
             binding.providersList.setAdapter(adapter);
@@ -166,7 +169,8 @@ public class ProviderListFragment extends Fragment implements
             int currentScroll = manager.findFirstVisibleItemPosition();
 
             if (totalItemCount != FadFragment.maxCount && ((totalItemCount - 10) <= (lastVisibleItem + 1))) {
-                onLoadMoreData();
+                if (pagination)
+                    onLoadMoreData();
             }
             if (totalItemCount == FadFragment.maxCount && (lastVisibleItem + 1) == FadFragment.maxCount) {
 //                Toast.makeText(getActivity(), "end of the list", Toast.LENGTH_SHORT).show();
@@ -180,10 +184,10 @@ public class ProviderListFragment extends Fragment implements
             return;
 
         loadingMore = true;
-        if (mIndex * Integer.valueOf(RESTConstants.PROVIDER_PAGE_SIZE) < FadFragment.maxCount) {
-            mIndex = mIndex + 1;
+        if (FadFragment.mPageIndex * Integer.valueOf(RESTConstants.PROVIDER_PAGE_SIZE) < FadFragment.maxCount) {
+            int page = FadFragment.mPageIndex + 1;
             PageData data = new PageData();
-            data.setPageNo(mIndex);
+            data.setPageNo(page);
             NavigationActivity.eventBus.post(data);
         } else {
         }

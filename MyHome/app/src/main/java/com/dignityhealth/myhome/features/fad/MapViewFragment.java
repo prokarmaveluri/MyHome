@@ -67,6 +67,7 @@ public class MapViewFragment extends Fragment implements
     private final static int MAP_CLUSTER_LIST = 100;
     private final static int MAP_UPDATE_LOCATION = 200;
     private final static int MAP_PROVIDER_DETAILS = 300;
+    private final static int MAP_ZOOM = 400;
 
     public static final String FAD_TAG = "fad_map_view";
 
@@ -108,6 +109,8 @@ public class MapViewFragment extends Fragment implements
                 NavigationActivity.eventBus.post(latlon);
             }
         });
+        if (null != map)
+            updateMap();
         return view;
     }
 
@@ -130,8 +133,14 @@ public class MapViewFragment extends Fragment implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-//        map.setMyLocationEnabled(true);
+        if (null == map) {
+            map = googleMap;
+            updateMap();
+        }
+    }
+
+    private void updateMap() {
+        //        map.setMyLocationEnabled(true);
         try {
             mClusterManager = new ClusterManager<>(getActivity(), map);
             map.setOnCameraIdleListener(mClusterManager);
@@ -171,9 +180,9 @@ public class MapViewFragment extends Fragment implements
             }
 
             LatLngBounds bounds = builder.build();
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 16);
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 120);
 //        map.animateCamera(cu);
-            map.setMaxZoomPreference(16);
+            map.setMaxZoomPreference(18);
             map.moveCamera(cu);
             map.setOnInfoWindowClickListener(this);
             map.setOnCameraMoveCanceledListener(this);
@@ -196,7 +205,7 @@ public class MapViewFragment extends Fragment implements
         if (map != null) {
             Timber.i("Zoom " + map.getCameraPosition().zoom);
             mapHandler.removeMessages(MAP_UPDATE_LOCATION);
-            mapHandler.sendEmptyMessageDelayed(MAP_UPDATE_LOCATION, 600);
+            mapHandler.sendEmptyMessageDelayed(MAP_UPDATE_LOCATION, 200);
         }
     }
 
@@ -210,6 +219,8 @@ public class MapViewFragment extends Fragment implements
                     if (isLocationSearchable()) {
                         latlon = map.getCameraPosition().target;
                         searchThisArea.setVisibility(View.VISIBLE);
+                    } else {
+                        searchThisArea.setVisibility(View.GONE);
                     }
                     break;
                 case MAP_PROVIDER_DETAILS:
@@ -218,15 +229,34 @@ public class MapViewFragment extends Fragment implements
                     if (null != provider)
                         providerDetails(provider);
                     break;
+                case MAP_ZOOM:
+                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currClusterPosition,
+                            map.getCameraPosition().zoom + 1.0f);
+                    map.moveCamera(update);
+                    break;
             }
         }
     };
+
+    private LatLng currClusterPosition;
 
     @Override
     public boolean onClusterClick(Cluster<MapClusterItem> cluster) {
         Timber.i("onClusterClick " + cluster.getItems().size());
 
-        startListDialog(cluster.getItems());
+        if (cluster.getSize() <= 0)
+            return false;
+
+        if (isClusterSameLocation(cluster.getItems())) {
+            startListDialog(cluster.getItems());
+            return false;
+        }
+        //Zoom
+        currClusterPosition = cluster.getPosition();
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),
+                map.getCameraPosition().zoom + 1.0f);
+        map.animateCamera(update);
+        mapHandler.sendEmptyMessage(MAP_ZOOM);
         return false;
     }
 
@@ -242,7 +272,27 @@ public class MapViewFragment extends Fragment implements
         bundle.putParcelableArrayList("PROVIDER_LIST", list);
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, MAP_CLUSTER_LIST);
-        dialog.show(getChildFragmentManager(), "Filter Dialog");
+        dialog.show(getChildFragmentManager(), "List Dialog");
+    }
+
+    private boolean isClusterSameLocation(Collection<MapClusterItem> cluster) {
+        Location locCurr = null;
+        for (MapClusterItem item : cluster) {
+            if (null == locCurr) {
+                locCurr = new Location("curLocation");
+                locCurr.setLatitude(Double.valueOf(item.getPosition().latitude));
+                locCurr.setLongitude(Double.valueOf(item.getPosition().longitude));
+            } else {
+                Location loc = new Location("newLocation");
+                loc.setLatitude(Double.valueOf(item.getPosition().latitude));
+                loc.setLongitude(Double.valueOf(item.getPosition().longitude));
+                float distance = locCurr.distanceTo(loc);
+                if (distance > 0.0) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private void providerDetails(Provider provider) {
@@ -342,8 +392,8 @@ public class MapViewFragment extends Fragment implements
 
     @Subscribe
     public void updateNewPageList(FadFragment.NewPageData pageData) {
-        Timber.i("update new page list");
+        Timber.i("update new page list "+pageData.getList().size());
         this.providerList.addAll(pageData.getList());
-        addMarkers();
+        updateMap();
     }
 }

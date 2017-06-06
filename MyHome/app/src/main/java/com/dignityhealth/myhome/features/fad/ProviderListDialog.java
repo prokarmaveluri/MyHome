@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 public class ProviderListDialog extends DialogFragment implements ProvidersAdapter.IProviderClick {
 
-
+    private boolean recent = false;
     private FragmentListDialogBinding binding;
     private ArrayList<Provider> providerList = new ArrayList<>();
 
@@ -43,6 +43,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
 
         if (getArguments() != null) {
             providerList = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            recent = getArguments().getBoolean("PROVIDER_RECENT");
         }
     }
 
@@ -57,6 +58,8 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
         bundle.putString("PROVIDER_MSG", "");
+        bundle.putBoolean("PROVIDER_PAGINATION", false);
+        bundle.putBoolean("PROVIDER_RECENT", recent);
         fragment.setArguments(bundle);
         transaction.replace(binding.listFrame.getId(), fragment).commit();
 

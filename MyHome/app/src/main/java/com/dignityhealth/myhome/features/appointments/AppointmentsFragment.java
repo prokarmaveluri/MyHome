@@ -84,7 +84,7 @@ public class AppointmentsFragment extends BaseFragment {
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         appointmentsList.addItemDecoration(itemDecoration);
 
-        getAppointmentInfo("Bearer " + AuthManager.getInstance().getBearerToken());
+        getAppointmentInfo(AuthManager.getInstance().getBearerToken());
         return appointmentsView;
     }
 

@@ -133,7 +133,7 @@ public class ProfileEditFragment extends BaseFragment {
 
         if (ProfileManager.getProfile() == null) {
             Timber.i("Don't have a saved Profile. Retrieving profile now...");
-            getProfileInfo("Bearer " + AuthManager.getInstance().getBearerToken());
+            getProfileInfo(AuthManager.getInstance().getBearerToken());
         } else {
             Timber.i("Already have a Profile Singleton. Updating the view...");
             updateProfileViews(ProfileManager.getProfile());
@@ -159,7 +159,7 @@ public class ProfileEditFragment extends BaseFragment {
 
             case R.id.save_profile:
                 Profile currentProfile = ProfileManager.getProfile();
-                sendUpdatedProfile("Bearer " + AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
+                sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
                 break;
         }
 
@@ -171,20 +171,24 @@ public class ProfileEditFragment extends BaseFragment {
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    ProfileManager.setProfile(response.body());
-                    updateProfileViews(response.body());
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                if (isAdded()) {
+                    if (response.isSuccessful()) {
+                        Timber.d("Successful Response\n" + response);
+                        ProfileManager.setProfile(response.body());
+                        updateProfileViews(response.body());
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
+                    }
+                    progress.setVisibility(View.GONE);
                 }
-                progress.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
-                Timber.e("Something failed! :/");
-                progress.setVisibility(View.GONE);
+                if (isAdded()) {
+                    Timber.e("Something failed! :/");
+                    progress.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -205,15 +209,13 @@ public class ProfileEditFragment extends BaseFragment {
                         Timber.d("Successful Response\n" + response);
                         Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
-                    }
-                } else {
-                    if (isAdded()) {
+                    } else {
                         Timber.e("Response, but not successful?\n" + response);
                         Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     }
-                }
 
-                progress.setVisibility(View.GONE);
+                    progress.setVisibility(View.GONE);
+                }
             }
 
             @Override

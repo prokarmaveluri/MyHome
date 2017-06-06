@@ -32,7 +32,9 @@ import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.app.OptionsActivity;
 import com.dignityhealth.myhome.databinding.FragmentFadBinding;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.filter.FilterDialog;
+import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
@@ -42,6 +44,7 @@ import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -66,6 +69,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         TextWatcher, SuggestionsAdapter.ISuggestionClick {
 
     private static final int FILTER_REQUEST = 100;
+    private static final int RECENT_PROVIDERS = 200;
     private static String currentSearchQuery = "";
     private static int currentPageSelection = 0;
 
@@ -109,6 +113,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.fadMore.setOnClickListener(this);
         binding.fadFilter.setOnClickListener(this);
         binding.fadSearch.setOnClickListener(this);
+        binding.fadRecent.setOnClickListener(this);
 
         binding.searchQuery.setOnEditorActionListener(this);
         binding.searchQuery.setOnFocusChangeListener(this);
@@ -239,6 +244,30 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         }
     }
 
+    private void startListDialog() {
+        ArrayList<String> recentlyViewed = RecentlyViewedDataSourceDB.getInstance().getAllProviderEntry();
+        if (recentlyViewed != null && recentlyViewed.size() > 0) {
+
+            ArrayList<Provider> providers = new ArrayList<>();
+            ProviderListDialog dialog = new ProviderListDialog();
+            Bundle bundle = new Bundle();
+            Gson gson = new Gson();
+
+            for (String provider : recentlyViewed) {
+                Provider providerObj = gson.fromJson(provider, Provider.class);
+                providers.add(providerObj);
+            }
+            if (providers.size() <= 0)
+                return;
+
+            bundle.putParcelableArrayList("PROVIDER_LIST", providers);
+            bundle.putBoolean("PROVIDER_RECENT", true);
+            dialog.setArguments(bundle);
+            dialog.setTargetFragment(this, RECENT_PROVIDERS);
+            dialog.show(getChildFragmentManager(), "List Dialog");
+        }
+    }
+
     private void startFilterDialog() {
         FilterDialog dialog = new FilterDialog();
         Bundle bundle = new Bundle();
@@ -286,6 +315,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 mPageIndex = 1;
                 searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
             }
+        } else if (requestCode == RECENT_PROVIDERS){
+            if (resultCode == Activity.RESULT_OK) {
+                if (data.getExtras() != null) {
+                    Provider provider = data.getExtras().getParcelable("PROVIDER");
+                    providerDetails(provider);
+                }
+            }
         }
     }
 
@@ -329,6 +365,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             case R.id.fad_search:
                 binding.searchLayout.setVisibility(View.VISIBLE);
                 binding.searchQuery.requestFocus();
+                break;
+            case R.id.fad_recent:
+                startListDialog();
                 break;
         }
 
@@ -440,20 +479,18 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void updateProviderList(ProvidersResponse response) {
-        providerList.clear();
-        providerList.addAll(response.getProviders());
         mPageIndex = response.getCurrentPageNum();
         // Update list
         if (mPageIndex > 1) {
             NewPageData data = new NewPageData();
             data.setPageNo(mPageIndex);
-            data.setList(providerList);
+            data.setList(response.getProviders());
             NavigationActivity.eventBus.post(data);
             return;
         }
-
+        providerList.clear();
+        providerList.addAll(response.getProviders());
         try {
-            this.maxCount = maxCount;
             if (isResumed() && null == getActivity() && getChildFragmentManager() == null)
                 return;
             CommonUtil.hideSoftKeyboard(getActivity());
@@ -518,10 +555,12 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         CommonUtil.hideSoftKeyboard(getActivity());
         binding.searchLayout.setVisibility(View.GONE);
-        pagerAdapter =
-                new FadPagerAdapter(getChildFragmentManager(), providerList, message);
-        binding.fadPager.setAdapter(pagerAdapter);
-        binding.fadTabs.setupWithViewPager(binding.fadPager);
+        if (isResumed()) {
+            pagerAdapter =
+                    new FadPagerAdapter(getChildFragmentManager(), providerList, message);
+            binding.fadPager.setAdapter(pagerAdapter);
+            binding.fadTabs.setupWithViewPager(binding.fadPager);
+        }
 
         clearFilters();
     }
@@ -593,19 +632,21 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Subscribe
     public void newPage(ProviderListFragment.PageData data) {
         Timber.i("New Page " + data.getPageNo());
-        mPageIndex = data.getPageNo();
-        searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
+        if (mPageIndex != data.getPageNo() && data.getPageNo() > mPageIndex) {
+            mPageIndex = data.getPageNo();
+            searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
+        }
     }
 
     public class NewPageData {
-        private ArrayList<Provider> list;
+        private List<Provider> list;
         private int pageNo;
 
-        public ArrayList<Provider> getList() {
+        public List<Provider> getList() {
             return list;
         }
 
-        public void setList(ArrayList<Provider> list) {
+        public void setList(List<Provider> list) {
             this.list = list;
         }
 
@@ -616,5 +657,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         public void setPageNo(int pageNo) {
             this.pageNo = pageNo;
         }
+    }
+
+    private void providerDetails(Provider provider) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
+        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 }

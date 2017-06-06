@@ -36,6 +36,7 @@ public class FadPagerAdapter extends FragmentStatePagerAdapter {
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
                 bundle.putString("PROVIDER_MSG", message);
+                bundle.putBoolean("PROVIDER_PAGINATION", true);
                 fragment.setArguments(bundle);
                 return fragment;
             case 1: // Map
