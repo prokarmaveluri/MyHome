@@ -384,16 +384,24 @@ public class MapViewFragment extends Fragment implements
         @Override
         protected void onBeforeClusterItemRendered(MapClusterItem item, MarkerOptions markerOptions) {
             super.onBeforeClusterItemRendered(item, markerOptions);
-            BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(getActivity(), R.mipmap.one_pin);
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawable.getBitmap()));
+            try {
+                if (null != getActivity() && isAdded()) {
+                    BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(getActivity(), R.mipmap.one_pin);
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawable.getBitmap()));
+                }
+            } catch (NullPointerException ex) {
+            }
         }
     }
 
 
     @Subscribe
     public void updateNewPageList(FadFragment.NewPageData pageData) {
-        Timber.i("update new page list "+pageData.getList().size());
-        this.providerList.addAll(pageData.getList());
-        updateMap();
+        try {
+            Timber.i("update new page list " + pageData.getList().size());
+            this.providerList.addAll(pageData.getList());
+            updateMap();
+        } catch (NullPointerException ex) {
+        }
     }
 }
