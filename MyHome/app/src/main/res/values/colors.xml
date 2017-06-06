@@ -13,9 +13,6 @@
     <color name="toolbar_text">@color/google_white</color>
     <color name="toolbar_white_text">@color/grey</color>
 
-    <color name="drawer_background">@color/google_white</color>
-    <color name="drawer_text_color">@color/grey</color>
-
     <color name="text_light">@color/white</color>
     <color name="text_dark">#4D525A</color>
     <color name="text_darker">#484B4D</color>
