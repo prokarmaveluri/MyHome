@@ -218,7 +218,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     Toast.LENGTH_LONG).show();
             return null;
         }
-        AuthManager.getInstance().setCount(0);
         LoginRequest.Options options = new LoginRequest.Options(true, true);
         request = new LoginRequest(binder.email.getText().toString(),
                 binder.password.getText().toString(), options);
@@ -356,7 +355,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     break;
                 case TOKEN_ERROR:
                     if (isAdded()) {
-                        AuthManager.getInstance().setFailureAttempt();
                         showProgress(false);
                         AuthManager.getInstance().setBearerToken(null);
                         Toast.makeText(getActivity(), getString(R.string.sign_in_failure_msg),
