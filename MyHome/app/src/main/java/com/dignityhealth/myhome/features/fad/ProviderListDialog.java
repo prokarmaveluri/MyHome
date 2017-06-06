@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +41,8 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
         setStyle(STYLE_NO_FRAME, android.R.style.Theme_DeviceDefault_Light);
 
         if (getArguments() != null) {
-            providerList = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            ArrayList<Provider> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            providerList.addAll(list);
             recent = getArguments().getBoolean("PROVIDER_RECENT");
         }
     }
@@ -54,7 +54,8 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_dialog, container, false);
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        Fragment fragment = ProviderListFragment.newInstance(this);
+        DialogListFragment fragment = new DialogListFragment();
+        fragment.setListener(this);
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
         bundle.putString("PROVIDER_MSG", "");
