@@ -16,12 +16,4 @@
         android:gravity="left"
         android:hint="@string/booking_reason_hint" />
 
-    <Button
-        android:id="@+id/book_submit"
-        style="@style/selectableButtonStyle"
-        android:layout_width="255dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="18dp"
-        android:text="@string/next" />
-
 </LinearLayout>
