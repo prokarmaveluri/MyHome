@@ -179,6 +179,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 if (isBookingAppointment) {
                     expandableLinearLayout.collapse();
                 } else {
+                    bookAppointment.setVisibility(View.INVISIBLE);
                     expandableLinearLayout.expand();
                 }
 
@@ -633,6 +634,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public boolean onBackButtonPressed() {
         if (isBookingAppointment) {
             expandableLinearLayout.collapse();
+            bookAppointment.setVisibility(View.VISIBLE);
             isBookingAppointment = false;
             return true;
         } else {
