@@ -381,6 +381,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case R.id.sign_out:
                 SessionUtil.logout(this, progressBar);
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -419,6 +422,14 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         }
     }
 
+    public void showHomeButton(){
+        getNavigationActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void hideHomeButton(){
+        getNavigationActionBar().setDisplayHomeAsUpEnabled(false);
+    }
+
     public ActionBar getNavigationActionBar() {
         return getSupportActionBar();
     }
@@ -446,5 +457,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 }
             }
         }).start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideHomeButton();
     }
 }

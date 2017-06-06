@@ -140,6 +140,7 @@ public class AppointmentsFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         ((NavigationActivity) getActivity()).getNavigationActionBar().show();
+        ((NavigationActivity) getActivity()).hideHomeButton();
     }
 
     @Override

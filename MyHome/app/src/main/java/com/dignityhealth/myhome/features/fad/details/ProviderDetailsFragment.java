@@ -145,6 +145,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         RecentlyViewedDataSourceDB.getInstance().createEntry(provider);
         ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.find_care));
         ((NavigationActivity) getActivity()).getNavigationActionBar().show();
+        ((NavigationActivity) getActivity()).showHomeButton();
     }
 
     @Override
