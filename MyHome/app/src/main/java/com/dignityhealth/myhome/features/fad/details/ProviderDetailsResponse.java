@@ -33,6 +33,7 @@ public class ProviderDetailsResponse implements Parcelable {
     public String YearsOfExperience;
     public Boolean AcceptsNewPatients;
     public String ImageUrl;
+    public ArrayList<Image> ImageUrls;
     public String Quote;
     public String Philosophy;
     public String InMyOwnWords;
@@ -188,6 +189,14 @@ public class ProviderDetailsResponse implements Parcelable {
         return ServiceErrors;
     }
 
+    public ArrayList<Image> getImageUrls() {
+        return ImageUrls;
+    }
+
+    public void setImageUrls(ArrayList<Image> imageUrls) {
+        ImageUrls = imageUrls;
+    }
+
     @Override
     public String toString() {
         return "ProviderDetailsResponse{" +
@@ -207,6 +216,7 @@ public class ProviderDetailsResponse implements Parcelable {
                 ", YearsOfExperience='" + YearsOfExperience + '\'' +
                 ", AcceptsNewPatients=" + AcceptsNewPatients +
                 ", ImageUrl='" + ImageUrl + '\'' +
+                ", ImageUrls=" + ImageUrls +
                 ", Quote='" + Quote + '\'' +
                 ", Philosophy='" + Philosophy + '\'' +
                 ", InMyOwnWords='" + InMyOwnWords + '\'' +
@@ -251,6 +261,7 @@ public class ProviderDetailsResponse implements Parcelable {
         dest.writeString(this.YearsOfExperience);
         dest.writeValue(this.AcceptsNewPatients);
         dest.writeString(this.ImageUrl);
+        dest.writeTypedList(this.ImageUrls);
         dest.writeString(this.Quote);
         dest.writeString(this.Philosophy);
         dest.writeString(this.InMyOwnWords);
@@ -291,6 +302,7 @@ public class ProviderDetailsResponse implements Parcelable {
         this.YearsOfExperience = in.readString();
         this.AcceptsNewPatients = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.ImageUrl = in.readString();
+        this.ImageUrls = in.createTypedArrayList(Image.CREATOR);
         this.Quote = in.readString();
         this.Philosophy = in.readString();
         this.InMyOwnWords = in.readString();
