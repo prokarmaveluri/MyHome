@@ -207,6 +207,14 @@ public class BookingSelectTimeFragment extends Fragment {
 
             if(DateUtil.isToday(bookingDate)){
                 callForAppointments.setVisibility(View.VISIBLE);
+                callForAppointments.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(selectTimeInterface != null){
+                            selectTimeInterface.onPhoneNumberClicked();
+                        }
+                    }
+                });
             } else {
                 callForAppointments.setVisibility(View.GONE);
             }

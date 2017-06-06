@@ -1,6 +1,8 @@
 package com.dignityhealth.myhome.features.fad.details;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -571,6 +573,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onDateChanged(Date date) {
         bookingDate = date;
+    }
+
+    @Override
+    public void onPhoneNumberClicked() {
+        Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + currentOffice.getPhone()));
+        intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intentPhone);
     }
 
     @Override
