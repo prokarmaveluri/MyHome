@@ -604,7 +604,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Override
     public void onPageSelected(int position) {
         currentPageSelection = position;
-        ProviderListFragment.listener = null;
     }
 
     @Override

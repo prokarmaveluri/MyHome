@@ -30,7 +30,7 @@ import timber.log.Timber;
  * Fragment for Find a doctor, display list of doctors with search feature.
  */
 
-public class ProviderListFragment extends Fragment implements
+public class DialogListFragment extends Fragment implements
         ProvidersAdapter.IProviderClick {
 
     private String errorMsg;
