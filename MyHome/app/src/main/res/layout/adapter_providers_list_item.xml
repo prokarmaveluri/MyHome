@@ -99,7 +99,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="4dp"
                     android:gravity="center_vertical"
-                    android:drawableLeft="@mipmap/calendar_blue"
+                    android:drawableLeft="@mipmap/book_online_grey"
                     android:drawablePadding="8dp"
                     android:text="Book Online"
                     android:visibility="visible" />
