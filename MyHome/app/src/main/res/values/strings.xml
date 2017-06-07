@@ -144,5 +144,6 @@
     <string name="no_appointments_existing_patients">There are no appointments available for existing patients</string>
     <string name="next_available">Next Available</string>
     <string name="call_for_todays_appointmentss">Please call for today\'s appointments</string>
+    <string name="years">Years</string>
 
 </resources>
