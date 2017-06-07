@@ -173,7 +173,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
-        bookAppointment.setEnabled(false);
         bookAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,7 +246,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                         //Setup Booking
                         currentOffice = providerDetailsResponse.getOffices().get(0);
-                        bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
+                        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
                         BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
                         bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
@@ -308,28 +307,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         }
 
-        //enable book appointments if there are times
-        if (currentOffice.getAppointments() == null || currentOffice.getAppointments().isEmpty()) {
-            bookAppointment.setEnabled(false);
-        } else {
-            bookAppointment.setEnabled(true);
-        }
+        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
 
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
         if (fragment != null) {
             //Close book appointments and reset flow again
-            expandableLinearLayout.collapse();
-            bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
-            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
-            bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
-            getChildFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.booking_frame, bookingFragment)
-                    .addToBackStack(null)
-                    .commit();
-            getChildFragmentManager().executePendingTransactions();
-            expandableLinearLayout.initLayout();
-            isBookingAppointment = false;
+            restartSchedulingFlow();
         }
 
         address.setText(marker.getSnippet());
@@ -490,6 +473,21 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         return filteredAppointments;
     }
 
+    private void restartSchedulingFlow() {
+        expandableLinearLayout.collapse();
+        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
+        bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.booking_frame, bookingFragment)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
+        expandableLinearLayout.initLayout();
+        isBookingAppointment = false;
+    }
+
     @Override
     public void onPersonSelected(boolean isBookingForMe) {
         BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
@@ -627,16 +625,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     }
 
-
     /**
      * @return true if you wish to eat the back button action, false if you don't (calls the super)
      */
     @Override
     public boolean onBackButtonPressed() {
         if (isBookingAppointment) {
-            expandableLinearLayout.collapse();
-            bookAppointment.setVisibility(View.VISIBLE);
-            isBookingAppointment = false;
+            restartSchedulingFlow();
             return true;
         } else {
             return false;
