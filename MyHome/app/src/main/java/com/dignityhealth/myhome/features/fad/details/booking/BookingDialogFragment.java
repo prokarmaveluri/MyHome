@@ -126,10 +126,6 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     }
 
     private void finishBooking() {
-        if (bookingDialogInterface != null) {
-            bookingDialogInterface.onBookingDialogFinished();
-        }
-
         final Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();
 
         if (!formsProfile.equalsSansEmails(ProfileManager.getProfile())) {
@@ -138,6 +134,10 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             dialog.show(getChildFragmentManager(), "BookingSaveProfileDialog");
         } else {
             this.getDialog().dismiss();
+        }
+
+        if (bookingDialogInterface != null) {
+            bookingDialogInterface.onBookingDialogFinished(formsProfile);
         }
     }
 

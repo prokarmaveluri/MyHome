@@ -39,6 +39,7 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatus
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeFragment;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
+import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
@@ -117,6 +118,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private boolean isBookingForMe = true;
     private boolean isNewPatient = false;
     private Appointment bookedAppointment;
+    private Profile bookingProfile;
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
@@ -586,8 +588,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     @Override
-    public void onBookingDialogFinished() {
-        BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance();
+    public void onBookingDialogFinished(Profile bookingProfile) {
+        BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance(bookingProfile, bookedAppointment);
         bookingFragment.setBookingConfirmationInterface(this);
         getChildFragmentManager()
                 .beginTransaction()

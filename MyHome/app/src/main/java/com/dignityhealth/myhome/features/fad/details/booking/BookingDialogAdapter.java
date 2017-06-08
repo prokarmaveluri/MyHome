@@ -343,6 +343,10 @@ public class BookingDialogAdapter extends PagerAdapter {
             formsProfile.insuranceProvider.groupNumber = group.getText().toString().trim();
         }
 
+        if (reasonForVisit.getText() != null && !reasonForVisit.getText().toString().isEmpty()) {
+            formsProfile.reasonForVisit = reasonForVisit.getText().toString().trim();
+        }
+
         return formsProfile;
     }
 }
