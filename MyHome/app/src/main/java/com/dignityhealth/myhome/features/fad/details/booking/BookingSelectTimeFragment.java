@@ -243,7 +243,7 @@ public class BookingSelectTimeFragment extends Fragment {
 
         for (final Appointment appointment : appointments) {
             final Button timeButton = new Button(new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
-            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12), DeviceDisplayManager.dpToPx(getContext(), 12));
+            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 22), DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 22), DeviceDisplayManager.dpToPx(getContext(), 10));
             timeButton.setGravity(Gravity.CENTER);
             timeButton.setLayoutParams(layoutParams);
             timeButton.setText(DateUtil.getTime(appointment.Time));
