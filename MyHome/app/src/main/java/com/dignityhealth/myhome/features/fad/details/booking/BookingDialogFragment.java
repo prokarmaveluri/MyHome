@@ -51,7 +51,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
 
-        if(args != null){
+        if (args != null) {
             isBookingForMe = args.getBoolean(IS_BOOKING_FOR_ME_KEY);
         }
 
@@ -113,13 +113,6 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                 break;
             case 1:
                 //Personal Page
-                if (toolbar != null && toolbar.getMenu() != null) {
-                    toolbar.getMenu().findItem(R.id.next_page).setVisible(true);
-                    toolbar.getMenu().findItem(R.id.finish_dialog).setVisible(false);
-                }
-                break;
-            case 2:
-                //Dynamic Page
                 if (toolbar != null && toolbar.getMenu() != null) {
                     toolbar.getMenu().findItem(R.id.next_page).setVisible(false);
                     toolbar.getMenu().findItem(R.id.finish_dialog).setVisible(true);
