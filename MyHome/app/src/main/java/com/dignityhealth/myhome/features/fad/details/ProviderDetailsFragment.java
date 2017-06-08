@@ -173,19 +173,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
-        bookAppointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isBookingAppointment) {
-                    expandableLinearLayout.collapse();
-                } else {
-                    bookAppointment.setVisibility(View.INVISIBLE);
-                    expandableLinearLayout.expand();
-                }
-
-                isBookingAppointment = !isBookingAppointment;
-            }
-        });
 
         setupInitialView();
         return providerDetailsView;
@@ -247,6 +234,20 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         //Setup Booking
                         currentOffice = providerDetailsResponse.getOffices().get(0);
                         bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+                        bookAppointment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isBookingAppointment) {
+                                    expandableLinearLayout.collapse();
+                                } else {
+                                    bookAppointment.setVisibility(View.INVISIBLE);
+                                    expandableLinearLayout.expand();
+                                }
+
+                                isBookingAppointment = !isBookingAppointment;
+                            }
+                        });
+
                         BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
                         bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
