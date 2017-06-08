@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.views.WrappingViewPager;
@@ -25,23 +24,24 @@ import com.dignityhealth.myhome.views.WrappingViewPager;
 
 public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface, BookingSaveProfileInterface {
     public static final String BOOKING_DIALOG_TAG = "booking_dialog_tag";
-    public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response";
+    public static final String IS_BOOKING_FOR_ME_KEY = "is_booking_for_me";
 
-    public ProviderDetailsResponse providerDetailsResponse;
     public BookingDialogInterface bookingDialogInterface;
 
     View bookingView;
     WrappingViewPager bookingViewPager;
     Toolbar toolbar;
 
+    private boolean isBookingForMe = true;
+
     public static BookingDialogFragment newInstance() {
         return new BookingDialogFragment();
     }
 
-    public static BookingDialogFragment newInstance(ProviderDetailsResponse providerDetailsResponse) {
+    public static BookingDialogFragment newInstance(boolean isBookingForMe) {
         BookingDialogFragment bookingFragment = new BookingDialogFragment();
         Bundle args = new Bundle();
-        args.putParcelable(PROVIDER_DETAILS_RESPONSE_KEY, providerDetailsResponse);
+        args.putBoolean(IS_BOOKING_FOR_ME_KEY, isBookingForMe);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -50,6 +50,11 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
+
+        if(args != null){
+            isBookingForMe = args.getBoolean(IS_BOOKING_FOR_ME_KEY);
+        }
+
         //providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
         bookingView = inflater.inflate(R.layout.book_dialog, container, false);
 
@@ -72,7 +77,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         });
 
         bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this, true, ProfileManager.getProfile()));
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this, isBookingForMe, ProfileManager.getProfile()));
 
         return bookingView;
     }

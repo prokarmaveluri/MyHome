@@ -10,8 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.profile.Profile;
@@ -29,11 +29,10 @@ public class BookingDialogAdapter extends PagerAdapter {
     private Context context;
     private BookingDialogToolbarInterface bookingDialogToolbarInterface;
     private boolean autoPopulateFromProfile;
-    private static int NUM_ITEMS = 3;
+    private static int NUM_ITEMS = 2;
 
     private ViewGroup insuranceLayout;
     private ViewGroup personalLayout;
-    private ViewGroup reasonForVisitLayout;
 
     TextInputEditText firstName;
     TextInputEditText lastName;
@@ -46,7 +45,8 @@ public class BookingDialogAdapter extends PagerAdapter {
     Spinner state;
     TextInputEditText zip;
     TextInputEditText phone;
-    TextView email;
+    TextInputEditText email;
+    EditText reasonForVisit;
 
     TextInputEditText insuranceProvider;
     TextInputEditText memberId;
@@ -110,12 +110,6 @@ public class BookingDialogAdapter extends PagerAdapter {
                 }
 
                 return personalLayout;
-
-            case 2:
-                reasonForVisitLayout = (ViewGroup) inflater.inflate(R.layout.book_dialog_reason, container, false);
-                //setupReasonForVisitView
-                container.addView(reasonForVisitLayout, position);
-                return reasonForVisitLayout;
 
             default:
                 return null;
@@ -182,7 +176,8 @@ public class BookingDialogAdapter extends PagerAdapter {
         state = (Spinner) personalLayout.findViewById(R.id.state);
         zip = (TextInputEditText) personalLayout.findViewById(R.id.zip);
         phone = (TextInputEditText) personalLayout.findViewById(R.id.phone);
-        email = (TextView) personalLayout.findViewById(R.id.email);
+        email = (TextInputEditText) personalLayout.findViewById(R.id.email);
+        reasonForVisit = (EditText) personalLayout.findViewById(R.id.booking_reason);
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -33,6 +33,7 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingDialogInterf
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDoneFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDoneInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectCalendarFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
@@ -113,6 +114,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     //Booking
     private Date bookingDate;
+    private boolean isBookingForMe = true;
     private boolean isNewPatient = false;
     private Appointment bookedAppointment;
 
@@ -248,8 +250,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             }
                         });
 
-                        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
-                        bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
+                        BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+                        bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.booking_frame, bookingFragment)
@@ -476,8 +478,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private void restartSchedulingFlow() {
         expandableLinearLayout.collapse();
         bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
-        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
-        bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
+        BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+        bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
         getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.booking_frame, bookingFragment)
@@ -490,6 +492,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onPersonSelected(boolean isBookingForMe) {
+        this.isBookingForMe = isBookingForMe;
         BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
         bookingFragment.setSelectStatusInterface(this);
         getChildFragmentManager()
@@ -521,7 +524,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onTimeSelected(Appointment appointment) {
         bookedAppointment = appointment;
 
-        BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance();
+        BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance(isBookingForMe);
         dialogFragment.setBookingDialogInterface(this);
         dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
     }
