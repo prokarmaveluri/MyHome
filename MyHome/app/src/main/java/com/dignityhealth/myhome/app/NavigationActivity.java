@@ -398,8 +398,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
-        if(activityTag == ActivityTag.PROVIDER_DETAILS){
-            if(!((ProviderDetailsFragment)fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG)).onBackButtonPressed()){
+        if (activityTag == ActivityTag.PROVIDER_DETAILS) {
+            if (!((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG)).onBackButtonPressed()) {
                 super.onBackPressed();
             }
         } else if (fm.getBackStackEntryCount() > 0) {
@@ -422,11 +422,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         }
     }
 
-    public void showHomeButton(){
+    public void showHomeButton() {
         getNavigationActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void hideHomeButton(){
+    public void hideHomeButton() {
         getNavigationActionBar().setDisplayHomeAsUpEnabled(false);
     }
 

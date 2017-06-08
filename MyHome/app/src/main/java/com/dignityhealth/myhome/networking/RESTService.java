@@ -6,6 +6,8 @@ import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
+import com.dignityhealth.myhome.features.fad.details.booking.req.CreateAppointmentRequest;
+import com.dignityhealth.myhome.features.fad.details.booking.req.CreateAppointmentResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
@@ -64,7 +66,7 @@ public interface RESTService {
     @GET(RESTConstants.CIAM_BASE_URL + "api/appointments")
     Call<AppointmentResponse> getAppointments(@Header("Authorization") String bearer);
 
-    @POST(RESTConstants.SCHEDULING_BASE + "api/v1/visit")
+    @POST(RESTConstants.SCHEDULING_BASE + "v1/visit")
     Call<Void> createAppointment(@Header("Authorization") String bearer, @Body Appointment appointment);
 
     @GET(RESTConstants.S2_BASE_URL + "api/locationsuggestion")
@@ -100,4 +102,7 @@ public interface RESTService {
     @GET(RESTConstants.S2_BASE_URL + "api/providerdetails")
     Call<ProviderDetailsResponse> getProviderDetails(@Query("providerid") String id);
 
+    @POST(RESTConstants.SCHEDULING_BASE + "v1/visit")
+    Call<CreateAppointmentResponse> createAppointment(@Header("Authorization") String bearer,
+                                                      @Body CreateAppointmentRequest appointment);
 }
