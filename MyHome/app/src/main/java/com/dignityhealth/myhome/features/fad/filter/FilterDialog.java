@@ -48,15 +48,15 @@ import timber.log.Timber;
  */
 public class FilterDialog extends DialogFragment implements SuggestionsAdapter.ISuggestionClick,
         RadioGroup.OnCheckedChangeListener, TextView.OnEditorActionListener,
-        SeekBar.OnSeekBarChangeListener {
+        SeekBar.OnSeekBarChangeListener, FilterExpandableList.GroupSelectionListener {
 
     private int distanceRange = 100;
-    private ArrayList<CommonModel> newPatients;
-    private ArrayList<CommonModel> specialties;
-    private ArrayList<CommonModel> gender;
-    private ArrayList<CommonModel> languages;
-    private ArrayList<CommonModel> hospitals;
-    private ArrayList<CommonModel> practices;
+    private ArrayList<CommonModel> newPatients = new ArrayList<>();
+    private ArrayList<CommonModel> specialties = new ArrayList<>();
+    private ArrayList<CommonModel> gender = new ArrayList<>();
+    private ArrayList<CommonModel> languages = new ArrayList<>();
+    private ArrayList<CommonModel> hospitals = new ArrayList<>();
+    private ArrayList<CommonModel> practices = new ArrayList<>();
     private String sortBy = "";
 
     private int selectedGroup = -1;
@@ -83,12 +83,20 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
 
         if (getArguments() != null) {
             distanceRange = getArguments().getInt("DISTANCE");
-            newPatients = getArguments().getParcelableArrayList("NEW_PATIENTS");
-            specialties = getArguments().getParcelableArrayList("SPECIALITY");
-            gender = getArguments().getParcelableArrayList("GENDER");
-            languages = getArguments().getParcelableArrayList("LANGUAGE");
-            hospitals = getArguments().getParcelableArrayList("HOSPITALS");
-            practices = getArguments().getParcelableArrayList("PRACTICES");
+
+            ArrayList<CommonModel> list = getArguments().getParcelableArrayList("NEW_PATIENTS");
+            newPatients.addAll(list);
+            list = getArguments().getParcelableArrayList("SPECIALITY");
+            specialties.addAll(list);
+            list = getArguments().getParcelableArrayList("GENDER");
+            gender.addAll(list);
+            list = getArguments().getParcelableArrayList("LANGUAGE");
+            languages.addAll(list);
+            list = getArguments().getParcelableArrayList("HOSPITALS");
+            hospitals.addAll(list);
+            list = getArguments().getParcelableArrayList("PRACTICES");
+            practices.addAll(list);
+
             location = getArguments().getParcelable("LOCATION");
         }
     }
@@ -103,7 +111,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         try {
             binding.filterLocation.addTextChangedListener(new SuggestionTextSwitcher());
             binding.expandableList.setAdapter(new FilterExpandableList(getActivity(), specialties,
-                    gender, languages, hospitals, practices));
+                    gender, languages, hospitals, practices, this));
 
             binding.sortByGroup.setOnCheckedChangeListener(this);
             binding.filterLocation.getBackground().mutate().setColorFilter(getResources().getColor(R.color.accent),
@@ -136,8 +144,9 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             @Override
             public void onGroupExpand(int groupPosition) {
                 if (selectedGroup != -1 && groupPosition != selectedGroup) {
-                    binding.expandableList.collapseGroup(selectedGroup);
+//                    binding.expandableList.collapseGroup(selectedGroup);
                 }
+                CommonUtil.setExpandedListViewHeight(binding.expandableList, groupPosition, selectedGroup);
                 selectedGroup = groupPosition;
             }
         });
@@ -146,7 +155,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
-                CommonUtil.setListViewHeight(binding.expandableList, groupPosition, selectedGroup);
+                CommonUtil.setExpandedListViewHeight(binding.expandableList, groupPosition, selectedGroup);
                 return false;
             }
         });
@@ -239,6 +248,11 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    @Override
+    public void selectedGroup(int position) {
+        CommonUtil.setExpandedListViewHeight(binding.expandableList, position, selectedGroup);
     }
 
     public class DialogClick {
@@ -347,5 +361,16 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         } else if (sort.equals("")) {
             updateSortByButtons(binding.bestMatch, true);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        expandGroups();
+    }
+
+    private void expandGroups() {
+        for (int index = 0; index < 5; index++)
+            binding.expandableList.expandGroup(index);
     }
 }

@@ -324,7 +324,8 @@ public class CommonUtil {
         }
     }
 
-    public static void setListViewHeight(ExpandableListView listView, int group, int lastGroup) {
+    public static void setOneGroupExpandedListViewHeight(ExpandableListView listView,
+                                                         int group, int lastGroup) {
         int totalHeight = 0;
         FilterExpandableList listAdapter = (FilterExpandableList) listView.getExpandableListAdapter();
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
@@ -346,6 +347,31 @@ public class CommonUtil {
                         totalHeight += 64;
                     }
                 }
+            }
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight + 5;
+        if (height < 325)
+            height = 325;
+        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity());
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    public static void setExpandedListViewHeight(ExpandableListView listView, int group, int lastGroup) {
+        int totalHeight = 0;
+        FilterExpandableList listAdapter = (FilterExpandableList) listView.getExpandableListAdapter();
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
+
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += 64;
+            for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                View listItem = listAdapter.getChildView(i, j, false, null, listView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                totalHeight += 64;
             }
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
