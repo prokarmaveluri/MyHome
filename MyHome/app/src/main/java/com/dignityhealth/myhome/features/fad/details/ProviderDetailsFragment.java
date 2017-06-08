@@ -88,7 +88,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private RelativeLayout statsView;
 
     //stats profile
-    private RelativeLayout statsProfileView;
+    private LinearLayout statsProfileView;
     private TextView acceptingNewPatients;
     private TextView languages;
     private TextView gender;
@@ -165,7 +165,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         statsProgressBar = (ProgressBar) footerLayout.findViewById(R.id.stats_progress_bar);
         statsUnavailable = (TextView) footerLayout.findViewById(R.id.stats_unavailable);
         statsView = (RelativeLayout) footerLayout.findViewById(R.id.stats_view);
-        statsProfileView = (RelativeLayout) footerLayout.findViewById(R.id.stats_profile);
+        statsProfileView = (LinearLayout) footerLayout.findViewById(R.id.stats_profile);
         statsEducationView = (LinearLayout) footerLayout.findViewById(R.id.stats_education);
         statsExperienceView = (LinearLayout) footerLayout.findViewById(R.id.stats_experience);
 
@@ -384,8 +384,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             philosophy.setVisibility(View.GONE);
             statsProfileView.findViewById(R.id.label_philosophy).setVisibility(View.GONE);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.BELOW, gender.getId());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, DeviceDisplayManager.dpToPx(getContext(), 24), 0, 0);
             locationsLabel.setLayoutParams(params);
         }
