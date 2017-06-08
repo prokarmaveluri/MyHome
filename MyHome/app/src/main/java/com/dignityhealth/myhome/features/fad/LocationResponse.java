@@ -23,6 +23,9 @@ public class LocationResponse implements Parcelable {
         Lat = lat;
     }
 
+    public void setZipCode(String zipCode) {
+        ZipCode = zipCode;
+    }
     public void setLon(String lon) {
         this.lon = lon;
     }

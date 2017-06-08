@@ -161,6 +161,10 @@ public class MapViewFragment extends Fragment implements
 
             if (providerList == null || providerList.size() <= 0) {
                 Timber.i("No Providers");
+                currClusterPosition = new LatLng(Double.valueOf(FadManager.getInstance().getLocation().getLat()),
+                        Double.valueOf(FadManager.getInstance().getLocation().getLong()));
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currClusterPosition, 12.0f);
+                map.moveCamera(update);
                 return;
             }
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
