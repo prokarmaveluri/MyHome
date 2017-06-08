@@ -173,8 +173,8 @@ public class BookingSelectTimeFragment extends Fragment {
     private void setupView() {
         todaysAppointments.clear();
         todaysAppointments = getTodaysAppointments(bookingDate, allAppointments);
-        firstAppointmentDate = findFirstAppointmentDate(allAppointments);
-        lastAppointmentDate = findLastAppointmentDate(allAppointments);
+        firstAppointmentDate = DateUtil.findFirstAppointmentDate(allAppointments);
+        lastAppointmentDate = DateUtil.findLastAppointmentDate(allAppointments);
 
         if (todaysAppointments != null && !todaysAppointments.isEmpty() && !DateUtil.isToday(bookingDate)) {
             timeLayout.setVisibility(View.VISIBLE);
@@ -185,7 +185,7 @@ public class BookingSelectTimeFragment extends Fragment {
             timeLayout.setVisibility(View.GONE);
             noAppointments.setVisibility(View.VISIBLE);
 
-            if(DateUtil.isToday(bookingDate)){
+            if (DateUtil.isToday(bookingDate)) {
                 nextAppointment = findNextAppointment(DateUtil.moveDate(bookingDate, 1), allAppointments);
             } else {
                 nextAppointment = findNextAppointment(bookingDate, allAppointments);
@@ -195,9 +195,9 @@ public class BookingSelectTimeFragment extends Fragment {
 
                 //Bold just the Date part
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" +DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>", Html.FROM_HTML_MODE_COMPACT));
+                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>", Html.FROM_HTML_MODE_COMPACT));
                 } else {
-                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" +DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>"));
+                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>"));
                 }
 
                 noAppointments.setOnClickListener(new View.OnClickListener() {
@@ -221,12 +221,12 @@ public class BookingSelectTimeFragment extends Fragment {
                 noAppointments.setText(getString(R.string.no_appointments_available));
             }
 
-            if(DateUtil.isToday(bookingDate)){
+            if (DateUtil.isToday(bookingDate)) {
                 callForAppointments.setVisibility(View.VISIBLE);
                 callForAppointments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(selectTimeInterface != null){
+                        if (selectTimeInterface != null) {
                             selectTimeInterface.onPhoneNumberClicked();
                         }
                     }
@@ -315,65 +315,6 @@ public class BookingSelectTimeFragment extends Fragment {
 
         return nextAppointment;
     }
-
-    /**
-     * Gets the first appointment's date from a list.
-     * Assumes that the list is sorted.
-     *
-     * @param appointments
-     * @return the date of the first appointment in the list
-     */
-    @Nullable
-    private Date findFirstAppointmentDate(ArrayList<Appointment> appointments) {
-        try {
-            return DateUtil.getDateTimeZone(appointments.get(0).Time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    /**
-     * Gets the last appointment's date from a list.
-     * Assumes that the list is sorted.
-     *
-     * @param appointments
-     * @return the date of the last appointment in the list
-     */
-    @Nullable
-    private Date findLastAppointmentDate(ArrayList<Appointment> appointments) {
-        try {
-            return DateUtil.getDateTimeZone(appointments.get(appointments.size() - 1).Time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-//    private ArrayList<Appointment> getTodaysAppointments(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
-//        Calendar todayCalendar = Calendar.getInstance();
-//        todayCalendar.setTime(todaysDate);
-//
-//        ArrayList<Appointment> todaysAppointments = new ArrayList<>();
-//
-//        Calendar appointmentCalendar = Calendar.getInstance();
-//        for (Appointment appointment : allAppointments) {
-//            try {
-//                appointmentCalendar.setTime(DateUtil.getDateTimeZone(appointment.Time));
-//            } catch (ParseException e) {
-//                Timber.e(e);
-//                e.printStackTrace();
-//            }
-//
-//            if(appointmentCalendar != null && appointmentCalendar.compareTo(todayCalendar) == 0){
-//                todaysAppointments.add(appointment);
-//            }
-//        }
-//
-//        return todaysAppointments;
-//    }
 
 //    /**
 //     * Gets the top three choices of dates

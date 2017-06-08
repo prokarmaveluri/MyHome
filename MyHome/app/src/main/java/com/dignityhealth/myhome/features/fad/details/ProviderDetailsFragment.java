@@ -547,7 +547,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         if (fragment instanceof BookingSelectCalendarFragment) {
             //You're on the calendar
-            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(currentOffice.getAppointments(), bookingDate);
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient, currentOffice.getAppointments()), bookingDate);
             bookingFragment.setSelectTimeInterface(this);
             getChildFragmentManager()
                     .beginTransaction()
@@ -560,7 +560,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         } else if (fragment instanceof BookingSelectTimeFragment) {
             //You were on the times
 
-            BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(bookingDate);
+            BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(bookingDate, filterAppointments(isNewPatient, currentOffice.getAppointments()));
             bookingFragment.setSelectTimeInterface(this);
             getChildFragmentManager()
                     .beginTransaction()

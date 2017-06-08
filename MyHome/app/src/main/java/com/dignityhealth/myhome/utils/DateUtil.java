@@ -1,7 +1,12 @@
 package com.dignityhealth.myhome.utils;
 
+import android.support.annotation.Nullable;
+
+import com.dignityhealth.myhome.features.fad.Appointment;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -321,5 +326,41 @@ public class DateUtil {
      */
     public static boolean isToday(Date date) {
         return isOnSameDay(date, new Date());
+    }
+
+    /**
+     * Gets the first appointment's date from a list.
+     * Assumes that the list is sorted.
+     *
+     * @param appointments
+     * @return the date of the first appointment in the list
+     */
+    @Nullable
+    public static Date findFirstAppointmentDate(ArrayList<Appointment> appointments) {
+        try {
+            return DateUtil.getDateTimeZone(appointments.get(0).Time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the last appointment's date from a list.
+     * Assumes that the list is sorted.
+     *
+     * @param appointments
+     * @return the date of the last appointment in the list
+     */
+    @Nullable
+    public static Date findLastAppointmentDate(ArrayList<Appointment> appointments) {
+        try {
+            return DateUtil.getDateTimeZone(appointments.get(appointments.size() - 1).Time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
