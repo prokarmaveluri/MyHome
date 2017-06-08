@@ -1,9 +1,11 @@
 package com.dignityhealth.myhome.features.fad.details.booking;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -190,7 +192,14 @@ public class BookingSelectTimeFragment extends Fragment {
             }
 
             if (nextAppointment != null) {
-                noAppointments.setText(getString(R.string.next_available) + ": " + DateUtil.getDateWordsFromUTC(nextAppointment.Time));
+
+                //Bold just the Date part
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" +DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>", Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" +DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>"));
+                }
+
                 noAppointments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
