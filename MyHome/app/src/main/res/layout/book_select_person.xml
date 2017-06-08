@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="18dp">
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp">
 
     <TextView
         style="@style/tradeGothicLTStdLight_14"
