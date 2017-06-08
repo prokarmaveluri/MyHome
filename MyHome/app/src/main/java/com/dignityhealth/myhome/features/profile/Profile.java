@@ -29,8 +29,9 @@ public class Profile implements Parcelable {
     public String clientID;
     public String remoteID;
     public String email;
+    public String reasonForVisit;
 
-    public Profile(String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email) {
+    public Profile(String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email, String reasonForVisit) {
         this.firstName = firstName;
         this.middleInitial = middleInitial;
         this.lastName = lastName;
@@ -49,6 +50,7 @@ public class Profile implements Parcelable {
         this.clientID = clientID;
         this.remoteID = remoteID;
         this.email = email;
+        this.reasonForVisit = reasonForVisit;
     }
 
     public Profile() {
@@ -58,7 +60,7 @@ public class Profile implements Parcelable {
     @Override
     public String toString() {
         return "Profile{" +
-                "name='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", middleInitial='" + middleInitial + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", preferredName='" + preferredName + '\'' +
@@ -76,6 +78,7 @@ public class Profile implements Parcelable {
                 ", clientID='" + clientID + '\'' +
                 ", remoteID='" + remoteID + '\'' +
                 ", email='" + email + '\'' +
+                ", reasonForVisit='" + reasonForVisit + '\'' +
                 '}';
     }
 
@@ -101,7 +104,13 @@ public class Profile implements Parcelable {
                 Objects.equals(insuranceProvider, profile.insuranceProvider) &&
                 Objects.equals(clientID, profile.clientID) &&
                 Objects.equals(remoteID, profile.remoteID) &&
-                Objects.equals(email, profile.email);
+                Objects.equals(email, profile.email) &&
+                Objects.equals(reasonForVisit, profile.reasonForVisit);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, middleInitial, lastName, preferredName, gender, dateOfBirth, address, phoneNumber, phoneNumberType, contactName, contactPhoneNumber, primaryCaregiverName, isPregnant, weeksPregnant, insuranceProvider, clientID, remoteID, email, reasonForVisit);
     }
 
     /**
@@ -131,7 +140,8 @@ public class Profile implements Parcelable {
                 Objects.equals(weeksPregnant, profile.weeksPregnant) &&
                 Objects.equals(insuranceProvider, profile.insuranceProvider) &&
                 Objects.equals(clientID, profile.clientID) &&
-                Objects.equals(remoteID, profile.remoteID);
+                Objects.equals(remoteID, profile.remoteID) &&
+                Objects.equals(reasonForVisit, profile.reasonForVisit);
     }
 
     /**
@@ -159,13 +169,9 @@ public class Profile implements Parcelable {
         profile.clientID = otherProfile.clientID;
         profile.remoteID = otherProfile.remoteID;
         profile.email = otherProfile.email;
+        profile.reasonForVisit = otherProfile.reasonForVisit;
 
         return profile;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, middleInitial, lastName, preferredName, gender, dateOfBirth, address, phoneNumber, phoneNumberType, contactName, contactPhoneNumber, primaryCaregiverName, isPregnant, weeksPregnant, insuranceProvider, clientID, remoteID, email);
     }
 
     @Override
@@ -193,6 +199,7 @@ public class Profile implements Parcelable {
         dest.writeString(this.clientID);
         dest.writeString(this.remoteID);
         dest.writeString(this.email);
+        dest.writeString(this.reasonForVisit);
     }
 
     protected Profile(Parcel in) {
@@ -214,6 +221,7 @@ public class Profile implements Parcelable {
         this.clientID = in.readString();
         this.remoteID = in.readString();
         this.email = in.readString();
+        this.reasonForVisit = in.readString();
     }
 
     public static final Parcelable.Creator<Profile> CREATOR = new Parcelable.Creator<Profile>() {
