@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="6dp"
                     android:gravity="center_vertical"
                     android:drawableLeft="@mipmap/book_online_grey"
                     android:drawablePadding="8dp"
@@ -109,14 +109,14 @@
                     style="@style/tradeGothicLTStdLight_18"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="6dp"
                     android:drawableLeft="@drawable/ic_recentgrey"
                     android:drawablePadding="8dp"
                     android:lines="1"
                     android:gravity="center_vertical"
                     android:maxLines="1"
                     android:text="Recently viewed"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
             </LinearLayout>
         </RelativeLayout>
 
