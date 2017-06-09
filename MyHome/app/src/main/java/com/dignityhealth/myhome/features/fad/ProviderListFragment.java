@@ -92,6 +92,7 @@ public class ProviderListFragment extends Fragment implements
             }
 
             manager = new LinearLayoutManager(getActivity());
+            manager.scrollToPosition(FadFragment.currentScroll);
             binding.providersList.setLayoutManager(manager);
             binding.providersList.setAdapter(adapter);
             viewState(State.LIST);
@@ -166,7 +167,7 @@ public class ProviderListFragment extends Fragment implements
             super.onScrolled(recyclerView, dx, dy);
             int totalItemCount = manager.getItemCount();
             int lastVisibleItem = manager.findLastVisibleItemPosition();
-            int currentScroll = manager.findFirstVisibleItemPosition();
+            FadFragment.currentScroll = manager.findFirstVisibleItemPosition();
 
             if (totalItemCount != FadFragment.maxCount && ((totalItemCount - 10) <= (lastVisibleItem + 1))) {
                 if (pagination)
