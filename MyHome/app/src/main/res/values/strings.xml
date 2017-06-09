@@ -146,5 +146,9 @@
     <string name="call_for_todays_appointmentss">Please call for today\'s appointments</string>
     <string name="years">Years</string>
     <string name="gps_dialog_message">Your GPS seems to be disabled, do you want to enable it?</string>
+    <string name="caregiver_name">Caregiver Name</string>
+    <string name="are_you_pregnant">Are You Pregnant</string>
+    <string name="weeks_pregnant">Weeks Pregnant</string>
+    <string name="translator_language">Language</string>
 
 </resources>

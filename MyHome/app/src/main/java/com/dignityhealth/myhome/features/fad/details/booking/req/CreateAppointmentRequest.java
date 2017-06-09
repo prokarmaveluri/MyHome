@@ -35,29 +35,29 @@ public class CreateAppointmentRequest {
         private String appointmentAt;
         private String appointmentType;
         private String birthdate;
-        private Object caregiverName;
-        private Object city;
+        private String caregiverName;
+        private String city;
         private String email;
         private String firstName;
         private String gender;
         private Boolean hasPhysician;
-        private Object insuranceGroupNumber;
-        private Object insuranceMemberNumber;
+        private String insuranceGroupNumber;
+        private String insuranceMemberNumber;
         private String insurancePlanName;
         private String insurancePlanPermalink;
-        private Object insurancePlanPhoneNumber;
+        private String insurancePlanPhoneNumber;
         private String lastName;
-        private Object middleInitial;
+        private String middleInitial;
         private Boolean newPatient;
         private String patientComplaint;
         private String phoneNumber;
         private Boolean pregnant;
         private Boolean requiresStandingAssistance;
         private Boolean requiresTranslator;
-        private Object state;
+        private String state;
         private Boolean termsTos;
-        private Object translatorLanguage;
-        private Object weeksPregnant;
+        private String translatorLanguage;
+        private String weeksPregnant;
         private String zip;
         private String doctorName;
         private String facilityName;
@@ -112,7 +112,7 @@ public class CreateAppointmentRequest {
             return caregiverName;
         }
 
-        public void setCaregiverName(Object caregiverName) {
+        public void setCaregiverName(String caregiverName) {
             this.caregiverName = caregiverName;
         }
 
@@ -120,7 +120,7 @@ public class CreateAppointmentRequest {
             return city;
         }
 
-        public void setCity(Object city) {
+        public void setCity(String city) {
             this.city = city;
         }
 
@@ -160,7 +160,7 @@ public class CreateAppointmentRequest {
             return insuranceGroupNumber;
         }
 
-        public void setInsuranceGroupNumber(Object insuranceGroupNumber) {
+        public void setInsuranceGroupNumber(String insuranceGroupNumber) {
             this.insuranceGroupNumber = insuranceGroupNumber;
         }
 
@@ -168,7 +168,7 @@ public class CreateAppointmentRequest {
             return insuranceMemberNumber;
         }
 
-        public void setInsuranceMemberNumber(Object insuranceMemberNumber) {
+        public void setInsuranceMemberNumber(String insuranceMemberNumber) {
             this.insuranceMemberNumber = insuranceMemberNumber;
         }
 
@@ -192,7 +192,7 @@ public class CreateAppointmentRequest {
             return insurancePlanPhoneNumber;
         }
 
-        public void setInsurancePlanPhoneNumber(Object insurancePlanPhoneNumber) {
+        public void setInsurancePlanPhoneNumber(String insurancePlanPhoneNumber) {
             this.insurancePlanPhoneNumber = insurancePlanPhoneNumber;
         }
 
@@ -208,7 +208,7 @@ public class CreateAppointmentRequest {
             return middleInitial;
         }
 
-        public void setMiddleInitial(Object middleInitial) {
+        public void setMiddleInitial(String middleInitial) {
             this.middleInitial = middleInitial;
         }
 
@@ -264,7 +264,7 @@ public class CreateAppointmentRequest {
             return state;
         }
 
-        public void setState(Object state) {
+        public void setState(String state) {
             this.state = state;
         }
 
@@ -280,7 +280,7 @@ public class CreateAppointmentRequest {
             return translatorLanguage;
         }
 
-        public void setTranslatorLanguage(Object translatorLanguage) {
+        public void setTranslatorLanguage(String translatorLanguage) {
             this.translatorLanguage = translatorLanguage;
         }
 
@@ -288,7 +288,7 @@ public class CreateAppointmentRequest {
             return weeksPregnant;
         }
 
-        public void setWeeksPregnant(Object weeksPregnant) {
+        public void setWeeksPregnant(String weeksPregnant) {
             this.weeksPregnant = weeksPregnant;
         }
 
