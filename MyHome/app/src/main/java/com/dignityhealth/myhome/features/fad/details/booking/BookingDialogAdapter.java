@@ -58,6 +58,8 @@ public class BookingDialogAdapter extends PagerAdapter {
     TextInputEditText phone;
     TextInputEditText email;
     RadioGroup translatorGroup;
+    TextInputLayout translatorLanguageLayout;
+    TextInputEditText translatorLanguage;
     RadioGroup assistanceGroup;
     EditText reasonForVisit;
 
@@ -182,6 +184,8 @@ public class BookingDialogAdapter extends PagerAdapter {
         phone = (TextInputEditText) personalLayout.findViewById(R.id.phone);
         email = (TextInputEditText) personalLayout.findViewById(R.id.email);
         translatorGroup = (RadioGroup) personalLayout.findViewById(R.id.group_translator);
+        translatorLanguageLayout = (TextInputLayout) personalLayout.findViewById(R.id.translator_language_layout);
+        translatorLanguage = (TextInputEditText) personalLayout.findViewById(R.id.translator_language);
         assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_asistance);
         reasonForVisit = (EditText) personalLayout.findViewById(R.id.booking_reason);
 
@@ -255,6 +259,9 @@ public class BookingDialogAdapter extends PagerAdapter {
                 } else {
                     areYouPregnantLabel.setVisibility(View.GONE);
                     areYouPregnantGroup.setVisibility(View.GONE);
+                    weeksPregnantLayout.setVisibility(View.GONE);
+                    areYouPregnantGroup.check(R.id.radio_not_pregnant);
+                    weeksPregnant.setText("");
                 }
             }
 
@@ -274,6 +281,21 @@ public class BookingDialogAdapter extends PagerAdapter {
 
                     case R.id.radio_pregnant:
                         weeksPregnantLayout.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+
+        translatorGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId) {
+                    case R.id.translator_not_needed:
+                        translatorLanguageLayout.setVisibility(View.GONE);
+                        break;
+
+                    case R.id.translator_needed:
+                        translatorLanguageLayout.setVisibility(View.VISIBLE);
                         break;
                 }
             }

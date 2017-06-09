@@ -149,5 +149,6 @@
     <string name="caregiver_name">Caregiver Name</string>
     <string name="are_you_pregnant">Are You Pregnant</string>
     <string name="weeks_pregnant">Weeks Pregnant</string>
+    <string name="translator_language">Language</string>
 
 </resources>

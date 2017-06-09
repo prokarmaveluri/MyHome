@@ -331,6 +331,22 @@
 
         </RadioGroup>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/translator_language_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/translator_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/translator_language"
+                android:inputType="textCapWords" />
+
+        </android.support.design.widget.TextInputLayout>
+
         <TextView
             android:id="@+id/assistance_label"
             style="@style/tradeGothicLTStdLight_14"
