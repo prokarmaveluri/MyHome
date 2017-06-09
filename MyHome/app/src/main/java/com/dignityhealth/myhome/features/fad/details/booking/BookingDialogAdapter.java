@@ -57,6 +57,8 @@ public class BookingDialogAdapter extends PagerAdapter {
     TextInputEditText zip;
     TextInputEditText phone;
     TextInputEditText email;
+    RadioGroup translatorGroup;
+    RadioGroup assistanceGroup;
     EditText reasonForVisit;
 
     TextInputEditText insuranceProvider;
@@ -179,7 +181,10 @@ public class BookingDialogAdapter extends PagerAdapter {
         zip = (TextInputEditText) personalLayout.findViewById(R.id.zip);
         phone = (TextInputEditText) personalLayout.findViewById(R.id.phone);
         email = (TextInputEditText) personalLayout.findViewById(R.id.email);
+        translatorGroup = (RadioGroup) personalLayout.findViewById(R.id.group_translator);
+        assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_asistance);
         reasonForVisit = (EditText) personalLayout.findViewById(R.id.booking_reason);
+
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
