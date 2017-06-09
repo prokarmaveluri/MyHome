@@ -292,6 +292,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 switch (checkedId) {
                     case R.id.translator_not_needed:
                         translatorLanguageLayout.setVisibility(View.GONE);
+                        translatorLanguage.setText("");
                         break;
 
                     case R.id.translator_needed:
