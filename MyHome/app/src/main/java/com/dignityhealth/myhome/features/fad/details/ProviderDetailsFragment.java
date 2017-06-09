@@ -39,6 +39,7 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatus
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeFragment;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
+import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -618,17 +619,35 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickDirections() {
-
+        CommonUtil.getDirections(
+                getActivity(),
+                new Address(bookedAppointment.FacilityAddress, null, bookedAppointment.FacilityCity, bookedAppointment.FacilityState, bookedAppointment.FacilityZip, null)
+        );
     }
 
     @Override
     public void onClickShare() {
-
+        CommonUtil.shareAppointment(
+                getActivity(),
+                bookedAppointment.Time,
+                provider.getDisplayFullName(),
+                currentOffice.getName(),
+                new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
+                currentOffice.getPhone(),
+                bookingProfile.reasonForVisit
+        );
     }
 
     @Override
     public void onClickAddToCalendar() {
-
+        CommonUtil.addCalendarEvent(
+                getActivity(),
+                bookedAppointment.Time,
+                provider.getDisplayFullName(),
+                new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
+                currentOffice.getPhone(),
+                bookingProfile.reasonForVisit
+        );
     }
 
     /**
