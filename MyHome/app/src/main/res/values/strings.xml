@@ -145,5 +145,6 @@
     <string name="next_available">Next Available</string>
     <string name="call_for_todays_appointmentss">Please call for today\'s appointments</string>
     <string name="years">Years</string>
+    <string name="gps_dialog_message">Your GPS seems to be disabled, do you want to enable it?</string>
 
 </resources>

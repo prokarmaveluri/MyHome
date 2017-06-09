@@ -39,6 +39,7 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
     }
 
     private Context mContext;
+    private GroupSelectionListener listener;
 
     private List<CommonModel> specialties;
     private List<CommonModel> gender;
@@ -46,11 +47,24 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
     private List<CommonModel> hospitals;
     private List<CommonModel> practices;
 
+    private ArrayList<CommonModel> selectSpecialties = new ArrayList<>();
+    private ArrayList<CommonModel> selectGender = new ArrayList<>();
+    private ArrayList<CommonModel> selectLanguages = new ArrayList<>();
+    private ArrayList<CommonModel> selectHospitals = new ArrayList<>();
+    private ArrayList<CommonModel> selectPractices = new ArrayList<>();
+
+    private boolean isSpecialtiesSelected;
+    private boolean isGenderSelected;
+    private boolean isLanguagesSelected;
+    private boolean isHospitalsSelected;
+    private boolean isPracticesSelected;
+
     public FilterExpandableList(Context context, List<CommonModel> specialties,
                                 List<CommonModel> gender,
                                 List<CommonModel> languages,
                                 List<CommonModel> hospitals,
-                                List<CommonModel> practices) {
+                                List<CommonModel> practices,
+                                GroupSelectionListener list) {
 
         mContext = context;
         this.specialties = specialties;
@@ -58,6 +72,14 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
         this.languages = languages;
         this.hospitals = hospitals;
         this.practices = practices;
+        this.listener = list;
+
+        clearSelection();
+        updateSelection(this.languages, selectLanguages);
+        updateSelection(this.gender, selectGender);
+        updateSelection(this.practices, selectPractices);
+        updateSelection(this.hospitals, selectHospitals);
+        updateSelection(this.specialties, selectSpecialties);
     }
 
     @Override
@@ -68,15 +90,30 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
     @Override
     public int getChildrenCount(int groupPosition) {
         if (GROUP.SPECIALTIES.getValue() == groupPosition) {
-            return specialties.size();
+            if (isSpecialtiesSelected)
+                return selectSpecialties.size();
+            else
+                return specialties.size();
         } else if (GROUP.GENDER.getValue() == groupPosition) {
-            return gender.size();
+            if (isGenderSelected)
+                return selectGender.size();
+            else
+                return gender.size();
         } else if (GROUP.LANGUAGES.getValue() == groupPosition) {
-            return languages.size();
+            if (isLanguagesSelected)
+                return selectLanguages.size();
+            else
+                return languages.size();
         } else if (GROUP.HOSPITALS.getValue() == groupPosition) {
-            return hospitals.size();
+            if (isHospitalsSelected)
+                return selectHospitals.size();
+            else
+                return hospitals.size();
         } else if (GROUP.PRACTICE.getValue() == groupPosition) {
-            return practices.size();
+            if (isPracticesSelected)
+                return selectPractices.size();
+            else
+                return practices.size();
         }
         return 0;
     }
@@ -89,15 +126,30 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         if (GROUP.SPECIALTIES.getValue() == groupPosition) {
-            return specialties.get(childPosition);
+            if (isSpecialtiesSelected)
+                return selectSpecialties.get(childPosition);
+            else
+                return specialties.get(childPosition);
         } else if (GROUP.GENDER.getValue() == groupPosition) {
-            return gender.get(childPosition);
+            if (isGenderSelected)
+                return selectGender.get(childPosition);
+            else
+                return gender.get(childPosition);
         } else if (GROUP.LANGUAGES.getValue() == groupPosition) {
-            return languages.get(childPosition);
+            if (isLanguagesSelected)
+                return selectLanguages.get(childPosition);
+            else
+                return languages.get(childPosition);
         } else if (GROUP.HOSPITALS.getValue() == groupPosition) {
-            return hospitals.get(childPosition);
+            if (isHospitalsSelected)
+                return selectHospitals.get(childPosition);
+            else
+                return hospitals.get(childPosition);
         } else if (GROUP.PRACTICE.getValue() == groupPosition) {
-            return practices.get(childPosition);
+            if (isPracticesSelected)
+                return selectPractices.get(childPosition);
+            else
+                return practices.get(childPosition);
         }
         return null;
     }
@@ -118,10 +170,28 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(mContext).inflate(R.layout.filter_group, parent, false);
         TextView view = (TextView) convertView.findViewById(R.id.filterGroup);
         view.setText(getGroupTitles().get(groupPosition));
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (groupPosition == GROUP.SPECIALTIES.getValue()) {
+                    isSpecialtiesSelected = !isSpecialtiesSelected;
+                } else if (groupPosition == GROUP.GENDER.getValue()) {
+                    isGenderSelected = !isGenderSelected;
+                } else if (groupPosition == GROUP.LANGUAGES.getValue()) {
+                    isLanguagesSelected = !isLanguagesSelected;
+                } else if (groupPosition == GROUP.HOSPITALS.getValue()) {
+                    isHospitalsSelected = !isHospitalsSelected;
+                } else if (groupPosition == GROUP.PRACTICE.getValue()) {
+                    isPracticesSelected = !isPracticesSelected;
+                }
+                listener.selectedGroup(groupPosition);
+                notifyDataSetChanged();
+            }
+        });
         return convertView;
     }
 
@@ -132,35 +202,86 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
         convertView = LayoutInflater.from(mContext).inflate(R.layout.filter_child, parent, false);
         CheckBox view = (CheckBox) convertView.findViewById(R.id.expChild);
         if (groupPosition == GROUP.SPECIALTIES.getValue()) {
-            view.setText(specialties.get(childPosition).getLabel());
-            view.setChecked(specialties.get(childPosition).getSelected());
+            if (!isSpecialtiesSelected) {
+                view.setText(specialties.get(childPosition).getLabel());
+                view.setChecked(specialties.get(childPosition).getSelected());
+            } else {
+                view.setText(selectSpecialties.get(childPosition).getLabel());
+                view.setChecked(selectSpecialties.get(childPosition).getSelected());
+            }
         } else if (groupPosition == GROUP.GENDER.getValue()) {
-            view.setText(gender.get(childPosition).getLabel());
-            view.setChecked(gender.get(childPosition).getSelected());
+            if (!isGenderSelected) {
+                view.setText(gender.get(childPosition).getLabel());
+                view.setChecked(gender.get(childPosition).getSelected());
+            } else {
+                view.setText(selectGender.get(childPosition).getLabel());
+                view.setChecked(selectGender.get(childPosition).getSelected());
+            }
         } else if (groupPosition == GROUP.LANGUAGES.getValue()) {
-            view.setText(languages.get(childPosition).getLabel());
-            view.setChecked(languages.get(childPosition).getSelected());
+            if (!isLanguagesSelected) {
+                view.setText(languages.get(childPosition).getLabel());
+                view.setChecked(languages.get(childPosition).getSelected());
+            } else {
+                view.setText(selectLanguages.get(childPosition).getLabel());
+                view.setChecked(selectLanguages.get(childPosition).getSelected());
+            }
         } else if (groupPosition == GROUP.HOSPITALS.getValue()) {
-            view.setText(hospitals.get(childPosition).getLabel());
-            view.setChecked(hospitals.get(childPosition).getSelected());
+            if (!isHospitalsSelected) {
+                view.setText(hospitals.get(childPosition).getLabel());
+                view.setChecked(hospitals.get(childPosition).getSelected());
+            } else {
+                view.setText(selectHospitals.get(childPosition).getLabel());
+                view.setChecked(selectHospitals.get(childPosition).getSelected());
+            }
         } else if (groupPosition == GROUP.PRACTICE.getValue()) {
-            view.setText(practices.get(childPosition).getLabel());
-            view.setChecked(practices.get(childPosition).getSelected());
+            if (!isPracticesSelected) {
+                view.setText(practices.get(childPosition).getLabel());
+                view.setChecked(practices.get(childPosition).getSelected());
+            } else {
+                view.setText(selectPractices.get(childPosition).getLabel());
+                view.setChecked(selectPractices.get(childPosition).getSelected());
+            }
         }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (groupPosition == GROUP.SPECIALTIES.getValue()) {
-                    specialties.get(childPosition).setSelected(!specialties.get(childPosition).getSelected());
+                    if (isSpecialtiesSelected) {
+                        selectSpecialties.get(childPosition).setSelected(!selectSpecialties.get(childPosition).getSelected());
+                    } else {
+                        specialties.get(childPosition).setSelected(!specialties.get(childPosition).getSelected());
+                    }
+                    updateSelection(specialties, selectSpecialties);
                 } else if (groupPosition == GROUP.GENDER.getValue()) {
-                    updateGender();
-                    gender.get(childPosition).setSelected(!gender.get(childPosition).getSelected());
+                    if (isGenderSelected) {
+                        updateGender(selectGender);
+                        selectGender.get(childPosition).setSelected(!selectGender.get(childPosition).getSelected());
+                    } else {
+                        updateGender(gender);
+                        gender.get(childPosition).setSelected(!gender.get(childPosition).getSelected());
+                    }
+                    updateSelection(gender, selectGender);
                 } else if (groupPosition == GROUP.LANGUAGES.getValue()) {
-                    languages.get(childPosition).setSelected(!languages.get(childPosition).getSelected());
+                    if (isLanguagesSelected) {
+                        selectLanguages.get(childPosition).setSelected(!selectLanguages.get(childPosition).getSelected());
+                    } else {
+                        languages.get(childPosition).setSelected(!languages.get(childPosition).getSelected());
+                    }
+                    updateSelection(languages, selectLanguages);
                 } else if (groupPosition == GROUP.HOSPITALS.getValue()) {
-                    hospitals.get(childPosition).setSelected(!hospitals.get(childPosition).getSelected());
+                    if (isHospitalsSelected) {
+                        selectHospitals.get(childPosition).setSelected(!selectHospitals.get(childPosition).getSelected());
+                    } else {
+                        hospitals.get(childPosition).setSelected(!hospitals.get(childPosition).getSelected());
+                    }
+                    updateSelection(hospitals, selectHospitals);
                 } else if (groupPosition == GROUP.PRACTICE.getValue()) {
-                    practices.get(childPosition).setSelected(!practices.get(childPosition).getSelected());
+                    if (isPracticesSelected) {
+                        selectPractices.get(childPosition).setSelected(!selectPractices.get(childPosition).getSelected());
+                    } else {
+                        practices.get(childPosition).setSelected(!practices.get(childPosition).getSelected());
+                    }
+                    updateSelection(practices, selectPractices);
                 }
                 notifyDataSetChanged();
             }
@@ -183,9 +304,35 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
         return groups;
     }
 
-    private void updateGender() {
+    private void updateGender(List<CommonModel> gender) {
         for (CommonModel gen : gender) {
             gen.setSelected(false);
         }
+    }
+
+    private void clearSelection() {
+        isSpecialtiesSelected = true;
+        isGenderSelected = true;
+        isLanguagesSelected = true;
+        isHospitalsSelected = true;
+        isPracticesSelected = true;
+
+        selectGender.clear();
+        selectHospitals.clear();
+        selectLanguages.clear();
+        selectPractices.clear();
+        selectSpecialties.clear();
+    }
+
+    private void updateSelection(List<CommonModel> filter, ArrayList<CommonModel> selects) {
+        selects.clear();
+        for (CommonModel model : filter) {
+            if (model.getSelected())
+                selects.add(model);
+        }
+    }
+
+    interface GroupSelectionListener {
+        public void selectedGroup(int position);
     }
 }

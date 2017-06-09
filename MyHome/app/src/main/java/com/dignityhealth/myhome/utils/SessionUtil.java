@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.networking.NetworkManager;
@@ -95,5 +96,6 @@ public class SessionUtil {
         AuthManager.getInstance().setBearerToken(null);
         AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);
+        RecentlyViewedDataSourceDB.getInstance().deleteTable();
     }
 }

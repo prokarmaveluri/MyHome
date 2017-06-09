@@ -32,7 +32,6 @@ import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
-import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.MapView;
@@ -45,6 +44,7 @@ import com.squareup.otto.ThreadEnforcer;
  */
 
 public class NavigationActivity extends AppCompatActivity implements NavigationInterface {
+
     private static ActivityTag activityTag = ActivityTag.NONE;
     private BottomNavigationViewEx bottomNavigationView;
     private ProgressBar progressBar;
@@ -79,7 +79,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         } else {
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
-        NetworkManager.getInstance().getUserLocation();
         ProfileManager.queryProfile();
         setSupportActionBar(appToolbar);
 
@@ -112,7 +111,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 });
 
         //Pre-load Google Play Services
-        loadGooglePlayServices();
+//        loadGooglePlayServices();
     }
 
     @Override
@@ -398,8 +397,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
-        if(activityTag == ActivityTag.PROVIDER_DETAILS){
-            if(!((ProviderDetailsFragment)fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG)).onBackButtonPressed()){
+        if (activityTag == ActivityTag.PROVIDER_DETAILS) {
+            if (!((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG)).onBackButtonPressed()) {
                 super.onBackPressed();
             }
         } else if (fm.getBackStackEntryCount() > 0) {
@@ -422,11 +421,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         }
     }
 
-    public void showHomeButton(){
+    public void showHomeButton() {
         getNavigationActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void hideHomeButton(){
+    public void hideHomeButton() {
         getNavigationActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
