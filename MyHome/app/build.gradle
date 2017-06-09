@@ -23,8 +23,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 16
-        versionName "0.1.16"
+        versionCode 17
+        versionName "0.1.17"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -96,8 +96,8 @@ dependencies {
     })
 
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.1.9'
-    compile 'com.google.android.gms:play-services-maps:10.2.6'
-    compile 'com.google.android.gms:play-services-location:10.2.6'
+    compile 'com.google.android.gms:play-services-maps:11.0.0'
+    compile 'com.google.android.gms:play-services-location:11.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:multidex:1.0.1'
     compile 'net.hockeyapp.android:HockeySDK:4.1.4'

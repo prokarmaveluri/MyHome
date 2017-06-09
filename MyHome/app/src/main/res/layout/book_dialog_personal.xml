@@ -11,6 +11,24 @@
         android:padding="18dp">
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/caregiver_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/caregiver_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="@string/caregiver_name"
+                android:inputType="textCapWords"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/first_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,6 +94,61 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:entries="@array/profile_gender" />
+
+        <TextView
+            android:id="@+id/pregnant_label"
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/are_you_pregnant"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <RadioGroup
+            android:id="@+id/group_pregnant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/radio_not_pregnant"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/no"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/radio_pregnant"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/yes"
+                android:textSize="13sp" />
+
+        </RadioGroup>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/weeks_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/weeks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/weeks_pregnant"
+                android:inputType="number"
+                android:maxLength="2" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/dob_layout"
@@ -207,32 +280,116 @@
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/email_label"
-            style="@style/tradeGothicLTStdLight_14"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/email_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="@string/email" />
+            android:layout_marginBottom="16dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
-            android:id="@+id/email"
+            android:id="@+id/translator_label"
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="kwelsh@prokarma.com"
-            android:textSize="@dimen/profile_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/email_notice"
-            style="@style/tradeGothicLTStdLight_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/profile_label_marginTop"
-            android:layout_marginTop="@dimen/profile_label_marginTop"
-            android:text="@string/you_cannot_edit_email_address"
+            android:fontFamily="sans-serif-light"
+            android:text="Do you need a translator?"
             android:textSize="13sp" />
+
+        <RadioGroup
+            android:id="@+id/group_translator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/translator_not_needed"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/no"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/translator_needed"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/yes"
+                android:textSize="13sp" />
+
+        </RadioGroup>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/translator_language_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/translator_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/translator_language"
+                android:inputType="textCapWords" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/assistance_label"
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Do you need standing assistance?"
+            android:textSize="13sp" />
+
+        <RadioGroup
+            android:id="@+id/group_asistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/asistance_not_needed"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/no"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/asistance_needed"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/yes"
+                android:textSize="13sp" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/booking_reason"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/edit_text_boarder_grey"
+            android:gravity="left"
+            android:hint="@string/booking_reason_hint" />
 
     </LinearLayout>
 </ScrollView>

@@ -33,11 +33,14 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingDialogInterf
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDoneFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingDoneInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectCalendarFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPersonInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeFragment;
 import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
+import com.dignityhealth.myhome.features.profile.Address;
+import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
@@ -88,7 +91,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private RelativeLayout statsView;
 
     //stats profile
-    private RelativeLayout statsProfileView;
+    private LinearLayout statsProfileView;
     private TextView acceptingNewPatients;
     private TextView languages;
     private TextView gender;
@@ -113,8 +116,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     //Booking
     private Date bookingDate;
+    private boolean isBookingForMe = true;
     private boolean isNewPatient = false;
     private Appointment bookedAppointment;
+    private Profile bookingProfile;
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
@@ -165,7 +170,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         statsProgressBar = (ProgressBar) footerLayout.findViewById(R.id.stats_progress_bar);
         statsUnavailable = (TextView) footerLayout.findViewById(R.id.stats_unavailable);
         statsView = (RelativeLayout) footerLayout.findViewById(R.id.stats_view);
-        statsProfileView = (RelativeLayout) footerLayout.findViewById(R.id.stats_profile);
+        statsProfileView = (LinearLayout) footerLayout.findViewById(R.id.stats_profile);
         statsEducationView = (LinearLayout) footerLayout.findViewById(R.id.stats_education);
         statsExperienceView = (LinearLayout) footerLayout.findViewById(R.id.stats_experience);
 
@@ -173,20 +178,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
-        bookAppointment.setEnabled(false);
-        bookAppointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isBookingAppointment) {
-                    expandableLinearLayout.collapse();
-                } else {
-                    bookAppointment.setVisibility(View.INVISIBLE);
-                    expandableLinearLayout.expand();
-                }
-
-                isBookingAppointment = !isBookingAppointment;
-            }
-        });
 
         setupInitialView();
         return providerDetailsView;
@@ -247,9 +238,23 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                         //Setup Booking
                         currentOffice = providerDetailsResponse.getOffices().get(0);
-                        bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
-                        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
-                        bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
+                        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+                        bookAppointment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isBookingAppointment) {
+                                    expandableLinearLayout.collapse();
+                                } else {
+                                    bookAppointment.setVisibility(View.INVISIBLE);
+                                    expandableLinearLayout.expand();
+                                }
+
+                                isBookingAppointment = !isBookingAppointment;
+                            }
+                        });
+
+                        BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+                        bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.booking_frame, bookingFragment)
@@ -308,28 +313,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         }
 
-        //enable book appointments if there are times
-        if (currentOffice.getAppointments() == null || currentOffice.getAppointments().isEmpty()) {
-            bookAppointment.setEnabled(false);
-        } else {
-            bookAppointment.setEnabled(true);
-        }
+        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
 
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
         if (fragment != null) {
             //Close book appointments and reset flow again
-            expandableLinearLayout.collapse();
-            bookAppointment.setEnabled(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty());
-            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
-            bookingFragment.setSelectStatusInterface(ProviderDetailsFragment.this);
-            getChildFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.booking_frame, bookingFragment)
-                    .addToBackStack(null)
-                    .commit();
-            getChildFragmentManager().executePendingTransactions();
-            expandableLinearLayout.initLayout();
-            isBookingAppointment = false;
+            restartSchedulingFlow();
         }
 
         address.setText(marker.getSnippet());
@@ -383,7 +372,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         }
 
-        experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() : getString(R.string.unknown));
+        experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() + " " + getString(R.string.years) : getString(R.string.unknown));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy(), Html.FROM_HTML_MODE_COMPACT) : getString(R.string.unknown));
@@ -400,8 +389,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             philosophy.setVisibility(View.GONE);
             statsProfileView.findViewById(R.id.label_philosophy).setVisibility(View.GONE);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.BELOW, gender.getId());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, DeviceDisplayManager.dpToPx(getContext(), 24), 0, 0);
             locationsLabel.setLayoutParams(params);
         }
@@ -490,8 +478,24 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         return filteredAppointments;
     }
 
+    private void restartSchedulingFlow() {
+        expandableLinearLayout.collapse();
+        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+        BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+        bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.booking_frame, bookingFragment)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
+        expandableLinearLayout.initLayout();
+        isBookingAppointment = false;
+    }
+
     @Override
     public void onPersonSelected(boolean isBookingForMe) {
+        this.isBookingForMe = isBookingForMe;
         BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
         bookingFragment.setSelectStatusInterface(this);
         getChildFragmentManager()
@@ -523,7 +527,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onTimeSelected(Appointment appointment) {
         bookedAppointment = appointment;
 
-        BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance();
+        BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance(isBookingForMe);
         dialogFragment.setBookingDialogInterface(this);
         dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
     }
@@ -546,7 +550,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         if (fragment instanceof BookingSelectCalendarFragment) {
             //You're on the calendar
-            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(currentOffice.getAppointments(), bookingDate);
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient, currentOffice.getAppointments()), bookingDate);
             bookingFragment.setSelectTimeInterface(this);
             getChildFragmentManager()
                     .beginTransaction()
@@ -559,7 +563,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         } else if (fragment instanceof BookingSelectTimeFragment) {
             //You were on the times
 
-            BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(bookingDate);
+            BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(bookingDate, filterAppointments(isNewPatient, currentOffice.getAppointments()));
             bookingFragment.setSelectTimeInterface(this);
             getChildFragmentManager()
                     .beginTransaction()
@@ -585,8 +589,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     @Override
-    public void onBookingDialogFinished() {
-        BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance();
+    public void onBookingDialogFinished(Profile bookingProfile) {
+        this.bookingProfile = bookingProfile;
+        BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance(bookingProfile, bookedAppointment);
         bookingFragment.setBookingConfirmationInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
@@ -600,7 +605,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance();
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(bookingProfile, bookedAppointment);
         bookingFragment.setBookingDoneInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
@@ -614,19 +619,36 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickDirections() {
-
+        CommonUtil.getDirections(
+                getActivity(),
+                new Address(bookedAppointment.FacilityAddress, null, bookedAppointment.FacilityCity, bookedAppointment.FacilityState, bookedAppointment.FacilityZip, null)
+        );
     }
 
     @Override
     public void onClickShare() {
-
+        CommonUtil.shareAppointment(
+                getActivity(),
+                bookedAppointment.Time,
+                provider.getDisplayFullName(),
+                currentOffice.getName(),
+                new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
+                currentOffice.getPhone(),
+                bookingProfile.reasonForVisit
+        );
     }
 
     @Override
     public void onClickAddToCalendar() {
-
+        CommonUtil.addCalendarEvent(
+                getActivity(),
+                bookedAppointment.Time,
+                provider.getDisplayFullName(),
+                new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
+                currentOffice.getPhone(),
+                bookingProfile.reasonForVisit
+        );
     }
-
 
     /**
      * @return true if you wish to eat the back button action, false if you don't (calls the super)
@@ -634,9 +656,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public boolean onBackButtonPressed() {
         if (isBookingAppointment) {
-            expandableLinearLayout.collapse();
-            bookAppointment.setVisibility(View.VISIBLE);
-            isBookingAppointment = false;
+            restartSchedulingFlow();
             return true;
         } else {
             return false;

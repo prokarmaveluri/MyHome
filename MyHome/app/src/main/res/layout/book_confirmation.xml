@@ -7,9 +7,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="18dp">
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp">
 
         <TextView
+            android:id="@+id/date"
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,6 +21,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/time"
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,6 +31,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/address"
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,6 +42,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/reason"
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

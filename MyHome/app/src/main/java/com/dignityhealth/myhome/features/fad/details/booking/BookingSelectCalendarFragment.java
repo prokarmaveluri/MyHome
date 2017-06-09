@@ -12,12 +12,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
+import com.dignityhealth.myhome.features.fad.Appointment;
 import com.dignityhealth.myhome.utils.DateUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -27,12 +28,12 @@ import java.util.Date;
 
 public class BookingSelectCalendarFragment extends Fragment {
     public static final String BOOKING_SELECT_CALENDAR_TAG = "booking_select_calendar_tag";
-    public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details_response";
+    public static final String APPOINTMENTS_KEY = "appointments";
     public static final String DATE_KEY = "date";
 
-    public Date bookingDate;
-    public ProviderDetailsResponse providerDetailsResponse;
-    public BookingDateHeaderInterface selectTimeInterface;
+    private Date bookingDate;
+    private ArrayList<Appointment> appointments;
+    private BookingDateHeaderInterface selectTimeInterface;
 
     View bookingView;
     MaterialCalendarView calendar;
@@ -42,18 +43,11 @@ public class BookingSelectCalendarFragment extends Fragment {
         return new BookingSelectCalendarFragment();
     }
 
-    public static BookingSelectCalendarFragment newInstance(ProviderDetailsResponse providerDetailsResponse) {
-        BookingSelectCalendarFragment bookingFragment = new BookingSelectCalendarFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(PROVIDER_DETAILS_RESPONSE_KEY, providerDetailsResponse);
-        bookingFragment.setArguments(args);
-        return bookingFragment;
-    }
-
-    public static BookingSelectCalendarFragment newInstance(Date date) {
+    public static BookingSelectCalendarFragment newInstance(Date date, ArrayList<Appointment> appointments) {
         BookingSelectCalendarFragment bookingFragment = new BookingSelectCalendarFragment();
         Bundle args = new Bundle();
         args.putSerializable(DATE_KEY, date);
+        args.putParcelableArrayList(APPOINTMENTS_KEY, appointments);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -70,17 +64,19 @@ public class BookingSelectCalendarFragment extends Fragment {
         calendar = (MaterialCalendarView) bookingView.findViewById(R.id.calendar);
         calendar.setTopbarVisible(false);
         calendar.setPagingEnabled(false);
-        calendar.state().edit().setMinimumDate(cal).commit();
 
-        if(args != null && args.getSerializable(DATE_KEY) != null){
+        if (args != null && args.getSerializable(DATE_KEY) != null) {
             bookingDate = (Date) args.getSerializable(DATE_KEY);
+            appointments = args.getParcelableArrayList(APPOINTMENTS_KEY);
             calendar.setSelectedDate(bookingDate);
             calendar.setDateSelected(bookingDate, true);
             calendar.setCurrentDate(CalendarDay.from(bookingDate), true);
+            calendar.state().edit().setMinimumDate(cal).setMaximumDate(DateUtil.findLastAppointmentDate(appointments)).commit();
         } else {
             calendar.setSelectedDate(cal);
             calendar.setDateSelected(cal, true);
             calendar.setCurrentDate(CalendarDay.from(cal), true);
+            calendar.state().edit().setMinimumDate(cal).commit();
         }
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
@@ -123,7 +119,7 @@ public class BookingSelectCalendarFragment extends Fragment {
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                if(selected){
+                if (selected) {
                     setMonthHeader(date);
                 }
             }
@@ -135,7 +131,7 @@ public class BookingSelectCalendarFragment extends Fragment {
     public void setMonthHeader(CalendarDay calendarDay) {
         monthLabel.setText(DateUtil.convertDateToReadable(calendarDay.getDate()));
 
-        if(selectTimeInterface != null){
+        if (selectTimeInterface != null) {
             selectTimeInterface.onDateChanged(calendarDay.getDate());
         }
     }
@@ -145,7 +141,7 @@ public class BookingSelectCalendarFragment extends Fragment {
         date = DateUtil.moveDate(date, daysToMove);
         CalendarDay calendarDay = CalendarDay.from(date);
 
-        if(calendarDay.isInRange(calendar.getMinimumDate(), calendar.getMaximumDate())){
+        if (calendarDay.isInRange(calendar.getMinimumDate(), calendar.getMaximumDate())) {
             calendar.clearSelection();
             calendar.setSelectedDate(calendarDay);
             calendar.setDateSelected(calendarDay, true);

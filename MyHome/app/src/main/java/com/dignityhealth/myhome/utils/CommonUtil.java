@@ -258,6 +258,51 @@ public class CommonUtil {
     }
 
     /**
+     * Create a calendar event for an appointment. Uses intents to call the system's calendar with a pre-populated event
+     *
+     * @param context
+     * @param appointmentStart    the time of the appointment
+     * @param doctorName          the doctor overseeing the appointment
+     * @param facilityAddress     the address where the appointment is taking place
+     * @param facilityPhoneNumber the phone where the appointment is taking place
+     * @param visitReason         the reason for the appointment
+     */
+    public static void addCalendarEvent(Context context, String appointmentStart, String doctorName, Address facilityAddress, String facilityPhoneNumber, String visitReason) {
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+
+        if (appointmentStart != null) {
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateUtil.getMilliseconds(appointmentStart));
+        }
+
+        if (doctorName != null) {
+            intent.putExtra(CalendarContract.Events.TITLE, "Appointment with " + doctorName);
+        }
+
+        if (facilityPhoneNumber != null || visitReason != null) {
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumber(facilityPhoneNumber) + "\n" + visitReason);
+        }
+
+        if (facilityAddress != null) {
+            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, CommonUtil.constructAddress(
+                    facilityAddress.line1,
+                    facilityAddress.line2,
+                    facilityAddress.city,
+                    facilityAddress.stateOrProvince,
+                    facilityAddress.zipCode));
+        }
+
+        intent.setType("vnd.android.cursor.item/event");
+
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            Timber.e(ex);
+            Toast.makeText(context, context.getString(R.string.please_install_calendar_app), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
      * Launch Google Maps with address given
      *
      * @param context
@@ -324,7 +369,64 @@ public class CommonUtil {
         }
     }
 
-    public static void setListViewHeight(ExpandableListView listView, int group, int lastGroup) {
+    /**
+     * Constructs the Intent for Sharing an Appointment.
+     * We format the appointment values appropriately.
+     *
+     * @param context
+     * @param startTime           starting time of appointment (in UTC format)
+     * @param doctorName          doctor handling the appointment
+     * @param facilityName        the name of the facility where the appointment is taking place
+     * @param facilityAddress     the address of the facility where the appointment is taking place
+     * @param facilityPhoneNumber the phone number of the facility where the appointment is taking place
+     * @param visitReason         the reason for the appointment
+     */
+    public static void shareAppointment(Context context, String startTime, String doctorName, String facilityName, Address facilityAddress, String facilityPhoneNumber, String visitReason) {
+        String message = "";
+
+        if (startTime != null && !startTime.isEmpty()) {
+            message = message + DateUtil.getDateWordsFromUTC(startTime) + ".\n" + DateUtil.getTime(startTime);
+        }
+
+        if (doctorName != null && !doctorName.isEmpty()) {
+            message = message + ".\n" + doctorName;
+        }
+
+        if (facilityName != null && !facilityName.isEmpty()) {
+            message = message + ".\n" + facilityName;
+        }
+
+        if (facilityAddress != null) {
+            message = message + ".\n" + CommonUtil.constructAddress(
+                    facilityAddress.line1,
+                    facilityAddress.line2,
+                    facilityAddress.city,
+                    facilityAddress.stateOrProvince,
+                    facilityAddress.zipCode);
+        }
+
+        if (visitReason != null && !visitReason.isEmpty()) {
+            message = message + ".\n" + visitReason;
+        }
+
+        if (facilityPhoneNumber != null && !facilityPhoneNumber.isEmpty()) {
+            message = message + ".\n" + constructPhoneNumber(facilityPhoneNumber);
+        }
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            Timber.e(ex);
+            Toast.makeText(context, context.getString(R.string.no_app_share_appointments), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void setOneGroupExpandedListViewHeight(ExpandableListView listView,
+                                                         int group, int lastGroup) {
         int totalHeight = 0;
         FilterExpandableList listAdapter = (FilterExpandableList) listView.getExpandableListAdapter();
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
@@ -346,6 +448,31 @@ public class CommonUtil {
                         totalHeight += 64;
                     }
                 }
+            }
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight + 5;
+        if (height < 325)
+            height = 325;
+        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity());
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    public static void setExpandedListViewHeight(ExpandableListView listView, int group, int lastGroup) {
+        int totalHeight = 0;
+        FilterExpandableList listAdapter = (FilterExpandableList) listView.getExpandableListAdapter();
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
+
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += 64;
+            for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                View listItem = listAdapter.getChildView(i, j, false, null, listView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                totalHeight += 64;
             }
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();

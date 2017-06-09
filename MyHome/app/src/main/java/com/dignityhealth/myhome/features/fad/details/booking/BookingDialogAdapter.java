@@ -2,14 +2,19 @@ package com.dignityhealth.myhome.features.fad.details.booking;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.support.annotation.IdRes;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.PagerAdapter;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -29,16 +34,21 @@ public class BookingDialogAdapter extends PagerAdapter {
     private Context context;
     private BookingDialogToolbarInterface bookingDialogToolbarInterface;
     private boolean autoPopulateFromProfile;
-    private static int NUM_ITEMS = 3;
+    private static int NUM_ITEMS = 2;
 
     private ViewGroup insuranceLayout;
     private ViewGroup personalLayout;
-    private ViewGroup reasonForVisitLayout;
 
+    TextInputLayout caregiverLayout;
+    TextInputEditText caregiverName;
     TextInputEditText firstName;
     TextInputEditText lastName;
     TextInputEditText preferredName;
     Spinner gender;
+    TextView areYouPregnantLabel;
+    RadioGroup areYouPregnantGroup;
+    TextInputLayout weeksPregnantLayout;
+    TextInputEditText weeksPregnant;
     TextInputEditText dateOfBirth;
     TextInputEditText address;
     TextInputEditText address2;
@@ -46,7 +56,12 @@ public class BookingDialogAdapter extends PagerAdapter {
     Spinner state;
     TextInputEditText zip;
     TextInputEditText phone;
-    TextView email;
+    TextInputEditText email;
+    RadioGroup translatorGroup;
+    TextInputLayout translatorLanguageLayout;
+    TextInputEditText translatorLanguage;
+    RadioGroup assistanceGroup;
+    EditText reasonForVisit;
 
     TextInputEditText insuranceProvider;
     TextInputEditText memberId;
@@ -71,7 +86,6 @@ public class BookingDialogAdapter extends PagerAdapter {
         this.context = context;
         this.bookingDialogToolbarInterface = bookingDialogToolbarInterface;
         this.autoPopulateFromProfile = autoPopulateFromProfile;
-
         if (autoPopulateFromProfile) {
             formsProfile = Profile.copy(ProfileManager.getProfile());
         }
@@ -94,6 +108,8 @@ public class BookingDialogAdapter extends PagerAdapter {
                 //setupInsuranceView
                 container.addView(insuranceLayout, position);
 
+                setupInsurance();
+
                 if (autoPopulateFromProfile) {
                     populateInsuranceLayout();
                 }
@@ -105,17 +121,13 @@ public class BookingDialogAdapter extends PagerAdapter {
                 //setupPersonalView
                 container.addView(personalLayout, position);
 
+                setupPersonal();
+
                 if (autoPopulateFromProfile) {
                     populatePersonalLayout();
                 }
 
                 return personalLayout;
-
-            case 2:
-                reasonForVisitLayout = (ViewGroup) inflater.inflate(R.layout.book_dialog_reason, container, false);
-                //setupReasonForVisitView
-                container.addView(reasonForVisitLayout, position);
-                return reasonForVisitLayout;
 
             default:
                 return null;
@@ -146,35 +158,23 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
     }
 
-    /**
-     * Auto-populates Insurance page with values from Profile Singleton
-     */
-    private void populateInsuranceLayout() {
+    private void setupInsurance() {
         insuranceProvider = (TextInputEditText) insuranceLayout.findViewById(R.id.provider);
         memberId = (TextInputEditText) insuranceLayout.findViewById(R.id.id);
         group = (TextInputEditText) insuranceLayout.findViewById(R.id.group);
-
-        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.providerName != null) {
-            insuranceProvider.setText(formsProfile.insuranceProvider.providerName);
-        }
-
-        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.memberNumber != null) {
-            memberId.setText(formsProfile.insuranceProvider.memberNumber);
-        }
-
-        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.groupNumber != null) {
-            group.setText(formsProfile.insuranceProvider.groupNumber);
-        }
     }
 
-    /**
-     * Auto-populates Personal page with values from Profile Singleton
-     */
-    private void populatePersonalLayout() {
+    private void setupPersonal() {
+        caregiverLayout = (TextInputLayout) personalLayout.findViewById(R.id.caregiver_name_layout);
+        caregiverName = (TextInputEditText) personalLayout.findViewById(R.id.caregiver_name);
         firstName = (TextInputEditText) personalLayout.findViewById(R.id.first_name);
         lastName = (TextInputEditText) personalLayout.findViewById(R.id.last_name);
         preferredName = (TextInputEditText) personalLayout.findViewById(R.id.preferred_name);
         gender = (Spinner) personalLayout.findViewById(R.id.gender);
+        areYouPregnantLabel = (TextView) personalLayout.findViewById(R.id.pregnant_label);
+        areYouPregnantGroup = (RadioGroup) personalLayout.findViewById(R.id.group_pregnant);
+        weeksPregnantLayout = (TextInputLayout) personalLayout.findViewById(R.id.weeks_layout);
+        weeksPregnant = (TextInputEditText) personalLayout.findViewById(R.id.weeks);
         dateOfBirth = (TextInputEditText) personalLayout.findViewById(R.id.dob);
         address = (TextInputEditText) personalLayout.findViewById(R.id.address);
         address2 = (TextInputEditText) personalLayout.findViewById(R.id.address2);
@@ -182,7 +182,13 @@ public class BookingDialogAdapter extends PagerAdapter {
         state = (Spinner) personalLayout.findViewById(R.id.state);
         zip = (TextInputEditText) personalLayout.findViewById(R.id.zip);
         phone = (TextInputEditText) personalLayout.findViewById(R.id.phone);
-        email = (TextView) personalLayout.findViewById(R.id.email);
+        email = (TextInputEditText) personalLayout.findViewById(R.id.email);
+        translatorGroup = (RadioGroup) personalLayout.findViewById(R.id.group_translator);
+        translatorLanguageLayout = (TextInputLayout) personalLayout.findViewById(R.id.translator_language_layout);
+        translatorLanguage = (TextInputEditText) personalLayout.findViewById(R.id.translator_language);
+        assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_asistance);
+        reasonForVisit = (EditText) personalLayout.findViewById(R.id.booking_reason);
+
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,18 +216,6 @@ public class BookingDialogAdapter extends PagerAdapter {
             }
         });
 
-        if (formsProfile.firstName != null) {
-            firstName.setText(formsProfile.firstName);
-        }
-
-        if (formsProfile.lastName != null) {
-            lastName.setText(formsProfile.lastName);
-        }
-
-        if (formsProfile.preferredName != null) {
-            preferredName.setText(formsProfile.preferredName);
-        }
-
         if (formsProfile.gender != null) {
 
             //Loop through genders until we find a match, then set gender spinner selection
@@ -233,6 +227,113 @@ public class BookingDialogAdapter extends PagerAdapter {
             }
         } else {
             gender.setSelection(0);  //Placeholder is the first item in the array
+        }
+
+        if (formsProfile.address != null && formsProfile.address.stateOrProvince != null) {
+
+            //Loop through states until we find a match, then set state spinner selection
+            for (int i = 0; i < state.getAdapter().getCount(); i++) {
+                if (formsProfile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
+                    state.setSelection(i);
+                    break;
+                }
+            }
+        } else {
+            state.setSelection(0);  //Placeholder is the first item in the array
+        }
+
+        //Dynamic Stuff Here
+        if (autoPopulateFromProfile) {
+            caregiverLayout.setVisibility(View.GONE);
+        } else {
+            caregiverLayout.setVisibility(View.VISIBLE);
+        }
+
+        gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 2) {
+                    //You're a female
+                    areYouPregnantLabel.setVisibility(View.VISIBLE);
+                    areYouPregnantGroup.setVisibility(View.VISIBLE);
+                } else {
+                    areYouPregnantLabel.setVisibility(View.GONE);
+                    areYouPregnantGroup.setVisibility(View.GONE);
+                    weeksPregnantLayout.setVisibility(View.GONE);
+                    areYouPregnantGroup.check(R.id.radio_not_pregnant);
+                    weeksPregnant.setText("");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        areYouPregnantGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_not_pregnant:
+                        weeksPregnantLayout.setVisibility(View.GONE);
+                        break;
+
+                    case R.id.radio_pregnant:
+                        weeksPregnantLayout.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+
+        translatorGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId) {
+                    case R.id.translator_not_needed:
+                        translatorLanguageLayout.setVisibility(View.GONE);
+                        translatorLanguage.setText("");
+                        break;
+
+                    case R.id.translator_needed:
+                        translatorLanguageLayout.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+    }
+
+    /**
+     * Auto-populates Insurance page with values from Profile Singleton
+     */
+    private void populateInsuranceLayout() {
+        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.providerName != null) {
+            insuranceProvider.setText(formsProfile.insuranceProvider.providerName);
+        }
+
+        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.memberNumber != null) {
+            memberId.setText(formsProfile.insuranceProvider.memberNumber);
+        }
+
+        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.groupNumber != null) {
+            group.setText(formsProfile.insuranceProvider.groupNumber);
+        }
+    }
+
+    /**
+     * Auto-populates Personal page with values from Profile Singleton
+     */
+    private void populatePersonalLayout() {
+        if (formsProfile.firstName != null) {
+            firstName.setText(formsProfile.firstName);
+        }
+
+        if (formsProfile.lastName != null) {
+            lastName.setText(formsProfile.lastName);
+        }
+
+        if (formsProfile.preferredName != null) {
+            preferredName.setText(formsProfile.preferredName);
         }
 
         if (formsProfile.dateOfBirth != null) {
@@ -249,19 +350,6 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         if (formsProfile.address != null && formsProfile.address.city != null) {
             city.setText(formsProfile.address.city);
-        }
-
-        if (formsProfile.address != null && formsProfile.address.stateOrProvince != null) {
-
-            //Loop through states until we find a match, then set state spinner selection
-            for (int i = 0; i < state.getAdapter().getCount(); i++) {
-                if (formsProfile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
-                    state.setSelection(i);
-                    break;
-                }
-            }
-        } else {
-            state.setSelection(0);  //Placeholder is the first item in the array
         }
 
         if (formsProfile.address != null && formsProfile.address.zipCode != null) {
@@ -346,6 +434,10 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         if (group.getText() != null && !group.getText().toString().isEmpty()) {
             formsProfile.insuranceProvider.groupNumber = group.getText().toString().trim();
+        }
+
+        if (reasonForVisit.getText() != null && !reasonForVisit.getText().toString().isEmpty()) {
+            formsProfile.reasonForVisit = reasonForVisit.getText().toString().trim();
         }
 
         return formsProfile;

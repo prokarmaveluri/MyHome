@@ -80,6 +80,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private FragmentStatePagerAdapter pagerAdapter;
 
     private int distanceRange = 100;
+    public static int currentScroll = 0;
     public static int maxCount = 0, mPageIndex = 1;
     private static ArrayList<Provider> providerList = new ArrayList<>();
     private static ArrayList<CommonModel> newPatients = new ArrayList<>();
@@ -315,7 +316,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 mPageIndex = 1;
                 searchForQuery(currentSearchQuery, String.valueOf(distanceRange));
             }
-        } else if (requestCode == RECENT_PROVIDERS){
+        } else if (requestCode == RECENT_PROVIDERS) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data.getExtras() != null) {
                     Provider provider = data.getExtras().getParcelable("PROVIDER");
@@ -454,7 +455,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                         Toast.LENGTH_LONG).show();
                 return;
             }
-            Timber.i("search, request ");
+            if (mPageIndex == 1)
+                currentScroll = 0;
             showProgress(true);
             currentSearchQuery = query;
             binding.suggestionList.setVisibility(View.GONE);

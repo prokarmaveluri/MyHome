@@ -29,27 +29,10 @@ public class Profile implements Parcelable {
     public String clientID;
     public String remoteID;
     public String email;
-
-    public Profile(String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email) {
-        this.firstName = firstName;
-        this.middleInitial = middleInitial;
-        this.lastName = lastName;
-        this.preferredName = preferredName;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.phoneNumberType = phoneNumberType;
-        this.contactName = contactName;
-        this.contactPhoneNumber = contactPhoneNumber;
-        this.primaryCaregiverName = primaryCaregiverName;
-        this.isPregnant = isPregnant;
-        this.weeksPregnant = weeksPregnant;
-        this.insuranceProvider = insuranceProvider;
-        this.clientID = clientID;
-        this.remoteID = remoteID;
-        this.email = email;
-    }
+    public String reasonForVisit;
+    public boolean translationNeeded;
+    public String translatorLanguage;
+    public boolean assistanceNeeded;
 
     public Profile() {
 
@@ -58,7 +41,7 @@ public class Profile implements Parcelable {
     @Override
     public String toString() {
         return "Profile{" +
-                "name='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", middleInitial='" + middleInitial + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", preferredName='" + preferredName + '\'' +
@@ -76,6 +59,10 @@ public class Profile implements Parcelable {
                 ", clientID='" + clientID + '\'' +
                 ", remoteID='" + remoteID + '\'' +
                 ", email='" + email + '\'' +
+                ", reasonForVisit='" + reasonForVisit + '\'' +
+                ", translationNeeded=" + translationNeeded +
+                ", translatorLanguage='" + translatorLanguage + '\'' +
+                ", assistanceNeeded=" + assistanceNeeded +
                 '}';
     }
 
@@ -85,6 +72,8 @@ public class Profile implements Parcelable {
         if (o == null || getClass() != o.getClass()) return false;
         Profile profile = (Profile) o;
         return isPregnant == profile.isPregnant &&
+                translationNeeded == profile.translationNeeded &&
+                assistanceNeeded == profile.assistanceNeeded &&
                 Objects.equals(firstName, profile.firstName) &&
                 Objects.equals(middleInitial, profile.middleInitial) &&
                 Objects.equals(lastName, profile.lastName) &&
@@ -101,17 +90,25 @@ public class Profile implements Parcelable {
                 Objects.equals(insuranceProvider, profile.insuranceProvider) &&
                 Objects.equals(clientID, profile.clientID) &&
                 Objects.equals(remoteID, profile.remoteID) &&
-                Objects.equals(email, profile.email);
+                Objects.equals(email, profile.email) &&
+                Objects.equals(reasonForVisit, profile.reasonForVisit) &&
+                Objects.equals(translatorLanguage, profile.translatorLanguage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, middleInitial, lastName, preferredName, gender, dateOfBirth, address, phoneNumber, phoneNumberType, contactName, contactPhoneNumber, primaryCaregiverName, isPregnant, weeksPregnant, insuranceProvider, clientID, remoteID, email, reasonForVisit, translationNeeded, translatorLanguage, assistanceNeeded);
     }
 
     /**
      * Method to see if two Profile objects are the same.
-     * We don't care about email in this method, and ignore casing for gender
+     * We ignore casing for gender.
+     * We don't care about any booking fields (email, caregiver name, reason for visit, translator language...)
      *
      * @param o
      * @return
      */
-    public boolean equalsSansEmails(Object o) {
+    public boolean equalsSansBookingInfo(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Profile profile = (Profile) o;
@@ -128,7 +125,6 @@ public class Profile implements Parcelable {
                 Objects.equals(contactName, profile.contactName) &&
                 Objects.equals(contactPhoneNumber, profile.contactPhoneNumber) &&
                 Objects.equals(primaryCaregiverName, profile.primaryCaregiverName) &&
-                Objects.equals(weeksPregnant, profile.weeksPregnant) &&
                 Objects.equals(insuranceProvider, profile.insuranceProvider) &&
                 Objects.equals(clientID, profile.clientID) &&
                 Objects.equals(remoteID, profile.remoteID);
@@ -158,13 +154,13 @@ public class Profile implements Parcelable {
         profile.insuranceProvider = InsuranceProvider.copy(otherProfile.insuranceProvider);
         profile.clientID = otherProfile.clientID;
         profile.remoteID = otherProfile.remoteID;
+        profile.email = otherProfile.email;
+        profile.reasonForVisit = otherProfile.reasonForVisit;
+        profile.translationNeeded = otherProfile.translationNeeded;
+        profile.translatorLanguage = otherProfile.translatorLanguage;
+        profile.assistanceNeeded = otherProfile.assistanceNeeded;
 
         return profile;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, middleInitial, lastName, preferredName, gender, dateOfBirth, address, phoneNumber, phoneNumberType, contactName, contactPhoneNumber, primaryCaregiverName, isPregnant, weeksPregnant, insuranceProvider, clientID, remoteID, email);
     }
 
     @Override
@@ -192,6 +188,7 @@ public class Profile implements Parcelable {
         dest.writeString(this.clientID);
         dest.writeString(this.remoteID);
         dest.writeString(this.email);
+        dest.writeString(this.reasonForVisit);
     }
 
     protected Profile(Parcel in) {
@@ -213,6 +210,7 @@ public class Profile implements Parcelable {
         this.clientID = in.readString();
         this.remoteID = in.readString();
         this.email = in.readString();
+        this.reasonForVisit = in.readString();
     }
 
     public static final Parcelable.Creator<Profile> CREATOR = new Parcelable.Creator<Profile>() {

@@ -7,6 +7,8 @@ import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
+import com.dignityhealth.myhome.features.fad.details.booking.req.CreateAppointmentRequest;
+import com.dignityhealth.myhome.features.fad.details.booking.req.CreateAppointmentResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
@@ -279,6 +281,11 @@ public class NetworkManager {
      */
     public Call<ProviderDetailsResponse> getProviderDetails(String id) {
         return service.getProviderDetails(id);
+    }
+
+    public Call<CreateAppointmentResponse> createAppointment(String bearerToken,
+                                                             CreateAppointmentRequest request){
+        return service.createAppointment(bearerToken, request);
     }
 
     // Network Util
