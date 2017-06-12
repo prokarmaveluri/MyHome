@@ -398,7 +398,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
         if (activityTag == ActivityTag.PROVIDER_DETAILS) {
-            if (!((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG)).onBackButtonPressed()) {
+            ProviderDetailsFragment frag = ((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG));
+
+            if(frag == null || !frag.onBackButtonPressed()){
                 super.onBackPressed();
             }
         } else if (fm.getBackStackEntryCount() > 0) {

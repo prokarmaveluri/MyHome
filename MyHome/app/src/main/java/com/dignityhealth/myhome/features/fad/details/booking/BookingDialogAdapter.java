@@ -25,8 +25,10 @@ import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.DateUtil;
+import com.dignityhealth.myhome.utils.ValidationUtil;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by kwelsh on 5/18/17.
@@ -252,66 +254,6 @@ public class BookingDialogAdapter extends PagerAdapter {
         } else {
             state.setSelection(0);  //Placeholder is the first item in the array
         }
-
-        //Dynamic Stuff Here
-        if (autoPopulateFromProfile) {
-            caregiverLayout.setVisibility(View.GONE);
-        } else {
-            caregiverLayout.setVisibility(View.VISIBLE);
-        }
-
-        gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 2) {
-                    //You're a female
-                    areYouPregnantLabel.setVisibility(View.VISIBLE);
-                    areYouPregnantGroup.setVisibility(View.VISIBLE);
-                } else {
-                    areYouPregnantLabel.setVisibility(View.GONE);
-                    areYouPregnantGroup.setVisibility(View.GONE);
-                    weeksPregnantLayout.setVisibility(View.GONE);
-                    areYouPregnantGroup.check(R.id.radio_not_pregnant);
-                    weeksPregnant.setText("");
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        areYouPregnantGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId) {
-                    case R.id.radio_not_pregnant:
-                        weeksPregnantLayout.setVisibility(View.GONE);
-                        break;
-
-                    case R.id.radio_pregnant:
-                        weeksPregnantLayout.setVisibility(View.VISIBLE);
-                        break;
-                }
-            }
-        });
-
-        translatorGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId) {
-                    case R.id.translator_not_needed:
-                        translatorLanguageLayout.setVisibility(View.GONE);
-                        translatorLanguage.setText("");
-                        break;
-
-                    case R.id.translator_needed:
-                        translatorLanguageLayout.setVisibility(View.VISIBLE);
-                        break;
-                }
-            }
-        });
     }
 
     /**
@@ -380,7 +322,106 @@ public class BookingDialogAdapter extends PagerAdapter {
         updateVisibility(false);
 
         if (regValidationResponse != null) {
-            //Do stuff with validation rules here...
+            final List<String> fields = ValidationUtil.getEnabledFields(regValidationResponse);
+
+            if (fields != null) {
+                if (fields.contains(ValidationUtil.FIELD_CAREGIVER_NAME) && !autoPopulateFromProfile) {
+                    caregiverLayout.setVisibility(View.VISIBLE);
+                    caregiverName.setVisibility(View.VISIBLE);
+                } else {
+                    caregiverLayout.setVisibility(View.GONE);
+                    caregiverName.setVisibility(View.GONE);
+                }
+
+                firstName.setVisibility(fields.contains(ValidationUtil.FIELD_FIRST_NAME) ? View.VISIBLE : View.GONE);
+                lastName.setVisibility(fields.contains(ValidationUtil.FIELD_LAST_NAME) ? View.VISIBLE : View.GONE);
+                preferredName.setVisibility(View.VISIBLE);
+
+                //Gender dynamic stuff based on gender AND enabled fields
+                if (fields.contains(ValidationUtil.FIELD_GENDER)) {
+                    gender.setVisibility(View.VISIBLE);
+                    genderLabel.setVisibility(View.VISIBLE);
+
+                    gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position == 2) {
+                                //You're a female
+
+                                if (fields.contains(ValidationUtil.FIELD_PREGNANT)) {
+                                    areYouPregnantLabel.setVisibility(View.VISIBLE);
+                                    areYouPregnantGroup.setVisibility(View.VISIBLE);
+                                }
+
+                            } else {
+                                areYouPregnantLabel.setVisibility(View.GONE);
+                                areYouPregnantGroup.setVisibility(View.GONE);
+                                weeksPregnantLayout.setVisibility(View.GONE);
+                                areYouPregnantGroup.check(R.id.radio_not_pregnant);
+                                weeksPregnant.setText("");
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                    areYouPregnantGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                            switch (checkedId) {
+                                case R.id.radio_not_pregnant:
+                                    weeksPregnantLayout.setVisibility(View.GONE);
+                                    break;
+
+                                case R.id.radio_pregnant:
+                                    if (fields.contains(ValidationUtil.FIELD_WEEKS_PREGNANT)) {
+                                        weeksPregnantLayout.setVisibility(View.VISIBLE);
+                                    }
+                                    break;
+                            }
+                        }
+                    });
+                } else {
+                    gender.setVisibility(View.GONE);
+                    genderLabel.setVisibility(View.GONE);
+                }
+
+                dateOfBirth.setVisibility(fields.contains(ValidationUtil.FIELD_BIRTHDATE) ? View.VISIBLE : View.GONE);
+                address.setVisibility(View.VISIBLE);
+                address2.setVisibility(View.VISIBLE);
+                city.setVisibility(View.VISIBLE);
+                state.setVisibility(View.VISIBLE);
+                zip.setVisibility(fields.contains(ValidationUtil.FIELD_ZIP) ? View.VISIBLE : View.GONE);
+                phone.setVisibility(fields.contains(ValidationUtil.FIELD_PHONE_NUMBER) ? View.VISIBLE : View.GONE);
+                email.setVisibility(fields.contains(ValidationUtil.FIELD_EMAIL) ? View.VISIBLE : View.GONE);
+                translatorLabel.setVisibility(View.VISIBLE);
+                translatorGroup.setVisibility(View.VISIBLE);
+
+                translatorGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                        switch (checkedId) {
+                            case R.id.translator_not_needed:
+                                translatorLanguageLayout.setVisibility(View.GONE);
+                                translatorLanguage.setVisibility(View.GONE);
+                                translatorLanguage.setText("");
+                                break;
+
+                            case R.id.translator_needed:
+                                translatorLanguageLayout.setVisibility(View.VISIBLE);
+                                translatorLanguage.setVisibility(View.VISIBLE);
+                                break;
+                        }
+                    }
+                });
+
+                assistanceLabel.setVisibility(View.VISIBLE);
+                assistanceGroup.setVisibility(View.VISIBLE);
+                reasonForVisit.setVisibility(fields.contains(ValidationUtil.FIELD_REASON_FOR_VISIT) ? View.VISIBLE : View.GONE);
+            }
         }
     }
 
@@ -397,10 +438,10 @@ public class BookingDialogAdapter extends PagerAdapter {
         preferredName.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         genderLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         gender.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        areYouPregnantLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        areYouPregnantGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        weeksPregnantLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        weeksPregnant.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        areYouPregnantLabel.setVisibility(View.GONE);
+        areYouPregnantGroup.setVisibility(View.GONE);
+        weeksPregnantLayout.setVisibility(View.GONE);
+        weeksPregnant.setVisibility(View.GONE);
         dateOfBirth.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         address.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         address2.setVisibility(isLoading ? View.GONE : View.VISIBLE);
@@ -411,8 +452,8 @@ public class BookingDialogAdapter extends PagerAdapter {
         email.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         translatorLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         translatorGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        translatorLanguageLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        translatorLanguage.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        translatorLanguageLayout.setVisibility(View.GONE);
+        translatorLanguage.setVisibility(View.GONE);
         assistanceLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         assistanceGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         reasonForVisit.setVisibility(isLoading ? View.GONE : View.VISIBLE);
