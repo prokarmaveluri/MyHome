@@ -236,7 +236,7 @@ public class MapViewFragment extends Fragment implements
                 case MAP_ZOOM:
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currClusterPosition,
                             map.getCameraPosition().zoom + 1.0f);
-                    map.moveCamera(update);
+                    map.animateCamera(update);
                     break;
             }
         }
