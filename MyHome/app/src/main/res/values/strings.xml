@@ -150,7 +150,8 @@
     <string name="are_you_pregnant">Are You Pregnant</string>
     <string name="weeks_pregnant">Weeks Pregnant</string>
     <string name="translator_language">Language</string>
-    <string name="app_update_message">Sorry! Unfortunately this app version is too old and not supported anymore. Please update.</string>
+    <string name="app_force_update_message">Please update your app in the App Store! We have made several improvements since your last visit and your previous version is no longer in use!</string>
+    <string name="app_suggest_update_message">Please update your app in the App Store. We have made several improvements since your last visit and don\'t want you to miss out!</string>
     <string name="new_update_available">New Update Available!</string>
 
 </resources>
