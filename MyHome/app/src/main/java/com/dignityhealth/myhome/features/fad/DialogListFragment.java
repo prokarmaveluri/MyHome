@@ -14,7 +14,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentProviderListBinding;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
-import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
+import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 import com.squareup.otto.Subscribe;

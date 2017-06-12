@@ -1,4 +1,4 @@
-package com.dignityhealth.myhome.features.fad.recently.viewed;
+package com.dignityhealth.myhome.features.fad.recent;
 
 /**
  * Created by Chandra on 23-08-2016.

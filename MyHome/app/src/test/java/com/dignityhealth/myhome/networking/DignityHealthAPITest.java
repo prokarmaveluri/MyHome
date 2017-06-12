@@ -3,8 +3,6 @@ package com.dignityhealth.myhome.networking;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
-import com.dignityhealth.myhome.features.profile.signout.CreateSessionRequest;
-import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 
 import org.junit.Assert;
@@ -14,9 +12,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 /**
  * Created by kwelsh on 5/4/17.
@@ -45,7 +41,7 @@ public class DignityHealthAPITest {
 
             //Set up session token
             AuthManager.getInstance().setSessionToken(response.body().getSessionToken());
-            getSessionId(response.body().getSessionToken());
+//            getSessionId(response.body().getSessionToken());
 
             //TODO Get Bearer Token
             //fetchIdToken(response.body().getSessionToken());
@@ -68,24 +64,5 @@ public class DignityHealthAPITest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void getSessionId(String sessionToken) {
-        CreateSessionRequest request = new CreateSessionRequest(sessionToken);
-        NetworkManager.getInstance().createSession(request).enqueue(new Callback<CreateSessionResponse>() {
-            @Override
-            public void onResponse(Call<CreateSessionResponse> call, Response<CreateSessionResponse> response) {
-                if (response.isSuccessful()) {
-                    Timber.i("Session Id: " + response.body().getId());
-                    AuthManager.getInstance().setIdTokenForSignOut(response.body().getId());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CreateSessionResponse> call, Throwable t) {
-                Timber.i("Session Id: Failed" );
-                AuthManager.getInstance().setIdTokenForSignOut(null);
-            }
-        });
     }
 }

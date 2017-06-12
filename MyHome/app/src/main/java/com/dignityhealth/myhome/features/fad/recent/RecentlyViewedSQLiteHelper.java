@@ -1,4 +1,4 @@
-package com.dignityhealth.myhome.features.fad.recently.viewed;
+package com.dignityhealth.myhome.features.fad.recent;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
