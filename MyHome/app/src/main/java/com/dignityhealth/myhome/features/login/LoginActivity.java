@@ -18,14 +18,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
+import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.ActivityLoginBinding;
 import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.login.dialog.EnrollmentSuccessDialog;
+import com.dignityhealth.myhome.features.update.UpdateActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
+import com.dignityhealth.myhome.utils.Constants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -89,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements
             EnrollmentSuccessDialog dialog = EnrollmentSuccessDialog.newInstance();
             dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
         }
-
+        startUpdateActivity(false);
         new LoginPresenter(fragment, this);
     }
 
@@ -307,5 +310,26 @@ public class LoginActivity extends AppCompatActivity implements
                 });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void startUpdateActivity(boolean isForceUpdate) {
+        Intent intent = UpdateActivity.getLoginIntent(this);
+        intent.putExtra("IS_FORCE_UPDATE", isForceUpdate);
+        startActivity(intent);
+
+        if (isForceUpdate)
+            finish();
+    }
+
+    private boolean isForceUpdate() {
+        if (BuildConfig.VERSION_CODE == Constants.DEV_UPDATE_VERSION)
+            return true;
+        return false;
+    }
+
+    private boolean isSoftUpdate() {
+        if (BuildConfig.VERSION_CODE == Constants.DEV_UPDATE_VERSION)
+            return true;
+        return false;
     }
 }
