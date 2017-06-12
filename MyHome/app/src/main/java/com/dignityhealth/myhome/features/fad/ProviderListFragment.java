@@ -86,9 +86,9 @@ public class ProviderListFragment extends Fragment implements
         NavigationActivity.eventBus.register(this);
         if (providerList != null && providerList.size() > 0) {
             if (listener == null) {
-                adapter = new ProvidersAdapter(providerList, getActivity(), this, recentlyViewed);
+                adapter = new ProvidersAdapter(providerList, getActivity(), this, recentlyViewed, false);
             } else {
-                adapter = new ProvidersAdapter(providerList, getActivity(), listener, recentlyViewed);
+                adapter = new ProvidersAdapter(providerList, getActivity(), listener, recentlyViewed, false);
             }
 
             manager = new LinearLayoutManager(getActivity());

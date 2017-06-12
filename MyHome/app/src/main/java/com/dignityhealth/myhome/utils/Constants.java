@@ -43,5 +43,7 @@ public class Constants {
     public static final String ENROLLMENT_REQUEST = "ENROLLMENT_REQUEST";
 
     public static final String DEFAULT_FAD_QUERY = "Primary Care";
+
+    public static int DEV_UPDATE_VERSION = 1;
 }
 

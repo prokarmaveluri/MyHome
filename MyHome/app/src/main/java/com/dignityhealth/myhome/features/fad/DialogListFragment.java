@@ -86,9 +86,9 @@ public class DialogListFragment extends Fragment implements
         NavigationActivity.eventBus.register(this);
         if (providerList != null && providerList.size() > 0) {
             if (listener == null) {
-                adapter = new ProvidersAdapter(providerList, getActivity(), this, recentlyViewed);
+                adapter = new ProvidersAdapter(providerList, getActivity(), this, recentlyViewed, recent);
             } else {
-                adapter = new ProvidersAdapter(providerList, getActivity(), listener, recentlyViewed);
+                adapter = new ProvidersAdapter(providerList, getActivity(), listener, recentlyViewed, recent);
             }
 
             manager = new LinearLayoutManager(getActivity());
