@@ -10,6 +10,7 @@ import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.DeviceDisplayManager;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -39,6 +40,9 @@ public class MyHomeApplication extends MultiDexApplication {
                 }
             });
         }
+
+        //init Analytics
+        TealiumUtil.initialize(this);
 
         //init retrofit service
         NetworkManager.getInstance().initService();
