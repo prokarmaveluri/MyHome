@@ -8,6 +8,7 @@ import com.dignityhealth.myhome.features.fad.ProvidersResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.fad.details.booking.req.CreateAppointmentRequest;
 import com.dignityhealth.myhome.features.fad.details.booking.req.CreateAppointmentResponse;
+import com.dignityhealth.myhome.features.fad.details.booking.req.RegValidationResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
@@ -27,6 +28,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -105,4 +107,9 @@ public interface RESTService {
     @POST(RESTConstants.SCHEDULING_BASE + "v1/visit")
     Call<CreateAppointmentResponse> createAppointment(@Header("Authorization") String bearer,
                                                       @Body CreateAppointmentRequest appointment);
+
+    // include = insurance,schedule-properties
+    @GET(RESTConstants.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION)
+    Call<RegValidationResponse> getValidation(@Path("scheduleID") String scheduleId,
+                                              @Query("include") String include);
 }

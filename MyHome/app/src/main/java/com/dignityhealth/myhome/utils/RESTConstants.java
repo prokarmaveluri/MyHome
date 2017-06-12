@@ -13,8 +13,10 @@ public class RESTConstants {
     public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-dev.azurewebsites.net/api/";
 
     public static final String SCHEDULING_VISIT = "v1/visit/";
+    public static final String SCHEDULING_VALIDATION = "v1/visit/schedule/{scheduleID}/visit-settings";
 
     public static final String PROVIDER_PAGE_NO = "1";
     public static final String PROVIDER_PAGE_SIZE = "25";
     public static final String PROVIDER_DISTANCE = "100";
+
 }
