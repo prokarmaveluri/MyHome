@@ -378,6 +378,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         startActivity(intent);
     }
 
+    /**
+     * validate inputs for login
+     * @return
+     */
     private boolean isAllInputsValid() {
         if (CommonUtil.isValidEmail(binder.email.getText().toString()) &&
                 CommonUtil.isValidPassword(binder.password.getText().toString())) {
@@ -386,6 +390,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         return false;
     }
 
+    /**
+     * text watcher for input fields
+     */
     private class LoginTextWatcher implements TextWatcher {
 
         @Override
@@ -408,6 +415,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
     }
 
+    /**
+     * update login button state
+     * @param isEnabled
+     */
     private void updateButtonState(boolean isEnabled) {
         if (isEnabled) {
             binder.logInButton.setBackgroundResource(R.drawable.button_enabled);
@@ -418,6 +429,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
     }
 
+    /**
+     * register password drawable click event
+     */
     private void drawableClickEvent() {
         binder.password.setOnTouchListener(
                 new View.OnTouchListener() {
@@ -446,6 +460,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 });
     }
 
+    /**
+     * update password drawable
+     *
+     * @param res
+     */
     private void updateDrawable(int res) {
         Drawable drawable = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -468,6 +487,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
     };
 
+    /**
+     * fetch Id token and sid using HttpURLConnection
+     */
     private void fetchIdTokenUrlConnection() {
 
         try {
@@ -504,6 +526,12 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     }
 
+    /**
+     * fetch sid from cookies
+     *
+     * @param cookies
+     * @return
+     */
     String retrieveSid(List<String> cookies) {
         String cookieValue = null;
         if (null != cookies) {

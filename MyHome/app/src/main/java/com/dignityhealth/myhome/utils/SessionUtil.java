@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
+import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.networking.NetworkManager;

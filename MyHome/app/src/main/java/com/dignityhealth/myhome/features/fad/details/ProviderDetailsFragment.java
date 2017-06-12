@@ -38,7 +38,7 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPerson
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeFragment;
-import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
+import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.networking.NetworkManager;

@@ -34,7 +34,7 @@ import com.dignityhealth.myhome.app.OptionsActivity;
 import com.dignityhealth.myhome.databinding.FragmentFadBinding;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.filter.FilterDialog;
-import com.dignityhealth.myhome.features.fad.recently.viewed.RecentlyViewedDataSourceDB;
+import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
@@ -660,6 +660,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         }
     }
 
+    /**
+     *
+     * @param provider
+     */
     private void providerDetails(Provider provider) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
