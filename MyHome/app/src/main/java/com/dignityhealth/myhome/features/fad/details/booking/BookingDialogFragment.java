@@ -14,9 +14,16 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.fad.details.booking.req.RegValidationResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
+import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.views.WrappingViewPager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 5/25/17.
@@ -24,6 +31,7 @@ import com.dignityhealth.myhome.views.WrappingViewPager;
 
 public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface, BookingSaveProfileInterface {
     public static final String BOOKING_DIALOG_TAG = "booking_dialog_tag";
+    public static final String SCHEDULE_ID_KEY = "schedule_id";
     public static final String IS_BOOKING_FOR_ME_KEY = "is_booking_for_me";
 
     public BookingDialogInterface bookingDialogInterface;
@@ -32,15 +40,17 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     WrappingViewPager bookingViewPager;
     Toolbar toolbar;
 
+    private String scheduleId;
     private boolean isBookingForMe = true;
 
     public static BookingDialogFragment newInstance() {
         return new BookingDialogFragment();
     }
 
-    public static BookingDialogFragment newInstance(boolean isBookingForMe) {
+    public static BookingDialogFragment newInstance(String scheduleId, boolean isBookingForMe) {
         BookingDialogFragment bookingFragment = new BookingDialogFragment();
         Bundle args = new Bundle();
+        args.putString(SCHEDULE_ID_KEY, scheduleId);
         args.putBoolean(IS_BOOKING_FOR_ME_KEY, isBookingForMe);
         bookingFragment.setArguments(args);
         return bookingFragment;
@@ -52,11 +62,14 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         Bundle args = getArguments();
 
         if (args != null) {
+            scheduleId = args.getString(SCHEDULE_ID_KEY);
             isBookingForMe = args.getBoolean(IS_BOOKING_FOR_ME_KEY);
         }
 
         //providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
         bookingView = inflater.inflate(R.layout.book_dialog, container, false);
+
+        getValidationRules();
 
         toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.find_care));
@@ -123,6 +136,28 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
     public void setBookingDialogInterface(BookingDialogInterface bookingDialogInterface) {
         this.bookingDialogInterface = bookingDialogInterface;
+    }
+
+    private void getValidationRules() {
+        NetworkManager.getInstance().getValidationRules(scheduleId, "insurance,schedule-properties").enqueue(new Callback<RegValidationResponse>() {
+            @Override
+            public void onResponse(Call<RegValidationResponse> call, Response<RegValidationResponse> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                    ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(response.body());
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                    ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegValidationResponse> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+                ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(null);
+            }
+        });
     }
 
     private void finishBooking() {

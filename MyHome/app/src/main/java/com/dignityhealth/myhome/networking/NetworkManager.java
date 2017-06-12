@@ -289,8 +289,8 @@ public class NetworkManager {
         return service.createAppointment(bearerToken, request);
     }
 
-    public Call<RegValidationResponse> getValidation(String scheduleId, String includeQuery) {
-        return service.getValidation(scheduleId, includeQuery);
+    public Call<RegValidationResponse> getValidationRules(String scheduleId, String includeQuery) {
+        return service.getValidationRules(scheduleId, includeQuery);
     }
 
     // Network Util

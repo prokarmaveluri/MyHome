@@ -25,6 +25,7 @@ public class Appointment implements Parcelable, Comparable {
     public String FacilityLat;
     public String FacilityLong;
     public String RegistrationUrl;
+    public String ScheduleId;
     public String FullAddress;
 
     @Override
@@ -45,6 +46,7 @@ public class Appointment implements Parcelable, Comparable {
         dest.writeString(this.FacilityLat);
         dest.writeString(this.FacilityLong);
         dest.writeString(this.RegistrationUrl);
+        dest.writeString(this.ScheduleId);
         dest.writeString(this.FullAddress);
     }
 
@@ -63,6 +65,7 @@ public class Appointment implements Parcelable, Comparable {
         this.FacilityLat = in.readString();
         this.FacilityLong = in.readString();
         this.RegistrationUrl = in.readString();
+        this.ScheduleId = in.readString();
         this.FullAddress = in.readString();
     }
 

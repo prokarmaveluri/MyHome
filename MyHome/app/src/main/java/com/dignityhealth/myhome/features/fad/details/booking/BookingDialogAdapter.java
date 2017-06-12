@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.fad.details.booking.req.RegValidationResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -38,12 +40,14 @@ public class BookingDialogAdapter extends PagerAdapter {
 
     private ViewGroup insuranceLayout;
     private ViewGroup personalLayout;
+    private ProgressBar progressBar;
 
     TextInputLayout caregiverLayout;
     TextInputEditText caregiverName;
     TextInputEditText firstName;
     TextInputEditText lastName;
     TextInputEditText preferredName;
+    TextView genderLabel;
     Spinner gender;
     TextView areYouPregnantLabel;
     RadioGroup areYouPregnantGroup;
@@ -57,9 +61,11 @@ public class BookingDialogAdapter extends PagerAdapter {
     TextInputEditText zip;
     TextInputEditText phone;
     TextInputEditText email;
+    TextView translatorLabel;
     RadioGroup translatorGroup;
     TextInputLayout translatorLanguageLayout;
     TextInputEditText translatorLanguage;
+    TextView assistanceLabel;
     RadioGroup assistanceGroup;
     EditText reasonForVisit;
 
@@ -170,6 +176,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         firstName = (TextInputEditText) personalLayout.findViewById(R.id.first_name);
         lastName = (TextInputEditText) personalLayout.findViewById(R.id.last_name);
         preferredName = (TextInputEditText) personalLayout.findViewById(R.id.preferred_name);
+        genderLabel = (TextView) personalLayout.findViewById(R.id.gender_label);
         gender = (Spinner) personalLayout.findViewById(R.id.gender);
         areYouPregnantLabel = (TextView) personalLayout.findViewById(R.id.pregnant_label);
         areYouPregnantGroup = (RadioGroup) personalLayout.findViewById(R.id.group_pregnant);
@@ -183,12 +190,16 @@ public class BookingDialogAdapter extends PagerAdapter {
         zip = (TextInputEditText) personalLayout.findViewById(R.id.zip);
         phone = (TextInputEditText) personalLayout.findViewById(R.id.phone);
         email = (TextInputEditText) personalLayout.findViewById(R.id.email);
+        translatorLabel = (TextView) personalLayout.findViewById(R.id.translator_label);
         translatorGroup = (RadioGroup) personalLayout.findViewById(R.id.group_translator);
         translatorLanguageLayout = (TextInputLayout) personalLayout.findViewById(R.id.translator_language_layout);
         translatorLanguage = (TextInputEditText) personalLayout.findViewById(R.id.translator_language);
+        assistanceLabel = (TextView) personalLayout.findViewById(R.id.assistance_label);
         assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_asistance);
         reasonForVisit = (EditText) personalLayout.findViewById(R.id.booking_reason);
+        progressBar = (ProgressBar) personalLayout.findViewById(R.id.progress_bar);
 
+        updateVisibility(true);
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -363,6 +374,50 @@ public class BookingDialogAdapter extends PagerAdapter {
         if (formsProfile.email != null) {
             email.setText(formsProfile.email);
         }
+    }
+
+    public void setupValidationRules(RegValidationResponse regValidationResponse) {
+        updateVisibility(false);
+
+        if (regValidationResponse != null) {
+            //Do stuff with validation rules here...
+        }
+    }
+
+    /**
+     * Updates the visibility of the views depending on the status of loading the validation rules
+     *
+     * @param isLoading
+     */
+    private void updateVisibility(boolean isLoading) {
+        caregiverLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        caregiverName.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        firstName.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        lastName.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        preferredName.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        genderLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        gender.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        areYouPregnantLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        areYouPregnantGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        weeksPregnantLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        weeksPregnant.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        dateOfBirth.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        address.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        address2.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        city.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        state.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        zip.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        phone.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        email.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        translatorLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        translatorGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        translatorLanguageLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        translatorLanguage.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        assistanceLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        assistanceGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        reasonForVisit.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+
+        progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 
     /**

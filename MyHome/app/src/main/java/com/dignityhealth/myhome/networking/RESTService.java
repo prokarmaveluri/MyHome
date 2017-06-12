@@ -110,6 +110,6 @@ public interface RESTService {
 
     // include = insurance,schedule-properties
     @GET(RESTConstants.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION)
-    Call<RegValidationResponse> getValidation(@Path("scheduleID") String scheduleId,
+    Call<RegValidationResponse> getValidationRules(@Path("scheduleID") String scheduleId,
                                               @Query("include") String include);
 }
