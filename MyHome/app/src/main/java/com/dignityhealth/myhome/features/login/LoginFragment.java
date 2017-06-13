@@ -380,6 +380,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     /**
      * validate inputs for login
+     *
      * @return
      */
     private boolean isAllInputsValid() {
@@ -417,6 +418,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     /**
      * update login button state
+     *
      * @param isEnabled
      */
     private void updateButtonState(boolean isEnabled) {
@@ -500,6 +502,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 CookieHandler.setDefault(manager);
                 urlConnection.setInstanceFollowRedirects(false);
                 urlConnection.connect();
+
+                Timber.i("Session, Response Code " + urlConnection.getResponseCode());
 
                 String location = urlConnection.getHeaderField("Location");
                 List<String> setCookie = urlConnection.getHeaderFields().get("Set-Cookie");
