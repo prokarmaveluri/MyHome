@@ -49,10 +49,13 @@ public class InsuranceProvider implements Parcelable {
      */
     public static InsuranceProvider copy(InsuranceProvider otherInsuranceProvider) {
         InsuranceProvider insuranceProvider = new InsuranceProvider();
-        insuranceProvider.providerName = otherInsuranceProvider.providerName;
-        insuranceProvider.insurancePlan = otherInsuranceProvider.insurancePlan;
-        insuranceProvider.groupNumber = otherInsuranceProvider.groupNumber;
-        insuranceProvider.memberNumber = otherInsuranceProvider.memberNumber;
+
+        if(otherInsuranceProvider != null) {
+            insuranceProvider.providerName = otherInsuranceProvider.providerName;
+            insuranceProvider.insurancePlan = otherInsuranceProvider.insurancePlan;
+            insuranceProvider.groupNumber = otherInsuranceProvider.groupNumber;
+            insuranceProvider.memberNumber = otherInsuranceProvider.memberNumber;
+        }
 
         return insuranceProvider;
     }

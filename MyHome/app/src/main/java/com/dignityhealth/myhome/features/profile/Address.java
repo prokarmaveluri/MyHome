@@ -103,12 +103,15 @@ public class Address implements Parcelable {
      */
     public static Address copy(Address otherAddress) {
         Address address = new Address();
-        address.line1 = otherAddress.line1;
-        address.line2 = otherAddress.line2;
-        address.city = otherAddress.city;
-        address.stateOrProvince = otherAddress.stateOrProvince;
-        address.zipCode = otherAddress.zipCode;
-        address.countryCode = otherAddress.countryCode;
+
+        if (otherAddress != null) {
+            address.line1 = otherAddress.line1;
+            address.line2 = otherAddress.line2;
+            address.city = otherAddress.city;
+            address.stateOrProvince = otherAddress.stateOrProvince;
+            address.zipCode = otherAddress.zipCode;
+            address.countryCode = otherAddress.countryCode;
+        }
 
         return address;
     }
