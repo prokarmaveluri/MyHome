@@ -197,7 +197,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         translatorLanguageLayout = (TextInputLayout) personalLayout.findViewById(R.id.translator_language_layout);
         translatorLanguage = (TextInputEditText) personalLayout.findViewById(R.id.translator_language);
         assistanceLabel = (TextView) personalLayout.findViewById(R.id.assistance_label);
-        assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_asistance);
+        assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_assistance);
         reasonForVisit = (EditText) personalLayout.findViewById(R.id.booking_reason);
         progressBar = (ProgressBar) personalLayout.findViewById(R.id.progress_bar);
 
@@ -428,7 +428,7 @@ public class BookingDialogAdapter extends PagerAdapter {
     /**
      * Updates the visibility of the views depending on the status of loading the validation rules
      *
-     * @param isLoading
+     * @param isLoading should we show the loading view or not
      */
     private void updateVisibility(boolean isLoading) {
         caregiverLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
@@ -475,64 +475,100 @@ public class BookingDialogAdapter extends PagerAdapter {
 //            formsProfile.insuranceProvider = new InsuranceProvider();
 //        }
 
-        if (firstName.getText() != null && !firstName.getText().toString().isEmpty()) {
+        if (caregiverName.getVisibility() == View.VISIBLE && caregiverName.getText() != null && !caregiverName.getText().toString().isEmpty()) {
+            formsProfile.primaryCaregiverName = caregiverName.getText().toString().trim();
+        }
+
+        if (firstName.getVisibility() == View.VISIBLE && firstName.getText() != null && !firstName.getText().toString().isEmpty()) {
             formsProfile.firstName = firstName.getText().toString().trim();
         }
 
-        if (lastName.getText() != null && !lastName.getText().toString().isEmpty()) {
+        if (lastName.getVisibility() == View.VISIBLE && lastName.getText() != null && !lastName.getText().toString().isEmpty()) {
             formsProfile.lastName = lastName.getText().toString().trim();
         }
 
-        if (preferredName.getText() != null && !preferredName.getText().toString().isEmpty()) {
+        if (preferredName.getVisibility() == View.VISIBLE && preferredName.getText() != null && !preferredName.getText().toString().isEmpty()) {
             formsProfile.preferredName = preferredName.getText().toString().trim();
         }
 
-        if (!gender.getSelectedItem().toString().isEmpty()) {
+        if (gender.getVisibility() == View.VISIBLE && !gender.getSelectedItem().toString().isEmpty()) {
             formsProfile.gender = gender.getSelectedItem().toString().trim();
         }
 
-        if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().isEmpty()) {
+        if (areYouPregnantGroup.getVisibility() == View.VISIBLE) {
+            if (areYouPregnantGroup.getCheckedRadioButtonId() == R.id.radio_pregnant) {
+                formsProfile.isPregnant = true;
+            } else {
+                formsProfile.isPregnant = false;
+            }
+        }
+
+        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null && !weeksPregnant.getText().toString().isEmpty()) {
+            formsProfile.weeksPregnant = weeksPregnant.getText().toString().trim();
+        }
+
+        if (dateOfBirth.getVisibility() == View.VISIBLE && dateOfBirth.getText() != null && !dateOfBirth.getText().toString().isEmpty()) {
             formsProfile.dateOfBirth = DateUtil.convertReadableToUTC(dateOfBirth.getText().toString().trim());
         }
 
-        if (address.getText() != null && !address.getText().toString().isEmpty()) {
+        if (address.getVisibility() == View.VISIBLE && address.getText() != null && !address.getText().toString().isEmpty()) {
             formsProfile.address.line1 = address.getText().toString().trim();
         }
 
-        if (address2.getText() != null && !address2.getText().toString().isEmpty()) {
+        if (address2.getVisibility() == View.VISIBLE && address2.getText() != null && !address2.getText().toString().isEmpty()) {
             formsProfile.address.line2 = address2.getText().toString().trim();
         }
 
-        if (city.getText() != null && !city.getText().toString().isEmpty()) {
+        if (city.getVisibility() == View.VISIBLE && city.getText() != null && !city.getText().toString().isEmpty()) {
             formsProfile.address.city = city.getText().toString().trim();
         }
 
-        if (!state.getSelectedItem().toString().isEmpty() && state.getSelectedItemPosition() != 0) {
+        if (state.getVisibility() == View.VISIBLE && !state.getSelectedItem().toString().isEmpty() && state.getSelectedItemPosition() != 0) {
             formsProfile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 
-        if (zip.getText() != null && !zip.getText().toString().isEmpty()) {
+        if (zip.getVisibility() == View.VISIBLE && zip.getText() != null && !zip.getText().toString().isEmpty()) {
             formsProfile.address.zipCode = zip.getText().toString().trim();
         }
 
         //Make sure to strip phone number of any non-digits
-        if (phone.getText() != null && !phone.getText().toString().isEmpty()) {
+        if (phone.getVisibility() == View.VISIBLE && phone.getText() != null && !phone.getText().toString().isEmpty()) {
             formsProfile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
         }
 
-        if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().isEmpty()) {
+        if (insuranceProvider.getVisibility() == View.VISIBLE && insuranceProvider.getText() != null && !insuranceProvider.getText().toString().isEmpty()) {
             formsProfile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();
         }
 
-        if (memberId.getText() != null && !memberId.getText().toString().isEmpty()) {
+        if (memberId.getVisibility() == View.VISIBLE && memberId.getText() != null && !memberId.getText().toString().isEmpty()) {
             formsProfile.insuranceProvider.memberNumber = memberId.getText().toString().trim();
         }
 
-        if (group.getText() != null && !group.getText().toString().isEmpty()) {
+        if (group.getVisibility() == View.VISIBLE && group.getText() != null && !group.getText().toString().isEmpty()) {
             formsProfile.insuranceProvider.groupNumber = group.getText().toString().trim();
         }
 
-        if (reasonForVisit.getText() != null && !reasonForVisit.getText().toString().isEmpty()) {
+        if (translatorGroup.getVisibility() == View.VISIBLE) {
+            if (translatorGroup.getCheckedRadioButtonId() == R.id.translator_needed) {
+                formsProfile.translationNeeded = true;
+            } else {
+                formsProfile.translationNeeded = false;
+            }
+        }
+
+        if (translatorLanguage.getVisibility() == View.VISIBLE && translatorLanguage.getText() != null && !translatorLanguage.getText().toString().isEmpty()) {
+            formsProfile.translatorLanguage = translatorLanguage.getText().toString().trim();
+        }
+
+        if (assistanceGroup.getVisibility() == View.VISIBLE) {
+            if (assistanceGroup.getCheckedRadioButtonId() == R.id.assistance_needed) {
+                formsProfile.assistanceNeeded = true;
+            } else {
+                formsProfile.assistanceNeeded = false;
+            }
+        }
+
+        if (reasonForVisit.getVisibility() == View.VISIBLE && reasonForVisit.getText() != null && !reasonForVisit.getText().toString().isEmpty()) {
             formsProfile.reasonForVisit = reasonForVisit.getText().toString().trim();
         }
 

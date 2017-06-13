@@ -357,14 +357,14 @@
             android:textSize="13sp" />
 
         <RadioGroup
-            android:id="@+id/group_asistance"
+            android:id="@+id/group_assistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/asistance_not_needed"
+                android:id="@+id/assistance_not_needed"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -373,7 +373,7 @@
                 android:textSize="13sp" />
 
             <RadioButton
-                android:id="@+id/asistance_needed"
+                android:id="@+id/assistance_needed"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
