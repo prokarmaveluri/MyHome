@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.dignityhealth.myhome.features.fad.details.booking.req.RegIncluded;
 import com.dignityhealth.myhome.features.fad.details.booking.req.RegValidationResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,14 +34,58 @@ public class ValidationUtil {
     public static final String FIELD_WEEKS_PREGNANT = "weeks-pregnant";
     public static final String FIELD_ZIP = "zip";
 
+    /**
+     * Grabs the enabled fields from a RegValidationResponse
+     *
+     * @param regValidationResponse
+     * @return an array of all the fields enabled
+     */
     @Nullable
-    public static List<String> getEnabledFields(RegValidationResponse regValidationResponse){
+    public static List<String> getEnabledFields(RegValidationResponse regValidationResponse) {
         for (RegIncluded include : regValidationResponse.getValue().getIncluded()) {
-            if(include.getType().equalsIgnoreCase(ValidationUtil.TYPE_ENABLED_FIELDS)){
+            if (include.getType().equalsIgnoreCase(ValidationUtil.TYPE_ENABLED_FIELDS)) {
                 return include.getAttributes().getFields();
             }
         }
 
         return null;
     }
+
+    /**
+     * Grabs the validation rules from a RegValidationResponse
+     *
+     * @param regValidationResponse
+     * @return an array of all the validations
+     */
+    public static ArrayList<RegIncluded> getValidations(final RegValidationResponse regValidationResponse) {
+        ArrayList<RegIncluded> validations = new ArrayList<>();
+
+        for (RegIncluded include : regValidationResponse.getValue().getIncluded()) {
+            if (include.getType().equalsIgnoreCase(ValidationUtil.TYPE_VALIDATIONS)) {
+                validations.add(include);
+            }
+        }
+
+        return validations;
+    }
+
+    /**
+     * Grabs all the required fields from a RegValidationResponse
+     *
+     * @param regValidationResponse
+     * @return an array of the fields that don't allow blanks or nulls
+     */
+    public static ArrayList<String> getRequired(final RegValidationResponse regValidationResponse) {
+        ArrayList<String> requiredFields = new ArrayList<>();
+        ArrayList<RegIncluded> validations = getValidations(regValidationResponse);
+
+        for (RegIncluded validation : validations) {
+            if (!validation.getAttributes().getAllowBlank() || !validation.getAttributes().getAllowNil()) {
+                requiredFields.add(validation.getAttributes().getName()); //Is this supposed to be name? Be wary....
+            }
+        }
+
+        return requiredFields;
+    }
+
 }
