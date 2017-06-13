@@ -266,7 +266,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             dialog.setArguments(bundle);
             dialog.setTargetFragment(this, RECENT_PROVIDERS);
             dialog.show(getChildFragmentManager(), "List Dialog");
+        }else {
+            Toast.makeText(getActivity(), getString(R.string.no_recent_providers),
+                    Toast.LENGTH_LONG).show();
         }
+
     }
 
     private void startFilterDialog() {
