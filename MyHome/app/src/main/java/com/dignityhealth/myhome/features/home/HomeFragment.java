@@ -28,16 +28,16 @@ public class HomeFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         homeView = inflater.inflate(R.layout.home, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.home));
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.dashboard));
 
-        Button goToProfile = (Button) homeView.findViewById(R.id.button_profile);
+      /*  Button goToProfile = (Button) homeView.findViewById(R.id.button_profile);
         goToProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.PROFILE_VIEW);
             }
         });
-
+*/
         return homeView;
     }
 

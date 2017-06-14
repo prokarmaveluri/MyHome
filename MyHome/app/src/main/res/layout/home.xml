@@ -3,143 +3,307 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/lin_db_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="12dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="350dp"
+        android:paddingTop="20dp">
 
         <TextView
-            android:id="@+id/header"
-            style="@style/tradeGothicLTStdLight_14"
+            android:id="@+id/txt_db_title"
+            style="@style/tradeGothicLTStdBd2_36"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="Welcome Kevin!"
-            android:textSize="32sp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center|start"
+            android:text="Welcome home, Adam!"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
-        <TextView
-            android:id="@+id/subheader"
-            style="@style/tradeGothicLTStdLight_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/header"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="This is your new home for personalized health."
-            android:textSize="24sp"
-            tools:ignore="HardcodedText" />
-
-        <LinearLayout
-            android:id="@+id/dyk_tod_layout"
+        <RelativeLayout
+            android:id="@+id/rel_db_appoint_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subheader"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="25dp">
 
-            <RelativeLayout
-                android:id="@+id/dyk_layout"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="12dp"
-                android:layout_weight=".5"
-                android:background="@drawable/border"
-                android:padding="12dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:gravity="center|left">
 
-                <TextView
-                    android:id="@+id/dyk_header"
-                    style="@style/tradeGothicLTStdLight_14"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/did_you_know"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/dyk_text"
-                    style="@style/tradeGothicLTStdLight_14"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/dyk_header"
-                    android:text="Sun is good for you. Leave your apartment for once, Kevin..."
+                    android:src="@mipmap/appt_icon_orange"
+                    />
+
+                <TextView
+                    style="@style/tradeGothicLTStdLight_20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:lineSpacingExtra="10sp"
+                    android:text="Appointments"
+                    android:textColor="@color/db_gunmetal"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
-                <Button
-                    android:id="@+id/dyk_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/dyk_text"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/learn_more" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/tod_layout"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="12dp"
-                android:layout_weight=".5"
-                android:background="@drawable/border"
-                android:padding="12dp">
-
-                <TextView
-                    android:id="@+id/tod_header"
-                    style="@style/tradeGothicLTStdLight_14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tip_of_the_day"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tod_text"
-                    style="@style/tradeGothicLTStdLight_14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tod_header"
-                    android:text="If you want to be less pale, we recommend you don't live in your cubicle."
-                    tools:ignore="HardcodedText" />
-
-                <Button
-                    android:id="@+id/tod_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tod_text"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/learn_more" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dyk_tod_layout"
-            android:layout_margin="12dp"
-            android:background="@drawable/border"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            </LinearLayout>
 
             <TextView
-                style="@style/tradeGothicLTStdLight_14"
-                android:layout_width="0dp"
+                android:id="@+id/txt_db_appoint_viewall"
+                style="@style/tradeGothicLTStdLight_13"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:layout_weight=".5"
-                android:gravity="center"
-                android:text="Tell us a little more about yourself by updating your profile."
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="4dp"
+                android:gravity="center|left"
+                android:letterSpacing="-0.01"
+                android:lineSpacingExtra="12sp"
+                android:text="View All"
+                android:textColor="@color/db_deep_aqua"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 tools:ignore="HardcodedText" />
+        </RelativeLayout>
 
-            <Button
-                android:id="@+id/button_profile"
-                android:layout_width="0dp"
+        <TextView
+            android:id="@+id/txt_db_appoint_content"
+            style="@style/tradeGothicLTStdLight_16"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center|left"
+            android:lineSpacingExtra="22sp"
+            android:text="It looks like you have 2 appointments scheduled"
+            android:textColor="@color/db_gunmetal"
+            android:textSize="16sp"
+            tools:ignore="HardcodedText" />
+
+        <View
+            style="@style/dbDivider"
+            android:layout_marginEnd="2dp"
+            android:background="@color/db_white" />
+
+        <RelativeLayout
+            android:id="@+id/rel_db_appoint_item_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="3dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText">
+
+            <TextView
+                android:id="@+id/txt_db_appoint_item_date"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:layout_weight=".5"
-                android:text="@string/go_to_profile" />
+                android:layout_marginLeft="12dp"
+                android:gravity="center"
+                android:text="Thurs May 26"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:transitionName="@string/transition_appointment_date" />
+
+            <TextView
+                android:id="@+id/txt_db_appoint_item_time"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:maxWidth="285dp"
+                android:text="2:45 PM"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_db_appoint_item_facility"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_db_appoint_item_date"
+                android:layout_marginLeft="12dp"
+                android:maxWidth="285dp"
+                android:text="Sequoia Hospital"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_db_appoint_item_doctor_name"
+                style="@style/tradeGothicLTStdLight_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_db_appoint_item_facility"
+                android:layout_marginLeft="12dp"
+                android:maxWidth="285dp"
+                android:text="Dr. Steven M. Howard, MD"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/img_db_appoint_item_pin_icon"
+                android:layout_width="24dp"
+                android:layout_height="30dp"
+                android:layout_alignBottom="@id/txt_db_appoint_item_doctor_name"
+                android:layout_alignLeft="@id/txt_db_appoint_item_time"
+                android:layout_alignRight="@id/txt_db_appoint_item_time"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/map_blue"
+                android:transitionName="@string/transition_appointment_map_pin" />
+
+        </RelativeLayout>
+
+        <View
+            style="@style/dbDivider"
+            android:layout_marginTop="9dp"
+            android:background="@color/db_white" />
+
+        <Button
+            android:id="@+id/btn_db_schedule_appoint"
+            style="@style/db_scheduleButtonStyle"
+            android:layout_width="260dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="18dp"
+            android:letterSpacing="-0.01"
+            android:text="Schedule an Appointment"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center|left">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/find_care_icon_orange" />
+
+            <TextView
+                style="@style/tradeGothicLTStdLight_20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:lineSpacingExtra="10sp"
+                android:text="Find Care"
+                android:textColor="@color/db_gunmetal"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
-    </RelativeLayout>
+
+        <EditText
+            android:id="@+id/etxt_db_findcare"
+            style="@style/db_searchButtonStyle"
+            android:layout_width="338dp"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="13dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="Seach for a doctor, speciality or condition"
+            android:lineSpacingExtra="5sp"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="46dp"
+            android:gravity="center|left">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/news_icon_orange" />
+
+            <TextView
+                android:id="@+id/txt_db_didyouknow1"
+                style="@style/tradeGothicLTStdLight_20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:lineSpacingExtra="10sp"
+                android:text="Did you know?"
+                android:textColor="@color/db_gunmetal"
+                android:textSize="20sp"
+                android:textStyle="bold"
+
+                />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="182dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/sunset_picture"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/txt_db_didyouknow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="8sp"
+            android:text="The Power of Time Off: Why Vacations Are Essential."
+            android:textColor="@color/db_gunmetal"
+            android:textSize="22sp" />
+
+        <View
+            style="@style/dbDivider"
+            android:layout_marginTop="19dp"
+            android:background="@color/db_white" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="182dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="19dp"
+            android:background="@drawable/dog_picture"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="8sp"
+            android:text="A Little Bit of Color: Don't Let a Sunburn Get You Down This Summer."
+            android:textColor="@color/db_gunmetal"
+            android:textSize="22sp" />
+    </LinearLayout>
 </ScrollView>
