@@ -21,11 +21,12 @@
             android:textAlignment="center" />
 
         <TextView
+            android:id="@+id/update_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/updateTitle"
             android:padding="16dp"
-            android:text="@string/app_update_message"
+            android:text="@string/app_force_update_message"
             android:textAlignment="center" />
     </LinearLayout>
 
@@ -43,6 +44,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_boarder_teal"
             android:text="@string/cancel"
+            android:textAllCaps="false"
             android:textColor="@color/teal" />
 
         <Button
@@ -52,6 +54,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_boarder_teal"
             android:text="@string/ok"
+            android:textAllCaps="false"
             android:textColor="@color/teal" />
     </LinearLayout>
 </RelativeLayout>
