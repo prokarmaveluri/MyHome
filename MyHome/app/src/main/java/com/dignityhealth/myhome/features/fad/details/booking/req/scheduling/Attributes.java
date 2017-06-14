@@ -1,12 +1,15 @@
 package com.dignityhealth.myhome.features.fad.details.booking.req.scheduling;
 
+import com.dignityhealth.myhome.features.fad.Appointment;
+import com.dignityhealth.myhome.features.fad.Office;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
 
 /**
  * Created by kwelsh on 6/14/17.
  */
 
-public class Attributes extends Profile {
+public class Attributes {
     private String address;
     private String address2;
     private String appointmentAt;
@@ -17,7 +20,7 @@ public class Attributes extends Profile {
     private String email;
     private String firstName;
     private String gender;
-    private Boolean hasPhysician;
+    private boolean hasPhysician;
     private String insuranceGroupNumber;
     private String insuranceMemberNumber;
     private String insurancePlanName;
@@ -25,14 +28,14 @@ public class Attributes extends Profile {
     private String insurancePlanPhoneNumber;
     private String lastName;
     private String middleInitial;
-    private Boolean newPatient;
+    private boolean newPatient;
     private String patientComplaint;
     private String phoneNumber;
-    private Boolean pregnant;
-    private Boolean requiresStandingAssistance;
-    private Boolean requiresTranslator;
+    private boolean pregnant;
+    private boolean requiresStandingAssistance;
+    private boolean requiresTranslator;
     private String state;
-    private Boolean termsTos;
+    private boolean termsTos = true;
     private String translatorLanguage;
     private String weeksPregnant;
     private String zip;
@@ -43,7 +46,7 @@ public class Attributes extends Profile {
     private String facilityCity;
     private String facilityState;
     private String facilityZip;
-    private Boolean isCreatedByCaregiver;
+    private boolean isCreatedByCaregiver;
 
     public Attributes(){
 
@@ -89,36 +92,44 @@ public class Attributes extends Profile {
         this.isCreatedByCaregiver = isCreatedByCaregiver;
     }
 
-    public Attributes(Profile profile){
-        super(
-                profile.userId,
-                profile.userName,
-                profile.idLevel,
-                profile.isVerified,
-                profile.createdDate,
-                profile.firstName,
-                profile.middleInitial,
-                profile.lastName,
-                profile.preferredName,
-                profile.gender,
-                profile.dateOfBirth,
-                profile.address,
-                profile.phoneNumber,
-                profile.phoneNumberType,
-                profile.contactName,
-                profile.contactPhoneNumber,
-                profile.primaryCaregiverName,
-                profile.isPregnant,
-                profile.weeksPregnant,
-                profile.insuranceProvider,
-                profile.clientID,
-                profile.remoteID,
-                profile.email,
-                profile.reasonForVisit,
-                profile.translationNeeded,
-                profile.translatorLanguage,
-                profile.assistanceNeeded
-        );
+    public Attributes(ProviderDetailsResponse providerDetailsResponse, Office office, Profile profile, Appointment appointment, boolean isNewPatient, boolean isBookingForMe){
+        this.address = profile.address.line1;
+        this.address2 = profile.address.line2;
+        this.appointmentAt = appointment.Time;
+        this.appointmentType = appointment.AppointmentTypes.get(0).Id;
+        this.birthdate = profile.dateOfBirth;
+        this.caregiverName = profile.primaryCaregiverName;
+        this.city = profile.address.city;
+        this.email = profile.email;
+        this.firstName = profile.firstName;
+        this.gender = profile.gender;
+        this.hasPhysician = false;  //TODO This comes from where???
+        this.insuranceGroupNumber = profile.insuranceProvider.groupNumber;
+        this.insuranceMemberNumber = profile.insuranceProvider.memberNumber;
+        this.insurancePlanName = profile.insuranceProvider.insurancePlan;
+        this.insurancePlanPermalink = insurancePlanPermalink;       //TODO This comes from where???
+        this.insurancePlanPhoneNumber = insurancePlanPhoneNumber;   //TODO This comes from where???
+        this.lastName = profile.lastName;
+        this.middleInitial = profile.middleInitial;
+        this.newPatient = isNewPatient;
+        this.patientComplaint = profile.reasonForVisit;
+        this.phoneNumber = profile.phoneNumber;
+        this.pregnant = profile.isPregnant;
+        this.requiresStandingAssistance = profile.assistanceNeeded;
+        this.requiresTranslator = profile.translationNeeded;
+        this.state = profile.address.stateOrProvince;
+        this.termsTos = termsTos;   //TODO This comes from where???
+        this.translatorLanguage = profile.translatorLanguage;
+        this.weeksPregnant = profile.weeksPregnant;
+        this.zip = profile.address.zipCode;
+        this.doctorName = providerDetailsResponse.getDisplayFullName();
+        this.facilityName = office.getName();
+        this.facilityPhoneNumber = office.getPhone();
+        this.facilityAddressLine1 = appointment.FacilityAddress;
+        this.facilityCity = appointment.FacilityCity;
+        this.facilityState = appointment.FacilityState;
+        this.facilityZip = appointment.FacilityZip;
+        this.isCreatedByCaregiver = isBookingForMe;
     }
 
 

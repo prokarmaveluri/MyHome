@@ -10,6 +10,12 @@ public class Data {
     private Attributes attributes;
     private Relationships relationships;
 
+    public Data(String type, Attributes attributes, Relationships relationships) {
+        this.type = type;
+        this.attributes = attributes;
+        this.relationships = relationships;
+    }
+
     public String getType() {
         return type;
     }
@@ -35,49 +41,5 @@ public class Data {
     }
 
 
-    public class Relationships {
-        private Schedule schedule;
 
-        public Schedule getSchedule() {
-            return schedule;
-        }
-
-        public void setSchedule(Schedule schedule) {
-            this.schedule = schedule;
-        }
-    }
-
-    public class Schedule {
-        private AppointmentDetails data;
-
-        public AppointmentDetails getData() {
-            return data;
-        }
-
-        public void setData(AppointmentDetails data) {
-            this.data = data;
-        }
-    }
-
-    public class AppointmentDetails {
-        private String id;
-        private String type;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-    }
 }

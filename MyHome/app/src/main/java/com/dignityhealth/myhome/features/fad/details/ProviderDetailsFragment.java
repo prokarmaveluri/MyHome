@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
@@ -38,10 +39,13 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPerson
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeFragment;
+import com.dignityhealth.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
+import com.dignityhealth.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.DeviceDisplayManager;
@@ -53,6 +57,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -605,16 +610,45 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(bookingProfile, bookedAppointment);
-        bookingFragment.setBookingDoneInterface(this);
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.booking_frame, bookingFragment)
-                .addToBackStack(null)
-                .commit();
-        getChildFragmentManager().executePendingTransactions();
-        expandableLinearLayout.initLayout();
-        expandableLinearLayout.expand();
+        CreateAppointmentRequest request = new CreateAppointmentRequest(providerDetailsResponse, currentOffice, bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
+
+        Gson gson = new Gson();
+        Timber.i("Request = " + request);
+        Timber.i("Request JSON = " + gson.toJson(request));
+        NetworkManager.getInstance().createAppointment(AuthManager.getInstance().getBearerToken(), request).enqueue(new Callback<CreateAppointmentResponse>() {
+            @Override
+            public void onResponse(Call<CreateAppointmentResponse> call, Response<CreateAppointmentResponse> response) {
+                if (isAdded()) {
+                    if (response.isSuccessful()) {
+                        Timber.d("Successful Response\n" + response);
+
+                        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(bookingProfile, bookedAppointment);
+                        bookingFragment.setBookingDoneInterface(ProviderDetailsFragment.this);
+                        getChildFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.booking_frame, bookingFragment)
+                                .addToBackStack(null)
+                                .commit();
+                        getChildFragmentManager().executePendingTransactions();
+                        expandableLinearLayout.initLayout();
+                        expandableLinearLayout.expand();
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
+                        Toast.makeText(getActivity(), "Unable to book", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateAppointmentResponse> call, Throwable t) {
+                if (isAdded()) {
+                    Timber.e("Something failed! :/");
+                    Timber.e("Throwable = " + t);
+                    Toast.makeText(getActivity(), "Unable to book", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     @Override

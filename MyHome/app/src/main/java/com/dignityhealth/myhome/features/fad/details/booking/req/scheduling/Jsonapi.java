@@ -7,6 +7,10 @@ package com.dignityhealth.myhome.features.fad.details.booking.req.scheduling;
 public class Jsonapi {
     private String version;
 
+    public Jsonapi(String version) {
+        this.version = version;
+    }
+
     public String getVersion() {
         return version;
     }
