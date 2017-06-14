@@ -38,19 +38,19 @@ public class ProfileManager {
      */
     public static void queryProfile() {
         String bearerToken = AuthManager.getInstance().getBearerToken();
-        NetworkManager.getInstance().getProfile(bearerToken).enqueue(new Callback<Profile>() {
+        NetworkManager.getInstance().getProfile(bearerToken).enqueue(new Callback<ProfileResponse>() {
             @Override
-            public void onResponse(Call<Profile> call, Response<Profile> response) {
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
-                    ProfileManager.setProfile(response.body());
+                    ProfileManager.setProfile(response.body().result);
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
             }
 
             @Override
-            public void onFailure(Call<Profile> call, Throwable t) {
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
             }

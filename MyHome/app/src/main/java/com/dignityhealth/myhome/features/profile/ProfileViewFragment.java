@@ -147,14 +147,14 @@ public class ProfileViewFragment extends BaseFragment {
         viewProfile.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         errorText.setVisibility(View.GONE);
-        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
+        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
             @Override
-            public void onResponse(Call<Profile> call, Response<Profile> response) {
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
-                        ProfileManager.setProfile(response.body());
-                        updateProfileViews(response.body());
+                        ProfileManager.setProfile(response.body().result);
+                        updateProfileViews(response.body().result);
                         viewProfile.setVisibility(View.VISIBLE);
                         errorText.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
@@ -168,7 +168,7 @@ public class ProfileViewFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Profile> call, Throwable t) {
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);

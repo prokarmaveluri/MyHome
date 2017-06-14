@@ -16,6 +16,7 @@ import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
+import com.dignityhealth.myhome.features.profile.ProfileResponse;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.features.tos.Tos;
 import com.dignityhealth.myhome.utils.AppPreferences;
@@ -97,7 +98,7 @@ public class NetworkManager {
      * @param bearer the bearer token of the user whose Profile we want
      * @return a Profile object of the user
      */
-    public Call<Profile> getProfile(String bearer) {
+    public Call<ProfileResponse> getProfile(String bearer) {
         return service.getProfile(BEARER + bearer);
     }
 

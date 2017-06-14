@@ -168,14 +168,14 @@ public class ProfileEditFragment extends BaseFragment {
 
     private void getProfileInfo(String bearer) {
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<Profile>() {
+        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
             @Override
-            public void onResponse(Call<Profile> call, Response<Profile> response) {
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
-                        ProfileManager.setProfile(response.body());
-                        updateProfileViews(response.body());
+                        ProfileManager.setProfile(response.body().result);
+                        updateProfileViews(response.body().result);
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                     }
@@ -184,7 +184,7 @@ public class ProfileEditFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Profile> call, Throwable t) {
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     progress.setVisibility(View.GONE);

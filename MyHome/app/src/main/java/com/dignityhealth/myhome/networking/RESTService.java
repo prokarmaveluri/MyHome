@@ -15,6 +15,7 @@ import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
+import com.dignityhealth.myhome.features.profile.ProfileResponse;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.features.tos.Tos;
 import com.dignityhealth.myhome.utils.RESTConstants;
@@ -45,7 +46,7 @@ public interface RESTService {
     Call<Void> register(@Body EnrollmentRequest request);
 
     @GET(RESTConstants.CIAM_BASE_URL + "api/users/me")
-    Call<Profile> getProfile(@Header("Authorization") String bearer);
+    Call<ProfileResponse> getProfile(@Header("Authorization") String bearer);
 
     @PATCH(RESTConstants.CIAM_BASE_URL + "api/users/me")
     Call<Void> updateProfile(@Header("Authorization") String bearer, @Body Profile updatedProfileData);
