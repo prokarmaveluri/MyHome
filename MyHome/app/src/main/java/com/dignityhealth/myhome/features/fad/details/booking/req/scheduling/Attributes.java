@@ -4,48 +4,122 @@ import com.dignityhealth.myhome.features.fad.Appointment;
 import com.dignityhealth.myhome.features.fad.Office;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by kwelsh on 6/14/17.
  */
 
 public class Attributes {
+    @SerializedName("address")
     private String address;
+
+    @SerializedName("address2")
     private String address2;
+
+    @SerializedName("appointment-at")
     private String appointmentAt;
+
+    @SerializedName("appointment-type")
     private String appointmentType;
+
+    @SerializedName("birthdate")
     private String birthdate;
+
+    @SerializedName("caregiver-name")
     private String caregiverName;
+
+    @SerializedName("city")
     private String city;
+
+    @SerializedName("email")
     private String email;
+
+    @SerializedName("first-name")
     private String firstName;
+
+    @SerializedName("gender")
     private String gender;
+
+    @SerializedName("has-physician")
     private boolean hasPhysician;
+
+    @SerializedName("insurance-group-number")
     private String insuranceGroupNumber;
+
+    @SerializedName("insurance-member-number")
     private String insuranceMemberNumber;
+
+    @SerializedName("insurance-plan-name")
     private String insurancePlanName;
+
+    @SerializedName("insurance-plan-permalink")
     private String insurancePlanPermalink;
+
+    @SerializedName("insurance-plan-phone-number")
     private String insurancePlanPhoneNumber;
+
+    @SerializedName("last-name")
     private String lastName;
+
+    @SerializedName("middle-initial")
     private String middleInitial;
+
+    @SerializedName("new-patient")
     private boolean newPatient;
+
+    @SerializedName("patient-complaint")
     private String patientComplaint;
+
+    @SerializedName("phone-number")
     private String phoneNumber;
+
+    @SerializedName("pregnant")
     private boolean pregnant;
+
+    @SerializedName("requires-standing-assistance")
     private boolean requiresStandingAssistance;
+
+    @SerializedName("requires-translator")
     private boolean requiresTranslator;
+
+    @SerializedName("state")
     private String state;
+
+    @SerializedName("terms-tos")
     private boolean termsTos = true;
+
+    @SerializedName("translator-language")
     private String translatorLanguage;
+
+    @SerializedName("weeks-pregnant")
     private String weeksPregnant;
+
+    @SerializedName("zip")
     private String zip;
+
+    @SerializedName("doctor-name")
     private String doctorName;
+
+    @SerializedName("facility-name")
     private String facilityName;
+
+    @SerializedName("facility-phone-number")
     private String facilityPhoneNumber;
+
+    @SerializedName("facility-address-line1")
     private String facilityAddressLine1;
+
+    @SerializedName("facility-city")
     private String facilityCity;
+
+    @SerializedName("facility-state")
     private String facilityState;
+
+    @SerializedName("facility-zip")
     private String facilityZip;
+
+    @SerializedName("is-created-by-caregiver")
     private boolean isCreatedByCaregiver;
 
     public Attributes(){
@@ -107,7 +181,7 @@ public class Attributes {
         this.insuranceGroupNumber = profile.insuranceProvider.groupNumber;
         this.insuranceMemberNumber = profile.insuranceProvider.memberNumber;
         this.insurancePlanName = profile.insuranceProvider.insurancePlan;
-        this.insurancePlanPermalink = insurancePlanPermalink;       //TODO This comes from where???
+        this.insurancePlanPermalink = "aarp-pos";       //TODO This comes from where???
         this.insurancePlanPhoneNumber = insurancePlanPhoneNumber;   //TODO This comes from where???
         this.lastName = profile.lastName;
         this.middleInitial = profile.middleInitial;
@@ -129,7 +203,7 @@ public class Attributes {
         this.facilityCity = appointment.FacilityCity;
         this.facilityState = appointment.FacilityState;
         this.facilityZip = appointment.FacilityZip;
-        this.isCreatedByCaregiver = isBookingForMe;
+        this.isCreatedByCaregiver = !isBookingForMe;
     }
 
 

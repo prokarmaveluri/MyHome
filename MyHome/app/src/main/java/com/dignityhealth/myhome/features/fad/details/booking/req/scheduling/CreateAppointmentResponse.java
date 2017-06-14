@@ -1,5 +1,7 @@
 package com.dignityhealth.myhome.features.fad.details.booking.req.scheduling;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by cmajji on 6/8/17.
  */
@@ -14,9 +16,13 @@ public class CreateAppointmentResponse {
 
     public class Attributes {
 
+        @SerializedName("appointment-at")
         public String appointmentAt;
+        @SerializedName("appointment-type")
         public String appointmentType;
+        @SerializedName("confirmation-number")
         public String confirmationNumber;
+        @SerializedName("initials")
         public String initials;
 
         public String getAppointmentAt() {

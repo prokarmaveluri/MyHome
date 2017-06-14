@@ -58,6 +58,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -612,7 +613,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onClickBook() {
         CreateAppointmentRequest request = new CreateAppointmentRequest(providerDetailsResponse, currentOffice, bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Timber.i("Request = " + request);
         Timber.i("Request JSON = " + gson.toJson(request));
         NetworkManager.getInstance().createAppointment(AuthManager.getInstance().getBearerToken(), request).enqueue(new Callback<CreateAppointmentResponse>() {
