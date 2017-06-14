@@ -11,6 +11,13 @@ import java.util.Objects;
 
 public class Profile implements Parcelable {
 
+    //New Values from API change 6-12-2017
+    public String userId;
+    public String userName;
+    public String idLevel;
+    public boolean isVerified;
+    public String createdDate;
+
     public String firstName;
     public String middleInitial;
     public String lastName;
