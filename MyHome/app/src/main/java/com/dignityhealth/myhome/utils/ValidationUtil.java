@@ -2,8 +2,8 @@ package com.dignityhealth.myhome.utils;
 
 import android.support.annotation.Nullable;
 
-import com.dignityhealth.myhome.features.fad.details.booking.req.RegIncluded;
-import com.dignityhealth.myhome.features.fad.details.booking.req.RegValidationResponse;
+import com.dignityhealth.myhome.features.fad.details.booking.req.validation.RegIncluded;
+import com.dignityhealth.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 
 import java.util.ArrayList;
 import java.util.List;

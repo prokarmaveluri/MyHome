@@ -1,4 +1,4 @@
-package com.dignityhealth.myhome.features.fad.details.booking.req;
+package com.dignityhealth.myhome.features.fad.details.booking.req.scheduling;
 
 import com.dignityhealth.myhome.features.profile.Profile;
 

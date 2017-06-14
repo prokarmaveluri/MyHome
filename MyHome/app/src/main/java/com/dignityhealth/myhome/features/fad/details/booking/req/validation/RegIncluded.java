@@ -1,13 +1,14 @@
-package com.dignityhealth.myhome.features.fad.details.booking.req;
+package com.dignityhealth.myhome.features.fad.details.booking.req.validation;
 
 /**
  * Created by cmajji on 6/12/17.
  */
 
-public class RegData {
+public class RegIncluded {
 
     private String type;
     private String id;
+    private RegAttributes attributes;
 
     public String getType() {
         return type;
@@ -23,5 +24,13 @@ public class RegData {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public RegAttributes getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(RegAttributes attributes) {
+        this.attributes = attributes;
     }
 }

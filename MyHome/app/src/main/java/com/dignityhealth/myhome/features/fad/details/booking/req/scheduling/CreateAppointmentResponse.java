@@ -1,4 +1,4 @@
-package com.dignityhealth.myhome.features.fad.details.booking.req;
+package com.dignityhealth.myhome.features.fad.details.booking.req.scheduling;
 
 /**
  * Created by cmajji on 6/8/17.

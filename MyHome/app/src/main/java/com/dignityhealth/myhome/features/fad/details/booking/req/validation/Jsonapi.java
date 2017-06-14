@@ -1,4 +1,4 @@
-package com.dignityhealth.myhome.features.fad.details.booking.req;
+package com.dignityhealth.myhome.features.fad.details.booking.req.validation;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

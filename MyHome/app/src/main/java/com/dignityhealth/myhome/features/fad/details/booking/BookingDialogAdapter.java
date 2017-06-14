@@ -20,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.features.fad.details.booking.req.RegValidationResponse;
+import com.dignityhealth.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.utils.CommonUtil;

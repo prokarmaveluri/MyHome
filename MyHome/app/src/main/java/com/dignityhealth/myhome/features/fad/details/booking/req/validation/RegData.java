@@ -1,19 +1,12 @@
-package com.dignityhealth.myhome.features.fad.details.booking.req;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.dignityhealth.myhome.features.fad.details.booking.req.validation;
 
 /**
- * Created by kwelsh on 6/12/17.
+ * Created by cmajji on 6/12/17.
  */
 
-public class Data {
+public class RegData {
 
-    @SerializedName("type")
-    @Expose
     private String type;
-    @SerializedName("id")
-    @Expose
     private String id;
 
     public String getType() {
@@ -31,5 +24,4 @@ public class Data {
     public void setId(String id) {
         this.id = id;
     }
-
 }
