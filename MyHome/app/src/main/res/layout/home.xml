@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/lin_db_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="350dp"
+        android:paddingBottom="10dp"
         android:paddingTop="20dp">
 
         <TextView
@@ -18,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="11dp"
             android:layout_marginStart="10dp"
-            android:gravity="center|start"
+            android:gravity="center"
             android:text="Welcome home, Adam!"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
@@ -40,8 +41,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/appt_icon_orange"
-                    />
+                    android:src="@mipmap/appt_icon_orange" />
 
                 <TextView
                     style="@style/tradeGothicLTStdLight_20"
@@ -59,18 +59,16 @@
 
             <TextView
                 android:id="@+id/txt_db_appoint_viewall"
-                style="@style/tradeGothicLTStdLight_13"
+                style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="4dp"
-                android:gravity="center|left"
                 android:letterSpacing="-0.01"
                 android:lineSpacingExtra="12sp"
                 android:text="View All"
                 android:textColor="@color/db_deep_aqua"
-                android:textSize="18sp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
         </RelativeLayout>
@@ -82,7 +80,7 @@
             android:layout_height="38dp"
             android:layout_marginEnd="11dp"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="14dp"
             android:gravity="center|left"
             android:lineSpacingExtra="22sp"
             android:text="It looks like you have 2 appointments scheduled"
@@ -99,6 +97,7 @@
             android:id="@+id/rel_db_appoint_item_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
             android:layout_marginEnd="11dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="3dp"
@@ -114,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="Thurs May 26"
                 android:textSize="22sp"
@@ -127,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:maxWidth="285dp"
                 android:text="2:45 PM"
@@ -139,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txt_db_appoint_item_date"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
                 android:maxWidth="285dp"
                 android:text="Sequoia Hospital"
                 android:textSize="18sp"
@@ -193,6 +195,7 @@
             android:layout_marginLeft="1dp"
             android:layout_marginStart="11dp"
             android:layout_marginTop="30dp"
+            android:focusableInTouchMode="true"
             android:gravity="center|left">
 
             <ImageView
@@ -210,9 +213,7 @@
                 android:textColor="@color/db_gunmetal"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
-
 
         <EditText
             android:id="@+id/etxt_db_findcare"
@@ -223,8 +224,6 @@
             android:layout_marginEnd="11dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="13dp"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             android:hint="Seach for a doctor, speciality or condition"
             android:lineSpacingExtra="5sp"
             android:textSize="16sp" />
@@ -253,12 +252,9 @@
                 android:text="Did you know?"
                 android:textColor="@color/db_gunmetal"
                 android:textSize="20sp"
-                android:textStyle="bold"
-
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
-
 
         <ImageView
             android:layout_width="match_parent"
