@@ -23,17 +23,4 @@ public class CreateAppointmentRequest {
     public void setData(Data data) {
         this.data = data;
     }
-
-    public class Jsonapi {
-        private String version;
-
-        public String getVersion() {
-            return version;
-        }
-
-        public void setVersion(String version) {
-            this.version = version;
-        }
-
-    }
 }

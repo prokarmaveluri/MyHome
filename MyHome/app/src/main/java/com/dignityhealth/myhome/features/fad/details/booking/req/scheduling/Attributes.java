@@ -7,7 +7,6 @@ import com.dignityhealth.myhome.features.profile.Profile;
  */
 
 public class Attributes extends Profile {
-
     private String address;
     private String address2;
     private String appointmentAt;
@@ -45,6 +44,83 @@ public class Attributes extends Profile {
     private String facilityState;
     private String facilityZip;
     private Boolean isCreatedByCaregiver;
+
+    public Attributes(){
+
+    }
+
+    public Attributes(String address, String address2, String appointmentAt, String appointmentType, String birthdate, String caregiverName, String city, String email, String firstName, String gender, Boolean hasPhysician, String insuranceGroupNumber, String insuranceMemberNumber, String insurancePlanName, String insurancePlanPermalink, String insurancePlanPhoneNumber, String lastName, String middleInitial, Boolean newPatient, String patientComplaint, String phoneNumber, Boolean pregnant, Boolean requiresStandingAssistance, Boolean requiresTranslator, String state, Boolean termsTos, String translatorLanguage, String weeksPregnant, String zip, String doctorName, String facilityName, String facilityPhoneNumber, String facilityAddressLine1, String facilityCity, String facilityState, String facilityZip, Boolean isCreatedByCaregiver) {
+        this.address = address;
+        this.address2 = address2;
+        this.appointmentAt = appointmentAt;
+        this.appointmentType = appointmentType;
+        this.birthdate = birthdate;
+        this.caregiverName = caregiverName;
+        this.city = city;
+        this.email = email;
+        this.firstName = firstName;
+        this.gender = gender;
+        this.hasPhysician = hasPhysician;
+        this.insuranceGroupNumber = insuranceGroupNumber;
+        this.insuranceMemberNumber = insuranceMemberNumber;
+        this.insurancePlanName = insurancePlanName;
+        this.insurancePlanPermalink = insurancePlanPermalink;
+        this.insurancePlanPhoneNumber = insurancePlanPhoneNumber;
+        this.lastName = lastName;
+        this.middleInitial = middleInitial;
+        this.newPatient = newPatient;
+        this.patientComplaint = patientComplaint;
+        this.phoneNumber = phoneNumber;
+        this.pregnant = pregnant;
+        this.requiresStandingAssistance = requiresStandingAssistance;
+        this.requiresTranslator = requiresTranslator;
+        this.state = state;
+        this.termsTos = termsTos;
+        this.translatorLanguage = translatorLanguage;
+        this.weeksPregnant = weeksPregnant;
+        this.zip = zip;
+        this.doctorName = doctorName;
+        this.facilityName = facilityName;
+        this.facilityPhoneNumber = facilityPhoneNumber;
+        this.facilityAddressLine1 = facilityAddressLine1;
+        this.facilityCity = facilityCity;
+        this.facilityState = facilityState;
+        this.facilityZip = facilityZip;
+        this.isCreatedByCaregiver = isCreatedByCaregiver;
+    }
+
+    public Attributes(Profile profile){
+        super(
+                profile.userId,
+                profile.userName,
+                profile.idLevel,
+                profile.isVerified,
+                profile.createdDate,
+                profile.firstName,
+                profile.middleInitial,
+                profile.lastName,
+                profile.preferredName,
+                profile.gender,
+                profile.dateOfBirth,
+                profile.address,
+                profile.phoneNumber,
+                profile.phoneNumberType,
+                profile.contactName,
+                profile.contactPhoneNumber,
+                profile.primaryCaregiverName,
+                profile.isPregnant,
+                profile.weeksPregnant,
+                profile.insuranceProvider,
+                profile.clientID,
+                profile.remoteID,
+                profile.email,
+                profile.reasonForVisit,
+                profile.translationNeeded,
+                profile.translatorLanguage,
+                profile.assistanceNeeded
+        );
+    }
+
 
     public String getAddress() {
         return address;
