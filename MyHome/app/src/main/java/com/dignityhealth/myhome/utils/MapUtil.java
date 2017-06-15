@@ -145,8 +145,10 @@ public class MapUtil {
     public static void setMarkerSelectedIcon(Context context, ArrayList<Marker> markers, String address) {
         for (Marker marker : markers) {
             if (marker.getSnippet().equalsIgnoreCase(address)) {
-                marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_blue));
+                //Marker that is currently selected
+                marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
             } else {
+                //Marker that isn't selected
                 marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
             }
         }
