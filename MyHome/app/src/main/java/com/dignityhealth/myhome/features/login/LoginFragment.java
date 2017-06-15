@@ -41,6 +41,7 @@ import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 import com.dignityhealth.myhome.utils.ValidateInputsOnFocusChange;
 
 import java.io.IOException;
@@ -180,6 +181,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                         LoginRequest request = getRequest();
                         if (null != request) {
                             showView(false);
+                            TealiumUtil.trackEvent(Constants.SIGN_IN_EVENT, null);
                             presenter.signIn(request);
                         }
                     } else {

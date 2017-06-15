@@ -222,47 +222,51 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             return;
                         }
 
-                        showStatsView();
-                        updateStatsView(providerDetailsResponse);
+                        try {
+                            showStatsView();
+                            updateStatsView(providerDetailsResponse);
 
-                        MapUtil.clearMarkers(getContext(), providerMap);
-                        markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
-                            @Override
-                            public boolean onMarkerClick(Marker marker) {
-                                handleMarkerClick(marker);
-                                //marker.showInfoWindow(); Won't fit with the zoom if states apart
-                                return true;
-                            }
-                        });
+                            MapUtil.clearMarkers(getContext(), providerMap);
+                            markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(),
+                                    BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+                                        @Override
+                                        public boolean onMarkerClick(Marker marker) {
+                                            handleMarkerClick(marker);
+                                            //marker.showInfoWindow(); Won't fit with the zoom if states apart
+                                            return true;
+                                        }
+                                    });
 
-                        MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
+                            MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
 
-                        //Setup Booking
-                        currentOffice = providerDetailsResponse.getOffices().get(0);
-                        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
-                        bookAppointment.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (isBookingAppointment) {
-                                    expandableLinearLayout.collapse();
-                                } else {
-                                    bookAppointment.setVisibility(View.INVISIBLE);
-                                    expandableLinearLayout.expand();
+                            //Setup Booking
+                            currentOffice = providerDetailsResponse.getOffices().get(0);
+                            bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+                            bookAppointment.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (isBookingAppointment) {
+                                        expandableLinearLayout.collapse();
+                                    } else {
+                                        bookAppointment.setVisibility(View.INVISIBLE);
+                                        expandableLinearLayout.expand();
+                                    }
+
+                                    isBookingAppointment = !isBookingAppointment;
                                 }
+                            });
 
-                                isBookingAppointment = !isBookingAppointment;
-                            }
-                        });
-
-                        BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
-                        bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.booking_frame, bookingFragment)
-                                .addToBackStack(null)
-                                .commit();
-                        getChildFragmentManager().executePendingTransactions();
-                        expandableLinearLayout.initLayout();
+                            BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+                            bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+                            getChildFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.booking_frame, bookingFragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                            getChildFragmentManager().executePendingTransactions();
+                            expandableLinearLayout.initLayout();
+                        } catch (NullPointerException ex) {
+                        }
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                         showStatsUnavailable();

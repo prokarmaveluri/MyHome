@@ -1,7 +1,11 @@
 package com.dignityhealth.myhome.features.profile;
 
+import com.dignityhealth.myhome.features.appointments.Appointment;
+import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,6 +18,7 @@ import timber.log.Timber;
 
 public class ProfileManager {
     private static Profile profile = null;
+    public static ArrayList<Appointment> appointments = null;
 
     /**
      * Requests the Profile in the Singleton
@@ -31,6 +36,24 @@ public class ProfileManager {
      */
     public static void setProfile(Profile profile) {
         ProfileManager.profile = profile;
+    }
+
+    /**
+     * Requests the Appointments in the Singleton
+     *
+     * @return the Appointments list stored in the Singleton
+     */
+    public static ArrayList<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    /**
+     * Sets the Singleton to the given appoinments
+     *
+     * @param appointments the Appointments object to store as a singleton. Can be null to clear Singleton.
+     */
+    public static void setAppointments(ArrayList<Appointment> appointments) {
+        ProfileManager.appointments = appointments;
     }
 
     /**
@@ -55,5 +78,35 @@ public class ProfileManager {
                 Timber.e("Throwable = " + t);
             }
         });
+    }
+
+    public static void getAppointmentInfo(String bearer) {
+
+        Timber.i("Session bearer " + bearer);
+        NetworkManager.getInstance().getAppointments(bearer).enqueue(new Callback<AppointmentResponse>() {
+            @Override
+            public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        AppointmentResponse result = response.body();
+                        setAppointments(result.result.appointments);
+                    }catch (NullPointerException ex){
+                    }
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppointmentResponse> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+            }
+        });
+    }
+
+    public static void clearSessionData() {
+        profile = null;
+        appointments = null;
     }
 }

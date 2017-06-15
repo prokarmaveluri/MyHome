@@ -29,7 +29,7 @@ public class AppointmentResponse {
                 '}';
     }
 
-    class Result {
+    public class Result {
         public ArrayList<Appointment> appointments;
 
         @Override
@@ -40,7 +40,7 @@ public class AppointmentResponse {
         }
     }
 
-    class Errors {
+    public class Errors {
         public String code;
         public String message;
 
@@ -53,7 +53,7 @@ public class AppointmentResponse {
         }
     }
 
-    class Warnings {
+    public class Warnings {
         public String code;
         public String message;
 

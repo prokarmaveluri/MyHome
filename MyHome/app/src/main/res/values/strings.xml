@@ -26,7 +26,7 @@
     <string name="no_network_msg">Please check your network, try again!</string>
 
     <string name="enrollment_success_dialog_tittle">Validation sent to email address entered.</string>
-    <string name="enrollment_success_dialog_msg">Validation must be completed in 30days or you will be prompted to validate again.</string>
+    <string name="enrollment_success_dialog_msg">Validation must be completed in 30 days or you will be prompted to validate again.</string>
     <string name="sign_out">Sign Out</string>
     <string name="book_an_appointment">Book an Appointment</string>
     <string name="book_appointment">Book Appointment</string>

@@ -19,6 +19,7 @@ import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -139,6 +140,7 @@ public class AppointmentsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        TealiumUtil.trackView(Constants.APPOINTMENTS_SCREEN, null);
         ((NavigationActivity) getActivity()).getNavigationActionBar().show();
         ((NavigationActivity) getActivity()).hideHomeButton();
     }

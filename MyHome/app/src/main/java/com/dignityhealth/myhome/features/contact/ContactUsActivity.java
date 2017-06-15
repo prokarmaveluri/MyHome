@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseActivity;
 import com.dignityhealth.myhome.databinding.ActivityContactUsBinding;
+import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 
 
 /*
@@ -55,5 +57,11 @@ public class ContactUsActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.CONTACT_US_SCREEN, null);
     }
 }

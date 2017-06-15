@@ -17,6 +17,7 @@ import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -125,5 +126,11 @@ public class TosActivity extends BaseActivity {
         intent.putExtra("ENROLL_SUCCESS", true);
         startActivity(intent);
         finishAffinity();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.TOS_SCREEN, null);
     }
 }

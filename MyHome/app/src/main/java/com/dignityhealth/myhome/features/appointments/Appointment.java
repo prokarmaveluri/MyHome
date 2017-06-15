@@ -88,7 +88,7 @@ public class Appointment implements Parcelable, Comparable {
         dest.writeParcelable(this.facilityAddress, flags);
     }
 
-    protected Appointment(Parcel in) {
+    public Appointment(Parcel in) {
         this.appointmentId = in.readInt();
         this.isActive = in.readByte() != 0;
         this.username = in.readString();

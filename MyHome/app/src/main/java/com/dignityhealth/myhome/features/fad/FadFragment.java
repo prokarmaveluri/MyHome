@@ -43,6 +43,7 @@ import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 import com.dignityhealth.myhome.utils.SessionUtil;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
@@ -70,7 +71,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     private static final int FILTER_REQUEST = 100;
     private static final int RECENT_PROVIDERS = 200;
-    private static String currentSearchQuery = "";
+    public static String currentSearchQuery = "";
     private static int currentPageSelection = 0;
 
     private FragmentFadBinding binding;
@@ -120,8 +121,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setOnFocusChangeListener(this);
         binding.searchQuery.addTextChangedListener(this);
 
-        if (providerList.size() <= 0)
+        if (providerList.size() <= 0 && currentSearchQuery.length() <= 0) {
             searchForQuery(Constants.DEFAULT_FAD_QUERY, RESTConstants.PROVIDER_DISTANCE);
+        } else if (currentSearchQuery.length() > 0 && !currentSearchQuery.contains(Constants.DEFAULT_FAD_QUERY)) {
+            searchForQuery(currentSearchQuery, RESTConstants.PROVIDER_DISTANCE);
+        }
         drawableClickEvent();
         return binding.getRoot();
     }
@@ -265,8 +269,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             bundle.putBoolean("PROVIDER_RECENT", true);
             dialog.setArguments(bundle);
             dialog.setTargetFragment(this, RECENT_PROVIDERS);
-            dialog.show(getChildFragmentManager(), "List Dialog");
-        }else {
+            dialog.show(getFragmentManager(), "List Dialog");
+        } else {
             Toast.makeText(getActivity(), getString(R.string.no_recent_providers),
                     Toast.LENGTH_LONG).show();
         }
@@ -288,7 +292,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, FILTER_REQUEST);
-        dialog.show(getChildFragmentManager(), "Filter Dialog");
+        dialog.show(getFragmentManager(), "Filter Dialog");
     }
 
     private void clearFilters() {
@@ -610,6 +614,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Override
     public void onPageSelected(int position) {
         currentPageSelection = position;
+        if (position == 0) {
+            TealiumUtil.trackView(Constants.FAD_LIST_SCREEN, null);
+        } else {
+            TealiumUtil.trackView(Constants.FAD_MAP_SCREEN, null);
+        }
     }
 
     @Override
@@ -665,7 +674,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     /**
-     *
      * @param provider
      */
     private void providerDetails(Provider provider) {
