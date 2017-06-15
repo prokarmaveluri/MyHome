@@ -107,22 +107,26 @@ public class MapUtil {
      * @return
      */
     public static CameraUpdate calculateZoom(Context context, ArrayList<Marker> markers) {
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        try {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-        //the include method will calculate the min and max bound.
-        for (Marker marker : markers) {
-            builder.include(marker.getPosition());
+            //the include method will calculate the min and max bound.
+            for (Marker marker : markers) {
+                builder.include(marker.getPosition());
+            }
+
+            LatLngBounds bounds = builder.build();
+
+            int width = context.getResources().getDisplayMetrics().widthPixels;
+            //int height = context.getResources().getDisplayMetrics().heightPixels; //only if map is using entire height
+            int height = DeviceDisplayManager.dpToPx(context, 160);     //The Height of the Map View
+            int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
+
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+            return cu;
+        } catch (NullPointerException ex) {
+            return null;
         }
-
-        LatLngBounds bounds = builder.build();
-
-        int width = context.getResources().getDisplayMetrics().widthPixels;
-        //int height = context.getResources().getDisplayMetrics().heightPixels; //only if map is using entire height
-        int height = DeviceDisplayManager.dpToPx(context, 160);     //The Height of the Map View
-        int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
-
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
-        return cu;
     }
 
     /**
@@ -134,25 +138,32 @@ public class MapUtil {
      * @param markers   the markers the need to be zoomed in on
      */
     public static void zoomMap(Context context, GoogleMap googleMap, ArrayList<Marker> markers) {
-        if (markers.size() <= 1) {
-            googleMap.setMaxZoomPreference(15f);
-        }
+        try {
+            if (markers.size() <= 1) {
+                googleMap.setMaxZoomPreference(15f);
+            }
 
 //        googleMap.animateCamera(MapUtil.calculateZoom(context, markers));
-        googleMap.moveCamera(MapUtil.calculateZoom(context, markers));
+            googleMap.moveCamera(MapUtil.calculateZoom(context, markers));
+        } catch (NullPointerException ex) {
+        }
     }
 
     public static void setMarkerSelectedIcon(Context context, ArrayList<Marker> markers, String address) {
-        for (Marker marker : markers) {
-            if (marker.getSnippet().equalsIgnoreCase(address)) {
-                marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_blue));
-            } else {
-                marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
+        try {
+            for (Marker marker : markers) {
+                if (marker.getSnippet().equalsIgnoreCase(address)) {
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_blue));
+                } else {
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
+                }
             }
+        } catch (NullPointerException ex) {
         }
     }
 
     public static void clearMarkers(Context context, GoogleMap googleMap) {
-        googleMap.clear();
+        if (null != googleMap)
+            googleMap.clear();
     }
 }

@@ -35,6 +35,7 @@ import com.dignityhealth.myhome.features.settings.SettingsFragment;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
@@ -57,6 +58,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         setContentView(R.layout.navigation_activity);
 
+        MapsInitializer.initialize(getApplicationContext());
         LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
         bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
         bottomNavigationView.enableAnimation(false);

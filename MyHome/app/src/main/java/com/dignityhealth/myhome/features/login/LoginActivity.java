@@ -206,6 +206,7 @@ public class LoginActivity extends AppCompatActivity implements
                         } else {
                             if (null != task)
                                 Timber.w("getLastLocation:exception", task.getException());
+                            NetworkManager.getInstance().getUserLocation();
                         }
                     }
                 });
