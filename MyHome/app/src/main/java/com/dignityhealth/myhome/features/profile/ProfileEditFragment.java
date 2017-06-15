@@ -158,6 +158,7 @@ public class ProfileEditFragment extends BaseFragment {
                 break;
 
             case R.id.save_profile:
+                CommonUtil.hideSoftKeyboard(getActivity());
                 Profile currentProfile = ProfileManager.getProfile();
                 sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
                 break;
