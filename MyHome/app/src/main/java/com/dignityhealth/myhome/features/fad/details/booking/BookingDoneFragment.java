@@ -146,16 +146,16 @@ public class BookingDoneFragment extends Fragment {
     }
 
     private void updateVisibility(boolean isLoading) {
-        bookSuccess.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        date.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        time.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        address.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        directions.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        share.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        calendar.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        directionsIcon.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        shareIcon.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        calendarIcon.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        bookSuccess.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+        date.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+        time.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+        address.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+        directions.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+        share.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+        calendar.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+        directionsIcon.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+        shareIcon.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+        calendarIcon.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
 
         progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
