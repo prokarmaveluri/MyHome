@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
@@ -605,8 +606,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(bookingProfile, bookedAppointment);
-        bookingFragment.setBookingDoneInterface(this);
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse, currentOffice, bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
+        bookingFragment.setBookingDoneInterface(ProviderDetailsFragment.this);
         getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.booking_frame, bookingFragment)
@@ -615,6 +616,34 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         getChildFragmentManager().executePendingTransactions();
         expandableLinearLayout.initLayout();
         expandableLinearLayout.expand();
+    }
+
+    @Override
+    public void onBookingSuccess() {
+        //Booking Successful!
+    }
+
+    @Override
+    public void onBookingFailed(String errorMessage) {
+        if(isAdded()){
+            Toast.makeText(getActivity(), "Unable to book. \nPlease check your information", Toast.LENGTH_LONG).show();
+
+            //Go to Time Fragment, then open up the Registration Forms Again
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient, currentOffice.getAppointments()));
+            bookingFragment.setSelectTimeInterface(this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.booking_frame, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
+            expandableLinearLayout.initLayout();
+            expandableLinearLayout.expand();
+
+            BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe);
+            dialogFragment.setBookingDialogInterface(this);
+            dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+        }
     }
 
     @Override

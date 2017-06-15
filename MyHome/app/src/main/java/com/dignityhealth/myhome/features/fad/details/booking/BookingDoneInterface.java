@@ -5,6 +5,9 @@ package com.dignityhealth.myhome.features.fad.details.booking;
  */
 
 public interface BookingDoneInterface {
+    void onBookingSuccess();
+    void onBookingFailed(String errorMessage);
+
     void onClickDirections();
     void onClickShare();
     void onClickAddToCalendar();

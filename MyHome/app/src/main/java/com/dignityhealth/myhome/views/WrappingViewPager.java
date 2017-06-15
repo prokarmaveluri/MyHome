@@ -18,6 +18,8 @@ import android.view.View;
 public class WrappingViewPager extends ViewPager {
     private float initialXValue;
     private WrappingViewPagerSwipeInterface swipeInterface;
+    private boolean swipeRightAllowed = true;
+    private boolean swipeLeftAllowed = true;
 
     public WrappingViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,7 +79,7 @@ public class WrappingViewPager extends ViewPager {
                     if (swipeInterface != null) {
                         return swipeInterface.onSwipeRight();
                     } else {
-                        return true;
+                        return swipeRightAllowed;
                     }
 
                 } else if (diffX < 0) {
@@ -85,7 +87,7 @@ public class WrappingViewPager extends ViewPager {
                     if (swipeInterface != null) {
                         return swipeInterface.onSwipeLeft();
                     } else {
-                        return true;
+                        return swipeLeftAllowed;
                     }
                 }
             } catch (Exception exception) {
@@ -102,5 +104,18 @@ public class WrappingViewPager extends ViewPager {
 
     public void setSwipeInterface(WrappingViewPagerSwipeInterface swipeInterface) {
         this.swipeInterface = swipeInterface;
+    }
+
+    public void setSwipeRightAllowed(boolean swipeRightAllowed) {
+        this.swipeRightAllowed = swipeRightAllowed;
+    }
+
+    public void setSwipeLeftAllowed(boolean swipeLeftAllowed) {
+        this.swipeLeftAllowed = swipeLeftAllowed;
+    }
+
+    public void setSwipeAllowed(boolean swipeAllowed) {
+        this.swipeLeftAllowed = swipeAllowed;
+        this.swipeRightAllowed = swipeAllowed;
     }
 }

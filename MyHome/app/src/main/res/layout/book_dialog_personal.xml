@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/textInputLayoutStyle">
@@ -14,8 +15,8 @@
             android:id="@+id/caregiver_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/caregiver_name"
@@ -32,7 +33,7 @@
             android:id="@+id/first_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/first_name"
@@ -49,7 +50,7 @@
             android:id="@+id/last_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/last_name"
@@ -66,7 +67,7 @@
             android:id="@+id/preferred_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/preferred_name"
@@ -137,8 +138,8 @@
             android:id="@+id/weeks_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/weeks"
@@ -154,8 +155,8 @@
             android:id="@+id/dob_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:focusable="false">
+            android:focusable="false"
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/dob"
@@ -173,7 +174,7 @@
             android:id="@+id/address_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/address"
@@ -190,7 +191,7 @@
             android:id="@+id/address2_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/address2"
@@ -212,8 +213,8 @@
                 android:id="@+id/city_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_weight=".6">
+                android:layout_weight=".6"
+                app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/city"
@@ -245,8 +246,8 @@
                 android:id="@+id/zip_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_weight=".4">
+                android:layout_weight=".4"
+                app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/zip"
@@ -263,8 +264,8 @@
                 android:id="@+id/phone_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_weight=".6">
+                android:layout_weight=".6"
+                app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/phone"
@@ -284,7 +285,7 @@
             android:id="@+id/email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/email"
@@ -335,8 +336,8 @@
             android:id="@+id/translator_language_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/translator_language"
@@ -383,19 +384,29 @@
 
         </RadioGroup>
 
-        <EditText
-            android:id="@+id/booking_reason"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/booking_reason_layout"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/edit_text_boarder_grey"
-            android:gravity="left"
-            android:hint="@string/booking_reason_hint" />
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/booking_reason"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/edit_text_boarder_grey"
+                android:gravity="left"
+                android:hint="@string/booking_reason_hint"
+                android:inputType="textCapWords" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
-            android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:indeterminate="true"
             android:visibility="gone" />
 

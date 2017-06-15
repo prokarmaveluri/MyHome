@@ -45,6 +45,36 @@ public class Profile implements Parcelable {
 
     }
 
+    public Profile(String userId, String userName, String idLevel, boolean isVerified, String createdDate, String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email, String reasonForVisit, boolean translationNeeded, String translatorLanguage, boolean assistanceNeeded) {
+        this.userId = userId;
+        this.userName = userName;
+        this.idLevel = idLevel;
+        this.isVerified = isVerified;
+        this.createdDate = createdDate;
+        this.firstName = firstName;
+        this.middleInitial = middleInitial;
+        this.lastName = lastName;
+        this.preferredName = preferredName;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.phoneNumberType = phoneNumberType;
+        this.contactName = contactName;
+        this.contactPhoneNumber = contactPhoneNumber;
+        this.primaryCaregiverName = primaryCaregiverName;
+        this.isPregnant = isPregnant;
+        this.weeksPregnant = weeksPregnant;
+        this.insuranceProvider = insuranceProvider;
+        this.clientID = clientID;
+        this.remoteID = remoteID;
+        this.email = email;
+        this.reasonForVisit = reasonForVisit;
+        this.translationNeeded = translationNeeded;
+        this.translatorLanguage = translatorLanguage;
+        this.assistanceNeeded = assistanceNeeded;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +

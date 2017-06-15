@@ -42,7 +42,9 @@ public class MyHomeApplication extends MultiDexApplication {
         }
 
         //init Analytics
-        TealiumUtil.initialize(this);
+        if(BuildConfig.REPORT_ANALYTICS){
+            TealiumUtil.initialize(this);
+        }
 
         //init retrofit service
         NetworkManager.getInstance().initService();
