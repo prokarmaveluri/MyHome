@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.features.login;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +31,7 @@ import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -92,7 +95,8 @@ public class LoginActivity extends AppCompatActivity implements
             EnrollmentSuccessDialog dialog = EnrollmentSuccessDialog.newInstance();
             dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
         }
-        startUpdateActivity(false);
+//        startUpdateActivity(false);
+        buildUpdateAlert(getString(R.string.app_suggest_update_message));
         new LoginPresenter(fragment, this);
     }
 
@@ -111,6 +115,11 @@ public class LoginActivity extends AppCompatActivity implements
         binding = null;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TealiumUtil.trackEvent(Constants.APP_OPEN_EVENT, null);
+    }
 
     @Override
     public void onStart() {
@@ -331,5 +340,32 @@ public class LoginActivity extends AppCompatActivity implements
         if (BuildConfig.VERSION_CODE == Constants.DEV_UPDATE_VERSION)
             return true;
         return false;
+    }
+
+    private void buildUpdateAlert(String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setTitle(R.string.new_update_available)
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        updateApplication();
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void updateApplication() {
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+        } catch (ActivityNotFoundException ex) {
+        }
     }
 }
