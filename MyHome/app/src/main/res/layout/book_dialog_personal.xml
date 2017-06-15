@@ -383,19 +383,29 @@
 
         </RadioGroup>
 
-        <EditText
-            android:id="@+id/booking_reason"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/booking_reason_layout"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/edit_text_boarder_grey"
-            android:gravity="left"
-            android:hint="@string/booking_reason_hint" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:visibility="visible">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/booking_reason"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/edit_text_boarder_grey"
+                android:gravity="left"
+                android:hint="@string/booking_reason_hint"
+                android:inputType="textCapWords" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
-            android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:indeterminate="true"
             android:visibility="gone" />
 

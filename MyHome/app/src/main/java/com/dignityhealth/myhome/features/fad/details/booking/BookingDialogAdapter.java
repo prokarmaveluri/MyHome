@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -69,7 +68,7 @@ public class BookingDialogAdapter extends PagerAdapter {
     TextInputEditText translatorLanguage;
     TextView assistanceLabel;
     RadioGroup assistanceGroup;
-    EditText reasonForVisit;
+    TextInputEditText reasonForVisit;
 
     TextInputEditText insuranceProvider;
     TextInputEditText memberId;
@@ -198,7 +197,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         translatorLanguage = (TextInputEditText) personalLayout.findViewById(R.id.translator_language);
         assistanceLabel = (TextView) personalLayout.findViewById(R.id.assistance_label);
         assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_assistance);
-        reasonForVisit = (EditText) personalLayout.findViewById(R.id.booking_reason);
+        reasonForVisit = (TextInputEditText) personalLayout.findViewById(R.id.booking_reason);
         progressBar = (ProgressBar) personalLayout.findViewById(R.id.progress_bar);
 
         updateVisibility(true);
