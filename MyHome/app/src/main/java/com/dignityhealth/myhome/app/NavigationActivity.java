@@ -401,7 +401,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             ProviderDetailsFragment frag = ((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG));
 
             if(frag == null || !frag.onBackButtonPressed()){
-                super.onBackPressed();
+                if(fm.getBackStackEntryCount() > 0){
+                    fm.popBackStack();
+                } else {
+                    super.onBackPressed();
+                }
             }
         } else if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();

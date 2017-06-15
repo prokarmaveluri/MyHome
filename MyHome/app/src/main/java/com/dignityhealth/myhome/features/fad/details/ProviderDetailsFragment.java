@@ -480,18 +480,20 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void restartSchedulingFlow() {
-        expandableLinearLayout.collapse();
-        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
-        BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
-        bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.booking_frame, bookingFragment)
-                .addToBackStack(null)
-                .commit();
-        getChildFragmentManager().executePendingTransactions();
-        expandableLinearLayout.initLayout();
         isBookingAppointment = false;
+        if (isAdded()) {
+            expandableLinearLayout.collapse();
+            bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+            BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+            bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.booking_frame, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
+            expandableLinearLayout.initLayout();
+        }
     }
 
     @Override
@@ -625,7 +627,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onBookingFailed(String errorMessage) {
-        if(isAdded()){
+        if (isAdded()) {
             Toast.makeText(getActivity(), "Unable to book. \nPlease check your information", Toast.LENGTH_LONG).show();
 
             //Go to Time Fragment, then open up the Registration Forms Again
