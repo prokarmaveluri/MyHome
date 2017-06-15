@@ -573,4 +573,79 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         return formsProfile;
     }
+
+
+    public boolean validateForm(int page){
+        boolean isValid = true;
+
+        if(page == 0){
+            //Insurance Page
+
+            if(insuranceProvider.getText().toString().isEmpty()){
+                isValid = false;
+                insuranceProvider.setError("Insurance Provider Name Required");
+            } else {
+                insuranceProvider.setError(null);
+            }
+
+            if(memberId.getText().toString().isEmpty()){
+                isValid = false;
+                memberId.setError("Member ID Required");
+            } else {
+                memberId.setError(null);
+            }
+
+            if(group.getText().toString().isEmpty()){
+                isValid = false;
+                group.setError("Group ID Required");
+            } else {
+                group.setError(null);
+            }
+
+        } else if (page == 1){
+            //Personal Page
+
+            if(caregiverName.getVisibility() == View.VISIBLE && caregiverName.getText().toString().isEmpty()){
+                isValid = false;
+                caregiverName.setError("Caregiver Name Required");
+            }
+
+            if(firstName.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()){
+                isValid = false;
+                firstName.setError("First Name Required");
+            }
+
+            if(lastName.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()){
+                isValid = false;
+                lastName.setError("Last Name Required");
+            }
+
+            if(dateOfBirth.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()){
+                isValid = false;
+                dateOfBirth.setError("Date of Birth Required");
+            }
+
+            if(phone.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()){
+                isValid = false;
+                phone.setError("Phone Number Required");
+            }
+
+            if(email.getVisibility() == View.VISIBLE && email.getText().toString().isEmpty()){
+                isValid = false;
+                email.setError("Email Required");
+            }
+
+            if(email.getVisibility() == View.VISIBLE && !CommonUtil.isValidEmail(email.getText().toString())){
+                isValid = false;
+                email.setError("Email Invalid");
+            }
+
+            if(reasonForVisit.getVisibility() == View.VISIBLE && reasonForVisit.getText().toString().isEmpty()){
+                isValid = false;
+                reasonForVisit.setError("Reason For Visit Required");
+            }
+        }
+
+        return isValid;
+    }
 }

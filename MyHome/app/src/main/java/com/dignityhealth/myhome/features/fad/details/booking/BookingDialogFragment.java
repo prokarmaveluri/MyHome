@@ -79,10 +79,14 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.next_page:
-                        bookingViewPager.setCurrentItem(bookingViewPager.getCurrentItem() + 1, true);
+                        if (((BookingDialogAdapter) bookingViewPager.getAdapter()).validateForm(0)) {
+                            bookingViewPager.setCurrentItem(bookingViewPager.getCurrentItem() + 1, true);
+                        }
                         break;
                     case R.id.finish_dialog:
-                        finishBooking();
+                        if (((BookingDialogAdapter) bookingViewPager.getAdapter()).validateForm(1)) {
+                            finishBooking();
+                        }
                         break;
                 }
                 return true;
