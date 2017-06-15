@@ -5,10 +5,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_marginBottom="12dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="12dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/viewProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -36,7 +36,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/name"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="Kev"
                 android:textSize="@dimen/profile_text_size"
@@ -48,7 +47,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/preferred_name"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="@string/male"
                 android:textSize="@dimen/profile_text_size"
@@ -59,7 +57,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/gender"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="1/12/1987"
                 android:textSize="@dimen/profile_text_size"
@@ -71,7 +68,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dob"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:ellipsize="end"
                 android:maxLines="3"
@@ -85,7 +81,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/address"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="867-5309"
                 android:textSize="@dimen/profile_text_size"
@@ -97,7 +92,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/phone"
                 android:layout_marginBottom="@dimen/profile_label_marginTop"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="kwelsh@prokarma.com"
@@ -110,7 +104,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/email"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="@string/insurance_provider" />
 
@@ -119,7 +112,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/provider_label"
                 android:text="Dignity Health"
                 android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
@@ -130,7 +122,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/provider"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="@string/member_id" />
 
@@ -139,7 +130,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/id_label"
                 android:text="800-588-2300"
                 android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
@@ -150,7 +140,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/id"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="@string/group" />
 
@@ -159,7 +148,6 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/group_label"
                 android:text="230-2333"
                 android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
@@ -170,13 +158,11 @@
                 style="@style/enableButtonStyle"
                 android:layout_width="255dp"
                 android:layout_height="45dp"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/group"
-                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/profile_label_marginBottom"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:layout_marginTop="48dp"
                 android:text="@string/sign_out" />
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
     <ProgressBar
@@ -193,8 +179,8 @@
         style="@style/tradeGothicLTStdLight_14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_centerInParent="true"
         android:text="@string/profile_unavailable"
-        android:textSize="@dimen/profile_text_size" />
+        android:textSize="@dimen/profile_text_size"
+        android:visibility="gone" />
 </RelativeLayout>
