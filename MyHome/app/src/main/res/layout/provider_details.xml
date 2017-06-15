@@ -121,7 +121,7 @@
             android:layout_alignBottom="@id/phone_icon"
             android:layout_alignTop="@id/phone_icon"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="16dp"
             android:autoLink="phone"
             android:gravity="center"
             android:text="1-844-274-8497"
