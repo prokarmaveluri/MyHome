@@ -1,305 +1,336 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:id="@+id/lin_db_parent"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="20dp">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txt_db_title"
-            style="@style/tradeGothicLTStdBd2_36"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="10dp"
-            android:gravity="center"
-            android:text="Welcome home, Adam!"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText" />
-
-        <RelativeLayout
-            android:id="@+id/rel_db_appoint_title"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="25dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/lin_db_parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:gravity="center|left">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/appt_icon_orange" />
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="20dp">
 
                 <TextView
-                    style="@style/tradeGothicLTStdLight_20"
+                    android:id="@+id/txt_db_title"
+                    style="@style/tradeGothicLTStdBd2_36"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:lineSpacingExtra="10sp"
-                    android:text="Appointments"
-                    android:textColor="@color/db_gunmetal"
-                    android:textSize="20sp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="Welcome home!"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
+                <RelativeLayout
+                    android:id="@+id/rel_db_appoint_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="25dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:gravity="center|left">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/appt_icon_orange" />
+
+                        <TextView
+                            style="@style/tradeGothicLTStdBd2_20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:lineSpacingExtra="10sp"
+                            android:text="Appointments"
+                            android:textColor="@color/db_gunmetal"
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txt_db_appoint_viewall"
+                        style="@style/tradeGothicLTStdLight_18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="4dp"
+                        android:clickable="true"
+                        android:letterSpacing="-0.01"
+                        android:lineSpacingExtra="12sp"
+                        android:text="View All"
+                        android:textColor="@color/db_deep_aqua"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        tools:ignore="HardcodedText" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/txt_db_appoint_content"
+                    style="@style/tradeGothicLTStdLight_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="14dp"
+                    android:gravity="center|left"
+                    android:lineSpacingExtra="22sp"
+                    android:text="No appointments scheduled"
+                    android:textColor="@color/db_gunmetal"
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText" />
+
+                <View
+                    style="@style/dbDivider"
+                    android:layout_marginEnd="2dp"
+                    android:background="@color/db_white" />
+
+                <RelativeLayout
+                    android:id="@+id/rel_db_appoint_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="3dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:minHeight="48dp"
+                    android:visibility="gone"
+                    tools:ignore="HardcodedText">
+
+                    <TextView
+                        android:id="@+id/txt_db_appoint_item_date"
+                        style="@style/tradeGothicLTStdLight_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:text="Thurs May 26"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:transitionName="@string/transition_appointment_date" />
+
+                    <TextView
+                        android:id="@+id/txt_db_appoint_item_time"
+                        style="@style/tradeGothicLTStdLight_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:maxWidth="285dp"
+                        android:text="2:45 PM"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txt_db_appoint_item_facility"
+                        style="@style/tradeGothicLTStdLight_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txt_db_appoint_item_date"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="8dp"
+                        android:maxWidth="285dp"
+                        android:text="Sequoia Hospital"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_db_appoint_item_doctor_name"
+                        style="@style/tradeGothicLTStdLight_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txt_db_appoint_item_facility"
+                        android:layout_marginLeft="12dp"
+                        android:maxWidth="285dp"
+                        android:text="Dr. Steven M. Howard, MD"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/img_db_appoint_item_pin_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="30dp"
+                        android:layout_alignBottom="@id/txt_db_appoint_item_doctor_name"
+                        android:layout_alignLeft="@id/txt_db_appoint_item_time"
+                        android:layout_alignRight="@id/txt_db_appoint_item_time"
+                        android:layout_marginLeft="10dp"
+                        android:clickable="true"
+                        android:src="@mipmap/map_blue"
+                        android:transitionName="@string/transition_appointment_map_pin" />
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_appoint_divider"
+                    style="@style/dbDivider"
+                    android:layout_marginTop="9dp"
+                    android:background="@color/db_white"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btn_db_schedule_appoint"
+                    style="@style/db_scheduleButtonStyle"
+                    android:layout_width="260dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="18dp"
+                    android:letterSpacing="-0.01"
+                    android:text="Schedule an Appointment" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="30dp"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center|left">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/find_care_icon_orange" />
+
+                    <TextView
+                        style="@style/tradeGothicLTStdLight_20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:lineSpacingExtra="10sp"
+                        android:text="Find Care"
+                        android:textColor="@color/db_gunmetal"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/etxt_db_findcare"
+                    style="@style/db_searchButtonStyle"
+                    android:layout_width="338dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="13dp"
+                    android:hint="Seach for a doctor, speciality or condition"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:lineSpacingExtra="5sp"
+                    android:textColorHint="@color/db_gunmetal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="46dp"
+                    android:gravity="center|left">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/news_icon_orange" />
+
+                    <TextView
+                        android:id="@+id/txt_db_didyouknow"
+                        style="@style/tradeGothicLTStdLight_20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:lineSpacingExtra="10sp"
+                        android:text="Did you know?"
+                        android:textColor="@color/db_gunmetal"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="182dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/sunset_picture"
+                    android:scaleType="fitCenter" />
+
+
+                <TextView
+                    android:id="@+id/txt_db_didyouknow_first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="12dp"
+                    android:lineSpacingExtra="8sp"
+                    android:text="The Power of Time Off: Why Vacations Are Essential."
+                    android:textColor="@color/db_gunmetal"
+                    android:textSize="22sp" />
+
+                <View
+                    style="@style/dbDivider"
+                    android:layout_marginTop="19dp"
+                    android:background="@color/db_white" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="182dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="19dp"
+                    android:background="@drawable/dog_picture"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:id="@+id/txt_db_didyouknow_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="12dp"
+                    android:lineSpacingExtra="8sp"
+                    android:text="A Little Bit of Color: Don't Let a Sunburn Get You Down This Summer."
+                    android:textColor="@color/db_gunmetal"
+                    android:textSize="22sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/txt_db_appoint_viewall"
-                style="@style/tradeGothicLTStdLight_18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="4dp"
-                android:letterSpacing="-0.01"
-                android:lineSpacingExtra="12sp"
-                android:text="View All"
-                android:textColor="@color/db_deep_aqua"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/txt_db_appoint_content"
-            style="@style/tradeGothicLTStdLight_16"
-            android:layout_width="wrap_content"
-            android:layout_height="38dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="14dp"
-            android:gravity="center|left"
-            android:lineSpacingExtra="22sp"
-            android:text="It looks like you have 2 appointments scheduled"
-            android:textColor="@color/db_gunmetal"
-            android:textSize="16sp"
-            tools:ignore="HardcodedText" />
+        </ScrollView>
 
-        <View
-            style="@style/dbDivider"
-            android:layout_marginEnd="2dp"
-            android:background="@color/db_white" />
 
-        <RelativeLayout
-            android:id="@+id/rel_db_appoint_item_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="3dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:minHeight="48dp"
-            tools:ignore="HardcodedText">
-
-            <TextView
-                android:id="@+id/txt_db_appoint_item_date"
-                style="@style/tradeGothicLTStdLight_14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="Thurs May 26"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:transitionName="@string/transition_appointment_date" />
-
-            <TextView
-                android:id="@+id/txt_db_appoint_item_time"
-                style="@style/tradeGothicLTStdLight_14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:maxWidth="285dp"
-                android:text="2:45 PM"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txt_db_appoint_item_facility"
-                style="@style/tradeGothicLTStdLight_14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txt_db_appoint_item_date"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="8dp"
-                android:maxWidth="285dp"
-                android:text="Sequoia Hospital"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_db_appoint_item_doctor_name"
-                style="@style/tradeGothicLTStdLight_14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txt_db_appoint_item_facility"
-                android:layout_marginLeft="12dp"
-                android:maxWidth="285dp"
-                android:text="Dr. Steven M. Howard, MD"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/img_db_appoint_item_pin_icon"
-                android:layout_width="24dp"
-                android:layout_height="30dp"
-                android:layout_alignBottom="@id/txt_db_appoint_item_doctor_name"
-                android:layout_alignLeft="@id/txt_db_appoint_item_time"
-                android:layout_alignRight="@id/txt_db_appoint_item_time"
-                android:layout_marginLeft="10dp"
-                android:src="@mipmap/map_blue"
-                android:transitionName="@string/transition_appointment_map_pin" />
-
-        </RelativeLayout>
-
-        <View
-            style="@style/dbDivider"
-            android:layout_marginTop="9dp"
-            android:background="@color/db_white" />
-
-        <Button
-            android:id="@+id/btn_db_schedule_appoint"
-            style="@style/db_scheduleButtonStyle"
-            android:layout_width="260dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="18dp"
-            android:letterSpacing="-0.01"
-            android:text="Schedule an Appointment"
-            android:textSize="18sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="30dp"
-            android:focusableInTouchMode="true"
-            android:gravity="center|left">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/find_care_icon_orange" />
-
-            <TextView
-                style="@style/tradeGothicLTStdLight_20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:lineSpacingExtra="10sp"
-                android:text="Find Care"
-                android:textColor="@color/db_gunmetal"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/etxt_db_findcare"
-            style="@style/db_searchButtonStyle"
-            android:layout_width="338dp"
-            android:layout_height="46dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="13dp"
-            android:hint="Seach for a doctor, speciality or condition"
-            android:lineSpacingExtra="5sp"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="46dp"
-            android:gravity="center|left">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/news_icon_orange" />
-
-            <TextView
-                android:id="@+id/txt_db_didyouknow1"
-                style="@style/tradeGothicLTStdLight_20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:lineSpacingExtra="10sp"
-                android:text="Did you know?"
-                android:textColor="@color/db_gunmetal"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="182dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/sunset_picture"
-            android:scaleType="fitCenter" />
-
-        <TextView
-            android:id="@+id/txt_db_didyouknow2"
+        <ProgressBar
+            android:id="@+id/pg_db_view_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="12dp"
-            android:lineSpacingExtra="8sp"
-            android:text="The Power of Time Off: Why Vacations Are Essential."
-            android:textColor="@color/db_gunmetal"
-            android:textSize="22sp" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
 
-        <View
-            style="@style/dbDivider"
-            android:layout_marginTop="19dp"
-            android:background="@color/db_white" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="182dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="19dp"
-            android:background="@drawable/dog_picture"
-            android:scaleType="fitCenter" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="12dp"
-            android:lineSpacingExtra="8sp"
-            android:text="A Little Bit of Color: Don't Let a Sunburn Get You Down This Summer."
-            android:textColor="@color/db_gunmetal"
-            android:textSize="22sp" />
-    </LinearLayout>
-</ScrollView>
+    </RelativeLayout>
+</layout>

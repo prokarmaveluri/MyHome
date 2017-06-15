@@ -71,7 +71,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     private static final int FILTER_REQUEST = 100;
     private static final int RECENT_PROVIDERS = 200;
-    private static String currentSearchQuery = "";
+    public static String currentSearchQuery = "";
     private static int currentPageSelection = 0;
 
     private FragmentFadBinding binding;
@@ -121,8 +121,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setOnFocusChangeListener(this);
         binding.searchQuery.addTextChangedListener(this);
 
-        if (providerList.size() <= 0)
+        if (providerList.size() <= 0 && currentSearchQuery.length() <= 0) {
             searchForQuery(Constants.DEFAULT_FAD_QUERY, RESTConstants.PROVIDER_DISTANCE);
+        } else if (currentSearchQuery.length() > 0) {
+            searchForQuery(currentSearchQuery, RESTConstants.PROVIDER_DISTANCE);
+        }
         drawableClickEvent();
         return binding.getRoot();
     }
@@ -267,7 +270,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             dialog.setArguments(bundle);
             dialog.setTargetFragment(this, RECENT_PROVIDERS);
             dialog.show(getFragmentManager(), "List Dialog");
-        }else {
+        } else {
             Toast.makeText(getActivity(), getString(R.string.no_recent_providers),
                     Toast.LENGTH_LONG).show();
         }
@@ -671,7 +674,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     /**
-     *
      * @param provider
      */
     private void providerDetails(Provider provider) {
