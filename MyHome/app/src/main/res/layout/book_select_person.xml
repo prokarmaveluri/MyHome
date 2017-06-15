@@ -15,31 +15,24 @@
         android:text="@string/booking_select_person_header"
         android:textSize="20sp" />
 
-    <RadioGroup
+    <Button
+        android:id="@+id/book_me"
+        style="@style/selectableButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="45dp"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:text="@string/me"
+        android:textStyle="bold" />
 
-        <ToggleButton
-            android:id="@+id/book_me"
-            style="@style/selectableButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="18dp"
-            android:gravity="center"
-            android:textOff="@string/me"
-            android:textOn="@string/me" />
-
-        <ToggleButton
-            android:id="@+id/book_other"
-            style="@style/selectableButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="18dp"
-            android:gravity="center"
-            android:textOff="@string/family_member"
-            android:textOn="@string/family_member" />
-
-    </RadioGroup>
+    <Button
+        android:id="@+id/book_other"
+        style="@style/selectableButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:text="@string/family_member"
+        android:textStyle="bold" />
 
 </LinearLayout>

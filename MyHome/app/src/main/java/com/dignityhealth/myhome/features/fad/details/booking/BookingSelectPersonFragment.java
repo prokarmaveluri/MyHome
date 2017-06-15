@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ToggleButton;
+import android.widget.Button;
 
 import com.dignityhealth.myhome.R;
 
@@ -30,8 +30,8 @@ public class BookingSelectPersonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         bookingView = inflater.inflate(R.layout.book_select_person, container, false);
 
-        final ToggleButton buttonMe = (ToggleButton) bookingView.findViewById(R.id.book_me);
-        final ToggleButton buttonOther = (ToggleButton) bookingView.findViewById(R.id.book_other);
+        final Button buttonMe = (Button) bookingView.findViewById(R.id.book_me);
+        final Button buttonOther = (Button) bookingView.findViewById(R.id.book_other);
         buttonMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
