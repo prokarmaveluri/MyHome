@@ -22,6 +22,7 @@ import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.DateUtil;
 import com.dignityhealth.myhome.utils.SessionUtil;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -133,6 +134,7 @@ public class ProfileViewFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        TealiumUtil.trackView(Constants.PROFILE_SCREEN, null);
         ((NavigationActivity) getActivity()).getNavigationActionBar().show();
         ((NavigationActivity) getActivity()).hideHomeButton();
     }

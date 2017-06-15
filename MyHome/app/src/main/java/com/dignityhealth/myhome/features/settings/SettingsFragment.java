@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.utils.Constants;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 
 /**
  * Created by kwelsh on 4/26/17.
@@ -32,5 +33,11 @@ public class SettingsFragment extends BaseFragment {
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.SETTINGS;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.SETTINGS_SCREEN, null);
     }
 }

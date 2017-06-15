@@ -43,6 +43,7 @@ import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 import com.dignityhealth.myhome.utils.SessionUtil;
+import com.dignityhealth.myhome.utils.TealiumUtil;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
@@ -610,6 +611,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Override
     public void onPageSelected(int position) {
         currentPageSelection = position;
+        if (position == 0) {
+            TealiumUtil.trackView(Constants.FAD_LIST_SCREEN, null);
+        }else {
+            TealiumUtil.trackView(Constants.FAD_MAP_SCREEN, null);
+        }
     }
 
     @Override

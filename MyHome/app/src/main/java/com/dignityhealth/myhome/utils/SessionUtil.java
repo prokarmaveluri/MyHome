@@ -47,7 +47,7 @@ public class SessionUtil {
             }
             return;
         }
-
+        TealiumUtil.trackEvent(Constants.SIGN_OUT_EVENT, null);
         NetworkManager.getInstance().logout(
                 AuthManager.getInstance().getSid()).enqueue(new Callback<Void>() {
             @Override

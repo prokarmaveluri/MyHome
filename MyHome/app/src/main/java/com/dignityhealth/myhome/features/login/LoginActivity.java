@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
+        TealiumUtil.trackEvent(Constants.APP_CLOSE_EVENT, null);
         AppPreferences.getInstance().setPreference(FAILURE_COUNT,
                 AuthManager.getInstance().getCount());
         AppPreferences.getInstance().setLongPreference(FAILURE_TIME_STAMP,
