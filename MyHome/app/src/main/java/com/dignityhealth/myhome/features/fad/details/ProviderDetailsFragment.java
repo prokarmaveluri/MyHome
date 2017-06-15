@@ -39,13 +39,10 @@ import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectPerson
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.dignityhealth.myhome.features.fad.details.booking.BookingSelectTimeFragment;
-import com.dignityhealth.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
-import com.dignityhealth.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.networking.NetworkManager;
-import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.DeviceDisplayManager;
@@ -57,8 +54,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -611,45 +606,44 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        CreateAppointmentRequest request = new CreateAppointmentRequest(providerDetailsResponse, currentOffice, bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse, currentOffice, bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
+        bookingFragment.setBookingDoneInterface(ProviderDetailsFragment.this);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.booking_frame, bookingFragment)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
+        expandableLinearLayout.initLayout();
+        expandableLinearLayout.expand();
+    }
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Timber.i("Request = " + request);
-        Timber.i("Request JSON = " + gson.toJson(request));
-        NetworkManager.getInstance().createAppointment(AuthManager.getInstance().getBearerToken(), request).enqueue(new Callback<CreateAppointmentResponse>() {
-            @Override
-            public void onResponse(Call<CreateAppointmentResponse> call, Response<CreateAppointmentResponse> response) {
-                if (isAdded()) {
-                    if (response.isSuccessful()) {
-                        Timber.d("Successful Response\n" + response);
+    @Override
+    public void onBookingSuccess() {
+        //Booking Successful!
+    }
 
-                        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(bookingProfile, bookedAppointment);
-                        bookingFragment.setBookingDoneInterface(ProviderDetailsFragment.this);
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.booking_frame, bookingFragment)
-                                .addToBackStack(null)
-                                .commit();
-                        getChildFragmentManager().executePendingTransactions();
-                        expandableLinearLayout.initLayout();
-                        expandableLinearLayout.expand();
-                    } else {
-                        Timber.e("Response, but not successful?\n" + response);
-                        Toast.makeText(getActivity(), "Unable to book", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
+    @Override
+    public void onBookingFailed(String errorMessage) {
+        if(isAdded()){
+            Toast.makeText(getActivity(), "Unable to book. \nPlease check your information", Toast.LENGTH_LONG).show();
 
-            @Override
-            public void onFailure(Call<CreateAppointmentResponse> call, Throwable t) {
-                if (isAdded()) {
-                    Timber.e("Something failed! :/");
-                    Timber.e("Throwable = " + t);
-                    Toast.makeText(getActivity(), "Unable to book", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            //Go to Time Fragment, then open up the Registration Forms Again
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient, currentOffice.getAppointments()));
+            bookingFragment.setSelectTimeInterface(this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.booking_frame, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
+            expandableLinearLayout.initLayout();
+            expandableLinearLayout.expand();
 
+            BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe);
+            dialogFragment.setBookingDialogInterface(this);
+            dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+        }
     }
 
     @Override
