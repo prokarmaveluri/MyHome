@@ -123,7 +123,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         if (providerList.size() <= 0 && currentSearchQuery.length() <= 0) {
             searchForQuery(Constants.DEFAULT_FAD_QUERY, RESTConstants.PROVIDER_DISTANCE);
-        } else if (currentSearchQuery.length() > 0) {
+        } else if (currentSearchQuery.length() > 0 && !currentSearchQuery.contains(Constants.DEFAULT_FAD_QUERY)) {
             searchForQuery(currentSearchQuery, RESTConstants.PROVIDER_DISTANCE);
         }
         drawableClickEvent();
@@ -616,7 +616,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         currentPageSelection = position;
         if (position == 0) {
             TealiumUtil.trackView(Constants.FAD_LIST_SCREEN, null);
-        }else {
+        } else {
             TealiumUtil.trackView(Constants.FAD_MAP_SCREEN, null);
         }
     }
