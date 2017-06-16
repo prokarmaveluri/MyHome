@@ -40,6 +40,7 @@ import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.CommonUtil;
+import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 import com.dignityhealth.myhome.utils.SessionUtil;
@@ -194,6 +195,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             Timber.i("Quick Search");
             binding.suggestionList.setVisibility(View.VISIBLE);
             updateSuggestionList(presenter.getQuickSearchSuggestions());
+            return;
+        }
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
             return;
         }
         if (null == FadManager.getInstance().getLocation()) {
@@ -460,6 +466,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             }
             if (null == FadManager.getInstance().getLocation()) {
                 Toast.makeText(getActivity(), getString(R.string.query_location_unavailable),
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (!ConnectionUtil.isConnected(getActivity())) {
+                Toast.makeText(getActivity(), R.string.no_network_msg,
                         Toast.LENGTH_LONG).show();
                 return;
             }

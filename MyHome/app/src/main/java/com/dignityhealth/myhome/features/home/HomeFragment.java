@@ -75,7 +75,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         // Read More contents
         doSpannableChangesReadMore("The Power of Time Off: Why Vacations Are Essential. ", "Read More",
                 binding.txtDbDidyouknowFirst);
-        doSpannableChangesReadMore("A Little Bit of Color: Don't Let a Sunburn Get You Down This Summer.", "Read More",
+        doSpannableChangesReadMore("A Little Bit of Color: Don't Let a Sunburn Get You Down This Summer. ", "Read More",
                 binding.txtDbDidyouknowSecond);
 
         binding.txtDbAppointViewall.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +170,11 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     }
 
     private void getProfileInfo(String bearer) {
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         Timber.i("Session bearer " + bearer);
         showLoading();
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
@@ -207,6 +212,11 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     }
 
     private void getAppointmentInfo(String bearer) {
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         showLoading();
 
         Timber.i("Session bearer " + bearer);
