@@ -146,6 +146,7 @@ public class MapUtil {
 //        googleMap.animateCamera(MapUtil.calculateZoom(context, markers));
             googleMap.moveCamera(MapUtil.calculateZoom(context, markers));
         } catch (NullPointerException ex) {
+
         }
     }
 
@@ -153,12 +154,13 @@ public class MapUtil {
         try {
             for (Marker marker : markers) {
                 if (marker.getSnippet().equalsIgnoreCase(address)) {
-                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_blue));
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
                 } else {
                     marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue));
                 }
             }
         } catch (NullPointerException ex) {
+
         }
     }
 

@@ -19,12 +19,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/date"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         android:layout_alignTop="@id/date"
         android:layout_marginRight="42dp"
         android:layout_toLeftOf="@id/date"
-        android:src="@mipmap/caret_blue" />
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:src="@mipmap/arrow_left" />
 
     <ImageView
         android:id="@+id/right_date_arrow"
@@ -32,11 +32,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/date"
         android:layout_alignTop="@id/date"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         android:layout_marginLeft="42dp"
         android:layout_toRightOf="@id/date"
-        android:rotation="180"
-        android:src="@mipmap/caret_blue" />
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:src="@mipmap/arrow_right" />
 
 </RelativeLayout>

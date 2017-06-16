@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
@@ -54,7 +54,7 @@ public class ProfileViewFragment extends BaseFragment {
     private Button logout;
     ProgressBar progressBar;
     TextView errorText;
-    RelativeLayout viewProfile;
+    LinearLayout viewProfile;
 
     public static ProfileViewFragment newInstance() {
         return new ProfileViewFragment();
@@ -85,7 +85,7 @@ public class ProfileViewFragment extends BaseFragment {
         logout = (Button) profileView.findViewById(R.id.sign_out);
         progressBar = (ProgressBar) profileView.findViewById(R.id.profile_view_progress);
         errorText = (TextView) profileView.findViewById(R.id.profile_unavailable);
-        viewProfile = (RelativeLayout) profileView.findViewById(R.id.viewProfile);
+        viewProfile = (LinearLayout) profileView.findViewById(R.id.viewProfile);
 
         if (ProfileManager.getProfile() == null) {
             viewProfile.setVisibility(View.INVISIBLE);
@@ -186,19 +186,19 @@ public class ProfileViewFragment extends BaseFragment {
         if (profile.firstName != null || profile.lastName != null) {
             name.setText(CommonUtil.constructName(profile.firstName, profile.lastName));
         } else {
-            name.setText(getString(R.string.not_available));
+            name.setVisibility(View.GONE);
         }
 
         if (profile.preferredName != null) {
             preferredName.setText(profile.preferredName);
         } else {
-            preferredName.setText(getString(R.string.not_available));
+            preferredName.setVisibility(View.GONE);
         }
 
         if (profile.gender != null) {
             gender.setText(CommonUtil.capitalize(profile.gender));
         } else {
-            gender.setText(getString(R.string.not_available));
+            gender.setVisibility(View.GONE);
         }
 
         if (profile.dateOfBirth != null) {
@@ -208,47 +208,47 @@ public class ProfileViewFragment extends BaseFragment {
                 dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
             } catch (ParseException e) {
                 e.printStackTrace();
-                dateOfBirth.setText(getString(R.string.not_available));
+                dateOfBirth.setVisibility(View.GONE);
             }
         } else {
-            dateOfBirth.setText(getString(R.string.not_available));
+            dateOfBirth.setVisibility(View.GONE);
         }
 
         if (profile.address != null &&
                 (profile.address.line1 != null || profile.address.line2 != null || profile.address.city != null || profile.address.stateOrProvince != null || profile.address.zipCode != null)) {
             address.setText(CommonUtil.constructAddress(profile.address.line1, profile.address.line2, profile.address.city, profile.address.stateOrProvince, profile.address.zipCode));
         } else {
-            address.setText(getString(R.string.not_available));
+            address.setVisibility(View.GONE);
         }
 
         if (profile.phoneNumber != null) {
             phone.setText(CommonUtil.constructPhoneNumber(profile.phoneNumber));
         } else {
-            phone.setText(getString(R.string.not_available));
+            phone.setVisibility(View.GONE);
         }
 
         if (profile.email != null) {
             email.setText(profile.email);
         } else {
-            email.setText(getString(R.string.not_available));
+            email.setVisibility(View.GONE);
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.providerName != null) {
             insuranceProvider.setText(profile.insuranceProvider.providerName);
         } else {
-            insuranceProvider.setText(getString(R.string.not_available));
+            insuranceProvider.setVisibility(View.INVISIBLE);
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.memberNumber != null) {
             memberId.setText(profile.insuranceProvider.memberNumber);
         } else {
-            memberId.setText(getString(R.string.not_available));
+            memberId.setVisibility(View.INVISIBLE);
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.groupNumber != null) {
             group.setText(profile.insuranceProvider.groupNumber);
         } else {
-            group.setText(getString(R.string.not_available));
+            group.setVisibility(View.INVISIBLE);
         }
     }
 }

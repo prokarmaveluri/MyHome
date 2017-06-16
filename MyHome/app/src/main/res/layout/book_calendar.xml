@@ -19,8 +19,6 @@
         app:mcv_arrowColor="@color/primary"
         app:mcv_dateTextAppearance="@style/DayTextAppearance"
         app:mcv_headerTextAppearance="@null"
-        app:mcv_leftArrowMask="@mipmap/caret_blue"
-        app:mcv_rightArrowMask="@mipmap/caret_blue"
         app:mcv_showOtherDates="out_of_range"
         app:mcv_titleAnimationOrientation="horizontal"
         app:mcv_weekDayTextAppearance="@style/WeekDayTextAppearance" />

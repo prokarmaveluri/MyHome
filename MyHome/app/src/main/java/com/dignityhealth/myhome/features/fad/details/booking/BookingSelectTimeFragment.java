@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.features.fad.details.booking;
 
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -245,18 +246,19 @@ public class BookingSelectTimeFragment extends Fragment {
      */
     private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<Appointment> appointments) {
         timeGroup.removeAllViews();
-        FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 4));
+        FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, DeviceDisplayManager.dpToPx(getContext(), 35));
+        layoutParams.setMargins(DeviceDisplayManager.dpToPx(getContext(), 5), DeviceDisplayManager.dpToPx(getContext(), 5), DeviceDisplayManager.dpToPx(getContext(), 5), DeviceDisplayManager.dpToPx(getContext(), 5));
+        Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
 
         View.OnClickListener timeClickedListener;
 
         for (final Appointment appointment : appointments) {
             final Button timeButton = new Button(new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
-            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 22), DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 22), DeviceDisplayManager.dpToPx(getContext(), 10));
+            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 2), DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 2));
             timeButton.setGravity(Gravity.CENTER);
-//            timeButton.setWidth(DeviceDisplayManager.dpToPx(getContext(), 100));
-//            timeButton.setHeight(DeviceDisplayManager.dpToPx(getContext(), 35));
-//            timeButton.setMinimumWidth(DeviceDisplayManager.dpToPx(getContext(), 100));
+            timeButton.setTextSize(18);
+            timeButton.setTypeface(boldTypeface);
+            timeButton.setMinimumWidth(DeviceDisplayManager.dpToPx(getContext(), 100)); //Make sure it's at least 100dp, though it's allowed to stretch to wrap_content
             timeButton.setLayoutParams(layoutParams);
             timeButton.setText(DateUtil.getTime(appointment.Time));
 
@@ -342,7 +344,7 @@ public class BookingSelectTimeFragment extends Fragment {
 //    }
 
     public void setMonthHeader(Date date) {
-        monthLabel.setText(DateUtil.convertDateToReadable(date));
+        monthLabel.setText(DateUtil.convertDateToReadableShortWords(date));
 
         if (selectTimeInterface != null) {
             selectTimeInterface.onDateChanged(bookingDate);

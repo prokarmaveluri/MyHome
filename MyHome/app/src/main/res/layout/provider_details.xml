@@ -18,16 +18,15 @@
             android:layout_height="100dp"
             android:layout_marginStart="9dp"
             android:layout_marginTop="12dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/logo" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/doctor_name"
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/doctor_image"
             android:layout_marginEnd="18dp"
+            android:layout_marginTop="6dp"
             android:layout_marginStart="13dp"
             android:layout_toRightOf="@id/doctor_image"
             android:text="Dr. Edward Patterson, MD"
@@ -55,8 +54,10 @@
             android:layout_alignLeft="@id/doctor_name"
             android:layout_below="@id/speciality"
             android:layout_marginEnd="18dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/book_appointment" />
+            android:layout_marginTop="12dp"
+            android:text="@string/book_appointment"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <com.github.aakira.expandablelayout.ExpandableLinearLayout
             android:id="@+id/expandable_layout"
@@ -121,7 +122,7 @@
             android:layout_alignBottom="@id/phone_icon"
             android:layout_alignTop="@id/phone_icon"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="16dp"
             android:autoLink="phone"
             android:gravity="center"
             android:text="1-844-274-8497"

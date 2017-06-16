@@ -391,8 +391,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
      * @return
      */
     private boolean isAllInputsValid() {
-        if (CommonUtil.isValidEmail(binder.email.getText().toString()) &&
-                CommonUtil.isValidPassword(binder.password.getText().toString())) {
+        if (CommonUtil.isValidEmail(binder.email.getText().toString()) && !binder.password.getText().toString().isEmpty()) {
             return true;
         }
         return false;
