@@ -238,6 +238,8 @@
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:lineSpacingExtra="5sp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
                     android:textColorHint="@color/db_gunmetal" />
 
                 <LinearLayout
