@@ -199,7 +199,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     }
 
     private void updateProfileViews() {
-        if (ProfileManager.getProfile().firstName != null || ProfileManager.getProfile().firstName != null) {
+        if (ProfileManager.getProfile() != null && ProfileManager.getProfile().firstName != null) {
             binding.txtDbTitle.setText("Welcome home, " + ProfileManager.getProfile().firstName + "!");
         } else {
             binding.txtDbTitle.setText(getString(R.string.not_available));
