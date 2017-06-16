@@ -28,10 +28,12 @@ import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.home.HomeFragment;
+import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.MapView;
@@ -402,8 +404,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (activityTag == ActivityTag.PROVIDER_DETAILS) {
             ProviderDetailsFragment frag = ((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG));
 
-            if(frag == null || !frag.onBackButtonPressed()){
-                if(fm.getBackStackEntryCount() > 0){
+            if (frag == null || !frag.onBackButtonPressed()) {
+                if (fm.getBackStackEntryCount() > 0) {
                     fm.popBackStack();
                 } else {
                     super.onBackPressed();
@@ -469,6 +471,19 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onResume() {
         super.onResume();
+        // session expiry
+        if (AuthManager.getInstance().isExpiried()){
+            Intent intent = LoginActivity.getLoginIntent(this);
+            startActivity(intent);
+            finish();
+        }
+        AuthManager.getInstance().setIdleTime(0);
         hideHomeButton();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AuthManager.getInstance().setIdleTime(System.currentTimeMillis());
     }
 }
