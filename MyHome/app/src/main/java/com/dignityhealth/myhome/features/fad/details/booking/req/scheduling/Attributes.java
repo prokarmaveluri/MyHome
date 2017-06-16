@@ -4,6 +4,7 @@ import com.dignityhealth.myhome.features.fad.Appointment;
 import com.dignityhealth.myhome.features.fad.Office;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
+import com.dignityhealth.myhome.utils.DateUtil;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -171,7 +172,7 @@ public class Attributes {
         this.address2 = profile.address.line2;
         this.appointmentAt = appointment.Time;
         this.appointmentType = appointment.AppointmentTypes.get(0).Id;
-        this.birthdate = profile.dateOfBirth;
+        this.birthdate = DateUtil.convertUTCtoHyphen(profile.dateOfBirth);
         this.caregiverName = profile.primaryCaregiverName;
         this.city = profile.address.city;
         this.email = profile.email;
