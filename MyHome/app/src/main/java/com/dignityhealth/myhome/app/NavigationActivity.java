@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.app;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -34,6 +36,7 @@ import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
+import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.MapView;
@@ -472,10 +475,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     protected void onResume() {
         super.onResume();
         // session expiry
-        if (AuthManager.getInstance().isExpiried()){
-            Intent intent = LoginActivity.getLoginIntent(this);
-            startActivity(intent);
-            finish();
+        if (AuthManager.getInstance().isExpiried()) {
+            buildSessionAlert(getString(R.string.session_expiry_message));
         }
         AuthManager.getInstance().setIdleTime(0);
         hideHomeButton();
@@ -484,6 +485,23 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onPause() {
         super.onPause();
+        AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
         AuthManager.getInstance().setIdleTime(System.currentTimeMillis());
+    }
+
+    private void buildSessionAlert(String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setTitle(R.string.session_expiry)
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        Intent intent = LoginActivity.getLoginIntent(NavigationActivity.this);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }

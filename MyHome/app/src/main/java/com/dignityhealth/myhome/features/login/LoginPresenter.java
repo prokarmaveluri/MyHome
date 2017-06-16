@@ -10,6 +10,7 @@ import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.features.profile.signout.CreateSessionResponse;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
+import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
 
 import retrofit2.Call;
@@ -75,6 +76,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                     // get id_token & session id
                     AuthManager.getInstance().setCount(0);
                     ProfileManager.clearSessionData();
+                    AppPreferences.getInstance().setLongPreference("IDLE_TIME", 0);
                     AuthManager.getInstance().setExpiresAt(response.body().getExpiresAt());
                     AuthManager.getInstance().setSessionToken(response.body().getSessionToken());
                     Timber.d("Session token : " + response.body().getSessionToken());
