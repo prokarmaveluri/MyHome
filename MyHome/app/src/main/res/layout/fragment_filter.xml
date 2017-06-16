@@ -243,6 +243,7 @@
                     android:layout_below="@+id/filterLocation"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:background="@color/background"
                     android:visibility="gone" />
             </RelativeLayout>
         </ScrollView>

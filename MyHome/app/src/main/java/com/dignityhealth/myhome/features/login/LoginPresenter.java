@@ -73,6 +73,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                 if (response.isSuccessful()) {
                     // get id_token & session id
                     AuthManager.getInstance().setCount(0);
+                    AuthManager.getInstance().setExpiresAt(response.body().getExpiresAt());
                     AuthManager.getInstance().setSessionToken(response.body().getSessionToken());
                     Timber.d("Session token : " + response.body().getSessionToken());
                     mView.fetchIdToken(response.body().getSessionToken());

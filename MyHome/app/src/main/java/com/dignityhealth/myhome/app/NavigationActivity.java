@@ -14,14 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.appointments.AppointmentsDetailsFragment;
 import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
@@ -31,14 +28,12 @@ import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.home.HomeFragment;
+import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
-import com.dignityhealth.myhome.features.profile.ProfileResponse;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
-import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
-import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.MapView;
@@ -46,11 +41,6 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -422,8 +412,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (activityTag == ActivityTag.PROVIDER_DETAILS) {
             ProviderDetailsFragment frag = ((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG));
 
-            if(frag == null || !frag.onBackButtonPressed()){
-                if(fm.getBackStackEntryCount() > 0){
+            if (frag == null || !frag.onBackButtonPressed()) {
+                if (fm.getBackStackEntryCount() > 0) {
                     fm.popBackStack();
                 } else {
                     super.onBackPressed();
@@ -489,6 +479,19 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onResume() {
         super.onResume();
+        // session expiry
+        if (AuthManager.getInstance().isExpiried()){
+            Intent intent = LoginActivity.getLoginIntent(this);
+            startActivity(intent);
+            finish();
+        }
+        AuthManager.getInstance().setIdleTime(0);
         hideHomeButton();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AuthManager.getInstance().setIdleTime(System.currentTimeMillis());
     }
 }
