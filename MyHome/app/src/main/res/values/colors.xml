@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--For transparency, see here: https://stackoverflow.com/a/11019879/2128921-->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
     <!--Theme Colors -->
-
+    <color name="background">@color/white</color>
     <color name="primary">@color/teal</color>
     <color name="primary_dark">@color/teal_dark</color>
     <color name="accent">@color/teal</color>

@@ -16,7 +16,7 @@
 
     <item
         android:id="@+id/appointments"
-        android:icon="@mipmap/appointments_blue"
+        android:icon="@drawable/blue_appointments"
         android:title="@string/appointments"
         app:showAsAction="ifRoom" />
 

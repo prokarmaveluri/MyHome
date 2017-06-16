@@ -108,8 +108,11 @@ public class ProfileEditFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 CommonUtil.hideSoftKeyboard(getActivity());
-                new DatePickerDialog(getActivity(), dateSetListener,
-                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), dateSetListener,
+                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                datePickerDialog.show();
             }
         });
 

@@ -23,7 +23,7 @@ public class DateUtil {
     //Date formats
     public static final String DATE_FORMAT = "MM/dd/yy";
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.US);
-    public static final String DATE_SHORT_WORDS_FORMAT = "EEE MMM dd";
+    public static final String DATE_SHORT_WORDS_FORMAT = "EEE, MMM dd";
     public static final SimpleDateFormat SIMPLE_DATE_SHORT_WORDS_FORMAT = new SimpleDateFormat(DATE_SHORT_WORDS_FORMAT, Locale.US);
     public static final String DATE_WORDS_1st_FORMAT = "MMMM d'st,' yyyy";   //Adds a "st" to the day (like 1st)
     public static final SimpleDateFormat SIMPLE_DATE_WORDS_1st_FORMAT = new SimpleDateFormat(DATE_WORDS_1st_FORMAT, Locale.US);
@@ -111,6 +111,16 @@ public class DateUtil {
      */
     public static String convertDateToReadable(Date date) {
         return SIMPLE_DATE_FORMAT.format(date);
+    }
+
+    /**
+     * Convert a Date object into a human-friendly format.
+     *
+     * @param date the date object. This object's date should already be set and finalized before making this call.
+     * @return a String representing the UTC Date (formatted like such: "EEE, MMM dd")
+     */
+    public static String convertDateToReadableShortWords(Date date) {
+        return SIMPLE_DATE_SHORT_WORDS_FORMAT.format(date);
     }
 
     /**

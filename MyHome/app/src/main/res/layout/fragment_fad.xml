@@ -51,9 +51,9 @@
                 android:src="@mipmap/search_blue" />
 
             <RelativeLayout
-                android:clickable="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="true">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/search_layout"
@@ -62,7 +62,7 @@
                     android:layout_margin="8dp"
                     android:background="@color/white"
                     android:elevation="8dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/searchQuery"
@@ -110,7 +110,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fadTabs"
-            android:background="@color/white"
             android:visibility="gone" />
 
         <ProgressBar
