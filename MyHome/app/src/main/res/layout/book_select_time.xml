@@ -53,9 +53,10 @@
         android:layout_height="35dp"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:paddingLeft="22dp"
-        android:paddingRight="22dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="@string/no_appointments_available"
+        android:textSize="18sp"
         android:visibility="gone" />
 
     <Button
@@ -65,9 +66,10 @@
         android:layout_height="35dp"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:paddingLeft="22dp"
-        android:paddingRight="22dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="@string/call_for_todays_appointmentss"
+        android:textSize="18sp"
         android:visibility="gone" />
 
 </LinearLayout>
