@@ -61,8 +61,7 @@
 
         <ScrollView xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -241,7 +240,6 @@
                     android:layout_below="@+id/filterLocation"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@color/white"
                     android:visibility="gone" />
             </RelativeLayout>
         </ScrollView>

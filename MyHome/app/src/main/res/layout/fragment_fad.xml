@@ -55,7 +55,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@color/white"
                 android:elevation="8dp"
                 android:visibility="gone">
 
@@ -65,7 +64,6 @@
                     android:layout_height="48dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@color/white"
                     android:drawableLeft="@mipmap/search"
                     android:drawablePadding="8dp"
                     android:drawableRight="@mipmap/xblue"
@@ -105,7 +103,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fadTabs"
-            android:background="@color/white"
             android:visibility="gone" />
 
         <ProgressBar
