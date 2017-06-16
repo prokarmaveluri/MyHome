@@ -59,7 +59,6 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     protected static final String APPOINTMENT_KEY = "appointment_key";
     private static final int RECENT_PROVIDERS = 200;
     private HomeBinding binding;
-
     Appointment appointment = null;
 
     public static HomeFragment newInstance() {
@@ -72,10 +71,16 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         binding = DataBindingUtil.inflate(inflater, R.layout.home, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.dashboard));
 
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         // Read More contents
-        doSpannableChangesReadMore("The Power of Time Off: Why Vacations Are Essential. ", "Read More",
+        doSpannableChangesReadMore(getString(R.string.db_text_one)+" ", getString(R.string.db_readmore),
                 binding.txtDbDidyouknowFirst);
-        doSpannableChangesReadMore("A Little Bit of Color: Don't Let a Sunburn Get You Down This Summer.", "Read More",
+        doSpannableChangesReadMore(getString(R.string.db_text_two)+" ",getString(R.string.db_readmore),
                 binding.txtDbDidyouknowSecond);
 
         binding.txtDbAppointViewall.setOnClickListener(new View.OnClickListener() {
@@ -106,28 +111,29 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             }
         });
         binding.etxtDbFindcare.setOnEditorActionListener(this);
+
         if (ConnectionUtil.isConnected(getActivity())) {
             // Get Name from profile
             if (ProfileManager.getProfile() == null) {
-                Timber.i("Don't have a saved Profile. Retrieving profile now...");
+                Timber.i(getString(R.string.db_profile_alert_one));
                 getProfileInfo(AuthManager.getInstance().getBearerToken());
             } else {
-                Timber.i("Already have a Profile Singleton. Updating the view...");
-                updateAppointViews();
+                Timber.i(getString(R.string.db_profile_alert_two));
+                updateProfileViews();
             }
-
+            // Get Appointment Info
             if (ProfileManager.getAppointments() == null) {
-                // Get Appointment Info
+                Timber.i(getString(R.string.db_appoint_alert_one));
                 getAppointmentInfo(AuthManager.getInstance().getBearerToken());
             } else {
-                Timber.i("Already have a Profile Singleton. Updating the view...");
-                updateProfileViews();
+                Timber.i(getString(R.string.db_appoint_alert_two));
+                updateAppointViews();
+
             }
         } else {
             Toast.makeText(getActivity(), R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
         }
-        return binding.getRoot();
     }
 
     @Override
@@ -162,7 +168,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             bundle.putBoolean("PROVIDER_RECENT", true);
             dialog.setArguments(bundle);
             dialog.setTargetFragment(this, RECENT_PROVIDERS);
-            dialog.show(getFragmentManager(), "List Dialog");
+            dialog.show(getFragmentManager(), getString(R.string.db_list_dilaog));
         } else {
             Toast.makeText(activity, getString(R.string.no_recent_providers),
                     Toast.LENGTH_LONG).show();
@@ -170,28 +176,29 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     }
 
     private void getProfileInfo(String bearer) {
-        Timber.i("Session bearer " + bearer);
+        Timber.i(getString(R.string.db_session_bearer)+" " + bearer);
         showLoading();
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (isAdded()) {
-                    hideLoading();
+
                     if (response.isSuccessful()) {
-                        Timber.d("Successful Response\n" + response);
+                        Timber.d(getString(R.string.db_res_success)+"\n" + response);
                         ProfileManager.setProfile(response.body().result);
                         updateProfileViews();
                     } else {
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e(getString(R.string.db_res_notsuccess)+"\n" + response);
                     }
+                    hideLoading();
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
                 if (isAdded()) {
-                    Timber.e("Something failed! :/");
-                    Timber.e("Throwable = " + t);
+                    Timber.e(getString(R.string.db_res_failed));
+                    Timber.e(getString(R.string.db_res_throwable)+" = "+ t);
                     hideLoading();
                 }
             }
@@ -199,10 +206,10 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     }
 
     private void updateProfileViews() {
-        if (ProfileManager.getProfile().firstName != null || ProfileManager.getProfile().firstName != null) {
-            binding.txtDbTitle.setText("Welcome home, " + ProfileManager.getProfile().firstName + "!");
+        if (ProfileManager.getProfile().preferredName != null) {
+            binding.txtDbTitle.setText(getString(R.string.db_welcome_one)+" "+ ProfileManager.getProfile().preferredName + "!");
         } else {
-            binding.txtDbTitle.setText(getString(R.string.not_available));
+            binding.txtDbTitle.setText(getString(R.string.db_welcome_two));
         }
     }
 
@@ -214,14 +221,15 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             @Override
             public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
                 if (isAdded()) {
-                    hideLoading();
+
                     if (response.isSuccessful()) {
                         AppointmentResponse result = response.body();
                         ProfileManager.setAppointments(result.result.appointments);
                         updateAppointViews();
                     } else {
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e(getString(R.string.db_res_notsuccess)+"\n" + response);
                     }
+                    hideLoading();
                 }
             }
 
@@ -229,8 +237,8 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             public void onFailure(Call<AppointmentResponse> call, Throwable t) {
                 if (isAdded()) {
                     hideLoading();
-                    Timber.e("Something failed! :/");
-                    Timber.e("Throwable = " + t);
+                    Timber.e(getString(R.string.db_res_failed));
+                    Timber.e(getString(R.string.db_res_throwable)+" = "+ t);
                 }
             }
         });
@@ -259,12 +267,12 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             binding.relDbAppointItemLayout.setVisibility(View.VISIBLE);
             binding.viewAppointDivider.setVisibility(View.VISIBLE);
             SpannableStringBuilder builder1 = new SpannableStringBuilder();
-            SpannableString partOne = new SpannableString("It looks like you have ");
+            SpannableString partOne = new SpannableString(getString(R.string.db_appoint_one)+" ");
             SpannableString partTwo = new SpannableString(String.valueOf(appointments.size()));
             partTwo.setSpan(new StyleSpan(Typeface.BOLD), 0, String.valueOf(appointments.size()).length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            SpannableString partThree = new SpannableString(" appointment scheduled");
-            SpannableString partFour = new SpannableString(" appointments scheduled");
+            SpannableString partThree = new SpannableString(" "+getString(R.string.db_appoint_two));
+            SpannableString partFour = new SpannableString(" "+getString(R.string.db_appoint_three));
             builder1.append(partOne);
             builder1.append(partTwo);
 
@@ -296,7 +304,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             binding.relDbAppointItemLayout.setVisibility(View.GONE);
             binding.viewAppointDivider.setVisibility(View.GONE);
             binding.txtDbAppointViewall.setVisibility(View.GONE);
-            binding.txtDbAppointContent.setText("No appointments scheduled!");
+            binding.txtDbAppointContent.setText(getString(R.string.db_appoint_four));
         }
     }
 
@@ -316,7 +324,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
 
             @Override
             public void onClick(View textView) {
-                Toast.makeText(getActivity(), "Read More Clicked!",
+                Toast.makeText(getActivity(), getString(R.string.db_readmore_click),
                         Toast.LENGTH_LONG).show();
             }
         };
@@ -331,7 +339,6 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE ||
                 actionId == EditorInfo.IME_ACTION_SEARCH) {
-
             if (v.getText().toString().length() > 0) {
                 FadFragment.currentSearchQuery = v.getText().toString();
                 ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);

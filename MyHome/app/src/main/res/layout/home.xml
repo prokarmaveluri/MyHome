@@ -196,6 +196,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="18dp"
                     android:letterSpacing="-0.01"
+                    android:stateListAnimator="@null"
                     android:text="Schedule an Appointment" />
 
                 <LinearLayout
@@ -236,6 +237,7 @@
                     android:layout_marginTop="13dp"
                     android:hint="Seach for a doctor, speciality or condition"
                     android:imeOptions="actionSearch"
+                    android:stateListAnimator="@null"
                     android:inputType="text"
                     android:lineSpacingExtra="5sp"
                     android:textColorHint="@color/db_gunmetal" />
@@ -274,7 +276,7 @@
                     android:layout_marginEnd="11dp"
                     android:layout_marginStart="11dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/sunset_picture"
+                    android:background="@mipmap/sunset_picture"
                     android:scaleType="fitCenter" />
 
 
@@ -301,7 +303,7 @@
                     android:layout_marginEnd="11dp"
                     android:layout_marginStart="11dp"
                     android:layout_marginTop="19dp"
-                    android:background="@drawable/dog_picture"
+                    android:background="@mipmap/dog_picture"
                     android:scaleType="fitCenter" />
 
                 <TextView

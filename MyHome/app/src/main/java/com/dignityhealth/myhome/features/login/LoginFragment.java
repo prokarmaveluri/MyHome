@@ -37,6 +37,7 @@ import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.databinding.FragmentLoginBinding;
 import com.dignityhealth.myhome.features.contact.ContactUsActivity;
 import com.dignityhealth.myhome.features.login.forgot.password.ForgotPasswordActivity;
+import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
@@ -183,6 +184,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                             showView(false);
                             TealiumUtil.trackEvent(Constants.SIGN_IN_EVENT, null);
                             presenter.signIn(request);
+
                         }
                     } else {
                         Toast.makeText(getActivity(), R.string.no_network_msg,
@@ -346,6 +348,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 case ACTION_FINISH:
                     //received token and stored it in AuthManager. start nav activity
                     if (isAdded()) {
+                        //  Pre- load profile and appointment
+                        ProfileManager.getProfileInfo();
+                        ProfileManager.getAppointmentInfo();
                         AuthManager.getInstance().setCount(0);
                         Intent intentHome = new Intent(getActivity(), NavigationActivity.class);
                         intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);

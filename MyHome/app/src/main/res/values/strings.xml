@@ -155,5 +155,26 @@
     <string name="app_suggest_update_message">Please update your app in the App Store. We have made several improvements since your last visit and don\'t want you to miss out!</string>
     <string name="new_update_available">New Update Available!</string>
     <string name="no_recent_providers">No recently viewed doctors</string>
+    <!--Dashboard-->
+    <string name="db_text_one">The Power of Time Off: Why Vacations Are Essential.</string>
+    <string name="db_text_two">A Little Bit of Color: Don\'t Let a Sunburn Get You Down This Summer.</string>
+    <string name="db_readmore">Read More</string>
+    <string name="db_profile_alert_one">Don\'t have a saved Profile. Retrieving profile now...</string>
+    <string name="db_profile_alert_two">Already have a Profile Singleton. Updating the view...</string>
+    <string name="db_appoint_alert_one">Don\'t have a saved Appointment. Retrieving profile now...</string>
+    <string name="db_appoint_alert_two">Already have a Appointment Singleton. Updating the view...</string>
+    <string name="db_list_dilaog">List Dialog</string>
+    <string name="db_welcome_one">Welcome home,</string>
+    <string name="db_welcome_two">Welcome home!</string>
+    <string name="db_res_success">Successful Response</string>
+    <string name="db_res_notsuccess">Response, but not successful?</string>
+    <string name="db_res_failed">Something failed! :/</string>
+    <string name="db_res_throwable">Throwable</string>
+    <string name="db_appoint_one">It looks like you have</string>
+    <string name="db_appoint_two">appointment scheduled</string>
+    <string name="db_appoint_three">appointments scheduled</string>
+    <string name="db_appoint_four">No appointments scheduled!</string>
+    <string name="db_readmore_click">Read More Clicked!</string>
+    <string name="db_session_bearer">Session bearer</string>
 
 </resources>

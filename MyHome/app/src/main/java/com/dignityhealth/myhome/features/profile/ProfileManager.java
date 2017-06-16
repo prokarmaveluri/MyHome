@@ -59,7 +59,7 @@ public class ProfileManager {
     /**
      * Simply makes the network call for getting the Profile of the currently logged in user and loads it into Singleton
      */
-    public static void queryProfile() {
+    public static void getProfileInfo() {
         String bearerToken = AuthManager.getInstance().getBearerToken();
         NetworkManager.getInstance().getProfile(bearerToken).enqueue(new Callback<ProfileResponse>() {
             @Override
@@ -80,10 +80,9 @@ public class ProfileManager {
         });
     }
 
-    public static void getAppointmentInfo(String bearer) {
-
-        Timber.i("Session bearer " + bearer);
-        NetworkManager.getInstance().getAppointments(bearer).enqueue(new Callback<AppointmentResponse>() {
+    public static void getAppointmentInfo() {
+        String bearerToken = AuthManager.getInstance().getBearerToken();
+        NetworkManager.getInstance().getAppointments(bearerToken).enqueue(new Callback<AppointmentResponse>() {
             @Override
             public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
                 if (response.isSuccessful()) {

@@ -14,11 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.appointments.AppointmentsDetailsFragment;
 import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
@@ -30,8 +33,12 @@ import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.home.HomeFragment;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
+import com.dignityhealth.myhome.features.profile.ProfileResponse;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
+import com.dignityhealth.myhome.networking.NetworkManager;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
+import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.MapView;
@@ -39,6 +46,11 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -81,7 +93,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         } else {
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
-        ProfileManager.queryProfile();
+        /*//  Pre- load profile and appointment
+        ProfileManager.getProfileInfo();
+        ProfileManager.getAppointmentInfo();*/
+
         setSupportActionBar(appToolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -114,6 +129,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         //Pre-load Google Play Services
 //        loadGooglePlayServices();
+
+
+
     }
 
     @Override
@@ -124,6 +142,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         ProfileManager.setProfile(null);
         RecentlyViewedDataSourceDB.getInstance().close();
     }
+
+
 
     /**
      * Sets the activity tag. The tag is used to determine what page the user is on
