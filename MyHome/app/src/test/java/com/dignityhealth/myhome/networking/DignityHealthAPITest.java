@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.networking;
 import com.dignityhealth.myhome.features.login.LoginRequest;
 import com.dignityhealth.myhome.features.login.LoginResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
+import com.dignityhealth.myhome.features.profile.ProfileResponse;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 
 import org.junit.Assert;
@@ -54,12 +55,12 @@ public class DignityHealthAPITest {
     public void getProfile_Success() {
         Assert.assertTrue(AuthManager.getInstance().getBearerToken() != null
                 && !AuthManager.getInstance().getBearerToken().isEmpty()); //Check if bearer token in singleton is assigned or not
-        Call<Profile> call = NetworkManager.getInstance().getProfile(CURRENT_BEARER_TOKEN);
+        Call<ProfileResponse> call = NetworkManager.getInstance().getProfile(CURRENT_BEARER_TOKEN);
         try {
-            Response<Profile> response = call.execute();
+            Response<ProfileResponse> response = call.execute();
             Assert.assertNotNull(response);
             Assert.assertTrue(response.isSuccessful());
-            Profile profile = response.body();
+            Profile profile = response.body().result;
             Assert.assertNotNull(profile);
         } catch (IOException e) {
             e.printStackTrace();
