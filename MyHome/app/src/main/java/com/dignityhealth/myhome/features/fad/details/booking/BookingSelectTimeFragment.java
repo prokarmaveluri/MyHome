@@ -342,7 +342,7 @@ public class BookingSelectTimeFragment extends Fragment {
 //    }
 
     public void setMonthHeader(Date date) {
-        monthLabel.setText(DateUtil.convertDateToReadable(date));
+        monthLabel.setText(DateUtil.convertDateToReadableShortWords(date));
 
         if (selectTimeInterface != null) {
             selectTimeInterface.onDateChanged(bookingDate);

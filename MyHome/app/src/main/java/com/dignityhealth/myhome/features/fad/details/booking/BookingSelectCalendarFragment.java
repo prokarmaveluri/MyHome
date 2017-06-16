@@ -129,7 +129,7 @@ public class BookingSelectCalendarFragment extends Fragment {
     }
 
     public void setMonthHeader(CalendarDay calendarDay) {
-        monthLabel.setText(DateUtil.convertDateToReadable(calendarDay.getDate()));
+        monthLabel.setText(DateUtil.convertDateToReadableShortWords(calendarDay.getDate()));
 
         if (selectTimeInterface != null) {
             selectTimeInterface.onDateChanged(calendarDay.getDate());

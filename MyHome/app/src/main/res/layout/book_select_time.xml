@@ -49,28 +49,24 @@
     <Button
         android:id="@+id/empty_appointments"
         style="@style/selectableButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="326dp"
+        android:layout_height="35dp"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:paddingRight="22dp"
         android:paddingLeft="22dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingRight="22dp"
         android:text="@string/no_appointments_available"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/call_for_appointment"
         style="@style/selectableButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_width="326dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
         android:gravity="center"
-        android:paddingRight="22dp"
         android:paddingLeft="22dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingRight="22dp"
         android:text="@string/call_for_todays_appointmentss"
         android:visibility="gone" />
 
