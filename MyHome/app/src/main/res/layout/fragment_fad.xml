@@ -110,6 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fadTabs"
+            android:background="@color/background"
             android:visibility="gone" />
 
         <ProgressBar
