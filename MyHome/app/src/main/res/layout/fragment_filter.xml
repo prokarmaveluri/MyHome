@@ -115,7 +115,7 @@
                             android:id="@+id/distance"
                             style="@style/tradeGothicLTStdLight_14"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="35dp"
                             android:layout_margin="4dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_boarder_acent"
@@ -124,13 +124,14 @@
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <RadioButton
                             android:id="@+id/bestMatch"
                             style="@style/tradeGothicLTStdLight_14"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="35dp"
                             android:layout_margin="4dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_boarder_acent"
@@ -139,13 +140,14 @@
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <RadioButton
                             android:id="@+id/lastName"
                             style="@style/tradeGothicLTStdLight_14"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="35dp"
                             android:layout_margin="4dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_boarder_acent"
@@ -154,6 +156,7 @@
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </RadioGroup>
 
@@ -170,11 +173,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:layout_marginTop="16dp"
-                            android:progressTint="@color/accent"
-                            android:thumbTint="@color/accent"
                             android:layout_toLeftOf="@+id/distanceRangeText"
                             android:max="100"
-                            android:secondaryProgress="@color/accent" />
+                            android:progressTint="@color/accent"
+                            android:secondaryProgress="@color/accent"
+                            android:thumbTint="@color/accent" />
 
                         <TextView
                             android:id="@+id/distanceRangeText"
