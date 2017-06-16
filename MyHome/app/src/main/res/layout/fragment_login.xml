@@ -49,6 +49,7 @@
                 android:maxLines="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textSize="18sp"
                 tools:ignore="HardcodedText" />
 
 
@@ -68,6 +69,7 @@
                 android:maxLines="1"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textSize="18sp"
                 tools:ignore="HardcodedText" />
 
             <Button
@@ -81,6 +83,7 @@
                 android:onClick="@{handlers::onClickEvent}"
                 android:text="@string/action_Login"
                 android:textAllCaps="false"
+                android:textSize="18sp"
                 android:textStyle="normal" />
 
             <TextView
@@ -96,7 +99,8 @@
                 android:paddingTop="8dp"
                 android:text="@string/forgot_password"
                 android:textAlignment="center"
-                android:textColor="@color/primary" />
+                android:textColor="@color/primary"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/login_help"
@@ -110,7 +114,8 @@
                 android:padding="16dp"
                 android:text="@string/login_help"
                 android:textAlignment="center"
-                android:textColor="@color/primary" />
+                android:textColor="@color/primary"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/enroll_now"
@@ -123,7 +128,8 @@
                 android:padding="16dp"
                 android:text="@string/enroll_now"
                 android:textAlignment="center"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="18sp" />
         </RelativeLayout>
 
 
