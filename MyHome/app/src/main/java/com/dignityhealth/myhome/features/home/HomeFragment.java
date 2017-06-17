@@ -1,8 +1,10 @@
 package com.dignityhealth.myhome.features.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Spannable;
@@ -326,8 +328,15 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
 
             @Override
             public void onClick(View textView) {
-                Toast.makeText(getActivity(), "Read More Clicked!",
-                        Toast.LENGTH_LONG).show();
+                int id = textView.getId();
+                switch (id){
+                    case R.id.txt_db_didyouknow_first:
+                        startWebView(Constants.DID_YOU_KNOW_SEC1);
+                        break;
+                    case R.id.txt_db_didyouknow_second:
+                        startWebView(Constants.DID_YOU_KNOW_SEC2);
+                        break;
+                }
             }
         };
         partTwo.setSpan(span1, 0, partTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -351,5 +360,10 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             return true;
         }
         return false;
+    }
+
+    private void startWebView(String url){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 }
