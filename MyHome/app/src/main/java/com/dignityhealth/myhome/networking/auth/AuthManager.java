@@ -7,6 +7,8 @@ import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.DateUtil;
 
+import timber.log.Timber;
+
 /**
  * Created by cmajji on 5/1/17.
  */
@@ -26,6 +28,7 @@ public class AuthManager {
     private static long prevTimestamp = 0;
     private static long MINITUES_5 = 5 * 60 * 1000;
     private static long DAYS_10 = 10 * 24 * 60 * 60 * 1000;
+    private static long TEST_2 = 2 * 60 * 1000;
 
     private static final AuthManager ourInstance = new AuthManager();
 
@@ -155,12 +158,16 @@ public class AuthManager {
             if (System.currentTimeMillis() > expiresAt)
                 return true;
 
+            setIdleTime(AppPreferences.getInstance().getLongPreference("IDLE_TIME"));
             if (getIdleTime() <= 0)
                 return false;
 
             // idle time is more than 10days
-            if (System.currentTimeMillis() > (getIdleTime() + DAYS_10))
+            if (System.currentTimeMillis() > (getIdleTime() + TEST_2)) {
+                Timber.i("Expiry true: " + (System.currentTimeMillis() - (getIdleTime() + TEST_2)));
                 return true;
+            }
+            Timber.i("Expiry false: " + (System.currentTimeMillis() - (getIdleTime() + TEST_2)));
             return false;
         } catch (NullPointerException ex) {
             return false;
