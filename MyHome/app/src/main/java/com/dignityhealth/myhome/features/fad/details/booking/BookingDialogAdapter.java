@@ -45,8 +45,11 @@ public class BookingDialogAdapter extends PagerAdapter {
 
     TextInputLayout caregiverLayout;
     TextInputEditText caregiverName;
+    TextInputLayout firstNameLayout;
     TextInputEditText firstName;
+    TextInputLayout lastNameLayout;
     TextInputEditText lastName;
+    TextInputLayout preferredNameLayout;
     TextInputEditText preferredName;
     TextView genderLabel;
     Spinner gender;
@@ -54,13 +57,20 @@ public class BookingDialogAdapter extends PagerAdapter {
     RadioGroup areYouPregnantGroup;
     TextInputLayout weeksPregnantLayout;
     TextInputEditText weeksPregnant;
+    TextInputLayout dateOfBirthLayout;
     TextInputEditText dateOfBirth;
+    TextInputLayout addressLayout;
     TextInputEditText address;
+    TextInputLayout address2Layout;
     TextInputEditText address2;
+    TextInputLayout cityLayout;
     TextInputEditText city;
     Spinner state;
+    TextInputLayout zipLayout;
     TextInputEditText zip;
+    TextInputLayout phoneLayout;
     TextInputEditText phone;
+    TextInputLayout emailLayout;
     TextInputEditText email;
     TextView translatorLabel;
     RadioGroup translatorGroup;
@@ -68,10 +78,14 @@ public class BookingDialogAdapter extends PagerAdapter {
     TextInputEditText translatorLanguage;
     TextView assistanceLabel;
     RadioGroup assistanceGroup;
+    TextInputLayout reasonForVisitLayout;
     TextInputEditText reasonForVisit;
 
+    TextInputLayout insuranceProviderLayout;
     TextInputEditText insuranceProvider;
+    TextInputLayout memberIdLayout;
     TextInputEditText memberId;
+    TextInputLayout groupLayout;
     TextInputEditText group;
 
     Calendar myCalendar = Calendar.getInstance();
@@ -166,16 +180,22 @@ public class BookingDialogAdapter extends PagerAdapter {
     }
 
     private void setupInsurance() {
+        insuranceProviderLayout = (TextInputLayout) insuranceLayout.findViewById(R.id.provider_layout);
         insuranceProvider = (TextInputEditText) insuranceLayout.findViewById(R.id.provider);
+        memberIdLayout = (TextInputLayout) insuranceLayout.findViewById(R.id.id_layout);
         memberId = (TextInputEditText) insuranceLayout.findViewById(R.id.id);
+        groupLayout = (TextInputLayout) insuranceLayout.findViewById(R.id.group_layout);
         group = (TextInputEditText) insuranceLayout.findViewById(R.id.group);
     }
 
     private void setupPersonal() {
         caregiverLayout = (TextInputLayout) personalLayout.findViewById(R.id.caregiver_name_layout);
         caregiverName = (TextInputEditText) personalLayout.findViewById(R.id.caregiver_name);
+        firstNameLayout = (TextInputLayout) personalLayout.findViewById(R.id.first_name_layout);
         firstName = (TextInputEditText) personalLayout.findViewById(R.id.first_name);
+        lastNameLayout = (TextInputLayout) personalLayout.findViewById(R.id.last_name_layout);
         lastName = (TextInputEditText) personalLayout.findViewById(R.id.last_name);
+        preferredNameLayout = (TextInputLayout) personalLayout.findViewById(R.id.preferred_name_layout);
         preferredName = (TextInputEditText) personalLayout.findViewById(R.id.preferred_name);
         genderLabel = (TextView) personalLayout.findViewById(R.id.gender_label);
         gender = (Spinner) personalLayout.findViewById(R.id.gender);
@@ -183,13 +203,20 @@ public class BookingDialogAdapter extends PagerAdapter {
         areYouPregnantGroup = (RadioGroup) personalLayout.findViewById(R.id.group_pregnant);
         weeksPregnantLayout = (TextInputLayout) personalLayout.findViewById(R.id.weeks_layout);
         weeksPregnant = (TextInputEditText) personalLayout.findViewById(R.id.weeks);
+        dateOfBirthLayout = (TextInputLayout) personalLayout.findViewById(R.id.dob_layout);
         dateOfBirth = (TextInputEditText) personalLayout.findViewById(R.id.dob);
+        addressLayout = (TextInputLayout) personalLayout.findViewById(R.id.address_layout);
         address = (TextInputEditText) personalLayout.findViewById(R.id.address);
+        address2Layout = (TextInputLayout) personalLayout.findViewById(R.id.address2_layout);
         address2 = (TextInputEditText) personalLayout.findViewById(R.id.address2);
+        cityLayout = (TextInputLayout) personalLayout.findViewById(R.id.city_layout);
         city = (TextInputEditText) personalLayout.findViewById(R.id.city);
         state = (Spinner) personalLayout.findViewById(R.id.state);
+        zipLayout = (TextInputLayout) personalLayout.findViewById(R.id.zip_layout);
         zip = (TextInputEditText) personalLayout.findViewById(R.id.zip);
+        phoneLayout = (TextInputLayout) personalLayout.findViewById(R.id.phone_layout);
         phone = (TextInputEditText) personalLayout.findViewById(R.id.phone);
+        emailLayout = (TextInputLayout) personalLayout.findViewById(R.id.email_layout);
         email = (TextInputEditText) personalLayout.findViewById(R.id.email);
         translatorLabel = (TextView) personalLayout.findViewById(R.id.translator_label);
         translatorGroup = (RadioGroup) personalLayout.findViewById(R.id.group_translator);
@@ -197,6 +224,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         translatorLanguage = (TextInputEditText) personalLayout.findViewById(R.id.translator_language);
         assistanceLabel = (TextView) personalLayout.findViewById(R.id.assistance_label);
         assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_assistance);
+        reasonForVisitLayout = (TextInputLayout) personalLayout.findViewById(R.id.booking_reason_layout);
         reasonForVisit = (TextInputEditText) personalLayout.findViewById(R.id.booking_reason);
         progressBar = (ProgressBar) personalLayout.findViewById(R.id.progress_bar);
 
@@ -587,23 +615,23 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             if (insuranceProvider.getText().toString().isEmpty()) {
                 isValid = false;
-                insuranceProvider.setError("Insurance Provider Name Required");
+                insuranceProviderLayout.setError("Insurance Provider Name Required");
             } else {
-                insuranceProvider.setError(null);
+                insuranceProviderLayout.setError(null);
             }
 
             if (memberId.getText().toString().isEmpty()) {
                 isValid = false;
-                memberId.setError("Member ID Required");
+                memberIdLayout.setError("Member ID Required");
             } else {
-                memberId.setError(null);
+                memberIdLayout.setError(null);
             }
 
             if (group.getText().toString().isEmpty()) {
                 isValid = false;
-                group.setError("Group ID Required");
+                groupLayout.setError("Group ID Required");
             } else {
-                group.setError(null);
+                groupLayout.setError(null);
             }
 
         } else if (page == 1) {
@@ -611,42 +639,54 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             if (caregiverName.getVisibility() == View.VISIBLE && caregiverName.getText().toString().isEmpty()) {
                 isValid = false;
-                caregiverName.setError("Caregiver Name Required");
+                caregiverLayout.setError("Caregiver Name Required");
+            } else {
+                caregiverLayout.setError(null);
             }
 
             if (firstName.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()) {
                 isValid = false;
-                firstName.setError("First Name Required");
+                firstNameLayout.setError("First Name Required");
+            } else {
+                firstNameLayout.setError(null);
             }
 
             if (lastName.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()) {
                 isValid = false;
-                lastName.setError("Last Name Required");
+                lastNameLayout.setError("Last Name Required");
+            } else {
+                lastNameLayout.setError(null);
             }
 
             if (dateOfBirth.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
                 isValid = false;
-                dateOfBirth.setError("Date of Birth Required");
+                dateOfBirthLayout.setError("Date of Birth Required");
+            } else {
+                dateOfBirthLayout.setError(null);
             }
 
             if (phone.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()) {
                 isValid = false;
-                phone.setError("Phone Number Required");
+                phoneLayout.setError("Phone Number Required");
+            } else {
+                phoneLayout.setError(null);
             }
 
             if (email.getVisibility() == View.VISIBLE && email.getText().toString().isEmpty()) {
                 isValid = false;
-                email.setError("Email Required");
-            }
-
-            if (email.getVisibility() == View.VISIBLE && !CommonUtil.isValidEmail(email.getText().toString())) {
+                emailLayout.setError("Email Required");
+            } else if (email.getVisibility() == View.VISIBLE && !CommonUtil.isValidEmail(email.getText().toString())) {
                 isValid = false;
-                email.setError("Email Invalid");
+                emailLayout.setError("Email Invalid");
+            } else {
+                emailLayout.setError(null);
             }
 
             if (reasonForVisit.getVisibility() == View.VISIBLE && reasonForVisit.getText().toString().isEmpty()) {
                 isValid = false;
-                reasonForVisit.setError("Reason For Visit Required");
+                reasonForVisitLayout.setError("Reason For Visit Required");
+            } else {
+                reasonForVisitLayout.setError(null);
             }
         }
 
