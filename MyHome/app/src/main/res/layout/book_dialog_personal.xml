@@ -93,8 +93,9 @@
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
+            android:layout_marginLeft="4dp"
             android:text="@string/gender"
+            android:textColor="@color/text_darker"
             android:textSize="14sp" />
 
         <Spinner
@@ -102,6 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:layout_marginLeft="-2dp"
             android:entries="@array/profile_gender" />
 
         <TextView
@@ -414,7 +416,6 @@
             android:id="@+id/booking_reason_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">

@@ -358,15 +358,13 @@ public class BookingDialogAdapter extends PagerAdapter {
             if (fields != null) {
                 if (fields.contains(ValidationUtil.FIELD_CAREGIVER_NAME) && !autoPopulateFromProfile) {
                     caregiverLayout.setVisibility(View.VISIBLE);
-                    caregiverName.setVisibility(View.VISIBLE);
                 } else {
                     caregiverLayout.setVisibility(View.GONE);
-                    caregiverName.setVisibility(View.GONE);
                 }
 
-                firstName.setVisibility(fields.contains(ValidationUtil.FIELD_FIRST_NAME) ? View.VISIBLE : View.GONE);
-                lastName.setVisibility(fields.contains(ValidationUtil.FIELD_LAST_NAME) ? View.VISIBLE : View.GONE);
-                preferredName.setVisibility(View.VISIBLE);
+                firstNameLayout.setVisibility(fields.contains(ValidationUtil.FIELD_FIRST_NAME) ? View.VISIBLE : View.GONE);
+                lastNameLayout.setVisibility(fields.contains(ValidationUtil.FIELD_LAST_NAME) ? View.VISIBLE : View.GONE);
+                preferredNameLayout.setVisibility(View.VISIBLE);
 
                 //Gender dynamic stuff based on gender AND enabled fields
                 if (fields.contains(ValidationUtil.FIELD_GENDER)) {
@@ -420,14 +418,14 @@ public class BookingDialogAdapter extends PagerAdapter {
                     genderLabel.setVisibility(View.GONE);
                 }
 
-                dateOfBirth.setVisibility(fields.contains(ValidationUtil.FIELD_BIRTHDATE) ? View.VISIBLE : View.GONE);
-                address.setVisibility(View.VISIBLE);
-                address2.setVisibility(View.VISIBLE);
-                city.setVisibility(View.VISIBLE);
+                dateOfBirthLayout.setVisibility(fields.contains(ValidationUtil.FIELD_BIRTHDATE) ? View.VISIBLE : View.GONE);
+                addressLayout.setVisibility(View.VISIBLE);
+                address2Layout.setVisibility(View.VISIBLE);
+                cityLayout.setVisibility(View.VISIBLE);
                 state.setVisibility(View.VISIBLE);
-                zip.setVisibility(fields.contains(ValidationUtil.FIELD_ZIP) ? View.VISIBLE : View.GONE);
-                phone.setVisibility(fields.contains(ValidationUtil.FIELD_PHONE_NUMBER) ? View.VISIBLE : View.GONE);
-                email.setVisibility(fields.contains(ValidationUtil.FIELD_EMAIL) ? View.VISIBLE : View.GONE);
+                zipLayout.setVisibility(fields.contains(ValidationUtil.FIELD_ZIP) ? View.VISIBLE : View.GONE);
+                phoneLayout.setVisibility(fields.contains(ValidationUtil.FIELD_PHONE_NUMBER) ? View.VISIBLE : View.GONE);
+                emailLayout.setVisibility(fields.contains(ValidationUtil.FIELD_EMAIL) ? View.VISIBLE : View.GONE);
                 translatorLabel.setVisibility(View.VISIBLE);
                 translatorGroup.setVisibility(View.VISIBLE);
 
@@ -437,13 +435,11 @@ public class BookingDialogAdapter extends PagerAdapter {
                         switch (checkedId) {
                             case R.id.translator_not_needed:
                                 translatorLanguageLayout.setVisibility(View.GONE);
-                                translatorLanguage.setVisibility(View.GONE);
                                 translatorLanguage.setText("");
                                 break;
 
                             case R.id.translator_needed:
                                 translatorLanguageLayout.setVisibility(View.VISIBLE);
-                                translatorLanguage.setVisibility(View.VISIBLE);
                                 break;
                         }
                     }
@@ -451,7 +447,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
                 assistanceLabel.setVisibility(View.VISIBLE);
                 assistanceGroup.setVisibility(View.VISIBLE);
-                reasonForVisit.setVisibility(fields.contains(ValidationUtil.FIELD_REASON_FOR_VISIT) ? View.VISIBLE : View.GONE);
+                reasonForVisitLayout.setVisibility(fields.contains(ValidationUtil.FIELD_REASON_FOR_VISIT) ? View.VISIBLE : View.GONE);
             }
         }
     }
@@ -463,31 +459,28 @@ public class BookingDialogAdapter extends PagerAdapter {
      */
     private void updateVisibility(boolean isLoading) {
         caregiverLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        caregiverName.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        firstName.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        lastName.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        preferredName.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        firstNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        lastNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        preferredNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         genderLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         gender.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         areYouPregnantLabel.setVisibility(View.GONE);
         areYouPregnantGroup.setVisibility(View.GONE);
         weeksPregnantLayout.setVisibility(View.GONE);
-        weeksPregnant.setVisibility(View.GONE);
-        dateOfBirth.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        address.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        address2.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        city.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        dateOfBirthLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        addressLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        address2Layout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        cityLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         state.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        zip.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        phone.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        email.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        zipLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        phoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        emailLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         translatorLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         translatorGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         translatorLanguageLayout.setVisibility(View.GONE);
-        translatorLanguage.setVisibility(View.GONE);
         assistanceLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         assistanceGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        reasonForVisit.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        reasonForVisitLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 
         progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
