@@ -116,6 +116,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private ArrayList<Marker> markers = new ArrayList<>();
 
     //Booking
+    private BookingDialogFragment bookingRegistrationDialog;
     private Date bookingDate;
     private boolean isBookingForMe = true;
     private boolean isNewPatient = false;
@@ -644,9 +645,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             expandableLinearLayout.initLayout();
             expandableLinearLayout.expand();
 
-            BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe);
-            dialogFragment.setBookingDialogInterface(this);
-            dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe);
+            bookingRegistrationDialog.setBookingDialogInterface(this);
+            bookingRegistrationDialog.setCancelable(false);
+            bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
         }
     }
 
@@ -688,7 +690,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
      */
     @Override
     public boolean onBackButtonPressed() {
-        if (isBookingAppointment) {
+        if (bookingRegistrationDialog != null && bookingRegistrationDialog.isVisible()) {
+            bookingRegistrationDialog.dismiss();
+            return true;
+        } else if (isBookingAppointment) {
             restartSchedulingFlow();
             return true;
         } else {
