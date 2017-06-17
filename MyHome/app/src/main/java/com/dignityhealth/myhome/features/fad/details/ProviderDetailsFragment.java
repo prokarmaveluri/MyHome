@@ -149,14 +149,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onResume() {
         super.onResume();
         RecentlyViewedDataSourceDB.getInstance().createEntry(provider);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.find_care));
-        ((NavigationActivity) getActivity()).getNavigationActionBar().show();
-        ((NavigationActivity) getActivity()).showHomeButton();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.find_care));
 
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
         myMap.getMapAsync(this);

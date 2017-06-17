@@ -133,13 +133,6 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        ((NavigationActivity) getActivity()).getNavigationActionBar().show();
-        ((NavigationActivity) getActivity()).hideHomeButton();
-    }
-
-    @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.HOME;
     }

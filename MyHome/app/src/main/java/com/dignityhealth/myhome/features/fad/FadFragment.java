@@ -103,7 +103,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fad, container, false);
 
-        ((NavigationActivity) getActivity()).getNavigationActionBar().hide();
+        ((NavigationActivity) getActivity()).getSupportActionBar().hide();
 
         binding.suggestionList.setVisibility(View.GONE);
         binding.searchLayout.setVisibility(View.GONE);
@@ -142,7 +142,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         NavigationActivity.eventBus.register(this);
         binding.suggestionList.setVisibility(View.GONE);
-        ((NavigationActivity) getActivity()).getNavigationActionBar().hide();
+        ((NavigationActivity) getActivity()).getSupportActionBar().hide();
         setActionBar();
     }
 
@@ -150,6 +150,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void onPause() {
         super.onPause();
         NavigationActivity.eventBus.unregister(this);
+        ((NavigationActivity) getActivity()).getSupportActionBar().show();
     }
 
     @Override

@@ -135,8 +135,6 @@ public class ProfileViewFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         TealiumUtil.trackView(Constants.PROFILE_SCREEN, null);
-        ((NavigationActivity) getActivity()).getNavigationActionBar().show();
-        ((NavigationActivity) getActivity()).hideHomeButton();
     }
 
     @Override

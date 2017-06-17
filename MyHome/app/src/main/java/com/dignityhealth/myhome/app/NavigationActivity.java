@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -49,19 +48,28 @@ import com.squareup.otto.ThreadEnforcer;
  * Created by kwelsh on 4/25/17.
  */
 
-public class NavigationActivity extends AppCompatActivity implements NavigationInterface {
+public class NavigationActivity extends AppCompatActivity implements NavigationInterface, FragmentManager.OnBackStackChangedListener {
 
     private static ActivityTag activityTag = ActivityTag.NONE;
     private BottomNavigationViewEx bottomNavigationView;
     private ProgressBar progressBar;
 
     public static Bus eventBus;
+    public static Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.navigation_activity);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //Listen for changes in the back stack
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        //Handle when activity is recreated like on orientation Change
+        shouldDisplayHomeUp();
 
         MapsInitializer.initialize(getApplicationContext());
         LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
@@ -434,18 +442,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         }
     }
 
-    public void showHomeButton() {
-        getNavigationActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void hideHomeButton() {
-        getNavigationActionBar().setDisplayHomeAsUpEnabled(false);
-    }
-
-    public ActionBar getNavigationActionBar() {
-        return getSupportActionBar();
-    }
-
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
@@ -479,7 +475,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             buildSessionAlert(getString(R.string.session_expiry_message));
         }
         AuthManager.getInstance().setIdleTime(0);
-        hideHomeButton();
     }
 
     @Override
@@ -487,6 +482,17 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         super.onPause();
         AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
         AuthManager.getInstance().setIdleTime(System.currentTimeMillis());
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        shouldDisplayHomeUp();
+    }
+
+    public void shouldDisplayHomeUp() {
+        //Enable Up button only if there are entries in the back stack
+        boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
     }
 
     private void buildSessionAlert(String message) {
