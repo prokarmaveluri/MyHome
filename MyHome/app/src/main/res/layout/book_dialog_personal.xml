@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="@string/gender"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <Spinner
             android:id="@+id/gender"
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="@string/are_you_pregnant"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:visibility="gone" />
 
         <RadioGroup
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/no"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <RadioButton
                 android:id="@+id/radio_pregnant"
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="@string/yes"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
         </RadioGroup>
 
@@ -327,7 +327,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="Do you need a translator?"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <RadioGroup
             android:id="@+id/group_translator"
@@ -343,7 +343,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/no"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <RadioButton
                 android:id="@+id/translator_needed"
@@ -352,7 +352,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="@string/yes"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
         </RadioGroup>
 
@@ -381,7 +381,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="Do you need standing assistance?"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <RadioGroup
             android:id="@+id/group_assistance"
@@ -397,7 +397,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/no"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <RadioButton
                 android:id="@+id/assistance_needed"
@@ -406,7 +406,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="@string/yes"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
         </RadioGroup>
 
