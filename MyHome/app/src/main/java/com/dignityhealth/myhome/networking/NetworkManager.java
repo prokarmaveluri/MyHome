@@ -59,7 +59,7 @@ public class NetworkManager {
     public void initService() {
 
         httpClient = new OkHttpClient.Builder();
-        httpClient.connectTimeout(10, TimeUnit.SECONDS);
+        httpClient.connectTimeout(1, TimeUnit.SECONDS);
 
         httpClient.addInterceptor(new Interceptor() {
             @Override

@@ -411,22 +411,26 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      */
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getSupportFragmentManager();
-        if (activityTag == ActivityTag.PROVIDER_DETAILS) {
-            ProviderDetailsFragment frag = ((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG));
+        try {
+            FragmentManager fm = getSupportFragmentManager();
+            if (activityTag == ActivityTag.PROVIDER_DETAILS) {
+                ProviderDetailsFragment frag = ((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG));
 
-            if (frag == null || !frag.onBackButtonPressed()) {
-                if (fm.getBackStackEntryCount() > 0) {
-                    fm.popBackStack();
-                } else {
-                    super.onBackPressed();
+                if (frag == null || !frag.onBackButtonPressed()) {
+                    if (fm.getBackStackEntryCount() > 0) {
+                        fm.popBackStack();
+                    } else {
+                        super.onBackPressed();
+                    }
                 }
+            } else if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
+            } else if (activityTag != ActivityTag.HOME) {
+                goToPage(ActivityTag.HOME);
+            } else {
+                super.onBackPressed();
             }
-        } else if (fm.getBackStackEntryCount() > 0) {
-            fm.popBackStack();
-        } else if (activityTag != ActivityTag.HOME) {
-            goToPage(ActivityTag.HOME);
-        } else {
+        } catch (Exception e) {
             super.onBackPressed();
         }
     }
