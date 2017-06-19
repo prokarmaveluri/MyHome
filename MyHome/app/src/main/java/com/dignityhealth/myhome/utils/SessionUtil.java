@@ -1,7 +1,9 @@
 package com.dignityhealth.myhome.utils;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -52,7 +54,8 @@ public class SessionUtil {
                 AuthManager.getInstance().getSid()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                progressBar.setVisibility(View.GONE);
+                if (null != progressBar)
+                    progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     Timber.i("Response successful: " + response);
 
@@ -77,7 +80,8 @@ public class SessionUtil {
                 Timber.i("Logout failed");
                 Toast.makeText(activity, activity.getString(R.string.something_went_wrong),
                         Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
+                if (null != progressBar)
+                    progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -97,5 +101,26 @@ public class SessionUtil {
         AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);
         RecentlyViewedDataSourceDB.getInstance().deleteTable();
+    }
+
+    public static void signOutAlert(final Activity activity, final ProgressBar progressBar) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage(R.string.signout_alert_message)
+                .setTitle(null)
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+
+                        logout(activity, progressBar);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Timber.i("Sign out alert, No option");
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }
