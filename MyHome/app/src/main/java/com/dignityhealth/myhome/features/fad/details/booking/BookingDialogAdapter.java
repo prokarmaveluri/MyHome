@@ -635,52 +635,52 @@ public class BookingDialogAdapter extends PagerAdapter {
         } else if (page == 1) {
             //Personal Page
 
-            if (caregiverName.getVisibility() == View.VISIBLE && caregiverName.getText().toString().isEmpty()) {
+            if (caregiverLayout.getVisibility() == View.VISIBLE && caregiverName.getText().toString().isEmpty()) {
                 isValid = false;
                 caregiverLayout.setError("Caregiver Name Required");
             } else {
                 caregiverLayout.setError(null);
             }
 
-            if (firstName.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()) {
+            if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()) {
                 isValid = false;
                 firstNameLayout.setError("First Name Required");
             } else {
                 firstNameLayout.setError(null);
             }
 
-            if (lastName.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()) {
+            if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()) {
                 isValid = false;
                 lastNameLayout.setError("Last Name Required");
             } else {
                 lastNameLayout.setError(null);
             }
 
-            if (dateOfBirth.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
+            if (dateOfBirthLayout.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
                 isValid = false;
                 dateOfBirthLayout.setError("Date of Birth Required");
             } else {
                 dateOfBirthLayout.setError(null);
             }
 
-            if (phone.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()) {
+            if (phoneLayout.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()) {
                 isValid = false;
                 phoneLayout.setError("Phone Number Required");
             } else {
                 phoneLayout.setError(null);
             }
 
-            if (email.getVisibility() == View.VISIBLE && email.getText().toString().isEmpty()) {
+            if (emailLayout.getVisibility() == View.VISIBLE && email.getText().toString().isEmpty()) {
                 isValid = false;
                 emailLayout.setError("Email Required");
-            } else if (email.getVisibility() == View.VISIBLE && !CommonUtil.isValidEmail(email.getText().toString())) {
+            } else if (emailLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidEmail(email.getText().toString())) {
                 isValid = false;
                 emailLayout.setError("Email Invalid");
             } else {
                 emailLayout.setError(null);
             }
 
-            if (reasonForVisit.getVisibility() == View.VISIBLE && reasonForVisit.getText().toString().isEmpty()) {
+            if (reasonForVisitLayout.getVisibility() == View.VISIBLE && reasonForVisit.getText().toString().isEmpty()) {
                 isValid = false;
                 reasonForVisitLayout.setError("Reason For Visit Required");
             } else {
