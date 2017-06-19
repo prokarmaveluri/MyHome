@@ -663,10 +663,17 @@ public class BookingDialogAdapter extends PagerAdapter {
                 dateOfBirthLayout.setError(null);
             }
 
+            if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {
+                isValid = false;
+                zipLayout.setError("Zip Invalid");
+            } else {
+                zipLayout.setError(null);
+            }
+
             if (phoneLayout.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()) {
                 isValid = false;
                 phoneLayout.setError("Phone Number Required");
-            } else if (phoneLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidMobile(phone.getText().toString())){
+            } else if (phoneLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidMobile(phone.getText().toString())) {
                 isValid = false;
                 phoneLayout.setError("Phone Number Invalid");
             } else {
