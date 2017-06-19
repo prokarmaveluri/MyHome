@@ -259,12 +259,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/profile_label_marginTop"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:layout_marginTop="6dp"
                 android:text="@string/you_cannot_edit_email_address"
                 android:textSize="13sp" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/provider_layout"
+                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
