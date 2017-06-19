@@ -141,6 +141,12 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         return binding.getRoot();
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+    }
+
     private void listListeners() {
         binding.expandableList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
