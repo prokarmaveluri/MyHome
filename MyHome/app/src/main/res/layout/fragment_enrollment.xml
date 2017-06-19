@@ -36,7 +36,9 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="42dp"
-                    android:layout_marginRight="42dp">
+                    android:layout_marginRight="42dp"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/firstName"
@@ -61,7 +63,9 @@
                     android:layout_below="@+id/firstNameLayout"
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="42dp"
-                    android:layout_marginRight="42dp">
+                    android:layout_marginRight="42dp"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/lastName"
@@ -86,7 +90,9 @@
                     android:layout_below="@+id/lastNameLayout"
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="42dp"
-                    android:layout_marginRight="42dp">
+                    android:layout_marginRight="42dp"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/email"
@@ -117,6 +123,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/password_criteria"
+                        app:errorTextAppearance="@style/error_appearance"
+                        app:hintTextAppearance="@style/hint_appearance"
                         app:passwordToggleEnabled="true"
                         app:passwordToggleTint="@color/primary">
 
@@ -156,7 +164,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/password_layout"
                     android:layout_marginLeft="42dp"
-                    android:layout_marginRight="42dp">
+                    android:layout_marginRight="42dp"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/re_enter_password"

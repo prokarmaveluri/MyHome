@@ -141,8 +141,6 @@ public class AppointmentsFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         TealiumUtil.trackView(Constants.APPOINTMENTS_SCREEN, null);
-        ((NavigationActivity) getActivity()).getNavigationActionBar().show();
-        ((NavigationActivity) getActivity()).hideHomeButton();
     }
 
     @Override

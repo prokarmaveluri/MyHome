@@ -83,12 +83,12 @@
                 <TextView
                     android:id="@+id/txt_db_appoint_content"
                     style="@style/tradeGothicLTStdLight_16"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="38dp"
                     android:layout_marginEnd="11dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="14dp"
-                    android:gravity="center|left"
+                    android:gravity="center"
                     android:lineSpacingExtra="22sp"
                     android:text="No appointments scheduled"
                     android:textColor="@color/db_gunmetal"
@@ -196,8 +196,8 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="18dp"
                     android:letterSpacing="-0.01"
-                    android:stateListAnimator="@null"
-                    android:text="Schedule an Appointment" />
+                    android:text="@string/book_an_appointment" />
+                    android:stateListAnimator="@null"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -240,6 +240,8 @@
                     android:stateListAnimator="@null"
                     android:inputType="text"
                     android:lineSpacingExtra="5sp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
                     android:textColorHint="@color/db_gunmetal" />
 
                 <LinearLayout

@@ -23,6 +23,8 @@ public class DateUtil {
     //Date formats
     public static final String DATE_FORMAT = "MM/dd/yy";
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+    public static final String DATE_HYPHEN_FORMAT = "yyyy-MM-dd";
+    public static final SimpleDateFormat SIMPLE_DATE_HYPHEN_FORMAT = new SimpleDateFormat(DATE_HYPHEN_FORMAT, Locale.US);
     public static final String DATE_SHORT_WORDS_FORMAT = "EEE, MMM dd";
     public static final SimpleDateFormat SIMPLE_DATE_SHORT_WORDS_FORMAT = new SimpleDateFormat(DATE_SHORT_WORDS_FORMAT, Locale.US);
     public static final String DATE_WORDS_1st_FORMAT = "MMMM d'st,' yyyy";   //Adds a "st" to the day (like 1st)
@@ -66,6 +68,23 @@ public class DateUtil {
         sdf.setTimeZone(TimeZone.getDefault());
 
         return sdf.parse(utcDate);
+    }
+
+    /**
+     * Convert a UTC date to a more "human-friendly" format.
+     *
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
+     * @return a String representing the UTC Date (formatted like such: "yyyy-MM--dd")
+     */
+    public static String convertUTCtoHyphen(String utcDate) {
+        try {
+            return SIMPLE_DATE_HYPHEN_FORMAT.format(getDateTimeZone(utcDate));
+        } catch (ParseException e) {
+            Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+
+        return utcDate;
     }
 
     /**

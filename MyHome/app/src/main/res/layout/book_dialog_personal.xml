@@ -16,7 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/caregiver_name"
@@ -33,7 +35,9 @@
             android:id="@+id/first_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/first_name"
@@ -50,7 +54,9 @@
             android:id="@+id/last_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/last_name"
@@ -67,7 +73,9 @@
             android:id="@+id/preferred_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/preferred_name"
@@ -85,15 +93,17 @@
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
+            android:layout_marginLeft="4dp"
             android:text="@string/gender"
-            android:textSize="13sp" />
+            android:textColor="@color/text_darker"
+            android:textSize="14sp" />
 
         <Spinner
             android:id="@+id/gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:layout_marginLeft="-2dp"
             android:entries="@array/profile_gender" />
 
         <TextView
@@ -103,7 +113,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="@string/are_you_pregnant"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:visibility="gone" />
 
         <RadioGroup
@@ -121,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/no"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <RadioButton
                 android:id="@+id/radio_pregnant"
@@ -130,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="@string/yes"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
         </RadioGroup>
 
@@ -139,7 +149,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/weeks"
@@ -156,7 +168,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/dob"
@@ -174,7 +188,9 @@
             android:id="@+id/address_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/address"
@@ -191,7 +207,9 @@
             android:id="@+id/address2_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/address2"
@@ -214,7 +232,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".6"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/city"
@@ -247,7 +267,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".4"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/zip"
@@ -265,7 +287,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".6"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/phone"
@@ -285,7 +309,9 @@
             android:id="@+id/email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/email"
@@ -303,7 +329,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="Do you need a translator?"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <RadioGroup
             android:id="@+id/group_translator"
@@ -319,7 +345,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/no"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <RadioButton
                 android:id="@+id/translator_needed"
@@ -328,7 +354,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="@string/yes"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
         </RadioGroup>
 
@@ -337,7 +363,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/translator_language"
@@ -355,7 +383,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="Do you need standing assistance?"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <RadioGroup
             android:id="@+id/group_assistance"
@@ -371,7 +399,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/no"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <RadioButton
                 android:id="@+id/assistance_needed"
@@ -380,7 +408,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="@string/yes"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
         </RadioGroup>
 
@@ -388,8 +416,9 @@
             android:id="@+id/booking_reason_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/booking_reason"

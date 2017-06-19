@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +19,9 @@
                 android:id="@+id/first_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/first_name"
@@ -36,7 +39,9 @@
                 android:id="@+id/last_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/last_name"
@@ -54,7 +59,9 @@
                 android:id="@+id/preferred_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/preferred_name"
@@ -73,15 +80,17 @@
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
+                android:layout_marginLeft="4dp"
                 android:text="@string/gender"
-                android:textSize="13sp" />
+                android:textColor="@color/text_darker"
+                android:textSize="14sp" />
 
             <Spinner
                 android:id="@+id/gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:layout_marginLeft="-2dp"
                 android:entries="@array/profile_gender" />
 
             <android.support.design.widget.TextInputLayout
@@ -89,7 +98,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:focusable="false">
+                android:focusable="false"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/dob"
@@ -107,7 +118,9 @@
                 android:id="@+id/address_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/address"
@@ -124,7 +137,9 @@
                 android:id="@+id/address2_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/address2"
@@ -147,7 +162,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_weight=".6">
+                    android:layout_weight=".6"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/city"
@@ -180,7 +197,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_weight=".4">
+                    android:layout_weight=".4"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/zip"
@@ -198,7 +217,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_weight=".6">
+                    android:layout_weight=".6"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/phone"
@@ -246,7 +267,9 @@
                 android:id="@+id/provider_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/provider"
@@ -263,7 +286,9 @@
                 android:id="@+id/id_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/id"
@@ -280,7 +305,9 @@
                 android:id="@+id/group_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/group"

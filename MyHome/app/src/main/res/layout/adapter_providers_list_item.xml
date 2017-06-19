@@ -125,6 +125,6 @@
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="20dp"
-            android:background="@color/grey" />
+            android:background="@color/db_white" />
     </RelativeLayout>
 </layout>

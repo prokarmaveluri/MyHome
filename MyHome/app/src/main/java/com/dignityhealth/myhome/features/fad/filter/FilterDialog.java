@@ -22,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.FragmentFilterBinding;
@@ -32,6 +33,7 @@ import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.CommonUtil;
+import com.dignityhealth.myhome.utils.ConnectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,6 +139,12 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         }
         binding.setHandlers(new DialogClick());
         return binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
 
     private void listListeners() {
@@ -278,6 +286,12 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
     }
 
     private void getLocationSuggestions(String query) {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         NetworkManager.getInstance().getLocationSuggestions(query)
                 .enqueue(new Callback<List<LocationResponse>>() {
                     @Override

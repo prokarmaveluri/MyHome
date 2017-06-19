@@ -68,6 +68,12 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
         return binding.getRoot();
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+    }
+
     private void setResults(Provider provider) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();

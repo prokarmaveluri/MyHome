@@ -1,8 +1,10 @@
 package com.dignityhealth.myhome.features.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Spannable;
@@ -138,13 +140,6 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        ((NavigationActivity) getActivity()).getNavigationActionBar().show();
-        ((NavigationActivity) getActivity()).hideHomeButton();
-    }
-
-    @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.HOME;
     }
@@ -178,6 +173,12 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
 
     private void getProfileInfo(String bearer) {
         Timber.i(getString(R.string.db_session_bearer)+" " + bearer);
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        Timber.i("Session bearer " + bearer);
         showLoading();
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
             @Override
@@ -215,6 +216,11 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     }
 
     private void getAppointmentInfo(String bearer) {
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         showLoading();
 
         Timber.i("Session bearer " + bearer);
@@ -327,6 +333,15 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             public void onClick(View textView) {
                 Toast.makeText(getActivity(), getString(R.string.db_readmore_click),
                         Toast.LENGTH_LONG).show();
+                int id = textView.getId();
+                switch (id){
+                    case R.id.txt_db_didyouknow_first:
+                        startWebView(Constants.DID_YOU_KNOW_SEC1);
+                        break;
+                    case R.id.txt_db_didyouknow_second:
+                        startWebView(Constants.DID_YOU_KNOW_SEC2);
+                        break;
+                }
             }
         };
         partTwo.setSpan(span1, 0, partTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -349,5 +364,10 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             return true;
         }
         return false;
+    }
+
+    private void startWebView(String url){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 }

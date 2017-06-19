@@ -40,6 +40,7 @@ import com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.CommonUtil;
+import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.utils.Constants;
 import com.dignityhealth.myhome.utils.RESTConstants;
 import com.dignityhealth.myhome.utils.SessionUtil;
@@ -102,7 +103,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fad, container, false);
 
-        ((NavigationActivity) getActivity()).getNavigationActionBar().hide();
+        ((NavigationActivity) getActivity()).getSupportActionBar().hide();
 
         binding.suggestionList.setVisibility(View.GONE);
         binding.searchLayout.setVisibility(View.GONE);
@@ -141,7 +142,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         NavigationActivity.eventBus.register(this);
         binding.suggestionList.setVisibility(View.GONE);
-        ((NavigationActivity) getActivity()).getNavigationActionBar().hide();
+        ((NavigationActivity) getActivity()).getSupportActionBar().hide();
         setActionBar();
     }
 
@@ -149,6 +150,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void onPause() {
         super.onPause();
         NavigationActivity.eventBus.unregister(this);
+        ((NavigationActivity) getActivity()).getSupportActionBar().show();
     }
 
     @Override
@@ -194,6 +196,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             Timber.i("Quick Search");
             binding.suggestionList.setVisibility(View.VISIBLE);
             updateSuggestionList(presenter.getQuickSearchSuggestions());
+            return;
+        }
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
             return;
         }
         if (null == FadManager.getInstance().getLocation()) {
@@ -460,6 +467,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             }
             if (null == FadManager.getInstance().getLocation()) {
                 Toast.makeText(getActivity(), getString(R.string.query_location_unavailable),
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (!ConnectionUtil.isConnected(getActivity())) {
+                Toast.makeText(getActivity(), R.string.no_network_msg,
                         Toast.LENGTH_LONG).show();
                 return;
             }

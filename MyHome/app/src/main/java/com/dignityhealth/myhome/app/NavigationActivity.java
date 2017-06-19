@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.app;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -31,6 +32,7 @@ import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.home.HomeFragment;
+import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.features.profile.ProfileResponse;
@@ -39,6 +41,8 @@ import com.dignityhealth.myhome.features.settings.SettingsFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.ConnectionUtil;
+import com.dignityhealth.myhome.networking.auth.AuthManager;
+import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
 import com.dignityhealth.myhome.utils.SessionUtil;
 import com.google.android.gms.maps.MapView;
@@ -56,19 +60,28 @@ import timber.log.Timber;
  * Created by kwelsh on 4/25/17.
  */
 
-public class NavigationActivity extends AppCompatActivity implements NavigationInterface {
+public class NavigationActivity extends AppCompatActivity implements NavigationInterface, FragmentManager.OnBackStackChangedListener {
 
     private static ActivityTag activityTag = ActivityTag.NONE;
     private BottomNavigationViewEx bottomNavigationView;
     private ProgressBar progressBar;
 
     public static Bus eventBus;
+    public static Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.navigation_activity);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //Listen for changes in the back stack
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        //Handle when activity is recreated like on orientation Change
+        shouldDisplayHomeUp();
 
         MapsInitializer.initialize(getApplicationContext());
         LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
@@ -93,10 +106,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         } else {
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
-        /*//  Pre- load profile and appointment
-        ProfileManager.getProfileInfo();
-        ProfileManager.getAppointmentInfo();*/
-
+        ProfileManager.queryProfile();
         setSupportActionBar(appToolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -129,9 +139,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         //Pre-load Google Play Services
 //        loadGooglePlayServices();
-
-
-
     }
 
     @Override
@@ -142,8 +149,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         ProfileManager.setProfile(null);
         RecentlyViewedDataSourceDB.getInstance().close();
     }
-
-
 
     /**
      * Sets the activity tag. The tag is used to determine what page the user is on
@@ -235,6 +240,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     fragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                             .replace(R.id.frame, fragment, ProviderDetailsFragment.PROVIDER_DETAILS_TAG)
                             .addToBackStack(null)
                             .commit();
@@ -244,6 +250,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
 
             case PROVIDERS_FILTER:
+                //This isn't being used currently; we use a dialog fragment instead
                 if (getActivityTag() != ActivityTag.PROVIDERS_FILTER) {
                     getSupportFragmentManager().executePendingTransactions();
                     FadFragment fadFragment = FadFragment.newInstance();
@@ -252,7 +259,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .replace(R.id.frame, fadFragment, FadFragment.FAD_TAG)
                             .commit();
 
-                    setActivityTag(ActivityTag.FAD);
+                    setActivityTag(ActivityTag.PROVIDERS_FILTER);
                 }
                 break;
 
@@ -276,6 +283,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     appointmentsDetailsFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                             .replace(R.id.frame, appointmentsDetailsFragment, AppointmentsDetailsFragment.APPOINTMENTS_DETAILS_TAG)
                             .addToBackStack(null)
                             .commit();
@@ -303,6 +311,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     ProfileEditFragment profileEditFragment = ProfileEditFragment.newInstance();
                     getSupportFragmentManager()
                             .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                             .replace(R.id.frame, profileEditFragment, ProfileEditFragment.PROFILE_EDIT_TAG)
                             .addToBackStack(null)
                             .commit();
@@ -418,22 +427,26 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      */
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getSupportFragmentManager();
-        if (activityTag == ActivityTag.PROVIDER_DETAILS) {
-            ProviderDetailsFragment frag = ((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG));
+        try {
+            FragmentManager fm = getSupportFragmentManager();
+            if (activityTag == ActivityTag.PROVIDER_DETAILS) {
+                ProviderDetailsFragment frag = ((ProviderDetailsFragment) fm.findFragmentByTag(ProviderDetailsFragment.PROVIDER_DETAILS_TAG));
 
-            if(frag == null || !frag.onBackButtonPressed()){
-                if(fm.getBackStackEntryCount() > 0){
-                    fm.popBackStack();
-                } else {
-                    super.onBackPressed();
+                if (frag == null || !frag.onBackButtonPressed()) {
+                    if (fm.getBackStackEntryCount() > 0) {
+                        fm.popBackStack();
+                    } else {
+                        super.onBackPressed();
+                    }
                 }
+            } else if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
+            } else if (activityTag != ActivityTag.HOME) {
+                goToPage(ActivityTag.HOME);
+            } else {
+                super.onBackPressed();
             }
-        } else if (fm.getBackStackEntryCount() > 0) {
-            fm.popBackStack();
-        } else if (activityTag != ActivityTag.HOME) {
-            goToPage(ActivityTag.HOME);
-        } else {
+        } catch (Exception e) {
             super.onBackPressed();
         }
     }
@@ -447,18 +460,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (fragmentManager != null) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
-    }
-
-    public void showHomeButton() {
-        getNavigationActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void hideHomeButton() {
-        getNavigationActionBar().setDisplayHomeAsUpEnabled(false);
-    }
-
-    public ActionBar getNavigationActionBar() {
-        return getSupportActionBar();
     }
 
     public void setActionBarTitle(String title) {
@@ -489,6 +490,44 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onResume() {
         super.onResume();
-        hideHomeButton();
+        // session expiry
+        if (AuthManager.getInstance().isExpiried()) {
+            buildSessionAlert(getString(R.string.session_expiry_message));
+        }
+        AuthManager.getInstance().setIdleTime(0);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
+        AuthManager.getInstance().setIdleTime(System.currentTimeMillis());
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        shouldDisplayHomeUp();
+    }
+
+    public void shouldDisplayHomeUp() {
+        //Enable Up button only if there are entries in the back stack
+        boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
+    }
+
+    private void buildSessionAlert(String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setTitle(R.string.session_expiry)
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        Intent intent = LoginActivity.getLoginIntent(NavigationActivity.this);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }

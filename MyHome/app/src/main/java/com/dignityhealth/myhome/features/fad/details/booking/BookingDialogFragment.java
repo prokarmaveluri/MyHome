@@ -104,6 +104,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         return dialog;
     }
@@ -168,7 +169,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     private void finishBooking() {
         final Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();
 
-        if (!formsProfile.equalsSansBookingInfo(ProfileManager.getProfile())) {
+        if (isBookingForMe && !formsProfile.equalsSansBookingInfo(ProfileManager.getProfile())) {
             BookingSaveProfileDialog dialog = BookingSaveProfileDialog.newInstance(formsProfile);
             dialog.setSaveProfileInterface(this);
             dialog.show(getChildFragmentManager(), "BookingSaveProfileDialog");

@@ -39,7 +39,9 @@
                 android:id="@+id/email_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/password_layout">
+                android:layout_above="@+id/password_layout"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/email"
@@ -63,6 +65,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/log_in_button"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintTextAppearance="@style/hint_appearance"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/primary">
 

@@ -62,7 +62,7 @@
     <string name="next">Next</string>
     <string name="contact_us_subheader">We\'re here when you need us.</string>
     <string name="contact_us_warning">If this is a medical emergency, please call 911 immediately.</string>
-    <string name="contact_us_header">Thank you for visiting \n Dignity Health.</string>
+    <string name="contact_us_header">Thank you for visiting Dignity Health.</string>
     <string name="save">Save</string>
     <string name="password_criteria">Password Criteria</string>
     <string name="search_care_or_condition">Search care or condition</string>
@@ -177,4 +177,6 @@
     <string name="db_readmore_click">Read More Clicked!</string>
     <string name="db_session_bearer">Session bearer</string>
 
+    <string name="session_expiry">Session Expired!</string>
+    <string name="session_expiry_message">Your login session expired, please login again.</string>
 </resources>
