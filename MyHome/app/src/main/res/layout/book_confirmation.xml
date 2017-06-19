@@ -6,9 +6,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp">
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp">
 
         <TextView
             android:id="@+id/date"

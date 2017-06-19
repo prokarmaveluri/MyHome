@@ -25,7 +25,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".65"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingRight="12dp">
 
             <TextView
                 android:id="@+id/label_accepting_new_patients"
@@ -81,7 +82,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".65"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingRight="12dp">
 
             <TextView
                 android:id="@+id/label_gender"

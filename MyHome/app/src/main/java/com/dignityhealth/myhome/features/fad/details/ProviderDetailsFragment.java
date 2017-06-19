@@ -204,6 +204,15 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         address.setText(provider.getOffices() != null ? provider.getOffices().get(0).getAddress1() + "\n" + provider.getOffices().get(0).getAddress() : "Address Unknown");
         phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumber(provider.getOffices().get(0).getPhone()) : "Phone Number Unknown");
         currentOffice = provider.getOffices().get(0);
+
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone.getText().toString()));
+                intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intentPhone);
+            }
+        });
     }
 
     private void getProviderDetails() {
