@@ -114,7 +114,7 @@ public class SessionUtil {
                         logout(activity, progressBar);
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Timber.i("Sign out alert, No option");
