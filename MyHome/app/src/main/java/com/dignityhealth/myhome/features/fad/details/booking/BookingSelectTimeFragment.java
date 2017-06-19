@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.features.fad.details.booking;
 
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -109,21 +110,13 @@ public class BookingSelectTimeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Adjust left arrow color and register click if in range
-                if (DateUtil.isOnSameDay(bookingDate, firstAppointmentDate) || DateUtil.isBefore(bookingDate, firstAppointmentDate)) {
-                    leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
-                } else {
-                    leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
+                if (!DateUtil.isOnSameDay(bookingDate, firstAppointmentDate) && !DateUtil.isBefore(bookingDate, firstAppointmentDate)) {
                     bookingDate = DateUtil.moveDate(bookingDate, -1);
                     setMonthHeader(bookingDate);
                     setupView();
                 }
 
-                //Adjust right arrow color
-                if (DateUtil.isOnSameDay(bookingDate, lastAppointmentDate) || DateUtil.isAfter(bookingDate, lastAppointmentDate)) {
-                    rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
-                } else {
-                    rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
-                }
+                adjustArrowColors();
 
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onBackArrowClicked();
@@ -135,21 +128,13 @@ public class BookingSelectTimeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Adjust right arrow color and register click if in range
-                if (DateUtil.isOnSameDay(bookingDate, lastAppointmentDate)) {
-                    rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
-                } else {
-                    rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
+                if (!DateUtil.isOnSameDay(bookingDate, lastAppointmentDate) && !DateUtil.isAfter(bookingDate, lastAppointmentDate)) {
                     bookingDate = DateUtil.moveDate(bookingDate, 1);
                     setMonthHeader(bookingDate);
                     setupView();
                 }
 
-                //Adjust left arrow color
-                if (DateUtil.isOnSameDay(bookingDate, firstAppointmentDate)) {
-                    leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker_20));
-                } else {
-                    leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
-                }
+                adjustArrowColors();
 
                 if (selectTimeInterface != null) {
                     selectTimeInterface.onFrontArrowClicked();
@@ -176,6 +161,7 @@ public class BookingSelectTimeFragment extends Fragment {
         todaysAppointments = getTodaysAppointments(bookingDate, allAppointments);
         firstAppointmentDate = DateUtil.findFirstAppointmentDate(allAppointments);
         lastAppointmentDate = DateUtil.findLastAppointmentDate(allAppointments);
+        adjustArrowColors();
 
         if (todaysAppointments != null && !todaysAppointments.isEmpty() && !DateUtil.isToday(bookingDate)) {
             timeLayout.setVisibility(View.VISIBLE);
@@ -342,6 +328,22 @@ public class BookingSelectTimeFragment extends Fragment {
 //
 //        return topTimes;
 //    }
+
+    private void adjustArrowColors() {
+        //Adjust left arrow color and register click if in range
+        if (DateUtil.isOnSameDay(bookingDate, firstAppointmentDate) || DateUtil.isBefore(bookingDate, firstAppointmentDate)) {
+            leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker));
+        } else {
+            leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
+        }
+
+        //Adjust right arrow color
+        if (DateUtil.isOnSameDay(bookingDate, lastAppointmentDate) || DateUtil.isAfter(bookingDate, lastAppointmentDate)) {
+            rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker), PorterDuff.Mode.MULTIPLY);
+        } else {
+            rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
+        }
+    }
 
     public void setMonthHeader(Date date) {
         monthLabel.setText(DateUtil.convertDateToReadableShortWords(date));
