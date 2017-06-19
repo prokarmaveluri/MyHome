@@ -458,7 +458,12 @@ public class BookingDialogAdapter extends PagerAdapter {
      * @param isLoading should we show the loading view or not
      */
     private void updateVisibility(boolean isLoading) {
-        caregiverLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        if (!isLoading && !autoPopulateFromProfile) {
+            caregiverLayout.setVisibility(View.VISIBLE);
+        } else {
+            caregiverLayout.setVisibility(View.GONE);
+        }
+
         firstNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         lastNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         preferredNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
