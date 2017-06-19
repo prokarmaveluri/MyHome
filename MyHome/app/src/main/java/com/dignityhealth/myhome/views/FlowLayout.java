@@ -43,6 +43,7 @@ public class FlowLayout extends ViewGroup {
     private final List<List<View>> mLines = new ArrayList<List<View>>();
     private final List<Integer> mLineHeights = new ArrayList<Integer>();
     private final List<Integer> mLineMargins = new ArrayList<Integer>();
+    private List<View> lineViews = new ArrayList<View>();
 
     private ToggleButton currentCheckedChild;
 
@@ -183,7 +184,7 @@ public class FlowLayout extends ViewGroup {
 
         int lineWidth = 0;
         int lineHeight = 0;
-        List<View> lineViews = new ArrayList<View>();
+        lineViews.clear();
 
         float horizontalGravityFactor;
         switch ((mGravity & Gravity.HORIZONTAL_GRAVITY_MASK)) {

@@ -111,6 +111,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         binding.btnDbScheduleAppoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CommonUtil.hideSoftKeyboard(getActivity());
                 startListDialog(getActivity());
             }
         });
@@ -167,8 +168,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             dialog.setTargetFragment(this, RECENT_PROVIDERS);
             dialog.show(getFragmentManager(), getString(R.string.db_list_dilaog));
         } else {
-            Toast.makeText(activity, getString(R.string.no_recent_providers),
-                    Toast.LENGTH_LONG).show();
+            ((NavigationActivity)getActivity()).goToPage(Constants.ActivityTag.FAD);
         }
     }
 
