@@ -81,7 +81,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(STYLE_NO_FRAME, android.R.style.Theme_DeviceDefault_Light);
+        setStyle(STYLE_NO_FRAME, R.style.DialogTheame);
 
         if (getArguments() != null) {
             distanceRange = getArguments().getInt("DISTANCE");

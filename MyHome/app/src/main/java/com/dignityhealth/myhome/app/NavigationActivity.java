@@ -15,14 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.R;
-import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.appointments.AppointmentsDetailsFragment;
 import com.dignityhealth.myhome.features.appointments.AppointmentsFragment;
 import com.dignityhealth.myhome.features.contact.ContactUsFragment;
@@ -35,12 +32,8 @@ import com.dignityhealth.myhome.features.home.HomeFragment;
 import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.features.profile.ProfileEditFragment;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
-import com.dignityhealth.myhome.features.profile.ProfileResponse;
 import com.dignityhealth.myhome.features.profile.ProfileViewFragment;
 import com.dignityhealth.myhome.features.settings.SettingsFragment;
-import com.dignityhealth.myhome.networking.NetworkManager;
-import com.dignityhealth.myhome.networking.auth.AuthManager;
-import com.dignityhealth.myhome.utils.ConnectionUtil;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.Constants.ActivityTag;
@@ -50,11 +43,6 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
 
 /**
  * Created by kwelsh on 4/25/17.
