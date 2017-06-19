@@ -495,7 +495,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             buildSessionAlert(getString(R.string.session_expiry_message));
         }
         AuthManager.getInstance().setIdleTime(0);
-        hideHomeButton();
+        //hideHomeButton();
     }
 
     @Override
