@@ -96,7 +96,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         binding.relDbAppointItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.APPOINTMENTS);
+                //((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.APPOINTMENTS);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(APPOINTMENT_KEY, appointment);
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.APPOINTMENTS_DETAILS, bundle);
