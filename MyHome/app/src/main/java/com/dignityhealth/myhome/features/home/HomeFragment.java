@@ -32,6 +32,7 @@ import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.fad.FadFragment;
 import com.dignityhealth.myhome.features.fad.Provider;
 import com.dignityhealth.myhome.features.fad.ProviderListDialog;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
 import com.dignityhealth.myhome.features.profile.ProfileResponse;
@@ -369,5 +370,27 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     private void startWebView(String url){
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RECENT_PROVIDERS) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data.getExtras() != null) {
+                    Provider provider = data.getExtras().getParcelable("PROVIDER");
+                    providerDetails(provider);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param provider
+     */
+    private void providerDetails(Provider provider) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
+        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 }

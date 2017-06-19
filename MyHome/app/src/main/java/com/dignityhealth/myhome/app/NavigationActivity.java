@@ -409,7 +409,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 ActivityCompat.startActivity(this, intentDeveloper, options.toBundle());
                 return true;
             case R.id.sign_out:
-                SessionUtil.logout(this, progressBar);
+//                SessionUtil.logout(this, progressBar);
+                SessionUtil.signOutAlert(this, progressBar);
                 return true;
             case android.R.id.home:
                 onBackPressed();

@@ -183,7 +183,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 ActivityCompat.startActivity(getActivity(), intentDeveloper, options.toBundle());
                 return true;
             case R.id.sign_out:
-                SessionUtil.logout(getActivity(), binding.fadProgress);
+//                SessionUtil.logout(getActivity(), binding.fadProgress);
+                SessionUtil.signOutAlert(getActivity(), binding.fadProgress);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

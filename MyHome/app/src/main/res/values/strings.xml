@@ -179,4 +179,5 @@
 
     <string name="session_expiry">Session Expired!</string>
     <string name="session_expiry_message">Your login session expired, please login again.</string>
+    <string name="signout_alert_message">Are you sure you want to sign out?</string>
 </resources>
