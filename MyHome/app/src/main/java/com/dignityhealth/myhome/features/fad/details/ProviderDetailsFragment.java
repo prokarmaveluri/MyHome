@@ -506,7 +506,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         bookingFragment.setSelectStatusInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .replace(R.id.booking_frame, bookingFragment)
                 .addToBackStack(null)
                 .commit();
@@ -522,7 +522,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         bookingFragment.setSelectTimeInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .replace(R.id.booking_frame, bookingFragment)
                 .addToBackStack(null)
                 .commit();
@@ -605,7 +605,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         bookingFragment.setBookingConfirmationInterface(this);
         getChildFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .replace(R.id.booking_frame, bookingFragment)
                 .addToBackStack(null)
                 .commit();

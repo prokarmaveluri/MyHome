@@ -104,6 +104,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         return dialog;
     }

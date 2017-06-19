@@ -228,6 +228,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     fragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                             .replace(R.id.frame, fragment, ProviderDetailsFragment.PROVIDER_DETAILS_TAG)
                             .addToBackStack(null)
                             .commit();
@@ -237,6 +238,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
 
             case PROVIDERS_FILTER:
+                //This isn't being used currently; we use a dialog fragment instead
                 if (getActivityTag() != ActivityTag.PROVIDERS_FILTER) {
                     getSupportFragmentManager().executePendingTransactions();
                     FadFragment fadFragment = FadFragment.newInstance();
@@ -245,7 +247,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .replace(R.id.frame, fadFragment, FadFragment.FAD_TAG)
                             .commit();
 
-                    setActivityTag(ActivityTag.FAD);
+                    setActivityTag(ActivityTag.PROVIDERS_FILTER);
                 }
                 break;
 
@@ -269,6 +271,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     appointmentsDetailsFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                             .replace(R.id.frame, appointmentsDetailsFragment, AppointmentsDetailsFragment.APPOINTMENTS_DETAILS_TAG)
                             .addToBackStack(null)
                             .commit();
@@ -296,6 +299,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     ProfileEditFragment profileEditFragment = ProfileEditFragment.newInstance();
                     getSupportFragmentManager()
                             .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                             .replace(R.id.frame, profileEditFragment, ProfileEditFragment.PROFILE_EDIT_TAG)
                             .addToBackStack(null)
                             .commit();
