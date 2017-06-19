@@ -427,7 +427,7 @@
                 android:background="@drawable/edit_text_boarder_grey"
                 android:gravity="left"
                 android:hint="@string/booking_reason_hint"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords|textMultiLine" />
 
         </android.support.design.widget.TextInputLayout>
 

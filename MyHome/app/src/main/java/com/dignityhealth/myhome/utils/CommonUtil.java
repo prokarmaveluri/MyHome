@@ -72,6 +72,10 @@ public class CommonUtil {
         }
     }
 
+    public static boolean isValidMobile(String phone) {
+        return android.util.Patterns.PHONE.matcher(phone).matches();
+    }
+
     public static String getBulletPoints(Context context) {
         String points = "";
         for (int index = 0; index < getCriteria(context).size(); index++) {

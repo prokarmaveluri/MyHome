@@ -666,6 +666,9 @@ public class BookingDialogAdapter extends PagerAdapter {
             if (phoneLayout.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()) {
                 isValid = false;
                 phoneLayout.setError("Phone Number Required");
+            } else if (phoneLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidMobile(phone.getText().toString())){
+                isValid = false;
+                phoneLayout.setError("Phone Number Invalid");
             } else {
                 phoneLayout.setError(null);
             }
