@@ -106,7 +106,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         } else {
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
-        ProfileManager.queryProfile();
+        //ProfileManager.queryProfile();
         setSupportActionBar(appToolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(

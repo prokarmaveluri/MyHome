@@ -331,8 +331,8 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
 
             @Override
             public void onClick(View textView) {
-                Toast.makeText(getActivity(), getString(R.string.db_readmore_click),
-                        Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getActivity(), getString(R.string.db_readmore_click),
+                        Toast.LENGTH_LONG).show();*/
                 int id = textView.getId();
                 switch (id){
                     case R.id.txt_db_didyouknow_first:

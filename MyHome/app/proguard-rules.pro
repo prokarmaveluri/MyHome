@@ -47,9 +47,12 @@
 # For using GSON @Expose annotation
 -keepattributes *Annotation*
 
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+-keepattributes EnclosingMethod
+
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
-#-keep class com.google.gson.stream.** { *; }
+-keep class com.google.gson.stream.** { *; }
 
 # Application classes that will be serialized/deserialized over Gson
 -keep class com.google.gson.examples.android.model.** { *; }
@@ -74,3 +77,61 @@
 -keep class com.squareup.okhttp3.**
 #-keep class com.dignityhealth.myhome.features.login.LoginRequest { *; }
 #-keep class com.dignityhealth.myhome.features.login.LoginResponse { *; }
+
+## Google Play Services specific rules ##
+## https://developer.android.com/google/play-services/setup.html#Proguard ##
+
+-keep class * extends java.util.ListResourceBundle {
+    protected Object[][] getContents();
+}
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
+    public static final *** NULL;
+}
+-keepnames @com.google.android.gms.common.annotation.KeepName class *
+-keepclassmembernames class * {
+    @com.google.android.gms.common.annotation.KeepName *;
+}
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+## Square Picasso specific rules ##
+## https://square.github.io/picasso/ ##
+-dontwarn com.squareup.okhttp.**
+
+## appcompat specific rules ##
+-keep public class android.support.v7.widget.** { *; }
+-keep public class android.support.v7.internal.widget.** { *; }
+-keep public class android.support.v7.internal.view.menu.** { *; }
+-keep public class * extends android.support.v4.view.ActionProvider {
+    public <init>(android.content.Context);
+}
+## design specific rules ##
+-dontwarn android.support.design.**
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }
+
+
+
+# Retrofit 2.X
+## https://square.github.io/retrofit/ ##
+
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+# Cardview
+-keep class android.support.v7.widget.RoundRectDrawable { *; }
+
+## Square Otto specific rules ##
+## https://square.github.io/otto/ ##
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @com.squareup.otto.Subscribe public *;
+    @com.squareup.otto.Produce public *;
+}
