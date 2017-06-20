@@ -2,6 +2,8 @@ package com.dignityhealth.myhome.features.fad.details.booking.req.scheduling;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by cmajji on 6/8/17.
  */
@@ -71,6 +73,9 @@ public class CreateAppointmentResponse {
     }
 
     public class Value {
+        public Jsonapi jsonapi;
+        public Data data;
+        private List<Error> errors = null;
 
         public Jsonapi getJsonapi() {
             return jsonapi;
@@ -80,7 +85,8 @@ public class CreateAppointmentResponse {
             return data;
         }
 
-        public Jsonapi jsonapi;
-        public Data data;
+        public List<Error> getErrors() {
+            return errors;
+        }
     }
 }

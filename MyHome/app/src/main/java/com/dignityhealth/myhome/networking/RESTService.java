@@ -105,7 +105,7 @@ public interface RESTService {
     @GET(RESTConstants.S2_BASE_URL + "api/providerdetails")
     Call<ProviderDetailsResponse> getProviderDetails(@Query("providerid") String id);
 
-    @POST(RESTConstants.SCHEDULING_BASE + "v1/visit")
+    @POST(RESTConstants.SCHEDULING_BASE + RESTConstants.SCHEDULING_VISIT)
     Call<CreateAppointmentResponse> createAppointment(@Header("Authorization") String bearer,
                                                       @Body CreateAppointmentRequest appointment);
 
