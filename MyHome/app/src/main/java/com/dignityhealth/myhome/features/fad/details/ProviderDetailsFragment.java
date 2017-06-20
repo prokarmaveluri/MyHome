@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
+import com.dignityhealth.myhome.app.RecyclerViewListener;
 import com.dignityhealth.myhome.features.fad.Appointment;
 import com.dignityhealth.myhome.features.fad.Office;
 import com.dignityhealth.myhome.features.fad.Provider;
@@ -98,7 +99,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView gender;
     private TextView experience;
     private TextView philosophy;
-    private TextView locations;
+    private RecyclerView locations;
     private TextView locationsLabel;
 
     //stats Experience
@@ -369,7 +370,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         gender = (TextView) statsProfileView.findViewById(R.id.gender);
         experience = (TextView) statsProfileView.findViewById(R.id.experience);
         philosophy = (TextView) statsProfileView.findViewById(R.id.philosophy);
-        locations = (TextView) statsProfileView.findViewById(R.id.locations);
+        locations = (RecyclerView) statsProfileView.findViewById(R.id.locations_list);
         locationsLabel = (TextView) statsProfileView.findViewById(R.id.label_locations);
 
         acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? getString(R.string.yes) : getString(R.string.no));
@@ -407,7 +408,29 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             locationsLabel.setLayoutParams(params);
         }
 
-        locations.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.prettyPrintLineBreak(providerDetailsResponse.getOffices()) : getString(R.string.unknown));
+        locations.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+
+        if (providerDetailsResponse != null && providerDetailsResponse.getOffices() != null) {
+            locations.setAdapter(new ProviderDetailsLocationAdapter(getActivity(), providerDetailsResponse.getOffices(), new RecyclerViewListener() {
+                @Override
+                public void onItemClick(Object model, int position) {
+                    //Do nothing on location item click...
+                }
+
+                @Override
+                public void onPinClick(Object model, int position) {
+                    Office office = (Office) model;
+                    CommonUtil.getDirections(getActivity(), office.getAddress1(), office.getCity(), office.getState());
+                }
+            }));
+        } else {
+            locations.setAdapter(new ProviderDetailsLocationAdapter(getActivity(), null, null));
+        }
     }
 
     private void updateStatsViewEducation(final ProviderDetailsResponse providerDetailsResponse) {

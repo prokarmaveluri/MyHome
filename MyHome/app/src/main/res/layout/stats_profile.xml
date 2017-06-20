@@ -158,13 +158,9 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/locations"
-        style="@style/tradeGothicLTStdLight_14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="90 Madison St\nSte 504\nDenver, CO 80206"
-        android:textSize="18sp"
-        tools:ignore="HardcodedText" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/locations_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

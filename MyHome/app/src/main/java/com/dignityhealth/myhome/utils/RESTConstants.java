@@ -7,13 +7,13 @@ package com.dignityhealth.myhome.utils;
 public class RESTConstants {
 
     public static final String OKTA_BASE_URL = "https://dignityhealth.oktapreview.com/";
-    public static final String CIAM_BASE_URL = "https://dev.ciam.dignityhealth.org/";
+    public static final String CIAM_BASE_URL = "https://stage.ciam.dignityhealth.org/";
 //    public static final String S2_BASE_URL = "https://e3findadocapp.azurewebsites.net/";
     public static final String S2_BASE_URL = "https://e0findadocapprel9.azurewebsites.net/";
-    public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-dev.azurewebsites.net/api/";
+    public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-stg.azurewebsites.net/";
 
-    public static final String SCHEDULING_VISIT = "v1/visit/";
-    public static final String SCHEDULING_VALIDATION = "v1/visit/schedule/{scheduleID}/visit-settings";
+    public static final String SCHEDULING_VISIT = "api/v1/visit/";
+    public static final String SCHEDULING_VALIDATION = "api/v1/visit/schedule/{scheduleID}/visit-settings";
 
     public static final String PROVIDER_PAGE_NO = "1";
     public static final String PROVIDER_PAGE_SIZE = "25";

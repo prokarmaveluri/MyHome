@@ -323,6 +323,24 @@ public class CommonUtil {
     }
 
     /**
+     * Launch Google Maps with address given
+     *
+     * @param context
+     * @param address1        line 1 of the address of the destination
+     * @param city            city of destination
+     * @param stateOrProvince the state of the destination
+     */
+    public static void getDirections(Context context, String address1, String city, String stateOrProvince) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("google.navigation:q=" + Uri.encode(address1 + "," + city + "," + stateOrProvince)));
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            Timber.e(ex);
+        }
+    }
+
+    /**
      * Constructs the Intent for Sharing an Appointment.
      * We format the appointment values appropriately.
      *
