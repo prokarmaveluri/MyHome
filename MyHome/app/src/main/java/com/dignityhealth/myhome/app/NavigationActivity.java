@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -43,6 +44,8 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
+
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -515,4 +518,23 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        Timber.i("User interaction ");
+
+//        mHandler.removeCallbacks(runnable);
+//        mHandler.postDelayed(runnable, AuthManager.SESSION_EXPIRY_TIME);
+    }
+
+    private Handler mHandler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (AuthManager.getInstance().isExpiried()) {
+                buildSessionAlert(getString(R.string.session_expiry_message));
+            }
+        }
+    };
 }

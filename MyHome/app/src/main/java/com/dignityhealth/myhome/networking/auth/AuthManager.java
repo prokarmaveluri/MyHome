@@ -27,8 +27,8 @@ public class AuthManager {
 
     private static long prevTimestamp = 0;
     private static long MINITUES_5 = 5 * 60 * 1000;
-    private static long DAYS_10 = 10 * 24 * 60 * 60 * 1000;
-    private static long TEST_2 = 2 * 60 * 1000;
+//    public static long SESSION_EXPIRY_TIME = 10 * 24 * 60 * 60 * 1000;
+    public static long SESSION_EXPIRY_TIME = 2 * 60 * 1000;
 
     private static final AuthManager ourInstance = new AuthManager();
 
@@ -147,6 +147,7 @@ public class AuthManager {
     }
 
 
+
     public boolean isExpiried() {
         try {
             long expiresAt = DateUtil.getMilliseconds(getExpiresAt());
@@ -160,11 +161,11 @@ public class AuthManager {
                 return false;
 
             // idle time is more than 10days
-            if (System.currentTimeMillis() > (getIdleTime() + TEST_2)) {
-                Timber.i("Expiry true: " + (System.currentTimeMillis() - (getIdleTime() + TEST_2)));
+            if (System.currentTimeMillis() > (getIdleTime() + SESSION_EXPIRY_TIME)) {
+                Timber.i("Expiry true: " + (System.currentTimeMillis() - (getIdleTime() + SESSION_EXPIRY_TIME)));
                 return true;
             }
-            Timber.i("Expiry false: " + (System.currentTimeMillis() - (getIdleTime() + TEST_2)));
+            Timber.i("Expiry false: " + (System.currentTimeMillis() - (getIdleTime() + SESSION_EXPIRY_TIME)));
             return false;
         } catch (NullPointerException ex) {
             return false;
