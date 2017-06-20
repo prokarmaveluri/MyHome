@@ -45,8 +45,6 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
-import timber.log.Timber;
-
 /**
  * Created by kwelsh on 4/25/17.
  */
@@ -132,6 +130,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     protected void onDestroy() {
         super.onDestroy();
         eventBus = null;
+        mHandler.removeCallbacks(runnable);
         FadManager.getInstance().setLocation(null);
         ProfileManager.setProfile(null);
         RecentlyViewedDataSourceDB.getInstance().close();
@@ -482,12 +481,15 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (AuthManager.getInstance().isExpiried()) {
             buildSessionAlert(getString(R.string.session_expiry_message));
         }
-        AuthManager.getInstance().setIdleTime(0);
+        mHandler.removeCallbacks(runnable);
+        AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
+        mHandler.postDelayed(runnable, AuthManager.SESSION_EXPIRY_TIME);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mHandler.removeCallbacks(runnable);
         AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
         AuthManager.getInstance().setIdleTime(System.currentTimeMillis());
     }
@@ -522,10 +524,13 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        Timber.i("User interaction ");
 
-//        mHandler.removeCallbacks(runnable);
-//        mHandler.postDelayed(runnable, AuthManager.SESSION_EXPIRY_TIME);
+        if (AuthManager.getInstance().isExpiried()) {
+            buildSessionAlert(getString(R.string.session_expiry_message));
+        }
+        mHandler.removeCallbacks(runnable);
+        AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
+        mHandler.postDelayed(runnable, AuthManager.SESSION_EXPIRY_TIME);
     }
 
     private Handler mHandler = new Handler();
