@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class ProviderListDialog extends DialogFragment implements ProvidersAdapter.IProviderClick {
 
     private boolean recent = false;
+    private boolean fromHome = false;
     private FragmentListDialogBinding binding;
     private ArrayList<Provider> providerList = new ArrayList<>();
 
@@ -44,6 +45,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
             ArrayList<Provider> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
             providerList.addAll(list);
             recent = getArguments().getBoolean("PROVIDER_RECENT");
+            fromHome = getArguments().getBoolean("PROVIDER_RECENT_HOME");
         }
     }
 
@@ -63,6 +65,12 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
         bundle.putBoolean("PROVIDER_RECENT", recent);
         fragment.setArguments(bundle);
         transaction.replace(binding.listFrame.getId(), fragment).commit();
+
+        if (fromHome) {
+            binding.findCare.setVisibility(View.VISIBLE);
+        } else {
+            binding.findCare.setVisibility(View.GONE);
+        }
 
         binding.setHandlers(new DialogClick());
         return binding.getRoot();
@@ -97,7 +105,18 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
                 case R.id.dialog_close:
                     dismiss();
                     break;
+                case R.id.find_care:
+                    setResults();
+                    dismiss();
+                    break;
             }
+        }
+    }
+
+    private void setResults() {
+        try {
+            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_FIRST_USER, null);
+        } catch (NullPointerException ex) {
         }
     }
 }

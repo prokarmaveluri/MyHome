@@ -164,6 +164,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
 
             bundle.putParcelableArrayList("PROVIDER_LIST", providers);
             bundle.putBoolean("PROVIDER_RECENT", true);
+            bundle.putBoolean("PROVIDER_RECENT_HOME", true);
             dialog.setArguments(bundle);
             dialog.setTargetFragment(this, RECENT_PROVIDERS);
             dialog.show(getFragmentManager(), getString(R.string.db_list_dilaog));
@@ -382,6 +383,10 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                 if (data.getExtras() != null) {
                     Provider provider = data.getExtras().getParcelable("PROVIDER");
                     providerDetails(provider);
+                }
+            } else if (resultCode == Activity.RESULT_FIRST_USER) {
+                if (getActivity() != null){
+                    ((NavigationActivity)getActivity()).goToPage(Constants.ActivityTag.FAD);
                 }
             }
         }
