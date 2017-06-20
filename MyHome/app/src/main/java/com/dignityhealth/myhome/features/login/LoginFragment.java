@@ -94,6 +94,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")) {
             binder.email.setText("jjonnalagadda@prokarma.com");
             binder.password.setText("Pass123*");
+//            binder.email.setText("a.jackson@mail.com");
+//            binder.password.setText("Dignity1!!");
         }
 
         binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email,

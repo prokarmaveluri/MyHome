@@ -14,6 +14,7 @@ public class InsuranceProvider implements Parcelable {
     public String insurancePlan;
     public String groupNumber;
     public String memberNumber;
+    public String insurancePhoneNumber;
 
     @Override
     public String toString() {
@@ -22,6 +23,7 @@ public class InsuranceProvider implements Parcelable {
                 ", insurancePlan='" + insurancePlan + '\'' +
                 ", groupNumber='" + groupNumber + '\'' +
                 ", memberNumber='" + memberNumber + '\'' +
+                ", insurancePhoneNumber='" + insurancePhoneNumber + '\'' +
                 '}';
     }
 
@@ -33,12 +35,13 @@ public class InsuranceProvider implements Parcelable {
         return Objects.equals(providerName, that.providerName) &&
                 Objects.equals(insurancePlan, that.insurancePlan) &&
                 Objects.equals(groupNumber, that.groupNumber) &&
-                Objects.equals(memberNumber, that.memberNumber);
+                Objects.equals(memberNumber, that.memberNumber) &&
+                Objects.equals(insurancePhoneNumber, that.insurancePhoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(providerName, insurancePlan, groupNumber, memberNumber);
+        return Objects.hash(providerName, insurancePlan, groupNumber, memberNumber, insurancePhoneNumber);
     }
 
     /**
@@ -50,11 +53,12 @@ public class InsuranceProvider implements Parcelable {
     public static InsuranceProvider copy(InsuranceProvider otherInsuranceProvider) {
         InsuranceProvider insuranceProvider = new InsuranceProvider();
 
-        if(otherInsuranceProvider != null) {
+        if (otherInsuranceProvider != null) {
             insuranceProvider.providerName = otherInsuranceProvider.providerName;
             insuranceProvider.insurancePlan = otherInsuranceProvider.insurancePlan;
             insuranceProvider.groupNumber = otherInsuranceProvider.groupNumber;
             insuranceProvider.memberNumber = otherInsuranceProvider.memberNumber;
+            insuranceProvider.insurancePhoneNumber = otherInsuranceProvider.insurancePhoneNumber;
         }
 
         return insuranceProvider;
@@ -71,6 +75,7 @@ public class InsuranceProvider implements Parcelable {
         dest.writeString(this.insurancePlan);
         dest.writeString(this.groupNumber);
         dest.writeString(this.memberNumber);
+        dest.writeString(this.insurancePhoneNumber);
     }
 
     public InsuranceProvider() {
@@ -81,6 +86,7 @@ public class InsuranceProvider implements Parcelable {
         this.insurancePlan = in.readString();
         this.groupNumber = in.readString();
         this.memberNumber = in.readString();
+        this.insurancePhoneNumber = in.readString();
     }
 
     public static final Parcelable.Creator<InsuranceProvider> CREATOR = new Parcelable.Creator<InsuranceProvider>() {

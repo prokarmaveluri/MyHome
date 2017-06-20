@@ -87,6 +87,8 @@ public class BookingDialogAdapter extends PagerAdapter {
     TextInputEditText memberId;
     TextInputLayout groupLayout;
     TextInputEditText group;
+    TextInputLayout insurancePhoneLayout;
+    TextInputEditText insurancePhone;
 
     Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -186,6 +188,10 @@ public class BookingDialogAdapter extends PagerAdapter {
         memberId = (TextInputEditText) insuranceLayout.findViewById(R.id.id);
         groupLayout = (TextInputLayout) insuranceLayout.findViewById(R.id.group_layout);
         group = (TextInputEditText) insuranceLayout.findViewById(R.id.group);
+        insurancePhoneLayout = (TextInputLayout) insuranceLayout.findViewById(R.id.insurance_phone_layout);
+        insurancePhone = (TextInputEditText) insuranceLayout.findViewById(R.id.insurance_phone);
+
+        insurancePhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
     }
 
     private void setupPersonal() {
@@ -577,6 +583,10 @@ public class BookingDialogAdapter extends PagerAdapter {
             formsProfile.insuranceProvider.groupNumber = group.getText().toString().trim();
         }
 
+        if (insurancePhone.getVisibility() == View.VISIBLE && insurancePhone.getText() != null && !insurancePhone.getText().toString().isEmpty()) {
+            formsProfile.insuranceProvider.insurancePhoneNumber = insurancePhone.getText().toString().trim();
+        }
+
         if (translatorGroup.getVisibility() == View.VISIBLE) {
             if (translatorGroup.getCheckedRadioButtonId() == R.id.translator_needed) {
                 formsProfile.translationNeeded = true;
@@ -630,6 +640,13 @@ public class BookingDialogAdapter extends PagerAdapter {
                 groupLayout.setError("Group ID Required");
             } else {
                 groupLayout.setError(null);
+            }
+
+            if (insurancePhone.getVisibility() == View.VISIBLE && !insurancePhone.getText().toString().isEmpty() && !CommonUtil.isValidMobile(insurancePhone.getText().toString())) {
+                isValid = false;
+                insurancePhoneLayout.setError("Insurance Phone Number Invalid");
+            } else {
+                insurancePhoneLayout.setError(null);
             }
 
         } else if (page == 1) {
