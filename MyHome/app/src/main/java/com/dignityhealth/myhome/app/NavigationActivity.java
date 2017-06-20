@@ -64,6 +64,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         setContentView(R.layout.navigation_activity);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
+        } else {
+            toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
+        }
         setSupportActionBar(toolbar);
 
         //Listen for changes in the back stack
@@ -87,15 +92,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         eventBus = new Bus(ThreadEnforcer.MAIN);
         RecentlyViewedDataSourceDB.getInstance().setAppContext(getApplicationContext());
         RecentlyViewedDataSourceDB.getInstance().open();
-
-        Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
-        } else {
-            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
-        }
-        //ProfileManager.queryProfile();
-        setSupportActionBar(appToolbar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationViewEx.OnNavigationItemSelectedListener() {
