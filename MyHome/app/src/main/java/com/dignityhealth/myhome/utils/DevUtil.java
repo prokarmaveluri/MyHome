@@ -28,11 +28,7 @@ public class DevUtil {
     }
 
     public static boolean getRandomBoolean() {
-        if (new Random().nextBoolean()) {
-            return true;
-        } else {
-            return false;
-        }
+        return new Random().nextBoolean();
     }
 
     public static String getRandomAppointmentDate() {

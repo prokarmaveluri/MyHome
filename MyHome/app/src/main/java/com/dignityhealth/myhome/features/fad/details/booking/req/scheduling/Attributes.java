@@ -183,7 +183,7 @@ public class Attributes {
         this.insuranceMemberNumber = profile.insuranceProvider.memberNumber;
         this.insurancePlanName = profile.insuranceProvider.insurancePlan;
         this.insurancePlanPermalink = "aarp-pos";       //TODO This comes from where???
-        this.insurancePlanPhoneNumber = insurancePlanPhoneNumber;   //TODO This comes from where???
+        this.insurancePlanPhoneNumber = profile.insuranceProvider.insurancePhoneNumber;
         this.lastName = profile.lastName;
         this.middleInitial = profile.middleInitial;
         this.newPatient = isNewPatient;

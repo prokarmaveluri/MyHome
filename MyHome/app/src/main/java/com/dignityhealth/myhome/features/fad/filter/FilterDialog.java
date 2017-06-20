@@ -368,12 +368,16 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         String sort = AppPreferences.getInstance().getPreference("SORT_BY");
         if (sort == null)
             return;
-        if (sort.equals("5")) {
-            updateSortByButtons(binding.distance, true);
-        } else if (sort.equals("4")) {
-            updateSortByButtons(binding.lastName, true);
-        } else if (sort.equals("")) {
-            updateSortByButtons(binding.bestMatch, true);
+        switch (sort) {
+            case "5":
+                updateSortByButtons(binding.distance, true);
+                break;
+            case "4":
+                updateSortByButtons(binding.lastName, true);
+                break;
+            case "":
+                updateSortByButtons(binding.bestMatch, true);
+                break;
         }
     }
 

@@ -274,13 +274,9 @@ public class DateUtil {
             cal2.setTime(date2);
             cal2.setTimeZone(TimeZone.getDefault());
 
-            if (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+            return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                     cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
-                    cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) {
-                return true;
-            } else {
-                return false;
-            }
+                    cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
         } else {
             return false;
         }
@@ -304,13 +300,9 @@ public class DateUtil {
             cal2.setTime(date2);
             cal2.setTimeZone(TimeZone.getDefault());
 
-            if (cal1.get(Calendar.YEAR) < cal2.get(Calendar.YEAR) ||
+            return cal1.get(Calendar.YEAR) < cal2.get(Calendar.YEAR) ||
                     cal1.get(Calendar.MONTH) < cal2.get(Calendar.MONTH) ||
-                    cal1.get(Calendar.DAY_OF_MONTH) < cal2.get(Calendar.DAY_OF_MONTH)) {
-                return true;
-            } else {
-                return false;
-            }
+                    cal1.get(Calendar.DAY_OF_MONTH) < cal2.get(Calendar.DAY_OF_MONTH);
         } else {
             return false;
         }
@@ -334,13 +326,9 @@ public class DateUtil {
             cal2.setTime(date2);
             cal2.setTimeZone(TimeZone.getDefault());
 
-            if (cal1.get(Calendar.YEAR) > cal2.get(Calendar.YEAR) ||
+            return cal1.get(Calendar.YEAR) > cal2.get(Calendar.YEAR) ||
                     cal1.get(Calendar.MONTH) > cal2.get(Calendar.MONTH) ||
-                    cal1.get(Calendar.DAY_OF_MONTH) > cal2.get(Calendar.DAY_OF_MONTH)) {
-                return true;
-            } else {
-                return false;
-            }
+                    cal1.get(Calendar.DAY_OF_MONTH) > cal2.get(Calendar.DAY_OF_MONTH);
         } else {
             return false;
         }

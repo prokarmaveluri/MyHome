@@ -40,10 +40,10 @@ import java.util.List;
 public class FlowLayout extends ViewGroup {
     private int mGravity = Gravity.START | Gravity.TOP;
 
-    private final List<List<View>> mLines = new ArrayList<List<View>>();
-    private final List<Integer> mLineHeights = new ArrayList<Integer>();
-    private final List<Integer> mLineMargins = new ArrayList<Integer>();
-    private List<View> lineViews = new ArrayList<View>();
+    private final List<List<View>> mLines = new ArrayList<>();
+    private final List<Integer> mLineHeights = new ArrayList<>();
+    private final List<Integer> mLineMargins = new ArrayList<>();
+    private List<View> lineViews = new ArrayList<>();
 
     private ToggleButton currentCheckedChild;
 
@@ -222,7 +222,7 @@ public class FlowLayout extends ViewGroup {
 
                 lineHeight = 0;
                 lineWidth = 0;
-                lineViews = new ArrayList<View>();
+                lineViews = new ArrayList<>();
             }
 
             lineWidth += childWidth;

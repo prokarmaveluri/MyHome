@@ -60,11 +60,10 @@ public class BookingSaveProfileDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         Bundle args = getArguments();
         if (args != null) {
-            formsProfile = (Profile) args.getParcelable(PROFILE_KEY);
+            formsProfile = args.getParcelable(PROFILE_KEY);
         }
 
-        View view = inflater.inflate(R.layout.fragment_enroll_success, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_enroll_success, container, false);
     }
 
     @NonNull

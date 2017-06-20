@@ -48,20 +48,12 @@ public class WrappingViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (this.IsSwipeAllowed(event)) {
-            return super.onTouchEvent(event);
-        }
-
-        return false;
+        return this.IsSwipeAllowed(event) && super.onTouchEvent(event);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        if (this.IsSwipeAllowed(event)) {
-            return super.onInterceptTouchEvent(event);
-        }
-
-        return false;
+        return this.IsSwipeAllowed(event) && super.onInterceptTouchEvent(event);
     }
 
 

@@ -132,10 +132,7 @@ public class AuthManager {
      * @return
      */
     public boolean isMaxFailureAttemptsReached() {
-        if (count >= 3 && !BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")) {
-            return true;
-        }
-        return false;
+        return count >= 3 && !BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer");
     }
 
     public void storeLockoutInfo() {
