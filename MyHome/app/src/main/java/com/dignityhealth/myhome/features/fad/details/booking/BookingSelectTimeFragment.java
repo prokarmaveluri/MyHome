@@ -97,6 +97,7 @@ public class BookingSelectTimeFragment extends Fragment {
 
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
         timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
+        timeLayout.setGravity(Gravity.CENTER);
         noAppointments = (Button) bookingView.findViewById(R.id.empty_appointments);
         callForAppointments = (Button) bookingView.findViewById(R.id.call_for_appointment);
 
@@ -232,7 +233,7 @@ public class BookingSelectTimeFragment extends Fragment {
      */
     private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<Appointment> appointments) {
         timeGroup.removeAllViews();
-        FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, DeviceDisplayManager.dpToPx(getContext(), 35));
+        FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(DeviceDisplayManager.dpToPx(getContext(), 110), DeviceDisplayManager.dpToPx(getContext(), 40));
         layoutParams.setMargins(DeviceDisplayManager.dpToPx(getContext(), 5), DeviceDisplayManager.dpToPx(getContext(), 5), DeviceDisplayManager.dpToPx(getContext(), 5), DeviceDisplayManager.dpToPx(getContext(), 5));
         Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
 
@@ -240,11 +241,12 @@ public class BookingSelectTimeFragment extends Fragment {
 
         for (final Appointment appointment : appointments) {
             final Button timeButton = new Button(new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
-            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 2), DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 2));
+//            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 4));
             timeButton.setGravity(Gravity.CENTER);
+            layoutParams.gravity = Gravity.CENTER;
             timeButton.setTextSize(18);
             timeButton.setTypeface(boldTypeface);
-            timeButton.setMinimumWidth(DeviceDisplayManager.dpToPx(getContext(), 100)); //Make sure it's at least 100dp, though it's allowed to stretch to wrap_content
+//            timeButton.setMinimumWidth(DeviceDisplayManager.dpToPx(getContext(), 100)); //Make sure it's at least 100dp, though it's allowed to stretch to wrap_content
             timeButton.setLayoutParams(layoutParams);
             timeButton.setText(DateUtil.getTime(appointment.Time));
 
