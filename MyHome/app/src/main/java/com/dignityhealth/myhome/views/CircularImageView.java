@@ -77,6 +77,8 @@ public class CircularImageView extends AppCompatImageView {
             drawShadow(attributes.getFloat(R.styleable.CircularImageView_shadow_radius, shadowRadius),
                     attributes.getColor(R.styleable.CircularImageView_shadow_color, shadowColor));
         }
+
+        attributes.recycle();
     }
     //endregion
 
@@ -158,9 +160,7 @@ public class CircularImageView extends AppCompatImageView {
     private void drawShadow(float shadowRadius, int shadowColor) {
         this.shadowRadius = shadowRadius;
         this.shadowColor = shadowColor;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            setLayerType(LAYER_TYPE_SOFTWARE, paintBorder);
-        }
+        setLayerType(LAYER_TYPE_SOFTWARE, paintBorder);
         paintBorder.setShadowLayer(shadowRadius, 0.0f, shadowRadius / 2, shadowColor);
     }
 

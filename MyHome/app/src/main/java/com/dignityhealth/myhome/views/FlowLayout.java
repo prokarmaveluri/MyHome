@@ -38,7 +38,7 @@ import java.util.List;
  */
 
 public class FlowLayout extends ViewGroup {
-    private int mGravity = (isIcs() ? Gravity.START : Gravity.LEFT) | Gravity.TOP;
+    private int mGravity = Gravity.START | Gravity.TOP;
 
     private final List<List<View>> mLines = new ArrayList<List<View>>();
     private final List<Integer> mLineHeights = new ArrayList<Integer>();
@@ -333,7 +333,7 @@ public class FlowLayout extends ViewGroup {
     public void setGravity(int gravity) {
         if (mGravity != gravity) {
             if ((gravity & Gravity.RELATIVE_HORIZONTAL_GRAVITY_MASK) == 0) {
-                gravity |= isIcs() ? Gravity.START : Gravity.LEFT;
+                gravity |= true ? Gravity.START : Gravity.LEFT;
             }
 
             if ((gravity & Gravity.VERTICAL_GRAVITY_MASK) == 0) {
@@ -353,7 +353,7 @@ public class FlowLayout extends ViewGroup {
      * @return <code>true</code> if device is running ICS or grater version of Android.
      */
     private static boolean isIcs() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+        return true;
     }
 
     public static class LayoutParams extends MarginLayoutParams {
