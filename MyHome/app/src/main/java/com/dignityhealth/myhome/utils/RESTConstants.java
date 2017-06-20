@@ -11,7 +11,7 @@ public class RESTConstants {
     //public static final String CIAM_BASE_URL = "https://stage.ciam.dignityhealth.org/";
     //public static final String S2_BASE_URL = "https://e3findadocapp.azurewebsites.net/";
     public static final String S2_BASE_URL = "https://e0findadocapprel9.azurewebsites.net/";
-    public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-stg.azurewebsites.net/";
+    public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapirel10-dev.azurewebsites.net/";
 
     public static final String SCHEDULING_VISIT = "api/v1/visit/";
     public static final String SCHEDULING_VALIDATION = "api/v1/visit/schedule/{scheduleID}/visit-settings";
