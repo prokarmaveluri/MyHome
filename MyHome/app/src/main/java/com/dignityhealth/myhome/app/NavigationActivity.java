@@ -55,7 +55,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     private ProgressBar progressBar;
 
     public static Bus eventBus;
-    public static Toolbar toolbar;
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

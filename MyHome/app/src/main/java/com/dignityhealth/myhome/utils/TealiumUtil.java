@@ -108,9 +108,7 @@ public final class TealiumUtil {
                     mgr.setAcceptThirdPartyCookies(webView, true);
                 }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-                    CookieManager.setAcceptFileSchemeCookies(true);
-                }
+                CookieManager.setAcceptFileSchemeCookies(true);
 
                 Timber.d("WebView " + webView + " created and cookies enabled.");
             }
