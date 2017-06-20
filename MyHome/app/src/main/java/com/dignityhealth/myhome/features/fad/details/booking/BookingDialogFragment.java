@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -90,6 +91,13 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                         break;
                 }
                 return true;
+            }
+        });
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(getContext(), R.mipmap.xblue));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
             }
         });
 
