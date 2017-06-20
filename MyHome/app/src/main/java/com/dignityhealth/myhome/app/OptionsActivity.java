@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.dignityhealth.myhome.R;
@@ -106,5 +107,18 @@ public class OptionsActivity extends BaseActivity {
             toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    //If you do the back button via the manifest, you won't get the proper animation when you click back arrow
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
