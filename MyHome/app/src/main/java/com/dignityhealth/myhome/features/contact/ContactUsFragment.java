@@ -55,7 +55,7 @@ public class ContactUsFragment extends BaseFragment {
     private void composeEmail() {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"hello@dignityhealth.com"});
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"hello@dignityhealth.org"});
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Ask A Question");
 
         if (ProfileManager.getProfile() != null) {
@@ -72,9 +72,7 @@ public class ContactUsFragment extends BaseFragment {
             emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
                     "Hello, \n\n" +
                             "I was using the MyHome App and I had some questions. Can someone please contact me?\n\n" +
-                            "Thank You,\n" +
-                            "Kevin Welsh\n" +
-                            "867-5309\n");
+                            "Thank You\n");
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
         }
     }
