@@ -15,6 +15,8 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.app.RecyclerViewListener;
+import com.dignityhealth.myhome.features.fad.Provider;
+import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -58,7 +60,11 @@ public class AppointmentsFragment extends BaseFragment {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
+                //((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, new Provider());
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
             }
         });
 
