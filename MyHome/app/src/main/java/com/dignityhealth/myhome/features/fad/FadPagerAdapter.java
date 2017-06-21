@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.features.fad;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -61,5 +62,20 @@ public class FadPagerAdapter extends FragmentStatePagerAdapter {
             default:
                 return "";
         }
+    }
+
+    /**
+     * Possible fix for TransactionTooLargeException:
+     * android.app.ActivityThread$StopInfo.run
+     * android.os.TransactionTooLargeException: data parcel size 831636 bytes
+     *
+     * See: https://stackoverflow.com/a/43193467/2128921
+     * See: https://rink.hockeyapp.net/manage/apps/529078/app_versions/16/crash_reasons/174083255
+     */
+    @Override
+    public Parcelable saveState() {
+        Bundle bundle = (Bundle) super.saveState();
+        bundle.putParcelableArray("states", null); // Never maintain any states from the base class, just null it out
+        return bundle;
     }
 }
