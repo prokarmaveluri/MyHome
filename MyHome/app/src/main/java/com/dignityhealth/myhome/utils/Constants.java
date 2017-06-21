@@ -47,22 +47,24 @@ public class Constants {
     public static int DEV_UPDATE_VERSION = 1;
 
     // screen views
-    public static String HOME_SCREEN = "home_screen";
-    public static String FAD_LIST_SCREEN = "fad_list_screen";
-    public static String FAD_MAP_SCREEN = "fad_map_screen";
-    public static String APPOINTMENTS_SCREEN = "appointments_screen";
-    public static String PROFILE_SCREEN = "profile_screen";
-    public static String TOS_SCREEN = "home_screen";
-    public static String CONTACT_US_SCREEN = "contact_us_screen";
-    public static String SETTINGS_SCREEN = "settings_screen";
+    public static final String HOME_SCREEN = "home_screen";
+    public static final String FAD_LIST_SCREEN = "fad_list_screen";
+    public static final String FAD_MAP_SCREEN = "fad_map_screen";
+    public static final String APPOINTMENTS_SCREEN = "appointments_screen";
+    public static final String PROFILE_SCREEN = "profile_screen";
+    public static final String TOS_SCREEN = "home_screen";
+    public static final String CONTACT_US_SCREEN = "contact_us_screen";
+    public static final String SETTINGS_SCREEN = "settings_screen";
 
     // events
-    public static String SIGN_IN_EVENT = "sign_in_event";
-    public static String SIGN_OUT_EVENT = "sign_out_event";
-    public static String APP_OPEN_EVENT = "app_open_event";
-    public static String APP_CLOSE_EVENT = "app_open_event";
+    public static final String SIGN_IN_EVENT = "sign_in_event";
+    public static final String SIGN_OUT_EVENT = "sign_out_event";
+    public static final String APP_OPEN_EVENT = "app_open_event";
+    public static final String APP_CLOSE_EVENT = "app_open_event";
 
-    public static String DID_YOU_KNOW_SEC1 = "https://hellohumankindness.org/story/the-power-of-time-off-why-vacations-are-essential/";
-    public static String DID_YOU_KNOW_SEC2 = "https://dignityhealth.org/articles/a-little-bit-of-color-dont-let-a-sunburn-get-you-down-this-summer";
+    public static final String DID_YOU_KNOW_SEC1 = "https://hellohumankindness.org/story/the-power-of-time-off-why-vacations-are-essential/";
+    public static final String DID_YOU_KNOW_SEC2 = "https://dignityhealth.org/articles/a-little-bit-of-color-dont-let-a-sunburn-get-you-down-this-summer";
+
+    public static final String TEL = "tel:";
 }
 

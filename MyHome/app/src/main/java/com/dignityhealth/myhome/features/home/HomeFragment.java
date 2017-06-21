@@ -81,9 +81,9 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // Read More contents
-        doSpannableChangesReadMore(getString(R.string.db_text_one)+" ", getString(R.string.db_readmore),
+        doSpannableChangesReadMore(getString(R.string.db_text_one) + " ", getString(R.string.db_readmore),
                 binding.txtDbDidyouknowFirst);
-        doSpannableChangesReadMore(getString(R.string.db_text_two)+" ",getString(R.string.db_readmore),
+        doSpannableChangesReadMore(getString(R.string.db_text_two) + " ", getString(R.string.db_readmore),
                 binding.txtDbDidyouknowSecond);
 
         binding.txtDbAppointViewall.setOnClickListener(new View.OnClickListener() {
@@ -164,16 +164,17 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
 
             bundle.putParcelableArrayList("PROVIDER_LIST", providers);
             bundle.putBoolean("PROVIDER_RECENT", true);
+            bundle.putBoolean("PROVIDER_RECENT_HOME", true);
             dialog.setArguments(bundle);
             dialog.setTargetFragment(this, RECENT_PROVIDERS);
             dialog.show(getFragmentManager(), getString(R.string.db_list_dilaog));
         } else {
-            ((NavigationActivity)getActivity()).goToPage(Constants.ActivityTag.FAD);
+            ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
         }
     }
 
     private void getProfileInfo(String bearer) {
-        Timber.i(getString(R.string.db_session_bearer)+" " + bearer);
+        Timber.i(getString(R.string.db_session_bearer) + " " + bearer);
         if (!ConnectionUtil.isConnected(getActivity())) {
             Toast.makeText(getActivity(), R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
@@ -187,11 +188,11 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                 if (isAdded()) {
 
                     if (response.isSuccessful()) {
-                        Timber.d(getString(R.string.db_res_success)+"\n" + response);
+                        Timber.d(getString(R.string.db_res_success) + "\n" + response);
                         ProfileManager.setProfile(response.body().result);
                         updateProfileViews();
                     } else {
-                        Timber.e(getString(R.string.db_res_notsuccess)+"\n" + response);
+                        Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     }
                     hideLoading();
                 }
@@ -201,7 +202,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e(getString(R.string.db_res_failed));
-                    Timber.e(getString(R.string.db_res_throwable)+" = "+ t);
+                    Timber.e(getString(R.string.db_res_throwable) + " = " + t);
                     hideLoading();
                 }
             }
@@ -210,7 +211,9 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
 
     private void updateProfileViews() {
         if (ProfileManager.getProfile().preferredName != null) {
-            binding.txtDbTitle.setText(getString(R.string.db_welcome_one)+" "+ ProfileManager.getProfile().preferredName + "!");
+            binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().preferredName + "!");
+        } else if (ProfileManager.getProfile().firstName != null) {
+            binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().firstName + "!");
         } else {
             binding.txtDbTitle.setText(getString(R.string.db_welcome_two));
         }
@@ -235,7 +238,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                         ProfileManager.setAppointments(result.result.appointments);
                         updateAppointViews();
                     } else {
-                        Timber.e(getString(R.string.db_res_notsuccess)+"\n" + response);
+                        Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     }
                     hideLoading();
                 }
@@ -246,7 +249,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                 if (isAdded()) {
                     hideLoading();
                     Timber.e(getString(R.string.db_res_failed));
-                    Timber.e(getString(R.string.db_res_throwable)+" = "+ t);
+                    Timber.e(getString(R.string.db_res_throwable) + " = " + t);
                 }
             }
         });
@@ -275,12 +278,12 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             binding.relDbAppointItemLayout.setVisibility(View.VISIBLE);
             binding.viewAppointDivider.setVisibility(View.VISIBLE);
             SpannableStringBuilder builder1 = new SpannableStringBuilder();
-            SpannableString partOne = new SpannableString(getString(R.string.db_appoint_one)+" ");
+            SpannableString partOne = new SpannableString(getString(R.string.db_appoint_one) + " ");
             SpannableString partTwo = new SpannableString(String.valueOf(appointments.size()));
             partTwo.setSpan(new StyleSpan(Typeface.BOLD), 0, String.valueOf(appointments.size()).length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            SpannableString partThree = new SpannableString(" "+getString(R.string.db_appoint_two));
-            SpannableString partFour = new SpannableString(" "+getString(R.string.db_appoint_three));
+            SpannableString partThree = new SpannableString(" " + getString(R.string.db_appoint_two));
+            SpannableString partFour = new SpannableString(" " + getString(R.string.db_appoint_three));
             builder1.append(partOne);
             builder1.append(partTwo);
 
@@ -335,7 +338,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                 /*Toast.makeText(getActivity(), getString(R.string.db_readmore_click),
                         Toast.LENGTH_LONG).show();*/
                 int id = textView.getId();
-                switch (id){
+                switch (id) {
                     case R.id.txt_db_didyouknow_first:
                         startWebView(Constants.DID_YOU_KNOW_SEC1);
                         break;
@@ -367,7 +370,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         return false;
     }
 
-    private void startWebView(String url){
+    private void startWebView(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
     }
@@ -380,6 +383,10 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                 if (data.getExtras() != null) {
                     Provider provider = data.getExtras().getParcelable("PROVIDER");
                     providerDetails(provider);
+                }
+            } else if (resultCode == Activity.RESULT_FIRST_USER) {
+                if (getActivity() != null){
+                    ((NavigationActivity)getActivity()).goToPage(Constants.ActivityTag.FAD);
                 }
             }
         }

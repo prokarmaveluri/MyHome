@@ -208,7 +208,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone.getText().toString()));
+                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + phone.getText().toString()));
                 intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentPhone);
             }
@@ -624,7 +624,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onPhoneNumberClicked() {
-        Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + currentOffice.getPhone()));
+        Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + currentOffice.getPhone()));
         intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intentPhone);
     }

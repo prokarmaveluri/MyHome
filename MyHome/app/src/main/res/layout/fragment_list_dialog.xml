@@ -31,10 +31,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/dialog_close"
                 android:gravity="center_vertical"
-                android:text="@string/find_care" />
+                android:text="@string/recent_providers" />
+
+            <TextView
+                android:id="@+id/find_care"
+                style="@style/tradeGothicLTStdLight_16"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right|center_vertical"
+                android:onClick="@{handlers::onClickEvent}"
+                android:padding="8dp"
+                android:text="@string/find_care"
+                android:textColor="@color/accent" />
         </RelativeLayout>
 
         <View

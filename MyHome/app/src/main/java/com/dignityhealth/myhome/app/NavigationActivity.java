@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -129,6 +130,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     protected void onDestroy() {
         super.onDestroy();
         eventBus = null;
+        mHandler.removeCallbacks(runnable);
         FadManager.getInstance().setLocation(null);
         ProfileManager.setProfile(null);
         RecentlyViewedDataSourceDB.getInstance().close();
@@ -479,12 +481,15 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (AuthManager.getInstance().isExpiried()) {
             buildSessionAlert(getString(R.string.session_expiry_message));
         }
-        AuthManager.getInstance().setIdleTime(0);
+        mHandler.removeCallbacks(runnable);
+        AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
+        mHandler.postDelayed(runnable, AuthManager.SESSION_EXPIRY_TIME);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mHandler.removeCallbacks(runnable);
         AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
         AuthManager.getInstance().setIdleTime(System.currentTimeMillis());
     }
@@ -515,4 +520,26 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+
+        if (AuthManager.getInstance().isExpiried()) {
+            buildSessionAlert(getString(R.string.session_expiry_message));
+        }
+        mHandler.removeCallbacks(runnable);
+        AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
+        mHandler.postDelayed(runnable, AuthManager.SESSION_EXPIRY_TIME);
+    }
+
+    private Handler mHandler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (AuthManager.getInstance().isExpiried()) {
+                buildSessionAlert(getString(R.string.session_expiry_message));
+            }
+        }
+    };
 }
