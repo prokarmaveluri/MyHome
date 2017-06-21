@@ -277,7 +277,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             bundle.putBoolean("PROVIDER_RECENT", true);
             dialog.setArguments(bundle);
             dialog.setTargetFragment(this, RECENT_PROVIDERS);
-            dialog.show(getFragmentManager(), "List Dialog");
+            dialog.show(getChildFragmentManager(), "List Dialog");
         } else {
             Toast.makeText(getActivity(), getString(R.string.no_recent_providers),
                     Toast.LENGTH_LONG).show();
@@ -300,7 +300,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, FILTER_REQUEST);
-        dialog.show(getFragmentManager(), "Filter Dialog");
+        dialog.show(getChildFragmentManager(), "Filter Dialog");
     }
 
     private void clearFilters() {

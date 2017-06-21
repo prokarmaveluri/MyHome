@@ -167,7 +167,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             bundle.putBoolean("PROVIDER_RECENT_HOME", true);
             dialog.setArguments(bundle);
             dialog.setTargetFragment(this, RECENT_PROVIDERS);
-            dialog.show(getFragmentManager(), getString(R.string.db_list_dilaog));
+            dialog.show(getChildFragmentManager(), getString(R.string.db_list_dilaog));
         } else {
             ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
         }
