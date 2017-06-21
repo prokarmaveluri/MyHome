@@ -68,14 +68,16 @@ public class FadPagerAdapter extends FragmentStatePagerAdapter {
      * Possible fix for TransactionTooLargeException:
      * android.app.ActivityThread$StopInfo.run
      * android.os.TransactionTooLargeException: data parcel size 831636 bytes
-     *
+     * <p>
      * See: https://stackoverflow.com/a/43193467/2128921
      * See: https://rink.hockeyapp.net/manage/apps/529078/app_versions/16/crash_reasons/174083255
      */
     @Override
     public Parcelable saveState() {
         Bundle bundle = (Bundle) super.saveState();
-        bundle.putParcelableArray("states", null); // Never maintain any states from the base class, just null it out
+        if (bundle != null) {
+            bundle.putParcelableArray("states", null); // Never maintain any states from the base class, just null it out
+        }
         return bundle;
     }
 }
