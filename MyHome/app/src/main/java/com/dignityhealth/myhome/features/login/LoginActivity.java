@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements
             dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
         }
 //        startUpdateActivity(false);
-        buildUpdateAlert(getString(R.string.app_suggest_update_message));
+//        buildUpdateAlert(getString(R.string.app_suggest_update_message));
         new LoginPresenter(fragment, this);
     }
 
@@ -349,7 +349,7 @@ public class LoginActivity extends AppCompatActivity implements
         builder.setMessage(message)
                 .setTitle(R.string.new_update_available)
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         updateApplication();
                         finish();
