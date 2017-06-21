@@ -72,7 +72,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         phoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber.getText().toString()));
+                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + phoneNumber.getText().toString()));
                 intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentPhone);
             }
