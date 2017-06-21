@@ -194,8 +194,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return;
         }
 
-        String url = provider.getImageUrl();
-        url = url.replace("w60h80", "w120h160");
+        String url = provider.getImageUrl() != null ? provider.getImageUrl().replace("w60h80", "w120h160"): null ;
         Picasso.with(getActivity())
                 .load(url)
                 .into(doctorImage);
@@ -204,7 +203,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         speciality.setText(provider.getSpecialties() != null ? provider.getSpecialties().get(0) : "Specialities Unknown");
         address.setText(provider.getOffices() != null ? provider.getOffices().get(0).getAddress1() + "\n" + provider.getOffices().get(0).getAddress() : "Address Unknown");
         phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumber(provider.getOffices().get(0).getPhone()) : "Phone Number Unknown");
-        currentOffice = provider.getOffices().get(0);
+        currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
 
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
