@@ -45,7 +45,7 @@ public class ProvidersMapFragment extends Fragment implements
 
         View view = inflater.inflate(R.layout.fragment_providers_map, container, false);
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         Fragment fragment = MapViewFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
