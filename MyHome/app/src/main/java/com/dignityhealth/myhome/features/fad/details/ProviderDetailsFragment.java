@@ -317,7 +317,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     //Set address text, then make sure to change selected icon
     private void handleMarkerClick(Marker marker) {
         //set the current office
-        if (providerDetailsResponse != null) {
+        if (providerDetailsResponse != null && providerDetailsResponse.getOffices() != null) {
             for (Office office : providerDetailsResponse.getOffices()) {
                 if (MapUtil.isOfficeSelected(office, marker)) {
                     currentOffice = office;

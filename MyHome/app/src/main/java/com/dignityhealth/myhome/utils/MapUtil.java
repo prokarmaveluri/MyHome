@@ -65,7 +65,7 @@ public class MapUtil {
      */
     public static ArrayList<Marker> addMapMarkers(Context context, @NonNull GoogleMap googleMap, @NonNull ArrayList<Office> offices, @NonNull BitmapDescriptor bitmapDescriptor, GoogleMap.OnMarkerClickListener listener) {
         ArrayList<Marker> markers = new ArrayList<>();
-        if (googleMap != null) {
+        if (googleMap != null && offices != null) {
             for (Office office : offices) {
                 markers.add(googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(office.getLat()), Double.parseDouble(office.getLong())))

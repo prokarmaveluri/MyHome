@@ -15,8 +15,6 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.app.BaseFragment;
 import com.dignityhealth.myhome.app.NavigationActivity;
 import com.dignityhealth.myhome.app.RecyclerViewListener;
-import com.dignityhealth.myhome.features.fad.Provider;
-import com.dignityhealth.myhome.features.fad.details.ProviderDetailsFragment;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
 import com.dignityhealth.myhome.utils.CommonUtil;
@@ -60,13 +58,25 @@ public class AppointmentsFragment extends BaseFragment {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
+                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, new Provider());
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
-            }
-        });
+//                Bundle bundle = new Bundle();
+//                Provider provider = new Provider();
+//                provider.setDateOfBirth("0001-01-01T00:00:00");
+//                provider.setDisplayFullName("Phuc-Son Dong, DO");
+//                provider.setDisplayLastName("Dr. Dong");
+//                provider.setFirstName("Phuc-Son");
+//                provider.setHasAppointments(true);
+//                provider.setImageUrl("http://d1ffafozi03i4l.cloudfront.net/img/prov/G/8/R/G8RWK_w60h80_v3309.jpg");
+//                provider.setLastName("Dong");
+//                provider.setMiddleName("Si");
+//                provider.setNpi("1598077869");
+//                provider.setProviderId("G8RWK");
+//
+//                bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
+//                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
+//            }
+//        });
 
         appointmentsAdapter = new AppointmentsRecyclerViewAdapter(getActivity(), null, new RecyclerViewListener() {
             @Override
