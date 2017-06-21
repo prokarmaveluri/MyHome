@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.dignityhealth.myhome.R;
 
@@ -46,13 +45,12 @@ public class ProvidersMapFragment extends Fragment implements
 
         View view = inflater.inflate(R.layout.fragment_providers_map, container, false);
 
-        FrameLayout mapFrame = (FrameLayout) view.findViewById(R.id.mapFrame);
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = MapViewFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("PROVIDER_LIST", providerList);
         fragment.setArguments(bundle);
-        transaction.replace(mapFrame.getId(), fragment).commit();
+        transaction.replace(R.id.mapFrame, fragment).commit();
 
         return view;
     }
