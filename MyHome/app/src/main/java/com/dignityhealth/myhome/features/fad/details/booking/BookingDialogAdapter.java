@@ -266,7 +266,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             }
         });
 
-        if (formsProfile.gender != null) {
+        if (formsProfile.gender != null && autoPopulateFromProfile) {
 
             //Loop through genders until we find a match, then set gender spinner selection
             for (int i = 0; i < gender.getAdapter().getCount(); i++) {
@@ -279,7 +279,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             gender.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (formsProfile.address != null && formsProfile.address.stateOrProvince != null) {
+        if (formsProfile.address != null && formsProfile.address.stateOrProvince != null && autoPopulateFromProfile) {
 
             //Loop through states until we find a match, then set state spinner selection
             for (int i = 0; i < state.getAdapter().getCount(); i++) {
@@ -291,6 +291,22 @@ public class BookingDialogAdapter extends PagerAdapter {
         } else {
             state.setSelection(0);  //Placeholder is the first item in the array
         }
+
+        //Allows reasonForVisit to scroll up & down so you can see all of the text
+        reasonForVisit.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.booking_reason) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_UP:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     /**
