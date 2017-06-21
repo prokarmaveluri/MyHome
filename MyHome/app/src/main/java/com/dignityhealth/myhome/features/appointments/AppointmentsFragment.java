@@ -75,8 +75,8 @@ public class AppointmentsFragment extends BaseFragment {
 //
 //                bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
 //                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
-//            }
-//        });
+            }
+        });
 
         appointmentsAdapter = new AppointmentsRecyclerViewAdapter(getActivity(), null, new RecyclerViewListener() {
             @Override
