@@ -696,6 +696,13 @@ public class BookingDialogAdapter extends PagerAdapter {
                 dateOfBirthLayout.setError(null);
             }
 
+            if (weeksPregnantLayout.getVisibility() == View.VISIBLE && !weeksPregnant.getText().toString().isEmpty() && Integer.parseInt(weeksPregnant.getText().toString()) > 45) {
+                isValid = false;
+                weeksPregnantLayout.setError("Weeks Pregnant Too Large");
+            } else {
+                weeksPregnantLayout.setError(null);
+            }
+
             if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {
                 isValid = false;
                 zipLayout.setError("Zip Invalid");
