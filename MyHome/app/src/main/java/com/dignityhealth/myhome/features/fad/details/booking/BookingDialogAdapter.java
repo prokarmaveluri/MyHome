@@ -148,6 +148,9 @@ public class BookingDialogAdapter extends PagerAdapter {
 
                 if (autoPopulateFromProfile) {
                     populatePersonalLayout();
+                } else {
+                    //Otherwise
+                    caregiverName.setText(formsProfile.firstName + " " + formsProfile.lastName);
                 }
 
                 return personalLayout;
