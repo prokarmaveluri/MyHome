@@ -349,7 +349,7 @@ public class LoginActivity extends AppCompatActivity implements
         builder.setMessage(message)
                 .setTitle(R.string.new_update_available)
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         updateApplication();
                         finish();

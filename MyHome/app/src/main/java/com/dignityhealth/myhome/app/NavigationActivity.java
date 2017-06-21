@@ -510,7 +510,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         builder.setMessage(message)
                 .setTitle(R.string.session_expiry)
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         Intent intent = LoginActivity.getLoginIntent(NavigationActivity.this);
                         startActivity(intent);
