@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements
             dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
         }
 //        startUpdateActivity(false);
-        buildUpdateAlert(getString(R.string.app_suggest_update_message));
+//        buildUpdateAlert(getString(R.string.app_suggest_update_message));
         new LoginPresenter(fragment, this);
     }
 

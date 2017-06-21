@@ -449,21 +449,26 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     public boolean onTouch(View v, MotionEvent event) {
                         final int DRAWABLE_RIGHT = 2;
 
-                        if (event.getAction() == MotionEvent.ACTION_UP) {
-                            if ((int) event.getRawX() >= (binder.password.getRight() -
-                                    binder.password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        try {
+                            if (event.getAction() == MotionEvent.ACTION_UP) {
+                                if ((int) event.getRawX() >= (binder.password.getRight() -
+                                        binder.password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
-                                showPassword = !showPassword;
+                                    showPassword = !showPassword;
 
-                                if (showPassword) {
-                                    binder.password.setTransformationMethod(null);
-                                    updateDrawable(R.mipmap.hide_password);
-                                } else {
-                                    binder.password.setTransformationMethod(new PasswordTransformationMethod());
-                                    updateDrawable(R.mipmap.show_password);
+                                    if (showPassword) {
+                                        binder.password.setTransformationMethod(null);
+                                        updateDrawable(R.mipmap.hide_password);
+                                    } else {
+                                        binder.password.setTransformationMethod(new PasswordTransformationMethod());
+                                        updateDrawable(R.mipmap.show_password);
+                                    }
+                                    return true;
                                 }
-                                return true;
                             }
+                        } catch (NullPointerException ex) {
+                            Timber.i("NullPointerException in drawableClickEvent ");
+                            return false;
                         }
                         return false;
                     }
