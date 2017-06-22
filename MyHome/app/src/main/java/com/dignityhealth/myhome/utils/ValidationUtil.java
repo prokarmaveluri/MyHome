@@ -88,4 +88,21 @@ public class ValidationUtil {
         return requiredFields;
     }
 
+    /**
+     * Grabs the insurances from a RegValidationResponse
+     *
+     * @param regValidationResponse
+     * @return an array of all the insurances
+     */
+    public static ArrayList<RegIncluded> getInsurances(final RegValidationResponse regValidationResponse) {
+        ArrayList<RegIncluded> insurances = new ArrayList<>();
+
+        for (RegIncluded include : regValidationResponse.getValue().getIncluded()) {
+            if (include.getType().equalsIgnoreCase(ValidationUtil.TYPE_INSURANCES)) {
+                insurances.add(include);
+            }
+        }
+
+        return insurances;
+    }
 }

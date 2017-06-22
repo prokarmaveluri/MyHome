@@ -160,9 +160,11 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             public void onResponse(Call<RegValidationResponse> call, Response<RegValidationResponse> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
+                    ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupInsurancePlanSpinner(response.body());
                     ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(response.body());
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
+                    ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupInsurancePlanSpinner(null);
                     ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(null);
                 }
             }
@@ -171,6 +173,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             public void onFailure(Call<RegValidationResponse> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
+                ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupInsurancePlanSpinner(null);
                 ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(null);
             }
         });

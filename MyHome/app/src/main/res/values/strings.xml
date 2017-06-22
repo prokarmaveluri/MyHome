@@ -188,4 +188,5 @@
     <string name="do_you_need_a_translator">Do you need a translator?</string>
     <string name="add_to_calendar">Add to Calendar</string>
     <string name="dashboard_search_hint">Seach for a doctor, speciality or condition</string>
+    <string name="provider_plan">Provider Plan</string>
 </resources>

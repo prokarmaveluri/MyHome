@@ -10,6 +10,12 @@ public class RegIncluded {
     private String id;
     private RegAttributes attributes;
 
+    public RegIncluded(String type, String id, RegAttributes attributes) {
+        this.type = type;
+        this.id = id;
+        this.attributes = attributes;
+    }
+
     public String getType() {
         return type;
     }

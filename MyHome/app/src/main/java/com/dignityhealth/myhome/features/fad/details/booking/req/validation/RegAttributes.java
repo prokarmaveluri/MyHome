@@ -20,6 +20,11 @@ public class RegAttributes {
     private String name;
     private Integer ageLimitThreshold;
 
+    public RegAttributes(String company, String name) {
+        this.company = company;
+        this.name = name;
+    }
+
     public String getKind() {
         return kind;
     }

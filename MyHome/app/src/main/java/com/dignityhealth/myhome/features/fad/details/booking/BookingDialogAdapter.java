@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
+import com.dignityhealth.myhome.features.fad.details.booking.req.validation.RegAttributes;
+import com.dignityhealth.myhome.features.fad.details.booking.req.validation.RegIncluded;
 import com.dignityhealth.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.features.profile.ProfileManager;
@@ -28,6 +31,8 @@ import com.dignityhealth.myhome.utils.ValidationUtil;
 
 import java.util.Calendar;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 5/18/17.
@@ -41,7 +46,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
     private ViewGroup insuranceLayout;
     private ViewGroup personalLayout;
-    private ProgressBar progressBar;
+    private ProgressBar progressBarInsurance;
 
     TextInputLayout caregiverLayout;
     TextInputEditText caregiverName;
@@ -81,8 +86,8 @@ public class BookingDialogAdapter extends PagerAdapter {
     TextInputLayout reasonForVisitLayout;
     TextInputEditText reasonForVisit;
 
-    TextInputLayout insuranceProviderLayout;
-    TextInputEditText insuranceProvider;
+    TextView planLabel;
+    Spinner plan;
     TextInputLayout memberIdLayout;
     TextInputEditText memberId;
     TextInputLayout groupLayout;
@@ -185,14 +190,17 @@ public class BookingDialogAdapter extends PagerAdapter {
     }
 
     private void setupInsurance() {
-        insuranceProviderLayout = (TextInputLayout) insuranceLayout.findViewById(R.id.provider_layout);
-        insuranceProvider = (TextInputEditText) insuranceLayout.findViewById(R.id.provider);
+        planLabel = (TextView) insuranceLayout.findViewById(R.id.provider_plan_label);
+        plan = (Spinner) insuranceLayout.findViewById(R.id.provider_plan);
         memberIdLayout = (TextInputLayout) insuranceLayout.findViewById(R.id.id_layout);
         memberId = (TextInputEditText) insuranceLayout.findViewById(R.id.id);
         groupLayout = (TextInputLayout) insuranceLayout.findViewById(R.id.group_layout);
         group = (TextInputEditText) insuranceLayout.findViewById(R.id.group);
         insurancePhoneLayout = (TextInputLayout) insuranceLayout.findViewById(R.id.insurance_phone_layout);
         insurancePhone = (TextInputEditText) insuranceLayout.findViewById(R.id.insurance_phone);
+        progressBarInsurance = (ProgressBar) insuranceLayout.findViewById(R.id.progress_bar_insurance);
+
+        updateVisibility(true);
 
         insurancePhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
     }
@@ -235,9 +243,6 @@ public class BookingDialogAdapter extends PagerAdapter {
         assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_assistance);
         reasonForVisitLayout = (TextInputLayout) personalLayout.findViewById(R.id.booking_reason_layout);
         reasonForVisit = (TextInputEditText) personalLayout.findViewById(R.id.booking_reason);
-        progressBar = (ProgressBar) personalLayout.findViewById(R.id.progress_bar);
-
-        updateVisibility(true);
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,8 +321,13 @@ public class BookingDialogAdapter extends PagerAdapter {
      * Auto-populates Insurance page with values from Profile Singleton
      */
     private void populateInsuranceLayout() {
-        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.providerName != null) {
-            insuranceProvider.setText(formsProfile.insuranceProvider.providerName);
+        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.insurancePlan != null && plan.getAdapter() != null) {
+            for (int i = 0; i < plan.getAdapter().getCount(); i++) {
+                if (formsProfile.insuranceProvider.insurancePlan.equalsIgnoreCase(((RegIncluded) plan.getAdapter().getItem(i)).getAttributes().getName())) {
+                    plan.setSelection(i);
+                    break;
+                }
+            }
         }
 
         if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.memberNumber != null) {
@@ -371,6 +381,23 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         if (formsProfile.email != null) {
             email.setText(formsProfile.email);
+        }
+    }
+
+    public void setupInsurancePlanSpinner(RegValidationResponse regValidationResponse) {
+        if (regValidationResponse != null) {
+            List<RegIncluded> insurances = ValidationUtil.getInsurances(regValidationResponse);
+            insurances.add(0, new RegIncluded("insurances", null, new RegAttributes(null, "Please Pick a Plan")));
+            ProviderPlanSpinnerAdapter spinnerAdapter = new ProviderPlanSpinnerAdapter(context, R.layout.provider_plan_spinner_item, insurances);
+            //spinnerAdapter.setDropDownViewResource(R.layout.provider_plan_spinner_item);
+            plan.setAdapter(spinnerAdapter);
+
+            //Call again now with proper adapter setup
+            if (autoPopulateFromProfile) {
+                populateInsuranceLayout();
+            }
+        } else {
+            Timber.e("Wasn't able to setup insurances!\nregValidationResponse = " + regValidationResponse);
         }
     }
 
@@ -483,36 +510,45 @@ public class BookingDialogAdapter extends PagerAdapter {
      * @param isLoading should we show the loading view or not
      */
     private void updateVisibility(boolean isLoading) {
-        if (!isLoading && !autoPopulateFromProfile) {
-            caregiverLayout.setVisibility(View.VISIBLE);
-        } else {
-            caregiverLayout.setVisibility(View.GONE);
-        }
+        planLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        plan.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        memberIdLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        memberId.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        groupLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        group.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        insurancePhoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        insurancePhone.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 
-        firstNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        lastNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        preferredNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        genderLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        gender.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        areYouPregnantLabel.setVisibility(View.GONE);
-        areYouPregnantGroup.setVisibility(View.GONE);
-        weeksPregnantLayout.setVisibility(View.GONE);
-        dateOfBirthLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        addressLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        address2Layout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        cityLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        state.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        zipLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        phoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        emailLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        translatorLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        translatorGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        translatorLanguageLayout.setVisibility(View.GONE);
-        assistanceLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        assistanceGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        reasonForVisitLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        if (!isLoading && !autoPopulateFromProfile) {
+//            caregiverLayout.setVisibility(View.VISIBLE);
+//        } else {
+//            caregiverLayout.setVisibility(View.GONE);
+//        }
+//
+//        firstNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        lastNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        preferredNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        genderLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        gender.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        areYouPregnantLabel.setVisibility(View.GONE);
+//        areYouPregnantGroup.setVisibility(View.GONE);
+//        weeksPregnantLayout.setVisibility(View.GONE);
+//        dateOfBirthLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        addressLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        address2Layout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        cityLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        state.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        zipLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        phoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        emailLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        translatorLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        translatorGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        translatorLanguageLayout.setVisibility(View.GONE);
+//        assistanceLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        assistanceGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+//        reasonForVisitLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 
-        progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        progressBarInsurance.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -586,8 +622,10 @@ public class BookingDialogAdapter extends PagerAdapter {
             formsProfile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
         }
 
-        if (insuranceProvider.getVisibility() == View.VISIBLE && insuranceProvider.getText() != null) {
-            formsProfile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();
+        if (plan.getVisibility() == View.VISIBLE && plan.getSelectedItemPosition() != 0) {
+            formsProfile.insuranceProvider.insurancePlan = ((RegIncluded) plan.getSelectedItem()).getAttributes().getName();
+            formsProfile.insuranceProvider.insurancePlanPermaLink = ((RegIncluded) plan.getSelectedItem()).getId();
+            formsProfile.insuranceProvider.providerName = ((RegIncluded) plan.getSelectedItem()).getAttributes().getCompany();
         }
 
         if (memberId.getVisibility() == View.VISIBLE && memberId.getText() != null) {
@@ -603,11 +641,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (translatorGroup.getVisibility() == View.VISIBLE) {
-            if (translatorGroup.getCheckedRadioButtonId() == R.id.translator_needed) {
-                formsProfile.translationNeeded = true;
-            } else {
-                formsProfile.translationNeeded = false;
-            }
+            formsProfile.translationNeeded = translatorGroup.getCheckedRadioButtonId() == R.id.translator_needed;
         }
 
         if (translatorLanguage.getVisibility() == View.VISIBLE && translatorLanguage.getText() != null) {
@@ -615,11 +649,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (assistanceGroup.getVisibility() == View.VISIBLE) {
-            if (assistanceGroup.getCheckedRadioButtonId() == R.id.assistance_needed) {
-                formsProfile.assistanceNeeded = true;
-            } else {
-                formsProfile.assistanceNeeded = false;
-            }
+            formsProfile.assistanceNeeded = assistanceGroup.getCheckedRadioButtonId() == R.id.assistance_needed;
         }
 
         if (reasonForVisit.getVisibility() == View.VISIBLE && reasonForVisit.getText() != null) {
@@ -636,11 +666,13 @@ public class BookingDialogAdapter extends PagerAdapter {
         if (page == 0) {
             //Insurance Page
 
-            if (insuranceProvider.getText().toString().isEmpty()) {
+            if (plan.getSelectedItemPosition() == 0) {
                 isValid = false;
-                insuranceProviderLayout.setError("Insurance Provider Name Required");
+                planLabel.setText("Plan Required");
+                planLabel.setTextColor(ContextCompat.getColor(context, R.color.red));
             } else {
-                insuranceProviderLayout.setError(null);
+                planLabel.setText(context.getString(R.string.provider_plan));
+                planLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
             }
 
             if (memberId.getText().toString().isEmpty()) {

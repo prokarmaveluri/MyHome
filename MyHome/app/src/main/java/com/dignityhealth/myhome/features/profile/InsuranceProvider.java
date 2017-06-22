@@ -15,17 +15,7 @@ public class InsuranceProvider implements Parcelable {
     public String groupNumber;
     public String memberNumber;
     public String insurancePhoneNumber;
-
-    @Override
-    public String toString() {
-        return "InsuranceProvider{" +
-                "providerName='" + providerName + '\'' +
-                ", insurancePlan='" + insurancePlan + '\'' +
-                ", groupNumber='" + groupNumber + '\'' +
-                ", memberNumber='" + memberNumber + '\'' +
-                ", insurancePhoneNumber='" + insurancePhoneNumber + '\'' +
-                '}';
-    }
+    public String insurancePlanPermaLink;
 
     @Override
     public boolean equals(Object o) {
@@ -36,12 +26,26 @@ public class InsuranceProvider implements Parcelable {
                 Objects.equals(insurancePlan, that.insurancePlan) &&
                 Objects.equals(groupNumber, that.groupNumber) &&
                 Objects.equals(memberNumber, that.memberNumber) &&
-                Objects.equals(insurancePhoneNumber, that.insurancePhoneNumber);
+                Objects.equals(insurancePhoneNumber, that.insurancePhoneNumber) &&
+                Objects.equals(insurancePlanPermaLink, that.insurancePlanPermaLink);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(providerName, insurancePlan, groupNumber, memberNumber, insurancePhoneNumber);
+        return Objects.hash(providerName, insurancePlan, groupNumber, memberNumber, insurancePhoneNumber, insurancePlanPermaLink);
+    }
+
+    @Override
+    public String toString() {
+        return "InsuranceProvider{" +
+                "providerName='" + providerName + '\'' +
+                ", insurancePlan='" + insurancePlan + '\'' +
+                ", groupNumber='" + groupNumber + '\'' +
+                ", memberNumber='" + memberNumber + '\'' +
+                ", insurancePhoneNumber='" + insurancePhoneNumber + '\'' +
+                ", insurancePlanPermaLink='" + insurancePlanPermaLink + '\'' +
+                '}';
+
     }
 
     /**
@@ -59,6 +63,7 @@ public class InsuranceProvider implements Parcelable {
             insuranceProvider.groupNumber = otherInsuranceProvider.groupNumber;
             insuranceProvider.memberNumber = otherInsuranceProvider.memberNumber;
             insuranceProvider.insurancePhoneNumber = otherInsuranceProvider.insurancePhoneNumber;
+            insuranceProvider.insurancePlanPermaLink = otherInsuranceProvider.insurancePlanPermaLink;
         }
 
         return insuranceProvider;
@@ -76,6 +81,7 @@ public class InsuranceProvider implements Parcelable {
         dest.writeString(this.groupNumber);
         dest.writeString(this.memberNumber);
         dest.writeString(this.insurancePhoneNumber);
+        dest.writeString(this.insurancePlanPermaLink);
     }
 
     public InsuranceProvider() {
@@ -87,6 +93,7 @@ public class InsuranceProvider implements Parcelable {
         this.groupNumber = in.readString();
         this.memberNumber = in.readString();
         this.insurancePhoneNumber = in.readString();
+        this.insurancePlanPermaLink = in.readString();
     }
 
     public static final Parcelable.Creator<InsuranceProvider> CREATOR = new Parcelable.Creator<InsuranceProvider>() {
