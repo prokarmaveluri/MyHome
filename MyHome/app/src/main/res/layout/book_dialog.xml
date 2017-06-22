@@ -14,7 +14,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/toolbarWhite"
         android:background="@color/md_blue_grey_650" />
 
     <com.dignityhealth.myhome.views.WrappingViewPager

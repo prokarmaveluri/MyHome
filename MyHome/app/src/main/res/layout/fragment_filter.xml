@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,8 +16,7 @@
         <RelativeLayout
             android:id="@+id/titleBar"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_alignParentTop="true">
+            android:layout_height="58dp">
 
             <ImageView
                 android:id="@+id/dialog_close"
@@ -44,7 +44,9 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
+                android:maxLength="15"
                 android:onClick="@{handlers::onClickEvent}"
                 android:padding="16dp"
                 android:text="@string/save"
@@ -56,7 +58,6 @@
             android:id="@+id/titleBarSeparator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/titleBar"
             android:background="@color/md_blue_grey_650" />
 
         <ScrollView xmlns:tools="http://schemas.android.com/tools"
@@ -65,7 +66,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
@@ -184,7 +185,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginTop="20dp"
                             android:gravity="center"
-                            android:text="100 mi" />
+                            android:text="100 mi"
+                            tools:ignore="HardcodedText" />
                     </RelativeLayout>
 
                     <TextView
@@ -210,7 +212,6 @@
                             style="@style/tradeGothicLTStd_Dynamic18"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
                             android:textAlignment="textEnd" />
 
                         <TextView

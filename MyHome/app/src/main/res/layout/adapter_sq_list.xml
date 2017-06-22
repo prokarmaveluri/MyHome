@@ -25,7 +25,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/sq_list"
             android:background="@color/md_grey_300" />
 
     </LinearLayout>

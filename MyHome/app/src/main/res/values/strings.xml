@@ -184,4 +184,8 @@
 
     <string name="recent_providers">Recent Providers</string>
     <string name="do_you_need_standing_assistance">Do you need standing assistance?</string>
+    <string name="insurance_phone_number">Insurance Phone Number</string>
+    <string name="do_you_need_a_translator">Do you need a translator?</string>
+    <string name="add_to_calendar">Add to Calendar</string>
+    <string name="dashboard_search_hint">Seach for a doctor, speciality or condition</string>
 </resources>

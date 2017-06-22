@@ -16,7 +16,6 @@
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:text="@string/new_update_available"
             android:textAlignment="center" />
 
@@ -24,7 +23,6 @@
             android:id="@+id/update_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/updateTitle"
             android:padding="16dp"
             android:text="@string/app_force_update_message"
             android:textAlignment="center" />

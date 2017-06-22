@@ -133,7 +133,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             }
             binding.locationSugg.setVisibility(View.GONE);
             binding.distanceRange.setProgress(distanceRange);
-            binding.distanceRangeText.setText(distanceRange + " mi");
+            binding.distanceRangeText.setText(distanceRange + " " + getString(R.string.miles_concat));
             binding.distanceRange.setOnSeekBarChangeListener(this);
         } catch (NullPointerException ex) {
         }
@@ -245,7 +245,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         Timber.i("distance progress " + progress);
         distanceRange = progress;
-        binding.distanceRangeText.setText(progress + " mi");
+        binding.distanceRangeText.setText(progress + " " + getString(R.string.miles_concat));
     }
 
     @Override

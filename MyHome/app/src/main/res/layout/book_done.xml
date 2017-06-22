@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingEnd="64dp"
         android:paddingStart="64dp">
@@ -126,7 +126,7 @@
             android:layout_marginStart="18dp"
             android:layout_toRightOf="@id/calendar_icon"
             android:gravity="center_vertical"
-            android:text="Add to Calendar"
+            android:text="@string/add_to_calendar"
             android:textColor="@color/primary"
             android:textSize="20sp"
             android:textStyle="bold" />

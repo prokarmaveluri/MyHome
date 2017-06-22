@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingLeft="18dp"
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:ems="10"
-                android:hint="Insurance Phone Number"
+                android:hint="@string/insurance_phone_number"
                 android:inputType="phone"
                 android:maxLength="14"
                 android:maxLines="1" />
