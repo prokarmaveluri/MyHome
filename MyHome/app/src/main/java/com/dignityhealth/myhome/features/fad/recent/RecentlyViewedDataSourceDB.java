@@ -20,7 +20,6 @@ import java.util.ArrayList;
  */
 public class RecentlyViewedDataSourceDB {
 
-    private static Context mContext;
     private SQLiteDatabase database;
     private RecentlyViewedSQLiteHelper dbHelper;
     private final int MAX_ROW_COUNT = 10;
@@ -42,15 +41,11 @@ public class RecentlyViewedDataSourceDB {
         return ourInstance;
     }
 
-    public void setAppContext(Context context) {
-        mContext = context;
-    }
-
     private RecentlyViewedDataSourceDB() {
     }
 
-    public void open() throws SQLException {
-        dbHelper = new RecentlyViewedSQLiteHelper(mContext);
+    public void open(Context context) throws SQLException {
+        dbHelper = new RecentlyViewedSQLiteHelper(context);
         database = dbHelper.getWritableDatabase();
     }
 

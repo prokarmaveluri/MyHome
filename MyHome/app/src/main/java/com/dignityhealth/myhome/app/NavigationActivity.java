@@ -91,8 +91,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         initializeBottomView();
 
         eventBus = new Bus(ThreadEnforcer.MAIN);
-        RecentlyViewedDataSourceDB.getInstance().setAppContext(getApplicationContext());
-        RecentlyViewedDataSourceDB.getInstance().open();
+        RecentlyViewedDataSourceDB.getInstance().open(getApplicationContext());
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationViewEx.OnNavigationItemSelectedListener() {
