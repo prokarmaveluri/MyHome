@@ -767,6 +767,13 @@ public class BookingDialogAdapter extends PagerAdapter {
                 emailLayout.setError(null);
             }
 
+            if(translatorLanguageLayout.getVisibility() == View.VISIBLE && translatorLanguage.getText().toString().isEmpty()){
+                isValid = false;
+                translatorLanguageLayout.setError("Translator Language Required");
+            } else {
+                translatorLanguageLayout.setError(null);
+            }
+
             if (reasonForVisitLayout.getVisibility() == View.VISIBLE && reasonForVisit.getText().toString().isEmpty()) {
                 isValid = false;
                 reasonForVisitLayout.setError("Reason For Visit Required");
