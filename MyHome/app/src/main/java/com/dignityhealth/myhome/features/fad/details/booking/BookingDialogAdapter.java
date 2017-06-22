@@ -733,7 +733,11 @@ public class BookingDialogAdapter extends PagerAdapter {
                 dateOfBirthLayout.setError(null);
             }
 
-            if (weeksPregnantLayout.getVisibility() == View.VISIBLE && !weeksPregnant.getText().toString().isEmpty() && Integer.parseInt(weeksPregnant.getText().toString()) > 45) {
+
+            if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {
+                isValid = false;
+                weeksPregnantLayout.setError("Weeks Pregnant Required");
+            } else if (weeksPregnantLayout.getVisibility() == View.VISIBLE && !weeksPregnant.getText().toString().isEmpty() && Integer.parseInt(weeksPregnant.getText().toString()) > 45) {
                 isValid = false;
                 weeksPregnantLayout.setError("Weeks Pregnant Too Large");
             } else {
@@ -767,7 +771,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 emailLayout.setError(null);
             }
 
-            if(translatorLanguageLayout.getVisibility() == View.VISIBLE && translatorLanguage.getText().toString().isEmpty()){
+            if (translatorLanguageLayout.getVisibility() == View.VISIBLE && translatorLanguage.getText().toString().isEmpty()) {
                 isValid = false;
                 translatorLanguageLayout.setError("Translator Language Required");
             } else {
