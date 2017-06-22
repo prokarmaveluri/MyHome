@@ -589,8 +589,11 @@ public class BookingDialogAdapter extends PagerAdapter {
             formsProfile.isPregnant = areYouPregnantGroup.getCheckedRadioButtonId() == R.id.radio_pregnant;
         }
 
-        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null) {
+        //Need to make sure weeks pregnant is sent as null (empty causes issues with API)
+        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null && !weeksPregnant.getText().toString().isEmpty()) {
             formsProfile.weeksPregnant = weeksPregnant.getText().toString().trim();
+        } else {
+            formsProfile.weeksPregnant = null;
         }
 
         if (dateOfBirth.getVisibility() == View.VISIBLE && dateOfBirth.getText() != null) {
