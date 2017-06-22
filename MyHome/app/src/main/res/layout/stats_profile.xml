@@ -40,11 +40,10 @@
 
             <TextView
                 android:id="@+id/accepting_new_patients"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/yes"
-                android:textSize="18sp" />
+                android:text="@string/yes" />
 
         </LinearLayout>
 
@@ -65,11 +64,10 @@
 
             <TextView
                 android:id="@+id/languages"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="English"
-                android:textSize="18sp"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
     </LinearLayout>
@@ -98,11 +96,10 @@
 
             <TextView
                 android:id="@+id/gender"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/male"
-                android:textSize="18sp" />
+                android:text="@string/male" />
 
         </LinearLayout>
 
@@ -123,11 +120,10 @@
 
             <TextView
                 android:id="@+id/experience"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="30 Years"
-                android:textSize="18sp"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
     </LinearLayout>
@@ -144,11 +140,10 @@
 
     <TextView
         android:id="@+id/philosophy"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Specialities Request: Pediatric\nGastroenterology"
-        android:textSize="18sp"
         tools:ignore="HardcodedText" />
 
     <TextView

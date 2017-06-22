@@ -64,7 +64,6 @@
                             android:maxLines="1"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:textSize="18sp"
                             tools:ignore="HardcodedText" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -93,7 +92,6 @@
                             android:maxLines="1"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:textSize="18sp"
                             tools:ignore="HardcodedText" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -108,12 +106,12 @@
                         android:onClick="@{handlers::onClickEvent}"
                         android:text="@string/action_Login"
                         android:textAllCaps="false"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/scalable_18"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/forgot_password"
-                        style="@style/tradeGothicLTStdLight_14"
+                        style="@style/tradeGothicLTStd_Dynamic18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/log_in_button"
@@ -124,12 +122,11 @@
                         android:paddingTop="8dp"
                         android:text="@string/forgot_password"
                         android:textAlignment="center"
-                        android:textColor="@color/primary"
-                        android:textSize="18sp" />
+                        android:textColor="@color/primary" />
 
                     <TextView
                         android:id="@+id/login_help"
-                        style="@style/tradeGothicLTStdLight_14"
+                        style="@style/tradeGothicLTStd_Dynamic18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/forgot_password"
@@ -139,8 +136,7 @@
                         android:padding="16dp"
                         android:text="@string/login_help"
                         android:textAlignment="center"
-                        android:textColor="@color/primary"
-                        android:textSize="18sp" />
+                        android:textColor="@color/primary" />
                 </RelativeLayout>
 
                 <WebView
@@ -163,7 +159,7 @@
 
         <TextView
             android:id="@+id/enroll_now"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -172,7 +168,6 @@
             android:padding="16dp"
             android:text="@string/enroll_now"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textColor="@color/white" />
     </RelativeLayout>
 </layout>

@@ -47,7 +47,7 @@
 
             <TextView
                 android:id="@+id/docSpeciality"
-                style="@style/tradeGothicLTStdLight_18"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/docDisplayName"
@@ -57,7 +57,7 @@
 
             <TextView
                 android:id="@+id/distance"
-                style="@style/tradeGothicLTStdLight_18"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -79,7 +79,7 @@
 
             <TextView
                 android:id="@+id/docAddress"
-                style="@style/tradeGothicLTStdLight_18"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/docSpeciality"
@@ -93,7 +93,7 @@
 
                 <TextView
                     android:id="@+id/bookOnline"
-                    style="@style/tradeGothicLTStdLight_18"
+                    style="@style/tradeGothicLTStd_Dynamic18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
@@ -106,7 +106,7 @@
 
                 <TextView
                     android:id="@+id/recentlyViewed"
-                    style="@style/tradeGothicLTStdLight_18"
+                    style="@style/tradeGothicLTStd_Dynamic18"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"

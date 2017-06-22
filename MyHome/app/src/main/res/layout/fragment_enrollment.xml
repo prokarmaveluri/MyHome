@@ -42,7 +42,6 @@
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/firstName"
-                        style="@style/tradeGothicLTStdLight_14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -51,8 +50,7 @@
                         android:inputType="text"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textSize="18sp" />
+                        android:paddingRight="10dp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -69,7 +67,6 @@
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/lastName"
-                        style="@style/tradeGothicLTStdLight_14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -78,8 +75,7 @@
                         android:inputType="text"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textSize="18sp" />
+                        android:paddingRight="10dp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -96,7 +92,6 @@
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/email"
-                        style="@style/tradeGothicLTStdLight_14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/prompt_email"
@@ -104,8 +99,7 @@
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textSize="18sp" />
+                        android:paddingRight="10dp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -130,7 +124,6 @@
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/password"
-                            style="@style/tradeGothicLTStdLight_14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableRight="@mipmap/show_password"
@@ -139,8 +132,7 @@
                             android:inputType="textPassword"
                             android:maxLines="1"
                             android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:textSize="18sp" />
+                            android:paddingRight="10dp" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -170,7 +162,6 @@
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/re_enter_password"
-                        style="@style/tradeGothicLTStdLight_14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/prompt_re_enter_password"
@@ -178,8 +169,7 @@
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textSize="18sp" />
+                        android:paddingRight="10dp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -194,8 +184,7 @@
                     android:layout_marginRight="42dp"
                     android:layout_marginTop="36dp"
                     android:onClick="@{handlers::onClickEvent}"
-                    android:text="@string/action_next"
-                    android:textSize="18sp" />
+                    android:text="@string/action_next" />
             </RelativeLayout>
 
             <!-- Enroll progress -->

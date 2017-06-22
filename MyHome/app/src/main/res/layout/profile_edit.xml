@@ -246,11 +246,10 @@
 
             <TextView
                 android:id="@+id/email"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="kwelsh@prokarma.com"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 

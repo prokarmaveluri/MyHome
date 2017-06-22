@@ -20,82 +20,75 @@
 
             <TextView
                 android:id="@+id/name"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Kevin Welsh"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/preferred_name"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="Kev"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/gender"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="@string/male"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/dob"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="1/12/1987"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/address"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="540 Trinity Lane North\nSt.Petersburg, FL 33716"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/phone"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="867-5309"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/email"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/profile_label_marginTop"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
                 android:text="kwelsh@prokarma.com"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -109,11 +102,10 @@
 
             <TextView
                 android:id="@+id/provider"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dignity Health"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -127,11 +119,10 @@
 
             <TextView
                 android:id="@+id/id"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="800-588-2300"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -145,11 +136,10 @@
 
             <TextView
                 android:id="@+id/group"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="230-2333"
-                android:textSize="@dimen/profile_text_size"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -176,11 +166,10 @@
 
     <TextView
         android:id="@+id/profile_unavailable"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/profile_unavailable"
-        android:textSize="@dimen/profile_text_size"
         android:visibility="gone" />
 </RelativeLayout>

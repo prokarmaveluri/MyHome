@@ -89,6 +89,7 @@
             tools:ignore="HardcodedText" />
 
         <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -99,8 +100,7 @@
             android:paddingRight="32dp"
             android:paddingTop="12dp"
             android:text="@string/contact_us_warning"
-            android:textColor="@color/text_light"
-            android:textSize="18sp" />
+            android:textColor="@color/text_light" />
 
     </RelativeLayout>
 </ScrollView>

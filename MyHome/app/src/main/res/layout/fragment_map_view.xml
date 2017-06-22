@@ -21,7 +21,7 @@
 
     <Button
         android:id="@+id/searchThisArea"
-        style="@style/tradeGothicLTStdLight_18"
+        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_centerHorizontal="true"

@@ -64,7 +64,7 @@
 
                     <TextView
                         android:id="@+id/txt_db_appoint_viewall"
-                        style="@style/tradeGothicLTStdLight_18"
+                        style="@style/tradeGothicLTStd_Dynamic18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -87,10 +87,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginBottom="14dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="14dp"
-                    android:layout_marginBottom="14dp"
                     android:gravity="center"
                     android:lineSpacingExtra="2sp"
                     android:text="No appointments scheduled"
@@ -134,7 +134,7 @@
 
                     <TextView
                         android:id="@+id/txt_db_appoint_item_time"
-                        style="@style/tradeGothicLTStdLight_14"
+                        style="@style/tradeGothicLTStd_Dynamic18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -142,12 +142,11 @@
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:maxWidth="285dp"
-                        android:text="2:45 PM"
-                        android:textSize="18sp" />
+                        android:text="2:45 PM" />
 
                     <TextView
                         android:id="@+id/txt_db_appoint_item_facility"
-                        style="@style/tradeGothicLTStdLight_14"
+                        style="@style/tradeGothicLTStd_Dynamic18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txt_db_appoint_item_date"
@@ -155,7 +154,6 @@
                         android:layout_marginTop="8dp"
                         android:maxWidth="285dp"
                         android:text="Sequoia Hospital"
-                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView

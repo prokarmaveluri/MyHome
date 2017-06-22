@@ -56,7 +56,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="@string/no_appointments_available"
-        android:textSize="18sp"
         android:visibility="gone" />
 
     <Button
@@ -69,7 +68,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="@string/call_for_todays_appointmentss"
-        android:textSize="18sp"
         android:visibility="gone" />
 
 </LinearLayout>

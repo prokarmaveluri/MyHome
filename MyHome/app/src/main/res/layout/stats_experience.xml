@@ -28,11 +28,10 @@
 
     <TextView
         android:id="@+id/certifications"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Internal Medicine, American Board of Medical Specialities"
-        android:textSize="18sp"
         tools:ignore="HardcodedText" />
 
     <TextView
@@ -47,10 +46,9 @@
 
     <TextView
         android:id="@+id/awards"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Recognized Doctor"
-        android:textSize="18sp"
         tools:ignore="HardcodedText" />
 </LinearLayout>

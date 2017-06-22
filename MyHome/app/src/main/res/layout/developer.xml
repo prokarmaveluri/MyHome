@@ -13,12 +13,11 @@
 
         <TextView
             android:id="@+id/bearer_label"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             android:text="Bearer Token"
-            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -32,13 +31,12 @@
 
         <TextView
             android:id="@+id/session_label"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bearer"
             android:layout_margin="6dp"
             android:text="Session Token"
-            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -52,13 +50,12 @@
 
         <TextView
             android:id="@+id/profile_label"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/session"
             android:layout_margin="6dp"
             android:text="Profile"
-            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -72,13 +69,12 @@
 
         <TextView
             android:id="@+id/location_label"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/profile"
             android:layout_margin="6dp"
             android:text="Location"
-            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -92,13 +88,12 @@
 
         <TextView
             android:id="@+id/hockey_label"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/location"
             android:layout_margin="6dp"
             android:text="Hockey App ID"
-            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -112,13 +107,12 @@
 
         <TextView
             android:id="@+id/maps_label"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/hockey"
             android:layout_margin="6dp"
             android:text="Maps ID"
-            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -132,13 +126,12 @@
 
         <TextView
             android:id="@+id/type_label"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/maps"
             android:layout_margin="6dp"
             android:text="Type"
-            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView

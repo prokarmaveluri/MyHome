@@ -39,7 +39,7 @@
 
             <TextView
                 android:id="@+id/save_filter"
-                style="@style/tradeGothicLTStdLight_13"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -49,8 +49,7 @@
                 android:padding="16dp"
                 android:text="@string/save"
                 android:textAllCaps="true"
-                android:textColor="@color/accent"
-                android:textSize="18sp" />
+                android:textColor="@color/accent" />
         </RelativeLayout>
 
         <View
@@ -72,7 +71,7 @@
 
                 <EditText
                     android:id="@+id/filterLocation"
-                    style="@style/tradeGothicLTStdLight_18"
+                    style="@style/tradeGothicLTStd_Dynamic18"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -114,7 +113,7 @@
 
                         <RadioButton
                             android:id="@+id/distance"
-                            style="@style/tradeGothicLTStdLight_14"
+                            style="@style/tradeGothicLTStd_Dynamic18"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:layout_margin="4dp"
@@ -125,12 +124,11 @@
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
-                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <RadioButton
                             android:id="@+id/bestMatch"
-                            style="@style/tradeGothicLTStdLight_14"
+                            style="@style/tradeGothicLTStd_Dynamic18"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:layout_margin="4dp"
@@ -141,12 +139,11 @@
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
-                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <RadioButton
                             android:id="@+id/lastName"
-                            style="@style/tradeGothicLTStdLight_14"
+                            style="@style/tradeGothicLTStd_Dynamic18"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:layout_margin="4dp"
@@ -157,7 +154,6 @@
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
-                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </RadioGroup>
 
@@ -182,7 +178,7 @@
 
                         <TextView
                             android:id="@+id/distanceRangeText"
-                            style="@style/tradeGothicLTStdLight_18"
+                            style="@style/tradeGothicLTStd_Dynamic18"
                             android:layout_width="80dp"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
@@ -211,14 +207,14 @@
 
                         <android.support.v7.widget.SwitchCompat
                             android:id="@+id/newPatientsSwitch"
-                            style="@style/tradeGothicLTStdLight_18"
+                            style="@style/tradeGothicLTStd_Dynamic18"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:textAlignment="textEnd" />
 
                         <TextView
-                            style="@style/tradeGothicLTStdLight_18"
+                            style="@style/tradeGothicLTStd_Dynamic18"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"

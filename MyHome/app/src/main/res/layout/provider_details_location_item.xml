@@ -9,13 +9,12 @@
 
     <TextView
         android:id="@+id/location_text"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
         android:layout_marginTop="6dp"
-        android:text="90 Madison St \nSte 504 \nDenver, CO 80206"
-        android:textSize="18sp" />
+        android:text="90 Madison St \nSte 504 \nDenver, CO 80206" />
 
     <ImageView
         android:id="@+id/pin_icon"

@@ -7,7 +7,7 @@
 
     <CheckBox
         android:id="@+id/expChild"
-        style="@style/tradeGothicLTStdLight_18"
+        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"

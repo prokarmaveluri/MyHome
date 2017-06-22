@@ -94,14 +94,13 @@
 
         <TextView
             android:id="@+id/reason"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/facility_address"
             android:layout_marginTop="24dp"
             android:text="Check up appointment. I am going out of the country for a few months and want to get a check up as well as get any shots that are necessary."
             android:textIsSelectable="true"
-            android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
         <ImageView

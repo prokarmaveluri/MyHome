@@ -13,43 +13,39 @@
 
         <TextView
             android:id="@+id/date"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Wednesday, May 18th"
-            android:textSize="18sp" />
+            android:text="Wednesday, May 18th" />
 
         <TextView
             android:id="@+id/time"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="10:30am"
-            android:textSize="18sp" />
+            android:text="10:30am" />
 
         <TextView
             android:id="@+id/address"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="14dp"
             android:gravity="center"
-            android:text="90 Madison St, Ste 504\nDenver, CO 80206"
-            android:textSize="18sp" />
+            android:text="90 Madison St, Ste 504\nDenver, CO 80206" />
 
         <TextView
             android:id="@+id/reason"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="42dp"
-            android:text="I've been having back pain for the past week and wanted to get it checked out by a doctor."
-            android:textSize="18sp" />
+            android:text="I've been having back pain for the past week and wanted to get it checked out by a doctor." />
 
         <Button
             android:id="@+id/book_confirmed"

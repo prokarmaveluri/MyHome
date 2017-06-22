@@ -7,11 +7,10 @@
 
     <TextView
         android:id="@+id/curriculum_text"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:textSize="18sp" />
+        android:layout_marginBottom="6dp" />
 
 </LinearLayout>

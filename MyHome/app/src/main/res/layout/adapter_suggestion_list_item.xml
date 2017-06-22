@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/suggestionText"
-            style="@style/tradeGothicLTStdLight_18"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
