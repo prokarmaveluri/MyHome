@@ -154,7 +154,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                 if (selectedGroup != -1 && groupPosition != selectedGroup) {
 //                    binding.expandableList.collapseGroup(selectedGroup);
                 }
-                CommonUtil.setExpandedListViewHeight(binding.expandableList, groupPosition, selectedGroup);
+                CommonUtil.setExpandedListViewHeight(getContext(), binding.expandableList, groupPosition, selectedGroup);
                 selectedGroup = groupPosition;
             }
         });
@@ -163,7 +163,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
-                CommonUtil.setExpandedListViewHeight(binding.expandableList, groupPosition, selectedGroup);
+                CommonUtil.setExpandedListViewHeight(getContext(), binding.expandableList, groupPosition, selectedGroup);
                 return false;
             }
         });
@@ -260,7 +260,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
 
     @Override
     public void selectedGroup(int position) {
-        CommonUtil.setExpandedListViewHeight(binding.expandableList, position, selectedGroup);
+        CommonUtil.setExpandedListViewHeight(getContext(), binding.expandableList, position, selectedGroup);
     }
 
     public class DialogClick {

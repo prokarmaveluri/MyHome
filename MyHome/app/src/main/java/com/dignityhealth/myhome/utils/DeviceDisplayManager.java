@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
@@ -13,58 +12,52 @@ import android.view.WindowManager;
  */
 public class DeviceDisplayManager {
     private static DeviceDisplayManager ourInstance = new DeviceDisplayManager();
-    private static Context mContext;
-    private Display mDisplay;
     private static float density = 0;
 
     public static DeviceDisplayManager getInstance() {
         return ourInstance;
     }
 
-    public void setContext(Context context){
-        mContext = context;
-        WindowManager wm =
-                (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        mDisplay = wm.getDefaultDisplay();
-    }
-
     private DeviceDisplayManager() {
     }
 
-    public int getDeviceAspectRatio() {
-        return (getDeviceHeight() / getDeviceWidth()) * 100;
+    public int getDeviceAspectRatio(Context context) {
+        return (getDeviceHeight(context) / getDeviceWidth(context)) * 100;
     }
 
     @SuppressLint("SwitchIntDef")
-    public int getDeviceWidth() {
-        int orientation = mDisplay.getRotation();
+    public int getDeviceWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        int orientation = wm.getDefaultDisplay().getRotation();
         switch (orientation) {
             case Surface.ROTATION_90:
             case Surface.ROTATION_270:
-                return portraitHeight();
+                return portraitHeight(context);
             default:
-                return portraitWidth();
+                return portraitWidth(context);
         }
     }
 
     @SuppressLint("SwitchIntDef")
-    public int getDeviceHeight() {
-        int orientation = mDisplay.getRotation();
+    public int getDeviceHeight(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        int orientation = wm.getDefaultDisplay().getRotation();
         switch (orientation) {
             case Surface.ROTATION_90:
             case Surface.ROTATION_270:
-                return portraitWidth();
+                return portraitWidth(context);
             default:
-                return portraitHeight();
+                return portraitHeight(context);
         }
     }
 
-    private int portraitWidth() {
-        if (null != mDisplay) {
+    private int portraitWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (null != wm.getDefaultDisplay()) {
 //            if (android.os.Build.VERSION.SDK_INT >=
 //                    android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
             Point point = new Point();
-            mDisplay.getSize(point);
+            wm.getDefaultDisplay().getSize(point);
             return point.x;
 //            } else {
 //                return mDisplay.getWidth();
@@ -74,11 +67,12 @@ public class DeviceDisplayManager {
         }
     }
 
-    private int portraitHeight() {
-        if (null != mDisplay) {
+    private int portraitHeight(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (null != wm.getDefaultDisplay()) {
 //            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
             Point point = new Point();
-            mDisplay.getSize(point);
+            wm.getDefaultDisplay().getSize(point);
             return point.y;
 //            } else {
 //                return mDisplay.getHeight();
@@ -94,16 +88,17 @@ public class DeviceDisplayManager {
     // return 2.0 if it's XHDPI
     // return 3.0 if it's XXHDPI
     // return 4.0 if it's XXXHDPI
-    public float getDeviceDensity() {
-        return density==0f? density = mContext.getResources().getDisplayMetrics().density :
+    public float getDeviceDensity(Context context) {
+        return density == 0f ? density = context.getResources().getDisplayMetrics().density :
                 density;
     }
 
-    public double getScreenSizeInInches() {
+    public double getScreenSizeInInches(Context context) {
         DisplayMetrics dm = new DisplayMetrics();
-        mDisplay.getMetrics(dm);
-        double x = Math.pow(DeviceDisplayManager.getInstance().getDeviceWidth() / dm.xdpi, 2);
-        double y = Math.pow(DeviceDisplayManager.getInstance().getDeviceHeight() / dm.ydpi, 2);
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(dm);
+        double x = Math.pow(DeviceDisplayManager.getInstance().getDeviceWidth(context) / dm.xdpi, 2);
+        double y = Math.pow(DeviceDisplayManager.getInstance().getDeviceHeight(context) / dm.ydpi, 2);
         double screenInches = Math.sqrt(x + y);
         return screenInches;
     }

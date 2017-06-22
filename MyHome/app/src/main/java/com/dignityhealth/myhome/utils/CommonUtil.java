@@ -447,7 +447,7 @@ public class CommonUtil {
         }
     }
 
-    public static void setOneGroupExpandedListViewHeight(ExpandableListView listView,
+    public static void setOneGroupExpandedListViewHeight(Context context, ExpandableListView listView,
                                                          int group, int lastGroup) {
         int totalHeight = 0;
         FilterExpandableList listAdapter = (FilterExpandableList) listView.getExpandableListAdapter();
@@ -476,12 +476,12 @@ public class CommonUtil {
         int height = totalHeight + 5;
         if (height < 325)
             height = 325;
-        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity());
+        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
 
-    public static void setExpandedListViewHeight(ExpandableListView listView, int group, int lastGroup) {
+    public static void setExpandedListViewHeight(Context context, ExpandableListView listView, int group, int lastGroup) {
         int totalHeight = 0;
         FilterExpandableList listAdapter = (FilterExpandableList) listView.getExpandableListAdapter();
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
@@ -501,7 +501,7 @@ public class CommonUtil {
         int height = totalHeight + 5;
         if (height < 325)
             height = 325;
-        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity());
+        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
         listView.setLayoutParams(params);
         listView.requestLayout();
     }

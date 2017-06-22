@@ -9,7 +9,6 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.networking.NetworkManager;
 import com.dignityhealth.myhome.networking.auth.AuthManager;
-import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.dignityhealth.myhome.utils.TealiumUtil;
 
 import net.hockeyapp.android.CrashManager;
@@ -50,7 +49,6 @@ public class MyHomeApplication extends MultiDexApplication {
         NetworkManager.getInstance().initService();
         AuthManager.getInstance().setContext(this);
         FadManager.getInstance().setLocation(null);
-        DeviceDisplayManager.getInstance().setContext(getApplicationContext());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean(getString(R.string.pref_key_first_run), true)) {
             //First Run Stuff Here...
