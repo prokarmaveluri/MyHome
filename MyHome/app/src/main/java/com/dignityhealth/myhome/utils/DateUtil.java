@@ -380,4 +380,37 @@ public class DateUtil {
 
         return null;
     }
+
+    /**
+     * Determine's if date is older than 18 (legal age of adults)
+     *
+     * @return true if an adult, false if a minor
+     */
+    public static boolean isOlderThan18(Date userBirthday) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -18);
+        Date youngestEligibleDate = calendar.getTime();
+
+        return userBirthday.before(youngestEligibleDate);
+    }
+
+    /**
+     * Determine's if date is older than 18 (legal age of adults)
+     *
+     * @return true if an adult, false if a minor
+     */
+    public static boolean isOlderThan18(String utcDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -18);
+        Date youngestEligibleDate = calendar.getTime();
+
+        Date userBirthday = null;
+        try {
+            userBirthday = getDateTimeZone(utcDate);
+            return userBirthday.before(youngestEligibleDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

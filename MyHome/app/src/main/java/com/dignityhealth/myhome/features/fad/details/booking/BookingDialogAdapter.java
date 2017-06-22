@@ -695,6 +695,9 @@ public class BookingDialogAdapter extends PagerAdapter {
             if (dateOfBirthLayout.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
                 isValid = false;
                 dateOfBirthLayout.setError("Date of Birth Required");
+            } else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && autoPopulateFromProfile && !DateUtil.isOlderThan18(DateUtil.convertReadableToUTC(dateOfBirth.getText().toString()))) {
+                isValid = false;
+                dateOfBirthLayout.setError("You Must Be 18 To Book An Appointment");
             } else {
                 dateOfBirthLayout.setError(null);
             }
