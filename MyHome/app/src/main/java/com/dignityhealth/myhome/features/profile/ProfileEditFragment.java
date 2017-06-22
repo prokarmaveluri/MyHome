@@ -335,15 +335,15 @@ public class ProfileEditFragment extends BaseFragment {
             profile.insuranceProvider = new InsuranceProvider();
         }
 
-        if (firstName.getText() != null && !firstName.getText().toString().isEmpty()) {
+        if (firstName.getText() != null) {
             profile.firstName = firstName.getText().toString().trim();
         }
 
-        if (lastName.getText() != null && !lastName.getText().toString().isEmpty()) {
+        if (lastName.getText() != null) {
             profile.lastName = lastName.getText().toString().trim();
         }
 
-        if (preferredName.getText() != null && !preferredName.getText().toString().isEmpty()) {
+        if (preferredName.getText() != null) {
             profile.preferredName = preferredName.getText().toString().trim();
         }
 
@@ -351,19 +351,19 @@ public class ProfileEditFragment extends BaseFragment {
             profile.gender = gender.getSelectedItem().toString().trim();
         }
 
-        if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().isEmpty()) {
+        if (dateOfBirth.getText() != null) {
             profile.dateOfBirth = DateUtil.convertReadableToUTC(dateOfBirth.getText().toString().trim());
         }
 
-        if (address.getText() != null && !address.getText().toString().isEmpty()) {
+        if (address.getText() != null) {
             profile.address.line1 = address.getText().toString().trim();
         }
 
-        if (address2.getText() != null && !address2.getText().toString().isEmpty()) {
+        if (address2.getText() != null) {
             profile.address.line2 = address2.getText().toString().trim();
         }
 
-        if (city.getText() != null && !city.getText().toString().isEmpty()) {
+        if (city.getText() != null) {
             profile.address.city = city.getText().toString().trim();
         }
 
@@ -371,24 +371,24 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 
-        if (zip.getText() != null && !zip.getText().toString().isEmpty()) {
+        if (zip.getText() != null) {
             profile.address.zipCode = zip.getText().toString().trim();
         }
 
         //Make sure to strip phone number of any non-digits
-        if (phone.getText() != null && !phone.getText().toString().isEmpty()) {
+        if (phone.getText() != null) {
             profile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
         }
 
-        if (insuranceProvider.getText() != null && !insuranceProvider.getText().toString().isEmpty()) {
+        if (insuranceProvider.getText() != null) {
             profile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();
         }
 
-        if (memberId.getText() != null && !memberId.getText().toString().isEmpty()) {
+        if (memberId.getText() != null) {
             profile.insuranceProvider.memberNumber = memberId.getText().toString().trim();
         }
 
-        if (group.getText() != null && !group.getText().toString().isEmpty()) {
+        if (group.getText() != null) {
             profile.insuranceProvider.groupNumber = group.getText().toString().trim();
         }
 

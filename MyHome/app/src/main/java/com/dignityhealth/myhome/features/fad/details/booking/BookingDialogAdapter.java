@@ -529,19 +529,19 @@ public class BookingDialogAdapter extends PagerAdapter {
 //            formsProfile.insuranceProvider = new InsuranceProvider();
 //        }
 
-        if (caregiverName.getVisibility() == View.VISIBLE && caregiverName.getText() != null && !caregiverName.getText().toString().isEmpty()) {
+        if (caregiverName.getVisibility() == View.VISIBLE && caregiverName.getText() != null) {
             formsProfile.primaryCaregiverName = caregiverName.getText().toString().trim();
         }
 
-        if (firstName.getVisibility() == View.VISIBLE && firstName.getText() != null && !firstName.getText().toString().isEmpty()) {
+        if (firstName.getVisibility() == View.VISIBLE && firstName.getText() != null) {
             formsProfile.firstName = firstName.getText().toString().trim();
         }
 
-        if (lastName.getVisibility() == View.VISIBLE && lastName.getText() != null && !lastName.getText().toString().isEmpty()) {
+        if (lastName.getVisibility() == View.VISIBLE && lastName.getText() != null) {
             formsProfile.lastName = lastName.getText().toString().trim();
         }
 
-        if (preferredName.getVisibility() == View.VISIBLE && preferredName.getText() != null && !preferredName.getText().toString().isEmpty()) {
+        if (preferredName.getVisibility() == View.VISIBLE && preferredName.getText() != null) {
             formsProfile.preferredName = preferredName.getText().toString().trim();
         }
 
@@ -550,30 +550,26 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (areYouPregnantGroup.getVisibility() == View.VISIBLE) {
-            if (areYouPregnantGroup.getCheckedRadioButtonId() == R.id.radio_pregnant) {
-                formsProfile.isPregnant = true;
-            } else {
-                formsProfile.isPregnant = false;
-            }
+            formsProfile.isPregnant = areYouPregnantGroup.getCheckedRadioButtonId() == R.id.radio_pregnant;
         }
 
-        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null && !weeksPregnant.getText().toString().isEmpty()) {
+        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null) {
             formsProfile.weeksPregnant = weeksPregnant.getText().toString().trim();
         }
 
-        if (dateOfBirth.getVisibility() == View.VISIBLE && dateOfBirth.getText() != null && !dateOfBirth.getText().toString().isEmpty()) {
+        if (dateOfBirth.getVisibility() == View.VISIBLE && dateOfBirth.getText() != null) {
             formsProfile.dateOfBirth = DateUtil.convertReadableToUTC(dateOfBirth.getText().toString().trim());
         }
 
-        if (address.getVisibility() == View.VISIBLE && address.getText() != null && !address.getText().toString().isEmpty()) {
+        if (address.getVisibility() == View.VISIBLE && address.getText() != null) {
             formsProfile.address.line1 = address.getText().toString().trim();
         }
 
-        if (address2.getVisibility() == View.VISIBLE && address2.getText() != null && !address2.getText().toString().isEmpty()) {
+        if (address2.getVisibility() == View.VISIBLE && address2.getText() != null) {
             formsProfile.address.line2 = address2.getText().toString().trim();
         }
 
-        if (city.getVisibility() == View.VISIBLE && city.getText() != null && !city.getText().toString().isEmpty()) {
+        if (city.getVisibility() == View.VISIBLE && city.getText() != null) {
             formsProfile.address.city = city.getText().toString().trim();
         }
 
@@ -581,28 +577,28 @@ public class BookingDialogAdapter extends PagerAdapter {
             formsProfile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 
-        if (zip.getVisibility() == View.VISIBLE && zip.getText() != null && !zip.getText().toString().isEmpty()) {
+        if (zip.getVisibility() == View.VISIBLE && zip.getText() != null) {
             formsProfile.address.zipCode = zip.getText().toString().trim();
         }
 
         //Make sure to strip phone number of any non-digits
-        if (phone.getVisibility() == View.VISIBLE && phone.getText() != null && !phone.getText().toString().isEmpty()) {
+        if (phone.getVisibility() == View.VISIBLE && phone.getText() != null) {
             formsProfile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
         }
 
-        if (insuranceProvider.getVisibility() == View.VISIBLE && insuranceProvider.getText() != null && !insuranceProvider.getText().toString().isEmpty()) {
+        if (insuranceProvider.getVisibility() == View.VISIBLE && insuranceProvider.getText() != null) {
             formsProfile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();
         }
 
-        if (memberId.getVisibility() == View.VISIBLE && memberId.getText() != null && !memberId.getText().toString().isEmpty()) {
+        if (memberId.getVisibility() == View.VISIBLE && memberId.getText() != null) {
             formsProfile.insuranceProvider.memberNumber = memberId.getText().toString().trim();
         }
 
-        if (group.getVisibility() == View.VISIBLE && group.getText() != null && !group.getText().toString().isEmpty()) {
+        if (group.getVisibility() == View.VISIBLE && group.getText() != null) {
             formsProfile.insuranceProvider.groupNumber = group.getText().toString().trim();
         }
 
-        if (insurancePhone.getVisibility() == View.VISIBLE && insurancePhone.getText() != null && !insurancePhone.getText().toString().isEmpty()) {
+        if (insurancePhone.getVisibility() == View.VISIBLE && insurancePhone.getText() != null) {
             formsProfile.insuranceProvider.insurancePhoneNumber = insurancePhone.getText().toString().trim();
         }
 
@@ -614,7 +610,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             }
         }
 
-        if (translatorLanguage.getVisibility() == View.VISIBLE && translatorLanguage.getText() != null && !translatorLanguage.getText().toString().isEmpty()) {
+        if (translatorLanguage.getVisibility() == View.VISIBLE && translatorLanguage.getText() != null) {
             formsProfile.translatorLanguage = translatorLanguage.getText().toString().trim();
         }
 
@@ -626,7 +622,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             }
         }
 
-        if (reasonForVisit.getVisibility() == View.VISIBLE && reasonForVisit.getText() != null && !reasonForVisit.getText().toString().isEmpty()) {
+        if (reasonForVisit.getVisibility() == View.VISIBLE && reasonForVisit.getText() != null) {
             formsProfile.reasonForVisit = reasonForVisit.getText().toString().trim();
         }
 
