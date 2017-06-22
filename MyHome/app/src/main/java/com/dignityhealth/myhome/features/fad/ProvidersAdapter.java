@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -89,7 +90,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
 
                         //round distance to one decimal
                         Double distance = Double.valueOf(provider.getOffices().get(0).getDistanceMilesFromSearch());
-                        String format = String.format("%.1f", distance);
+                        String format = String.format(Locale.getDefault(), "%.1f", distance);
                         binding.distance.setText(format + " " + mContext.getString(R.string.miles_concat));
                     } else {
                         binding.distance.setText("");

@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
@@ -34,6 +35,7 @@ public class DeviceDisplayManager {
         return (getDeviceHeight() / getDeviceWidth()) * 100;
     }
 
+    @SuppressLint("SwitchIntDef")
     public int getDeviceWidth() {
         int orientation = mDisplay.getRotation();
         switch (orientation) {
@@ -45,6 +47,7 @@ public class DeviceDisplayManager {
         }
     }
 
+    @SuppressLint("SwitchIntDef")
     public int getDeviceHeight() {
         int orientation = mDisplay.getRotation();
         switch (orientation) {
