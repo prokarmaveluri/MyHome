@@ -29,8 +29,8 @@ public class AuthManager {
 
     private static long prevTimestamp = 0;
     private static long MINITUES_5 = 5 * 60 * 1000;
-//    public static long SESSION_EXPIRY_TIME = 10 * 24 * 60 * 60 * 1000;
-    public static long SESSION_EXPIRY_TIME = 10 * 60 * 1000;
+    public static long SESSION_EXPIRY_TIME = 10 * 24 * 60 * 60 * 1000;
+//    public static long SESSION_EXPIRY_TIME = 10 * 60 * 1000;
 
     private static final AuthManager ourInstance = new AuthManager();
 
