@@ -165,7 +165,7 @@ public class BookingDoneFragment extends Fragment {
     private void scheduleAppointment() {
         CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, officeName, officePhone, bookingProfile, bookingAppointment, isNewPatient, isBookingForMe);
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Timber.i("Request = " + request);
         Timber.i("Request JSON = " + gson.toJson(request));
         updateVisibility(true);
@@ -175,7 +175,7 @@ public class BookingDoneFragment extends Fragment {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
-
+                        Timber.i("Request JSON = " + gson.toJson(response.body()));
                         updateVisibility(false);
                         date.setText(DateUtil.getDateWords2FromUTC(bookingAppointment.Time));
                         time.setText(DateUtil.getTime(bookingAppointment.Time));

@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.networking;
 import com.dignityhealth.myhome.features.appointments.Appointment;
 import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.enrollment.ValidateEmailResponse;
 import com.dignityhealth.myhome.features.fad.FadManager;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
@@ -293,6 +294,10 @@ public class NetworkManager {
 
     public Call<RegValidationResponse> getValidationRules(String scheduleId, String includeQuery) {
         return service.getValidationRules(scheduleId, includeQuery);
+    }
+
+    public Call<ValidateEmailResponse> findEmail(String email){
+        return service.findEmail(email);
     }
 
     // Network Util
