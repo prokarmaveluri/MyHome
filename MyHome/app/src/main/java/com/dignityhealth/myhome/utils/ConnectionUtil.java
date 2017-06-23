@@ -106,7 +106,7 @@ public class ConnectionUtil {
     }
 
     public static String getIPAddress(Context context) {
-        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         int ipAddress = wm.getConnectionInfo().getIpAddress();
         return String.format(Locale.getDefault(), "%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
     }

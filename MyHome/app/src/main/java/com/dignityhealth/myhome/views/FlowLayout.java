@@ -333,7 +333,7 @@ public class FlowLayout extends ViewGroup {
     public void setGravity(int gravity) {
         if (mGravity != gravity) {
             if ((gravity & Gravity.RELATIVE_HORIZONTAL_GRAVITY_MASK) == 0) {
-                gravity |= true ? Gravity.START : Gravity.LEFT;
+                gravity |= Gravity.START;
             }
 
             if ((gravity & Gravity.VERTICAL_GRAVITY_MASK) == 0) {
@@ -347,13 +347,6 @@ public class FlowLayout extends ViewGroup {
 
     public int getGravity() {
         return mGravity;
-    }
-
-    /**
-     * @return <code>true</code> if device is running ICS or grater version of Android.
-     */
-    private static boolean isIcs() {
-        return true;
     }
 
     public static class LayoutParams extends MarginLayoutParams {

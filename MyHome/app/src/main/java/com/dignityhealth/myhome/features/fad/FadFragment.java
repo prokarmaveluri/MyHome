@@ -421,7 +421,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         if (isSugShow)
             getSearchSuggestions(s.toString());
         isSugShow = true;
-        return;
     }
 
 
@@ -523,12 +522,12 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
             clearFilters();
 
-            this.newPatients.addAll(response.getAcceptsNewPatients());
-            this.specialties.addAll(response.getSpecialties());
-            this.gender.addAll(response.getGenders());
-            this.languages.addAll(response.getLanguages());
-            this.hospitals.addAll(response.getHospitals());
-            this.practices.addAll(response.getPractices());
+            newPatients.addAll(response.getAcceptsNewPatients());
+            specialties.addAll(response.getSpecialties());
+            gender.addAll(response.getGenders());
+            languages.addAll(response.getLanguages());
+            hospitals.addAll(response.getHospitals());
+            practices.addAll(response.getPractices());
         } catch (IllegalStateException | NullPointerException ex) {
         }
     }
