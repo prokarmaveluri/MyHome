@@ -152,7 +152,7 @@
             android:textStyle="bold" />
 
         <TextView
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/share_icon"
@@ -160,8 +160,7 @@
             android:gravity="center"
             android:paddingBottom="35dp"
             android:text="@string/appointment_reschedule"
-            android:textColor="@color/red"
-            android:textSize="16sp" />
+            android:textColor="@color/red" />
 
     </RelativeLayout>
 </ScrollView>

@@ -48,14 +48,13 @@
 
     <TextView
         android:id="@+id/doctor_name"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/facility"
         android:layout_marginLeft="12dp"
         android:maxWidth="285dp"
-        android:text="Dr. Steven M. Howard, MD"
-        android:textSize="16sp" />
+        android:text="Dr. Steven M. Howard, MD" />
 
     <ImageView
         android:id="@+id/pin_icon"

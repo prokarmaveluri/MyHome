@@ -82,7 +82,7 @@
 
                 <TextView
                     android:id="@+id/txt_db_appoint_content"
-                    style="@style/tradeGothicLTStdLight_16"
+                    style="@style/tradeGothicLTStd_Dynamic16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="14dp"
@@ -93,7 +93,6 @@
                     android:lineSpacingExtra="2sp"
                     android:text="No appointments scheduled"
                     android:textColor="@color/db_gunmetal"
-                    android:textSize="16sp"
                     tools:ignore="HardcodedText" />
 
                 <View
@@ -156,14 +155,13 @@
 
                     <TextView
                         android:id="@+id/txt_db_appoint_item_doctor_name"
-                        style="@style/tradeGothicLTStdLight_14"
+                        style="@style/tradeGothicLTStd_Dynamic16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txt_db_appoint_item_facility"
                         android:layout_marginLeft="12dp"
                         android:maxWidth="285dp"
-                        android:text="Dr. Steven M. Howard, MD"
-                        android:textSize="16sp" />
+                        android:text="Dr. Steven M. Howard, MD" />
 
                     <ImageView
                         android:id="@+id/img_db_appoint_item_pin_icon"
