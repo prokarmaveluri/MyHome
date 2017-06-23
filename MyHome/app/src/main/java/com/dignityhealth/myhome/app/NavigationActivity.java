@@ -191,7 +191,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      *
      * @param activityTag The page we want to navigate to
      */
-    public void loadFragment(ActivityTag activityTag, Bundle bundle) {
+    public void loadFragment(ActivityTag activityTag, @Nullable Bundle bundle) {
         switch (activityTag) {
             case HOME:
                 if (getActivityTag() != ActivityTag.HOME) {

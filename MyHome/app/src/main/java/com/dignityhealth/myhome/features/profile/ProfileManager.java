@@ -1,5 +1,7 @@
 package com.dignityhealth.myhome.features.profile;
 
+import android.support.annotation.Nullable;
+
 import com.dignityhealth.myhome.features.appointments.Appointment;
 import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.networking.NetworkManager;
@@ -34,7 +36,7 @@ public class ProfileManager {
      *
      * @param profile the Profile object to store as a singleton. Can be null to clear Singleton.
      */
-    public static void setProfile(Profile profile) {
+    public static void setProfile(@Nullable Profile profile) {
         ProfileManager.profile = profile;
     }
 

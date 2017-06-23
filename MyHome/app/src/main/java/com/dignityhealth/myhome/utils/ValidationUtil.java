@@ -1,5 +1,6 @@
 package com.dignityhealth.myhome.utils;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.dignityhealth.myhome.features.fad.details.booking.req.validation.RegIncluded;
@@ -75,7 +76,7 @@ public class ValidationUtil {
      * @param regValidationResponse
      * @return an array of the fields that don't allow blanks or nulls
      */
-    public static ArrayList<String> getRequired(final RegValidationResponse regValidationResponse) {
+    public static ArrayList<String> getRequired(@NonNull final RegValidationResponse regValidationResponse) {
         ArrayList<String> requiredFields = new ArrayList<>();
         ArrayList<RegIncluded> validations = getValidations(regValidationResponse);
 
@@ -94,7 +95,7 @@ public class ValidationUtil {
      * @param regValidationResponse
      * @return an array of all the insurances
      */
-    public static ArrayList<RegIncluded> getInsurances(final RegValidationResponse regValidationResponse) {
+    public static ArrayList<RegIncluded> getInsurances(@NonNull final RegValidationResponse regValidationResponse) {
         ArrayList<RegIncluded> insurances = new ArrayList<>();
 
         for (RegIncluded include : regValidationResponse.getValue().getIncluded()) {

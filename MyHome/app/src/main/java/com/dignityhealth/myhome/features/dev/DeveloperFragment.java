@@ -55,11 +55,11 @@ public class DeveloperFragment extends BaseFragment {
         TextView location = (TextView) developerView.findViewById(R.id.location);
         location.setText(FadManager.getInstance().getCurrentLocation() != null ? FadManager.getInstance().getCurrentLocation().toString() : "Location Not Retrieved Yet");
         TextView hockey = (TextView) developerView.findViewById(R.id.hockey);
-        hockey.setText(BuildConfig.HOCKEY_ID != null ? BuildConfig.HOCKEY_ID : getString(R.string.unknown));
+        hockey.setText(BuildConfig.HOCKEY_ID);
         TextView maps = (TextView) developerView.findViewById(R.id.maps);
         maps.setText(getString(R.string.google_maps_api_key));
         TextView type = (TextView) developerView.findViewById(R.id.type);
-        type.setText(BuildConfig.BUILD_TYPE != null ? BuildConfig.BUILD_TYPE : getString(R.string.unknown));
+        type.setText(BuildConfig.BUILD_TYPE);
 
         Button addAppointment = (Button) developerView.findViewById(R.id.add_appointment);
         addAppointment.setOnClickListener(new View.OnClickListener() {

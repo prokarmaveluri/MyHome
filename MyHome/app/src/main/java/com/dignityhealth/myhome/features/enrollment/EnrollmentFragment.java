@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -134,6 +135,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
             Toast.makeText(getActivity(), status, Toast.LENGTH_LONG).show();
     }
 
+    @Nullable
     private EnrollmentRequest getRequest() {
 
         if (!CommonUtil.isValidTextInput(binding.firstName)) {

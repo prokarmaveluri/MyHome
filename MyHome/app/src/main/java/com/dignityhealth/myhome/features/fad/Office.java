@@ -111,9 +111,9 @@ public class Office implements Parcelable {
         if (null != City)
             fullAddress.append(City);
         if (null != State)
-            fullAddress.append(", " + State);
+            fullAddress.append(", ").append(State);
         if (null != ZipCode)
-            fullAddress.append(" " + ZipCode);
+            fullAddress.append(" ").append(ZipCode);
         return fullAddress.toString();
     }
 

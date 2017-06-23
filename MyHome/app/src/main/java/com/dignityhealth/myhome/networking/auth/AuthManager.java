@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.networking.auth;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.dignityhealth.myhome.BuildConfig;
 import com.dignityhealth.myhome.features.dev.DeveloperFragment;
@@ -60,7 +61,7 @@ public class AuthManager {
         return sid;
     }
 
-    public void setSid(String sid) {
+    public void setSid(@Nullable String sid) {
         AuthManager.sid = sid;
     }
 
@@ -92,7 +93,7 @@ public class AuthManager {
         return bearerToken;
     }
 
-    public void setBearerToken(String bearerToken) {
+    public void setBearerToken(@Nullable String bearerToken) {
         AuthManager.bearerToken = bearerToken;
     }
 
@@ -100,7 +101,7 @@ public class AuthManager {
         return sessionToken;
     }
 
-    public void setSessionToken(String sessionToken) {
+    public void setSessionToken(@Nullable String sessionToken) {
         AuthManager.sessionToken = sessionToken;
     }
 
@@ -108,7 +109,7 @@ public class AuthManager {
         return sessionId;
     }
 
-    public void setSessionId(String sessionId) {
+    public void setSessionId(@Nullable String sessionId) {
         AuthManager.sessionId = sessionId;
     }
 

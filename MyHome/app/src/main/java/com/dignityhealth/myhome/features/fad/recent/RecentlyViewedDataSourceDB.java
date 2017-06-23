@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.Nullable;
 
 import com.dignityhealth.myhome.features.fad.Provider;
 import com.google.gson.Gson;
@@ -124,6 +125,7 @@ public class RecentlyViewedDataSourceDB {
             database.delete(RecentlyViewedSQLiteHelper.TABLE_NAME, null, null);
     }
 
+    @Nullable
     public String getMyEntry(String pincode) {
         Cursor myCursor = database.query(RecentlyViewedSQLiteHelper.TABLE_NAME, allColumns,
                 RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID + "='" + pincode + "'", null, null, null, null);

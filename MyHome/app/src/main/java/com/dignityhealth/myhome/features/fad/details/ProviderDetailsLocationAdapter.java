@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.features.fad.details;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
     public List<Office> locations;
     private final RecyclerViewListener onItemClickListener;
 
-    public ProviderDetailsLocationAdapter(Context context, List<Office> locations, RecyclerViewListener onItemClickListener) {
+    public ProviderDetailsLocationAdapter(Context context, @Nullable List<Office> locations, @Nullable RecyclerViewListener onItemClickListener) {
         this.context = context;
         this.locations = locations;
         this.onItemClickListener = onItemClickListener;

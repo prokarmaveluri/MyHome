@@ -239,9 +239,10 @@ public class BookingSelectTimeFragment extends Fragment {
         Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
 
         View.OnClickListener timeClickedListener;
+        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle);
 
         for (final Appointment appointment : appointments) {
-            final Button timeButton = new Button(new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
+            final Button timeButton = new Button(contextThemeWrapper, null, R.style.selectableButtonStyle);
 //            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 4));
             timeButton.setGravity(Gravity.CENTER);
             layoutParams.gravity = Gravity.CENTER;
