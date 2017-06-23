@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,7 +42,9 @@ public class ProfileEditFragment extends BaseFragment {
     public static final String PROFILE_EDIT_TAG = "profile_edit_tag";
 
     View profileView;
+    TextInputLayout firstNameLayout;
     TextInputEditText firstName;
+    TextInputLayout lastNameLayout;
     TextInputEditText lastName;
     TextInputEditText preferredName;
     Spinner gender;
@@ -50,8 +53,11 @@ public class ProfileEditFragment extends BaseFragment {
     TextInputEditText address2;
     TextInputEditText city;
     Spinner state;
+    TextInputLayout zipLayout;
     TextInputEditText zip;
+    TextInputLayout phoneLayout;
     TextInputEditText phone;
+    TextInputLayout emailLayout;
     TextView email;
 
     TextInputEditText insuranceProvider;
@@ -86,7 +92,9 @@ public class ProfileEditFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.profile_edit, container, false);
 
+        firstNameLayout = (TextInputLayout) profileView.findViewById(R.id.first_name_layout);
         firstName = (TextInputEditText) profileView.findViewById(R.id.first_name);
+        lastNameLayout = (TextInputLayout) profileView.findViewById(R.id.last_name_layout);
         lastName = (TextInputEditText) profileView.findViewById(R.id.last_name);
         preferredName = (TextInputEditText) profileView.findViewById(R.id.preferred_name);
         gender = (Spinner) profileView.findViewById(R.id.gender);
@@ -95,7 +103,9 @@ public class ProfileEditFragment extends BaseFragment {
         address2 = (TextInputEditText) profileView.findViewById(R.id.address2);
         city = (TextInputEditText) profileView.findViewById(R.id.city);
         state = (Spinner) profileView.findViewById(R.id.state);
+        zipLayout = (TextInputLayout) profileView.findViewById(R.id.zip_layout);
         zip = (TextInputEditText) profileView.findViewById(R.id.zip);
+        phoneLayout = (TextInputLayout) profileView.findViewById(R.id.phone_layout);
         phone = (TextInputEditText) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
         progress = (ProgressBar) profileView.findViewById(R.id.profile_edit_progress);
@@ -162,8 +172,10 @@ public class ProfileEditFragment extends BaseFragment {
 
             case R.id.save_profile:
                 CommonUtil.hideSoftKeyboard(getActivity());
-                Profile currentProfile = ProfileManager.getProfile();
-                sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
+                if (isValidProfile()) {
+                    Profile currentProfile = ProfileManager.getProfile();
+                    sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
+                }
                 break;
         }
 
@@ -316,6 +328,40 @@ public class ProfileEditFragment extends BaseFragment {
         if (profile.insuranceProvider != null && profile.insuranceProvider.groupNumber != null) {
             group.setText(profile.insuranceProvider.groupNumber);
         }
+    }
+
+    private boolean isValidProfile() {
+        boolean isValid = true;
+
+        if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()) {
+            isValid = false;
+            firstNameLayout.setError(getString(R.string.first_name_required));
+        } else {
+            firstNameLayout.setError(null);
+        }
+
+        if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()) {
+            isValid = false;
+            lastNameLayout.setError(getString(R.string.last_name_required));
+        } else {
+            lastNameLayout.setError(null);
+        }
+
+        if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {
+            isValid = false;
+            zipLayout.setError(getString(R.string.zip_invalid));
+        } else {
+            zipLayout.setError(null);
+        }
+
+        if (phoneLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidMobile(phone.getText().toString())) {
+            isValid = false;
+            phoneLayout.setError(getString(R.string.phone_number_invalid));
+        } else {
+            phoneLayout.setError(null);
+        }
+
+        return isValid;
     }
 
     /**

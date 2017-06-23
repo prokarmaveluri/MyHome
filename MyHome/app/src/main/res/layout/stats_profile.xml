@@ -30,11 +30,10 @@
 
             <TextView
                 android:id="@+id/label_accepting_new_patients"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/accepting_new_patients"
-                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -54,11 +53,10 @@
 
             <TextView
                 android:id="@+id/label_languages"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/languages"
-                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -86,11 +84,10 @@
 
             <TextView
                 android:id="@+id/label_gender"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gender"
-                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -110,11 +107,10 @@
 
             <TextView
                 android:id="@+id/label_experience"
-                style="@style/tradeGothicLTStdLight_14"
+                style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/experience"
-                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -129,12 +125,11 @@
 
     <TextView
         android:id="@+id/label_philosophy"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/care_philosophy"
-        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
@@ -147,11 +142,10 @@
 
     <TextView
         android:id="@+id/label_locations"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/locations"
-        android:textSize="20sp"
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView

@@ -50,7 +50,7 @@
                             android:src="@mipmap/appt_icon_orange" />
 
                         <TextView
-                            style="@style/tradeGothicLTStdBd2_20"
+                            style="@style/tradeGothicLTStd_Dynamic20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -214,14 +214,13 @@
                         android:src="@mipmap/find_care_icon_orange" />
 
                     <TextView
-                        style="@style/tradeGothicLTStdLight_20"
+                        style="@style/tradeGothicLTStd_Dynamic20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:lineSpacingExtra="10sp"
                         android:text="@string/find_care"
                         android:textColor="@color/db_gunmetal"
-                        android:textSize="20sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -261,14 +260,13 @@
 
                     <TextView
                         android:id="@+id/txt_db_didyouknow"
-                        style="@style/tradeGothicLTStdLight_20"
+                        style="@style/tradeGothicLTStd_Dynamic20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:lineSpacingExtra="10sp"
                         android:text="@string/did_you_know"
                         android:textColor="@color/db_gunmetal"
-                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>

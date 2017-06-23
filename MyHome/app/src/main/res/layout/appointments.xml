@@ -11,8 +11,7 @@
         android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_margin="@dimen/profile_label_marginTop"
-        android:text="@string/book_an_appointment"
-        android:textSize="20sp" />
+        android:text="@string/book_an_appointment" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_appointments"

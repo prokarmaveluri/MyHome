@@ -73,11 +73,10 @@
 
         <TextView
             android:id="@+id/phone"
-            style="style/tradeGothicLTStd_16"
+            style="style/tradeGothicLTStd_Dynamic20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/phone_icon"
-            android:layout_below="@id/email"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/phone_icon"
             android:autoLink="phone"

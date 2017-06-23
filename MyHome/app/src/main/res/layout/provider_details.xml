@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/doctor_name"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp"
@@ -30,7 +30,6 @@
             android:layout_marginTop="6dp"
             android:layout_toRightOf="@id/doctor_image"
             android:text="Dr. Edward Patterson, MD"
-            android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
@@ -91,7 +90,7 @@
 
         <TextView
             android:id="@+id/facility_address"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/provider_map"
@@ -100,7 +99,6 @@
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="170 Alameda de las Pulgas\nRedwood City, CA 94062"
-            android:textSize="20sp"
             tools:ignore="HardcodedText" />
 
         <ImageView
@@ -114,7 +112,7 @@
 
         <TextView
             android:id="@+id/phone"
-            style="style/tradeGothicLTStd_16"
+            style="style/tradeGothicLTStd_Dynamic20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/phone_icon"
@@ -124,7 +122,6 @@
             android:gravity="center"
             android:text="1-844-274-8497"
             android:textColor="@color/primary"
-            android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 

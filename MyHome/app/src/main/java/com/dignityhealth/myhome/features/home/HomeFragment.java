@@ -361,6 +361,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE ||
                 actionId == EditorInfo.IME_ACTION_SEARCH) {
+            CommonUtil.hideSoftKeyboard(getActivity());
             if (v.getText().toString().length() > 0) {
                 FadFragment.currentSearchQuery = v.getText().toString();
                 ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
