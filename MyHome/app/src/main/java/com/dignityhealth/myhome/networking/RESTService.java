@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.networking;
 import com.dignityhealth.myhome.features.appointments.Appointment;
 import com.dignityhealth.myhome.features.appointments.AppointmentResponse;
 import com.dignityhealth.myhome.features.enrollment.EnrollmentRequest;
+import com.dignityhealth.myhome.features.enrollment.ValidateEmailResponse;
 import com.dignityhealth.myhome.features.fad.LocationResponse;
 import com.dignityhealth.myhome.features.fad.ProvidersResponse;
 import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
@@ -113,4 +114,7 @@ public interface RESTService {
     @GET(RESTConstants.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION)
     Call<RegValidationResponse> getValidationRules(@Path("scheduleID") String scheduleId,
                                               @Query("include") String include);
+
+    @GET(RESTConstants.CIAM_BASE_URL + "api/users")
+    Call<ValidateEmailResponse> findEmail(@Query("email") String email);
 }

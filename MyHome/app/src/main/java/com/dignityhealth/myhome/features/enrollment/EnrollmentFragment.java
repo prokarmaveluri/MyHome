@@ -65,7 +65,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                 Constants.INPUT_TYPE.TEXT));
 
         binding.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.email,
-                Constants.INPUT_TYPE.EMAIL));
+                Constants.INPUT_TYPE.EMAIL_ENROLL));
 //        binding.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.password,
 //                Constants.INPUT_TYPE.PASSWORD));
         binding.reEnterPassword.setOnFocusChangeListener(
@@ -160,6 +160,10 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
         if (!binding.password.getText().toString().equals(binding.reEnterPassword.getText().toString())) {
             Toast.makeText(getActivity(), getResources().getString(R.string.valid_password_match),
                     Toast.LENGTH_LONG).show();
+            return null;
+        }
+        if (null != binding.email.getError() && binding.email.getError().length() > 0) {
+            Toast.makeText(getActivity(), "Email already exists", Toast.LENGTH_LONG).show();
             return null;
         }
 

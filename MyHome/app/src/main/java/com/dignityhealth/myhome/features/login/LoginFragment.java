@@ -101,7 +101,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
 
         binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email,
-                Constants.INPUT_TYPE.EMAIL));
+                Constants.INPUT_TYPE.EMAIL_LOGIN));
 //        binder.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.password,
 //                Constants.INPUT_TYPE.PASSWORD));
 
