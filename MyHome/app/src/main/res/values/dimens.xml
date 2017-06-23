@@ -18,5 +18,7 @@
     <dimen name="profile_city_maxwidth">140dp</dimen>
     <dimen name="profile_address_maxwidth">140dp</dimen>
 
+    <dimen name="scalable_16">14sp</dimen>
     <dimen name="scalable_18">16sp</dimen>
+    <dimen name="scalable_20">18sp</dimen>
 </resources>

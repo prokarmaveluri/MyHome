@@ -17,12 +17,11 @@
 
     <TextView
         android:id="@+id/certifications_label"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic20"
         android:layout_width="wrap_content"
         android:layout_marginTop="18dp"
         android:layout_height="wrap_content"
         android:text="@string/board_certifications"
-        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
@@ -35,12 +34,11 @@
 
     <TextView
         android:id="@+id/awards_label"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/awards_amp_recognitions"
-        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
