@@ -189,4 +189,22 @@
     <string name="add_to_calendar">Add to Calendar</string>
     <string name="dashboard_search_hint">Seach for a doctor, speciality or condition</string>
     <string name="provider_plan">Provider Plan</string>
+    <string name="first_name_required">First Name Required</string>
+    <string name="last_name_required">Last Name Required</string>
+    <string name="zip_invalid">Zip Invalid</string>
+    <string name="phone_number_invalid">Phone Number Invalid</string>
+    <string name="email_invalid">Email Invalid</string>
+    <string name="email_required">Email Required</string>
+    <string name="translator_language_required">Translator Language Required</string>
+    <string name="reason_for_visit_required">Reason For Visit Required</string>
+    <string name="phone_number_required">Phone Number Required</string>
+    <string name="weeks_pregnant_too_large">Weeks Pregnant Too Large</string>
+    <string name="weeks_pregnant_required">Weeks Pregnant Required</string>
+    <string name="date_of_birth_required">Date of Birth Required</string>
+    <string name="date_of_birth_too_young">You Must Be 18 To Book An Appointment</string>
+    <string name="caregiver_required">Caregiver Name Required</string>
+    <string name="insurance_phone_number_invalid">Insurance Phone Number Invalid</string>
+    <string name="group_id_required">Group ID Required</string>
+    <string name="member_id_required">Member ID Required</string>
+    <string name="plan_required">Plan Required</string>
 </resources>

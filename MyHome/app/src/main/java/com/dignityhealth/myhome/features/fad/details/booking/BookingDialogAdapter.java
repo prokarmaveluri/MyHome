@@ -671,7 +671,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             if (plan.getSelectedItemPosition() == 0) {
                 isValid = false;
-                planLabel.setText("Plan Required");
+                planLabel.setText(R.string.plan_required);
                 planLabel.setTextColor(ContextCompat.getColor(context, R.color.red));
             } else {
                 planLabel.setText(context.getString(R.string.provider_plan));
@@ -680,21 +680,21 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             if (memberId.getText().toString().isEmpty()) {
                 isValid = false;
-                memberIdLayout.setError("Member ID Required");
+                memberIdLayout.setError(context.getString(R.string.member_id_required));
             } else {
                 memberIdLayout.setError(null);
             }
 
             if (group.getText().toString().isEmpty()) {
                 isValid = false;
-                groupLayout.setError("Group ID Required");
+                groupLayout.setError(context.getString(R.string.group_id_required));
             } else {
                 groupLayout.setError(null);
             }
 
             if (insurancePhone.getVisibility() == View.VISIBLE && !insurancePhone.getText().toString().isEmpty() && !CommonUtil.isValidMobile(insurancePhone.getText().toString())) {
                 isValid = false;
-                insurancePhoneLayout.setError("Insurance Phone Number Invalid");
+                insurancePhoneLayout.setError(context.getString(R.string.insurance_phone_number_invalid));
             } else {
                 insurancePhoneLayout.setError(null);
             }
@@ -704,31 +704,31 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             if (caregiverLayout.getVisibility() == View.VISIBLE && caregiverName.getText().toString().isEmpty()) {
                 isValid = false;
-                caregiverLayout.setError("Caregiver Name Required");
+                caregiverLayout.setError(context.getString(R.string.caregiver_required));
             } else {
                 caregiverLayout.setError(null);
             }
 
             if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()) {
                 isValid = false;
-                firstNameLayout.setError("First Name Required");
+                firstNameLayout.setError(context.getString(R.string.first_name_required));
             } else {
                 firstNameLayout.setError(null);
             }
 
             if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()) {
                 isValid = false;
-                lastNameLayout.setError("Last Name Required");
+                lastNameLayout.setError(context.getString(R.string.last_name_required));
             } else {
                 lastNameLayout.setError(null);
             }
 
             if (dateOfBirthLayout.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
                 isValid = false;
-                dateOfBirthLayout.setError("Date of Birth Required");
+                dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_required));
             } else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && autoPopulateFromProfile && !DateUtil.isOlderThan18(DateUtil.convertReadableToUTC(dateOfBirth.getText().toString()))) {
                 isValid = false;
-                dateOfBirthLayout.setError("You Must Be 18 To Book An Appointment");
+                dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_too_young));
             } else {
                 dateOfBirthLayout.setError(null);
             }
@@ -736,51 +736,51 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {
                 isValid = false;
-                weeksPregnantLayout.setError("Weeks Pregnant Required");
+                weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_required));
             } else if (weeksPregnantLayout.getVisibility() == View.VISIBLE && !weeksPregnant.getText().toString().isEmpty() && Integer.parseInt(weeksPregnant.getText().toString()) > 45) {
                 isValid = false;
-                weeksPregnantLayout.setError("Weeks Pregnant Too Large");
+                weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_too_large));
             } else {
                 weeksPregnantLayout.setError(null);
             }
 
             if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {
                 isValid = false;
-                zipLayout.setError("Zip Invalid");
+                zipLayout.setError(context.getString(R.string.zip_invalid));
             } else {
                 zipLayout.setError(null);
             }
 
             if (phoneLayout.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()) {
                 isValid = false;
-                phoneLayout.setError("Phone Number Required");
+                phoneLayout.setError(context.getString(R.string.phone_number_required));
             } else if (phoneLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidMobile(phone.getText().toString())) {
                 isValid = false;
-                phoneLayout.setError("Phone Number Invalid");
+                phoneLayout.setError(context.getString(R.string.phone_number_invalid));
             } else {
                 phoneLayout.setError(null);
             }
 
             if (emailLayout.getVisibility() == View.VISIBLE && email.getText().toString().isEmpty()) {
                 isValid = false;
-                emailLayout.setError("Email Required");
+                emailLayout.setError(context.getString(R.string.email_required));
             } else if (emailLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidEmail(email.getText().toString())) {
                 isValid = false;
-                emailLayout.setError("Email Invalid");
+                emailLayout.setError(context.getString(R.string.email_invalid));
             } else {
                 emailLayout.setError(null);
             }
 
             if (translatorLanguageLayout.getVisibility() == View.VISIBLE && translatorLanguage.getText().toString().isEmpty()) {
                 isValid = false;
-                translatorLanguageLayout.setError("Translator Language Required");
+                translatorLanguageLayout.setError(context.getString(R.string.translator_language_required));
             } else {
                 translatorLanguageLayout.setError(null);
             }
 
             if (reasonForVisitLayout.getVisibility() == View.VISIBLE && reasonForVisit.getText().toString().isEmpty()) {
                 isValid = false;
-                reasonForVisitLayout.setError("Reason For Visit Required");
+                reasonForVisitLayout.setError(context.getString(R.string.reason_for_visit_required));
             } else {
                 reasonForVisitLayout.setError(null);
             }
