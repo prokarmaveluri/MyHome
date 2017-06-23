@@ -744,7 +744,10 @@ public class BookingDialogAdapter extends PagerAdapter {
                 weeksPregnantLayout.setError(null);
             }
 
-            if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {
+            if (zipLayout.getVisibility() == View.VISIBLE && zip.getText().toString().isEmpty()) {
+                isValid = false;
+                zipLayout.setError(context.getString(R.string.zip_required));
+            } else if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {
                 isValid = false;
                 zipLayout.setError(context.getString(R.string.zip_invalid));
             } else {

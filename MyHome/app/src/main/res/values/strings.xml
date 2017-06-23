@@ -207,4 +207,5 @@
     <string name="group_id_required">Group ID Required</string>
     <string name="member_id_required">Member ID Required</string>
     <string name="plan_required">Plan Required</string>
+    <string name="zip_required">Zip Required</string>
 </resources>
