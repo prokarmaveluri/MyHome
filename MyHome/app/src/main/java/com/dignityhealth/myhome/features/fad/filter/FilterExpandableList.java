@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.features.fad.filter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,6 +124,7 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
         return getGroupTitles().get(groupPosition);
     }
 
+    @Nullable
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         if (GROUP.SPECIALTIES.getValue() == groupPosition) {
@@ -170,7 +172,7 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(final int groupPosition, boolean isExpanded, @Nullable View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(mContext).inflate(R.layout.filter_group, parent, false);
         TextView view = (TextView) convertView.findViewById(R.id.filterGroup);
         view.setText(getGroupTitles().get(groupPosition));
@@ -197,7 +199,7 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition,
-                             final boolean isLastChild, View convertView,
+                             final boolean isLastChild, @Nullable View convertView,
                              final ViewGroup parent) {
         convertView = LayoutInflater.from(mContext).inflate(R.layout.filter_child, parent, false);
         CheckBox view = (CheckBox) convertView.findViewById(R.id.expChild);

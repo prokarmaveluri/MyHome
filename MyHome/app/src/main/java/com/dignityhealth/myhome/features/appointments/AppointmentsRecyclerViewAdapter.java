@@ -1,6 +1,7 @@
 package com.dignityhealth.myhome.features.appointments;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
     public ArrayList<Appointment> appointments;
     private final RecyclerViewListener onItemClickListener;
 
-    public AppointmentsRecyclerViewAdapter(Context context, ArrayList<Appointment> appointments, RecyclerViewListener onItemClickListener) {
+    public AppointmentsRecyclerViewAdapter(Context context, @Nullable ArrayList<Appointment> appointments, RecyclerViewListener onItemClickListener) {
         this.context = context;
         this.appointments = appointments;
         this.onItemClickListener = onItemClickListener;

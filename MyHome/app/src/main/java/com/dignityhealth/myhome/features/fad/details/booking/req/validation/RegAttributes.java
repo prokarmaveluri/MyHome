@@ -1,5 +1,7 @@
 package com.dignityhealth.myhome.features.fad.details.booking.req.validation;
 
+import android.support.annotation.Nullable;
+
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public class RegAttributes {
     private String name;
     private Integer ageLimitThreshold;
 
-    public RegAttributes(String company, String name) {
+    public RegAttributes(@Nullable String company, @Nullable String name) {
         this.company = company;
         this.name = name;
     }

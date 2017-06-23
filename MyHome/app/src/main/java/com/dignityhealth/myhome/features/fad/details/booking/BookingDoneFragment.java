@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.features.fad.Appointment;
-import com.dignityhealth.myhome.features.fad.Office;
-import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.dignityhealth.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
@@ -35,8 +33,9 @@ import timber.log.Timber;
 
 public class BookingDoneFragment extends Fragment {
     public static final String BOOKING_SELECT_PERSON_TAG = "booking_done_tag";
-    public static final String PROVIDER_DETAILS_RESPONSE_KEY = "provider_details";
-    public static final String CURRENT_OFFICE_KEY = "current_office";
+    public static final String DOCTOR_NAME_KEY = "doctor_name";
+    public static final String OFFICE_NAME_KEY = "office_name_key";
+    public static final String OFFICE_PHONE_KEY = "office_phone_key";
     public static final String BOOKING_PROFILE_KEY = "booking_profile";
     public static final String BOOKING_APPOINTMENT_KEY = "booking_appointment";
     public static final String IS_NEW_PATIENT_KEY = "is_new_patient";
@@ -57,8 +56,9 @@ public class BookingDoneFragment extends Fragment {
     ImageView calendarIcon;
     ProgressBar progressBar;
 
-    ProviderDetailsResponse providerDetailsResponse;
-    Office currentOffice;
+    String doctorName;
+    String officeName;
+    String officePhone;
     Profile bookingProfile;
     Appointment bookingAppointment;
     boolean isNewPatient;
@@ -68,11 +68,12 @@ public class BookingDoneFragment extends Fragment {
         return new BookingDoneFragment();
     }
 
-    public static BookingDoneFragment newInstance(ProviderDetailsResponse providerDetailsResponse, Office currentOffice, Profile bookingProfile, Appointment bookingAppointment, boolean isNewPatient, boolean isBookingForMe) {
+    public static BookingDoneFragment newInstance(String doctorName, String officeName, String officePhone, Profile bookingProfile, Appointment bookingAppointment, boolean isNewPatient, boolean isBookingForMe) {
         BookingDoneFragment bookingFragment = new BookingDoneFragment();
         Bundle args = new Bundle();
-        args.putParcelable(PROVIDER_DETAILS_RESPONSE_KEY, providerDetailsResponse);
-        args.putParcelable(CURRENT_OFFICE_KEY, currentOffice);
+        args.putString(DOCTOR_NAME_KEY, doctorName);
+        args.putString(OFFICE_NAME_KEY, officeName);
+        args.putString(OFFICE_PHONE_KEY, officePhone);
         args.putParcelable(BOOKING_PROFILE_KEY, bookingProfile);
         args.putParcelable(BOOKING_APPOINTMENT_KEY, bookingAppointment);
         args.putBoolean(IS_NEW_PATIENT_KEY, isNewPatient);
@@ -87,8 +88,9 @@ public class BookingDoneFragment extends Fragment {
         Bundle args = getArguments();
 
         if (args != null) {
-            providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
-            currentOffice = args.getParcelable(CURRENT_OFFICE_KEY);
+            doctorName = args.getString(DOCTOR_NAME_KEY);
+            officeName = args.getString(OFFICE_NAME_KEY);
+            officePhone = args.getString(OFFICE_PHONE_KEY);
             bookingProfile = args.getParcelable(BOOKING_PROFILE_KEY);
             bookingAppointment = args.getParcelable(BOOKING_APPOINTMENT_KEY);
             isNewPatient = args.getBoolean(IS_NEW_PATIENT_KEY);
@@ -161,7 +163,7 @@ public class BookingDoneFragment extends Fragment {
     }
 
     private void scheduleAppointment() {
-        final CreateAppointmentRequest request = new CreateAppointmentRequest(providerDetailsResponse, currentOffice, bookingProfile, bookingAppointment, isNewPatient, isBookingForMe);
+        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, officeName, officePhone, bookingProfile, bookingAppointment, isNewPatient, isBookingForMe);
 
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Timber.i("Request = " + request);

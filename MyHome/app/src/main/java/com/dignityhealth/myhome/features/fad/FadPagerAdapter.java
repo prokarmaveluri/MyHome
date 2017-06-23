@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.features.fad;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -29,6 +30,7 @@ public class FadPagerAdapter extends FragmentStatePagerAdapter {
         return NUM_ITEMS;
     }
 
+    @Nullable
     @Override
     public Fragment getItem(int position) {
         switch (position) {

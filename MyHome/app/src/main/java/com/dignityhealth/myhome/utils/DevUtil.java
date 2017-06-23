@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by kwelsh on 5/17/17.
  */
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class DevUtil {
 
     public static String getEmail() {

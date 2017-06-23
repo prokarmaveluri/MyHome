@@ -1,5 +1,7 @@
 package com.dignityhealth.myhome.features.fad.details.booking.req.validation;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by cmajji on 6/12/17.
  */
@@ -10,7 +12,7 @@ public class RegIncluded {
     private String id;
     private RegAttributes attributes;
 
-    public RegIncluded(String type, String id, RegAttributes attributes) {
+    public RegIncluded(@Nullable String type, @Nullable String id, @Nullable RegAttributes attributes) {
         this.type = type;
         this.id = id;
         this.attributes = attributes;

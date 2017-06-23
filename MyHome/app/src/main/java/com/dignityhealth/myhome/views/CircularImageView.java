@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -42,12 +43,12 @@ public class CircularImageView extends AppCompatImageView {
         this(context, null);
     }
 
-    public CircularImageView(Context context, AttributeSet attrs) {
+    public CircularImageView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, R.attr.circularImageViewStyle);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CircularImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CircularImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
@@ -173,6 +174,7 @@ public class CircularImageView extends AppCompatImageView {
         paint.setShader(shader);
     }
 
+    @Nullable
     private Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable == null) {
             return null;

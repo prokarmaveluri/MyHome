@@ -185,7 +185,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         if (isBookingForMe && !formsProfile.equalsSansBookingInfo(ProfileManager.getProfile())) {
             BookingSaveProfileDialog dialog = BookingSaveProfileDialog.newInstance(formsProfile);
             dialog.setSaveProfileInterface(this);
-            dialog.show(getChildFragmentManager(), "BookingSaveProfileDialog");
+            dialog.show(getChildFragmentManager(), BookingSaveProfileDialog.BOOKING_SAVE_PROFILE_DIALOG_TAG);
         } else {
             this.getDialog().dismiss();
         }

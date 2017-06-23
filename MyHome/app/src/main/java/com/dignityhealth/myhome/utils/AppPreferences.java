@@ -10,7 +10,7 @@ import com.dignityhealth.myhome.networking.auth.AuthManager;
  */
 public class AppPreferences {
 
-    private static String APP_PREFERENCES = "APP_PREFERENCES";
+    private final static String APP_PREFERENCES = "APP_PREFERENCES";
     private static AppPreferences instance;
     private SharedPreferences mSharedPreferences;
 

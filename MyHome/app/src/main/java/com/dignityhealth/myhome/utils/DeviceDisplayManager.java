@@ -13,6 +13,8 @@ import android.view.WindowManager;
 public class DeviceDisplayManager {
     private static DeviceDisplayManager ourInstance = new DeviceDisplayManager();
     private static float density = 0;
+    public static final String W60H80 = "w60h80";
+    public static final String W120H160 = "w120h160";
 
     public static DeviceDisplayManager getInstance() {
         return ourInstance;

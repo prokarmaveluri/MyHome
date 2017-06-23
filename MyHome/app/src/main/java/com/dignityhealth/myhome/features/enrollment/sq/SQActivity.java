@@ -20,6 +20,7 @@ import com.dignityhealth.myhome.utils.Constants;
  *
  * Created by cmajji on 4/26/17.
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class SQActivity extends AppCompatActivity {
 
     private ActivitySecurityQuestionBinding binding;

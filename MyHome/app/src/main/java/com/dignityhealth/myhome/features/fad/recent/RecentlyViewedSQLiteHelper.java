@@ -8,6 +8,7 @@ import android.util.Log;
 /**
  * Created by Chandra on 23-08-2016.
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class RecentlyViewedSQLiteHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_NAME = "table_recently_viewed";

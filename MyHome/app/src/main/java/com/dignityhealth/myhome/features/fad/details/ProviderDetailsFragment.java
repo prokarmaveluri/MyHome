@@ -194,15 +194,15 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return;
         }
 
-        String url = provider.getImageUrl() != null ? provider.getImageUrl().replace("w60h80", "w120h160"): null ;
+        String url = provider.getImageUrl() != null ? provider.getImageUrl().replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160) : null;
         Picasso.with(getActivity())
                 .load(url)
                 .into(doctorImage);
 
-        name.setText(provider.getDisplayFullName() != null ? provider.getDisplayFullName() : "Name Unknown");
-        speciality.setText(provider.getSpecialties() != null ? provider.getSpecialties().get(0) : "Specialities Unknown");
-        address.setText(provider.getOffices() != null ? provider.getOffices().get(0).getAddress1() + "\n" + provider.getOffices().get(0).getAddress() : "Address Unknown");
-        phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumber(provider.getOffices().get(0).getPhone()) : "Phone Number Unknown");
+        name.setText(provider.getDisplayFullName() != null ? provider.getDisplayFullName() : getString(R.string.name_unknown));
+        speciality.setText(provider.getSpecialties() != null ? provider.getSpecialties().get(0) : getString(R.string.specialities_unknown));
+        address.setText(provider.getOffices() != null ? provider.getOffices().get(0).getAddress1() + "\n" + provider.getOffices().get(0).getAddress() : getString(R.string.address_unknown));
+        phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumber(provider.getOffices().get(0).getPhone()) : getString(R.string.phone_number_unknown));
         currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
 
         phone.setOnClickListener(new View.OnClickListener() {
@@ -648,7 +648,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse, currentOffice, bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(), currentOffice.getName(), currentOffice.getPhone(), bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
         bookingFragment.setBookingDoneInterface(ProviderDetailsFragment.this);
         getChildFragmentManager()
                 .beginTransaction()
@@ -669,7 +669,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onBookingFailed(String errorMessage) {
         if (isAdded()) {
-            Toast.makeText(getActivity(), "Unable to book. \nPlease check your information", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.booking_failed), Toast.LENGTH_LONG).show();
 
             //Go to Time Fragment, then open up the Registration Forms Again
             BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient, currentOffice.getAppointments()));

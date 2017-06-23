@@ -29,6 +29,7 @@ import retrofit2.Response;
  * Created by cmajji on 4/26/17.
  */
 public class TosActivity extends BaseActivity {
+    public static final String FILE_ANDROID_ASSET_TOS_HTML = "file:///android_asset/tos.html"; //Changes Fragment's ToS too
     private EnrollmentRequest enrollmentRequest;
     private ProgressBar termsProgress;
 
@@ -67,7 +68,7 @@ public class TosActivity extends BaseActivity {
         });
 
         WebView tos = (WebView) findViewById(R.id.terms_of_service);
-        tos.loadUrl("file:///android_asset/tos.html");
+        tos.loadUrl(FILE_ANDROID_ASSET_TOS_HTML);
 
         enrollmentRequest = getIntent().getParcelableExtra(Constants.ENROLLMENT_REQUEST);
     }

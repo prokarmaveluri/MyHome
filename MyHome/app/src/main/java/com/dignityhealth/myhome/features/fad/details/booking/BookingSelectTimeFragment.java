@@ -232,6 +232,7 @@ public class BookingSelectTimeFragment extends Fragment {
      * @param timeGroup    Flow Layout where Times will be added
      * @param appointments the appointments being added to the Flow Layout
      */
+    @SuppressWarnings("ObjectAllocationInLoop")
     private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<Appointment> appointments) {
         timeGroup.removeAllViews();
         FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(DeviceDisplayManager.dpToPx(getContext(), 110), DeviceDisplayManager.dpToPx(getContext(), 40));
@@ -239,9 +240,10 @@ public class BookingSelectTimeFragment extends Fragment {
         Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
 
         View.OnClickListener timeClickedListener;
+        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle);
 
         for (final Appointment appointment : appointments) {
-            final Button timeButton = new Button(new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle), null, R.style.selectableButtonStyle);
+            final Button timeButton = new Button(contextThemeWrapper, null, R.style.selectableButtonStyle);
 //            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 4));
             timeButton.setGravity(Gravity.CENTER);
             layoutParams.gravity = Gravity.CENTER;

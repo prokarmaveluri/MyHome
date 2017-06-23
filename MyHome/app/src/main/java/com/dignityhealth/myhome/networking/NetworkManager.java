@@ -47,7 +47,7 @@ public class NetworkManager {
     private static NetworkManager instance = null;
     private static OkHttpClient.Builder httpClient = null;
 
-    private final String BEARER = "Bearer ";
+    private static final String BEARER = "Bearer ";
 
     public static NetworkManager getInstance() {
 

@@ -21,6 +21,12 @@ import timber.log.Timber;
  */
 
 public class MyHomeApplication extends MultiDexApplication {
+    public static final String DEFAULT = "DEFAULT";
+    public static final String SANS_SERIF = "SANS_SERIF";
+    public static final String MONOSPACE = "MONOSPACE";
+    public static final String FONTS_TRADE_GOTHIC_LTSTD_TTF = "fonts/TradeGothicLTStd.ttf";
+    public static final String FONTS_TRADE_GOTHIC_LTSTD_LIGHT_TTF = "fonts/TradeGothicLTStd-Light.ttf";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -55,9 +61,9 @@ public class MyHomeApplication extends MultiDexApplication {
             prefs.edit().putBoolean(getString(R.string.pref_key_first_run), false).apply();
         }
 
-        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/TradeGothicLTStd.ttf");
-        FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/TradeGothicLTStd.ttf");
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/TradeGothicLTStd-Light.ttf");
+        FontsOverride.setDefaultFont(this, DEFAULT, FONTS_TRADE_GOTHIC_LTSTD_TTF);
+        FontsOverride.setDefaultFont(this, SANS_SERIF, FONTS_TRADE_GOTHIC_LTSTD_TTF);
+        FontsOverride.setDefaultFont(this, MONOSPACE, FONTS_TRADE_GOTHIC_LTSTD_LIGHT_TTF);
         AuthManager.getInstance().fetchLockoutInfo();
     }
 }

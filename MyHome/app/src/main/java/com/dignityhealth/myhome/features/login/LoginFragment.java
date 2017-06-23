@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -207,6 +208,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
     }
 
+    @Nullable
     private LoginRequest getRequest() {
         LoginRequest request = null;
 
@@ -326,6 +328,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
     }
 
+    @Nullable
     private String parseIDToken(String url) {
 
         int index = url.indexOf("id_token=");
@@ -336,6 +339,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         return null;
     }
 
+    @Nullable
     private String parseSid(String cookie) {
         int index = cookie.indexOf("sid=");
         if (-1 != index) {

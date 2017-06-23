@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.utils;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 
@@ -24,6 +25,7 @@ import timber.log.Timber;
  * Created by kwelsh on 6/1/17.
  */
 
+@SuppressWarnings("HardCodedStringLiteral")
 public final class TealiumUtil {
     private final static String ACCOUNT_NAME = "tealiummobile";
     private final static String PROFILE_NAME = "demo";
@@ -77,7 +79,7 @@ public final class TealiumUtil {
         TealiumUtil.trackEvent("initialization", data);
     }
 
-    public static void trackView(String viewName, Map<String, ?> data) {
+    public static void trackView(String viewName, @Nullable Map<String, ?> data) {
         final Tealium instance = Tealium.getInstance(TEALIUM_MAIN);
 
         // Instance can be remotely destroyed through publish settings
@@ -86,7 +88,7 @@ public final class TealiumUtil {
         }
     }
 
-    public static void trackEvent(String eventName, Map<String, ?> data) {
+    public static void trackEvent(String eventName, @Nullable Map<String, ?> data) {
         final Tealium instance = Tealium.getInstance(TEALIUM_MAIN);
 
         // Instance can be remotely destroyed through publish settings

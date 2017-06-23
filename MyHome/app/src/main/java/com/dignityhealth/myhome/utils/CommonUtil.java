@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -35,7 +37,9 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
  * Created by cmajji on 4/27/17.
  */
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class CommonUtil {
+    private static final String TYPE_PLAIN = "text/plain";
 
     public static boolean isValidPassword(String password) {
 
@@ -44,7 +48,7 @@ public class CommonUtil {
         return m.matches();
     }
 
-    public static boolean isValidPassword(String password, String firstName, String lastName) {
+    public static boolean isValidPassword(@NonNull String password, @NonNull String firstName, @NonNull String lastName) {
 
         if (password.toLowerCase().contains(firstName.toLowerCase()) |
                 password.toLowerCase().contains(lastName.toLowerCase())) {
@@ -61,7 +65,7 @@ public class CommonUtil {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    public static boolean isValidTextInput(TextView view) {
+    public static boolean isValidTextInput(@Nullable TextView view) {
         checkNotNull(view);
 
         if (view.getText().toString().isEmpty() || view.getText().toString().length() < 1 ||
@@ -112,24 +116,8 @@ public class CommonUtil {
      * @param word the string to upper case
      * @return word, now upper cased
      */
-    public static String capitalize(String word) {
+    public static String capitalize(@NonNull String word) {
         return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
-    }
-
-    /**
-     * Sees if a phone number entered in is valid.
-     *
-     * @param phone1 the region code (can be either zero digits or three)
-     * @param phone2 the first part of the phone number (needs to be three digits)
-     * @param phone3 the last part of the phone number (needs to be four digits)
-     * @return true if the phone number is valid, false otherwise
-     */
-    public static boolean validPhoneNumber(String phone1, String phone2, String phone3) {
-        if (phone3.length() == 4 && phone2.length() == 3 && (phone1.length() == 0 || phone1.length() == 3)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -139,7 +127,7 @@ public class CommonUtil {
      * @param lastName  last name of user
      * @return a proper representation of the user's name
      */
-    public static String constructName(String firstName, String lastName) {
+    public static String constructName(@Nullable String firstName, @Nullable String lastName) {
         if (firstName == null) {
             firstName = "";
         }
@@ -161,7 +149,7 @@ public class CommonUtil {
      * @param zip      the five digit zip code of the user
      * @return a proper representation of the user's address
      */
-    public static String constructAddress(String address, String address2, String city, String state, String zip) {
+    public static String constructAddress(@Nullable String address, @Nullable String address2, @Nullable String city, @Nullable String state, @Nullable String zip) {
         String fullAddress = "";
 
         if (address != null && !address.isEmpty()) {
@@ -202,7 +190,7 @@ public class CommonUtil {
      * @return a String representation of the phone number, formatted with dashes and parentheses
      */
     @SuppressWarnings("deprecation")
-    public static String constructPhoneNumber(String number) {
+    public static String constructPhoneNumber(@NonNull String number) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
         } else {
@@ -217,7 +205,7 @@ public class CommonUtil {
      * @param number the phone number being stripped
      * @return a 10 digit representation of the phone number without dashes
      */
-    public static String stripPhoneNumber(String number) {
+    public static String stripPhoneNumber(@NonNull String number) {
         return number.replaceAll("\\D", "").trim();
     }
 
@@ -227,38 +215,40 @@ public class CommonUtil {
      * @param context
      * @param appointment the appointment being created in the calendar
      */
-    public static void addCalendarEvent(Context context, Appointment appointment) {
-        Intent intent = new Intent(Intent.ACTION_EDIT);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+    public static void addCalendarEvent(Context context, @Nullable Appointment appointment) {
+        if (appointment != null) {
+            Intent intent = new Intent(Intent.ACTION_EDIT);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
 
-        if (appointment.appointmentStart != null) {
-            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateUtil.getMilliseconds(appointment.appointmentStart));
-        }
+            if (appointment.appointmentStart != null) {
+                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, DateUtil.getMilliseconds(appointment.appointmentStart));
+            }
 
-        if (appointment.doctorName != null) {
-            intent.putExtra(CalendarContract.Events.TITLE, "Appointment with " + appointment.doctorName);
-        }
+            if (appointment.doctorName != null) {
+                intent.putExtra(CalendarContract.Events.TITLE, "Appointment with " + appointment.doctorName);
+            }
 
-        if (appointment.facilityPhoneNumber != null || appointment.visitReason != null) {
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumber(appointment.facilityPhoneNumber) + "\n" + appointment.visitReason);
-        }
+            if (appointment.facilityPhoneNumber != null || appointment.visitReason != null) {
+                intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumber(appointment.facilityPhoneNumber) + "\n" + appointment.visitReason);
+            }
 
-        if (appointment.facilityAddress != null) {
-            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, CommonUtil.constructAddress(
-                    appointment.facilityAddress.line1,
-                    appointment.facilityAddress.line2,
-                    appointment.facilityAddress.city,
-                    appointment.facilityAddress.stateOrProvince,
-                    appointment.facilityAddress.zipCode));
-        }
+            if (appointment.facilityAddress != null) {
+                intent.putExtra(CalendarContract.Events.EVENT_LOCATION, CommonUtil.constructAddress(
+                        appointment.facilityAddress.line1,
+                        appointment.facilityAddress.line2,
+                        appointment.facilityAddress.city,
+                        appointment.facilityAddress.stateOrProvince,
+                        appointment.facilityAddress.zipCode));
+            }
 
-        intent.setType("vnd.android.cursor.item/event");
+            intent.setType("vnd.android.cursor.item/event");
 
-        try {
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException ex) {
-            Timber.e(ex);
-            Toast.makeText(context, context.getString(R.string.please_install_calendar_app), Toast.LENGTH_LONG).show();
+            try {
+                context.startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                Timber.e(ex);
+                Toast.makeText(context, context.getString(R.string.please_install_calendar_app), Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -272,7 +262,7 @@ public class CommonUtil {
      * @param facilityPhoneNumber the phone where the appointment is taking place
      * @param visitReason         the reason for the appointment
      */
-    public static void addCalendarEvent(Context context, String appointmentStart, String doctorName, Address facilityAddress, String facilityPhoneNumber, String visitReason) {
+    public static void addCalendarEvent(Context context, @Nullable String appointmentStart, @Nullable String doctorName, @Nullable Address facilityAddress, @Nullable String facilityPhoneNumber, @Nullable String visitReason) {
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
 
@@ -348,8 +338,12 @@ public class CommonUtil {
      * @param context
      * @param appointment the appointment object being shared
      */
-    public static void shareAppointment(Context context, Appointment appointment) {
+    public static void shareAppointment(Context context, @Nullable Appointment appointment) {
         String message = "";
+
+        if (appointment == null) {
+            return;
+        }
 
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
             message = message + DateUtil.getDateWordsFromUTC(appointment.appointmentStart) + ".\n" + DateUtil.getTime(appointment.appointmentStart);
@@ -381,7 +375,7 @@ public class CommonUtil {
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
+        intent.setType(TYPE_PLAIN);
         intent.putExtra(Intent.EXTRA_TEXT, message);
 
         try {
@@ -404,7 +398,7 @@ public class CommonUtil {
      * @param facilityPhoneNumber the phone number of the facility where the appointment is taking place
      * @param visitReason         the reason for the appointment
      */
-    public static void shareAppointment(Context context, String startTime, String doctorName, String facilityName, Address facilityAddress, String facilityPhoneNumber, String visitReason) {
+    public static void shareAppointment(Context context, @Nullable String startTime, @Nullable String doctorName, @Nullable String facilityName, @Nullable Address facilityAddress, @Nullable String facilityPhoneNumber, @Nullable String visitReason) {
         String message = "";
 
         if (startTime != null && !startTime.isEmpty()) {
@@ -437,7 +431,7 @@ public class CommonUtil {
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
+        intent.setType(TYPE_PLAIN);
         intent.putExtra(Intent.EXTRA_TEXT, message);
 
         try {

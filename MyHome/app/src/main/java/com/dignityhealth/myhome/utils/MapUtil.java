@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 
 import com.dignityhealth.myhome.R;
@@ -70,7 +71,7 @@ public class MapUtil {
                 markers.add(googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(office.getLat()), Double.parseDouble(office.getLong())))
                         .title(office.getName() != null ? office.getName() : office.getAddress1())
-                        .snippet(office.getAddress1() != null ? office.getAddress1() + "\n" + office.getAddress() : "Address Unknown")
+                        .snippet(office.getAddress1() != null ? office.getAddress1() + "\n" + office.getAddress() : context.getString(R.string.address_unknown))
                         .icon(bitmapDescriptor)));
 
                 if (listener != null) {
@@ -106,6 +107,7 @@ public class MapUtil {
      * @param markers the markers that need to fit on the map
      * @return
      */
+    @Nullable
     public static CameraUpdate calculateZoom(Context context, ArrayList<Marker> markers) {
         try {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();

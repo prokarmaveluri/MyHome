@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 
 import java.util.Locale;
@@ -12,15 +13,16 @@ import java.util.Locale;
  * Created by kwelsh on 4/26/2017.
  * Utility class to check networking state
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class ConnectionUtil {
 
-    public static NetworkInfo activeNetwork(Context context) {
+    public static NetworkInfo activeNetwork(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return networkInfo;
     }
 
-    public static boolean isConnected(Context context) {
+    public static boolean isConnected(@NonNull Context context) {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -28,7 +30,7 @@ public class ConnectionUtil {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    public static boolean isWifiConnected(Context context) {
+    public static boolean isWifiConnected(@NonNull Context context) {
         NetworkInfo activeNetwork = activeNetwork(context);
         if (activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
             return true;
@@ -37,7 +39,7 @@ public class ConnectionUtil {
         }
     }
 
-    public static boolean isCellularConnected(Context context) {
+    public static boolean isCellularConnected(@NonNull Context context) {
         NetworkInfo activeNetwork = activeNetwork(context);
         if (activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
             return true;
@@ -46,7 +48,7 @@ public class ConnectionUtil {
         }
     }
 
-    public static boolean isCellularRoaming(Context context) {
+    public static boolean isCellularRoaming(@NonNull Context context) {
         NetworkInfo activeNetwork = activeNetwork(context);
         if (activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE && activeNetwork.isRoaming()) {
             return true;
@@ -64,7 +66,7 @@ public class ConnectionUtil {
      * <p/>
      * in your AndroidManifest.xml.
      */
-    public static String getNetworkType(Context context) {
+    public static String getNetworkType(@NonNull Context context) {
         TelephonyManager teleMan = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         int networkType = teleMan.getNetworkType();
         switch (networkType) {
@@ -105,7 +107,7 @@ public class ConnectionUtil {
         }
     }
 
-    public static String getIPAddress(Context context) {
+    public static String getIPAddress(@NonNull Context context) {
         WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         int ipAddress = wm.getConnectionInfo().getIpAddress();
         return String.format(Locale.getDefault(), "%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));

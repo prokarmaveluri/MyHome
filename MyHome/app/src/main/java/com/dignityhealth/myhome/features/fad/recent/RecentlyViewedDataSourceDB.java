@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.Nullable;
 
 import com.dignityhealth.myhome.features.fad.Provider;
 import com.google.gson.Gson;
@@ -18,11 +19,12 @@ import java.util.ArrayList;
 /**
  * Created by Chandra on 23-08-2016.
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class RecentlyViewedDataSourceDB {
 
     private SQLiteDatabase database;
     private RecentlyViewedSQLiteHelper dbHelper;
-    private final int MAX_ROW_COUNT = 10;
+    private static final int MAX_ROW_COUNT = 10;
 
     private String[] allColumns = {RecentlyViewedSQLiteHelper.COLUMN_ID,
             RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID, RecentlyViewedSQLiteHelper.COLUMN_PROVIDER};
@@ -123,6 +125,7 @@ public class RecentlyViewedDataSourceDB {
             database.delete(RecentlyViewedSQLiteHelper.TABLE_NAME, null, null);
     }
 
+    @Nullable
     public String getMyEntry(String pincode) {
         Cursor myCursor = database.query(RecentlyViewedSQLiteHelper.TABLE_NAME, allColumns,
                 RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID + "='" + pincode + "'", null, null, null, null);

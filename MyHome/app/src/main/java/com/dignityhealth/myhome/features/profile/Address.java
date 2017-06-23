@@ -2,6 +2,7 @@ package com.dignityhealth.myhome.features.profile;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import java.util.Objects;
 
@@ -17,7 +18,7 @@ public class Address implements Parcelable {
     public String zipCode;
     public String countryCode;
 
-    public Address(String line1, String line2, String city, String stateOrProvince, String zipCode, String countryCode) {
+    public Address(String line1, @Nullable String line2, String city, String stateOrProvince, String zipCode, @Nullable String countryCode) {
         this.line1 = line1;
         this.line2 = line2;
         this.city = city;

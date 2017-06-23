@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.features.fad.details.booking;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
@@ -126,6 +127,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         formsProfile = Profile.copy(profile);
     }
 
+    @Nullable
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -384,10 +386,10 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
     }
 
-    public void setupInsurancePlanSpinner(RegValidationResponse regValidationResponse) {
+    public void setupInsurancePlanSpinner(@Nullable RegValidationResponse regValidationResponse) {
         if (regValidationResponse != null) {
             List<RegIncluded> insurances = ValidationUtil.getInsurances(regValidationResponse);
-            insurances.add(0, new RegIncluded("insurances", null, new RegAttributes(null, "Please Pick a Plan")));
+            insurances.add(0, new RegIncluded(ValidationUtil.TYPE_INSURANCES, null, new RegAttributes(null, context.getString(R.string.please_pick_a_plan))));
             ProviderPlanSpinnerAdapter spinnerAdapter = new ProviderPlanSpinnerAdapter(context, R.layout.provider_plan_spinner_item, insurances);
             //spinnerAdapter.setDropDownViewResource(R.layout.provider_plan_spinner_item);
             plan.setAdapter(spinnerAdapter);
@@ -401,7 +403,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
     }
 
-    public void setupValidationRules(RegValidationResponse regValidationResponse) {
+    public void setupValidationRules(@Nullable RegValidationResponse regValidationResponse) {
         updateVisibility(false);
 
         if (regValidationResponse != null) {
