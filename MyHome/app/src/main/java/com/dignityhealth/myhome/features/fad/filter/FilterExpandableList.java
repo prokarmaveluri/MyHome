@@ -333,6 +333,6 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
     }
 
     interface GroupSelectionListener {
-        public void selectedGroup(int position);
+        void selectedGroup(int position);
     }
 }

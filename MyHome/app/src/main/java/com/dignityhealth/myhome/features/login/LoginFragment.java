@@ -249,6 +249,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 }
             });
         } else {
+            //noinspection deprecation
             cookieManager.removeAllCookie();
         }
 
@@ -482,6 +483,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
      *
      * @param res
      */
+    @SuppressWarnings("deprecation")
     private void updateDrawable(int res) {
         Drawable drawable = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -185,6 +185,7 @@ public class BookingSelectTimeFragment extends Fragment {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>", Html.FROM_HTML_MODE_COMPACT));
                 } else {
+                    //noinspection deprecation
                     noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>"));
                 }
 

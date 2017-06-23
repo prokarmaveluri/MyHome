@@ -201,6 +201,7 @@ public class CommonUtil {
      * @param number the number being formatted
      * @return a String representation of the phone number, formatted with dashes and parentheses
      */
+    @SuppressWarnings("deprecation")
     public static String constructPhoneNumber(String number) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
@@ -512,7 +513,7 @@ public class CommonUtil {
      * @param objects the objects we wish to print
      * @return the string representing all the objects in the list
      */
-    public static String prettyPrint(List<? extends Object> objects) {
+    public static String prettyPrint(List<?> objects) {
         String prettyString = "";
         for (Object object : objects) {
             prettyString = prettyString + object.toString() + "\n";
@@ -527,7 +528,7 @@ public class CommonUtil {
      * @param objects the objects we wish to print
      * @return the string representing all the objects in the list
      */
-    public static String prettyPrintLineBreak(List<? extends Object> objects) {
+    public static String prettyPrintLineBreak(List<?> objects) {
         String prettyString = "";
         for (Object object : objects) {
             prettyString = prettyString + object.toString() + "\n\n";

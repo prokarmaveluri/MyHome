@@ -42,6 +42,7 @@ public class EnrollmentActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
         } else {
+            //noinspection deprecation
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
         setSupportActionBar(appToolbar);

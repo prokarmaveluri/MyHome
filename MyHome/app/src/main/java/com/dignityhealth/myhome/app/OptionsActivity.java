@@ -104,6 +104,7 @@ public class OptionsActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
         } else {
+            //noinspection deprecation
             toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
         setSupportActionBar(toolbar);

@@ -266,6 +266,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                 });
     }
 
+    @SuppressWarnings("deprecation")
     private void updateDrawable(int res) {
         Drawable drawable = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -390,6 +390,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy(), Html.FROM_HTML_MODE_COMPACT) : getString(R.string.unknown));
         } else {
+            //noinspection deprecation
             philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy()) : getString(R.string.unknown));
         }
 

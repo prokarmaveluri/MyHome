@@ -159,10 +159,10 @@
     <string name="db_text_one">The Power of Time Off: Why Vacations Are Essential.</string>
     <string name="db_text_two">A Little Bit of Color: Don\'t Let a Sunburn Get You Down This Summer.</string>
     <string name="db_readmore">Read More</string>
-    <string name="db_profile_alert_one">Don\'t have a saved Profile. Retrieving profile now...</string>
-    <string name="db_profile_alert_two">Already have a Profile Singleton. Updating the view...</string>
-    <string name="db_appoint_alert_one">Don\'t have a saved Appointment. Retrieving profile now...</string>
-    <string name="db_appoint_alert_two">Already have a Appointment Singleton. Updating the view...</string>
+    <string name="db_profile_alert_one">Don\'t have a saved Profile. Retrieving profile now…</string>
+    <string name="db_profile_alert_two">Already have a Profile Singleton. Updating the view…</string>
+    <string name="db_appoint_alert_one">Don\'t have a saved Appointment. Retrieving profile now…</string>
+    <string name="db_appoint_alert_two">Already have a Appointment Singleton. Updating the view…</string>
     <string name="db_list_dilaog">List Dialog</string>
     <string name="db_welcome_one">Welcome home,</string>
     <string name="db_welcome_two">Welcome home!</string>
