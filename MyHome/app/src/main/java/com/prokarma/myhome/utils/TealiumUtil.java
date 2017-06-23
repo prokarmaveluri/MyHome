@@ -27,8 +27,8 @@ import timber.log.Timber;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public final class TealiumUtil {
-    private final static String ACCOUNT_NAME = "tealiummobile";
-    private final static String PROFILE_NAME = "demo";
+    private final static String ACCOUNT_NAME = "dignityhealth";
+    private final static String PROFILE_NAME = "myhomeapp";
     private final static String ENVIRONMENT = "dev";
     private final static String KEY_TEALIUM_INIT_COUNT = "tealium_init_count";
     private final static String KEY_TEALIUM_INITIALIZED = "tealium_initialized";
