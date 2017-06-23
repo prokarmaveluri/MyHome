@@ -16,7 +16,7 @@
         android:layout_height="1dp"
         android:background="@color/md_blue_grey_650" />
 
-    <com.dignityhealth.myhome.views.WrappingViewPager
+    <com.prokarma.myhome.views.WrappingViewPager
         android:id="@+id/booking_dialog_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

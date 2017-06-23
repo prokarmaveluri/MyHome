@@ -12,7 +12,7 @@
         android:paddingBottom="12dp"
         android:paddingTop="12dp">
 
-        <com.dignityhealth.myhome.views.CircularImageView
+        <com.prokarma.myhome.views.CircularImageView
             android:id="@+id/doctor_image"
             android:layout_width="100dp"
             android:layout_height="100dp"

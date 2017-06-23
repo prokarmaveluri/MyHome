@@ -7,7 +7,7 @@
 
         <variable
             name="handlers"
-            type="com.dignityhealth.myhome.features.fad.ProvidersAdapter.ProviderClick" />
+            type="com.prokarma.myhome.features.fad.ProvidersAdapter.ProviderClick" />
     </data>
 
     <RelativeLayout
@@ -17,7 +17,7 @@
         android:onClick="@{handlers::onClickProvider}"
         android:orientation="vertical">
 
-        <com.dignityhealth.myhome.views.CircularImageView
+        <com.prokarma.myhome.views.CircularImageView
             android:id="@+id/docImage"
             android:layout_width="50dp"
             android:layout_height="50dp"

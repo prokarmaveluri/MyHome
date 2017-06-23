@@ -5,7 +5,7 @@
 
         <variable
             name="handlers"
-            type="com.dignityhealth.myhome.features.fad.filter.FilterDialog.DialogClick" />
+            type="com.prokarma.myhome.features.fad.filter.FilterDialog.DialogClick" />
     </data>
 
     <LinearLayout
@@ -93,7 +93,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="16dp"
-                    tools:context="com.dignityhealth.myhome.features.fad.filter.FilterDialog">
+                    tools:context="com.prokarma.myhome.features.fad.filter.FilterDialog">
 
                     <TextView
                         android:id="@+id/sortByTitle"

@@ -71,12 +71,12 @@
 -dontwarn okhttp3.**
 
 # Our Proguard Rules for DignityHealth App
--keep class com.dignityhealth.myhome.utils.Constants { public static *; }
+-keep class com.prokarma.myhome.utils.Constants { public static *; }
 
 -dontwarn com.squareup.okhttp3.**
 -keep class com.squareup.okhttp3.**
-#-keep class com.dignityhealth.myhome.features.login.LoginRequest { *; }
-#-keep class com.dignityhealth.myhome.features.login.LoginResponse { *; }
+#-keep class com.prokarma.myhome.features.login.LoginRequest { *; }
+#-keep class com.prokarma.myhome.features.login.LoginResponse { *; }
 
 ## Google Play Services specific rules ##
 ## https://developer.android.com/google/play-services/setup.html#Proguard ##

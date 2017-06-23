@@ -19,12 +19,12 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.dignityhealth.myhome"
+        applicationId "com.prokarma.myhome"
         minSdkVersion 19
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 26
-        versionName "0.1.25"
+        versionCode 1
+        versionName "0.1.1"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -62,12 +62,12 @@ android {
             }
         }
         debug {
-            HOCKEYAPP_APP_ID = "\"c13b9b9cbc224c31b8e04f5a07da9799\""
+            HOCKEYAPP_APP_ID = "\"b51e6a79f705472fb7613985e9f82e7f\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
-            buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
+            buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
             minifyEnabled false
             shrinkResources false

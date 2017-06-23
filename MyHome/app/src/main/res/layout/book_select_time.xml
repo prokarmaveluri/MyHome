@@ -12,7 +12,7 @@
         android:id="@+id/date_header"
         layout="@layout/book_date_header" />
 
-    <com.dignityhealth.myhome.views.FlowLayout
+    <com.prokarma.myhome.views.FlowLayout
         android:id="@+id/time_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         <!--android:textOff="10:30am"-->
         <!--android:textOn="10:30am" />-->
 
-    </com.dignityhealth.myhome.views.FlowLayout>
+    </com.prokarma.myhome.views.FlowLayout>
 
     <Button
         android:id="@+id/empty_appointments"

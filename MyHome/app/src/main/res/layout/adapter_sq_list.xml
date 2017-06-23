@@ -5,7 +5,7 @@
 
         <variable
             name="handlers"
-            type="com.dignityhealth.myhome.features.enrollment.sq.SQListActivity.ListCloseEvent" />
+            type="com.prokarma.myhome.features.enrollment.sq.SQListActivity.ListCloseEvent" />
     </data>
 
     <LinearLayout

@@ -4,7 +4,7 @@
 
         <variable
             name="handlers"
-            type="com.dignityhealth.myhome.features.enrollment.sq.SQFragment.SQClickEvent" />
+            type="com.prokarma.myhome.features.enrollment.sq.SQFragment.SQClickEvent" />
     </data>
 
     <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        tools:context="com.dignityhealth.myhome.features.login.LoginActivity">
+        tools:context="com.prokarma.myhome.features.login.LoginActivity">
 
         <TextView
             android:id="@+id/select_question"

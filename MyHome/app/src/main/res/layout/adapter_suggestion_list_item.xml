@@ -5,7 +5,7 @@
 
         <variable
             name="handlers"
-            type="com.dignityhealth.myhome.features.fad.suggestions.SuggestionsAdapter.SuggestionsClick" />
+            type="com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter.SuggestionsClick" />
     </data>
 
     <RelativeLayout

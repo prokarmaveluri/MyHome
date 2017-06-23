@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dignityhealth.myhome.features.tos.TosActivity">
+    tools:context="com.prokarma.myhome.features.tos.TosActivity">
 
     <include
         android:id="@+id/toolbarWhite"
