@@ -211,9 +211,11 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
 
     private void updateProfileViews() {
         if (ProfileManager.getProfile() != null) {
-            if (ProfileManager.getProfile().preferredName != null) {
+            if (ProfileManager.getProfile().preferredName != null &&
+                    !ProfileManager.getProfile().preferredName.trim().isEmpty()) {
                 binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().preferredName + "!");
-            } else if (ProfileManager.getProfile().firstName != null) {
+            } else if (ProfileManager.getProfile().firstName != null&&
+                    !ProfileManager.getProfile().firstName.trim().isEmpty()) {
                 binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().firstName + "!");
             } else {
                 binding.txtDbTitle.setText(getString(R.string.db_welcome_two));
