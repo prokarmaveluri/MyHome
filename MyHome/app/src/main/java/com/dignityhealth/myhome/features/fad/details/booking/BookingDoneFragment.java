@@ -113,6 +113,15 @@ public class BookingDoneFragment extends Fragment {
 
         scheduleAppointment();
 
+        directionsIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bookingDoneInterface != null) {
+                    bookingDoneInterface.onClickDirections();
+                }
+            }
+        });
+
         directions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,11 +131,29 @@ public class BookingDoneFragment extends Fragment {
             }
         });
 
+        shareIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bookingDoneInterface != null) {
+                    bookingDoneInterface.onClickShare();
+                }
+            }
+        });
+
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (bookingDoneInterface != null) {
                     bookingDoneInterface.onClickShare();
+                }
+            }
+        });
+
+        calendarIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bookingDoneInterface != null) {
+                    bookingDoneInterface.onClickAddToCalendar();
                 }
             }
         });
