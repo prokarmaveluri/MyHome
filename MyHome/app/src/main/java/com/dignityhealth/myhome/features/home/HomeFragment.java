@@ -238,9 +238,13 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                 if (isAdded()) {
 
                     if (response.isSuccessful()) {
-                        AppointmentResponse result = response.body();
-                        ProfileManager.setAppointments(result.result.appointments);
-                        updateAppointViews();
+                        try {
+                            AppointmentResponse result = response.body();
+                            ProfileManager.setAppointments(result.result.appointments);
+                            updateAppointViews();
+                        }catch (NullPointerException ex){
+                            Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                        }
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     }

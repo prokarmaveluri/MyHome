@@ -608,8 +608,12 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                             if ((int) event.getRawX() >= (binding.searchQuery.getRight() -
                                     binding.searchQuery.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
-                                binding.searchLayout.setVisibility(View.GONE);
-                                binding.suggestionList.setVisibility(View.GONE);
+                                if (binding.searchQuery.getText().length() <= 0) {
+                                    binding.searchLayout.setVisibility(View.GONE);
+                                    binding.suggestionList.setVisibility(View.GONE);
+                                } else {
+                                    binding.searchQuery.setText("");
+                                }
                                 return true;
                             }
                         }

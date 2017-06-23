@@ -153,12 +153,19 @@ public class ProfileViewFragment extends BaseFragment {
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
-                        Timber.d("Successful Response\n" + response);
-                        ProfileManager.setProfile(response.body().result);
-                        updateProfileViews(response.body().result);
-                        viewProfile.setVisibility(View.VISIBLE);
-                        errorText.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.GONE);
+                        try {
+                            Timber.d("Successful Response\n" + response);
+                            ProfileManager.setProfile(response.body().result);
+                            updateProfileViews(response.body().result);
+                            viewProfile.setVisibility(View.VISIBLE);
+                            errorText.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
+                        } catch (NullPointerException ex) {
+                            Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                            viewProfile.setVisibility(View.GONE);
+                            errorText.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
+                        }
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                         viewProfile.setVisibility(View.GONE);
