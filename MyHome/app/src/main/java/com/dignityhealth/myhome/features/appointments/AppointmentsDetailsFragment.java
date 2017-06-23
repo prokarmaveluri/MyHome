@@ -45,9 +45,19 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         TextView facilityAddress = (TextView) appointmentsView.findViewById(R.id.facility_address);
         TextView reason = (TextView) appointmentsView.findViewById(R.id.reason);
         final TextView phoneNumber = (TextView) appointmentsView.findViewById(R.id.phone_number);
+        ImageView phoneIcon = (ImageView) appointmentsView.findViewById(R.id.phone_icon);
         ImageView calendar = (ImageView) appointmentsView.findViewById(R.id.calendar);
         ImageView pin = (ImageView) appointmentsView.findViewById(R.id.pin_icon);
         TextView shareText = (TextView) appointmentsView.findViewById(R.id.share_text);
+        ImageView shareIcon = (ImageView) appointmentsView.findViewById(R.id.share_icon);
+
+        shareIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtil.shareAppointment(getActivity(), appointment);
+            }
+        });
+
         shareText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +76,15 @@ public class AppointmentsDetailsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
+            }
+        });
+
+        phoneIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + phoneNumber.getText().toString()));
+                intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intentPhone);
             }
         });
 
