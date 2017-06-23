@@ -648,7 +648,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse, currentOffice, bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(), currentOffice.getName(), currentOffice.getPhone(), bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
         bookingFragment.setBookingDoneInterface(ProviderDetailsFragment.this);
         getChildFragmentManager()
                 .beginTransaction()

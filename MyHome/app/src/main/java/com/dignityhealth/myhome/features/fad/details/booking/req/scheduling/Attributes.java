@@ -1,8 +1,6 @@
 package com.dignityhealth.myhome.features.fad.details.booking.req.scheduling;
 
 import com.dignityhealth.myhome.features.fad.Appointment;
-import com.dignityhealth.myhome.features.fad.Office;
-import com.dignityhealth.myhome.features.fad.details.ProviderDetailsResponse;
 import com.dignityhealth.myhome.features.profile.Profile;
 import com.dignityhealth.myhome.utils.DateUtil;
 import com.google.gson.annotations.SerializedName;
@@ -167,7 +165,7 @@ public class Attributes {
         this.isCreatedByCaregiver = isCreatedByCaregiver;
     }
 
-    public Attributes(ProviderDetailsResponse providerDetailsResponse, Office office, Profile profile, Appointment appointment, boolean isNewPatient, boolean isBookingForMe){
+    public Attributes(String doctorName, String officeName, String officePhone, Profile profile, Appointment appointment, boolean isNewPatient, boolean isBookingForMe){
         this.address = profile.address.line1;
         this.address2 = profile.address.line2;
         this.appointmentAt = appointment.Time;
@@ -197,9 +195,9 @@ public class Attributes {
         this.translatorLanguage = profile.translatorLanguage;
         this.weeksPregnant = profile.weeksPregnant;
         this.zip = profile.address.zipCode;
-        this.doctorName = providerDetailsResponse.getDisplayFullName();
-        this.facilityName = office.getName();
-        this.facilityPhoneNumber = office.getPhone();
+        this.doctorName = doctorName;
+        this.facilityName = officeName;
+        this.facilityPhoneNumber = officePhone;
         this.facilityAddressLine1 = appointment.FacilityAddress;
         this.facilityCity = appointment.FacilityCity;
         this.facilityState = appointment.FacilityState;
