@@ -66,7 +66,7 @@ android {
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
-            buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
+            buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
             minifyEnabled false
