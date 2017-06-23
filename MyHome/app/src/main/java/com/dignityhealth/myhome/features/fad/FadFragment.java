@@ -539,7 +539,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             if (build.length() <= 0 && model.getSelected() && !model.getValue().isEmpty())
                 build.append(model.getValue());
             else if (model.getSelected() && !model.getValue().isEmpty())
-                build.append("," + model.getValue());
+                build.append(",").append(model.getValue());
         }
         return build.toString();
     }

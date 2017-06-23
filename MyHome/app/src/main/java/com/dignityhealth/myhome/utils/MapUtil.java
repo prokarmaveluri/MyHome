@@ -71,7 +71,7 @@ public class MapUtil {
                 markers.add(googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(office.getLat()), Double.parseDouble(office.getLong())))
                         .title(office.getName() != null ? office.getName() : office.getAddress1())
-                        .snippet(office.getAddress1() != null ? office.getAddress1() + "\n" + office.getAddress() : "Address Unknown")
+                        .snippet(office.getAddress1() != null ? office.getAddress1() + "\n" + office.getAddress() : context.getString(R.string.address_unknown))
                         .icon(bitmapDescriptor)));
 
                 if (listener != null) {
