@@ -19,7 +19,7 @@
                 android:id="@+id/first_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                app:errorEnabled="true"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
 
@@ -39,7 +39,7 @@
                 android:id="@+id/last_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                app:errorEnabled="true"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
 
@@ -189,16 +189,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:weightSum="1"
-                android:baselineAligned="false">
+                android:weightSum="1">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/zip_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:layout_weight=".4"
+                    app:errorEnabled="true"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintTextAppearance="@style/hint_appearance">
 
@@ -217,8 +217,8 @@
                     android:id="@+id/phone_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:layout_weight=".6"
+                    app:errorEnabled="true"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintTextAppearance="@style/hint_appearance">
 
@@ -265,10 +265,10 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/provider_layout"
-                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
 
