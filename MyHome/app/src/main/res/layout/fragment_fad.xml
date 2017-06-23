@@ -48,7 +48,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/fad_filter"
                 android:padding="16dp"
-                android:src="@mipmap/search_blue" />
+                android:src="@mipmap/search" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
