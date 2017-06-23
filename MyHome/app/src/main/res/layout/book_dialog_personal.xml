@@ -24,8 +24,8 @@
                 android:id="@+id/caregiver_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
+                android:ellipsize="end"
                 android:hint="@string/caregiver_name"
                 android:inputType="textCapWords"
                 android:maxLines="1" />
@@ -47,6 +47,7 @@
                 android:ellipsize="end"
                 android:hint="@string/first_name"
                 android:inputType="textCapWords"
+                android:maxLength="35"
                 android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
@@ -63,10 +64,11 @@
                 android:id="@+id/last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
+                android:ellipsize="end"
                 android:hint="@string/last_name"
                 android:inputType="textCapWords"
+                android:maxLength="35"
                 android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
@@ -83,10 +85,11 @@
                 android:id="@+id/preferred_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
+                android:ellipsize="end"
                 android:hint="@string/preferred_name"
                 android:inputType="textCapWords"
+                android:maxLength="35"
                 android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>

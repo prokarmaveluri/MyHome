@@ -42,9 +42,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
+                        android:ellipsize="end"
                         android:hint="@string/prompt_first_name"
                         android:imeOptions="actionNext"
                         android:inputType="text"
+                        android:maxLength="35"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp" />
@@ -67,9 +69,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
+                        android:ellipsize="end"
                         android:hint="@string/prompt_last_name"
                         android:imeOptions="actionNext"
                         android:inputType="text"
+                        android:maxLength="35"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp" />
