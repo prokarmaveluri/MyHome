@@ -13,13 +13,12 @@
 
     <TextView
         android:id="@+id/date"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:gravity="center"
         android:text="Thurs May 26"
-        android:textSize="22sp"
         android:textStyle="bold"
         android:transitionName="@string/transition_appointment_date" />
 

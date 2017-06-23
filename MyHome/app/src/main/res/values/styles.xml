@@ -164,6 +164,10 @@
         <item name="android:textSize">@dimen/scalable_20</item>
     </style>
 
+    <style name="tradeGothicLTStd_Dynamic22" parent="tradeGothicLTStd">
+        <item name="android:textSize">@dimen/scalable_22</item>
+    </style>
+
     <style name="tradeGothicLTStdBd2_20_deepAqua" parent="tradeGothicLTStdBd2">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/db_deep_aqua</item>

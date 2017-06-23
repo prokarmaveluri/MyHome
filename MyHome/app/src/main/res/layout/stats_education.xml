@@ -7,11 +7,10 @@
 
     <TextView
         android:id="@+id/education_header"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/education"
-        android:textSize="22sp"
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView

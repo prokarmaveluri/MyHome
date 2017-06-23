@@ -8,11 +8,10 @@
 
     <TextView
         android:id="@+id/profile_header"
-        style="@style/tradeGothicLTStdLight_14"
+        style="@style/tradeGothicLTStd_Dynamic22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/profile"
-        android:textSize="22sp"
         android:textStyle="bold" />
 
     <LinearLayout

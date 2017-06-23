@@ -118,14 +118,13 @@
 
                     <TextView
                         android:id="@+id/txt_db_appoint_item_date"
-                        style="@style/tradeGothicLTStdLight_14"
+                        style="@style/tradeGothicLTStd_Dynamic22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:text="Thurs May 26"
-                        android:textSize="22sp"
                         android:textStyle="bold"
                         android:transitionName="@string/transition_appointment_date" />
 
@@ -280,6 +279,7 @@
 
 
                 <TextView
+                    style="@style/tradeGothicLTStd_Dynamic22"
                     android:id="@+id/txt_db_didyouknow_first"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -289,7 +289,6 @@
                     android:lineSpacingExtra="8sp"
                     android:text="The Power of Time Off: Why Vacations Are Essential."
                     android:textColor="@color/db_gunmetal"
-                    android:textSize="22sp"
                     tools:ignore="HardcodedText" />
 
                 <View
@@ -307,6 +306,7 @@
                     android:scaleType="fitCenter" />
 
                 <TextView
+                    style="@style/tradeGothicLTStd_Dynamic22"
                     android:id="@+id/txt_db_didyouknow_second"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -316,7 +316,6 @@
                     android:lineSpacingExtra="8sp"
                     android:text="A Little Bit of Color: Don't Let a Sunburn Get You Down This Summer."
                     android:textColor="@color/db_gunmetal"
-                    android:textSize="22sp"
                     tools:ignore="HardcodedText" />
             </LinearLayout>
 

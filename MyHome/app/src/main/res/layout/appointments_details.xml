@@ -26,12 +26,11 @@
 
         <TextView
             android:id="@+id/time_header"
-            style="@style/tradeGothicLTStdLight_14"
+            style="@style/tradeGothicLTStd_Dynamic22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/date_header"
             android:text="9:00am - 9:45am"
-            android:textSize="22sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
