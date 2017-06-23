@@ -735,6 +735,14 @@ public class BookingDialogAdapter extends PagerAdapter {
                 dateOfBirthLayout.setError(null);
             }
 
+            if (gender.getVisibility() == View.VISIBLE && gender.getSelectedItemPosition() == 0) {
+                isValid = false;
+                genderLabel.setText(context.getString(R.string.gender_required));
+                genderLabel.setTextColor(ContextCompat.getColor(context, R.color.red));
+            } else {
+                genderLabel.setText(context.getString(R.string.gender));
+                genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
+            }
 
             if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {
                 isValid = false;
