@@ -35,7 +35,9 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
  * Created by cmajji on 4/27/17.
  */
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class CommonUtil {
+    private static final String TYPE_PLAIN = "text/plain";
 
     public static boolean isValidPassword(String password) {
 
@@ -381,7 +383,7 @@ public class CommonUtil {
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
+        intent.setType(TYPE_PLAIN);
         intent.putExtra(Intent.EXTRA_TEXT, message);
 
         try {
@@ -437,7 +439,7 @@ public class CommonUtil {
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
+        intent.setType(TYPE_PLAIN);
         intent.putExtra(Intent.EXTRA_TEXT, message);
 
         try {

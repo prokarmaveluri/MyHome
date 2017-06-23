@@ -12,6 +12,7 @@ import java.util.Locale;
  * Created by kwelsh on 4/26/2017.
  * Utility class to check networking state
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class ConnectionUtil {
 
     public static NetworkInfo activeNetwork(Context context) {

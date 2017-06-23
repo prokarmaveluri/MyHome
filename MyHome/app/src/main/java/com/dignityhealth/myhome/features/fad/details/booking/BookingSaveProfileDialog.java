@@ -27,6 +27,7 @@ import timber.log.Timber;
  * Created by cmajji on 1/03/17.
  */
 public class BookingSaveProfileDialog extends DialogFragment {
+    public static final String BOOKING_SAVE_PROFILE_DIALOG_TAG = "BookingSaveProfileDialog";
     public static final String PROFILE_KEY = "profile";
 
     private Profile formsProfile;

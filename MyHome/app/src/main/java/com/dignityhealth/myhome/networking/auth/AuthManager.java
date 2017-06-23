@@ -3,6 +3,7 @@ package com.dignityhealth.myhome.networking.auth;
 import android.content.Context;
 
 import com.dignityhealth.myhome.BuildConfig;
+import com.dignityhealth.myhome.features.dev.DeveloperFragment;
 import com.dignityhealth.myhome.features.login.LoginActivity;
 import com.dignityhealth.myhome.utils.AppPreferences;
 import com.dignityhealth.myhome.utils.DateUtil;
@@ -132,7 +133,7 @@ public class AuthManager {
      * @return
      */
     public boolean isMaxFailureAttemptsReached() {
-        return count >= 3 && !BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer");
+        return count >= 3 && !BuildConfig.BUILD_TYPE.equalsIgnoreCase(DeveloperFragment.DEVELOPER);
     }
 
     public void storeLockoutInfo() {

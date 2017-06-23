@@ -24,6 +24,7 @@ import timber.log.Timber;
  * Created by kwelsh on 6/1/17.
  */
 
+@SuppressWarnings("HardCodedStringLiteral")
 public final class TealiumUtil {
     private final static String ACCOUNT_NAME = "tealiummobile";
     private final static String PROFILE_NAME = "demo";

@@ -91,7 +91,7 @@ public class SQFragment extends Fragment {
             switch (view.getId()) {
                 case R.id.submit_question:
                     if (binding.answer.getText().toString().isEmpty()) {
-                        binding.answer.setError("Enter valid answer");
+                        binding.answer.setError(getString(R.string.enter_valid_answer));
                         break;
                     }
                     if (null != selectedQuestionId &&

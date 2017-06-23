@@ -29,8 +29,11 @@ import timber.log.Timber;
  * Created by kwelsh on 5/17/17.
  */
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class DeveloperFragment extends BaseFragment {
     public static final String DEVELOPER_TAG = "dev_tag";
+    public static final String DEVELOPER = "developer";
+
     View developerView;
 
     public static DeveloperFragment newInstance() {

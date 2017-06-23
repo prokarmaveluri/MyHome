@@ -68,12 +68,12 @@ public class PasswordCriteriaDialog extends DialogFragment {
 
     private List<String> getCriteria() {
         List<String> criteria = new ArrayList<>();
-        criteria.add("Password must be at least 8 characters");
-        criteria.add("Password must not contain part of your name");
-        criteria.add("At least one UPPERCASE letter");
-        criteria.add("At least one lowercase letter");
-        criteria.add("At least one number");
-        criteria.add("At least one special character: !@#$%^&*");
+        criteria.add(getString(R.string.password_must_be_eight_chars));
+        criteria.add(getString(R.string.password_cannot_contain_name));
+        criteria.add(getString(R.string.password_needs_one_uppercase));
+        criteria.add(getString(R.string.password_needs_one_lowercase));
+        criteria.add(getString(R.string.password_needs_one_number));
+        criteria.add(getString(R.string.password_needs_one_special));
         return criteria;
     }
 }

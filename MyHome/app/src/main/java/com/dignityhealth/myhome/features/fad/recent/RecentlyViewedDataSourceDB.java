@@ -18,11 +18,12 @@ import java.util.ArrayList;
 /**
  * Created by Chandra on 23-08-2016.
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class RecentlyViewedDataSourceDB {
 
     private SQLiteDatabase database;
     private RecentlyViewedSQLiteHelper dbHelper;
-    private final int MAX_ROW_COUNT = 10;
+    private static final int MAX_ROW_COUNT = 10;
 
     private String[] allColumns = {RecentlyViewedSQLiteHelper.COLUMN_ID,
             RecentlyViewedSQLiteHelper.COLUMN_PROVIDER_ID, RecentlyViewedSQLiteHelper.COLUMN_PROVIDER};

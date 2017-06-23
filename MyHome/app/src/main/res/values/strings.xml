@@ -208,4 +208,17 @@
     <string name="member_id_required">Member ID Required</string>
     <string name="plan_required">Plan Required</string>
     <string name="zip_required">Zip Required</string>
+    <string name="please_pick_a_plan">Please Pick a Plan</string>
+    <string name="password_must_be_eight_chars">Password must be at least 8 characters</string>
+    <string name="password_cannot_contain_name">Password must not contain part of your name</string>
+    <string name="password_needs_one_uppercase">At least one UPPERCASE letter</string>
+    <string name="password_needs_one_lowercase">At least one lowercase letter</string>
+    <string name="password_needs_one_number">At least one number</string>
+    <string name="password_needs_one_special"><![CDATA[At least one special character: !@#$%^&*]]></string>
+    <string name="name_unknown">Name Unknown</string>
+    <string name="specialities_unknown">Specialities Unknown</string>
+    <string name="address_unknown">Address Unknown</string>
+    <string name="phone_number_unknown">Phone Number Unknown</string>
+    <string name="booking_failed">Unable to book.  Please check your information</string>
+    <string name="enter_valid_answer">Enter valid answer</string>
 </resources>

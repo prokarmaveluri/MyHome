@@ -10,6 +10,7 @@ import com.dignityhealth.myhome.R;
 import com.dignityhealth.myhome.databinding.AdapterProvidersListItemBinding;
 import com.dignityhealth.myhome.features.profile.Address;
 import com.dignityhealth.myhome.utils.CommonUtil;
+import com.dignityhealth.myhome.utils.DeviceDisplayManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -96,13 +97,13 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                         binding.distance.setText("");
                     }
                     binding.distance.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     binding.distance.setVisibility(View.INVISIBLE);
                 }
                 binding.docAddress.setText(provider.getOffices().get(0).getAddress());
 
                 String url = provider.getImageUrl();
-                url = url.replace("w60h80", "w120h160");
+                url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
 
                 Picasso.with(mContext)
                         .load(url)
