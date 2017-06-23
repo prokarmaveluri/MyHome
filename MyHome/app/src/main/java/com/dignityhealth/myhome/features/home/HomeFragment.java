@@ -210,12 +210,14 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     }
 
     private void updateProfileViews() {
-        if (ProfileManager.getProfile().preferredName != null) {
-            binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().preferredName + "!");
-        } else if (ProfileManager.getProfile().firstName != null) {
-            binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().firstName + "!");
-        } else {
-            binding.txtDbTitle.setText(getString(R.string.db_welcome_two));
+        if (ProfileManager.getProfile() != null) {
+            if (ProfileManager.getProfile().preferredName != null) {
+                binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().preferredName + "!");
+            } else if (ProfileManager.getProfile().firstName != null) {
+                binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().firstName + "!");
+            } else {
+                binding.txtDbTitle.setText(getString(R.string.db_welcome_two));
+            }
         }
     }
 
@@ -385,8 +387,8 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                     providerDetails(provider);
                 }
             } else if (resultCode == Activity.RESULT_FIRST_USER) {
-                if (getActivity() != null){
-                    ((NavigationActivity)getActivity()).goToPage(Constants.ActivityTag.FAD);
+                if (getActivity() != null) {
+                    ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
                 }
             }
         }
