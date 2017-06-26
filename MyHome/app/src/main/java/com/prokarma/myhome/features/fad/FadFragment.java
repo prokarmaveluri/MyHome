@@ -84,7 +84,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private int distanceRange = 100;
     public static int currentScroll = 0;
     public static int maxCount = 0, mPageIndex = 1;
-    private static ArrayList<Provider> providerList = new ArrayList<>();
+    public static ArrayList<Provider> providerList = new ArrayList<>();
     private static ArrayList<CommonModel> newPatients = new ArrayList<>();
     private static ArrayList<CommonModel> specialties = new ArrayList<>();
     private static ArrayList<CommonModel> gender = new ArrayList<>();
