@@ -396,7 +396,10 @@ public class BookingDialogAdapter extends PagerAdapter {
             insurances.add(0, new RegIncluded(ValidationUtil.TYPE_INSURANCES, null, new RegAttributes(null, context.getString(R.string.please_pick_a_plan))));
             ProviderPlanSpinnerAdapter spinnerAdapter = new ProviderPlanSpinnerAdapter(context, R.layout.provider_plan_spinner_item, insurances);
             //spinnerAdapter.setDropDownViewResource(R.layout.provider_plan_spinner_item);
-            plan.setAdapter(spinnerAdapter);
+
+            if(plan != null){
+                plan.setAdapter(spinnerAdapter);
+            }
 
             //Call again now with proper adapter setup
             if (autoPopulateFromProfile) {

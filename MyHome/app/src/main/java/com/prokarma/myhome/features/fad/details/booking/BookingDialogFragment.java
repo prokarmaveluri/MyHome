@@ -71,6 +71,10 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         //providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
         bookingView = inflater.inflate(R.layout.book_dialog, container, false);
 
+        bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
+        bookingViewPager.setSwipeAllowed(false);
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this, isBookingForMe, ProfileManager.getProfile()));
+
         toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.find_care));
         toolbar.inflateMenu(R.menu.booking_dialog_menu);
@@ -99,10 +103,6 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                 getDialog().dismiss();
             }
         });
-
-        bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
-        bookingViewPager.setSwipeAllowed(false);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this, isBookingForMe, ProfileManager.getProfile()));
 
         getValidationRules();
 
