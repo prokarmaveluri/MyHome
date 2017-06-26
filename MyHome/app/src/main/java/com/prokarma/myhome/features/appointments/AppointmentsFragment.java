@@ -15,6 +15,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -123,6 +124,7 @@ public class AppointmentsFragment extends BaseFragment {
                             //Attempt to sort the appointments by startTime
                             Collections.sort(appointments);
                             appointmentsAdapter.setAppointments(appointments);
+                            ProfileManager.setAppointments(appointments);
                         } catch (Exception e) {
                             appointmentsAdapter.setAppointments(appointments);
                         }
