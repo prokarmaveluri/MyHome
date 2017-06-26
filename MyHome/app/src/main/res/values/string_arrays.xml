@@ -77,7 +77,7 @@
 
     <!--States for Profile Edit - Prefer Not To Say isn't working currently-->
     <string-array name="profile_gender">
-        <item>Unknown</item>
+        <item>Gender</item>
         <item>Male</item>
         <item>Female</item>
         <!--<item>Prefer Not To Say</item>-->

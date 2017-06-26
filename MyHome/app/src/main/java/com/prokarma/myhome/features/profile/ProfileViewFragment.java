@@ -201,7 +201,7 @@ public class ProfileViewFragment extends BaseFragment {
             preferredName.setVisibility(View.GONE);
         }
 
-        if (profile.gender != null) {
+        if (profile.gender != null && !profile.gender.equalsIgnoreCase(getString(R.string.unknown))) {
             gender.setText(CommonUtil.capitalize(profile.gender));
         } else {
             gender.setVisibility(View.GONE);

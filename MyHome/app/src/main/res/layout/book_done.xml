@@ -55,6 +55,21 @@
             android:text="90 Madison St, Ste 504\nDenver, CO 80206"
             tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/directions_text"
+            style="@style/tradeGothicLTStd_Dynamic20"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/address"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="35dp"
+            android:gravity="center_vertical"
+            android:text="@string/get_directions"
+            android:textColor="@color/primary"
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/directions_icon"
             android:layout_width="30dp"
@@ -63,22 +78,6 @@
             android:layout_marginTop="35dp"
             android:layout_toLeftOf="@id/directions_text"
             android:src="@mipmap/map_blue" />
-
-        <TextView
-            android:id="@+id/directions_text"
-            style="@style/tradeGothicLTStd_Dynamic20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/directions_icon"
-            android:layout_alignTop="@id/directions_icon"
-            android:layout_below="@id/reason"
-            android:layout_centerHorizontal="true"
-            android:layout_marginEnd="18dp"
-            android:layout_marginStart="18dp"
-            android:gravity="center_vertical"
-            android:text="@string/get_directions"
-            android:textColor="@color/primary"
-            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/share_icon"

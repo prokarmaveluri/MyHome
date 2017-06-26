@@ -393,7 +393,7 @@ public class ProfileEditFragment extends BaseFragment {
             profile.preferredName = preferredName.getText().toString().trim();
         }
 
-        if (!gender.getSelectedItem().toString().isEmpty()) {
+        if (gender.getSelectedItemPosition() != 0) {
             profile.gender = gender.getSelectedItem().toString().trim();
         }
 
@@ -413,7 +413,7 @@ public class ProfileEditFragment extends BaseFragment {
             profile.address.city = city.getText().toString().trim();
         }
 
-        if (!state.getSelectedItem().toString().isEmpty() && state.getSelectedItemPosition() != 0) {
+        if (state.getSelectedItemPosition() != 0) {
             profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 

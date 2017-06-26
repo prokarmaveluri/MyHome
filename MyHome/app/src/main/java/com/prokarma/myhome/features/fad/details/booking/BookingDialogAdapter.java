@@ -282,7 +282,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             for (int i = 0; i < gender.getAdapter().getCount(); i++) {
                 if (formsProfile.gender.equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
                     gender.setSelection(i);
-                    if (formsProfile.gender.equalsIgnoreCase("Female")) {
+                    if (formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))) {
                         areYouPregnantLabel.setVisibility(View.VISIBLE);
                         areYouPregnantGroup.setVisibility(View.VISIBLE);
                     }
