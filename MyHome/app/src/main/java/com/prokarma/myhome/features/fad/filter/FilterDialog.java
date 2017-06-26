@@ -366,8 +366,10 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
 
     private void updateSortBy() {
         String sort = AppPreferences.getInstance().getPreference("SORT_BY");
-        if (sort == null)
+        if (sort == null) {
+            updateSortByButtons(binding.bestMatch, true);
             return;
+        }
         switch (sort) {
             case "5":
                 updateSortByButtons(binding.distance, true);

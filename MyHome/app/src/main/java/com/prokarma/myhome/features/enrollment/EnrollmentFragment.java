@@ -257,11 +257,11 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
                                 if (showPassword) {
                                     binding.password.setTransformationMethod(null);
-                                    binding.reEnterPassword.setTransformationMethod(null);
+//                                    binding.reEnterPassword.setTransformationMethod(null);
                                     updateDrawable(R.mipmap.hide_password);
                                 } else {
                                     binding.password.setTransformationMethod(new PasswordTransformationMethod());
-                                    binding.reEnterPassword.setTransformationMethod(new PasswordTransformationMethod());
+//                                    binding.reEnterPassword.setTransformationMethod(new PasswordTransformationMethod());
                                     updateDrawable(R.mipmap.show_password);
                                 }
                                 return true;
