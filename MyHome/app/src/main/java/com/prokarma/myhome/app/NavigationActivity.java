@@ -1,10 +1,15 @@
 package com.prokarma.myhome.app;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -40,10 +45,15 @@ import com.prokarma.myhome.features.profile.ProfileViewFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
+import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
+
+import java.util.TimeZone;
+
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -57,6 +67,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     public static Bus eventBus;
     public Toolbar toolbar;
+
+    private BroadcastReceiver timezoneChangedReceiver;
+    private static boolean didTimeZoneChange = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,6 +135,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     }
                 });
 
+        //Inspired by https://stackoverflow.com/a/26905894/2128921
+        timezoneChangedReceiver = new MyBroadcastReceiver();
+
+        registerReceiver(timezoneChangedReceiver, new IntentFilter("android.intent.action.TIMEZONE_CHANGED"));
+
         //Pre-load Google Play Services
 //        loadGooglePlayServices();
     }
@@ -134,6 +152,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         FadManager.getInstance().setLocation(null);
         ProfileManager.setProfile(null);
         RecentlyViewedDataSourceDB.getInstance().close();
+        unregisterReceiver(timezoneChangedReceiver);
     }
 
     /**
@@ -481,6 +500,15 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (AuthManager.getInstance().isExpiried()) {
             buildSessionAlert(getString(R.string.session_expiry_message));
         }
+
+        //Refresh to homescreen if timezone occurred
+        if (didTimeZoneChange) {
+            didTimeZoneChange = false;
+            goToPage(ActivityTag.HOME);
+        } else {
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(Constants.PREF_TIME_ZONE, TimeZone.getDefault().getID()).apply();
+        }
+
         mHandler.removeCallbacks(runnable);
         AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
         mHandler.postDelayed(runnable, AuthManager.SESSION_EXPIRY_TIME);
@@ -542,4 +570,24 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             }
         }
     };
+
+    //Receiver for handling Timezone changes
+    private static class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Check to see if timezone actually changed or it was just updated (happens often with automatic network)
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            String oldTimezone = prefs.getString(Constants.PREF_TIME_ZONE, null);
+            String newTimezone = TimeZone.getDefault().getID();
+
+            long now = System.currentTimeMillis();
+
+            if (oldTimezone == null || TimeZone.getTimeZone(oldTimezone).getOffset(now) != TimeZone.getTimeZone(newTimezone).getOffset(now)) {
+                Timber.i("Timezone changed");
+                prefs.edit().putString(Constants.PREF_TIME_ZONE, newTimezone).apply();
+                didTimeZoneChange = true;
+            }
+        }
+    }
 }
