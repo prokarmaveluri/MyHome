@@ -42,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/distance"
+                android:layout_alignParentLeft="true"
                 android:text="Richard paul, MD"
                 android:textStyle="bold" />
 
@@ -51,6 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/docDisplayName"
+                android:layout_toLeftOf="@+id/directions"
+                android:layout_alignParentLeft="true"
                 android:layout_marginTop="8dp"
                 android:lines="1"
                 android:text="Richard paul, MD" />
