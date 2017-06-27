@@ -300,7 +300,7 @@ public class BookingSelectTimeFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            if (appointmentDate.after(todaysDate)) {
+            if (DateUtil.isOnSameDay(appointmentDate, todaysDate) || appointmentDate.after(todaysDate)) {
                 nextAppointment = appointment;
                 break;
             }
