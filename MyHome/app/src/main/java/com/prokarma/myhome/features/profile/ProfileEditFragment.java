@@ -333,14 +333,14 @@ public class ProfileEditFragment extends BaseFragment {
     private boolean isValidProfile() {
         boolean isValid = true;
 
-        if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()) {
+        if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().trim().isEmpty()) {
             isValid = false;
             firstNameLayout.setError(getString(R.string.first_name_required));
         } else {
             firstNameLayout.setError(null);
         }
 
-        if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()) {
+        if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().trim().isEmpty()) {
             isValid = false;
             lastNameLayout.setError(getString(R.string.last_name_required));
         } else {

@@ -68,7 +68,8 @@ public class CommonUtil {
     public static boolean isValidTextInput(@Nullable TextView view) {
         checkNotNull(view);
 
-        if (view.getText().toString().isEmpty() || view.getText().toString().length() < 1 ||
+        if (view.getText().toString().trim().isEmpty() ||
+                view.getText().toString().trim().length() < 1 ||
                 view.getText().toString().length() > 35) {
             return false;
         } else {
