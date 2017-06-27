@@ -34,7 +34,6 @@ import com.prokarma.myhome.features.appointments.AppointmentsFragment;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.fad.FadFragment;
-import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.home.HomeFragment;
@@ -149,7 +148,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         super.onDestroy();
         eventBus = null;
         mHandler.removeCallbacks(runnable);
-        FadManager.getInstance().setLocation(null);
         ProfileManager.setProfile(null);
         RecentlyViewedDataSourceDB.getInstance().close();
         unregisterReceiver(timezoneChangedReceiver);

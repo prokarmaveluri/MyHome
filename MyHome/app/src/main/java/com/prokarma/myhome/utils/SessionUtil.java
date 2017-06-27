@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.features.fad.FadFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.login.LoginActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
@@ -100,6 +101,8 @@ public class SessionUtil {
         AuthManager.getInstance().setBearerToken(null);
         AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);
+        FadFragment.providerList.clear();
+        FadFragment.currentSearchQuery = "";
         RecentlyViewedDataSourceDB.getInstance().deleteTable();
     }
 
