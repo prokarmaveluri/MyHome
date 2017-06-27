@@ -61,17 +61,17 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_enrollment, container, false);
 
         binding.firstName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.firstName,
-                Constants.INPUT_TYPE.TEXT));
+                getActivity().getApplicationContext(), Constants.INPUT_TYPE.FIRST_NAME));
         binding.lastName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.lastName,
-                Constants.INPUT_TYPE.TEXT));
+                getActivity().getApplicationContext(), Constants.INPUT_TYPE.LAST_NAME));
 
         binding.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.email,
-                Constants.INPUT_TYPE.EMAIL_ENROLL));
+                getActivity().getApplicationContext(), Constants.INPUT_TYPE.EMAIL_ENROLL));
 //        binding.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.password,
 //                Constants.INPUT_TYPE.PASSWORD));
         binding.reEnterPassword.setOnFocusChangeListener(
                 new ValidateInputsOnFocusChange(binding.reEnterPassword,
-                        Constants.INPUT_TYPE.PASSWORD));
+                        getActivity().getApplicationContext(), Constants.INPUT_TYPE.PASSWORD));
 
         binding.firstName.addTextChangedListener(new EnrollTextWatcher());
         binding.lastName.addTextChangedListener(new EnrollTextWatcher());

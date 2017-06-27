@@ -27,6 +27,8 @@ public class Constants {
 
     public enum INPUT_TYPE {
         TEXT,
+        FIRST_NAME,
+        LAST_NAME,
         EMAIL_LOGIN,
         EMAIL_ENROLL,
         PASSWORD

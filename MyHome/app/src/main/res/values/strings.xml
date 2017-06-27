@@ -222,4 +222,8 @@
     <string name="booking_failed">Unable to book.  Please check your information</string>
     <string name="enter_valid_answer">Enter valid answer</string>
     <string name="gender_required">Gender Required</string>
+    <string name="email_already_registered">Email already registered!</string>
+    <string name="enter_valid_input">Enter valid input</string>
+    <string name="enter_valid_email">Enter valid email</string>
+    <string name="enter_valid_password">Enter valid password</string>
 </resources>
