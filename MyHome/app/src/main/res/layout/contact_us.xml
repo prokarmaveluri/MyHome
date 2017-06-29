@@ -98,6 +98,7 @@
                     android:layout_marginLeft="15dp"
                     android:autoLink="phone"
                     android:text="123-456-7890"
+                    android:linksClickable="true"
                     android:textColorLink="@color/primary"
                     android:textSize="20sp"
                     android:textStyle="bold"

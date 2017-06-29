@@ -67,7 +67,7 @@
     <string name="save">Save</string>
     <string name="password_criteria">Password Criteria</string>
     <string name="search_care_or_condition">Search care or condition</string>
-    <string name="user_location">User Location</string>
+    <string name="user_location">Current Location</string>
     <string name="sort_by">Sort By</string>
     <string name="distance">Distance</string>
     <string name="best_match">Best Match</string>

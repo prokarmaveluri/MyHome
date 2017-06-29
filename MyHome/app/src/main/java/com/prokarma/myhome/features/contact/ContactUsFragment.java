@@ -1,6 +1,7 @@
 package com.prokarma.myhome.features.contact;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -34,12 +35,21 @@ public class ContactUsFragment extends BaseFragment {
         contactUsView = inflater.inflate(R.layout.contact_us, container, false);
         getActivity().setTitle(getString(R.string.contact_support));
         TextView emailView = (TextView) contactUsView.findViewById(R.id.email);
+        TextView phoneView = (TextView) contactUsView.findViewById(R.id.phone);
         emailView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 composeEmail();
             }
         });
+        phoneView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dailPhone();
+            }
+        });
+
+
 
         return contactUsView;
     }
@@ -76,5 +86,13 @@ public class ContactUsFragment extends BaseFragment {
                             "Thank You\n");
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
         }
+    }
+    /**
+     * Create a support phone dial
+     */
+    private void dailPhone() {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:"+"123-456-7890"));
+        getActivity().startActivity(intent);
     }
 }
