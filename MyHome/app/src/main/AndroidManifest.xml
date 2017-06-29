@@ -73,9 +73,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".features.contact.ContactUsActivity"
-            android:label="Contact Us"
+            android:label="Contact Support"
             android:launchMode="singleTop"
-            android:parentActivityName=".features.login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".app.OptionsActivity"

@@ -156,16 +156,27 @@
         <item name="android:textSize">@dimen/scalable_16</item>
     </style>
 
-    <style name="tradeGothicLTStd_Dynamic18" parent="tradeGothicLTStd">
+    <style name="tradeGothicLTStd_Dynamic18" parent="tradeGothicLTStdLight">
         <item name="android:textSize">@dimen/scalable_18</item>
     </style>
 
     <style name="tradeGothicLTStd_Dynamic20" parent="tradeGothicLTStd">
         <item name="android:textSize">@dimen/scalable_20</item>
+
     </style>
 
-    <style name="tradeGothicLTStd_Dynamic22" parent="tradeGothicLTStd">
+    <style name="tradeGothicLTStd_Bold_Dynamic20" parent="tradeGothicLTStdBold">
+        <item name="android:textSize">@dimen/scalable_20</item>
+        <item name="android:textColor">@color/md_blue_grey_650</item>
+    </style>
+
+    <style name="tradeGothicLTStd_Dynamic22" parent="tradeGothicLTStdLight">
         <item name="android:textSize">@dimen/scalable_22</item>
+    </style>
+    <style name="tradeGothicLTStd_Dynamic34" parent="tradeGothicLTStdBold">
+        <item name="android:textSize">@dimen/scalable_34</item>
+        <item name="android:textColor">@color/md_blue_grey_650</item>
+
     </style>
 
     <style name="tradeGothicLTStdBd2_20_deepAqua" parent="tradeGothicLTStdBd2">
