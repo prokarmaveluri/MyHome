@@ -139,23 +139,23 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     private EnrollmentRequest getRequest() {
 
         if (!CommonUtil.isValidTextInput(binding.firstName)) {
-            binding.firstName.setError(getResources().getString(R.string.valid_first_name));
+            binding.firstName.setError(getString(R.string.first_name_needs_to_meet_criteria));
             return null;
         }
 
         if (!CommonUtil.isValidTextInput(binding.lastName)) {
-            binding.lastName.setError(getResources().getString(R.string.valid_last_name));
+            binding.lastName.setError(getString(R.string.last_name_needs_to_meet_criteria));
             return null;
         }
 
         if (!CommonUtil.isValidEmail(binding.email.getText().toString())) {
-            binding.email.setError(getResources().getString(R.string.valid_email));
+            binding.email.setError(getString(R.string.email_needs_to_meet_criteria));
             return null;
         }
 
         if (!CommonUtil.isValidPassword(binding.password.getText().toString(),
                 binding.firstName.getText().toString(), binding.lastName.getText().toString())) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.valid_password),
+            Toast.makeText(getActivity(), getString(R.string.password_needs_to_meet_criteria),
                     Toast.LENGTH_LONG).show();
             return null;
         }
@@ -165,7 +165,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
             return null;
         }
         if (null != binding.email.getError() && binding.email.getError().length() > 0) {
-            Toast.makeText(getActivity(), "Email already exists", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.email_already_exists), Toast.LENGTH_LONG).show();
             return null;
         }
 
