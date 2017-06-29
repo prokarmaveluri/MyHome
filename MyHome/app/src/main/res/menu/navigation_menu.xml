@@ -22,7 +22,7 @@
 
     <item
         android:id="@+id/profile"
-        android:icon="@mipmap/profile_blue"
+        android:icon="@drawable/dh_profile"
         android:title="@string/profile"
         app:showAsAction="ifRoom" />
 </menu>
