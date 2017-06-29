@@ -183,6 +183,12 @@
     <string name="signout_alert_message">Are you sure you want to sign out?</string>
     <string name="no_locations_found">No Locations Found</string>
 
+    <!--Provider Details-->
+    <string name="name_unknown">Name Unknown</string>
+    <string name="specialities_unknown">Specialities Unknown</string>
+    <string name="address_unknown">Address Unknown</string>
+    <string name="phone_number_unknown">Phone Number Unknown</string>
+
     <!--Booking Flow-->
     <string name="recent_providers">Recent Providers</string>
     <string name="do_you_need_standing_assistance">Do you need standing assistance?</string>
@@ -220,15 +226,9 @@
     <string name="password_needs_one_lowercase">At least one lowercase letter</string>
     <string name="password_needs_one_number">At least one number</string>
     <string name="password_needs_one_special"><![CDATA[At least one special character: !@#$%^&*]]></string>
-    <string name="name_unknown">Name Unknown</string>
-    <string name="specialities_unknown">Specialities Unknown</string>
-    <string name="address_unknown">Address Unknown</string>
-    <string name="phone_number_unknown">Phone Number Unknown</string>
     <string name="enter_valid_answer">Enter valid answer</string>
     <string name="email_already_registered">Email already registered!</string>
     <string name="enter_valid_input">Enter valid input</string>
-    <string name="enter_valid_email">Enter valid email</string>
-    <string name="enter_valid_password">Enter valid password</string>
     <string name="email_already_exists">An account already exists for this email</string>
     <string name="password_needs_to_meet_criteria">Password needs to meet criteria</string>
     <string name="email_needs_to_meet_criteria">Email needs to meet criteria</string>
