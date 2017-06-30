@@ -122,7 +122,7 @@
     <string name="appointment_created">Appointment Created!</string>
     <string name="appointment_creation_failed">Appointment Creation Failed!</string>
     <string name="query_empty">Enter search query</string>
-    <string name="query_location_unavailable">location not available, select location in filter</string>
+    <string name="query_location_unavailable">Location not available. Select location in filter</string>
     <string name="provider_details_unavailable">Provider Details Unavailable</string>
     <string name="password_criteria_8char">Password must be at least 8 characters</string>
     <string name="password_criteria_name">Password must not contain part of your name</string>
