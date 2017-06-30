@@ -567,6 +567,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onTimeSelected(Appointment appointment) {
         bookedAppointment = appointment;
 
+        Fragment fragment = getChildFragmentManager().findFragmentByTag(BookingDialogFragment.BOOKING_DIALOG_TAG);
+        if(fragment != null){
+            return;
+        }
         BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe);
         dialogFragment.setBookingDialogInterface(this);
         dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
