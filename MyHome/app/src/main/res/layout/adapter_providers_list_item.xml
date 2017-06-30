@@ -85,6 +85,7 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/directions"
                 android:layout_below="@+id/docSpeciality"
                 android:text="Denver, CO" />
 
