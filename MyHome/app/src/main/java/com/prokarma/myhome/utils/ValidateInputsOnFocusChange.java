@@ -39,10 +39,10 @@ public class ValidateInputsOnFocusChange implements View.OnFocusChangeListener {
                 view.setError(context.getString(R.string.enter_valid_input));
         } else if (type == Constants.INPUT_TYPE.FIRST_NAME) {
             if (!CommonUtil.isValidTextInput(view))
-                view.setError(context.getString(R.string.valid_first_name));
+                view.setError(context.getString(R.string.first_name_needs_to_meet_criteria));
         } else if (type == Constants.INPUT_TYPE.LAST_NAME) {
             if (!CommonUtil.isValidTextInput(view))
-                view.setError(context.getString(R.string.valid_last_name));
+                view.setError(context.getString(R.string.last_name_needs_to_meet_criteria));
         } else if (type == Constants.INPUT_TYPE.EMAIL_ENROLL) {
             if (!CommonUtil.isValidEmail(view.getText().toString()))
                 view.setError(context.getString(R.string.email_needs_to_meet_criteria));
