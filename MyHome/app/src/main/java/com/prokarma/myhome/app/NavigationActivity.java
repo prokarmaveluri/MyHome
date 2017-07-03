@@ -42,12 +42,14 @@ import com.prokarma.myhome.features.profile.ProfileEditFragment;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.profile.ProfileViewFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
+import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.squareup.otto.ThreadEnforcer;
 
 import java.util.TimeZone;
@@ -587,5 +589,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 didTimeZoneChange = true;
             }
         }
+    }
+
+    @Subscribe
+    public void SessionExpired(NetworkManager.SessionExpiry expiry) {
+        buildSessionAlert(getString(R.string.session_expiry_message));
     }
 }

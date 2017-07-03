@@ -1,5 +1,6 @@
 package com.prokarma.myhome.networking;
 
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
@@ -71,7 +72,13 @@ public class NetworkManager {
                 Timber.i(" Request Url: " + request.url());
                 Timber.i(" Request headers: " + request.headers());
                 Timber.i(" Request body: " + request.body());
-                return chain.proceed(request);
+                Response response = chain.proceed(request);
+
+                //Session expired
+                if (response.code() == 401) {
+                    NavigationActivity.eventBus.post(new SessionExpiry());
+                }
+                return response;
             }
         });
 
@@ -296,7 +303,7 @@ public class NetworkManager {
         return service.getValidationRules(scheduleId, includeQuery);
     }
 
-    public Call<ValidateEmailResponse> findEmail(String email){
+    public Call<ValidateEmailResponse> findEmail(String email) {
         return service.findEmail(email);
     }
 
@@ -332,5 +339,17 @@ public class NetworkManager {
                 FadManager.getInstance().setLocation(null);
             }
         });
+    }
+
+    public class SessionExpiry {
+        private boolean isExpired = false;
+
+        public boolean isExpired() {
+            return isExpired;
+        }
+
+        public void setExpired(boolean expired) {
+            isExpired = expired;
+        }
     }
 }
