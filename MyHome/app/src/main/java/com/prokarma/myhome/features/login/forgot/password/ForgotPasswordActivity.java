@@ -47,11 +47,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         binding.setHandlers(new ForgotPasswordClickEvent());
 
         String email = getIntent().getStringExtra(LoginFragment.EMAIL_ID_KEY);
+
+        binding.email.addTextChangedListener(new ForgotPasswordTextWatcher());
         if (null != email && !email.isEmpty()){
             binding.email.setText(email);
         }
-
-        binding.email.addTextChangedListener(new ForgotPasswordTextWatcher());
 
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
