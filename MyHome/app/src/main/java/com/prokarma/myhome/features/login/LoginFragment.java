@@ -40,6 +40,7 @@ import com.prokarma.myhome.features.contact.ContactUsActivity;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -93,12 +94,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
         //Automatically populate developer builds with a test account
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")) {
-            binder.email.setText("testy@mail.com");
-            binder.password.setText("Pass123*");
-//            binder.email.setText("jjonnalagadda@prokarma.com");
-//            binder.password.setText("Pass123*");
-//            binder.email.setText("a.jackson@mail.com");
-//            binder.password.setText("Dignity1!!");
+            // add your debugging credentials
         }
 
         binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email,
@@ -114,6 +110,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         content.setSpan(new UnderlineSpan(), text.length() + 1, content.length(), 0);
         binder.enrollNow.setText(content);
 
+        String email = AppPreferences.getInstance().getPreference("EMAIL_PREF");
+        if (email != null && !email.trim().isEmpty())
+            binder.email.setText(email);
         drawableClickEvent();
         binder.setHandlers(new LoginViewClickEvent());
         return binder.getRoot();
@@ -186,6 +185,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     if (ConnectionUtil.isConnected(getActivity())) {
                         LoginRequest request = getRequest();
                         if (null != request) {
+                            AppPreferences.getInstance().setPreference("EMAIL_PREF", binder.email.getText().toString());
                             showView(false);
                             TealiumUtil.trackEvent(Constants.SIGN_IN_EVENT, null);
                             presenter.signIn(request);

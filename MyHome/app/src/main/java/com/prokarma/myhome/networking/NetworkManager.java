@@ -75,8 +75,9 @@ public class NetworkManager {
                 Response response = chain.proceed(request);
 
                 //Session expired
-                if (response.code() == 401) {
-                    NavigationActivity.eventBus.post(new SessionExpiry());
+                if (response.code() == 401 && !request.url().toString().equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn")) {
+                    if (null != NavigationActivity.eventBus)
+                        NavigationActivity.eventBus.post(new SessionExpiry());
                 }
                 return response;
             }
