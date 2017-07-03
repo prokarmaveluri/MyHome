@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -568,7 +570,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         bookedAppointment = appointment;
 
         Fragment fragment = getChildFragmentManager().findFragmentByTag(BookingDialogFragment.BOOKING_DIALOG_TAG);
-        if(fragment != null){
+        if (fragment != null) {
             return;
         }
         BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe);
@@ -590,36 +592,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onMonthHeaderClicked() {
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
-
-        if (fragment instanceof BookingSelectCalendarFragment) {
-            //You're on the calendar
-            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient, currentOffice.getAppointments()), bookingDate);
-            bookingFragment.setSelectTimeInterface(this);
-            getChildFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
-                    .replace(R.id.booking_frame, bookingFragment)
-                    .addToBackStack(null)
-                    .commit();
-            getChildFragmentManager().executePendingTransactions();
-            expandableLinearLayout.initLayout();
-            expandableLinearLayout.expand();
-        } else if (fragment instanceof BookingSelectTimeFragment) {
-            //You were on the times
-
-            BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(bookingDate, filterAppointments(isNewPatient, currentOffice.getAppointments()));
-            bookingFragment.setSelectTimeInterface(this);
-            getChildFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
-                    .replace(R.id.booking_frame, bookingFragment)
-                    .addToBackStack(null)
-                    .commit();
-            getChildFragmentManager().executePendingTransactions();
-            expandableLinearLayout.initLayout();
-            expandableLinearLayout.expand();
-        }
+        mHandler.removeMessages(0);
+        mHandler.sendEmptyMessageDelayed(0, 200);
     }
 
     @Override
@@ -742,4 +716,43 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return false;
         }
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
+
+            if (fragment instanceof BookingSelectCalendarFragment) {
+                //You're on the calendar
+                BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient,
+                        currentOffice.getAppointments()), bookingDate);
+                bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
+                getChildFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
+                        .replace(R.id.booking_frame, bookingFragment)
+                        .addToBackStack(null)
+                        .commit();
+                getChildFragmentManager().executePendingTransactions();
+                expandableLinearLayout.initLayout();
+                expandableLinearLayout.expand();
+            } else if (fragment instanceof BookingSelectTimeFragment) {
+                //You were on the times
+
+                BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(bookingDate,
+                        filterAppointments(isNewPatient, currentOffice.getAppointments()));
+                bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
+                getChildFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
+                        .replace(R.id.booking_frame, bookingFragment)
+                        .addToBackStack(null)
+                        .commit();
+                getChildFragmentManager().executePendingTransactions();
+                expandableLinearLayout.initLayout();
+                expandableLinearLayout.expand();
+            }
+        }
+    };
 }
