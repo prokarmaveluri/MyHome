@@ -49,7 +49,6 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 import com.squareup.otto.ThreadEnforcer;
 
 import java.util.TimeZone;
@@ -60,7 +59,8 @@ import timber.log.Timber;
  * Created by kwelsh on 4/25/17.
  */
 
-public class NavigationActivity extends AppCompatActivity implements NavigationInterface, FragmentManager.OnBackStackChangedListener {
+public class NavigationActivity extends AppCompatActivity implements NavigationInterface,
+        FragmentManager.OnBackStackChangedListener, NetworkManager.ISessionExpiry {
 
     private static ActivityTag activityTag = ActivityTag.NONE;
     private BottomNavigationViewEx bottomNavigationView;
@@ -78,6 +78,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         setContentView(R.layout.navigation_activity);
 
+        NetworkManager.getInstance().setExpiryListener(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
@@ -151,6 +152,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         eventBus = null;
         mHandler.removeCallbacks(runnable);
         ProfileManager.setProfile(null);
+        NetworkManager.getInstance().setExpiryListener(null);
         RecentlyViewedDataSourceDB.getInstance().close();
         unregisterReceiver(timezoneChangedReceiver);
     }
@@ -561,15 +563,19 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         mHandler.postDelayed(runnable, AuthManager.SESSION_EXPIRY_TIME);
     }
 
-    private Handler mHandler = new Handler();
-    Runnable runnable = new Runnable() {
+    public Handler mHandler = new Handler();
+    public Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (AuthManager.getInstance().isExpiried()) {
-                buildSessionAlert(getString(R.string.session_expiry_message));
-            }
+            buildSessionAlert(getString(R.string.session_expiry_message));
         }
     };
+
+    @Override
+    public void expired() {
+        mHandler.removeCallbacks(runnable);
+        mHandler.postDelayed(runnable, 0);
+    }
 
     //Receiver for handling Timezone changes
     private static class MyBroadcastReceiver extends BroadcastReceiver {
@@ -589,10 +595,5 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 didTimeZoneChange = true;
             }
         }
-    }
-
-    @Subscribe
-    public void SessionExpired(NetworkManager.SessionExpiry expiry) {
-        buildSessionAlert(getString(R.string.session_expiry_message));
     }
 }

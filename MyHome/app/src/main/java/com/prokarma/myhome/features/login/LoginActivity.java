@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements
         }
 //        startUpdateActivity(false);
 //        buildUpdateAlert(getString(R.string.app_suggest_update_message));
+        NetworkManager.getInstance().setExpiryListener(null);
         new LoginPresenter(fragment, this);
     }
 

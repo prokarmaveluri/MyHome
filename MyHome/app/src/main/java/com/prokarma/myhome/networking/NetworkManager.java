@@ -1,6 +1,5 @@
 package com.prokarma.myhome.networking;
 
-import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
@@ -45,6 +44,7 @@ import timber.log.Timber;
 
 public class NetworkManager {
     private RESTService service = null;
+    private ISessionExpiry expiryListener;
     private static NetworkManager instance = null;
     private static OkHttpClient.Builder httpClient = null;
 
@@ -56,6 +56,10 @@ public class NetworkManager {
             instance = new NetworkManager();
         }
         return instance;
+    }
+
+    public void setExpiryListener(ISessionExpiry listener) {
+        this.expiryListener = listener;
     }
 
     public void initService() {
@@ -75,9 +79,10 @@ public class NetworkManager {
                 Response response = chain.proceed(request);
 
                 //Session expired
-                if (response.code() == 401 && !request.url().toString().equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn")) {
-                    if (null != NavigationActivity.eventBus)
-                        NavigationActivity.eventBus.post(new SessionExpiry());
+                if (response.code() == 401 && !request.url().toString()
+                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn")) {
+                    if (null != expiryListener)
+                        expiryListener.expired();
                 }
                 return response;
             }
@@ -342,15 +347,7 @@ public class NetworkManager {
         });
     }
 
-    public class SessionExpiry {
-        private boolean isExpired = false;
-
-        public boolean isExpired() {
-            return isExpired;
-        }
-
-        public void setExpired(boolean expired) {
-            isExpired = expired;
-        }
+    public interface ISessionExpiry {
+        public void expired();
     }
 }
