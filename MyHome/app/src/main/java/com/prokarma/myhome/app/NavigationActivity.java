@@ -391,15 +391,15 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left);
 
         switch (item.getItemId()) {
-            case R.id.help:
-                return true;
-            case R.id.settings:
-                setActivityTag(ActivityTag.SETTINGS);
-                Intent intentSettings = new Intent(this, OptionsActivity.class);
-                ActivityCompat.startActivity(this, intentSettings, options.toBundle());
-                return true;
-            case R.id.preferences:
-                return true;
+//            case R.id.help:
+//                return true;
+//            case R.id.settings:
+//                setActivityTag(ActivityTag.SETTINGS);
+//                Intent intentSettings = new Intent(this, OptionsActivity.class);
+//                ActivityCompat.startActivity(this, intentSettings, options.toBundle());
+//                return true;
+//            case R.id.preferences:
+//                return true;
             case R.id.contact_us:
                 setActivityTag(ActivityTag.CONTACT_US);
                 Intent intentContactUs = new Intent(this, OptionsActivity.class);

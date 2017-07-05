@@ -158,15 +158,15 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
                 R.anim.slide_in_right, R.anim.slide_out_left);
         switch (item.getItemId()) {
-            case R.id.help:
-                return true;
-            case R.id.settings:
-                NavigationActivity.setActivityTag(Constants.ActivityTag.SETTINGS);
-                Intent intentSettings = new Intent(getActivity(), OptionsActivity.class);
-                ActivityCompat.startActivity(getActivity(), intentSettings, options.toBundle());
-                return true;
-            case R.id.preferences:
-                return true;
+//            case R.id.help:
+//                return true;
+//            case R.id.settings:
+//                NavigationActivity.setActivityTag(Constants.ActivityTag.SETTINGS);
+//                Intent intentSettings = new Intent(getActivity(), OptionsActivity.class);
+//                ActivityCompat.startActivity(getActivity(), intentSettings, options.toBundle());
+//                return true;
+//            case R.id.preferences:
+//                return true;
             case R.id.contact_us:
                 NavigationActivity.setActivityTag(Constants.ActivityTag.CONTACT_US);
                 Intent intentContactUs = new Intent(getActivity(), OptionsActivity.class);
