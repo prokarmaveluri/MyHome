@@ -1,6 +1,7 @@
 package com.prokarma.myhome.features.contact;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.Constants;
 
@@ -31,14 +33,23 @@ public class ContactUsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         contactUsView = inflater.inflate(R.layout.contact_us, container, false);
-
+        getActivity().setTitle(getString(R.string.contact_support));
         TextView emailView = (TextView) contactUsView.findViewById(R.id.email);
+        TextView phoneView = (TextView) contactUsView.findViewById(R.id.phone);
         emailView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 composeEmail();
             }
         });
+        phoneView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dailPhone();
+            }
+        });
+
+
 
         return contactUsView;
     }
@@ -55,7 +66,7 @@ public class ContactUsFragment extends BaseFragment {
     private void composeEmail() {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"hello@dignityhealth.org"});
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"hello@dignityhealth.com"});
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Ask A Question");
 
         if (ProfileManager.getProfile() != null) {
@@ -75,5 +86,13 @@ public class ContactUsFragment extends BaseFragment {
                             "Thank You\n");
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
         }
+    }
+    /**
+     * Create a support phone dial
+     */
+    private void dailPhone() {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:"+"123-456-7890"));
+        getActivity().startActivity(intent);
     }
 }

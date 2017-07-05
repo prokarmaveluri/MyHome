@@ -63,8 +63,13 @@
         <ScrollView xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/parentlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="true"
@@ -101,6 +106,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sort_by"
+                        android:lineSpacingExtra="-0.09sp"
                         android:textStyle="bold" />
 
                     <RadioGroup
@@ -115,14 +121,18 @@
 
                         <RadioButton
                             android:id="@+id/distance"
-                            style="@style/tradeGothicLTStd_Dynamic18"
+                            style="@style/tradeGothicLTStd_Dynamic16"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_boarder_acent"
                             android:button="@null"
-                            android:padding="2dp"
+                            android:paddingTop="@dimen/scalable_8"
+                            android:paddingBottom="@dimen/scalable_8"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
+                            android:lineSpacingExtra="-0.1sp"
                             android:text="@string/distance"
                             android:textAlignment="center"
                             android:textAllCaps="false"
@@ -131,15 +141,19 @@
 
                         <RadioButton
                             android:id="@+id/bestMatch"
-                            style="@style/tradeGothicLTStd_Dynamic18"
+                            style="@style/tradeGothicLTStd_Dynamic16"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_boarder_acent"
                             android:button="@null"
                             android:text="@string/best_match"
-                            android:padding="2dp"
+                            android:paddingTop="@dimen/scalable_8"
+                            android:paddingBottom="@dimen/scalable_8"
+                            android:lineSpacingExtra="-0.1sp"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/accent"
@@ -147,14 +161,18 @@
 
                         <RadioButton
                             android:id="@+id/lastName"
-                            style="@style/tradeGothicLTStd_Dynamic18"
+                            style="@style/tradeGothicLTStd_Dynamic16"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_boarder_acent"
                             android:button="@null"
-                            android:padding="2dp"
+                            android:paddingTop="@dimen/scalable_8"
+                            android:paddingBottom="@dimen/scalable_8"
+                            android:lineSpacingExtra="-0.1sp"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
                             android:text="@string/last_name"
                             android:textAlignment="center"
                             android:textAllCaps="false"
@@ -167,7 +185,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/sortByGroup"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <android.support.v7.widget.AppCompatSeekBar
                             android:id="@+id/distanceRange"
@@ -201,6 +219,7 @@
                         android:layout_below="@+id/distanceRangeLayout"
                         android:layout_marginTop="16dp"
                         android:text="@string/filter_by"
+                        android:lineSpacingExtra="-0.09sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -223,15 +242,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
-                            android:text="@string/accepting_new_patients" />
+                            android:text="@string/accepting_new_patients"
+                            android:lineSpacingExtra="0sp"/>
                     </LinearLayout>
+                    <View
+                        android:id="@+id/lineTop"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_below="@+id/newPatients"
+                        android:background="@color/db_white"/>
 
                     <ExpandableListView
                         android:id="@+id/expandableList"
                         android:layout_width="match_parent"
                         android:layout_height="325dp"
-                        android:layout_below="@+id/newPatients"
-                        android:layout_marginTop="16dp"
+                        android:layout_below="@+id/lineTop"
+                        android:layout_marginTop="2dp"
                         android:groupIndicator="@null"
                         android:nestedScrollingEnabled="false"
                         android:textAlignment="viewStart" />
@@ -247,7 +274,36 @@
                     android:layout_marginRight="16dp"
                     android:background="@color/background"
                     android:visibility="gone" />
+
+
             </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/recentView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="40dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/recentViewSwitch"
+                        style="@style/tradeGothicLTStd_Dynamic18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd" />
+
+                    <TextView
+                        style="@style/tradeGothicLTStd_Dynamic18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/display_recently_viewed_doctors"
+                        android:lineSpacingExtra="0sp"/>
+                </LinearLayout>
+           </LinearLayout>
         </ScrollView>
     </LinearLayout>
 </layout>

@@ -42,7 +42,6 @@ public class ContactUsActivity extends BaseActivity {
         ContactUsFragment fragment = ContactUsFragment.newInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(binding.contactUsFrame.getId(), fragment).commit();
-
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));

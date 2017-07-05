@@ -9,6 +9,7 @@
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:lineSpacingExtra="0sp"
         android:gravity="center_vertical" />
 
     <ImageView

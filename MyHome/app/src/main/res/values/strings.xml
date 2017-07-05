@@ -42,6 +42,7 @@
     <string name="details">Details</string>
     <string name="share_appointment">Share Appointment</string>
     <string name="terms_of_service">Terms of Service</string>
+    <string name="contact_support">Contact Support</string>
     <string name="developer_settings">Developer Settings</string>
     <string name="no_providers">No Providers found\n Please change your search criteria.</string>
     <string name="no_education_found">No Education Found</string>
@@ -66,7 +67,7 @@
     <string name="save">Save</string>
     <string name="password_criteria">Password Criteria</string>
     <string name="search_care_or_condition">Search care or condition</string>
-    <string name="user_location">User Location</string>
+    <string name="user_location">Current Location</string>
     <string name="sort_by">Sort By</string>
     <string name="distance">Distance</string>
     <string name="best_match">Best Match</string>
