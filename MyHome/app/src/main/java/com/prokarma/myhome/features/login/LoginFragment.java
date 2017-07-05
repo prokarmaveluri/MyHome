@@ -454,12 +454,14 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        final int DRAWABLE_RIGHT = 2;
 
                         try {
                             if (event.getAction() == MotionEvent.ACTION_UP) {
-                                if ((int) event.getRawX() >= (binder.password.getRight() -
-                                        binder.password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                                int[] locationOnScreen = new int[2];
+                                binder.password.getLocationOnScreen(locationOnScreen);
+                                int touchXCoordinate = (int) event.getRawX() - locationOnScreen[0];
+                                if(touchXCoordinate >= (binder.password.getRight() - binder.password.getTotalPaddingRight()) &&
+                                        touchXCoordinate <= (binder.password.getRight() - binder.password.getPaddingRight())){
 
                                     showPassword = !showPassword;
 

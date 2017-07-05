@@ -29,6 +29,8 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
 
+import timber.log.Timber;
+
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 /*
@@ -247,30 +249,36 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                 new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        final int DRAWABLE_RIGHT = 2;
 
-                        if (event.getAction() == MotionEvent.ACTION_UP) {
-                            if ((int) event.getRawX() >= (binding.password.getRight() -
-                                    binding.password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        try {
+                            if (event.getAction() == MotionEvent.ACTION_UP) {
+                                int[] locationOnScreen = new int[2];
+                                binding.password.getLocationOnScreen(locationOnScreen);
+                                int touchXCoordinate = (int) event.getRawX() - locationOnScreen[0];
+                                if(touchXCoordinate >= (binding.password.getRight() - binding.password.getTotalPaddingRight()) &&
+                                        touchXCoordinate <= (binding.password.getRight() - binding.password.getPaddingRight())){
 
-                                showPassword = !showPassword;
+                                    showPassword = !showPassword;
 
-                                if (showPassword) {
-                                    binding.password.setTransformationMethod(null);
-//                                    binding.reEnterPassword.setTransformationMethod(null);
-                                    updateDrawable(R.mipmap.hide_password);
-                                } else {
-                                    binding.password.setTransformationMethod(new PasswordTransformationMethod());
-//                                    binding.reEnterPassword.setTransformationMethod(new PasswordTransformationMethod());
-                                    updateDrawable(R.mipmap.show_password);
+                                    if (showPassword) {
+                                        binding.password.setTransformationMethod(null);
+                                        updateDrawable(R.mipmap.hide_password);
+                                    } else {
+                                        binding.password.setTransformationMethod(new PasswordTransformationMethod());
+                                        updateDrawable(R.mipmap.show_password);
+                                    }
+                                    return true;
                                 }
-                                return true;
                             }
+                        } catch (NullPointerException ex) {
+                            Timber.i("NullPointerException in drawableClickEvent ");
+                            return false;
                         }
                         return false;
                     }
                 });
     }
+
 
     @SuppressWarnings("deprecation")
     private void updateDrawable(int res) {
