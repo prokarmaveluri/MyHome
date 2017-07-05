@@ -249,10 +249,10 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 if (groupPosition == GROUP.SPECIALTIES.getValue()) {
                     if (isSpecialtiesSelected) {
-                        clearSelection(selectSpecialties); //Single selection
+//                        clearSelection(selectSpecialties); //Single selection
                         selectSpecialties.get(childPosition).setSelected(!selectSpecialties.get(childPosition).getSelected());
                     } else {
-                        clearSelection(specialties); //Single selection
+//                        clearSelection(specialties); //Single selection
                         specialties.get(childPosition).setSelected(!specialties.get(childPosition).getSelected());
                     }
                     updateSelection(specialties, selectSpecialties);
@@ -274,10 +274,10 @@ public class FilterExpandableList extends BaseExpandableListAdapter {
                     updateSelection(languages, selectLanguages);
                 } else if (groupPosition == GROUP.HOSPITALS.getValue()) {
                     if (isHospitalsSelected) {
-                        clearSelection(selectHospitals); //Single selection
+//                        clearSelection(selectHospitals); //Single selection
                         selectHospitals.get(childPosition).setSelected(!selectHospitals.get(childPosition).getSelected());
                     } else {
-                        clearSelection(hospitals); //Single selection
+//                        clearSelection(hospitals); //Single selection
                         hospitals.get(childPosition).setSelected(!hospitals.get(childPosition).getSelected());
                     }
                     updateSelection(hospitals, selectHospitals);
