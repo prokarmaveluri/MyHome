@@ -113,7 +113,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:minHeight="48dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     tools:ignore="HardcodedText">
 
                     <TextView
@@ -157,7 +157,9 @@
                         style="@style/tradeGothicLTStd_Dynamic16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
                         android:layout_below="@id/txt_db_appoint_item_facility"
+                        android:layout_toLeftOf="@+id/img_db_appoint_item_pin_icon"
                         android:layout_marginLeft="12dp"
                         android:maxWidth="285dp"
                         android:text="Dr. Steven M. Howard, MD" />
