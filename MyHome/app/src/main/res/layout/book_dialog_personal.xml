@@ -382,6 +382,7 @@
                 android:id="@+id/translator_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
                 android:hint="@string/translator_language"
                 android:inputType="textCapWords" />
 
