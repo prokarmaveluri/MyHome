@@ -148,15 +148,14 @@ public class AuthManager {
         prevTimestamp = AppPreferences.getInstance().getLongPreference(LoginActivity.FAILURE_TIME_STAMP);
     }
 
-
-
     public boolean isExpiried() {
         try {
             long expiresAt = DateUtil.getMilliseconds(getExpiresAt());
+            long current = System.currentTimeMillis();
 
             // already expired
-            if (System.currentTimeMillis() > expiresAt)
-                return true;
+//            if (current > expiresAt)
+//                return true;
 
             setIdleTime(AppPreferences.getInstance().getLongPreference("IDLE_TIME"));
             if (getIdleTime() <= 0)
