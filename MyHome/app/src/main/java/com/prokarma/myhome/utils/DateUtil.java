@@ -52,7 +52,7 @@ public class DateUtil {
      */
     public static Date getDateTimeZone(String utcDate) throws ParseException {
         SimpleDateFormat sdf = SIMPLE_DATE_FORMAT_UTC_TIMEZONE;
-        sdf.setTimeZone(TimeZone.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT" + getTimeZone(utcDate)));
 
         return sdf.parse(utcDate);
     }
@@ -68,6 +68,17 @@ public class DateUtil {
         sdf.setTimeZone(TimeZone.getDefault());
 
         return sdf.parse(utcDate);
+    }
+
+    /**
+     * Gets the Timezone of a utc date.
+     * This assumes that the timezone is the last six digits of the date (we can simply append "GMT" for setting the timezone)
+     *
+     * @param utcDate
+     * @return
+     */
+    public static String getTimeZone(String utcDate) {
+        return utcDate.substring(utcDate.length() - 6, utcDate.length());
     }
 
     /**
