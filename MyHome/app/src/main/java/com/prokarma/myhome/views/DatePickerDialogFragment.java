@@ -44,7 +44,7 @@ public class DatePickerDialogFragment extends DialogFragment implements View.OnC
 
     /**
      * Datesetlistener to send back the selected date in @{@link DatePicker}
-     * @param dateSetListener
+     * @param dateSetListener, instance of @{@link DatePickerDialog.OnDateSetListener}
      */
     public void addDateSetListener(DatePickerDialog.OnDateSetListener dateSetListener){
         this.dateSetListener = dateSetListener;
