@@ -1,5 +1,6 @@
 package com.prokarma.myhome.features.fad.details.booking;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.IdRes;
@@ -31,6 +32,7 @@ import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.ValidationUtil;
+import com.prokarma.myhome.views.DatePickerDialogFragment;
 
 import java.util.Calendar;
 import java.util.List;
@@ -257,10 +259,9 @@ public class BookingDialogAdapter extends PagerAdapter {
             public void onClick(View v) {
                 CommonUtil.hideSoftKeyboard(context, dateOfBirth);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(context, dateSetListener,
-                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment();
+                datePickerDialogFragment.addDateSetListener(dateSetListener);
+                datePickerDialogFragment.show(((Activity)context).getFragmentManager(), DatePickerDialogFragment.DATE_PICKER_DIALOG_TAG);
             }
         });
 
@@ -404,7 +405,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             ProviderPlanSpinnerAdapter spinnerAdapter = new ProviderPlanSpinnerAdapter(context, R.layout.provider_plan_spinner_item, insurances);
             //spinnerAdapter.setDropDownViewResource(R.layout.provider_plan_spinner_item);
 
-            if(plan != null){
+            if (plan != null) {
                 plan.setAdapter(spinnerAdapter);
             }
 
@@ -535,35 +536,6 @@ public class BookingDialogAdapter extends PagerAdapter {
         insurancePhoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         insurancePhone.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 
-//        if (!isLoading && !autoPopulateFromProfile) {
-//            caregiverLayout.setVisibility(View.VISIBLE);
-//        } else {
-//            caregiverLayout.setVisibility(View.GONE);
-//        }
-//
-//        firstNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        lastNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        preferredNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        genderLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        gender.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        areYouPregnantLabel.setVisibility(View.GONE);
-//        areYouPregnantGroup.setVisibility(View.GONE);
-//        weeksPregnantLayout.setVisibility(View.GONE);
-//        dateOfBirthLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        addressLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        address2Layout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        cityLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        state.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        zipLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        phoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        emailLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        translatorLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        translatorGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        translatorLanguageLayout.setVisibility(View.GONE);
-//        assistanceLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        assistanceGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        reasonForVisitLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-
         progressBarInsurance.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 
@@ -606,7 +578,8 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         //Need to make sure weeks pregnant is sent as null (empty causes issues with API)
-        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null && !weeksPregnant.getText().toString().isEmpty()) {
+        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null &&
+                !weeksPregnant.getText().toString().isEmpty()) {
             formsProfile.weeksPregnant = weeksPregnant.getText().toString().trim();
         } else {
             formsProfile.weeksPregnant = null;
@@ -628,7 +601,8 @@ public class BookingDialogAdapter extends PagerAdapter {
             formsProfile.address.city = city.getText().toString().trim();
         }
 
-        if (state.getVisibility() == View.VISIBLE && !state.getSelectedItem().toString().isEmpty() && state.getSelectedItemPosition() != 0) {
+        if (state.getVisibility() == View.VISIBLE && !state.getSelectedItem().toString().isEmpty() &&
+                state.getSelectedItemPosition() != 0) {
             formsProfile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 
@@ -708,7 +682,8 @@ public class BookingDialogAdapter extends PagerAdapter {
                 groupLayout.setError(null);
             }
 
-            if (insurancePhone.getVisibility() == View.VISIBLE && !insurancePhone.getText().toString().isEmpty() && !CommonUtil.isValidMobile(insurancePhone.getText().toString())) {
+            if (insurancePhone.getVisibility() == View.VISIBLE && !insurancePhone.getText().toString().isEmpty() &&
+                    !CommonUtil.isValidMobile(insurancePhone.getText().toString())) {
                 isValid = false;
                 insurancePhoneLayout.setError(context.getString(R.string.insurance_phone_number_invalid));
             } else {
@@ -717,30 +692,31 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         } else if (page == 1) {
             //Personal Page
+            int scrollPosition = -1;
 
-            if (caregiverLayout.getVisibility() == View.VISIBLE && caregiverName.getText().toString().isEmpty()) {
+            if (caregiverLayout.getVisibility() == View.VISIBLE && caregiverName.getText().toString().trim().isEmpty()) {
                 caregiverLayout.setError(context.getString(R.string.caregiver_required));
-                scrollView.smoothScrollTo(0, (int)caregiverLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) caregiverLayout.getY();
                 caregiverLayout.setFocusable(true);
-                return false;
             } else {
                 caregiverLayout.setError(null);
             }
 
-            if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()) {
+            if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().trim().isEmpty()) {
                 firstNameLayout.setError(context.getString(R.string.first_name_required));
-                scrollView.smoothScrollTo(0, (int)firstNameLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) firstNameLayout.getY();
                 firstNameLayout.setFocusable(true);
-                return false;
             } else {
                 firstNameLayout.setError(null);
             }
 
-            if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()) {
+            if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().trim().isEmpty()) {
                 lastNameLayout.setError(context.getString(R.string.last_name_required));
-                scrollView.smoothScrollTo(0, (int)lastNameLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) lastNameLayout.getY();
                 lastNameLayout.setFocusable(true);
-                return false;
             } else {
                 lastNameLayout.setError(null);
             }
@@ -748,9 +724,9 @@ public class BookingDialogAdapter extends PagerAdapter {
             if (gender.getVisibility() == View.VISIBLE && gender.getSelectedItemPosition() == 0) {
                 genderLabel.setText(context.getString(R.string.gender_required));
                 genderLabel.setTextColor(ContextCompat.getColor(context, R.color.red));
-                scrollView.smoothScrollTo(0, (int)genderLabel.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) genderLabel.getY();
                 genderLabel.setFocusable(true);
-                return false;
             } else {
                 genderLabel.setText(context.getString(R.string.gender));
                 genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
@@ -758,93 +734,107 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             if (dateOfBirthLayout.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
                 dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_required));
-                scrollView.smoothScrollTo(0, (int)dateOfBirthLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);
-                return false;
             } else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && autoPopulateFromProfile && !DateUtil.isOlderThan18(DateUtil.convertReadableToUTC(dateOfBirth.getText().toString()))) {
                 dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_too_young));
-                scrollView.smoothScrollTo(0, (int)dateOfBirthLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);
-                return false;
             } else {
                 dateOfBirthLayout.setError(null);
             }
 
+            if (addressLayout.getVisibility() == View.VISIBLE && address.getText().toString().trim().isEmpty()) {
+                addressLayout.setError(context.getString(R.string.date_of_birth_required));
+                if (scrollPosition == -1)
+                    scrollPosition = (int) addressLayout.getY();
+                addressLayout.setFocusable(true);
+            } else {
+                addressLayout.setError(null);
+            }
+
             if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {
                 weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_required));
-                scrollView.smoothScrollTo(0, (int)weeksPregnantLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) weeksPregnantLayout.getY();
                 weeksPregnantLayout.setFocusable(true);
-                return false;
             } else if (weeksPregnantLayout.getVisibility() == View.VISIBLE && !weeksPregnant.getText().toString().isEmpty() && Integer.parseInt(weeksPregnant.getText().toString()) > 45) {
                 weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_too_large));
-                scrollView.smoothScrollTo(0, (int)weeksPregnantLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) weeksPregnantLayout.getY();
                 weeksPregnantLayout.setFocusable(true);
-                return false;
             } else {
                 weeksPregnantLayout.setError(null);
             }
 
             if (zipLayout.getVisibility() == View.VISIBLE && zip.getText().toString().isEmpty()) {
                 zipLayout.setError(context.getString(R.string.zip_required));
-                scrollView.smoothScrollTo(0, (int)zipPhoneLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) zipPhoneLayout.getY();
                 zipLayout.setFocusable(true);
-                return false;
             } else if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {
                 zipLayout.setError(context.getString(R.string.zip_invalid));
-                scrollView.smoothScrollTo(0, (int)zipPhoneLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) zipPhoneLayout.getY();
                 zipLayout.setFocusable(true);
-                return false;
             } else {
                 zipLayout.setError(null);
             }
 
             if (phoneLayout.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()) {
                 phoneLayout.setError(context.getString(R.string.phone_number_required));
-                scrollView.smoothScrollTo(0, (int)zipPhoneLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) zipPhoneLayout.getY();
                 phoneLayout.setFocusable(true);
-                return false;
             } else if (phoneLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidMobile(phone.getText().toString())) {
                 phoneLayout.setError(context.getString(R.string.phone_number_invalid));
-                scrollView.smoothScrollTo(0, (int)zipPhoneLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) zipPhoneLayout.getY();
                 phoneLayout.setFocusable(true);
-                return false;
             } else {
                 phoneLayout.setError(null);
             }
 
             if (emailLayout.getVisibility() == View.VISIBLE && email.getText().toString().isEmpty()) {
                 emailLayout.setError(context.getString(R.string.email_required));
-                scrollView.smoothScrollTo(0, (int)emailLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) emailLayout.getY();
                 emailLayout.setFocusable(true);
-                return false;
             } else if (emailLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidEmail(email.getText().toString())) {
                 emailLayout.setError(context.getString(R.string.email_invalid));
-                scrollView.smoothScrollTo(0, (int)emailLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) emailLayout.getY();
                 emailLayout.setFocusable(true);
-                return false;
             } else {
                 emailLayout.setError(null);
             }
 
-            if (translatorLanguageLayout.getVisibility() == View.VISIBLE && translatorLanguage.getText().toString().isEmpty()) {
+            if (translatorLanguageLayout.getVisibility() == View.VISIBLE &&
+                    translatorLanguage.getText().toString().trim().isEmpty()) {
                 translatorLanguageLayout.setError(context.getString(R.string.translator_language_required));
-                scrollView.smoothScrollTo(0, (int)translatorLanguageLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) translatorLanguageLayout.getY();
                 translatorLanguageLayout.setFocusable(true);
-                return false;
             } else {
                 translatorLanguageLayout.setError(null);
             }
 
-            if (reasonForVisitLayout.getVisibility() == View.VISIBLE && reasonForVisit.getText().toString().isEmpty()) {
+            if (reasonForVisitLayout.getVisibility() == View.VISIBLE &&
+                    reasonForVisit.getText().toString().trim().isEmpty()) {
                 reasonForVisitLayout.setError(context.getString(R.string.reason_for_visit_required));
-                scrollView.smoothScrollTo(0, (int)reasonForVisitLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) reasonForVisitLayout.getY();
                 reasonForVisitLayout.setFocusable(true);
-                return false;
             } else {
                 reasonForVisitLayout.setError(null);
             }
+            if (scrollPosition != -1) {
+                scrollView.smoothScrollTo(0, scrollPosition);
+                return false;
+            }
         }
-
         return isValid;
     }
 }

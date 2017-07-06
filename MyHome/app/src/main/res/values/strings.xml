@@ -199,10 +199,7 @@
     <string name="provider_plan">Provider Plan</string>
     <string name="first_name_required">First Name is required</string>
     <string name="last_name_required">Last Name is required</string>
-    <string name="zip_invalid">Zipcode is invalid</string>
     <string name="gender_required">Gender is required</string>
-    <string name="phone_number_invalid">Phone Number is invalid</string>
-    <string name="email_invalid">Email is invalid</string>
     <string name="email_required">Email is required</string>
     <string name="translator_language_required">Translator Language is required</string>
     <string name="reason_for_visit_required">Reason For Visit is required</string>
@@ -212,13 +209,18 @@
     <string name="date_of_birth_required">Date of Birth is required</string>
     <string name="date_of_birth_too_young">You must be 18 to book an appointment</string>
     <string name="caregiver_required">Caregiver Name is required</string>
-    <string name="insurance_phone_number_invalid">Insurance Phone Number is invalid</string>
+
     <string name="group_id_required">Group ID is required</string>
     <string name="member_id_required">Member ID is required</string>
     <string name="plan_required">Plan is required</string>
     <string name="zip_required">Zipcode is required</string>
     <string name="please_pick_a_plan">Please pick a plan</string>
     <string name="booking_failed">Unable to book.  Please check your information</string>
+
+    <string name="insurance_phone_number_invalid">Invalid insurance Phone Number</string>
+    <string name="phone_number_invalid">Invalid phone number</string>
+    <string name="email_invalid">Invalid email</string>
+    <string name="zip_invalid">Invalid zipcode</string>
 
     <!--Enrollment-->
     <string name="password_must_be_eight_chars">Password must be at least 8 characters</string>
