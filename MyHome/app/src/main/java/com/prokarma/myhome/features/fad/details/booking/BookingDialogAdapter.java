@@ -333,14 +333,15 @@ public class BookingDialogAdapter extends PagerAdapter {
      * Auto-populates Insurance page with values from Profile Singleton
      */
     private void populateInsuranceLayout() {
-        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.insurancePlan != null && plan.getAdapter() != null) {
-            for (int i = 0; i < plan.getAdapter().getCount(); i++) {
-                if (formsProfile.insuranceProvider.insurancePlan.equalsIgnoreCase(((RegIncluded) plan.getAdapter().getItem(i)).getAttributes().getName())) {
-                    plan.setSelection(i);
-                    break;
-                }
-            }
-        }
+// Do not pre-populate the insurance provider plan (for now)
+//        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.insurancePlan != null && plan.getAdapter() != null) {
+//            for (int i = 0; i < plan.getAdapter().getCount(); i++) {
+//                if (formsProfile.insuranceProvider.insurancePlan.equalsIgnoreCase(((RegIncluded) plan.getAdapter().getItem(i)).getAttributes().getName())) {
+//                    plan.setSelection(i);
+//                    break;
+//                }
+//            }
+//        }
 
         if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.memberNumber != null) {
             memberId.setText(formsProfile.insuranceProvider.memberNumber);
