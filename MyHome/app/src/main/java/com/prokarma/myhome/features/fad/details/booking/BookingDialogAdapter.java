@@ -535,35 +535,6 @@ public class BookingDialogAdapter extends PagerAdapter {
         insurancePhoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         insurancePhone.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 
-//        if (!isLoading && !autoPopulateFromProfile) {
-//            caregiverLayout.setVisibility(View.VISIBLE);
-//        } else {
-//            caregiverLayout.setVisibility(View.GONE);
-//        }
-//
-//        firstNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        lastNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        preferredNameLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        genderLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        gender.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        areYouPregnantLabel.setVisibility(View.GONE);
-//        areYouPregnantGroup.setVisibility(View.GONE);
-//        weeksPregnantLayout.setVisibility(View.GONE);
-//        dateOfBirthLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        addressLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        address2Layout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        cityLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        state.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        zipLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        phoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        emailLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        translatorLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        translatorGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        translatorLanguageLayout.setVisibility(View.GONE);
-//        assistanceLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        assistanceGroup.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-//        reasonForVisitLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-
         progressBarInsurance.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 
@@ -606,7 +577,8 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         //Need to make sure weeks pregnant is sent as null (empty causes issues with API)
-        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null && !weeksPregnant.getText().toString().isEmpty()) {
+        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null &&
+                !weeksPregnant.getText().toString().isEmpty()) {
             formsProfile.weeksPregnant = weeksPregnant.getText().toString().trim();
         } else {
             formsProfile.weeksPregnant = null;
@@ -628,7 +600,8 @@ public class BookingDialogAdapter extends PagerAdapter {
             formsProfile.address.city = city.getText().toString().trim();
         }
 
-        if (state.getVisibility() == View.VISIBLE && !state.getSelectedItem().toString().isEmpty() && state.getSelectedItemPosition() != 0) {
+        if (state.getVisibility() == View.VISIBLE && !state.getSelectedItem().toString().isEmpty() &&
+                state.getSelectedItemPosition() != 0) {
             formsProfile.address.stateOrProvince = state.getSelectedItem().toString().trim();
         }
 
@@ -708,7 +681,8 @@ public class BookingDialogAdapter extends PagerAdapter {
                 groupLayout.setError(null);
             }
 
-            if (insurancePhone.getVisibility() == View.VISIBLE && !insurancePhone.getText().toString().isEmpty() && !CommonUtil.isValidMobile(insurancePhone.getText().toString())) {
+            if (insurancePhone.getVisibility() == View.VISIBLE && !insurancePhone.getText().toString().isEmpty() &&
+                    !CommonUtil.isValidMobile(insurancePhone.getText().toString())) {
                 isValid = false;
                 insurancePhoneLayout.setError(context.getString(R.string.insurance_phone_number_invalid));
             } else {
@@ -719,7 +693,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             //Personal Page
             int scrollPosition = -1;
 
-            if (caregiverLayout.getVisibility() == View.VISIBLE && caregiverName.getText().toString().isEmpty()) {
+            if (caregiverLayout.getVisibility() == View.VISIBLE && caregiverName.getText().toString().trim().isEmpty()) {
                 caregiverLayout.setError(context.getString(R.string.caregiver_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) caregiverLayout.getY();
@@ -728,7 +702,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 caregiverLayout.setError(null);
             }
 
-            if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()) {
+            if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().trim().isEmpty()) {
                 firstNameLayout.setError(context.getString(R.string.first_name_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) firstNameLayout.getY();
@@ -737,7 +711,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 firstNameLayout.setError(null);
             }
 
-            if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()) {
+            if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().trim().isEmpty()) {
                 lastNameLayout.setError(context.getString(R.string.last_name_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) lastNameLayout.getY();
@@ -771,7 +745,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 dateOfBirthLayout.setError(null);
             }
 
-            if (addressLayout.getVisibility() == View.VISIBLE && address.getText().toString().isEmpty()) {
+            if (addressLayout.getVisibility() == View.VISIBLE && address.getText().toString().trim().isEmpty()) {
                 addressLayout.setError(context.getString(R.string.date_of_birth_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) addressLayout.getY();
@@ -836,7 +810,8 @@ public class BookingDialogAdapter extends PagerAdapter {
                 emailLayout.setError(null);
             }
 
-            if (translatorLanguageLayout.getVisibility() == View.VISIBLE && translatorLanguage.getText().toString().isEmpty()) {
+            if (translatorLanguageLayout.getVisibility() == View.VISIBLE &&
+                    translatorLanguage.getText().toString().trim().isEmpty()) {
                 translatorLanguageLayout.setError(context.getString(R.string.translator_language_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) translatorLanguageLayout.getY();
@@ -845,7 +820,8 @@ public class BookingDialogAdapter extends PagerAdapter {
                 translatorLanguageLayout.setError(null);
             }
 
-            if (reasonForVisitLayout.getVisibility() == View.VISIBLE && reasonForVisit.getText().toString().isEmpty()) {
+            if (reasonForVisitLayout.getVisibility() == View.VISIBLE &&
+                    reasonForVisit.getText().toString().trim().isEmpty()) {
                 reasonForVisitLayout.setError(context.getString(R.string.reason_for_visit_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) reasonForVisitLayout.getY();
