@@ -333,14 +333,15 @@ public class BookingDialogAdapter extends PagerAdapter {
      * Auto-populates Insurance page with values from Profile Singleton
      */
     private void populateInsuranceLayout() {
-        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.insurancePlan != null && plan.getAdapter() != null) {
-            for (int i = 0; i < plan.getAdapter().getCount(); i++) {
-                if (formsProfile.insuranceProvider.insurancePlan.equalsIgnoreCase(((RegIncluded) plan.getAdapter().getItem(i)).getAttributes().getName())) {
-                    plan.setSelection(i);
-                    break;
-                }
-            }
-        }
+// Do not pre-populate the insurance provider plan (for now)
+//        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.insurancePlan != null && plan.getAdapter() != null) {
+//            for (int i = 0; i < plan.getAdapter().getCount(); i++) {
+//                if (formsProfile.insuranceProvider.insurancePlan.equalsIgnoreCase(((RegIncluded) plan.getAdapter().getItem(i)).getAttributes().getName())) {
+//                    plan.setSelection(i);
+//                    break;
+//                }
+//            }
+//        }
 
         if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.memberNumber != null) {
             memberId.setText(formsProfile.insuranceProvider.memberNumber);
@@ -643,7 +644,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         if (plan.getVisibility() == View.VISIBLE && plan.getSelectedItemPosition() != 0) {
             formsProfile.insuranceProvider.insurancePlan = ((RegIncluded) plan.getSelectedItem()).getAttributes().getName();
             formsProfile.insuranceProvider.insurancePlanPermaLink = ((RegIncluded) plan.getSelectedItem()).getId();
-            formsProfile.insuranceProvider.providerName = ((RegIncluded) plan.getSelectedItem()).getAttributes().getCompany();
+            //formsProfile.insuranceProvider.providerName = ((RegIncluded) plan.getSelectedItem()).getAttributes().getCompany();
         }
 
         if (memberId.getVisibility() == View.VISIBLE && memberId.getText() != null) {
