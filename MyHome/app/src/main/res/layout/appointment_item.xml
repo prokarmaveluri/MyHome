@@ -50,8 +50,8 @@
         style="@style/tradeGothicLTStd_Dynamic16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/pin_icon"
-        android:layout_below="@+id/facility"
+        android:layout_toLeftOf="@+id/pin_icon"
+        android:layout_below="@id/facility"
         android:layout_marginLeft="12dp"
         android:maxWidth="285dp"
         android:text="Dr. Steven M. Howard, MD shkjfahkjgkjahgkjahkjghkashgkak" />

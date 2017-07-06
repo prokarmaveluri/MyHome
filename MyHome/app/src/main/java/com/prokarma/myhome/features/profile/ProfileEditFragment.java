@@ -276,7 +276,7 @@ public class ProfileEditFragment extends BaseFragment {
             gender.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (profile.dateOfBirth != null) {
+        if (profile.dateOfBirth != null && !profile.dateOfBirth.trim().isEmpty()) {
             dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
         }
 
@@ -397,7 +397,7 @@ public class ProfileEditFragment extends BaseFragment {
             profile.gender = gender.getSelectedItem().toString().trim();
         }
 
-        if (dateOfBirth.getText() != null) {
+        if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().trim().isEmpty()) {
             profile.dateOfBirth = DateUtil.convertReadableToUTC(dateOfBirth.getText().toString().trim());
         }
 
