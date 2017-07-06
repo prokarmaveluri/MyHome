@@ -644,7 +644,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         if (plan.getVisibility() == View.VISIBLE && plan.getSelectedItemPosition() != 0) {
             formsProfile.insuranceProvider.insurancePlan = ((RegIncluded) plan.getSelectedItem()).getAttributes().getName();
             formsProfile.insuranceProvider.insurancePlanPermaLink = ((RegIncluded) plan.getSelectedItem()).getId();
-            formsProfile.insuranceProvider.providerName = ((RegIncluded) plan.getSelectedItem()).getAttributes().getCompany();
+            //formsProfile.insuranceProvider.providerName = ((RegIncluded) plan.getSelectedItem()).getAttributes().getCompany();
         }
 
         if (memberId.getVisibility() == View.VISIBLE && memberId.getText() != null) {
