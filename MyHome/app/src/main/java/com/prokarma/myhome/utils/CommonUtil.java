@@ -560,4 +560,13 @@ public class CommonUtil {
         } catch (NullPointerException | IllegalStateException ex) {
         }
     }
+
+    /**
+     * This method check whether strong is non null and null empty.
+     * @param string, sting value to check.
+     * @return @true if string is non null and non empty otherwise @false.
+     */
+    public static boolean isEmptyString(String string){
+        return null == string || string.isEmpty();
+    }
 }

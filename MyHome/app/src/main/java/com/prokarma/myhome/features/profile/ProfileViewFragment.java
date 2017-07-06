@@ -189,25 +189,25 @@ public class ProfileViewFragment extends BaseFragment {
     }
 
     private void updateProfileViews(Profile profile) {
-        if (profile.firstName != null || profile.lastName != null) {
+        if (!CommonUtil.isEmptyString(profile.firstName) || !CommonUtil.isEmptyString(profile.lastName)) {
             name.setText(CommonUtil.constructName(profile.firstName, profile.lastName));
         } else {
-            name.setVisibility(View.GONE);
+            name.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.name)));
         }
 
-        if (profile.preferredName != null) {
+        if (!CommonUtil.isEmptyString(profile.preferredName)) {
             preferredName.setText(profile.preferredName);
         } else {
-            preferredName.setVisibility(View.GONE);
+            preferredName.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.preferred_name_profile)));
         }
 
-        if (profile.gender != null && !profile.gender.equalsIgnoreCase(getString(R.string.unknown))) {
+        if (!CommonUtil.isEmptyString(profile.gender) && !profile.gender.equalsIgnoreCase(getString(R.string.unknown))) {
             gender.setText(CommonUtil.capitalize(profile.gender));
         } else {
-            gender.setVisibility(View.GONE);
+            gender.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.gender_profile)));
         }
 
-        if (profile.dateOfBirth != null) {
+        if (!CommonUtil.isEmptyString(profile.dateOfBirth)) {
             Calendar myCalendar = Calendar.getInstance();
             try {
                 myCalendar.setTime(DateUtil.getDateNoTimeZone(profile.dateOfBirth));
@@ -217,7 +217,7 @@ public class ProfileViewFragment extends BaseFragment {
                 dateOfBirth.setVisibility(View.GONE);
             }
         } else {
-            dateOfBirth.setVisibility(View.GONE);
+            dateOfBirth.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.date_of_birth_profile)));
         }
 
         if (profile.address != null &&
@@ -227,34 +227,31 @@ public class ProfileViewFragment extends BaseFragment {
             address.setVisibility(View.GONE);
         }
 
-        if (profile.phoneNumber != null) {
+        if (!CommonUtil.isEmptyString(profile.phoneNumber)) {
             phone.setText(CommonUtil.constructPhoneNumber(profile.phoneNumber));
         } else {
-            phone.setVisibility(View.GONE);
+            phone.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.phone_number_profile)));
         }
 
-        if (profile.email != null) {
+        if (!CommonUtil.isEmptyString(profile.email)) {
             email.setText(profile.email);
         } else {
-            email.setVisibility(View.GONE);
+            email.setText(String.format(getString(R.string.not_available_postfix),getString(R.string.email_profile)));
         }
 
-        if (profile.insuranceProvider != null && profile.insuranceProvider.providerName != null) {
+        if (profile.insuranceProvider != null && !CommonUtil.isEmptyString(profile.insuranceProvider.providerName)) {
             insuranceProvider.setText(profile.insuranceProvider.providerName);
-        } else {
-            insuranceProvider.setVisibility(View.INVISIBLE);
+            insuranceProvider.setVisibility(View.VISIBLE);
         }
 
-        if (profile.insuranceProvider != null && profile.insuranceProvider.memberNumber != null) {
+        if (profile.insuranceProvider != null && !CommonUtil.isEmptyString(profile.insuranceProvider.memberNumber)) {
             memberId.setText(profile.insuranceProvider.memberNumber);
-        } else {
-            memberId.setVisibility(View.INVISIBLE);
+            memberId.setVisibility(View.VISIBLE);
         }
 
-        if (profile.insuranceProvider != null && profile.insuranceProvider.groupNumber != null) {
+        if (profile.insuranceProvider != null && !CommonUtil.isEmptyString(profile.insuranceProvider.groupNumber)) {
             group.setText(profile.insuranceProvider.groupNumber);
-        } else {
-            group.setVisibility(View.INVISIBLE);
+            group.setVisibility(View.VISIBLE);
         }
     }
 }

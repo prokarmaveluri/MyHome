@@ -235,4 +235,13 @@
     <string name="email_needs_to_meet_criteria">Email needs to meet criteria</string>
     <string name="last_name_needs_to_meet_criteria">Last Name needs to meet criteria</string>
     <string name="first_name_needs_to_meet_criteria">First Name needs to meet criteria</string>
+
+    <!--Profile View-->
+    <string name="not_available_postfix">%s not available.</string>
+    <string name="name">Name</string>
+    <string name="preferred_name_profile">Preffered Name</string>
+    <string name="gender_profile">Gender</string>
+    <string name="date_of_birth_profile">Date of birth</string>
+    <string name="phone_number_profile">Phone number</string>
+    <string name="email_profile">Email</string>
 </resources>
