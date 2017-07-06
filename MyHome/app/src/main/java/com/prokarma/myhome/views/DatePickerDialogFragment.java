@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.DatePicker;
 
 import com.prokarma.myhome.R;
@@ -24,7 +25,8 @@ public class DatePickerDialogFragment extends DialogFragment implements View.OnC
     private DatePicker datePicker;
 
 
-    public DatePickerDialogFragment() {}
+    public DatePickerDialogFragment() {
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -35,6 +37,7 @@ public class DatePickerDialogFragment extends DialogFragment implements View.OnC
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
         dialog.setContentView(R.layout.date_picker_dialog);
         datePicker = (DatePicker) dialog.findViewById(R.id.date_picker);
         datePicker.setMaxDate(System.currentTimeMillis());
@@ -44,18 +47,19 @@ public class DatePickerDialogFragment extends DialogFragment implements View.OnC
 
     /**
      * Datesetlistener to send back the selected date in @{@link DatePicker}
+     *
      * @param dateSetListener, instance of @{@link DatePickerDialog.OnDateSetListener}
      */
-    public void addDateSetListener(DatePickerDialog.OnDateSetListener dateSetListener){
+    public void addDateSetListener(DatePickerDialog.OnDateSetListener dateSetListener) {
         this.dateSetListener = dateSetListener;
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btn_done){
+        if (v.getId() == R.id.btn_done) {
             dismiss();
-            if(datePicker != null){
-                dateSetListener.onDateSet(datePicker,datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+            if (datePicker != null) {
+                dateSetListener.onDateSet(datePicker, datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
             }
         }
     }
