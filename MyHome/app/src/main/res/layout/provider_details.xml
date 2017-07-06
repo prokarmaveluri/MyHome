@@ -83,10 +83,10 @@
             map:mapType="normal"
             map:uiCompass="false"
             map:uiRotateGestures="false"
-            map:uiScrollGestures="false"
+            map:uiScrollGestures="true"
             map:uiTiltGestures="false"
-            map:uiZoomControls="false"
-            map:uiZoomGestures="false" />
+            map:uiZoomControls="true"
+            map:uiZoomGestures="true" />
 
         <TextView
             android:id="@+id/facility_address"
