@@ -145,9 +145,11 @@
                         style="@style/tradeGothicLTStd_Dynamic18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
                         android:layout_below="@id/txt_db_appoint_item_date"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="8dp"
+                        android:layout_toLeftOf="@+id/img_db_appoint_item_pin_icon"
                         android:maxWidth="285dp"
                         android:text="Sequoia Hospital"
                         android:textStyle="bold" />
@@ -159,8 +161,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_below="@id/txt_db_appoint_item_facility"
-                        android:layout_toLeftOf="@+id/img_db_appoint_item_pin_icon"
                         android:layout_marginLeft="12dp"
+                        android:layout_toLeftOf="@+id/img_db_appoint_item_pin_icon"
                         android:maxWidth="285dp"
                         android:text="Dr. Steven M. Howard, MD" />
 
@@ -281,8 +283,8 @@
 
 
                 <TextView
-                    style="@style/tradeGothicLTStd_Dynamic22"
                     android:id="@+id/txt_db_didyouknow_first"
+                    style="@style/tradeGothicLTStd_Dynamic22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="11dp"
@@ -308,8 +310,8 @@
                     android:scaleType="fitCenter" />
 
                 <TextView
-                    style="@style/tradeGothicLTStd_Dynamic22"
                     android:id="@+id/txt_db_didyouknow_second"
+                    style="@style/tradeGothicLTStd_Dynamic22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="11dp"
