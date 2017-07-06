@@ -52,9 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/pin_icon"
         android:layout_below="@id/facility"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="12dp"
         android:maxWidth="285dp"
-        android:text="Dr. Steven M. Howard, MD shkjfahkjgkjahgkjahkjghkashgkak" />
+        android:text="Dr. Steven M. Howard, MD" />
 
     <ImageView
         android:id="@+id/pin_icon"

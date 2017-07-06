@@ -404,7 +404,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             ProviderPlanSpinnerAdapter spinnerAdapter = new ProviderPlanSpinnerAdapter(context, R.layout.provider_plan_spinner_item, insurances);
             //spinnerAdapter.setDropDownViewResource(R.layout.provider_plan_spinner_item);
 
-            if(plan != null){
+            if (plan != null) {
                 plan.setAdapter(spinnerAdapter);
             }
 
@@ -717,30 +717,31 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         } else if (page == 1) {
             //Personal Page
+            int scrollPosition = -1;
 
             if (caregiverLayout.getVisibility() == View.VISIBLE && caregiverName.getText().toString().isEmpty()) {
                 caregiverLayout.setError(context.getString(R.string.caregiver_required));
-                scrollView.smoothScrollTo(0, (int)caregiverLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) caregiverLayout.getY();
                 caregiverLayout.setFocusable(true);
-                return false;
             } else {
                 caregiverLayout.setError(null);
             }
 
             if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().isEmpty()) {
                 firstNameLayout.setError(context.getString(R.string.first_name_required));
-                scrollView.smoothScrollTo(0, (int)firstNameLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) firstNameLayout.getY();
                 firstNameLayout.setFocusable(true);
-                return false;
             } else {
                 firstNameLayout.setError(null);
             }
 
             if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().isEmpty()) {
                 lastNameLayout.setError(context.getString(R.string.last_name_required));
-                scrollView.smoothScrollTo(0, (int)lastNameLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) lastNameLayout.getY();
                 lastNameLayout.setFocusable(true);
-                return false;
             } else {
                 lastNameLayout.setError(null);
             }
@@ -748,9 +749,9 @@ public class BookingDialogAdapter extends PagerAdapter {
             if (gender.getVisibility() == View.VISIBLE && gender.getSelectedItemPosition() == 0) {
                 genderLabel.setText(context.getString(R.string.gender_required));
                 genderLabel.setTextColor(ContextCompat.getColor(context, R.color.red));
-                scrollView.smoothScrollTo(0, (int)genderLabel.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) genderLabel.getY();
                 genderLabel.setFocusable(true);
-                return false;
             } else {
                 genderLabel.setText(context.getString(R.string.gender));
                 genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
@@ -758,93 +759,105 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             if (dateOfBirthLayout.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
                 dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_required));
-                scrollView.smoothScrollTo(0, (int)dateOfBirthLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);
-                return false;
             } else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && autoPopulateFromProfile && !DateUtil.isOlderThan18(DateUtil.convertReadableToUTC(dateOfBirth.getText().toString()))) {
                 dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_too_young));
-                scrollView.smoothScrollTo(0, (int)dateOfBirthLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);
-                return false;
             } else {
                 dateOfBirthLayout.setError(null);
             }
 
+            if (addressLayout.getVisibility() == View.VISIBLE && address.getText().toString().isEmpty()) {
+                addressLayout.setError(context.getString(R.string.date_of_birth_required));
+                if (scrollPosition == -1)
+                    scrollPosition = (int) addressLayout.getY();
+                addressLayout.setFocusable(true);
+            } else {
+                addressLayout.setError(null);
+            }
+
             if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {
                 weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_required));
-                scrollView.smoothScrollTo(0, (int)weeksPregnantLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) weeksPregnantLayout.getY();
                 weeksPregnantLayout.setFocusable(true);
-                return false;
             } else if (weeksPregnantLayout.getVisibility() == View.VISIBLE && !weeksPregnant.getText().toString().isEmpty() && Integer.parseInt(weeksPregnant.getText().toString()) > 45) {
                 weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_too_large));
-                scrollView.smoothScrollTo(0, (int)weeksPregnantLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) weeksPregnantLayout.getY();
                 weeksPregnantLayout.setFocusable(true);
-                return false;
             } else {
                 weeksPregnantLayout.setError(null);
             }
 
             if (zipLayout.getVisibility() == View.VISIBLE && zip.getText().toString().isEmpty()) {
                 zipLayout.setError(context.getString(R.string.zip_required));
-                scrollView.smoothScrollTo(0, (int)zipPhoneLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) zipPhoneLayout.getY();
                 zipLayout.setFocusable(true);
-                return false;
             } else if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {
                 zipLayout.setError(context.getString(R.string.zip_invalid));
-                scrollView.smoothScrollTo(0, (int)zipPhoneLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) zipPhoneLayout.getY();
                 zipLayout.setFocusable(true);
-                return false;
             } else {
                 zipLayout.setError(null);
             }
 
             if (phoneLayout.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()) {
                 phoneLayout.setError(context.getString(R.string.phone_number_required));
-                scrollView.smoothScrollTo(0, (int)zipPhoneLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) zipPhoneLayout.getY();
                 phoneLayout.setFocusable(true);
-                return false;
             } else if (phoneLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidMobile(phone.getText().toString())) {
                 phoneLayout.setError(context.getString(R.string.phone_number_invalid));
-                scrollView.smoothScrollTo(0, (int)zipPhoneLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) zipPhoneLayout.getY();
                 phoneLayout.setFocusable(true);
-                return false;
             } else {
                 phoneLayout.setError(null);
             }
 
             if (emailLayout.getVisibility() == View.VISIBLE && email.getText().toString().isEmpty()) {
                 emailLayout.setError(context.getString(R.string.email_required));
-                scrollView.smoothScrollTo(0, (int)emailLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) emailLayout.getY();
                 emailLayout.setFocusable(true);
-                return false;
             } else if (emailLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidEmail(email.getText().toString())) {
                 emailLayout.setError(context.getString(R.string.email_invalid));
-                scrollView.smoothScrollTo(0, (int)emailLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) emailLayout.getY();
                 emailLayout.setFocusable(true);
-                return false;
             } else {
                 emailLayout.setError(null);
             }
 
             if (translatorLanguageLayout.getVisibility() == View.VISIBLE && translatorLanguage.getText().toString().isEmpty()) {
                 translatorLanguageLayout.setError(context.getString(R.string.translator_language_required));
-                scrollView.smoothScrollTo(0, (int)translatorLanguageLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) translatorLanguageLayout.getY();
                 translatorLanguageLayout.setFocusable(true);
-                return false;
             } else {
                 translatorLanguageLayout.setError(null);
             }
 
             if (reasonForVisitLayout.getVisibility() == View.VISIBLE && reasonForVisit.getText().toString().isEmpty()) {
                 reasonForVisitLayout.setError(context.getString(R.string.reason_for_visit_required));
-                scrollView.smoothScrollTo(0, (int)reasonForVisitLayout.getY());
+                if (scrollPosition == -1)
+                    scrollPosition = (int) reasonForVisitLayout.getY();
                 reasonForVisitLayout.setFocusable(true);
-                return false;
             } else {
                 reasonForVisitLayout.setError(null);
             }
+            if (scrollPosition != -1) {
+                scrollView.smoothScrollTo(0, scrollPosition);
+                return false;
+            }
         }
-
         return isValid;
     }
 }
