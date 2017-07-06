@@ -244,4 +244,8 @@
     <string name="date_of_birth_profile">Date of birth</string>
     <string name="phone_number_profile">Phone number</string>
     <string name="email_profile">Email</string>
+
+    <!--Date Picker Dialog-->
+    <string name="done_date_picker">Done</string>
+
 </resources>
