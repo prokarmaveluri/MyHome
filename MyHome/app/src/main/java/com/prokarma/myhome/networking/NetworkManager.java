@@ -20,6 +20,7 @@ import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.tos.Tos;
+import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.RESTConstants;
 
@@ -311,6 +312,10 @@ public class NetworkManager {
 
     public Call<ValidateEmailResponse> findEmail(String email) {
         return service.findEmail(email);
+    }
+
+    public Call<UpdateResponse> versionCheck() {
+        return service.versionCheck();
     }
 
     // Network Util

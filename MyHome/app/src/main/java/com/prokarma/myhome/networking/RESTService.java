@@ -19,6 +19,7 @@ import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.tos.Tos;
+import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.utils.RESTConstants;
 
 import java.util.List;
@@ -113,8 +114,11 @@ public interface RESTService {
     // include = insurance,schedule-properties
     @GET(RESTConstants.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION)
     Call<RegValidationResponse> getValidationRules(@Path("scheduleID") String scheduleId,
-                                              @Query("include") String include);
+                                                   @Query("include") String include);
 
     @GET(RESTConstants.CIAM_BASE_URL + "api/users")
     Call<ValidateEmailResponse> findEmail(@Query("email") String email);
+
+    @GET(RESTConstants.VERSIONING_DEV_URL + "api/versioning/dependencies")
+    Call<UpdateResponse> versionCheck();
 }
