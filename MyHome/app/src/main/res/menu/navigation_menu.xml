@@ -4,25 +4,25 @@
 
     <item
         android:id="@+id/home"
-        android:icon="@drawable/menu_home"
+        android:icon="@drawable/home"
         android:title="@string/home"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/fad"
-        android:icon="@drawable/menu_findcare"
+        android:icon="@drawable/find_care"
         android:title="@string/find_care"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/appointments"
-        android:icon="@drawable/menu_appointments"
+        android:icon="@drawable/appointments"
         android:title="@string/appointments"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/profile"
-        android:icon="@drawable/menu_profile"
+        android:icon="@drawable/profile"
         android:title="@string/profile"
         app:showAsAction="ifRoom" />
 </menu>
