@@ -73,7 +73,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
         bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
         bookingViewPager.setSwipeAllowed(false);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getContext(), this, isBookingForMe, ProfileManager.getProfile()));
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, isBookingForMe, ProfileManager.getProfile()));
 
         toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.find_care));

@@ -1,5 +1,6 @@
 package com.prokarma.myhome.features.fad.details.booking;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.IdRes;
@@ -31,6 +32,7 @@ import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.ValidationUtil;
+import com.prokarma.myhome.views.DatePickerDialogFragment;
 
 import java.util.Calendar;
 import java.util.List;
@@ -257,10 +259,9 @@ public class BookingDialogAdapter extends PagerAdapter {
             public void onClick(View v) {
                 CommonUtil.hideSoftKeyboard(context, dateOfBirth);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(context, dateSetListener,
-                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment();
+                datePickerDialogFragment.addDateSetListener(dateSetListener);
+                datePickerDialogFragment.show(((Activity)context).getFragmentManager(), DatePickerDialogFragment.DATE_PICKER_DIALOG_TAG);
             }
         });
 

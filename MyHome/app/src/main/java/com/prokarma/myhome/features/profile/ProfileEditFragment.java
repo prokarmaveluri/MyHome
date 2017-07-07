@@ -26,6 +26,7 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.views.DatePickerDialogFragment;
 
 import java.util.Calendar;
 
@@ -119,10 +120,9 @@ public class ProfileEditFragment extends BaseFragment {
             public void onClick(View v) {
                 CommonUtil.hideSoftKeyboard(getActivity());
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), dateSetListener,
-                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment();
+                datePickerDialogFragment.addDateSetListener(dateSetListener);
+                datePickerDialogFragment.show(getActivity().getFragmentManager(),DatePickerDialogFragment.DATE_PICKER_DIALOG_TAG);
             }
         });
 
