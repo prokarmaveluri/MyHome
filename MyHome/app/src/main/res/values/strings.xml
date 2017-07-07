@@ -21,7 +21,7 @@
     <string name="valid_password_match">Password not matching</string>
     <string name="something_went_wrong">Something went wrong, please try again!</string>
     <string name="sign_in_failure_msg">Sign in failed</string>
-    <string name="forgot_password_success_msg">Please check your mail and reset password!</string>
+    <string name="forgot_password_success_msg">Password reset link has been sent to your email. Please click on it to reset password</string>
     <string name="enrollment_success">You are successfully registered.</string>
     <string name="no_network_msg">Please check your network, try again!</string>
 

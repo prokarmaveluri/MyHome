@@ -1,11 +1,13 @@
 package com.prokarma.myhome.features.login.forgot.password;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -99,9 +101,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     public void onResponse(Call<ForgotPasswordResponse> call,
                                            Response<ForgotPasswordResponse> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),
-                                    getString(R.string.forgot_password_success_msg), Toast.LENGTH_LONG).show();
-                            finish();
+                            buildForgotPasswordAlert(getString(R.string.forgot_password_success_msg));
                         } else {
                             Toast.makeText(getApplicationContext(),
                                     getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
@@ -155,5 +155,20 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             binding.forgotPasswordButton.setBackgroundResource(R.drawable.button_boarder_grey);
             binding.forgotPasswordButton.setTextColor(Color.GRAY);
         }
+    }
+
+
+    private void buildForgotPasswordAlert(String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setTitle(R.string.action_reset_password)
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        finish();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }
