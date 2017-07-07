@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/home"
-        android:icon="@mipmap/home_blue"
+        android:icon="@drawable/home"
         android:title="@string/home"
         app:showAsAction="always" />
 
