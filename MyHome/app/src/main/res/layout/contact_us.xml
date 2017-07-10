@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:text="hello@dignityhealth.com"
-                    android:textColorLink="@color/primary"
+                    android:textColor="@color/primary"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
@@ -94,10 +94,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:autoLink="phone"
-                    android:text="123-456-7890"
+                    android:text="18442748497"
                     android:linksClickable="true"
-                    android:textColorLink="@color/primary"
+                    android:textColor="@color/primary"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />

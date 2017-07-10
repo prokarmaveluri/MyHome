@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
-import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 
 import timber.log.Timber;
@@ -49,8 +49,7 @@ public class ContactUsFragment extends BaseFragment {
             }
         });
 
-
-
+        phoneView.setText(CommonUtil.constructPhoneNumber(getString(R.string.help_contact)));
         return contactUsView;
     }
 
@@ -87,12 +86,13 @@ public class ContactUsFragment extends BaseFragment {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
         }
     }
+
     /**
      * Create a support phone dial
      */
     private void dailPhone() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:"+"123-456-7890"));
+        intent.setData(Uri.parse("tel:" + CommonUtil.constructPhoneNumber(getString(R.string.help_contact))));
         getActivity().startActivity(intent);
     }
 }

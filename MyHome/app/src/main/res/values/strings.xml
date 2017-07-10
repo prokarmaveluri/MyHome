@@ -42,7 +42,7 @@
     <string name="details">Details</string>
     <string name="share_appointment">Share Appointment</string>
     <string name="terms_of_service">Terms of Service</string>
-    <string name="contact_support">Contact Support</string>
+    <string name="contact_support">Help</string>
     <string name="developer_settings">Developer Settings</string>
     <string name="no_providers">No Providers found\n Please change your search criteria.</string>
     <string name="no_education_found">No Education Found</string>
@@ -247,5 +247,6 @@
     <string name="phone_number_profile">Phone number</string>
     <string name="email_profile">Email</string>
     <string name="appointment_with">Appointment with</string>
+    <string name="help_contact">8442748497</string>
 
 </resources>
