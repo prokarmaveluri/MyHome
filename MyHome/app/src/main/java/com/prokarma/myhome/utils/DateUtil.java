@@ -204,7 +204,6 @@ public class DateUtil {
     public static String getDateWords2FromUTC(String utcDate) {
         try {
             Date date = getDateNoTimeZone(utcDate);
-
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             int day = cal.get(Calendar.DATE);
@@ -221,6 +220,44 @@ public class DateUtil {
                 }
             } else {
                 return SIMPLE_DATE_WORDS_4th_FORMAT.format(date);
+            }
+        } catch (ParseException e) {
+            Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+
+        return utcDate;
+    }
+
+    /**
+     * Gets a string of the date.
+     * Formatted as such: "January 28th, 2017"
+     * Inspired: https://stackoverflow.com/a/33540720/2128921
+     *
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
+     * @return a string representation of the date similar to this format "January 28th, 2017"
+     */
+    public static String getDayOfWeek(String utcDate) {
+        try {
+            Date date = getDateNoTimeZone(utcDate);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int day = cal.get(Calendar.DAY_OF_WEEK);
+            switch (day){
+                case Calendar.SUNDAY:
+                    return "Sunday";
+                case Calendar.MONDAY:
+                    return "Monday";
+                case Calendar.TUESDAY:
+                    return "Tuesday";
+                case Calendar.WEDNESDAY:
+                    return "Wednesday";
+                case Calendar.THURSDAY:
+                    return "Thursday";
+                case Calendar.FRIDAY:
+                    return "Friday";
+                case Calendar.SATURDAY:
+                    return "Saturday";
             }
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);

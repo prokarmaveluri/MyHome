@@ -112,7 +112,7 @@
 
         <TextView
             android:id="@+id/phone"
-            style="style/tradeGothicLTStd_Dynamic20"
+            style="@style/tradeGothicLTStd_Dynamic20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/phone_icon"
@@ -120,7 +120,6 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
             android:gravity="center"
-            android:text="1-844-274-8497"
             android:textColor="@color/primary"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />

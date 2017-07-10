@@ -192,12 +192,17 @@ public class CommonUtil {
      */
     @SuppressWarnings("deprecation")
     public static String constructPhoneNumber(@NonNull String number) {
+        String phoneNumber;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+            phoneNumber = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
         } else {
             //Deprecated method
-            return PhoneNumberUtils.formatNumber(number);
+            phoneNumber = PhoneNumberUtils.formatNumber(number);
         }
+        phoneNumber = phoneNumber.replace("(", "");
+        phoneNumber = phoneNumber.replace(")", "-");
+        phoneNumber = phoneNumber.replace(" ", "");
+        return phoneNumber.trim();
     }
 
     /**
@@ -347,7 +352,9 @@ public class CommonUtil {
         }
 
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-            message = message + DateUtil.getDateWords2FromUTC(appointment.appointmentStart) + " " + DateUtil.getTime(appointment.appointmentStart);
+            message = message + DateUtil.getDayOfWeek(appointment.appointmentStart) +", " +
+                    DateUtil.getDateWords2FromUTC(appointment.appointmentStart) + " " +
+                    DateUtil.getTime(appointment.appointmentStart);
         }
 
         if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
@@ -372,7 +379,7 @@ public class CommonUtil {
         }
 
         if (appointment.visitReason != null && !appointment.visitReason.isEmpty()) {
-            message = message + "\n" + appointment.visitReason;
+            message = message + "\n\nReason for visit: " + appointment.visitReason;
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
