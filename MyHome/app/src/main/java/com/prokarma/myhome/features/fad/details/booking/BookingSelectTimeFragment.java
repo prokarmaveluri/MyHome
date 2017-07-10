@@ -193,7 +193,7 @@ public class BookingSelectTimeFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         try {
-                            bookingDate = DateUtil.getDateTimeZone(nextAppointment.Time);
+                            bookingDate = DateUtil.getDateNoTimeZone(nextAppointment.Time);
                             setMonthHeader(bookingDate);
                             setupView();
 
@@ -273,7 +273,7 @@ public class BookingSelectTimeFragment extends Fragment {
         Date appointmentDate = new Date();
         for (Appointment appointment : allAppointments) {
             try {
-                appointmentDate = DateUtil.getDateTimeZone(appointment.Time);
+                appointmentDate = DateUtil.getDateNoTimeZone(appointment.Time);
             } catch (ParseException e) {
                 Timber.e(e);
                 e.printStackTrace();
@@ -294,7 +294,7 @@ public class BookingSelectTimeFragment extends Fragment {
         Date appointmentDate = new Date();
         for (Appointment appointment : allAppointments) {
             try {
-                appointmentDate = DateUtil.getDateTimeZone(appointment.Time);
+                appointmentDate = DateUtil.getDateNoTimeZone(appointment.Time);
             } catch (ParseException e) {
                 Timber.e(e);
                 e.printStackTrace();

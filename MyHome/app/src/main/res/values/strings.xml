@@ -246,5 +246,6 @@
     <string name="date_of_birth_profile">Date of birth</string>
     <string name="phone_number_profile">Phone number</string>
     <string name="email_profile">Email</string>
+    <string name="appointment_with">Appointment with</string>
 
 </resources>
