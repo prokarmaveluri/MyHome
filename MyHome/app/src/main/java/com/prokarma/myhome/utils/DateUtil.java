@@ -42,6 +42,7 @@ public class DateUtil {
     public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC_TIMEZONE = new SimpleDateFormat(DATE_FORMAT_UTC_TIMEZONE, Locale.getDefault());
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC_NO_TIMEZONE = new SimpleDateFormat(DATE_FORMAT_UTC_TIMEZONE, Locale.getDefault());
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC = new SimpleDateFormat(DATE_FORMAT_UTC, Locale.getDefault());
 
     /**
@@ -54,6 +55,17 @@ public class DateUtil {
         SimpleDateFormat sdf = SIMPLE_DATE_FORMAT_UTC_TIMEZONE;
         sdf.setTimeZone(TimeZone.getTimeZone("GMT" + getTimeZone(utcDate)));
 
+        return sdf.parse(utcDate);
+    }
+
+    /**
+     * Gets the date given a UTC-formatted string
+     *
+     * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
+     * @return Date object representing the UTC date
+     */
+    public static Date getDateNoTimeZone(String utcDate) throws ParseException {
+        SimpleDateFormat sdf = SIMPLE_DATE_FORMAT_UTC_NO_TIMEZONE;
         return sdf.parse(utcDate);
     }
 
@@ -89,7 +101,7 @@ public class DateUtil {
      */
     public static String convertUTCtoHyphen(String utcDate) {
         try {
-            return SIMPLE_DATE_HYPHEN_FORMAT.format(getDateTimeZone(utcDate));
+            return SIMPLE_DATE_HYPHEN_FORMAT.format(getDateNoTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -106,7 +118,7 @@ public class DateUtil {
      */
     public static String convertUTCtoReadable(String utcDate) {
         try {
-            return SIMPLE_DATE_FORMAT.format(getDateTimeZone(utcDate));
+            return SIMPLE_DATE_FORMAT.format(getDateNoTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -172,7 +184,7 @@ public class DateUtil {
      */
     public static String getDateWordsFromUTC(String utcDate) {
         try {
-            return SIMPLE_DATE_SHORT_WORDS_FORMAT.format(getDateTimeZone(utcDate));
+            return SIMPLE_DATE_SHORT_WORDS_FORMAT.format(getDateNoTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -191,7 +203,7 @@ public class DateUtil {
      */
     public static String getDateWords2FromUTC(String utcDate) {
         try {
-            Date date = getDateTimeZone(utcDate);
+            Date date = getDateNoTimeZone(utcDate);
 
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
@@ -226,7 +238,7 @@ public class DateUtil {
      */
     public static String getTime(String utcDate) {
         try {
-            return SIMPLE_TIME_FORMAT.format(getDateTimeZone(utcDate));
+            return SIMPLE_TIME_FORMAT.format(getDateNoTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -366,7 +378,7 @@ public class DateUtil {
     @Nullable
     public static Date findFirstAppointmentDate(ArrayList<Appointment> appointments) {
         try {
-            return DateUtil.getDateTimeZone(appointments.get(0).Time);
+            return DateUtil.getDateNoTimeZone(appointments.get(0).Time);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -384,7 +396,7 @@ public class DateUtil {
     @Nullable
     public static Date findLastAppointmentDate(ArrayList<Appointment> appointments) {
         try {
-            return DateUtil.getDateTimeZone(appointments.get(appointments.size() - 1).Time);
+            return DateUtil.getDateNoTimeZone(appointments.get(appointments.size() - 1).Time);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -417,7 +429,7 @@ public class DateUtil {
 
         Date userBirthday = null;
         try {
-            userBirthday = getDateTimeZone(utcDate);
+            userBirthday = getDateNoTimeZone(utcDate);
             return userBirthday.before(youngestEligibleDate);
         } catch (ParseException e) {
             e.printStackTrace();
