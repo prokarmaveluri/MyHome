@@ -347,19 +347,19 @@ public class CommonUtil {
         }
 
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-            message = message + DateUtil.getDateWordsFromUTC(appointment.appointmentStart) + ".\n" + DateUtil.getTime(appointment.appointmentStart);
+            message = message + DateUtil.getDateWords2FromUTC(appointment.appointmentStart) + " " + DateUtil.getTime(appointment.appointmentStart);
         }
 
         if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
-            message = message + ".\n" + appointment.doctorName;
+            message = message + "\n" + appointment.doctorName;
         }
 
         if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
-            message = message + ".\n" + appointment.facilityName;
+            message = message + "\n" + appointment.facilityName;
         }
 
         if (appointment.facilityAddress != null) {
-            message = message + ".\n" + CommonUtil.constructAddress(
+            message = message + "\n" + CommonUtil.constructAddress(
                     appointment.facilityAddress.line1,
                     appointment.facilityAddress.line2,
                     appointment.facilityAddress.city,
@@ -367,12 +367,12 @@ public class CommonUtil {
                     appointment.facilityAddress.zipCode);
         }
 
-        if (appointment.visitReason != null && !appointment.visitReason.isEmpty()) {
-            message = message + ".\n" + appointment.visitReason;
+        if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
+            message = message + "\n" + constructPhoneNumber(appointment.facilityPhoneNumber);
         }
 
-        if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
-            message = message + ".\n" + constructPhoneNumber(appointment.facilityPhoneNumber);
+        if (appointment.visitReason != null && !appointment.visitReason.isEmpty()) {
+            message = message + "\n" + appointment.visitReason;
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -403,19 +403,19 @@ public class CommonUtil {
         String message = "";
 
         if (startTime != null && !startTime.isEmpty()) {
-            message = message + DateUtil.getDateWordsFromUTC(startTime) + ".\n" + DateUtil.getTime(startTime);
+            message = message + DateUtil.getDateWords2FromUTC(startTime) + " " + DateUtil.getTime(startTime);
         }
 
         if (doctorName != null && !doctorName.isEmpty()) {
-            message = message + ".\n" + doctorName;
+            message = message + "\n" + doctorName;
         }
 
         if (facilityName != null && !facilityName.isEmpty()) {
-            message = message + ".\n" + facilityName;
+            message = message + "\n" + facilityName;
         }
 
         if (facilityAddress != null) {
-            message = message + ".\n" + CommonUtil.constructAddress(
+            message = message + "\n" + CommonUtil.constructAddress(
                     facilityAddress.line1,
                     facilityAddress.line2,
                     facilityAddress.city,
@@ -423,12 +423,12 @@ public class CommonUtil {
                     facilityAddress.zipCode);
         }
 
-        if (visitReason != null && !visitReason.isEmpty()) {
-            message = message + ".\n" + visitReason;
+        if (facilityPhoneNumber != null && !facilityPhoneNumber.isEmpty()) {
+            message = message + "\n" + constructPhoneNumber(facilityPhoneNumber);
         }
 
-        if (facilityPhoneNumber != null && !facilityPhoneNumber.isEmpty()) {
-            message = message + ".\n" + constructPhoneNumber(facilityPhoneNumber);
+        if (visitReason != null && !visitReason.isEmpty()) {
+            message = message + "\n" + visitReason;
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
