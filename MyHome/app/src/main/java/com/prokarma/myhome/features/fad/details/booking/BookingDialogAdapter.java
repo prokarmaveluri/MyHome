@@ -3,6 +3,7 @@ package com.prokarma.myhome.features.fad.details.booking;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -34,7 +35,9 @@ import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.ValidationUtil;
 import com.prokarma.myhome.views.DatePickerDialogFragment;
 
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
@@ -260,6 +263,9 @@ public class BookingDialogAdapter extends PagerAdapter {
                 CommonUtil.hideSoftKeyboard(context, dateOfBirth);
 
                 DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("CALENDAR_DATE", myCalendar);
+                datePickerDialogFragment.setArguments(bundle);
                 datePickerDialogFragment.addDateSetListener(dateSetListener);
                 datePickerDialogFragment.show(((Activity)context).getFragmentManager(), DatePickerDialogFragment.DATE_PICKER_DIALOG_TAG);
             }
@@ -370,6 +376,14 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (formsProfile.dateOfBirth != null) {
+            Date date = null;
+            try {
+                date = DateUtil.getDateNoTimeZone(formsProfile.dateOfBirth);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (null != date)
+                myCalendar.setTime(date);
             dateOfBirth.setText(DateUtil.convertUTCtoReadable(formsProfile.dateOfBirth));
         }
 

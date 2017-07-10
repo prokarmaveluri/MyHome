@@ -118,15 +118,15 @@ public class AppointmentsFragment extends BaseFragment {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
                         AppointmentResponse result = response.body();
-                        ArrayList<Appointment> appointments = result.result.appointments;
 
                         try {
+                            ArrayList<Appointment> appointments = result.result.appointments;
                             //Attempt to sort the appointments by startTime
                             Collections.sort(appointments);
                             appointmentsAdapter.setAppointments(appointments);
                             ProfileManager.setAppointments(appointments);
                         } catch (Exception e) {
-                            appointmentsAdapter.setAppointments(appointments);
+                            appointmentsAdapter.setAppointments(null);
                         }
                     } else {
                         Timber.e("Response, but not successful?\n" + response);

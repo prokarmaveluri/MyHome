@@ -28,7 +28,9 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.views.DatePickerDialogFragment;
 
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -119,10 +121,12 @@ public class ProfileEditFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 CommonUtil.hideSoftKeyboard(getActivity());
-
                 DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("CALENDAR_DATE", myCalendar);
+                datePickerDialogFragment.setArguments(bundle);
                 datePickerDialogFragment.addDateSetListener(dateSetListener);
-                datePickerDialogFragment.show(getActivity().getFragmentManager(),DatePickerDialogFragment.DATE_PICKER_DIALOG_TAG);
+                datePickerDialogFragment.show(getActivity().getFragmentManager(), DatePickerDialogFragment.DATE_PICKER_DIALOG_TAG);
             }
         });
 
@@ -277,6 +281,14 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.dateOfBirth != null && !profile.dateOfBirth.trim().isEmpty()) {
+            Date date = null;
+            try {
+                date = DateUtil.getDateNoTimeZone(profile.dateOfBirth);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (null != date)
+                myCalendar.setTime(date);
             dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
         }
 
