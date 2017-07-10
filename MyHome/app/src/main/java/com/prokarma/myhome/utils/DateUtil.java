@@ -65,7 +65,7 @@ public class DateUtil {
      */
     public static Date getDateNoTimeZone(String utcDate) throws ParseException {
         SimpleDateFormat sdf = SIMPLE_DATE_FORMAT_UTC;
-        sdf.setTimeZone(TimeZone.getDefault());
+        sdf.setTimeZone(TimeZone.getDefault()); //We don't need to care about timezone's for date of birth, so leave this as is
 
         return sdf.parse(utcDate);
     }
