@@ -210,7 +210,7 @@ public class ProfileViewFragment extends BaseFragment {
         if (!CommonUtil.isEmptyString(profile.dateOfBirth)) {
             Calendar myCalendar = Calendar.getInstance();
             try {
-                myCalendar.setTime(DateUtil.getDateNoTimeZone(profile.dateOfBirth));
+                myCalendar.setTime(DateUtil.getDateZ(profile.dateOfBirth));
                 dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
             } catch (ParseException e) {
                 e.printStackTrace();

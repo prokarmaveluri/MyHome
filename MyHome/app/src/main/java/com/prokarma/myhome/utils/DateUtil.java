@@ -63,7 +63,7 @@ public class DateUtil {
      * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss'Z'", has a trailing 'Z')
      * @return Date object representing the UTC date
      */
-    public static Date getDateNoTimeZone(String utcDate) throws ParseException {
+    public static Date getDateZ(String utcDate) throws ParseException {
         SimpleDateFormat sdf = SIMPLE_DATE_FORMAT_UTC;
         sdf.setTimeZone(TimeZone.getDefault()); //We don't need to care about timezone's for date of birth, so leave this as is
 
