@@ -226,7 +226,7 @@ public class CommonUtil {
             }
 
             if (appointment.doctorName != null) {
-                intent.putExtra(CalendarContract.Events.TITLE, "Appointment with " + appointment.doctorName);
+                intent.putExtra(CalendarContract.Events.TITLE, context.getString(R.string.appointment_with) + " " + appointment.doctorName);
             }
 
             if (appointment.facilityPhoneNumber != null || appointment.visitReason != null) {
@@ -272,7 +272,7 @@ public class CommonUtil {
         }
 
         if (doctorName != null) {
-            intent.putExtra(CalendarContract.Events.TITLE, "Appointment with " + doctorName);
+            intent.putExtra(CalendarContract.Events.TITLE, context.getString(R.string.appointment_with) + " " + doctorName);
         }
 
         if (facilityPhoneNumber != null || visitReason != null) {
