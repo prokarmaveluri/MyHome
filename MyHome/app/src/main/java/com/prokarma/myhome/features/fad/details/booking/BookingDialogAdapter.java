@@ -761,7 +761,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             }
 
             if (addressLayout.getVisibility() == View.VISIBLE && address.getText().toString().trim().isEmpty()) {
-                addressLayout.setError(context.getString(R.string.date_of_birth_required));
+                addressLayout.setError(context.getString(R.string.address_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) addressLayout.getY();
                 addressLayout.setFocusable(true);

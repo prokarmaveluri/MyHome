@@ -206,6 +206,7 @@
     <string name="phone_number_required">Phone Number is required</string>
     <string name="weeks_pregnant_too_large">Weeks Pregnant is too large</string>
     <string name="weeks_pregnant_required">Please answer the question</string>
+    <string name="address_required">Address is required</string>
     <string name="date_of_birth_required">Date of Birth is required</string>
     <string name="date_of_birth_too_young">You must be 18 to book an appointment</string>
     <string name="caregiver_required">Caregiver Name is required</string>
