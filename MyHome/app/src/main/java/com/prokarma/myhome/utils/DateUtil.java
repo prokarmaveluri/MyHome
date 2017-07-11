@@ -160,17 +160,29 @@ public class DateUtil {
         return SIMPLE_DATE_FORMAT.format(date);
     }
 
-
+    /**
+     * Checks to see if date is valid and the age is reasonable for a birth date (must be younger than 125, but older than 0)
+     *
+     * @param readableDate
+     * @return
+     */
     public static boolean isValidDateOfBirth(String readableDate) {
         try {
             Date date = SIMPLE_DATE_SLASH_FORMAT.parse(readableDate);
-            return !(getAge(date) < 0 || getAge(date) > 125);
+            return !(getAge(date) <= 0 || getAge(date) > 125);
         } catch (ParseException e) {
             e.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Calculates the age based on milliseconds of Dates.
+     * Inspired from here: https://stackoverflow.com/a/32106993/2128921
+     *
+     * @param date
+     * @return
+     */
     public static int getAge(Date date) {
         Date now = new Date();
         long timeBetween = now.getTime() - date.getTime();
@@ -498,7 +510,13 @@ public class DateUtil {
         }
     }
 
-    public static TextWatcher getDateOfBirthTextWatcher(final TextInputEditText dateOfBirthEditText){
+    /**
+     * Returns a TextWatcher for automatically adding formatting to dates
+     *
+     * @param dateOfBirthEditText the date edit text that is being formatted
+     * @return a textwatcher to add to edittext that needs formatting
+     */
+    public static TextWatcher getDateOfBirthTextWatcher(final TextInputEditText dateOfBirthEditText) {
         return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
