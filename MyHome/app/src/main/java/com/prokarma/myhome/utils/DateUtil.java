@@ -511,7 +511,8 @@ public class DateUtil {
     }
 
     /**
-     * Returns a TextWatcher for automatically adding formatting to dates
+     * Returns a TextWatcher for automatically adding formatting to dates.
+     * Inspired by: http://www.techrepublic.com/article/pro-tip-write-a-validate-as-you-go-android-textwatcher-for-date-entry-fields/
      *
      * @param dateOfBirthEditText the date edit text that is being formatted
      * @return a textwatcher to add to edittext that needs formatting
