@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.DateUtil;
 
 /**
@@ -59,6 +61,13 @@ public class BookingConfirmationFragment extends Fragment {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (!ConnectionUtil.isConnected(getActivity())) {
+                    Toast.makeText(getActivity(),
+                            R.string.no_network_msg,
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if (bookingConfirmationInterface != null) {
                     bookingConfirmationInterface.onClickBook();
                 }
