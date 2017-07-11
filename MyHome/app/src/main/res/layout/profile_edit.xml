@@ -108,11 +108,11 @@
                     android:id="@+id/dob"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="0123456789"
                     android:ellipsize="end"
                     android:hint="@string/date_of_birth"
                     android:inputType="number"
                     android:maxLength="10"
-                    android:digits="0123456789"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -173,8 +173,8 @@
                         android:id="@+id/city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
+                        android:ellipsize="end"
                         android:hint="@string/city"
                         android:inputType="text"
                         android:maxLines="2" />
