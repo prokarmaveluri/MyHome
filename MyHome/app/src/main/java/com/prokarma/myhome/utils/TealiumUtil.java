@@ -18,6 +18,7 @@ import com.tealium.library.Tealium;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -34,7 +35,7 @@ public final class TealiumUtil {
     private final static String KEY_TEALIUM_INITIALIZED = "tealium_initialized";
 
     // Identifier for the main Tealium instance
-    public static final String TEALIUM_MAIN = "main";
+    public static final String TEALIUM_MAIN = UUID.randomUUID().toString();
 
     static {
         Timber.i(" --- START TEALIUM --- ");
