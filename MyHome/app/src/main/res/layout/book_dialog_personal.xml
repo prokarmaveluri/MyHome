@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_personal_scoll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/dialog_personal_scoll_view"
     android:theme="@style/textInputLayoutStyle">
 
     <LinearLayout
@@ -45,8 +45,8 @@
                 android:id="@+id/first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
+                android:ellipsize="end"
                 android:hint="@string/first_name"
                 android:inputType="textCapWords"
                 android:maxLength="35"
@@ -175,7 +175,6 @@
             android:id="@+id/dob_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
@@ -184,11 +183,12 @@
                 android:id="@+id/dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="0123456789"
                 android:ellipsize="end"
-                android:focusable="false"
                 android:hint="@string/date_of_birth"
-                android:inputType="text"
-                android:maxLines="2" />
+                android:inputType="number"
+                android:maxLength="10"
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -248,8 +248,8 @@
                     android:id="@+id/city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
+                    android:ellipsize="end"
                     android:hint="@string/city"
                     android:inputType="text"
                     android:maxLines="2" />

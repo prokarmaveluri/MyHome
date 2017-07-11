@@ -1,9 +1,6 @@
 package com.prokarma.myhome.features.fad.details.booking;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -16,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -33,11 +29,7 @@ import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.ValidationUtil;
-import com.prokarma.myhome.views.DatePickerDialogFragment;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
@@ -104,19 +96,6 @@ public class BookingDialogAdapter extends PagerAdapter {
     TextInputEditText group;
     TextInputLayout insurancePhoneLayout;
     TextInputEditText insurancePhone;
-
-    Calendar myCalendar = Calendar.getInstance();
-    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-            dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
-        }
-    };
 
     private Profile formsProfile;
 
@@ -257,19 +236,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         reasonForVisitLayout = (TextInputLayout) personalLayout.findViewById(R.id.booking_reason_layout);
         reasonForVisit = (TextInputEditText) personalLayout.findViewById(R.id.booking_reason);
 
-        dateOfBirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonUtil.hideSoftKeyboard(context, dateOfBirth);
-
-                DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("CALENDAR_DATE", myCalendar);
-                datePickerDialogFragment.setArguments(bundle);
-                datePickerDialogFragment.addDateSetListener(dateSetListener);
-                datePickerDialogFragment.show(((Activity)context).getFragmentManager(), DatePickerDialogFragment.DATE_PICKER_DIALOG_TAG);
-            }
-        });
+        dateOfBirth.addTextChangedListener(DateUtil.getDateOfBirthTextWatcher(dateOfBirth));
 
         phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
@@ -376,14 +343,6 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (formsProfile.dateOfBirth != null) {
-            Date date = null;
-            try {
-                date = DateUtil.getDateNoTimeZone(formsProfile.dateOfBirth);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (null != date)
-                myCalendar.setTime(date);
             dateOfBirth.setText(DateUtil.convertUTCtoReadable(formsProfile.dateOfBirth));
         }
 
