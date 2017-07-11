@@ -1,6 +1,5 @@
 package com.prokarma.myhome.features.profile;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -13,7 +12,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,11 +24,6 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
-import com.prokarma.myhome.views.DatePickerDialogFragment;
-
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +44,7 @@ public class ProfileEditFragment extends BaseFragment {
     TextInputEditText lastName;
     TextInputEditText preferredName;
     Spinner gender;
+    TextInputLayout dateOfBirthLayout;
     TextInputEditText dateOfBirth;
     TextInputEditText address;
     TextInputEditText address2;
@@ -67,19 +61,6 @@ public class ProfileEditFragment extends BaseFragment {
     TextInputEditText memberId;
     TextInputEditText group;
     ProgressBar progress;
-
-    Calendar myCalendar = Calendar.getInstance();
-    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-            dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
-        }
-    };
 
     public static ProfileEditFragment newInstance() {
         return new ProfileEditFragment();
@@ -101,6 +82,7 @@ public class ProfileEditFragment extends BaseFragment {
         lastName = (TextInputEditText) profileView.findViewById(R.id.last_name);
         preferredName = (TextInputEditText) profileView.findViewById(R.id.preferred_name);
         gender = (Spinner) profileView.findViewById(R.id.gender);
+        dateOfBirthLayout = (TextInputLayout) profileView.findViewById(R.id.dob_layout);
         dateOfBirth = (TextInputEditText) profileView.findViewById(R.id.dob);
         address = (TextInputEditText) profileView.findViewById(R.id.address);
         address2 = (TextInputEditText) profileView.findViewById(R.id.address2);
@@ -117,18 +99,7 @@ public class ProfileEditFragment extends BaseFragment {
         memberId = (TextInputEditText) profileView.findViewById(R.id.id);
         group = (TextInputEditText) profileView.findViewById(R.id.group);
 
-        dateOfBirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonUtil.hideSoftKeyboard(getActivity());
-                DatePickerDialogFragment datePickerDialogFragment = new DatePickerDialogFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("CALENDAR_DATE", myCalendar);
-                datePickerDialogFragment.setArguments(bundle);
-                datePickerDialogFragment.addDateSetListener(dateSetListener);
-                datePickerDialogFragment.show(getActivity().getFragmentManager(), DatePickerDialogFragment.DATE_PICKER_DIALOG_TAG);
-            }
-        });
+        dateOfBirth.addTextChangedListener(DateUtil.getDateOfBirthTextWatcher(dateOfBirth));
 
         phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
@@ -280,15 +251,19 @@ public class ProfileEditFragment extends BaseFragment {
             gender.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (profile.dateOfBirth != null && !profile.dateOfBirth.trim().isEmpty()) {
-            Date date = null;
-            try {
-                date = DateUtil.getDateNoTimeZone(profile.dateOfBirth);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (null != date)
-                myCalendar.setTime(date);
+//        if (profile.dateOfBirth != null && !profile.dateOfBirth.trim().isEmpty()) {
+//            Date date = null;
+//            try {
+//                date = DateUtil.getDateNoTimeZone(profile.dateOfBirth);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            if (null != date)
+//                myCalendar.setTime(date);
+//            dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
+//        }
+
+        if(profile.dateOfBirth != null){
             dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
         }
 
@@ -357,6 +332,13 @@ public class ProfileEditFragment extends BaseFragment {
             lastNameLayout.setError(getString(R.string.last_name_required));
         } else {
             lastNameLayout.setError(null);
+        }
+
+        if (dateOfBirth.getVisibility() == View.VISIBLE && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) {
+            isValid = false;
+            dateOfBirthLayout.setError(getString(R.string.date_of_birth_invalid));
+        } else {
+            dateOfBirthLayout.setError(null);
         }
 
         if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {

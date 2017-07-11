@@ -1,6 +1,9 @@
 package com.prokarma.myhome.utils;
 
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import com.prokarma.myhome.features.fad.Appointment;
 
@@ -25,6 +28,8 @@ public class DateUtil {
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
     public static final String DATE_HYPHEN_FORMAT = "yyyy-MM-dd";
     public static final SimpleDateFormat SIMPLE_DATE_HYPHEN_FORMAT = new SimpleDateFormat(DATE_HYPHEN_FORMAT, Locale.getDefault());
+    public static final String DATE_SLASH_FORMAT = "MM/dd/yyyy";
+    public static final SimpleDateFormat SIMPLE_DATE_SLASH_FORMAT = new SimpleDateFormat(DATE_SLASH_FORMAT, Locale.getDefault());
     public static final String DATE_SHORT_WORDS_FORMAT = "EEE, MMM dd";
     public static final SimpleDateFormat SIMPLE_DATE_SHORT_WORDS_FORMAT = new SimpleDateFormat(DATE_SHORT_WORDS_FORMAT, Locale.getDefault());
     public static final String DATE_WORDS_1st_FORMAT = "MMMM d'st,' yyyy";   //Adds a "st" to the day (like 1st)
@@ -114,11 +119,11 @@ public class DateUtil {
      * Convert a UTC date to a more "human-friendly" format.
      *
      * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
-     * @return a String representing the UTC Date (formatted like such: "MM/dd/yy")
+     * @return a String representing the UTC Date (formatted like such: "MM/dd/yyyy")
      */
     public static String convertUTCtoReadable(String utcDate) {
         try {
-            return SIMPLE_DATE_FORMAT.format(getDateNoTimeZone(utcDate));
+            return SIMPLE_DATE_SLASH_FORMAT.format(getDateNoTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -130,12 +135,12 @@ public class DateUtil {
     /**
      * Convert a human-friendly date to UTC format.
      *
-     * @param readableDate human-friendly date in a String format (formatted like such: "MM/dd/yy")
+     * @param readableDate human-friendly date in a String format (formatted like such: "MM/dd/yyyy")
      * @return a String representing the UTC Date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss'Z'")
      */
     public static String convertReadableToUTC(String readableDate) {
         try {
-            Date date = SIMPLE_DATE_FORMAT.parse(readableDate);
+            Date date = SIMPLE_DATE_SLASH_FORMAT.parse(readableDate);
             return SIMPLE_DATE_FORMAT_UTC.format(date);
         } catch (ParseException e) {
             Timber.e("Could not format readable date " + readableDate + " correctly!\n" + e);
@@ -153,6 +158,25 @@ public class DateUtil {
      */
     public static String convertDateToReadable(Date date) {
         return SIMPLE_DATE_FORMAT.format(date);
+    }
+
+
+    public static boolean isValidDateOfBirth(String readableDate) {
+        try {
+            Date date = SIMPLE_DATE_SLASH_FORMAT.parse(readableDate);
+            return !(getAge(date) < 0 || getAge(date) > 125);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static int getAge(Date date) {
+        Date now = new Date();
+        long timeBetween = now.getTime() - date.getTime();
+        double yearsBetween = timeBetween / 3.156e+10;
+        int age = (int) Math.floor(yearsBetween);
+        return age;
     }
 
     /**
@@ -243,7 +267,7 @@ public class DateUtil {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             int day = cal.get(Calendar.DAY_OF_WEEK);
-            switch (day){
+            switch (day) {
                 case Calendar.SUNDAY:
                     return "Sunday";
                 case Calendar.MONDAY:
@@ -472,5 +496,32 @@ public class DateUtil {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static TextWatcher getDateOfBirthTextWatcher(final TextInputEditText dateOfBirthEditText){
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String working = s.toString();
+                if (working.length() == 2 && before == 0) {
+                    working += "/";
+                    dateOfBirthEditText.setText(working);
+                    dateOfBirthEditText.setSelection(working.length());
+                } else if (working.length() == 5 && before == 0) {
+                    working += "/";
+                    dateOfBirthEditText.setText(working);
+                    dateOfBirthEditText.setSelection(working.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
     }
 }

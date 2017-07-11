@@ -101,7 +101,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:focusable="false"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
 
@@ -110,10 +109,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:focusable="false"
                     android:hint="@string/date_of_birth"
-                    android:inputType="text"
-                    android:maxLines="2" />
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:digits="0123456789"
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
