@@ -74,8 +74,9 @@
                         android:drawableLeft="@mipmap/search"
                         android:drawablePadding="8dp"
                         android:drawableRight="@mipmap/xblue"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
-                        android:hint="@string/search_care_or_condition"
+                        android:hint="@string/search_hint"
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:padding="8dp" />
@@ -86,13 +87,13 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/fadTabs"
             style="@style/customTabLayout"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/toolbarLayout"
             app:tabIndicatorColor="@color/primary"
             app:tabIndicatorHeight="2dp"
-            app:tabMode="fixed" />
+            app:tabMode="fixed"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
 
         <View
             android:layout_width="match_parent"

@@ -66,7 +66,7 @@
     <string name="contact_us_header">Thank you for visiting Dignity Health.</string>
     <string name="save">Save</string>
     <string name="password_criteria">Password Criteria</string>
-    <string name="search_care_or_condition">Search for Doctor, Specialty, Procedure or Condition</string>
+    <string name="search_hint">Search for Doctor, Specialty, Procedure or Condition</string>
     <string name="user_location">Current Location</string>
     <string name="sort_by">Sort By</string>
     <string name="distance">Distance</string>
@@ -157,7 +157,6 @@
     <string name="new_update_available">New Update Available!</string>
     <string name="no_recent_providers">No recently viewed doctors</string>
     <!--Dashboard-->
-    <string name="dashboard_search_hint">Search for Doctor, Specialty, Procedure or Condition</string>
     <string name="db_text_one">The Power of Time Off: Why Vacations Are Essential.</string>
     <string name="db_text_two">A Little Bit of Color: Don\'t Let a Sunburn Get You Down This Summer.</string>
     <string name="db_readmore">Read More</string>
