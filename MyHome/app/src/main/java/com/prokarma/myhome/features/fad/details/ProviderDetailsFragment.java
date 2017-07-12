@@ -242,7 +242,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             showStatsUnavailable();
                             return;
                         }
-
+                        if (null != providerDetailsResponse)
+                            RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
+                        
                         try {
                             showStatsView();
                             updateStatsView(providerDetailsResponse);

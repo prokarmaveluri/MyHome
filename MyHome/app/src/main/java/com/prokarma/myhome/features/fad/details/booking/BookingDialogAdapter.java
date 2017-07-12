@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -726,6 +727,15 @@ public class BookingDialogAdapter extends PagerAdapter {
                 addressLayout.setFocusable(true);
             } else {
                 addressLayout.setError(null);
+            }
+
+            if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty()) {
+                cityLayout.setError(context.getString(R.string.city_required));
+                if (scrollPosition == -1)
+                    scrollPosition = (int) cityLayout.getY();
+                cityLayout.setFocusable(true);
+            } else {
+                cityLayout.setError(null);
             }
 
             if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {

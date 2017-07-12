@@ -142,8 +142,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     @Override
     public void onResume() {
         super.onResume();
-
-        NavigationActivity.eventBus.register(this);
+        if (null != NavigationActivity.eventBus)
+            NavigationActivity.eventBus.register(this);
         binding.suggestionList.setVisibility(View.GONE);
         ((NavigationActivity) getActivity()).getSupportActionBar().hide();
         setActionBar();
@@ -449,6 +449,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         if (type.contains("Provider")) {
             Timber.i("suggestionClick " + query + " type " + type);
             binding.suggestionList.setVisibility(View.GONE);
+            CommonUtil.hideSoftKeyboard(getActivity());
             providerDetails(null, providerId);
         } else {
             binding.searchQuery.setText(query);
