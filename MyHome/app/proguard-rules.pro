@@ -143,9 +143,10 @@
 -keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Warnings{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse{*;}
--keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest$Attributes{*;}
--keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest$Data$Jsonapi{*;}
--keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest$Value{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse$Attributes{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse$Data{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse$Jsonapi{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse$Value{*;}
 -keep class com.prokarma.myhome.features.fad.details.ProviderDetailsResponse{*;}
 -keep class com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse{*;}
 -keep class com.prokarma.myhome.features.fad.ProvidersResponse{*;}
@@ -175,6 +176,15 @@
 -keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegValue{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegAttributes{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Jsonapi{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Attributes{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Relationships{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Data{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.AppointmentDetails{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Schedule{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Error{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Error$Source{*;}
+
 
 
 -keepclassmembers class * implements android.os.Parcelable {
