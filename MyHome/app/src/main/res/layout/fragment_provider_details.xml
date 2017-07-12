@@ -17,5 +17,13 @@
             android:gravity="center"
             android:text="@string/something_went_wrong"
             android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/details_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
     </FrameLayout>
 </layout>

@@ -91,6 +91,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private ExpandableLinearLayout expandableLinearLayout;
 
     private LinearLayout footerLayout;
+    private ProgressBar detailsProgressBar;
     private ProgressBar statsProgressBar;
     private TextView statsUnavailable;
     private RelativeLayout statsView;
@@ -174,6 +175,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         errorView = (TextView) providerDetailsView.findViewById(R.id.errorView);
 
         footerLayout = (LinearLayout) providerDetailsView.findViewById(R.id.provider_details_footer);
+        detailsProgressBar = (ProgressBar) providerDetailsView.findViewById(R.id.details_progress_bar);
         statsProgressBar = (ProgressBar) footerLayout.findViewById(R.id.stats_progress_bar);
         statsUnavailable = (TextView) footerLayout.findViewById(R.id.stats_unavailable);
         statsView = (RelativeLayout) footerLayout.findViewById(R.id.stats_view);
@@ -227,14 +229,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private void getProviderDetails() {
         showStatsLoading();
-        providerDetailsView.setVisibility(View.GONE);
+        detailsProgressBar.setVisibility(View.VISIBLE);
         NetworkManager.getInstance().getProviderDetails(providerId).enqueue(new Callback<ProviderDetailsResponse>() {
             @Override
             public void onResponse(Call<ProviderDetailsResponse> call, Response<ProviderDetailsResponse> response) {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         errorView.setVisibility(View.GONE);
-                        providerDetailsView.setVisibility(View.VISIBLE);
+                        detailsProgressBar.setVisibility(View.GONE);
                         Timber.d("Successful Response\n" + response);
                         providerDetailsResponse = response.body();
                         setupInitialView();
@@ -244,7 +246,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         }
                         if (null != providerDetailsResponse)
                             RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
-                        
+
                         try {
                             showStatsView();
                             updateStatsView(providerDetailsResponse);
@@ -291,8 +293,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         } catch (NullPointerException ex) {
                         }
                     } else {
-                        providerDetailsView.setVisibility(View.GONE);
                         errorView.setVisibility(View.VISIBLE);
+                        detailsProgressBar.setVisibility(View.GONE);
                         errorView.setText(View.VISIBLE);
                         Timber.e("Response, but not successful?\n" + response);
                         showStatsUnavailable();
@@ -307,6 +309,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);
+                    detailsProgressBar.setVisibility(View.GONE);
+                    errorView.setVisibility(View.VISIBLE);
                     MapUtil.zoomMap(getContext(), providerMap, markers);
                     showStatsUnavailable();
                 }
