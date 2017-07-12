@@ -168,11 +168,15 @@ public class DateUtil {
      */
     public static boolean isValidDateOfBirth(String readableDate) {
         try {
+            SIMPLE_DATE_SLASH_FORMAT.setLenient(false);
             Date date = SIMPLE_DATE_SLASH_FORMAT.parse(readableDate);
             return !(getAge(date) <= 0 || getAge(date) > 125);
         } catch (ParseException e) {
             e.printStackTrace();
             return false;
+        }
+        finally {
+            SIMPLE_DATE_FORMAT.setLenient(true);
         }
     }
 
