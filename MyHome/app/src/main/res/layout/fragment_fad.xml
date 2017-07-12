@@ -75,10 +75,12 @@
                         android:drawablePadding="8dp"
                         android:drawableRight="@mipmap/xblue"
                         android:ellipsize="end"
+                        android:focusableInTouchMode="true"
                         android:gravity="center_vertical"
                         android:hint="@string/search_hint"
                         android:imeOptions="actionSearch"
                         android:inputType="text"
+                        android:longClickable="false"
                         android:padding="8dp" />
                 </android.support.v7.widget.CardView>
             </RelativeLayout>

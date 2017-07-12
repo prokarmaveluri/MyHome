@@ -384,7 +384,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 break;
             case R.id.fad_search:
                 binding.searchLayout.setVisibility(View.VISIBLE);
-                binding.searchQuery.requestFocus();
+                binding.searchQuery.setCursorVisible(false);
+                binding.searchQuery.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        binding.searchQuery.setCursorVisible(true);
+                    }
+                });
                 break;
             case R.id.fad_recent:
                 startListDialog();
@@ -622,6 +628,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                                 if (binding.searchQuery.getText().length() <= 0) {
                                     binding.searchLayout.setVisibility(View.GONE);
                                     binding.suggestionList.setVisibility(View.GONE);
+                                    if (null != getActivity())
+                                        CommonUtil.hideSoftKeyboard(getActivity());
                                 } else {
                                     binding.searchQuery.setText("");
                                 }
