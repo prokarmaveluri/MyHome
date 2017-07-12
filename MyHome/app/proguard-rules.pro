@@ -121,6 +121,68 @@
 -keep class retrofit2.** { *; }
 -keepattributes Signature
 -keepattributes Exceptions
+-keepattributes InnerClasses
+
+-keep class !com.prokarma.myhome.** { *; }
+-dontwarn !com.prokarma.myhome.**,**
+
+
+-keep class com.prokarma.myhome.features.login.LoginResponse{*;}
+-keep class com.prokarma.myhome.features.login.LoginRequest{*;}
+-keep class com.prokarma.myhome.features.login.LoginRequest$Options{*;}
+-keep class com.prokarma.myhome.features.enrollment.EnrollmentRequest{*;}
+-keep class com.prokarma.myhome.features.enrollment.EnrollmentRequest$RecoveryQuestion{*;}
+-keep class com.prokarma.myhome.features.profile.Profile{*;}
+-keep class com.prokarma.myhome.features.profile.ProfileResponse{*;}
+-keep class com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest{*;}
+-keep class com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse{*;}
+-keep class com.prokarma.myhome.features.appointments.Appointment{*;}
+-keep class com.prokarma.myhome.features.appointments.AppointmentResponse{*;}
+-keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Result{*;}
+-keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Errors{*;}
+-keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Warnings{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest$Attributes{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest$Data$Jsonapi{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest$Value{*;}
+-keep class com.prokarma.myhome.features.fad.details.ProviderDetailsResponse{*;}
+-keep class com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse{*;}
+-keep class com.prokarma.myhome.features.fad.ProvidersResponse{*;}
+-keep class com.prokarma.myhome.features.tos.Tos{*;}
+-keep class com.prokarma.myhome.features.tos.Result{*;}
+-keep class com.prokarma.myhome.features.profile.signout.CreateSessionResponse{*;}
+-keep class com.prokarma.myhome.features.fad.LocationResponse{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse{*;}
+-keep class com.prokarma.myhome.features.enrollment.ValidateEmailResponse{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.validation.Jsonapi{*;}
+-keep class com.prokarma.myhome.features.fad.recent.RecentlyViewedSQLiteHelper{*;}
+-keep class com.google.android.gms.maps.model.zza{*;}
+-keep class com.squareup.okhttp.**{*;}
+-keep class com.squareup.picasso.**{*;}
+-dontwarn com.squareup.picasso.**
+-dontwarn com.squareup.okhttp.**
+-keep class com.prokarma.myhome.features.fad.Provider{*;}
+-keep class com.prokarma.myhome.features.fad.CommonModel{*;}
+-keep class com.prokarma.myhome.features.fad.Office{*;}
+-keep class com.prokarma.myhome.features.profile.Address{*;}
+-keep class com.prokarma.myhome.features.fad.details.bookingBookingSelectPersonInterface{*;}
+-keep class com.prokarma.myhome.features.fad.details.Image{*;}
+-keep class com.google.android.gms.maps.model.Marker{*;}
+-keep class com.prokarma.myhome.features.fad.Facility{*;}
+-keep class com.prokarma.myhome.features.fad.AppointmentType{*;}
+-keep class com.prokarma.myhome.features.fad.Appointment{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegIncluded{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegValue{*;}
+-keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegAttributes{*;}
+
+
+-keepclassmembers class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator CREATOR;
+}
+
+
 
 -keepclasseswithmembers class * {
     @retrofit2.http.* <methods>;
