@@ -92,7 +92,7 @@ public class ContactUsFragment extends BaseFragment {
      */
     private void dailPhone() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + CommonUtil.constructPhoneNumber(getString(R.string.help_contact))));
+        intent.setData(Uri.parse("tel:" + CommonUtil.constructPhoneNumber(getString(R.string.contact_us_phone))));
         getActivity().startActivity(intent);
     }
 }
