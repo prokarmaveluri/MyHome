@@ -162,7 +162,6 @@
 -keep class com.squareup.picasso.**{*;}
 -dontwarn com.squareup.picasso.**
 -dontwarn com.squareup.okhttp.**
--keep class com.prokarma.myhome.features.fad.Provider{*;}
 -keep class com.prokarma.myhome.features.fad.CommonModel{*;}
 -keep class com.prokarma.myhome.features.fad.Office{*;}
 -keep class com.prokarma.myhome.features.profile.Address{*;}

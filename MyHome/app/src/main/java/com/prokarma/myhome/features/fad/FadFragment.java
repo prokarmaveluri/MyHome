@@ -35,10 +35,12 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.databinding.FragmentFadBinding;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.filter.FilterDialog;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
+import com.prokarma.myhome.features.fad.suggestions.FadSuggesstions;
+import com.prokarma.myhome.features.fad.suggestions.ProviderSuggestionsAdapter;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
-import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -68,7 +70,7 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 public class FadFragment extends BaseFragment implements FadInteractor.View,
         View.OnClickListener, ViewPager.OnPageChangeListener,
         TextView.OnEditorActionListener, View.OnFocusChangeListener,
-        TextWatcher, SuggestionsAdapter.ISuggestionClick {
+        TextWatcher, ProviderSuggestionsAdapter.IProviderSuggestionClick {
 
     private static final int FILTER_REQUEST = 100;
     private static final int RECENT_PROVIDERS = 200;
@@ -77,14 +79,15 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     private FragmentFadBinding binding;
     private boolean isSugShow = false;
-    private SuggestionsAdapter suggestionAdapter;
+    private ProviderSuggestionsAdapter suggestionAdapter;
     private FadInteractor.Presenter presenter;
+    private List<SearchSuggestionResponse> suggestionList;
     private FragmentStatePagerAdapter pagerAdapter;
 
     private int distanceRange = 100;
     public static int currentScroll = 0;
     public static int maxCount = 0, mPageIndex = 1;
-    public static ArrayList<Provider> providerList = new ArrayList<>();
+    public static ArrayList<ProviderDetailsResponse> providerList = new ArrayList<>();
     private static ArrayList<CommonModel> newPatients = new ArrayList<>();
     private static ArrayList<CommonModel> specialties = new ArrayList<>();
     private static ArrayList<CommonModel> gender = new ArrayList<>();
@@ -261,13 +264,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         ArrayList<String> recentlyViewed = RecentlyViewedDataSourceDB.getInstance().getAllProviderEntry();
         if (recentlyViewed != null && recentlyViewed.size() > 0) {
 
-            ArrayList<Provider> providers = new ArrayList<>();
+            ArrayList<ProviderDetailsResponse> providers = new ArrayList<>();
             ProviderListDialog dialog = new ProviderListDialog();
             Bundle bundle = new Bundle();
             Gson gson = new Gson();
 
             for (String provider : recentlyViewed) {
-                Provider providerObj = gson.fromJson(provider, Provider.class);
+                ProviderDetailsResponse providerObj = gson.fromJson(provider, ProviderDetailsResponse.class);
                 providers.add(providerObj);
             }
             if (providers.size() <= 0)
@@ -335,8 +338,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         } else if (requestCode == RECENT_PROVIDERS) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data.getExtras() != null) {
-                    Provider provider = data.getExtras().getParcelable("PROVIDER");
-                    providerDetails(provider);
+                    ProviderDetailsResponse provider = data.getExtras().getParcelable("PROVIDER");
+                    providerDetails(provider, null);
                 }
             }
         }
@@ -423,10 +426,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         isSugShow = true;
     }
 
-
     private void updateSuggestionList(List<SearchSuggestionResponse> list) {
         try {
-            suggestionAdapter = new SuggestionsAdapter(getSuggestions(list), getActivity(),
+            suggestionAdapter = new ProviderSuggestionsAdapter(getSuggestions(list), getActivity(),
                     FadFragment.this);
             binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
             binding.suggestionList.setAdapter(suggestionAdapter);
@@ -436,22 +438,31 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     @Override
-    public void suggestionClick(String query, int position) {
+    public void suggestionClick(String query, String type, String providerId) {
         isSugShow = false;
-        binding.searchQuery.setText(query);
-        binding.searchQuery.setSelection(query.length());
-        binding.suggestionList.setVisibility(View.GONE);
-        CommonUtil.hideSoftKeyboard(getActivity());
-        mPageIndex = 1;
-        searchForQuery(query, RESTConstants.PROVIDER_DISTANCE);
+        if (type.contains("Provider")) {
+            Timber.i("suggestionClick " + query + " type " + type);
+            binding.suggestionList.setVisibility(View.GONE);
+            providerDetails(null, providerId);
+        } else {
+            binding.searchQuery.setText(query);
+            binding.searchQuery.setSelection(query.length());
+            binding.suggestionList.setVisibility(View.GONE);
+            CommonUtil.hideSoftKeyboard(getActivity());
+            mPageIndex = 1;
+            searchForQuery(query, RESTConstants.PROVIDER_DISTANCE);
+        }
     }
 
-    private List<String> getSuggestions(List<SearchSuggestionResponse> list) {
-        List<String> sug = new ArrayList<>();
+    private List<FadSuggesstions> getSuggestions(List<SearchSuggestionResponse> list) {
+        List<FadSuggesstions> sug = new ArrayList<>();
         try {
             for (SearchSuggestionResponse resp : list) {
-                if (resp.getType().contains("Search") || resp.getType().contains("Provider")) {
-                    sug.add(resp.getTitle());
+                if (resp.getType().contains("Search") || resp.getType().contains("Provider") ||
+                        resp.getType().contains("SectionHeader")) {
+                    FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), resp.getTitle(),
+                            resp.getId());
+                    sug.add(sugObj);
                 }
             }
         } catch (NullPointerException ex) {
@@ -669,14 +680,14 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     public class NewPageData {
-        private List<Provider> list;
+        private List<ProviderDetailsResponse> list;
         private int pageNo;
 
-        public List<Provider> getList() {
+        public List<ProviderDetailsResponse> getList() {
             return list;
         }
 
-        public void setList(List<Provider> list) {
+        public void setList(List<ProviderDetailsResponse> list) {
             this.list = list;
         }
 
@@ -692,9 +703,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     /**
      * @param provider
      */
-    private void providerDetails(Provider provider) {
+    private void providerDetails(ProviderDetailsResponse provider, String providerId) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
+        bundle.putString(ProviderDetailsFragment.PROVIDER_ID_KEY, providerId);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 }

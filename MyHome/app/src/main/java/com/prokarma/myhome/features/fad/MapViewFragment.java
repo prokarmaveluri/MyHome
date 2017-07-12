@@ -33,6 +33,7 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.RESTConstants;
 import com.squareup.otto.Subscribe;
@@ -57,11 +58,11 @@ public class MapViewFragment extends Fragment implements
 
     private GoogleMap map;
     private Marker marker;
-    private Provider provider;
+    private ProviderDetailsResponse provider;
     private Button searchThisArea;
     private LatLng latlon;
     private LocationResponse location = null;
-    private List<Provider> providerList = new ArrayList<>();
+    private List<ProviderDetailsResponse> providerList = new ArrayList<>();
     private ClusterManager<MapClusterItem> mClusterManager;
 
     private final static int MAP_CLUSTER_LIST = 100;
@@ -80,7 +81,7 @@ public class MapViewFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             providerList.clear();
-            ArrayList<Provider> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            ArrayList<ProviderDetailsResponse> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
             location = FadManager.getInstance().getLocation();
             providerList.addAll(list);
         }
@@ -169,7 +170,7 @@ public class MapViewFragment extends Fragment implements
             }
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-            for (Provider provider : providerList) {
+            for (ProviderDetailsResponse provider : providerList) {
                 for (Office office : provider.getOffices()) {
                     LatLng position = new LatLng(Double.valueOf(office.getLat()),
                             Double.valueOf(office.getLong()));
@@ -266,7 +267,7 @@ public class MapViewFragment extends Fragment implements
 
     private void startListDialog(Collection<MapClusterItem> cluster) {
 
-        ArrayList<Provider> list = new ArrayList<>();
+        ArrayList<ProviderDetailsResponse> list = new ArrayList<>();
         ProviderListDialog dialog = new ProviderListDialog();
         Bundle bundle = new Bundle();
         for (MapClusterItem item : cluster) {
@@ -299,7 +300,7 @@ public class MapViewFragment extends Fragment implements
         return true;
     }
 
-    private void providerDetails(Provider provider) {
+    private void providerDetails(ProviderDetailsResponse provider) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
@@ -333,9 +334,9 @@ public class MapViewFragment extends Fragment implements
         }
     }
 
-    private Provider getProvider(String title, LatLng position) {
+    private ProviderDetailsResponse getProvider(String title, LatLng position) {
         try {
-            for (Provider provider : providerList) {
+            for (ProviderDetailsResponse provider : providerList) {
                 for (Office office : provider.getOffices()) {
                     LatLng officePosition = new LatLng(Double.valueOf(office.getLat()),
                             Double.valueOf(office.getLong()));

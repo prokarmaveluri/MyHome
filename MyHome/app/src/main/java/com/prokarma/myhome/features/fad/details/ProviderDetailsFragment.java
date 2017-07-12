@@ -33,7 +33,6 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.features.fad.Office;
-import com.prokarma.myhome.features.fad.Provider;
 import com.prokarma.myhome.features.fad.details.booking.BookingBackButton;
 import com.prokarma.myhome.features.fad.details.booking.BookingConfirmationFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingConfirmationInterface;
@@ -70,9 +69,10 @@ import timber.log.Timber;
 
 public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface, BookingDateHeaderInterface, BookingDialogInterface, BookingConfirmationInterface, BookingDoneInterface, BookingBackButton {
     public static final String PROVIDER_KEY = "PROVIDER_KEY";
+    public static final String PROVIDER_ID_KEY = "PROVIDER_ID";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
 
-    private Provider provider;
+    private String providerId;
     private ProviderDetailsResponse providerDetailsResponse;
 
     private boolean isBookingAppointment = false;
@@ -86,6 +86,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView speciality;
     private TextView address;
     private TextView phone;
+    private TextView errorView;
     private Button bookAppointment;
     private ExpandableLinearLayout expandableLinearLayout;
 
@@ -145,14 +146,16 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            provider = getArguments().getParcelable(PROVIDER_KEY);
+            providerDetailsResponse = getArguments().getParcelable(PROVIDER_KEY);
+            providerId = getArguments().getString(PROVIDER_ID_KEY);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        RecentlyViewedDataSourceDB.getInstance().createEntry(provider);
+        if (null != providerDetailsResponse)
+            RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
     }
 
     @Override
@@ -168,6 +171,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
         phone = (TextView) providerDetailsView.findViewById(R.id.phone);
+        errorView = (TextView) providerDetailsView.findViewById(R.id.errorView);
 
         footerLayout = (LinearLayout) providerDetailsView.findViewById(R.id.provider_details_footer);
         statsProgressBar = (ProgressBar) footerLayout.findViewById(R.id.stats_progress_bar);
@@ -177,12 +181,16 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         statsEducationView = (LinearLayout) footerLayout.findViewById(R.id.stats_education);
         statsExperienceView = (LinearLayout) footerLayout.findViewById(R.id.stats_experience);
 
-        getProviderDetails();
-
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
 
-        setupInitialView();
+        if (null == providerId) {
+            setupInitialView();
+        }
+        if (providerDetailsResponse != null) {
+            providerId = providerDetailsResponse.getProviderId();
+        }
+        getProviderDetails();
         return providerDetailsView;
     }
 
@@ -196,16 +204,16 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return;
         }
 
-        String url = provider.getImageUrl() != null ? provider.getImageUrl().replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160) : null;
+        String url = providerDetailsResponse.getImageUrl() != null ? providerDetailsResponse.getImageUrl().replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160) : null;
         Picasso.with(getActivity())
                 .load(url)
                 .into(doctorImage);
 
-        name.setText(provider.getDisplayFullName() != null ? provider.getDisplayFullName() : getString(R.string.name_unknown));
-        speciality.setText(provider.getSpecialties() != null ? provider.getSpecialties().get(0) : getString(R.string.specialities_unknown));
-        address.setText(provider.getOffices() != null ? provider.getOffices().get(0).getAddress1() + "\n" + provider.getOffices().get(0).getAddress() : getString(R.string.address_unknown));
-        phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumber(provider.getOffices().get(0).getPhone()) : getString(R.string.phone_number_unknown));
-        currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
+        name.setText(providerDetailsResponse.getDisplayFullName() != null ? providerDetailsResponse.getDisplayFullName() : getString(R.string.name_unknown));
+        speciality.setText(providerDetailsResponse.getSpecialties() != null ? providerDetailsResponse.getSpecialties().get(0) : getString(R.string.specialities_unknown));
+        address.setText(providerDetailsResponse.getOffices() != null ? providerDetailsResponse.getOffices().get(0).getAddress1() + "\n" + providerDetailsResponse.getOffices().get(0).getAddress() : getString(R.string.address_unknown));
+        phone.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.constructPhoneNumber(providerDetailsResponse.getOffices().get(0).getPhone()) : getString(R.string.phone_number_unknown));
+        currentOffice = providerDetailsResponse.getOffices() != null ? providerDetailsResponse.getOffices().get(0) : null;
 
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,14 +227,17 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private void getProviderDetails() {
         showStatsLoading();
-        NetworkManager.getInstance().getProviderDetails(provider.getProviderId()).enqueue(new Callback<ProviderDetailsResponse>() {
+        providerDetailsView.setVisibility(View.GONE);
+        NetworkManager.getInstance().getProviderDetails(providerId).enqueue(new Callback<ProviderDetailsResponse>() {
             @Override
             public void onResponse(Call<ProviderDetailsResponse> call, Response<ProviderDetailsResponse> response) {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
+                        errorView.setVisibility(View.GONE);
+                        providerDetailsView.setVisibility(View.VISIBLE);
                         Timber.d("Successful Response\n" + response);
                         providerDetailsResponse = response.body();
-
+                        setupInitialView();
                         if (providerDetailsResponse == null) {
                             showStatsUnavailable();
                             return;
@@ -278,6 +289,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         } catch (NullPointerException ex) {
                         }
                     } else {
+                        providerDetailsView.setVisibility(View.GONE);
+                        errorView.setVisibility(View.VISIBLE);
+                        errorView.setText(View.VISIBLE);
                         Timber.e("Response, but not successful?\n" + response);
                         showStatsUnavailable();
                     }
@@ -303,14 +317,17 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         Timber.v("Map is ready\n" + googleMap);
         providerMap = googleMap;
 
+        if (null == providerDetailsResponse)
+            return;
         //Add markers
-        markers = MapUtil.addMapMarkers(getActivity(), providerMap, provider.getOffices(), BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
-            public boolean onMarkerClick(Marker marker) {
-                handleMarkerClick(marker);
-                //marker.showInfoWindow(); Won't fit with the zoom if states apart
-                return true;
-            }
-        });
+        markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(),
+                BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+                    public boolean onMarkerClick(Marker marker) {
+                        handleMarkerClick(marker);
+                        //marker.showInfoWindow(); Won't fit with the zoom if states apart
+                        return true;
+                    }
+                });
 
         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
         //MapUtil.zoomMap(getContext(), providerMap, markers);
@@ -681,7 +698,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         CommonUtil.shareAppointment(
                 getActivity(),
                 bookedAppointment.Time,
-                provider.getDisplayFullName(),
+                providerDetailsResponse.getDisplayFullName(),
                 currentOffice.getName(),
                 new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
                 currentOffice.getPhone(),
@@ -694,7 +711,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         CommonUtil.addCalendarEvent(
                 getActivity(),
                 bookedAppointment.Time,
-                provider.getDisplayFullName(),
+                providerDetailsResponse.getDisplayFullName(),
                 new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
                 currentOffice.getPhone(),
                 bookingProfile.reasonForVisit

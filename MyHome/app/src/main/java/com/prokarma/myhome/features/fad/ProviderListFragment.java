@@ -14,6 +14,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.FragmentProviderListBinding;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.RESTConstants;
@@ -41,7 +42,7 @@ public class ProviderListFragment extends Fragment implements
     private LinearLayoutManager manager;
     private FragmentProviderListBinding binding;
     private ArrayList<String> recentlyViewed = new ArrayList<>();
-    private List<Provider> providerList = null;
+    private List<ProviderDetailsResponse> providerList = null;
 
     public ProvidersAdapter.IProviderClick listener;
 
@@ -62,7 +63,7 @@ public class ProviderListFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             providerList = new ArrayList<>();
-            ArrayList<Provider> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            ArrayList<ProviderDetailsResponse> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
             providerList.addAll(list);
             errorMsg = getArguments().getString("PROVIDER_MSG");
             pagination = getArguments().getBoolean("PROVIDER_PAGINATION");

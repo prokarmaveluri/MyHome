@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentListDialogBinding;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
     private boolean recent = false;
     private boolean fromHome = false;
     private FragmentListDialogBinding binding;
-    private ArrayList<Provider> providerList = new ArrayList<>();
+    private ArrayList<ProviderDetailsResponse> providerList = new ArrayList<>();
 
     public ProviderListDialog() {
         // Required empty public constructor
@@ -42,7 +43,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
         setStyle(STYLE_NO_FRAME, R.style.DialogTheame);
 
         if (getArguments() != null) {
-            ArrayList<Provider> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
+            ArrayList<ProviderDetailsResponse> list = getArguments().getParcelableArrayList("PROVIDER_LIST");
             providerList.addAll(list);
             recent = getArguments().getBoolean("PROVIDER_RECENT");
             fromHome = getArguments().getBoolean("PROVIDER_RECENT_HOME");
@@ -82,7 +83,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
 
-    private void setResults(Provider provider) {
+    private void setResults(ProviderDetailsResponse provider) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         try {

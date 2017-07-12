@@ -31,9 +31,9 @@ import com.prokarma.myhome.databinding.HomeBinding;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
 import com.prokarma.myhome.features.fad.FadFragment;
-import com.prokarma.myhome.features.fad.Provider;
 import com.prokarma.myhome.features.fad.ProviderListDialog;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.profile.ProfileResponse;
@@ -150,13 +150,13 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         ArrayList<String> recentlyViewed = RecentlyViewedDataSourceDB.getInstance().getAllProviderEntry();
         if (recentlyViewed != null && recentlyViewed.size() > 0) {
 
-            ArrayList<Provider> providers = new ArrayList<>();
+            ArrayList<ProviderDetailsResponse> providers = new ArrayList<>();
             ProviderListDialog dialog = new ProviderListDialog();
             Bundle bundle = new Bundle();
             Gson gson = new Gson();
 
             for (String provider : recentlyViewed) {
-                Provider providerObj = gson.fromJson(provider, Provider.class);
+                ProviderDetailsResponse providerObj = gson.fromJson(provider, ProviderDetailsResponse.class);
                 providers.add(providerObj);
             }
             if (providers.size() <= 0)
@@ -390,7 +390,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         if (requestCode == RECENT_PROVIDERS) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data.getExtras() != null) {
-                    Provider provider = data.getExtras().getParcelable("PROVIDER");
+                    ProviderDetailsResponse provider = data.getExtras().getParcelable("PROVIDER");
                     providerDetails(provider);
                 }
             } else if (resultCode == Activity.RESULT_FIRST_USER) {
@@ -404,7 +404,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     /**
      * @param provider
      */
-    private void providerDetails(Provider provider) {
+    private void providerDetails(ProviderDetailsResponse provider) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);

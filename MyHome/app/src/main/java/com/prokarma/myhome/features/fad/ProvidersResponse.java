@@ -1,5 +1,7 @@
 package com.prokarma.myhome.features.fad;
 
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
+
 import java.util.List;
 
 
@@ -10,7 +12,7 @@ import java.util.List;
 
 public class ProvidersResponse {
 
-    private List<Provider> Providers;
+    private List<ProviderDetailsResponse> Providers;
     private List<CommonModel> AcceptsNewPatients;
     private List<CommonModel> Specialties;
     private List<CommonModel> Genders;
@@ -28,11 +30,11 @@ public class ProvidersResponse {
     private List<ServiceError> ServiceErrors;
     private Object LocationError;
 
-    public List<Provider> getProviders() {
+    public List<ProviderDetailsResponse> getProviders() {
         return Providers;
     }
 
-    public void setProviders(List<Provider> providers) {
+    public void setProviders(List<ProviderDetailsResponse> providers) {
         this.Providers = providers;
     }
 

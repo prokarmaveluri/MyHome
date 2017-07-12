@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
+
 import java.util.ArrayList;
 
 /**
@@ -15,10 +17,10 @@ import java.util.ArrayList;
 
 public class FadPagerAdapter extends FragmentStatePagerAdapter {
     private static int NUM_ITEMS = 2;
-    private ArrayList<Provider> providerList;
+    private ArrayList<ProviderDetailsResponse> providerList;
     private String message;
 
-    public FadPagerAdapter(FragmentManager fragmentManager, ArrayList<Provider> list,
+    public FadPagerAdapter(FragmentManager fragmentManager, ArrayList<ProviderDetailsResponse> list,
                            String message) {
         super(fragmentManager);
         this.providerList = list;

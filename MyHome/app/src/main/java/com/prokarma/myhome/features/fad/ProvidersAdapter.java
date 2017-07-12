@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterProvidersListItemBinding;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
@@ -28,12 +29,12 @@ import timber.log.Timber;
 public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.ProvidersVH> {
 
     private boolean recent;
-    private List<Provider> providerList;
+    private List<ProviderDetailsResponse> providerList;
     private IProviderClick listener;
     private Context mContext;
     private ArrayList<String> recentProviders;
 
-    public ProvidersAdapter(List<Provider> providers,
+    public ProvidersAdapter(List<ProviderDetailsResponse> providers,
                             Context context, IProviderClick listener,
                             ArrayList<String> recentProviders, boolean recent) {
         providerList = providers;
@@ -77,7 +78,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
             binding = itemView;
         }
 
-        public void bind(Provider provider, int position) {
+        public void bind(ProviderDetailsResponse provider, int position) {
 
             try {
                 binding.itemLayout.setTag(position);
@@ -135,7 +136,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                 case R.id.directions:
                     try {
                         Timber.i("Directions " + view.getTag());
-                        Provider provider = providerList.get((int) view.getTag());
+                        ProviderDetailsResponse provider = providerList.get((int) view.getTag());
                         Address address = new Address(provider.getOffices().get(0).getAddress1(),
                                 provider.getOffices().get(0).getAddress2(),
                                 provider.getOffices().get(0).getCity(),

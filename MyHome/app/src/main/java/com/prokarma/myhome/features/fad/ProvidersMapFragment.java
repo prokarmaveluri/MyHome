@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class ProvidersMapFragment extends Fragment implements
         ProvidersAdapter.IProviderClick {
 
     private LocationResponse location = null;
-    private ArrayList<Provider> providerList = new ArrayList<>();
+    private ArrayList<ProviderDetailsResponse> providerList = new ArrayList<>();
 
     public static final String FAD_TAG = "fad_map";
 
