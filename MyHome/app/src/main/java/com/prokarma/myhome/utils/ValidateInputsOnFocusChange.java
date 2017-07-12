@@ -5,13 +5,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
-import com.prokarma.myhome.networking.NetworkManager;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
 
 /**
  * Created by cmajji on 4/30/17.
@@ -46,8 +39,6 @@ public class ValidateInputsOnFocusChange implements View.OnFocusChangeListener {
         } else if (type == Constants.INPUT_TYPE.EMAIL_ENROLL) {
             if (!CommonUtil.isValidEmail(view.getText().toString()))
                 view.setError(context.getString(R.string.email_needs_to_meet_criteria));
-            else
-                findEmail(view.getText().toString());
         } else if (type == Constants.INPUT_TYPE.EMAIL_LOGIN) {
             if (!CommonUtil.isValidEmail(view.getText().toString()))
                 view.setError(context.getString(R.string.email_needs_to_meet_criteria));
@@ -55,24 +46,5 @@ public class ValidateInputsOnFocusChange implements View.OnFocusChangeListener {
             if (!CommonUtil.isValidPassword(view.getText().toString()))
                 view.setError(context.getString(R.string.password_needs_to_meet_criteria));
         }
-    }
-
-    private void findEmail(final String email) {
-        NetworkManager.getInstance().findEmail(email).enqueue(new Callback<ValidateEmailResponse>() {
-            @Override
-            public void onResponse(Call<ValidateEmailResponse> call, Response<ValidateEmailResponse> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getResult()) {
-                        view.setError(context.getString(R.string.email_already_registered));
-                        Timber.i("Email already exists!");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ValidateEmailResponse> call, Throwable t) {
-                Timber.i("validateEmail, failed");
-            }
-        });
     }
 }

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentEnrollmentBinding;
+import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
@@ -75,11 +76,11 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                 new ValidateInputsOnFocusChange(binding.reEnterPassword,
                         getActivity().getApplicationContext(), Constants.INPUT_TYPE.PASSWORD));
 
-        binding.firstName.addTextChangedListener(new EnrollTextWatcher());
-        binding.lastName.addTextChangedListener(new EnrollTextWatcher());
-        binding.email.addTextChangedListener(new EnrollTextWatcher());
-        binding.password.addTextChangedListener(new EnrollTextWatcher());
-        binding.reEnterPassword.addTextChangedListener(new EnrollTextWatcher());
+        binding.firstName.addTextChangedListener(new EnrollTextWatcher(null, null));
+        binding.lastName.addTextChangedListener(new EnrollTextWatcher(null, null));
+        binding.email.addTextChangedListener(new EnrollTextWatcher(binding.email, Constants.INPUT_TYPE.EMAIL_ENROLL));
+        binding.password.addTextChangedListener(new EnrollTextWatcher(null, null));
+        binding.reEnterPassword.addTextChangedListener(new EnrollTextWatcher(null, null));
 
         drawableClickEvent();
         binding.setHandlers(new EnrollmentViewClickEvent());
@@ -213,6 +214,13 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     }
 
     private class EnrollTextWatcher implements TextWatcher {
+        Constants.INPUT_TYPE textType;
+        TextView view;
+
+        EnrollTextWatcher(TextView view, Constants.INPUT_TYPE type) {
+            textType = type;
+            this.view = view;
+        }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -226,6 +234,9 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
         @Override
         public void afterTextChanged(Editable s) {
+            if (textType == Constants.INPUT_TYPE.EMAIL_ENROLL && null != getActivity())
+                NetworkManager.getInstance().findEmail(s.toString(), view, getActivity());
+
             if (isAllInputsValid()) {
                 updateButtonState(true);
             } else {
@@ -255,8 +266,8 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                                 int[] locationOnScreen = new int[2];
                                 binding.password.getLocationOnScreen(locationOnScreen);
                                 int touchXCoordinate = (int) event.getRawX() - locationOnScreen[0];
-                                if(touchXCoordinate >= (binding.password.getRight() - binding.password.getTotalPaddingRight()) &&
-                                        touchXCoordinate <= (binding.password.getRight() - binding.password.getPaddingRight())){
+                                if (touchXCoordinate >= (binding.password.getRight() - binding.password.getTotalPaddingRight()) &&
+                                        touchXCoordinate <= (binding.password.getRight() - binding.password.getPaddingRight())) {
 
                                     showPassword = !showPassword;
 

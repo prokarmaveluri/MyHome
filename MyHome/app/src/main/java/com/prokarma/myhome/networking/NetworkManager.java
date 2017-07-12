@@ -1,5 +1,9 @@
 package com.prokarma.myhome.networking;
 
+import android.content.Context;
+import android.widget.TextView;
+
+import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
@@ -348,6 +352,29 @@ public class NetworkManager {
                 AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", false);
                 FadManager.getInstance().setCurrentLocation(null);
                 FadManager.getInstance().setLocation(null);
+            }
+        });
+    }
+
+    /**
+     * Attempt to validate email already registered
+     */
+    public void findEmail(final String email, final TextView view, final Context context) {
+        NetworkManager.getInstance().findEmail(email).enqueue(new Callback<ValidateEmailResponse>() {
+            @Override
+            public void onResponse(Call<ValidateEmailResponse> call, retrofit2.Response<ValidateEmailResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getResult()) {
+                        if (null != view && null != context)
+                            view.setError(context.getString(R.string.email_already_registered));
+                        Timber.i("Email already exists!");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ValidateEmailResponse> call, Throwable t) {
+                Timber.i("validateEmail, failed");
             }
         });
     }
