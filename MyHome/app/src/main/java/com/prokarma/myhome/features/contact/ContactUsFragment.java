@@ -49,7 +49,7 @@ public class ContactUsFragment extends BaseFragment {
             }
         });
 
-        phoneView.setText(CommonUtil.constructPhoneNumber(getString(R.string.help_contact)));
+        phoneView.setText(CommonUtil.constructPhoneNumber(getString(R.string.contact_us_phone)));
         return contactUsView;
     }
 
