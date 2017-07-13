@@ -16,8 +16,10 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateApp
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
+import com.prokarma.myhome.features.login.AccessTokenResponse;
 import com.prokarma.myhome.features.login.LoginRequest;
 import com.prokarma.myhome.features.login.LoginResponse;
+import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.prokarma.myhome.features.profile.Profile;
@@ -78,6 +80,8 @@ public class NetworkManager {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request().newBuilder()
                         .addHeader("Content-Type", "application/json").build();
+                if (request.url().toString().contains("oauth2/ausb2b0jbri7MsQGl0h7/v1/token"))
+                    chain.request().newBuilder().addHeader("Content-Type", "application/x-www-form-urlencoded").build();
                 Timber.i(" Request Url: " + request.url());
                 Timber.i(" Request headers: " + request.headers());
                 Timber.i(" Request body: " + request.body());
@@ -320,6 +324,34 @@ public class NetworkManager {
 
     public Call<UpdateResponse> versionCheck() {
         return service.versionCheck();
+    }
+
+    public Call<AccessTokenResponse> fetchAccessToken(String contentType,
+                                                      String grantType,
+                                                      String code,
+                                                      String clientId,
+                                                      String scope,
+                                                      String redirectUri,
+                                                      String codeUerifier) {
+        return service.fetchAccessToken(contentType,
+                grantType,
+                code,
+                clientId,
+                scope,
+                redirectUri,
+                codeUerifier);
+    }
+
+    public Call<RefreshAccessTokenResponse> refreshAccessToken(String contentType,
+                                                               String grantType,
+                                                               String refreshToken,
+                                                               String clientId,
+                                                               String redirectUri) {
+        return service.refreshAccessToken(contentType,
+                grantType,
+                refreshToken,
+                clientId,
+                redirectUri);
     }
 
     // Network Util

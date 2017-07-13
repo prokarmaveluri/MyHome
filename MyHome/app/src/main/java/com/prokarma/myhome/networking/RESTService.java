@@ -11,8 +11,10 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateApp
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
+import com.prokarma.myhome.features.login.AccessTokenResponse;
 import com.prokarma.myhome.features.login.LoginRequest;
 import com.prokarma.myhome.features.login.LoginResponse;
+import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.prokarma.myhome.features.profile.Profile;
@@ -27,6 +29,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
@@ -55,6 +59,26 @@ public interface RESTService {
 
     @POST(RESTConstants.OKTA_BASE_URL + "api/v1/authn")
     Call<LoginResponse> login(@Body LoginRequest request);
+
+    @FormUrlEncoded
+    @POST(RESTConstants.OKTA_BASE_URL + "oauth2/ausb2b0jbri7MsQGl0h7/v1/token")
+    Call<AccessTokenResponse> fetchAccessToken(@Header("Content-Type") String contentType,
+                                               @Field("grant_type") String grantType,
+                                               @Field("code") String code,
+                                               @Field("client_id") String clientId,
+                                               @Field("scope") String scope,
+                                               @Field("redirect_uri") String redirectUri,
+                                               @Field("code_verifier") String codeUerifier
+    );
+
+    @FormUrlEncoded
+    @POST(RESTConstants.OKTA_BASE_URL + "oauth2/ausb2b0jbri7MsQGl0h7/v1/token")
+    Call<RefreshAccessTokenResponse> refreshAccessToken(@Header("Content-Type") String contentType,
+                                                        @Field("grant_type") String grantType,
+                                                        @Field("refresh_token") String refreshToken,
+                                                        @Field("client_id") String clientId,
+                                                        @Field("redirect_uri") String redirectUri
+    );
 
     @POST(RESTConstants.OKTA_BASE_URL + "api/v1/authn/recovery/password")
     Call<ForgotPasswordResponse> forgotPassword(@Body ForgotPasswordRequest request);
