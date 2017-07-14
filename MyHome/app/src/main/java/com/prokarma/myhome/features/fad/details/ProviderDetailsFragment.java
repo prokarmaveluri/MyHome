@@ -677,6 +677,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onBookingSuccess() {
         //Booking Successful!
+        bookingProfile = null;
     }
 
     @Override
