@@ -167,6 +167,9 @@ public class DateUtil {
      * @return
      */
     public static boolean isValidDateOfBirth(String readableDate) {
+        if(CommonUtil.isEmptyString(readableDate)){
+            return false;
+        }
         try {
             SIMPLE_DATE_SLASH_FORMAT.setLenient(false);
             Date date = SIMPLE_DATE_SLASH_FORMAT.parse(readableDate);
@@ -517,39 +520,5 @@ public class DateUtil {
             e.printStackTrace();
             return false;
         }
-    }
-
-    /**
-     * Returns a TextWatcher for automatically adding formatting to dates.
-     * Inspired by: http://www.techrepublic.com/article/pro-tip-write-a-validate-as-you-go-android-textwatcher-for-date-entry-fields/
-     *
-     * @param dateOfBirthEditText the date edit text that is being formatted
-     * @return a textwatcher to add to edittext that needs formatting
-     */
-    public static TextWatcher getDateOfBirthTextWatcher(final TextInputEditText dateOfBirthEditText) {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String working = s.toString();
-                if (working.length() == 2 && before == 0) {
-                    working += "/";
-                    dateOfBirthEditText.setText(working);
-                    dateOfBirthEditText.setSelection(working.length());
-                } else if (working.length() == 5 && before == 0) {
-                    working += "/";
-                    dateOfBirthEditText.setText(working);
-                    dateOfBirthEditText.setSelection(working.length());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
     }
 }

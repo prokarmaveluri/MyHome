@@ -7,8 +7,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
-import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,7 +27,7 @@ import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
-import com.prokarma.myhome.utils.PhoneNumberFormatter;
+import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.prokarma.myhome.utils.ValidationUtil;
 
 import java.util.List;
@@ -194,7 +192,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         updateVisibility(true);
 
-        insurancePhone.addTextChangedListener(new PhoneNumberFormatter(insurancePhone));
+        insurancePhone.addTextChangedListener(new PhoneAndDOBFormatter(insurancePhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
     }
 
     private void setupPersonal() {
@@ -238,9 +236,9 @@ public class BookingDialogAdapter extends PagerAdapter {
         reasonForVisitLayout = (TextInputLayout) personalLayout.findViewById(R.id.booking_reason_layout);
         reasonForVisit = (TextInputEditText) personalLayout.findViewById(R.id.booking_reason);
 
-        dateOfBirth.addTextChangedListener(DateUtil.getDateOfBirthTextWatcher(dateOfBirth));
+        dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
-        phone.addTextChangedListener(new PhoneNumberFormatter(phone));
+        phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -365,7 +363,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (formsProfile.phoneNumber != null) {
-            phone.setText(formsProfile.phoneNumber);
+            phone.setText(formsProfile.phoneNumber.replaceAll("\\.","-"));
         }
 
         if (formsProfile.email != null) {
@@ -707,8 +705,8 @@ public class BookingDialogAdapter extends PagerAdapter {
                 genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
             }
 
-            if (dateOfBirthLayout.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
-                dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_required));
+            if (dateOfBirthLayout.getVisibility() == View.VISIBLE && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString())) {
+                dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_invalid));
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);
