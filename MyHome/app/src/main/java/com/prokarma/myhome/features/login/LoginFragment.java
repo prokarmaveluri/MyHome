@@ -551,7 +551,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
                 if (null != token) {
                     AuthManager.getInstance().setSid(retrieveSid(setCookie));
-                    AuthManager.getInstance().setBearerToken(token);
                     if (null != AuthManager.getInstance().getSid())
                         presenter.createSession(AuthManager.getInstance().getSid());
                     getAccessToken(token);
