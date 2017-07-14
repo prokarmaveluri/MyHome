@@ -161,7 +161,7 @@ public class DateUtil {
     }
 
     /**
-     * Checks to see if date is valid and the age is reasonable for a birth date (must be younger than 125, but older than 0)
+     * Checks to see if date is valid and the age is reasonable for a birth date (must be year 1800 or later, but older than 0)
      *
      * @param readableDate
      * @return
@@ -170,12 +170,17 @@ public class DateUtil {
         try {
             SIMPLE_DATE_SLASH_FORMAT.setLenient(false);
             Date date = SIMPLE_DATE_SLASH_FORMAT.parse(readableDate);
-            return !(getAge(date) <= 0 || getAge(date) > 125);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            if (cal.get(Calendar.YEAR) < 1800)
+                return false;
+
+            return !(getAge(date) <= 0);
         } catch (ParseException e) {
             e.printStackTrace();
             return false;
-        }
-        finally {
+        } finally {
             SIMPLE_DATE_FORMAT.setLenient(true);
         }
     }

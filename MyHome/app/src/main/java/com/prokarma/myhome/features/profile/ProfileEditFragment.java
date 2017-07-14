@@ -57,6 +57,7 @@ public class ProfileEditFragment extends BaseFragment {
     TextInputEditText phone;
     TextInputLayout emailLayout;
     TextView email;
+    TextView genderLabel;
 
     TextInputEditText insuranceProvider;
     TextInputEditText memberId;
@@ -82,6 +83,7 @@ public class ProfileEditFragment extends BaseFragment {
         lastNameLayout = (TextInputLayout) profileView.findViewById(R.id.last_name_layout);
         lastName = (TextInputEditText) profileView.findViewById(R.id.last_name);
         preferredName = (TextInputEditText) profileView.findViewById(R.id.preferred_name);
+        genderLabel = (TextView) profileView.findViewById(R.id.gender_label);
         gender = (Spinner) profileView.findViewById(R.id.gender);
         dateOfBirthLayout = (TextInputLayout) profileView.findViewById(R.id.dob_layout);
         dateOfBirth = (TextInputEditText) profileView.findViewById(R.id.dob);
@@ -333,6 +335,15 @@ public class ProfileEditFragment extends BaseFragment {
             lastNameLayout.setError(getString(R.string.last_name_required));
         } else {
             lastNameLayout.setError(null);
+        }
+
+        if (gender.getVisibility() == View.VISIBLE && gender.getSelectedItemPosition() == 0) {
+            isValid = false;
+            genderLabel.setText(getString(R.string.gender_required));
+            genderLabel.setTextColor(getResources().getColor(R.color.red));
+        } else {
+            genderLabel.setText(getString(R.string.gender));
+            genderLabel.setTextColor(getResources().getColor(R.color.text_darker));
         }
 
         if (dateOfBirth.getVisibility() == View.VISIBLE && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) {
