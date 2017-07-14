@@ -239,6 +239,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         detailsProgressBar.setVisibility(View.GONE);
                         Timber.d("Successful Response\n" + response);
                         providerDetailsResponse = response.body();
+                        changeAptAddress();
                         setupInitialView();
                         if (providerDetailsResponse == null) {
                             showStatsUnavailable();
@@ -316,6 +317,19 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 }
             }
         });
+    }
+
+    private void changeAptAddress() {
+        if (providerDetailsResponse == null)
+            return;
+        for (Office office : providerDetailsResponse.getOffices()) {
+            for (Appointment apt : office.getAppointments()) {
+                apt.FacilityAddress = office.getAddressLine();
+                apt.FacilityCity = office.getCity();
+                apt.FacilityState = office.getState();
+                apt.FacilityZip = office.getZipCode();
+            }
+        }
     }
 
     @Override
