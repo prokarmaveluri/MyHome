@@ -1,5 +1,7 @@
 package com.prokarma.myhome.features.update;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by cmajji on 6/12/17.
  */
@@ -50,7 +52,9 @@ public class UpdateResponse {
 
     public class Clients {
 
+        @SerializedName("myhomemobile-android")
         private MyhomeMobileAndroid myhomemobileAndroid;
+        @SerializedName("myhomemobile-ios")
         private MyhomeMobileIos myhomemobileIos;
 
         public MyhomeMobileAndroid getMyhomemobileAndroid() {

@@ -20,6 +20,8 @@ import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.UnderlineSpan;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,21 +41,30 @@ import com.prokarma.myhome.databinding.FragmentLoginBinding;
 import com.prokarma.myhome.features.contact.ContactUsActivity;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.RESTConstants;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.CookieHandler;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
@@ -262,7 +273,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             }
             binder.webViewRedirect.setWebViewClient(new RedirectClient());
             binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
-            binder.webViewRedirect.loadUrl(Constants.auth2Url + sessionToken);
+            binder.webViewRedirect.loadUrl(RESTConstants.auth2Url + sessionToken);
         } else {
             Thread thread = new Thread(urlRunnable);
             thread.start();
@@ -331,9 +342,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     @Nullable
     private String parseIDToken(String url) {
 
-        int index = url.indexOf("id_token=");
+        int index = url.indexOf("code=");
         if (-1 != index) {
-            String token = url.substring(index + "id_token=".length(), url.indexOf("&"));
+            String token = url.substring(index + "code=".length(), url.indexOf("&"));
             return token;
         }
         return null;
@@ -460,8 +471,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                                 int[] locationOnScreen = new int[2];
                                 binder.password.getLocationOnScreen(locationOnScreen);
                                 int touchXCoordinate = (int) event.getRawX() - locationOnScreen[0];
-                                if(touchXCoordinate >= (binder.password.getRight() - binder.password.getTotalPaddingRight()) &&
-                                        touchXCoordinate <= (binder.password.getRight() - binder.password.getPaddingRight())){
+                                if (touchXCoordinate >= (binder.password.getRight() - binder.password.getTotalPaddingRight()) &&
+                                        touchXCoordinate <= (binder.password.getRight() - binder.password.getPaddingRight())) {
 
                                     showPassword = !showPassword;
 
@@ -518,7 +529,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     private void fetchIdTokenUrlConnection() {
 
         try {
-            URL url = new URL(Constants.auth2Url + sessionToken);
+            codeVerifier = generateRandomCodeVerifier();
+            codeChallenge = deriveCodeVerifierChallenge(codeVerifier);
+            URL url = new URL(RESTConstants.OKTA_BASE_URL + String.format(RESTConstants.FETCH_CODE,
+                    codeChallenge, sessionToken));
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 java.net.CookieManager manager = new java.net.CookieManager();
@@ -537,10 +551,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
                 if (null != token) {
                     AuthManager.getInstance().setSid(retrieveSid(setCookie));
-                    AuthManager.getInstance().setBearerToken(token);
                     if (null != AuthManager.getInstance().getSid())
                         presenter.createSession(AuthManager.getInstance().getSid());
-                    mHandler.sendEmptyMessage(ACTION_FINISH);
+                    getAccessToken(token);
                 } else {
                     mHandler.sendEmptyMessage(TOKEN_ERROR);
                 }
@@ -550,7 +563,48 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+    }
 
+    private void getAccessToken(String code) {
+        NetworkManager.getInstance().fetchAccessToken(RESTConstants.GRANT_TYPE_AUTH,
+                code,
+                RESTConstants.CLIENT_ID,
+                RESTConstants.AUTH_SCOPE,
+                RESTConstants.AUTH_REDIRECT_URI,
+                codeVerifier).enqueue(new Callback<AccessTokenResponse>() {
+            @Override
+            public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
+                if (response.isSuccessful()) {
+                    AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
+                    mHandler.sendEmptyMessage(ACTION_FINISH);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
+                Timber.i("onFailure : ");
+                mHandler.sendEmptyMessage(TOKEN_ERROR);
+            }
+        });
+    }
+
+    private void refreshAccessToken(String refreshToken) {
+        NetworkManager.getInstance().refreshAccessToken(RESTConstants.GRANT_TYPE_REFRESH,
+                refreshToken,
+                RESTConstants.CLIENT_ID,
+                RESTConstants.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshAccessTokenResponse> call, Response<RefreshAccessTokenResponse> response) {
+                if (response.isSuccessful()) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshAccessTokenResponse> call, Throwable t) {
+                Timber.i("onFailure : ");
+            }
+        });
     }
 
     /**
@@ -569,6 +623,70 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             }
         }
         return cookieValue;
+    }
+
+    // Generate Code Verifier and Code Challenge for new login
+
+    private String codeVerifier;
+    private String codeChallenge;
+
+    /**
+     * Base64 encoding settings used for generated code verifiers.
+     */
+    private static final int PKCE_BASE64_ENCODE_SETTINGS =
+            Base64.NO_WRAP | Base64.NO_PADDING | Base64.URL_SAFE;
+
+    /**
+     * The default entropy (in bytes) used for the code verifier.
+     */
+    public static final int DEFAULT_CODE_VERIFIER_ENTROPY = 64;
+
+    /**
+     * The minimum permitted entropy (in bytes) for use with
+     * {@link #generateRandomCodeVerifier(SecureRandom, int)}.
+     */
+    public static final int MIN_CODE_VERIFIER_ENTROPY = 32;
+
+    /**
+     * The maximum permitted entropy (in bytes) for use with
+     * {@link #generateRandomCodeVerifier(SecureRandom, int)}.
+     */
+    public static final int MAX_CODE_VERIFIER_ENTROPY = 96;
+
+
+    public static String deriveCodeVerifierChallenge(String codeVerifier) {
+        try {
+            MessageDigest sha256Digester = MessageDigest.getInstance("SHA-256");
+            sha256Digester.update(codeVerifier.getBytes("ISO_8859_1"));
+            byte[] digestBytes = sha256Digester.digest();
+            return Base64.encodeToString(digestBytes, PKCE_BASE64_ENCODE_SETTINGS);
+        } catch (NoSuchAlgorithmException e) {
+            Log.w("CodeVerifierChallenge", "SHA-256 is not supported on this device! Using plain challenge", e);
+            return codeVerifier;
+        } catch (UnsupportedEncodingException e) {
+            Log.e("CodeVerifierChallenge", "ISO-8859-1 encoding not supported on this device!", e);
+            throw new IllegalStateException("ISO-8859-1 encoding not supported", e);
+        }
+    }
+
+    /**
+     * Generates a random code verifier string using {@link SecureRandom} as the source of
+     * entropy, with the default entropy quantity as defined by
+     * {@link #DEFAULT_CODE_VERIFIER_ENTROPY}.
+     */
+    public static String generateRandomCodeVerifier() {
+//        return generateRandomCodeVerifier(new SecureRandom(), DEFAULT_CODE_VERIFIER_ENTROPY);
+        return generateRandomCodeVerifier(new SecureRandom(), 32);
+    }
+
+    /**
+     * Generates a random code verifier string using the provided entropy source and the specified
+     * number of bytes of entropy.
+     */
+    public static String generateRandomCodeVerifier(SecureRandom entropySource, int entropyBytes) {
+        byte[] randomBytes = new byte[entropyBytes];
+        entropySource.nextBytes(randomBytes);
+        return Base64.encodeToString(randomBytes, PKCE_BASE64_ENCODE_SETTINGS);
     }
 }
 
