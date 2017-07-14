@@ -29,6 +29,7 @@ import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.PhoneNumberFormatter;
 import com.prokarma.myhome.utils.ValidationUtil;
 
 import java.util.List;
@@ -193,7 +194,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         updateVisibility(true);
 
-        insurancePhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        insurancePhone.addTextChangedListener(new PhoneNumberFormatter(insurancePhone));
     }
 
     private void setupPersonal() {
@@ -239,7 +240,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         dateOfBirth.addTextChangedListener(DateUtil.getDateOfBirthTextWatcher(dateOfBirth));
 
-        phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        phone.addTextChangedListener(new PhoneNumberFormatter(phone));
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override

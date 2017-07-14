@@ -77,8 +77,9 @@ public class CommonUtil {
         }
     }
 
+    static public final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
     public static boolean isValidMobile(String phone) {
-        return android.util.Patterns.PHONE.matcher(phone).matches();
+        return PHONE_NUMBER_PATTERN.matcher(phone).find();
     }
 
     public static String getBulletPoints(Context context) {

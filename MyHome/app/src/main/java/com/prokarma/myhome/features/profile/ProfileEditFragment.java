@@ -24,6 +24,7 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.PhoneNumberFormatter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,7 +102,7 @@ public class ProfileEditFragment extends BaseFragment {
 
         dateOfBirth.addTextChangedListener(DateUtil.getDateOfBirthTextWatcher(dateOfBirth));
 
-        phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        phone.addTextChangedListener(new PhoneNumberFormatter(phone));
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -297,7 +298,7 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.phoneNumber != null) {
-            phone.setText(profile.phoneNumber);
+            phone.setText(profile.phoneNumber.replaceAll("\\.","-"));
         }
 
         if (profile.email != null) {
