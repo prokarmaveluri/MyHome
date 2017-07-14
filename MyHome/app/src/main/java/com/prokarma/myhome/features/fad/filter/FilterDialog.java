@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -14,6 +15,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -135,6 +137,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             binding.distanceRange.setProgress(distanceRange);
             binding.distanceRangeText.setText(distanceRange + " " + getString(R.string.miles_concat));
             binding.distanceRange.setOnSeekBarChangeListener(this);
+            drawableClickEvent();
         } catch (NullPointerException ex) {
         }
         binding.setHandlers(new DialogClick());
@@ -345,6 +348,8 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             } else {
                 binding.locationSugg.setVisibility(View.GONE);
             }
+            if (s.length() > 1)
+                setRightDrawable(true);
             isHide = false;
         }
     }
@@ -392,5 +397,41 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
     private void expandGroups() {
         for (int index = 0; index < 5; index++)
             binding.expandableList.expandGroup(index);
+    }
+
+    private void drawableClickEvent() {
+        binding.filterLocation.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        final int DRAWABLE_RIGHT = 2;
+                        try {
+                            if (event.getAction() == MotionEvent.ACTION_UP) {
+                                if ((int) event.getRawX() >= (binding.filterLocation.getRight() -
+                                        binding.filterLocation.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                                    if (binding.filterLocation.getText().length() > 0) {
+                                        binding.filterLocation.setText("");
+                                        setRightDrawable(false);
+                                    }
+                                    return true;
+                                }
+                            }
+                        } catch (NullPointerException ex) {
+                            ex.printStackTrace();
+                        }
+                        return false;
+                    }
+                });
+    }
+
+    private void setRightDrawable(boolean isRight) {
+        Drawable leftDrawable = getContext().getResources().getDrawable(R.drawable.ic_location_blue);
+        if (isRight) {
+            Drawable rightDrawable = getContext().getResources().getDrawable(R.mipmap.xblue);
+            binding.filterLocation.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, rightDrawable, null);
+        } else {
+            binding.filterLocation.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, null, null, null);
+        }
     }
 }

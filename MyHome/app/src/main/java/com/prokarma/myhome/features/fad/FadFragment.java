@@ -389,6 +389,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
                         binding.searchQuery.setCursorVisible(true);
+                        getSearchSuggestions("");
                     }
                 });
                 break;
