@@ -25,4 +25,11 @@ public class RESTConstants {
     public static final String PROVIDER_PAGE_SIZE = "25";
     public static final String PROVIDER_DISTANCE = "100";
 
+
+    public static final String CLIENT_ID = "0oab54ai6q0zFI8fq0h7";
+    public static final String AUTH_SCOPE = "openid+email+profile+offline_access+groups";
+    public static final String AUTH_REDIRECT_URI = "http://localhost:8080";
+    public static final String GRANT_TYPE_AUTH = "authorization_code";
+    public static final String GRANT_TYPE_REFRESH = "refresh_token";
+
 }

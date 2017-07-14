@@ -62,8 +62,7 @@ public interface RESTService {
 
     @FormUrlEncoded
     @POST(RESTConstants.OKTA_BASE_URL + "oauth2/ausb2b0jbri7MsQGl0h7/v1/token")
-    Call<AccessTokenResponse> fetchAccessToken(@Header("Content-Type") String contentType,
-                                               @Field("grant_type") String grantType,
+    Call<AccessTokenResponse> fetchAccessToken(@Field("grant_type") String grantType,
                                                @Field("code") String code,
                                                @Field("client_id") String clientId,
                                                @Field("scope") String scope,
@@ -73,8 +72,7 @@ public interface RESTService {
 
     @FormUrlEncoded
     @POST(RESTConstants.OKTA_BASE_URL + "oauth2/ausb2b0jbri7MsQGl0h7/v1/token")
-    Call<RefreshAccessTokenResponse> refreshAccessToken(@Header("Content-Type") String contentType,
-                                                        @Field("grant_type") String grantType,
+    Call<RefreshAccessTokenResponse> refreshAccessToken(@Field("grant_type") String grantType,
                                                         @Field("refresh_token") String refreshToken,
                                                         @Field("client_id") String clientId,
                                                         @Field("redirect_uri") String redirectUri

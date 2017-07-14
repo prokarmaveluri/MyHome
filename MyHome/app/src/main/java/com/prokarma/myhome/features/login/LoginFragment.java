@@ -554,10 +554,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     AuthManager.getInstance().setBearerToken(token);
                     if (null != AuthManager.getInstance().getSid())
                         presenter.createSession(AuthManager.getInstance().getSid());
-//                    mHandler.sendEmptyMessage(ACTION_FINISH);
-                    getAccessToken();
+                    getAccessToken(token);
                 } else {
-//                    mHandler.sendEmptyMessage(TOKEN_ERROR);
+                    mHandler.sendEmptyMessage(TOKEN_ERROR);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -565,37 +564,36 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
     }
 
-    private void getAccessToken() {
-        NetworkManager.getInstance().fetchAccessToken("application/x-www-form-urlencoded",
-                "authorization_code",
-                AuthManager.getInstance().getBearerToken(),
-                "0oab54ai6q0zFI8fq0h7", //NtFXqaF8iMnVbfdtJfsF, 0oab54ai6q0zFI8fq0h7
-                "openid+email+profile+offline_access+groups",
-                "http://localhost:8080",
+    private void getAccessToken(String code) {
+        NetworkManager.getInstance().fetchAccessToken(RESTConstants.GRANT_TYPE_AUTH,
+                code,
+                RESTConstants.CLIENT_ID,
+                RESTConstants.AUTH_SCOPE,
+                RESTConstants.AUTH_REDIRECT_URI,
                 codeVerifier).enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
                 if (response.isSuccessful()) {
-                    refreshAccessToken(response.body().getRefreshToken());
+                    AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
+                    mHandler.sendEmptyMessage(ACTION_FINISH);
                 }
             }
 
             @Override
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
                 Timber.i("onFailure : ");
+                mHandler.sendEmptyMessage(TOKEN_ERROR);
             }
         });
     }
 
     private void refreshAccessToken(String refreshToken) {
-        NetworkManager.getInstance().refreshAccessToken("application/x-www-form-urlencoded",
-                "refresh_token",
+        NetworkManager.getInstance().refreshAccessToken(RESTConstants.GRANT_TYPE_REFRESH,
                 refreshToken,
-                "0oab54ai6q0zFI8fq0h7", //NtFXqaF8iMnVbfdtJfsF, 0oab54ai6q0zFI8fq0h7
-                "http://localhost:8080").enqueue(new Callback<RefreshAccessTokenResponse>() {
+                RESTConstants.CLIENT_ID,
+                RESTConstants.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
             @Override
             public void onResponse(Call<RefreshAccessTokenResponse> call, Response<RefreshAccessTokenResponse> response) {
                 if (response.isSuccessful()) {

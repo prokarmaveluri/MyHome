@@ -326,15 +326,13 @@ public class NetworkManager {
         return service.versionCheck();
     }
 
-    public Call<AccessTokenResponse> fetchAccessToken(String contentType,
-                                                      String grantType,
+    public Call<AccessTokenResponse> fetchAccessToken(String grantType,
                                                       String code,
                                                       String clientId,
                                                       String scope,
                                                       String redirectUri,
                                                       String codeUerifier) {
-        return service.fetchAccessToken(contentType,
-                grantType,
+        return service.fetchAccessToken(grantType,
                 code,
                 clientId,
                 scope,
@@ -342,13 +340,11 @@ public class NetworkManager {
                 codeUerifier);
     }
 
-    public Call<RefreshAccessTokenResponse> refreshAccessToken(String contentType,
-                                                               String grantType,
+    public Call<RefreshAccessTokenResponse> refreshAccessToken(String grantType,
                                                                String refreshToken,
                                                                String clientId,
                                                                String redirectUri) {
-        return service.refreshAccessToken(contentType,
-                grantType,
+        return service.refreshAccessToken(grantType,
                 refreshToken,
                 clientId,
                 redirectUri);
