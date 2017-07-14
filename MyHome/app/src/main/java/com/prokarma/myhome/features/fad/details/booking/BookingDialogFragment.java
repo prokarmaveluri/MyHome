@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
@@ -31,7 +30,7 @@ import timber.log.Timber;
  * Created by kwelsh on 5/25/17.
  */
 
-public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface, BookingSaveProfileInterface {
+public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface, BookingSaveProfileInterface, DialogInterface {
     public static final String BOOKING_DIALOG_TAG = "booking_dialog_tag";
     public static final String SCHEDULE_ID_KEY = "schedule_id";
     public static final String IS_BOOKING_FOR_ME_KEY = "is_booking_for_me";
@@ -59,6 +58,12 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         args.putParcelable(BOOKING_PROFILE, bookingProfile);
         bookingFragment.setArguments(args);
         return bookingFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NO_FRAME, R.style.DialogTheame);
     }
 
     @Nullable
@@ -116,11 +121,15 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
+        BookingDialog dialog = new BookingDialog(getContext(), getTheme());
+        dialog.setDialogInterface(this);
         return dialog;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
 
     @Override
@@ -202,5 +211,14 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     @Override
     public void onPromptDismissed(boolean isProfileUpdated) {
         this.getDialog().dismiss();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(bookingViewPager.getCurrentItem() == 0){
+            this.dismiss();
+        } else {
+            bookingViewPager.setCurrentItem(bookingViewPager.getCurrentItem() - 1, true);
+        }
     }
 }
