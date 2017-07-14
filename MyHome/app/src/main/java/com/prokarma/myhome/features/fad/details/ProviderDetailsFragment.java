@@ -52,6 +52,7 @@ import com.prokarma.myhome.features.fad.details.booking.BookingSelectTimeFragmen
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.features.profile.Profile;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -351,6 +352,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         if (fragment != null) {
             //Close book appointments and reset flow again
             restartSchedulingFlow();
+            expandableLinearLayout.collapse();
+            expandableLinearLayout.initLayout();
         }
 
         address.setText(marker.getSnippet());
@@ -545,8 +548,33 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     }
 
+    //Launches the booking registration form
+    private void launchRegistrationForms(){
+        if(isBookingForMe && bookingProfile != null){
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe, bookingProfile);
+            bookingRegistrationDialog.setBookingDialogInterface(this);
+            bookingRegistrationDialog.setCancelable(false);
+            bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+        } else if (isBookingForMe) {
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe, ProfileManager.getProfile());
+            bookingRegistrationDialog.setBookingDialogInterface(this);
+            bookingRegistrationDialog.setCancelable(false);
+            bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+        } else {
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe, new Profile());
+            bookingRegistrationDialog.setBookingDialogInterface(this);
+            bookingRegistrationDialog.setCancelable(false);
+            bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+        }
+    }
+
     @Override
     public void onPersonSelected(boolean isBookingForMe) {
+        //If user selects different option, clear booking profile
+        if(isBookingForMe != this.isBookingForMe){
+            this.bookingProfile = null;
+        }
+
         this.isBookingForMe = isBookingForMe;
         BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
         bookingFragment.setSelectStatusInterface(this);
@@ -583,9 +611,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         if (fragment != null) {
             return;
         }
-        BookingDialogFragment dialogFragment = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe);
-        dialogFragment.setBookingDialogInterface(this);
-        dialogFragment.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+
+        launchRegistrationForms();
     }
 
     @Override
@@ -668,10 +695,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     .commit();
             getChildFragmentManager().executePendingTransactions();
 
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe);
-            bookingRegistrationDialog.setBookingDialogInterface(this);
-            bookingRegistrationDialog.setCancelable(false);
-            bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+            launchRegistrationForms();
         }
     }
 
@@ -722,14 +746,18 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             //If on Time or Calendar booking page, just popbackstack to
             getChildFragmentManager().popBackStack(TIME_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return true;
+        } else if (fragment != null && fragment instanceof BookingDoneFragment){
+            restartSchedulingFlow();
+            expandableLinearLayout.collapse();
+            expandableLinearLayout.initLayout();
+            return true;
         } else if (getChildFragmentManager().getBackStackEntryCount() > 1) {
             getChildFragmentManager().popBackStack();
             return true;
         } else if (getChildFragmentManager().getBackStackEntryCount() == 1) {
-            getChildFragmentManager().popBackStack();
+            restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();
-            bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
             return true;
         } else {
             return false;

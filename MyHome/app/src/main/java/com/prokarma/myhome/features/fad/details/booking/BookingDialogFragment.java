@@ -35,6 +35,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     public static final String BOOKING_DIALOG_TAG = "booking_dialog_tag";
     public static final String SCHEDULE_ID_KEY = "schedule_id";
     public static final String IS_BOOKING_FOR_ME_KEY = "is_booking_for_me";
+    public static final String BOOKING_PROFILE = "booking_profile";
 
     public BookingDialogInterface bookingDialogInterface;
 
@@ -44,16 +45,18 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
     private String scheduleId;
     private boolean isBookingForMe = true;
+    private Profile bookingProfile = null;
 
     public static BookingDialogFragment newInstance() {
         return new BookingDialogFragment();
     }
 
-    public static BookingDialogFragment newInstance(String scheduleId, boolean isBookingForMe) {
+    public static BookingDialogFragment newInstance(String scheduleId, boolean isBookingForMe, Profile bookingProfile) {
         BookingDialogFragment bookingFragment = new BookingDialogFragment();
         Bundle args = new Bundle();
         args.putString(SCHEDULE_ID_KEY, scheduleId);
         args.putBoolean(IS_BOOKING_FOR_ME_KEY, isBookingForMe);
+        args.putParcelable(BOOKING_PROFILE, bookingProfile);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -66,6 +69,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         if (args != null) {
             scheduleId = args.getString(SCHEDULE_ID_KEY);
             isBookingForMe = args.getBoolean(IS_BOOKING_FOR_ME_KEY);
+            bookingProfile = args.getParcelable(BOOKING_PROFILE);
         }
 
         //providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
@@ -73,7 +77,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
         bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
         bookingViewPager.setSwipeAllowed(false);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, isBookingForMe, ProfileManager.getProfile()));
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, isBookingForMe, bookingProfile));
 
         toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.find_care));

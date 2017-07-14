@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +25,6 @@ import com.prokarma.myhome.features.fad.details.booking.req.validation.RegAttrib
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegIncluded;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.profile.Profile;
-import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.ValidationUtil;
@@ -100,13 +98,10 @@ public class BookingDialogAdapter extends PagerAdapter {
 
     private Profile formsProfile;
 
-    public BookingDialogAdapter(Context context, BookingDialogToolbarInterface bookingDialogToolbarInterface, boolean autoPopulateFromProfile) {
+    public BookingDialogAdapter(Context context, BookingDialogToolbarInterface bookingDialogToolbarInterface) {
         this.context = context;
         this.bookingDialogToolbarInterface = bookingDialogToolbarInterface;
-        this.autoPopulateFromProfile = autoPopulateFromProfile;
-        if (autoPopulateFromProfile) {
-            formsProfile = Profile.copy(ProfileManager.getProfile());
-        }
+        this.autoPopulateFromProfile = false;
     }
 
     public BookingDialogAdapter(Context context, BookingDialogToolbarInterface bookingDialogToolbarInterface, boolean autoPopulateFromProfile, Profile profile) {
