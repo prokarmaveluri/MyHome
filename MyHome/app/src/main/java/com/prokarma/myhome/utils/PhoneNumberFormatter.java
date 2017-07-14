@@ -49,6 +49,8 @@ public class PhoneNumberFormatter implements TextWatcher {
             sbFormattedNumber.append(string.substring(index, string.length()));
             phone.removeTextChangedListener(this);
             phone.setText(sbFormattedNumber.toString());
+            if(selectionIndex < 0) selectionIndex = 0;
+            if(selectionIndex > sbFormattedNumber.toString().length()) selectionIndex = sbFormattedNumber.toString().length();
             phone.setSelection(selectionIndex);
             phone.addTextChangedListener(this);
         }
