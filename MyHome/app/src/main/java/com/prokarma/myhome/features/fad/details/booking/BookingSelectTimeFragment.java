@@ -47,6 +47,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public Date firstAppointmentDate;
     public Date lastAppointmentDate;
     public BookingDateHeaderInterface selectTimeInterface;
+    public BookingRefreshInterface refreshInterface;
 
     View bookingView;
     TextView monthLabel;
@@ -155,6 +156,15 @@ public class BookingSelectTimeFragment extends Fragment {
         setupView();
 
         return bookingView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(refreshInterface != null){
+            refreshInterface.onRefreshView(true);
+        }
     }
 
     private void setupView() {
@@ -360,5 +370,9 @@ public class BookingSelectTimeFragment extends Fragment {
 
     public void setSelectTimeInterface(BookingDateHeaderInterface selectTimeInterface) {
         this.selectTimeInterface = selectTimeInterface;
+    }
+
+    public void setRefreshInterface(BookingRefreshInterface refreshInterface) {
+        this.refreshInterface = refreshInterface;
     }
 }

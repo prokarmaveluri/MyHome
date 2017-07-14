@@ -18,6 +18,7 @@ public class BookingSelectPersonFragment extends Fragment {
     public static final String BOOKING_SELECT_PERSON_TAG = "booking_select_person_tag";
 
     public BookingSelectPersonInterface selectPersonInterface;
+    public BookingRefreshInterface refreshInterface;
 
     View bookingView;
 
@@ -53,7 +54,20 @@ public class BookingSelectPersonFragment extends Fragment {
         return bookingView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(refreshInterface != null){
+            refreshInterface.onRefreshView(true);
+        }
+    }
+
     public void setSelectPersonInterface(BookingSelectPersonInterface selectPersonInterface) {
         this.selectPersonInterface = selectPersonInterface;
+    }
+
+    public void setRefreshInterface(BookingRefreshInterface refreshInterface) {
+        this.refreshInterface = refreshInterface;
     }
 }

@@ -34,6 +34,7 @@ public class BookingSelectCalendarFragment extends Fragment {
     private Date bookingDate;
     private ArrayList<Appointment> appointments;
     private BookingDateHeaderInterface selectTimeInterface;
+    private BookingRefreshInterface refreshInterface;
 
     View bookingView;
     MaterialCalendarView calendar;
@@ -128,6 +129,15 @@ public class BookingSelectCalendarFragment extends Fragment {
         return bookingView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(refreshInterface != null){
+            refreshInterface.onRefreshView(true);
+        }
+    }
+
     public void setMonthHeader(CalendarDay calendarDay) {
         monthLabel.setText(DateUtil.convertDateToReadableShortWords(calendarDay.getDate()));
 
@@ -152,5 +162,9 @@ public class BookingSelectCalendarFragment extends Fragment {
 
     public void setSelectTimeInterface(BookingDateHeaderInterface selectTimeInterface) {
         this.selectTimeInterface = selectTimeInterface;
+    }
+
+    public void setRefreshInterface(BookingRefreshInterface refreshInterface) {
+        this.refreshInterface = refreshInterface;
     }
 }

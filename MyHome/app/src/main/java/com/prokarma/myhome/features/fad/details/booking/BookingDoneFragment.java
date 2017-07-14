@@ -41,7 +41,8 @@ public class BookingDoneFragment extends Fragment {
     public static final String IS_NEW_PATIENT_KEY = "is_new_patient";
     public static final String IS_BOOKING_FOR_ME = "is_booking_for_me";
 
-    public BookingDoneInterface bookingDoneInterface;
+    public BookingDoneInterface doneInterface;
+    public BookingRefreshInterface refreshInterface;
 
     View bookingView;
     TextView bookSuccess;
@@ -116,8 +117,8 @@ public class BookingDoneFragment extends Fragment {
         directionsIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookingDoneInterface != null) {
-                    bookingDoneInterface.onClickDirections();
+                if (doneInterface != null) {
+                    doneInterface.onClickDirections();
                 }
             }
         });
@@ -125,8 +126,8 @@ public class BookingDoneFragment extends Fragment {
         directions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookingDoneInterface != null) {
-                    bookingDoneInterface.onClickDirections();
+                if (doneInterface != null) {
+                    doneInterface.onClickDirections();
                 }
             }
         });
@@ -134,8 +135,8 @@ public class BookingDoneFragment extends Fragment {
         shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookingDoneInterface != null) {
-                    bookingDoneInterface.onClickShare();
+                if (doneInterface != null) {
+                    doneInterface.onClickShare();
                 }
             }
         });
@@ -143,8 +144,8 @@ public class BookingDoneFragment extends Fragment {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookingDoneInterface != null) {
-                    bookingDoneInterface.onClickShare();
+                if (doneInterface != null) {
+                    doneInterface.onClickShare();
                 }
             }
         });
@@ -152,8 +153,8 @@ public class BookingDoneFragment extends Fragment {
         calendarIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookingDoneInterface != null) {
-                    bookingDoneInterface.onClickAddToCalendar();
+                if (doneInterface != null) {
+                    doneInterface.onClickAddToCalendar();
                 }
             }
         });
@@ -161,8 +162,8 @@ public class BookingDoneFragment extends Fragment {
         calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookingDoneInterface != null) {
-                    bookingDoneInterface.onClickAddToCalendar();
+                if (doneInterface != null) {
+                    doneInterface.onClickAddToCalendar();
                 }
             }
         });
@@ -170,8 +171,21 @@ public class BookingDoneFragment extends Fragment {
         return bookingView;
     }
 
-    public void setBookingDoneInterface(BookingDoneInterface bookingDoneInterface) {
-        this.bookingDoneInterface = bookingDoneInterface;
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(refreshInterface != null){
+            refreshInterface.onRefreshView(true);
+        }
+    }
+
+    public void setDoneInterface(BookingDoneInterface doneInterface) {
+        this.doneInterface = doneInterface;
+    }
+
+    public void setRefreshInterface(BookingRefreshInterface refreshInterface) {
+        this.refreshInterface = refreshInterface;
     }
 
     private void updateVisibility(boolean isLoading) {
@@ -208,15 +222,15 @@ public class BookingDoneFragment extends Fragment {
                         time.setText(DateUtil.getTime(bookingAppointment.Time));
                         address.setText(CommonUtil.constructAddress(bookingAppointment.FacilityAddress, null, bookingAppointment.FacilityCity, bookingAppointment.FacilityState, bookingAppointment.FacilityZip));
 
-                        if (bookingDoneInterface != null) {
-                            bookingDoneInterface.onBookingSuccess();
+                        if (doneInterface != null) {
+                            doneInterface.onBookingSuccess();
                         }
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                         updateVisibility(false);
 
-                        if (bookingDoneInterface != null) {
-                            bookingDoneInterface.onBookingFailed(response.message());
+                        if (doneInterface != null) {
+                            doneInterface.onBookingFailed(response.message());
                         }
                     }
                 }
@@ -229,8 +243,8 @@ public class BookingDoneFragment extends Fragment {
                     Timber.e("Throwable = " + t);
                     updateVisibility(false);
 
-                    if (bookingDoneInterface != null) {
-                        bookingDoneInterface.onBookingFailed(t.getMessage());
+                    if (doneInterface != null) {
+                        doneInterface.onBookingFailed(t.getMessage());
                     }
                 }
             }

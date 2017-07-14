@@ -21,6 +21,7 @@ public class BookingSelectStatusFragment extends Fragment {
     public static final String SHOW_EXISTING_KEY = "show_existing";
 
     public BookingSelectStatusInterface selectStatusInterface;
+    public BookingRefreshInterface refreshInterface;
 
     View bookingView;
     boolean showNew;
@@ -95,7 +96,20 @@ public class BookingSelectStatusFragment extends Fragment {
         return bookingView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(refreshInterface != null){
+            refreshInterface.onRefreshView(true);
+        }
+    }
+
     public void setSelectStatusInterface(BookingSelectStatusInterface selectStatusInterface) {
         this.selectStatusInterface = selectStatusInterface;
+    }
+
+    public void setRefreshInterface(BookingRefreshInterface refreshInterface) {
+        this.refreshInterface = refreshInterface;
     }
 }

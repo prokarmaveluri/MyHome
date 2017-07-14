@@ -26,7 +26,8 @@ public class BookingConfirmationFragment extends Fragment {
     public static final String BOOKING_PROFILE_KEY = "booking_profile";
     public static final String BOOKING_APPOINTMENT_KEY = "booking_appointment";
 
-    public BookingConfirmationInterface bookingConfirmationInterface;
+    public BookingConfirmationInterface confirmationInterface;
+    public BookingRefreshInterface refreshInterface;
 
     View bookingView;
     Profile bookingProfile;
@@ -68,8 +69,8 @@ public class BookingConfirmationFragment extends Fragment {
                             Toast.LENGTH_LONG).show();
                     return;
                 }
-                if (bookingConfirmationInterface != null) {
-                    bookingConfirmationInterface.onClickBook();
+                if (confirmationInterface != null) {
+                    confirmationInterface.onClickBook();
                 }
             }
         });
@@ -87,7 +88,20 @@ public class BookingConfirmationFragment extends Fragment {
         return bookingView;
     }
 
-    public void setBookingConfirmationInterface(BookingConfirmationInterface bookingConfirmationInterface) {
-        this.bookingConfirmationInterface = bookingConfirmationInterface;
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(refreshInterface != null){
+            refreshInterface.onRefreshView(true);
+        }
+    }
+
+    public void setConfirmationInterface(BookingConfirmationInterface confirmationInterface) {
+        this.confirmationInterface = confirmationInterface;
+    }
+
+    public void setRefreshInterface(BookingRefreshInterface refreshInterface) {
+        this.refreshInterface = refreshInterface;
     }
 }
