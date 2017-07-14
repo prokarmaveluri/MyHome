@@ -739,18 +739,19 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public boolean onBackButtonPressed() {
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
-        if (bookingRegistrationDialog != null && bookingRegistrationDialog.isVisible()) {
-            //If on booking dialog forms, just dismiss
-            bookingRegistrationDialog.dismiss();
-            return true;
-        } else if (fragment != null && (fragment instanceof BookingSelectCalendarFragment || fragment instanceof BookingSelectTimeFragment)) {
-            //If on Time or Calendar booking page, just popbackstack to
+        if (fragment != null && (fragment instanceof BookingSelectCalendarFragment || fragment instanceof BookingSelectTimeFragment)) {
+            //If on Time or Calendar booking page, just popbackstack to before all the Time/Calendar fragments
             getChildFragmentManager().popBackStack(TIME_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return true;
         } else if (fragment != null && fragment instanceof BookingDoneFragment){
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();
+            return true;
+        } else if (fragment != null && fragment instanceof BookingConfirmationFragment){
+            //You should go back to the Time slot, but relaunch the Registration Forms
+            getChildFragmentManager().popBackStack();
+            launchRegistrationForms();
             return true;
         } else if (getChildFragmentManager().getBackStackEntryCount() > 1) {
             getChildFragmentManager().popBackStack();
