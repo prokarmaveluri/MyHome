@@ -21,10 +21,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-/*
- * Fragment dialog to display the password criteria.
- *
- * Created by cmajji on 1/03/17.
+/**
+ * Fragment dialog to ask user whether they want to save info from Booking Flow
  */
 public class BookingSaveProfileDialog extends DialogFragment {
     public static final String BOOKING_SAVE_PROFILE_DIALOG_TAG = "BookingSaveProfileDialog";

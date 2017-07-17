@@ -159,8 +159,6 @@ public class Profile implements Parcelable {
                 Objects.equals(address, profile.address) &&
                 Objects.equals(phoneNumber, profile.phoneNumber) &&
                 Objects.equals(phoneNumberType, profile.phoneNumberType) &&
-                Objects.equals(contactName, profile.contactName) &&
-                Objects.equals(contactPhoneNumber, profile.contactPhoneNumber) &&
                 Objects.equals(primaryCaregiverName, profile.primaryCaregiverName) &&
                 Objects.equals(insuranceProvider, profile.insuranceProvider) &&
                 Objects.equals(clientID, profile.clientID) &&
@@ -199,6 +197,35 @@ public class Profile implements Parcelable {
             profile.translationNeeded = otherProfile.translationNeeded;
             profile.translatorLanguage = otherProfile.translatorLanguage;
             profile.assistanceNeeded = otherProfile.assistanceNeeded;
+        }
+
+        return profile;
+    }
+
+    /**
+     * Simple Copy-By-Value method to avoid copy by reference problems when using a Singleton.
+     * This method does not save Booking-specfic info.
+     *
+     * @param otherProfile
+     * @return
+     */
+    public static Profile copySansBookingInfo(Profile otherProfile) {
+        Profile profile = new Profile();
+
+        if (otherProfile != null) {
+            profile.firstName = otherProfile.firstName;
+            profile.middleInitial = otherProfile.middleInitial;
+            profile.lastName = otherProfile.lastName;
+            profile.preferredName = otherProfile.preferredName;
+            profile.gender = otherProfile.gender;
+            profile.dateOfBirth = otherProfile.dateOfBirth;
+            profile.address = Address.copy(otherProfile.address);
+            profile.phoneNumber = otherProfile.phoneNumber;
+            profile.phoneNumberType = otherProfile.phoneNumberType;
+            profile.insuranceProvider = InsuranceProvider.copySansBookingInfo(otherProfile.insuranceProvider);
+            profile.clientID = otherProfile.clientID;
+            profile.remoteID = otherProfile.remoteID;
+            profile.email = otherProfile.email;
         }
 
         return profile;

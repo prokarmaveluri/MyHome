@@ -69,6 +69,25 @@ public class InsuranceProvider implements Parcelable {
         return insuranceProvider;
     }
 
+    /**
+     * Simple Copy-By-Value method to avoid copy by reference problems when using a Singleton.
+     * This method does not save Booking-specfic info.
+     *
+     * @param otherInsuranceProvider
+     * @return
+     */
+    public static InsuranceProvider copySansBookingInfo(InsuranceProvider otherInsuranceProvider) {
+        InsuranceProvider insuranceProvider = new InsuranceProvider();
+
+        if (otherInsuranceProvider != null) {
+            insuranceProvider.providerName = otherInsuranceProvider.providerName;
+            insuranceProvider.groupNumber = otherInsuranceProvider.groupNumber;
+            insuranceProvider.memberNumber = otherInsuranceProvider.memberNumber;
+        }
+
+        return insuranceProvider;
+    }
+
     @Override
     public int describeContents() {
         return 0;
