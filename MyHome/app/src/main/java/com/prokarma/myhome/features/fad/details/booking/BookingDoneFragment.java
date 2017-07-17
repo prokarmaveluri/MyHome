@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
+import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -99,54 +100,42 @@ public class BookingDoneFragment extends Fragment {
         directionsIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doneInterface != null) {
-                    doneInterface.onClickDirections();
-                }
+                onClickDirections();
             }
         });
 
         directions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doneInterface != null) {
-                    doneInterface.onClickDirections();
-                }
+                onClickDirections();
             }
         });
 
         shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doneInterface != null) {
-                    doneInterface.onClickShare();
-                }
+                onClickShare();
             }
         });
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doneInterface != null) {
-                    doneInterface.onClickShare();
-                }
+                onClickShare();
             }
         });
 
         calendarIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doneInterface != null) {
-                    doneInterface.onClickAddToCalendar();
-                }
+                onClickAddToCalendar();
             }
         });
 
         calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doneInterface != null) {
-                    doneInterface.onClickAddToCalendar();
-                }
+                onClickAddToCalendar();
             }
         });
 
@@ -232,5 +221,35 @@ public class BookingDoneFragment extends Fragment {
             }
         });
 
+    }
+
+    public void onClickDirections() {
+        CommonUtil.getDirections(
+                getActivity(),
+                new Address(BookingManager.getBookingAppointment().FacilityAddress, null, BookingManager.getBookingAppointment().FacilityCity, BookingManager.getBookingAppointment().FacilityState, BookingManager.getBookingAppointment().FacilityZip, null)
+        );
+    }
+
+    public void onClickShare() {
+        CommonUtil.shareAppointment(
+                getActivity(),
+                BookingManager.getBookingAppointment().Time,
+                BookingManager.getBookingProvider().getDisplayFullName(),
+                BookingManager.getBookingOffice().getName(),
+                new Address(BookingManager.getBookingOffice().getAddress1(), BookingManager.getBookingOffice().getAddress2(), BookingManager.getBookingOffice().getCity(), BookingManager.getBookingOffice().getState(), BookingManager.getBookingOffice().getZipCode(), null),
+                BookingManager.getBookingOffice().getPhone(),
+                BookingManager.getBookingProfile().reasonForVisit
+        );
+    }
+
+    public void onClickAddToCalendar() {
+        CommonUtil.addCalendarEvent(
+                getActivity(),
+                BookingManager.getBookingAppointment().Time,
+                BookingManager.getBookingProvider().getDisplayFullName(),
+                new Address(BookingManager.getBookingOffice().getAddress1(), BookingManager.getBookingOffice().getAddress2(), BookingManager.getBookingOffice().getCity(), BookingManager.getBookingOffice().getState(), BookingManager.getBookingOffice().getZipCode(), null),
+                BookingManager.getBookingOffice().getPhone(),
+                BookingManager.getBookingProfile().reasonForVisit
+        );
     }
 }

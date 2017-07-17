@@ -51,7 +51,6 @@ import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusFragm
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectTimeFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
-import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -161,7 +160,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onDestroy() {
         super.onDestroy();
-        BookingManager.clearBookingData();
+        BookingManager.clearBookingData(false);
     }
 
     @Override
@@ -277,6 +276,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                 @Override
                                 public void onClick(View v) {
                                     bookAppointment.setVisibility(View.INVISIBLE);
+
+                                    BookingManager.setBookingProvider(providerDetailsResponse);
+                                    BookingManager.setBookingOffice(currentOffice);
 
                                     BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
                                     bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
@@ -593,7 +595,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         //If user selects different option, clear booking profile
         if (isBookingForMe != BookingManager.isBookingForMe()) {
             //BookingManager.setBookingProfile(null);
-            BookingManager.clearBookingData();
+            BookingManager.clearBookingData(true);
         }
 
         BookingManager.setIsBookingForMe(isBookingForMe);
@@ -698,7 +700,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onBookingSuccess() {
         //Booking Successful!
-        BookingManager.clearBookingData();
+        BookingManager.clearBookingData(true);
     }
 
     @Override
@@ -719,39 +721,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
             launchRegistrationForms();
         }
-    }
-
-    @Override
-    public void onClickDirections() {
-        CommonUtil.getDirections(
-                getActivity(),
-                new Address(BookingManager.getBookingAppointment().FacilityAddress, null, BookingManager.getBookingAppointment().FacilityCity, BookingManager.getBookingAppointment().FacilityState, BookingManager.getBookingAppointment().FacilityZip, null)
-        );
-    }
-
-    @Override
-    public void onClickShare() {
-        CommonUtil.shareAppointment(
-                getActivity(),
-                BookingManager.getBookingAppointment().Time,
-                providerDetailsResponse.getDisplayFullName(),
-                currentOffice.getName(),
-                new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
-                currentOffice.getPhone(),
-                BookingManager.getBookingProfile().reasonForVisit
-        );
-    }
-
-    @Override
-    public void onClickAddToCalendar() {
-        CommonUtil.addCalendarEvent(
-                getActivity(),
-                BookingManager.getBookingAppointment().Time,
-                providerDetailsResponse.getDisplayFullName(),
-                new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
-                currentOffice.getPhone(),
-                BookingManager.getBookingProfile().reasonForVisit
-        );
     }
 
     /**
