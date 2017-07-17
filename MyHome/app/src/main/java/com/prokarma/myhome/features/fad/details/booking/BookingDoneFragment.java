@@ -13,10 +13,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
-import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -36,10 +34,6 @@ public class BookingDoneFragment extends Fragment {
     public static final String DOCTOR_NAME_KEY = "doctor_name";
     public static final String OFFICE_NAME_KEY = "office_name_key";
     public static final String OFFICE_PHONE_KEY = "office_phone_key";
-    public static final String BOOKING_PROFILE_KEY = "booking_profile";
-    public static final String BOOKING_APPOINTMENT_KEY = "booking_appointment";
-    public static final String IS_NEW_PATIENT_KEY = "is_new_patient";
-    public static final String IS_BOOKING_FOR_ME = "is_booking_for_me";
 
     public BookingDoneInterface doneInterface;
     public BookingRefreshInterface refreshInterface;
@@ -60,25 +54,17 @@ public class BookingDoneFragment extends Fragment {
     String doctorName;
     String officeName;
     String officePhone;
-    Profile bookingProfile;
-    Appointment bookingAppointment;
-    boolean isNewPatient;
-    boolean isBookingForMe;
 
     public static BookingDoneFragment newInstance() {
         return new BookingDoneFragment();
     }
 
-    public static BookingDoneFragment newInstance(String doctorName, String officeName, String officePhone, Profile bookingProfile, Appointment bookingAppointment, boolean isNewPatient, boolean isBookingForMe) {
+    public static BookingDoneFragment newInstance(String doctorName, String officeName, String officePhone) {
         BookingDoneFragment bookingFragment = new BookingDoneFragment();
         Bundle args = new Bundle();
         args.putString(DOCTOR_NAME_KEY, doctorName);
         args.putString(OFFICE_NAME_KEY, officeName);
         args.putString(OFFICE_PHONE_KEY, officePhone);
-        args.putParcelable(BOOKING_PROFILE_KEY, bookingProfile);
-        args.putParcelable(BOOKING_APPOINTMENT_KEY, bookingAppointment);
-        args.putBoolean(IS_NEW_PATIENT_KEY, isNewPatient);
-        args.putBoolean(IS_BOOKING_FOR_ME, isBookingForMe);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -92,10 +78,6 @@ public class BookingDoneFragment extends Fragment {
             doctorName = args.getString(DOCTOR_NAME_KEY);
             officeName = args.getString(OFFICE_NAME_KEY);
             officePhone = args.getString(OFFICE_PHONE_KEY);
-            bookingProfile = args.getParcelable(BOOKING_PROFILE_KEY);
-            bookingAppointment = args.getParcelable(BOOKING_APPOINTMENT_KEY);
-            isNewPatient = args.getBoolean(IS_NEW_PATIENT_KEY);
-            isBookingForMe = args.getBoolean(IS_BOOKING_FOR_ME);
         }
 
         bookingView = inflater.inflate(R.layout.book_done, container, false);
@@ -175,7 +157,7 @@ public class BookingDoneFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if(refreshInterface != null){
+        if (refreshInterface != null) {
             refreshInterface.onRefreshView(true);
         }
     }
@@ -204,7 +186,7 @@ public class BookingDoneFragment extends Fragment {
     }
 
     private void scheduleAppointment() {
-        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, officeName, officePhone, bookingProfile, bookingAppointment, isNewPatient, isBookingForMe);
+        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, officeName, officePhone, BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.isNewPatient(), BookingManager.isBookingForMe());
 
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Timber.i("Request = " + request);
@@ -218,9 +200,9 @@ public class BookingDoneFragment extends Fragment {
                         Timber.d("Successful Response\n" + response);
                         Timber.i("Request JSON = " + gson.toJson(response.body()));
                         updateVisibility(false);
-                        date.setText(DateUtil.getDateWords2FromUTC(bookingAppointment.Time));
-                        time.setText(DateUtil.getTime(bookingAppointment.Time));
-                        address.setText(CommonUtil.constructAddress(bookingAppointment.FacilityAddress, null, bookingAppointment.FacilityCity, bookingAppointment.FacilityState, bookingAppointment.FacilityZip));
+                        date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().Time));
+                        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().Time));
+                        address.setText(CommonUtil.constructAddress(BookingManager.getBookingAppointment().FacilityAddress, null, BookingManager.getBookingAppointment().FacilityCity, BookingManager.getBookingAppointment().FacilityState, BookingManager.getBookingAppointment().FacilityZip));
 
                         if (doneInterface != null) {
                             doneInterface.onBookingSuccess();
@@ -251,5 +233,4 @@ public class BookingDoneFragment extends Fragment {
         });
 
     }
-
 }

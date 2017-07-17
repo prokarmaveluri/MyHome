@@ -669,7 +669,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onBookingDialogFinished(Profile bookingProfile) {
         BookingManager.setBookingProfile(bookingProfile);
-        BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance(BookingManager.getBookingProfile(), BookingManager.getBookingAppointment());
+        BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance();
         bookingFragment.setConfirmationInterface(this);
         bookingFragment.setRefreshInterface(this);
         getChildFragmentManager()
@@ -683,7 +683,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(), currentOffice.getName(), currentOffice.getPhone(), BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.isNewPatient(), BookingManager.isBookingForMe());
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(), currentOffice.getName(), currentOffice.getPhone());
         bookingFragment.setDoneInterface(ProviderDetailsFragment.this);
         bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
         getChildFragmentManager()
