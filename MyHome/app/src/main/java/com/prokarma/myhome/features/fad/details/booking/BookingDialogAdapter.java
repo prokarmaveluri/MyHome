@@ -363,7 +363,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (formsProfile.phoneNumber != null) {
-            phone.setText(formsProfile.phoneNumber.replaceAll("\\.","-"));
+            phone.setText(formsProfile.phoneNumber.replaceAll("\\.", "-"));
         }
 
         if (formsProfile.email != null) {
@@ -500,16 +500,20 @@ public class BookingDialogAdapter extends PagerAdapter {
      * @param isLoading should we show the loading view or not
      */
     private void updateVisibility(boolean isLoading) {
-        planLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        plan.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        memberIdLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        memberId.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        groupLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        group.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        insurancePhoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        insurancePhone.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        try {
+            planLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            plan.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            memberIdLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            memberId.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            groupLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            group.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            insurancePhoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            insurancePhone.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 
-        progressBarInsurance.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            progressBarInsurance.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
