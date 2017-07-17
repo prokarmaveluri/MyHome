@@ -3,6 +3,7 @@ package com.prokarma.myhome.app;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -71,6 +72,14 @@ public class SplashActivity extends AppCompatActivity implements
     private static final int REQUEST_CHECK_SETTINGS = 200;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 100;
     private FusedLocationProviderClient mFusedLocationClient;
+
+    /*
+     * Get an intent for splash activity.
+     */
+    public static Intent getSplashIntent(Context context) {
+
+        return new Intent(context, SplashActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

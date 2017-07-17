@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.fad.FadFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.login.LoginActivity;
@@ -65,7 +66,7 @@ public class SessionUtil {
                             Toast.LENGTH_SHORT).show();
 
                     clearData();
-                    Intent intent = LoginActivity.getLoginIntent(activity);
+                    Intent intent = SplashActivity.getSplashIntent(activity);
                     activity.startActivity(intent);
                     activity.finish();
                     return;
