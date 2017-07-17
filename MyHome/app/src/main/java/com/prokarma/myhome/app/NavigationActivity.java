@@ -382,6 +382,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         } else {
             menu.findItem(R.id.developer).setVisible(false);
         }
+        menu.findItem(R.id.version).setTitle("Version - v" + BuildConfig.VERSION_CODE);
 
         return true;
     }
@@ -508,7 +509,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             didTimeZoneChange = false;
             goToPage(ActivityTag.HOME);
         } else {
-            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(Constants.PREF_TIME_ZONE, TimeZone.getDefault().getID()).apply();
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(Constants.PREF_TIME_ZONE,
+                    TimeZone.getDefault().getID()).apply();
         }
 
         mHandler.removeCallbacks(runnable);

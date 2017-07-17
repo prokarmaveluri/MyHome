@@ -252,4 +252,6 @@
     <string name="date_of_birth_invalid">Invalid Date of Birth</string>
     <string name="contact_us_email">hello@dignityhealth.org</string>
 
+    <string name="release_date">07/17/2017</string>
+
 </resources>

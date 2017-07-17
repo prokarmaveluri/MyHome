@@ -112,7 +112,6 @@ public class ProfileViewFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
         inflater.inflate(R.menu.profile_view_menu, menu);
     }
 
@@ -120,6 +119,7 @@ public class ProfileViewFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+
                 getActivity().onBackPressed();
                 break;
 
