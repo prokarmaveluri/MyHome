@@ -184,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements
                 startLocationFetch();
             } else {
                 // Permission denied.
-
+                NetworkManager.getInstance().getUserLocation();
             }
         }
     }
