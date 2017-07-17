@@ -253,5 +253,7 @@
     <string name="contact_us_email">hello@dignityhealth.org</string>
 
     <string name="release_date">07/17/2017</string>
+    <string name="filter_title">Filter</string>
+    <string name="filter_apply">Apply</string>
 
 </resources>

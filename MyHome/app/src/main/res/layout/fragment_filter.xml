@@ -18,24 +18,26 @@
             android:layout_width="match_parent"
             android:layout_height="58dp">
 
-            <ImageView
+            <TextView
                 android:id="@+id/dialog_close"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:onClick="@{handlers::onClickEvent}"
                 android:padding="16dp"
-                android:src="@mipmap/xblue" />
+                android:text="@string/cancel"
+                android:textColor="@color/accent" />
 
             <TextView
                 style="@style/tradeGothicLTStdLight_20"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@+id/dialog_close"
                 android:gravity="center_vertical"
-                android:text="@string/find_care" />
+                android:text="@string/filter_title" />
 
             <TextView
                 android:id="@+id/save_filter"
@@ -49,8 +51,7 @@
                 android:maxLength="15"
                 android:onClick="@{handlers::onClickEvent}"
                 android:padding="16dp"
-                android:text="@string/save"
-                android:textAllCaps="true"
+                android:text="@string/filter_apply"
                 android:textColor="@color/accent" />
         </RelativeLayout>
 
