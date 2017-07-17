@@ -42,6 +42,7 @@ import com.prokarma.myhome.features.fad.details.booking.BookingDialogFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingDialogInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingDoneFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingDoneInterface;
+import com.prokarma.myhome.features.fad.details.booking.BookingManager;
 import com.prokarma.myhome.features.fad.details.booking.BookingRefreshInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectCalendarFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectPersonFragment;
@@ -125,11 +126,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     //Booking
     private BookingDialogFragment bookingRegistrationDialog;
-    private Date bookingDate;
-    private boolean isBookingForMe = true;
-    private boolean isNewPatient = false;
-    private Appointment bookedAppointment;
-    private Profile bookingProfile;
 
     public ProviderDetailsFragment() {
         // Required empty public constructor
@@ -160,6 +156,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         super.onResume();
         if (null != providerDetailsResponse)
             RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BookingManager.clearBookingData();
     }
 
     @Override
@@ -571,18 +573,18 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return;
         }
 
-        if (isBookingForMe && bookingProfile != null) {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe, bookingProfile);
+        if (BookingManager.isBookingForMe() && BookingManager.getBookingProfile() != null) {
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, BookingManager.isBookingForMe(), BookingManager.getBookingProfile());
             bookingRegistrationDialog.setBookingDialogInterface(this);
             bookingRegistrationDialog.setCancelable(false);
             bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
-        } else if (isBookingForMe) {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe, ProfileManager.getProfile());
+        } else if (BookingManager.isBookingForMe()) {
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, BookingManager.isBookingForMe(), ProfileManager.getProfile());
             bookingRegistrationDialog.setBookingDialogInterface(this);
             bookingRegistrationDialog.setCancelable(false);
             bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
         } else {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe, new Profile());
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, BookingManager.isBookingForMe(), new Profile());
             bookingRegistrationDialog.setBookingDialogInterface(this);
             bookingRegistrationDialog.setCancelable(false);
             bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
@@ -592,11 +594,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onPersonSelected(boolean isBookingForMe) {
         //If user selects different option, clear booking profile
-        if (isBookingForMe != this.isBookingForMe) {
-            this.bookingProfile = null;
+        if (isBookingForMe != BookingManager.isBookingForMe()) {
+            //BookingManager.setBookingProfile(null);
+            BookingManager.clearBookingData();
         }
 
-        this.isBookingForMe = isBookingForMe;
+        BookingManager.setIsBookingForMe(isBookingForMe);
         BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
         bookingFragment.setSelectStatusInterface(this);
         bookingFragment.setRefreshInterface(this);
@@ -611,8 +614,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onStatusSelected(boolean isUserNew) {
-        isNewPatient = isUserNew;
-        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient, currentOffice.getAppointments()));
+        BookingManager.setIsNewPatient(isUserNew);
+        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
         bookingFragment.setSelectTimeInterface(this);
         bookingFragment.setRefreshInterface(this);
         getChildFragmentManager()
@@ -626,7 +629,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onTimeSelected(Appointment appointment) {
-        bookedAppointment = appointment;
+        BookingManager.setBookingAppointment(appointment);
 
         Fragment fragment = getChildFragmentManager().findFragmentByTag(BookingDialogFragment.BOOKING_DIALOG_TAG);
         if (fragment != null) {
@@ -656,7 +659,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onDateChanged(Date date) {
-        bookingDate = date;
+        BookingManager.setBookingDate(date);
     }
 
     @Override
@@ -668,8 +671,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onBookingDialogFinished(Profile bookingProfile) {
-        this.bookingProfile = bookingProfile;
-        BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance(bookingProfile, bookedAppointment);
+        BookingManager.setBookingProfile(bookingProfile);
+        BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance(BookingManager.getBookingProfile(), BookingManager.getBookingAppointment());
         bookingFragment.setConfirmationInterface(this);
         bookingFragment.setRefreshInterface(this);
         getChildFragmentManager()
@@ -683,7 +686,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(), currentOffice.getName(), currentOffice.getPhone(), bookingProfile, bookedAppointment, isNewPatient, isBookingForMe);
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(), currentOffice.getName(), currentOffice.getPhone(), BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.isNewPatient(), BookingManager.isBookingForMe());
         bookingFragment.setDoneInterface(ProviderDetailsFragment.this);
         bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
         getChildFragmentManager()
@@ -698,7 +701,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onBookingSuccess() {
         //Booking Successful!
-        bookingProfile = null;
+        BookingManager.clearBookingData();
     }
 
     @Override
@@ -707,7 +710,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             Toast.makeText(getActivity(), getString(R.string.booking_failed), Toast.LENGTH_LONG).show();
 
             //Go to Time Fragment, then open up the Registration Forms Again
-            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient, currentOffice.getAppointments()));
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
             bookingFragment.setSelectTimeInterface(this);
             bookingFragment.setRefreshInterface(this);
             getChildFragmentManager()
@@ -725,7 +728,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onClickDirections() {
         CommonUtil.getDirections(
                 getActivity(),
-                new Address(bookedAppointment.FacilityAddress, null, bookedAppointment.FacilityCity, bookedAppointment.FacilityState, bookedAppointment.FacilityZip, null)
+                new Address(BookingManager.getBookingAppointment().FacilityAddress, null, BookingManager.getBookingAppointment().FacilityCity, BookingManager.getBookingAppointment().FacilityState, BookingManager.getBookingAppointment().FacilityZip, null)
         );
     }
 
@@ -733,12 +736,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onClickShare() {
         CommonUtil.shareAppointment(
                 getActivity(),
-                bookedAppointment.Time,
+                BookingManager.getBookingAppointment().Time,
                 providerDetailsResponse.getDisplayFullName(),
                 currentOffice.getName(),
                 new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
                 currentOffice.getPhone(),
-                bookingProfile.reasonForVisit
+                BookingManager.getBookingProfile().reasonForVisit
         );
     }
 
@@ -746,11 +749,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onClickAddToCalendar() {
         CommonUtil.addCalendarEvent(
                 getActivity(),
-                bookedAppointment.Time,
+                BookingManager.getBookingAppointment().Time,
                 providerDetailsResponse.getDisplayFullName(),
                 new Address(currentOffice.getAddress1(), currentOffice.getAddress2(), currentOffice.getCity(), currentOffice.getState(), currentOffice.getZipCode(), null),
                 currentOffice.getPhone(),
-                bookingProfile.reasonForVisit
+                BookingManager.getBookingProfile().reasonForVisit
         );
     }
 
@@ -804,8 +807,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
             if (fragment instanceof BookingSelectCalendarFragment) {
                 //You're on the calendar
-                BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(isNewPatient,
-                        currentOffice.getAppointments()), bookingDate);
+                BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(),
+                        currentOffice.getAppointments()), BookingManager.getBookingDate());
                 bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
                 bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
                 getChildFragmentManager()
@@ -817,8 +820,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 getChildFragmentManager().executePendingTransactions();
             } else if (fragment instanceof BookingSelectTimeFragment) {
                 //You were on the times
-                BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(bookingDate,
-                        filterAppointments(isNewPatient, currentOffice.getAppointments()));
+                BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(BookingManager.getBookingDate(),
+                        filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
                 bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
                 bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
                 getChildFragmentManager()
