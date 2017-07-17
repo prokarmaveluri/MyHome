@@ -117,6 +117,15 @@ public class Office implements Parcelable {
         return fullAddress.toString();
     }
 
+    public String getAddressLine(){
+        StringBuilder fullAddress = new StringBuilder();
+        if (null != Address1)
+            fullAddress.append(Address1);
+        if (null != Address2)
+            fullAddress.append(", ").append(Address2);
+        return fullAddress.toString();
+    }
+
     @Override
     public String toString() {
         String officeString = "";

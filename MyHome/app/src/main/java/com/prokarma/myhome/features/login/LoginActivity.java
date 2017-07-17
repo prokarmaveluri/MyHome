@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -40,12 +41,16 @@ import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.login.dialog.EnrollmentSuccessDialog;
 import com.prokarma.myhome.features.update.UpdateActivity;
+import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 
@@ -95,8 +100,8 @@ public class LoginActivity extends AppCompatActivity implements
             EnrollmentSuccessDialog dialog = EnrollmentSuccessDialog.newInstance();
             dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
         }
-//        startUpdateActivity(false);
-//        buildUpdateAlert(getString(R.string.app_suggest_update_message));
+
+        versionCheck();
         NetworkManager.getInstance().setExpiryListener(null);
         new LoginPresenter(fragment, this);
     }
@@ -179,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements
                 startLocationFetch();
             } else {
                 // Permission denied.
-
+                NetworkManager.getInstance().getUserLocation();
             }
         }
     }
@@ -345,22 +350,35 @@ public class LoginActivity extends AppCompatActivity implements
         return false;
     }
 
-    private void buildUpdateAlert(String message) {
+    private void buildUpdateAlert(String message, boolean isForceupdate) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message)
-                .setTitle(R.string.new_update_available)
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        updateApplication();
-                        finish();
-                    }
-                })
-                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
+
+        if (!isForceupdate) {
+            builder.setMessage(message)
+                    .setTitle(R.string.new_update_available)
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            updateApplication();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            dialog.cancel();
+                        }
+                    });
+        } else {
+            builder.setMessage(message)
+                    .setTitle(R.string.new_update_available)
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            updateApplication();
+                            finish();
+                        }
+                    });
+        }
         final AlertDialog alert = builder.create();
         alert.show();
     }
@@ -369,6 +387,53 @@ public class LoginActivity extends AppCompatActivity implements
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
         } catch (ActivityNotFoundException ex) {
+        }
+    }
+
+    private void versionCheck() {
+        binding.loginProgress.setVisibility(View.VISIBLE);
+        NetworkManager.getInstance().versionCheck().enqueue(new Callback<UpdateResponse>() {
+            @Override
+            public void onResponse(Call<UpdateResponse> call, Response<UpdateResponse> response) {
+                binding.loginProgress.setVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    try {
+                        String fourceUpdate = response.body().getServices().getCiam().getClients()
+                                .getMyhomemobileAndroid().getForceUpdate();
+                        String suggestUpdate = response.body().getServices().getCiam().getClients()
+                                .getMyhomemobileAndroid().getSuggestUpdate();
+
+                        Double doubleFourceUpdate = Double.parseDouble(fourceUpdate);
+                        Double doubleSuggestUpdate = Double.parseDouble(suggestUpdate);
+
+                        int intFourceUpdate = doubleFourceUpdate.intValue();
+                        int intSuggestUpdate = doubleSuggestUpdate.intValue();
+
+                        Timber.i("intFourceUpdate val " + intFourceUpdate);
+                        Timber.i("intSuggestUpdate val " + intSuggestUpdate);
+
+                        appUpdate(intFourceUpdate, intSuggestUpdate);
+
+                    } catch (NullPointerException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateResponse> call, Throwable t) {
+                binding.loginProgress.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void appUpdate(int forceUpdate, int suggestUpdate) {
+        if (forceUpdate > BuildConfig.VERSION_CODE) {
+            buildUpdateAlert(getString(R.string.app_force_update_message), true);
+            return;
+        }
+        if (suggestUpdate > BuildConfig.VERSION_CODE) {
+            buildUpdateAlert(getString(R.string.app_suggest_update_message), false);
         }
     }
 }

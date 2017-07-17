@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +23,7 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,9 +101,9 @@ public class ProfileEditFragment extends BaseFragment {
         memberId = (TextInputEditText) profileView.findViewById(R.id.id);
         group = (TextInputEditText) profileView.findViewById(R.id.group);
 
-        dateOfBirth.addTextChangedListener(DateUtil.getDateOfBirthTextWatcher(dateOfBirth));
+        dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
-        phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -299,7 +299,7 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.phoneNumber != null) {
-            phone.setText(profile.phoneNumber);
+            phone.setText(profile.phoneNumber.replaceAll("\\.","-"));
         }
 
         if (profile.email != null) {

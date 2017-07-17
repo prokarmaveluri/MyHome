@@ -234,7 +234,7 @@
                         android:ems="10"
                         android:hint="@string/phone_number"
                         android:inputType="phone"
-                        android:maxLength="14"
+                        android:maxLength="12"
                         android:maxLines="1" />
 
                 </android.support.design.widget.TextInputLayout>

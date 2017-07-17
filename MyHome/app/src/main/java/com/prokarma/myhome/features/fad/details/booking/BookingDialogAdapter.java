@@ -27,6 +27,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValida
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.prokarma.myhome.utils.ValidationUtil;
 
 import java.util.List;
@@ -188,7 +189,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         updateVisibility(true);
 
-        insurancePhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        insurancePhone.addTextChangedListener(new PhoneAndDOBFormatter(insurancePhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
     }
 
     private void setupPersonal() {
@@ -232,9 +233,9 @@ public class BookingDialogAdapter extends PagerAdapter {
         reasonForVisitLayout = (TextInputLayout) personalLayout.findViewById(R.id.booking_reason_layout);
         reasonForVisit = (TextInputEditText) personalLayout.findViewById(R.id.booking_reason);
 
-        dateOfBirth.addTextChangedListener(DateUtil.getDateOfBirthTextWatcher(dateOfBirth));
+        dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
-        phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -359,7 +360,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (formsProfile.phoneNumber != null) {
-            phone.setText(formsProfile.phoneNumber);
+            phone.setText(formsProfile.phoneNumber.replaceAll("\\.", "-"));
         }
 
         if (formsProfile.email != null) {
@@ -496,16 +497,20 @@ public class BookingDialogAdapter extends PagerAdapter {
      * @param isLoading should we show the loading view or not
      */
     private void updateVisibility(boolean isLoading) {
-        planLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        plan.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        memberIdLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        memberId.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        groupLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        group.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        insurancePhoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        insurancePhone.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        try {
+            planLabel.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            plan.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            memberIdLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            memberId.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            groupLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            group.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            insurancePhoneLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            insurancePhone.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 
-        progressBarInsurance.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            progressBarInsurance.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -701,8 +706,8 @@ public class BookingDialogAdapter extends PagerAdapter {
                 genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
             }
 
-            if (dateOfBirthLayout.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
-                dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_required));
+            if (dateOfBirthLayout.getVisibility() == View.VISIBLE && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString())) {
+                dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_invalid));
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);

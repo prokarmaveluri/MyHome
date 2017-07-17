@@ -55,6 +55,7 @@ import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.utils.MapUtil;
@@ -241,6 +242,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         detailsProgressBar.setVisibility(View.GONE);
                         Timber.d("Successful Response\n" + response);
                         providerDetailsResponse = response.body();
+                        changeAptAddress();
                         setupInitialView();
                         if (providerDetailsResponse == null) {
                             showStatsUnavailable();
@@ -311,6 +313,19 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 }
             }
         });
+    }
+
+    private void changeAptAddress() {
+        if (providerDetailsResponse == null)
+            return;
+        for (Office office : providerDetailsResponse.getOffices()) {
+            for (Appointment apt : office.getAppointments()) {
+                apt.FacilityAddress = office.getAddressLine();
+                apt.FacilityCity = office.getCity();
+                apt.FacilityState = office.getState();
+                apt.FacilityZip = office.getZipCode();
+            }
+        }
     }
 
     @Override
@@ -549,8 +564,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     //Launches the booking registration form
-    private void launchRegistrationForms(){
-        if(isBookingForMe && bookingProfile != null){
+    private void launchRegistrationForms() {
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (isBookingForMe && bookingProfile != null) {
             bookingRegistrationDialog = BookingDialogFragment.newInstance(bookedAppointment.ScheduleId, isBookingForMe, bookingProfile);
             bookingRegistrationDialog.setBookingDialogInterface(this);
             bookingRegistrationDialog.setCancelable(false);
@@ -571,7 +592,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onPersonSelected(boolean isBookingForMe) {
         //If user selects different option, clear booking profile
-        if(isBookingForMe != this.isBookingForMe){
+        if (isBookingForMe != this.isBookingForMe) {
             this.bookingProfile = null;
         }
 
@@ -743,12 +764,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             //If on Time or Calendar booking page, just popbackstack to before all the Time/Calendar fragments
             getChildFragmentManager().popBackStack(TIME_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return true;
-        } else if (fragment != null && fragment instanceof BookingDoneFragment){
+        } else if (fragment != null && fragment instanceof BookingDoneFragment) {
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();
             return true;
-        } else if (fragment != null && fragment instanceof BookingConfirmationFragment){
+        } else if (fragment != null && fragment instanceof BookingConfirmationFragment) {
             //You should go back to the Time slot, but relaunch the Registration Forms
             getChildFragmentManager().popBackStack();
             launchRegistrationForms();
