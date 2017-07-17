@@ -99,6 +99,7 @@ public class SessionUtil {
         AuthManager.getInstance().setSessionId(null);
         AuthManager.getInstance().setSid(null);
         AuthManager.getInstance().setBearerToken(null);
+        AuthManager.getInstance().setRefreshToken(null);
         AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);
         FadFragment.providerList.clear();

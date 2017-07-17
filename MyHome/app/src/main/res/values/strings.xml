@@ -256,4 +256,6 @@
     <string name="filter_title">Filter</string>
     <string name="filter_apply">Apply</string>
 
+    <string name="click_to_refresh">Click to Refresh</string>
+
 </resources>

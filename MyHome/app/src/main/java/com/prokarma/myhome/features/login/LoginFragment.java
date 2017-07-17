@@ -576,6 +576,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
                 if (response.isSuccessful()) {
                     AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
+                    AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
                     mHandler.sendEmptyMessage(ACTION_FINISH);
                 }
             }
@@ -584,25 +585,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
                 Timber.i("onFailure : ");
                 mHandler.sendEmptyMessage(TOKEN_ERROR);
-            }
-        });
-    }
-
-    private void refreshAccessToken(String refreshToken) {
-        NetworkManager.getInstance().refreshAccessToken(RESTConstants.GRANT_TYPE_REFRESH,
-                refreshToken,
-                RESTConstants.CLIENT_ID,
-                RESTConstants.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
-            @Override
-            public void onResponse(Call<RefreshAccessTokenResponse> call, Response<RefreshAccessTokenResponse> response) {
-                if (response.isSuccessful()) {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RefreshAccessTokenResponse> call, Throwable t) {
-                Timber.i("onFailure : ");
             }
         });
     }
