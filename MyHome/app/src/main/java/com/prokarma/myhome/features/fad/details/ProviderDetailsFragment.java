@@ -574,21 +574,18 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         if (BookingManager.isBookingForMe() && BookingManager.getBookingProfile() != null) {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, BookingManager.isBookingForMe(), BookingManager.getBookingProfile());
-            bookingRegistrationDialog.setBookingDialogInterface(this);
-            bookingRegistrationDialog.setCancelable(false);
-            bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId);
         } else if (BookingManager.isBookingForMe()) {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, BookingManager.isBookingForMe(), ProfileManager.getProfile());
-            bookingRegistrationDialog.setBookingDialogInterface(this);
-            bookingRegistrationDialog.setCancelable(false);
-            bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+            BookingManager.setBookingProfile(ProfileManager.getProfile());
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId);
         } else {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, BookingManager.isBookingForMe(), new Profile());
-            bookingRegistrationDialog.setBookingDialogInterface(this);
-            bookingRegistrationDialog.setCancelable(false);
-            bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+            BookingManager.setBookingProfile(new Profile());
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId);
         }
+
+        bookingRegistrationDialog.setBookingDialogInterface(this);
+        bookingRegistrationDialog.setCancelable(false);
+        bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
     }
 
     @Override

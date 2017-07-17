@@ -43,19 +43,15 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     Toolbar toolbar;
 
     private String scheduleId;
-    private boolean isBookingForMe = true;
-    private Profile bookingProfile = null;
 
     public static BookingDialogFragment newInstance() {
         return new BookingDialogFragment();
     }
 
-    public static BookingDialogFragment newInstance(String scheduleId, boolean isBookingForMe, Profile bookingProfile) {
+    public static BookingDialogFragment newInstance(String scheduleId) {
         BookingDialogFragment bookingFragment = new BookingDialogFragment();
         Bundle args = new Bundle();
         args.putString(SCHEDULE_ID_KEY, scheduleId);
-        args.putBoolean(IS_BOOKING_FOR_ME_KEY, isBookingForMe);
-        args.putParcelable(BOOKING_PROFILE, bookingProfile);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -73,8 +69,6 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
         if (args != null) {
             scheduleId = args.getString(SCHEDULE_ID_KEY);
-            isBookingForMe = args.getBoolean(IS_BOOKING_FOR_ME_KEY);
-            bookingProfile = args.getParcelable(BOOKING_PROFILE);
         }
 
         //providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
@@ -82,7 +76,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
         bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
         bookingViewPager.setSwipeAllowed(false);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, isBookingForMe, bookingProfile));
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, BookingManager.isBookingForMe(), BookingManager.getBookingProfile()));
 
         toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.find_care));
@@ -195,7 +189,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     private void finishBooking() {
         final Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();
 
-        if (isBookingForMe && !formsProfile.equalsSansBookingInfo(ProfileManager.getProfile())) {
+        if (BookingManager.isBookingForMe() && !formsProfile.equalsSansBookingInfo(ProfileManager.getProfile())) {
             BookingSaveProfileDialog dialog = BookingSaveProfileDialog.newInstance(formsProfile);
             dialog.setSaveProfileInterface(this);
             dialog.show(getChildFragmentManager(), BookingSaveProfileDialog.BOOKING_SAVE_PROFILE_DIALOG_TAG);
@@ -215,7 +209,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
     @Override
     public void onBackPressed() {
-        if(bookingViewPager.getCurrentItem() == 0){
+        if (bookingViewPager.getCurrentItem() == 0) {
             this.dismiss();
         } else {
             bookingViewPager.setCurrentItem(bookingViewPager.getCurrentItem() - 1, true);
