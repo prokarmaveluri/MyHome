@@ -14,19 +14,19 @@
     <string name="enroll_now">Don\'t have an account?</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="login_help">Help</string>
-    <string name="valid_first_name">Enter valid first name</string>
-    <string name="valid_last_name">Enter valid last name</string>
-    <string name="valid_email">Enter valid email</string>
+    <string name="valid_first_name">Please enter a valid first name</string>
+    <string name="valid_last_name">Please enter a valid last name</string>
+    <string name="valid_email">Please enter a valid email address</string>
     <string name="valid_password">Enter valid password</string>
-    <string name="valid_password_match">Password not matching</string>
+    <string name="valid_password_match">Your password entries do not match</string>
     <string name="something_went_wrong">Something went wrong, please try again!</string>
     <string name="sign_in_failure_msg">Sign in failed</string>
     <string name="forgot_password_success_msg">Password reset link has been sent to your email. Please click on it to reset password</string>
-    <string name="enrollment_success">You are successfully registered.</string>
+    <string name="enrollment_success">Congratulations! Your new My Home is ready.</string>
     <string name="no_network_msg">Please check your network, try again!</string>
 
-    <string name="enrollment_success_dialog_tittle">Validation sent to email address entered.</string>
-    <string name="enrollment_success_dialog_msg">Validation must be completed in 30 days or you will be prompted to validate again.</string>
+    <string name="enrollment_success_dialog_tittle">We have sent a validation email to you.</string>
+    <string name="enrollment_success_dialog_msg">Please complete email validation within 30 days.</string>
     <string name="sign_out">Sign Out</string>
     <string name="book_an_appointment">Book an Appointment</string>
     <string name="book_appointment">Book Appointment</string>
@@ -54,7 +54,7 @@
     <string name="find_care">Find Care</string>
     <string name="miles_concat">mi</string>
     <string name="forgot_password_header">Please enter your email address.</string>
-    <string name="forgot_password_subheader">An email will be sent to entered address with reset instructions</string>
+    <string name="forgot_password_subheader">An email has been sent to you with instructions on how to reset your password.</string>
     <string name="booking_select_person_header">Who is this appointment for?</string>
     <string name="booking_select_status_header">Are you a new patient?</string>
     <string name="me">Me</string>
@@ -94,7 +94,7 @@
     <string name="insurance_provider">Insurance Provider</string>
     <string name="member_id">Member ID</string>
     <string name="group_id">Group ID</string>
-    <string name="profile_unavailable">Profile Unavailable</string>
+    <string name="profile_unavailable">We’re sorry, your profile is currently unavailable.</string>
     <string name="group">Group</string>
     <string name="edit">Edit</string>
     <string name="board_certifications">Board Certifications</string>
@@ -114,8 +114,8 @@
     <string name="accept">Accept</string>
     <string name="no_valid_session">No valid session, please login again</string>
     <string name="signed_out_successfully">Signed out successfully</string>
-    <string name="profile_saved">Information saved</string>
-    <string name="profile_save_failed">Unable to update Profile</string>
+    <string name="profile_saved">Your profile is saved.</string>
+    <string name="profile_save_failed">We are unable to update your profile at this time.</string>
     <string name="please_install_calendar_app">Please install a calendar application</string>
     <string name="no_app_share_appointments">Couldn\'t find an app that can share appointments</string>
     <string name="unknown_activity_tag">Unknown Activity Tag</string>
