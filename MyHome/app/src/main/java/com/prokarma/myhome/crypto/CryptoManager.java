@@ -1,5 +1,6 @@
 package com.prokarma.myhome.crypto;
 
+import android.content.Context;
 import android.util.Base64;
 
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -27,6 +28,7 @@ public class CryptoManager {
 
     private Encryptor encryptor;
     private Decryptor decryptor;
+    private Context context;
     private static CryptoManager Instance = null;
 
     private CryptoManager() {
@@ -80,18 +82,22 @@ public class CryptoManager {
 
     public void saveToken() {
         if (AuthManager.getInstance().getRefreshToken() != null) {
-            encryptText(AuthManager.getInstance().getRefreshToken());
-            String tokenPref = Base64.encodeToString(encryptor.getEncryption(), Base64.DEFAULT);
-            AppPreferences.getInstance().setPreference("auth_token", tokenPref);
+            try {
+                encryptText(AuthManager.getInstance().getRefreshToken());
+                String tokenPref = Base64.encodeToString(encryptor.getEncryption(), Base64.DEFAULT);
+                AppPreferences.getInstance().setPreference("auth_token", tokenPref);
 
-            String tokenIv = Base64.encodeToString(encryptor.getIv(), Base64.DEFAULT);
-            AppPreferences.getInstance().setPreference("auth_token_iv", tokenIv);
+                String tokenIv = Base64.encodeToString(encryptor.getIv(), Base64.DEFAULT);
+                AppPreferences.getInstance().setPreference("auth_token_iv", tokenIv);
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     private void encryptText(String text) {
         try {
-            encryptor.encryptText(text);
+            encryptor.encryptText(text, context);
         } catch (UnrecoverableEntryException | NoSuchAlgorithmException | NoSuchProviderException |
                 KeyStoreException | IOException | NoSuchPaddingException | InvalidKeyException e) {
         } catch (InvalidAlgorithmParameterException | SignatureException |
@@ -111,5 +117,9 @@ public class CryptoManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }

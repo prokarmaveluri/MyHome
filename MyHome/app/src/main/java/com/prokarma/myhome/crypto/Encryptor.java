@@ -35,18 +35,17 @@ public class Encryptor {
     public static final String ANDROID_KEY_STORE = "AndroidKeyStore";
     public static final String ANDROID_KEY_STORE_ALIAS = "AndroidMyHomeApp";
 
-    private Context context;
     private byte[] encryption;
     private byte[] iv;
 
-    public byte[] encryptText(final String textToEncrypt)
+    public byte[] encryptText(final String textToEncrypt, final Context context)
             throws UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException,
             NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IOException,
             InvalidAlgorithmParameterException, SignatureException, BadPaddingException,
             IllegalBlockSizeException {
 
         final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-        cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(ANDROID_KEY_STORE_ALIAS));
+        cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(ANDROID_KEY_STORE_ALIAS, context));
 
         iv = cipher.getIV();
 
@@ -54,7 +53,7 @@ public class Encryptor {
     }
 
     @NonNull
-    private SecretKey getSecretKey(final String alias) throws NoSuchAlgorithmException,
+    private SecretKey getSecretKey(final String alias, final Context context) throws NoSuchAlgorithmException,
             NoSuchProviderException, InvalidAlgorithmParameterException {
 
         final KeyGenerator keyGenerator = KeyGenerator
@@ -67,12 +66,14 @@ public class Encryptor {
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                     .build());
         }else {
-            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(context)
-                    .setAlias(alias)
-                    .setSubject(new X500Principal("CN=Sample Name, O=Android Authority"))
-                    .setSerialNumber(BigInteger.ONE)
-                    .build();
-            keyGenerator.init(spec);
+            if (null != context) {
+                KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(context)
+                        .setAlias(alias)
+                        .setSubject(new X500Principal("CN=Sample Name, O=Android Authority"))
+                        .setSerialNumber(BigInteger.ONE)
+                        .build();
+                keyGenerator.init(spec);
+            }
         }
         return keyGenerator.generateKey();
     }
