@@ -339,6 +339,18 @@ public class BookingDialogAdapter extends PagerAdapter {
             gender.setSelection(0);
         }
 
+        if (formsProfile.isPregnant) {
+            areYouPregnantLabel.setVisibility(View.VISIBLE);
+            areYouPregnantGroup.setVisibility(View.VISIBLE);
+            areYouPregnantGroup.check(R.id.radio_pregnant);
+        }
+
+        if (formsProfile.weeksPregnant != null) {
+            weeksPregnantLayout.setVisibility(View.VISIBLE);
+            weeksPregnant.setVisibility(View.VISIBLE);
+            weeksPregnant.setText(formsProfile.weeksPregnant);
+        }
+
         if (formsProfile.dateOfBirth != null) {
             dateOfBirth.setText(DateUtil.convertUTCtoReadable(formsProfile.dateOfBirth));
         }
