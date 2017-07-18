@@ -336,23 +336,16 @@ public class ProfileEditFragment extends BaseFragment {
             lastNameLayout.setError(null);
         }
 
-        if (gender.getVisibility() == View.VISIBLE && gender.getSelectedItemPosition() == 0) {
-            isValid = false;
-            genderLabel.setText(getString(R.string.gender_required));
-            genderLabel.setTextColor(getResources().getColor(R.color.red));
-        } else {
-            genderLabel.setText(getString(R.string.gender));
-            genderLabel.setTextColor(getResources().getColor(R.color.text_darker));
-        }
-
-        if (dateOfBirth.getVisibility() == View.VISIBLE && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) {
+        if (dateOfBirth.getVisibility() == View.VISIBLE && (!DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) &&
+                !dateOfBirth.getText().toString().trim().isEmpty()){
             isValid = false;
             dateOfBirthLayout.setError(getString(R.string.date_of_birth_invalid));
         } else {
             dateOfBirthLayout.setError(null);
         }
 
-        if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5)) {
+        if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 &&
+                zip.getText().toString().trim().length() != 5)) {
             isValid = false;
             zipLayout.setError(getString(R.string.zip_invalid));
         } else {
