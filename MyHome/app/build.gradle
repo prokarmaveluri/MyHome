@@ -27,6 +27,7 @@ android {
         versionName "0.1.1"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', 'BUILD_TIME', 'new java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.US).format(new java.util.Date(' + System.currentTimeMillis() +'L))'
     }
     buildTypes {
         def STRING = "String"
