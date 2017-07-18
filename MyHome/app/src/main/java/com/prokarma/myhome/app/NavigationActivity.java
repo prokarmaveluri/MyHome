@@ -383,7 +383,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             menu.findItem(R.id.developer).setVisible(false);
         }
         menu.findItem(R.id.version).setTitle("Version - v" + BuildConfig.VERSION_CODE);
-
+        menu.findItem(R.id.release_date).setTitle("Release Date - " + BuildConfig.BUILD_TIME);
         return true;
     }
 
