@@ -19,6 +19,7 @@ public class AuthManager {
 
     private static String expiresAt;
     private static String bearerToken;
+    private static String refreshToken;
     private static String sessionToken;
     private static String sessionId;
     private static String sid;
@@ -39,6 +40,14 @@ public class AuthManager {
     }
 
     private AuthManager() {
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        AuthManager.refreshToken = refreshToken;
     }
 
     public String getExpiresAt() {

@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -361,6 +362,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         PopupMenu popup = new PopupMenu(getActivity(), actionMore);
         popup.getMenuInflater().inflate(R.menu.toolbar_menu, popup.getMenu());
 
+        popup.getMenu().findItem(R.id.version).setTitle("Version - v" + BuildConfig.VERSION_CODE);
+
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 onOptionsItemSelected(item);
@@ -368,6 +371,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             }
         });
         popup.show();
+
         return false;
     }
 
@@ -469,9 +473,15 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             for (SearchSuggestionResponse resp : list) {
                 if (resp.getType().contains("Search") || resp.getType().contains("Provider") ||
                         resp.getType().contains("SectionHeader")) {
-                    FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), resp.getTitle(),
-                            resp.getId());
-                    sug.add(sugObj);
+                    if (resp.Category.equals("Provider") && resp.getTitle().contains("Healthcare Providers")) {
+                        FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), "Healthcare Providers",
+                                resp.getId());
+                        sug.add(sugObj);
+                    } else {
+                        FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), resp.getTitle(),
+                                resp.getId());
+                        sug.add(sugObj);
+                    }
                 }
             }
         } catch (NullPointerException ex) {

@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.fad.FadFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.login.LoginActivity;
@@ -65,7 +66,7 @@ public class SessionUtil {
                             Toast.LENGTH_SHORT).show();
 
                     clearData();
-                    Intent intent = LoginActivity.getLoginIntent(activity);
+                    Intent intent = SplashActivity.getSplashIntent(activity);
                     activity.startActivity(intent);
                     activity.finish();
                     return;
@@ -96,9 +97,13 @@ public class SessionUtil {
                 "\nSession Token = " + AuthManager.getInstance().getSessionToken() +
                 "\nProfile = " + ProfileManager.getProfile());
 
+        AppPreferences.getInstance().setPreference("auth_token", null);
+        AppPreferences.getInstance().setPreference("auth_token_iv", null);
+
         AuthManager.getInstance().setSessionId(null);
         AuthManager.getInstance().setSid(null);
         AuthManager.getInstance().setBearerToken(null);
+        AuthManager.getInstance().setRefreshToken(null);
         AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);
         FadFragment.providerList.clear();
