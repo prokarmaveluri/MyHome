@@ -184,6 +184,12 @@
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Schedule{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Error{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Error$Source{*;}
+-keep class com.prokarma.myhome.features.update.UpdateResponse{*;}
+-keep class com.prokarma.myhome.features.update.UpdateResponse$Ciam{*;}
+-keep class com.prokarma.myhome.features.update.UpdateResponse$Clients{*;}
+-keep class com.prokarma.myhome.features.update.UpdateResponse$MyhomeMobileAndroid{*;}
+-keep class com.prokarma.myhome.features.update.UpdateResponse$MyhomeMobileIos{*;}
+-keep class com.prokarma.myhome.features.update.UpdateResponse$Services{*;}
 
 
 
