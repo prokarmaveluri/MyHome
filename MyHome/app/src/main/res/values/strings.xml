@@ -117,7 +117,7 @@
     <string name="please_install_calendar_app">Keep track of your appointments by installing a calendar application.</string>
     <string name="no_app_share_appointments">Share your appointments by connecting a communications app.</string>
     <string name="unknown_activity_tag">We didn’t catch that.</string>
-    <string name="max_login_tries_reached">You reached maximum failure attempts, try after 5 minutes</string>
+    <string name="max_login_tries_reached">We\'re sorry, we need to reset. Take five and try again.</string>
     <string name="appointment_created">Your appointment is confirmed. We’ll see you then!</string>
     <string name="appointment_creation_failed">We\'re sorry, we couldn’t confirm your appointment. Please contact your doctor’s office.</string>
     <string name="query_empty">Please enter a word or phrase to search.</string>
