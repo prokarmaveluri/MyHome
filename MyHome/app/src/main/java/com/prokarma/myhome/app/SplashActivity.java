@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -86,10 +87,12 @@ public class SplashActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.i("releaseTest", "onCreate");
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_splash);
 
         initApiClient();
+        CryptoManager.getInstance().setContext(getApplicationContext());
         progress = (ProgressBar) findViewById(R.id.splash_progress);
         clickToRefresh = (TextView) findViewById(R.id.splashRefresh);
 
@@ -236,6 +239,12 @@ public class SplashActivity extends AppCompatActivity implements
             } else {
                 // Permission denied.
                 NetworkManager.getInstance().getUserLocation();
+                isGPSVerified = true;
+                if (isGPSVerified) {
+                    getAccessTokenFromRefresh();
+                }else {
+                    versionCheck(isGPSVerified);
+                }
             }
         }
     }
@@ -479,8 +488,9 @@ public class SplashActivity extends AppCompatActivity implements
 
                         if (!appUpdate(intFourceUpdate, intSuggestUpdate)) {
                             isVersionVerified = true;
-                            if (isGPSVerified)
+                            if (isGPSVerified) {
                                 getAccessTokenFromRefresh();
+                            }
                         }
 
                     } catch (NullPointerException ex) {
