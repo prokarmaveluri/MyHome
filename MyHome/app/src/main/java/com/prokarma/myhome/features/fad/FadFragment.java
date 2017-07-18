@@ -363,6 +363,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         popup.getMenuInflater().inflate(R.menu.toolbar_menu, popup.getMenu());
 
         popup.getMenu().findItem(R.id.version).setTitle("Version - v" + BuildConfig.VERSION_CODE);
+        popup.getMenu().findItem(R.id.release_date).setTitle("Release Date - " + BuildConfig.BUILD_TIME);
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
