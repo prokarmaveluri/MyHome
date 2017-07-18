@@ -225,12 +225,12 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         LoginRequest request = null;
 
         if (!CommonUtil.isValidEmail(binder.email.getText().toString())) {
-            binder.email.setError(getString(R.string.email_needs_to_meet_criteria));
+            binder.email.setError(getString(R.string.valid_email));
             return null;
         }
 
         if (!CommonUtil.isValidPassword(binder.password.getText().toString())) {
-            Toast.makeText(getActivity(), getString(R.string.password_needs_to_meet_criteria), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.valid_password), Toast.LENGTH_LONG).show();
             return null;
         }
 
