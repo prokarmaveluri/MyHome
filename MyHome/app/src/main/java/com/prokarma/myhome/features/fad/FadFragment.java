@@ -473,9 +473,15 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             for (SearchSuggestionResponse resp : list) {
                 if (resp.getType().contains("Search") || resp.getType().contains("Provider") ||
                         resp.getType().contains("SectionHeader")) {
-                    FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), resp.getTitle(),
-                            resp.getId());
-                    sug.add(sugObj);
+                    if (resp.Category.equals("Provider") && resp.getTitle().contains("Healthcare Providers")) {
+                        FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), "Healthcare Providers",
+                                resp.getId());
+                        sug.add(sugObj);
+                    } else {
+                        FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), resp.getTitle(),
+                                resp.getId());
+                        sug.add(sugObj);
+                    }
                 }
             }
         } catch (NullPointerException ex) {
