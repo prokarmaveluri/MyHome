@@ -72,7 +72,7 @@ public class ContactUsFragment extends BaseFragment {
             Timber.i("Have Profile information. Crafting Support email...");
             emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
                     "Hello, \n\n" +
-                            "I was using the MyHome App and I had some questions. Can someone please contact me?\n\n" +
+                            "I was using the My Home App and I had some questions. Can someone please contact me?\n\n" +
                             "Thank You,\n" +
                             ProfileManager.getProfile().firstName + " " + ProfileManager.getProfile().lastName + "\n" +
                             ProfileManager.getProfile().phoneNumber + "\n");
@@ -81,7 +81,7 @@ public class ContactUsFragment extends BaseFragment {
             Timber.i("Don't have any Profile information. Showing placeholder...");
             emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
                     "Hello, \n\n" +
-                            "I was using the MyHome App and I had some questions. Can someone please contact me?\n\n" +
+                            "I was using the My Home App and I had some questions. Can someone please contact me?\n\n" +
                             "Thank You\n");
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
         }
