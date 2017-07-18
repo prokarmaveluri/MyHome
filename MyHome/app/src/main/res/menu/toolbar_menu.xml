@@ -50,4 +50,10 @@
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="Version"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/release_date"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Release Date"
+        app:showAsAction="never" />
 </menu>
