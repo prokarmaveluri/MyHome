@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.databinding.FragmentLoginBinding;
 import com.prokarma.myhome.features.contact.ContactUsActivity;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordActivity;
@@ -577,6 +578,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                 if (response.isSuccessful()) {
                     AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
                     AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
+                    CryptoManager.getInstance().saveToken();
                     mHandler.sendEmptyMessage(ACTION_FINISH);
                 }
             }

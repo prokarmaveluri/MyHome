@@ -97,6 +97,9 @@ public class SessionUtil {
                 "\nSession Token = " + AuthManager.getInstance().getSessionToken() +
                 "\nProfile = " + ProfileManager.getProfile());
 
+        AppPreferences.getInstance().setPreference("auth_token", null);
+        AppPreferences.getInstance().setPreference("auth_token_iv", null);
+
         AuthManager.getInstance().setSessionId(null);
         AuthManager.getInstance().setSid(null);
         AuthManager.getInstance().setBearerToken(null);

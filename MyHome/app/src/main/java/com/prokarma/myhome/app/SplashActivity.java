@@ -38,6 +38,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.login.LoginActivity;
@@ -109,6 +110,8 @@ public class SplashActivity extends AppCompatActivity implements
     private void getAccessTokenFromRefresh() {
         if (AuthManager.getInstance().getRefreshToken() != null) {
             refreshAccessToken(AuthManager.getInstance().getRefreshToken());
+        } else if (CryptoManager.getInstance().getToken() != null) {
+            refreshAccessToken(CryptoManager.getInstance().getToken());
         } else {
             progress.setVisibility(View.GONE);
             onRefreshFailed();
@@ -132,6 +135,7 @@ public class SplashActivity extends AppCompatActivity implements
                 if (response.isSuccessful()) {
                     AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
                     AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
+                    CryptoManager.getInstance().saveToken();
                     onRefreshSuccess();
                 } else {
                     onRefreshFailed();
@@ -147,6 +151,7 @@ public class SplashActivity extends AppCompatActivity implements
             }
         });
     }
+
 
     private void onRefreshSuccess() {
         //  Pre- load profile and appointment
@@ -263,7 +268,7 @@ public class SplashActivity extends AppCompatActivity implements
                         isGPSVerified = true;
                         if (isVersionVerified) {
                             getAccessTokenFromRefresh();
-                        }else {
+                        } else {
                             versionCheck(true);
                         }
                     }
