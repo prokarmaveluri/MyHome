@@ -233,10 +233,6 @@
     <string name="email_already_registered">Email already registered!</string>
     <string name="enter_valid_input">Enter valid input</string>
     <string name="email_already_exists">An account already exists for this email</string>
-    <string name="password_needs_to_meet_criteria">Password needs to meet criteria</string>
-    <string name="email_needs_to_meet_criteria">Email needs to meet criteria</string>
-    <string name="last_name_needs_to_meet_criteria">Last Name needs to meet criteria</string>
-    <string name="first_name_needs_to_meet_criteria">First Name needs to meet criteria</string>
 
     <!--Profile View-->
     <string name="not_available_postfix">%s not available.</string>

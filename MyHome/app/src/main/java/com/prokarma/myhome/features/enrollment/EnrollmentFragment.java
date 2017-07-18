@@ -142,23 +142,23 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     private EnrollmentRequest getRequest() {
 
         if (!CommonUtil.isValidTextInput(binding.firstName)) {
-            binding.firstName.setError(getString(R.string.first_name_needs_to_meet_criteria));
+            binding.firstName.setError(getString(R.string.valid_first_name));
             return null;
         }
 
         if (!CommonUtil.isValidTextInput(binding.lastName)) {
-            binding.lastName.setError(getString(R.string.last_name_needs_to_meet_criteria));
+            binding.lastName.setError(getString(R.string.valid_last_name));
             return null;
         }
 
         if (!CommonUtil.isValidEmail(binding.email.getText().toString())) {
-            binding.email.setError(getString(R.string.email_needs_to_meet_criteria));
+            binding.email.setError(getString(R.string.valid_email));
             return null;
         }
 
         if (!CommonUtil.isValidPassword(binding.password.getText().toString(),
                 binding.firstName.getText().toString(), binding.lastName.getText().toString())) {
-            Toast.makeText(getActivity(), getString(R.string.password_needs_to_meet_criteria),
+            Toast.makeText(getActivity(), getString(R.string.valid_password),
                     Toast.LENGTH_LONG).show();
             return null;
         }
