@@ -327,6 +327,18 @@ public class BookingDialogAdapter extends PagerAdapter {
             preferredName.setText(formsProfile.preferredName);
         }
 
+        if (formsProfile.gender != null) {
+            //Loop through genders until we find a match, then set gender spinner selection
+            for (int i = 0; i < gender.getAdapter().getCount(); i++) {
+                if (formsProfile.gender.equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
+                    gender.setSelection(i);
+                    break;
+                }
+            }
+        } else {
+            gender.setSelection(0);
+        }
+
         if (formsProfile.dateOfBirth != null) {
             dateOfBirth.setText(DateUtil.convertUTCtoReadable(formsProfile.dateOfBirth));
         }
@@ -470,6 +482,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                         }
                     });
                 } else {
+                    gender.setOnItemSelectedListener(null);
                     gender.setVisibility(View.GONE);
                     genderLabel.setVisibility(View.GONE);
                 }
