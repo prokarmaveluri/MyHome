@@ -105,7 +105,8 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         binding.imgDbAppointItemPinIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
+                if (null != appointment && null != appointment.facilityAddress)
+                    CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
             }
         });
         binding.btnDbScheduleAppoint.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +139,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         } else {
             Toast.makeText(getActivity(), R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
+            binding.relDbAppointItemLayout.setVisibility(View.GONE);
         }
     }
 
@@ -214,7 +216,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
             if (ProfileManager.getProfile().preferredName != null &&
                     !ProfileManager.getProfile().preferredName.trim().isEmpty()) {
                 binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().preferredName + "!");
-            } else if (ProfileManager.getProfile().firstName != null&&
+            } else if (ProfileManager.getProfile().firstName != null &&
                     !ProfileManager.getProfile().firstName.trim().isEmpty()) {
                 binding.txtDbTitle.setText(getString(R.string.db_welcome_one) + " " + ProfileManager.getProfile().firstName + "!");
             } else {
@@ -242,7 +244,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                             AppointmentResponse result = response.body();
                             ProfileManager.setAppointments(result.result.appointments);
                             updateAppointViews();
-                        }catch (NullPointerException ex){
+                        } catch (NullPointerException ex) {
                             Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                         }
                     } else {
