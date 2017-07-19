@@ -58,23 +58,22 @@ public class SessionUtil {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (null != progressBar)
                     progressBar.setVisibility(View.GONE);
+
                 if (response.isSuccessful()) {
                     Timber.i("Response successful: " + response);
-
-                    activity.finishAffinity();
                     Toast.makeText(activity, activity.getString(R.string.signed_out_successfully),
                             Toast.LENGTH_SHORT).show();
-
-                    clearData();
-                    Intent intent = SplashActivity.getSplashIntent(activity);
-                    activity.startActivity(intent);
-                    activity.finish();
-                    return;
+                } else {
+                    Timber.i("Response not successful: " + response);
+                    Toast.makeText(activity, activity.getString(R.string.something_went_wrong),
+                            Toast.LENGTH_LONG).show();
                 }
 
-                Timber.i("Response not successful: " + response);
-                Toast.makeText(activity, activity.getString(R.string.something_went_wrong),
-                        Toast.LENGTH_LONG).show();
+                activity.finishAffinity();
+                clearData();
+                Intent intent = SplashActivity.getSplashIntent(activity);
+                activity.startActivity(intent);
+                activity.finish();
             }
 
             @Override
@@ -82,8 +81,15 @@ public class SessionUtil {
                 Timber.i("Logout failed");
                 Toast.makeText(activity, activity.getString(R.string.something_went_wrong),
                         Toast.LENGTH_LONG).show();
+
                 if (null != progressBar)
                     progressBar.setVisibility(View.GONE);
+
+                activity.finishAffinity();
+                clearData();
+                Intent intent = SplashActivity.getSplashIntent(activity);
+                activity.startActivity(intent);
+                activity.finish();
             }
         });
     }
