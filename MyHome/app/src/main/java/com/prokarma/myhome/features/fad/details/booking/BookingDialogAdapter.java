@@ -23,6 +23,8 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegAttributes;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegIncluded;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
+import com.prokarma.myhome.features.profile.Address;
+import com.prokarma.myhome.features.profile.InsuranceProvider;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
@@ -139,8 +141,9 @@ public class BookingDialogAdapter extends PagerAdapter {
 
                 if (autoPopulateFromProfile) {
                     populatePersonalLayout();
-                } else {
-                    //Otherwise
+                }
+
+                if (!BookingManager.isBookingForMe() && formsProfile.firstName != null && formsProfile.lastName != null){
                     caregiverName.setText(formsProfile.firstName + " " + formsProfile.lastName);
                 }
 
@@ -436,7 +439,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             final List<String> fields = ValidationUtil.getEnabledFields(regValidationResponse);
 
             if (fields != null) {
-                if (fields.contains(ValidationUtil.FIELD_CAREGIVER_NAME) && !autoPopulateFromProfile) {
+                if (fields.contains(ValidationUtil.FIELD_CAREGIVER_NAME) && !BookingManager.isBookingForMe()) {
                     caregiverLayout.setVisibility(View.VISIBLE);
                 } else {
                     caregiverLayout.setVisibility(View.GONE);
@@ -545,13 +548,13 @@ public class BookingDialogAdapter extends PagerAdapter {
      * @return a Profile that accurately represents the forms filled out
      */
     public Profile getProfile() {
-//        if (formsProfile.address == null) {
-//            formsProfile.address = new Address();
-//        }
-//
-//        if (formsProfile.insuranceProvider == null) {
-//            formsProfile.insuranceProvider = new InsuranceProvider();
-//        }
+        if (formsProfile.address == null) {
+            formsProfile.address = new Address();
+        }
+
+        if (formsProfile.insuranceProvider == null) {
+            formsProfile.insuranceProvider = new InsuranceProvider();
+        }
 
         if (caregiverName.getVisibility() == View.VISIBLE && caregiverName.getText() != null) {
             formsProfile.primaryCaregiverName = caregiverName.getText().toString().trim();

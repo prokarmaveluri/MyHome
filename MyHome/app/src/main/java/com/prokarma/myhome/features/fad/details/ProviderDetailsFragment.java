@@ -575,13 +575,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return;
         }
 
-        if (BookingManager.isBookingForMe() && BookingManager.getBookingProfile() != null) {
+        if (BookingManager.getBookingProfile() != null) {
             bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId);
         } else if (BookingManager.isBookingForMe()) {
             BookingManager.setBookingProfile(ProfileManager.getProfile());
             bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId);
         } else {
-            BookingManager.setBookingProfile(new Profile());
+            //BookingManager.setBookingProfile(new Profile());
             bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId);
         }
 
