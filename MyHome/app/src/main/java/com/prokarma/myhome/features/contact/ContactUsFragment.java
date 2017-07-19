@@ -65,7 +65,7 @@ public class ContactUsFragment extends BaseFragment {
     private void composeEmail() {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"hello@dignityhealth.com"});
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"hello@dignityhealth.org"});
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Ask A Question");
 
         if (ProfileManager.getProfile() != null) {
@@ -75,7 +75,7 @@ public class ContactUsFragment extends BaseFragment {
                             "I was using the My Home App and I had some questions. Can someone please contact me?\n\n" +
                             "Thank You,\n" +
                             ProfileManager.getProfile().firstName + " " + ProfileManager.getProfile().lastName + "\n" +
-                            ProfileManager.getProfile().phoneNumber + "\n");
+                            (ProfileManager.getProfile().phoneNumber != null ? ProfileManager.getProfile().phoneNumber : "") + "\n");
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
         } else {
             Timber.i("Don't have any Profile information. Showing placeholder...");
