@@ -186,7 +186,7 @@
                 android:digits="0123456789"
                 android:ellipsize="end"
                 android:hint="@string/date_of_birth"
-                android:inputType="number"
+                android:inputType="number|phone"
                 android:maxLength="10"
                 android:maxLines="1" />
 
