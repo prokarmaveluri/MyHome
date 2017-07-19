@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -19,6 +20,7 @@ import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
@@ -60,22 +62,6 @@ public class AppointmentsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
-
-//                Bundle bundle = new Bundle();
-//                Provider provider = new Provider();
-//                provider.setDateOfBirth("0001-01-01T00:00:00");
-//                provider.setDisplayFullName("Phuc-Son Dong, DO");
-//                provider.setDisplayLastName("Dr. Dong");
-//                provider.setFirstName("Phuc-Son");
-//                provider.setHasAppointments(true);
-//                provider.setImageUrl("http://d1ffafozi03i4l.cloudfront.net/img/prov/G/8/R/G8RWK_w60h80_v3309.jpg");
-//                provider.setLastName("Dong");
-//                provider.setMiddleName("Si");
-//                provider.setNpi("1598077869");
-//                provider.setProviderId("G8RWK");
-//
-//                bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
-//                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
             }
         });
 
@@ -107,6 +93,11 @@ public class AppointmentsFragment extends BaseFragment {
     }
 
     private void getAppointmentInfo(String bearer) {
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         showLoading();
 
         Timber.i("Session bearer " + bearer);

@@ -14,23 +14,21 @@
     <string name="enroll_now">Don\'t have an account?</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="login_help">Help</string>
-    <string name="valid_first_name">Enter valid first name</string>
-    <string name="valid_last_name">Enter valid last name</string>
-    <string name="valid_email">Enter valid email</string>
-    <string name="valid_password">Enter valid password</string>
-    <string name="valid_password_match">Password not matching</string>
-    <string name="something_went_wrong">Something went wrong, please try again!</string>
-    <string name="sign_in_failure_msg">Sign in failed</string>
-    <string name="forgot_password_success_msg">Password reset link has been sent to your email. Please click on it to reset password</string>
-    <string name="enrollment_success">You are successfully registered.</string>
-    <string name="no_network_msg">Please check your network, try again!</string>
+    <string name="valid_first_name">Please enter a valid first name.</string>
+    <string name="valid_last_name">Please enter a valid last name.</string>
+    <string name="valid_email">Please enter a valid email.</string>
+    <string name="valid_password">Please enter a valid password.</string>
+    <string name="valid_password_match">Please match your password entries.</string>
+    <string name="forgot_password_success_msg">Please check your email for instructions to reset your password.</string>
+    <string name="enrollment_success">Congratulations! Your new My Home is ready.</string>
+    <string name="no_network_msg">We\'re sorry, we\'re unable to detect your network. Please connect and try again.</string>
 
-    <string name="enrollment_success_dialog_tittle">Validation sent to email address entered.</string>
-    <string name="enrollment_success_dialog_msg">Validation must be completed in 30 days or you will be prompted to validate again.</string>
+    <string name="enrollment_success_dialog_tittle">You\'re enrolled in My Home! To get started, confirm your enrollment in the email sent to you.</string>
+    <string name="enrollment_success_dialog_msg">Your new My Home is waiting! Please confirm your enrollment within 30 days.</string>
     <string name="sign_out">Sign Out</string>
     <string name="book_an_appointment">Book an Appointment</string>
     <string name="book_appointment">Book Appointment</string>
-    <string name="no_appointments">No Appointments</string>
+    <string name="no_appointments">You have no upcoming appointments.</string>
 
     <!-- FAD -->
     <string name="find_a_doctor">Find Care</string>
@@ -44,7 +42,7 @@
     <string name="terms_of_service">Terms of Service</string>
     <string name="contact_support">Help</string>
     <string name="developer_settings">Developer Settings</string>
-    <string name="no_providers">No Providers found\n Please change your search criteria.</string>
+    <string name="no_providers">Please adjust your search to view more doctors.</string>
     <string name="no_education_found">No Education Found</string>
     <string name="appointment_reschedule">To reschedule or cancel your appointment, please call your doctor\'s location directly.</string>
     <string name="male">Male</string>
@@ -94,7 +92,7 @@
     <string name="insurance_provider">Insurance Provider</string>
     <string name="member_id">Member ID</string>
     <string name="group_id">Group ID</string>
-    <string name="profile_unavailable">Profile Unavailable</string>
+    <string name="profile_unavailable">We’re sorry, your profile is currently unavailable.</string>
     <string name="group">Group</string>
     <string name="edit">Edit</string>
     <string name="board_certifications">Board Certifications</string>
@@ -112,18 +110,18 @@
     <string name="developer">Developer</string>
     <string name="cancel">Cancel</string>
     <string name="accept">Accept</string>
-    <string name="no_valid_session">No valid session, please login again</string>
-    <string name="signed_out_successfully">Signed out successfully</string>
-    <string name="profile_saved">Information saved</string>
-    <string name="profile_save_failed">Unable to update Profile</string>
-    <string name="please_install_calendar_app">Please install a calendar application</string>
-    <string name="no_app_share_appointments">Couldn\'t find an app that can share appointments</string>
-    <string name="unknown_activity_tag">Unknown Activity Tag</string>
-    <string name="max_login_tries_reached">You reached maximum failure attempts, try after 5 minutes</string>
-    <string name="appointment_created">Appointment Created!</string>
-    <string name="appointment_creation_failed">Appointment Creation Failed!</string>
-    <string name="query_empty">Enter search query</string>
-    <string name="query_location_unavailable">Location not available. Select location in filter</string>
+    <string name="no_valid_session">For your security, please sign in again.</string>
+    <string name="signed_out_successfully">You are now signed out.</string>
+    <string name="profile_saved">Your profile is saved.</string>
+    <string name="profile_save_failed">We\'re sorry, we are currently unable to save your profile changes.</string>
+    <string name="please_install_calendar_app">Keep track of your appointments by installing a calendar application.</string>
+    <string name="no_app_share_appointments">Share your appointments by connecting a communications app.</string>
+    <string name="unknown_activity_tag">We didn’t catch that.</string>
+    <string name="max_login_tries_reached">We\'re sorry, we need to reset. Take five and try again.</string>
+    <string name="appointment_created">Your appointment is confirmed. We’ll see you then!</string>
+    <string name="appointment_creation_failed">We\'re sorry, we couldn’t confirm your appointment. Please contact your doctor’s office.</string>
+    <string name="query_empty">Please enter a word or phrase to search.</string>
+    <string name="query_location_unavailable">Please select a location from the filter to narrow your search.</string>
     <string name="provider_details_unavailable">Provider Details Unavailable</string>
     <string name="password_criteria_8char">Password must be at least 8 characters</string>
     <string name="password_criteria_name">Password must not contain part of your name</string>
@@ -141,7 +139,7 @@
     <string name="save_profile_title">Save Changes</string>
     <string name="save_profile_message">Do you wish to save this information for later?</string>
     <string name="search_this_area">Search This Area</string>
-    <string name="no_appointments_available">No Appointments Available</string>
+    <string name="no_appointments_available">You have no upcoming appointments.</string>
     <string name="no_appointments_new_patients">There are no appointments available for new patients</string>
     <string name="no_appointments_existing_patients">There are no appointments available for existing patients</string>
     <string name="next_available">Next Available</string>
@@ -180,7 +178,7 @@
 
     <string name="session_expiry">Session Expired!</string>
     <string name="session_expiry_message">Your login session expired, please login again.</string>
-    <string name="signout_alert_message">Are you sure you want to sign out?</string>
+    <string name="signout_alert_message">Are you sure you want to go?</string>
     <string name="no_locations_found">No Locations Found</string>
 
     <!--Provider Details-->
@@ -224,8 +222,9 @@
     <string name="zip_invalid">Invalid zipcode</string>
 
     <!--Enrollment-->
-    <string name="password_must_be_eight_chars">Password must be at least 8 characters</string>
-    <string name="password_cannot_contain_name">Password must not contain part of your name</string>
+    <string name="your_password">Your password:</string>
+    <string name="password_must_be_eight_chars">Must be at least 8 characters</string>
+    <string name="password_cannot_contain_name">Must not contain part of your name</string>
     <string name="password_needs_one_uppercase">At least one UPPERCASE letter</string>
     <string name="password_needs_one_lowercase">At least one lowercase letter</string>
     <string name="password_needs_one_number">At least one number</string>
@@ -234,28 +233,27 @@
     <string name="email_already_registered">Email already registered!</string>
     <string name="enter_valid_input">Enter valid input</string>
     <string name="email_already_exists">An account already exists for this email</string>
-    <string name="password_needs_to_meet_criteria">Password needs to meet criteria</string>
-    <string name="email_needs_to_meet_criteria">Email needs to meet criteria</string>
-    <string name="last_name_needs_to_meet_criteria">Last Name needs to meet criteria</string>
-    <string name="first_name_needs_to_meet_criteria">First Name needs to meet criteria</string>
 
     <!--Profile View-->
     <string name="not_available_postfix">%s not available.</string>
     <string name="name">Name</string>
-    <string name="preferred_name_profile">Preffered Name</string>
+    <string name="preferred_name_profile">Preferred Name</string>
     <string name="gender_profile">Gender</string>
     <string name="date_of_birth_profile">Date of birth</string>
     <string name="phone_number_profile">Phone number</string>
     <string name="email_profile">Email</string>
     <string name="appointment_with">Appointment with</string>
     <string name="contact_us_phone">8442748497</string>
+    <string name="something_went_wrong">We\'re sorry, we\'ve hit a snag. Please try again.</string>
     <string name="date_of_birth_invalid">Invalid Date of Birth</string>
     <string name="contact_us_email">hello@dignityhealth.org</string>
 
-    <string name="release_date">07/17/2017</string>
     <string name="filter_title">Filter</string>
     <string name="filter_apply">Apply</string>
 
     <string name="click_to_refresh">Retry</string>
+
+    <string name="sign_out_fail">We\'re sorry, let\’s try that again.</string>
+    <string name="failure_msg">We\'re sorry, we\’ve hit a snag. Please try again or contact support at 844-274-8497.</string>
 
 </resources>

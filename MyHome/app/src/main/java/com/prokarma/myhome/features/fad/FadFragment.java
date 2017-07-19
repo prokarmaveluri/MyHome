@@ -363,6 +363,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         popup.getMenuInflater().inflate(R.menu.toolbar_menu, popup.getMenu());
 
         popup.getMenu().findItem(R.id.version).setTitle("Version - v" + BuildConfig.VERSION_CODE);
+        popup.getMenu().findItem(R.id.release_date).setTitle("Release Date - " + BuildConfig.BUILD_TIME);
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
@@ -473,7 +474,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             for (SearchSuggestionResponse resp : list) {
                 if (resp.getType().contains("Search") || resp.getType().contains("Provider") ||
                         resp.getType().contains("SectionHeader")) {
-                    if (resp.Category.equals("Provider") && resp.getTitle().contains("Healthcare Providers")) {
+                    if (null != resp.Category && resp.Category.equals("Provider") &&
+                            null != resp.getTitle() && resp.getTitle().contains("Healthcare Providers")) {
                         FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), "Healthcare Providers",
                                 resp.getId());
                         sug.add(sugObj);
