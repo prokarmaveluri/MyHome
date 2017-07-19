@@ -613,6 +613,10 @@ public class BookingDialogAdapter extends PagerAdapter {
             formsProfile.address.zipCode = zip.getText().toString().trim();
         }
 
+        if(email.getVisibility() == View.VISIBLE && email.getText() != null){
+            formsProfile.email = email.getText().toString().trim();
+        }
+
         //Make sure to strip phone number of any non-digits
         if (phone.getVisibility() == View.VISIBLE && phone.getText() != null) {
             formsProfile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());

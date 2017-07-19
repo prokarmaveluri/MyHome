@@ -225,7 +225,6 @@ public class Profile implements Parcelable {
             profile.insuranceProvider = InsuranceProvider.copySansBookingInfo(otherProfile.insuranceProvider);
             profile.clientID = otherProfile.clientID;
             profile.remoteID = otherProfile.remoteID;
-            profile.email = otherProfile.email;
         }
 
         return profile;
