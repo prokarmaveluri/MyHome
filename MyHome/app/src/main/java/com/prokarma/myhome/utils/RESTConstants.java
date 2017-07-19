@@ -13,6 +13,8 @@ public class RESTConstants {
 
     public static final String VERSIONING_DEV_URL = "http://web-usw1-versioningservices-dev.azurewebsites.net/";
 
+    public static final String VERSIONING_TST_URL = "http://web-usw1-versioningservices-tst.azurewebsites.net/";
+
     public static final String OKTA_BASE_URL = "https://dignityhealth.oktapreview.com/";
     public static final String CIAM_BASE_URL = "https://test.ciam.dignityhealth.org/";
     public static final String S2_BASE_URL = "https://web-usw1-fad-tst.azurewebsites.net/";
