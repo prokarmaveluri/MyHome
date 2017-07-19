@@ -93,7 +93,7 @@
     <string name="member_id">Member ID</string>
     <string name="group_id">Group ID</string>
     <string name="profile_unavailable">We’re sorry, your profile is currently unavailable.</string>
-    <string name="group">Group</string>
+    <string name="group">Group ID</string>
     <string name="edit">Edit</string>
     <string name="board_certifications">Board Certifications</string>
     <string name="awards_amp_recognitions"><![CDATA[Awards & Recognitions]]></string>
