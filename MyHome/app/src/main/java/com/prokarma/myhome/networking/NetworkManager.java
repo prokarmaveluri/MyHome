@@ -27,6 +27,7 @@ import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
+import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.RESTConstants;
 
@@ -90,6 +91,9 @@ public class NetworkManager {
                 //Session expired
                 if (response.code() == 401 && !request.url().toString()
                         .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn")) {
+                    AuthManager.getInstance().refreshToken();
+                }else if (response.code() == 400 && request.url().toString()
+                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/ausb2b0jbri7MsQGl0h7/v1/token")) {
                     if (null != expiryListener)
                         expiryListener.expired();
                 }
@@ -409,5 +413,28 @@ public class NetworkManager {
 
     public interface ISessionExpiry {
         public void expired();
+    }
+
+    private boolean refreshToken() {
+        try {
+            retrofit2.Response<RefreshAccessTokenResponse> syncResp = NetworkManager.getInstance()
+                    .refreshAccessToken(RESTConstants.GRANT_TYPE_REFRESH,
+                            AuthManager.getInstance().getRefreshToken(),
+                            RESTConstants.CLIENT_ID,
+                            RESTConstants.AUTH_REDIRECT_URI).execute();
+            if (syncResp.isSuccessful()) {
+                System.out.println("REQ: syncResp" + syncResp.body().toString());
+                AuthManager.getInstance().setBearerToken(syncResp.body().getAccessToken());
+                AuthManager.getInstance().setRefreshToken(syncResp.body().getRefreshToken());
+                return true;
+            } else {
+                //TODO:Chandra Login on refresh fail
+                    /*need handler to post to main thread as it will be updating mybag count*/
+                return false;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 }

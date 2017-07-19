@@ -1,14 +1,22 @@
 package com.prokarma.myhome.networking.auth;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 
 import com.prokarma.myhome.BuildConfig;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.login.LoginActivity;
+import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
+import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.AppPreferences;
-import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.RESTConstants;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 /**
@@ -18,6 +26,7 @@ import timber.log.Timber;
 public class AuthManager {
 
     private static String expiresAt;
+    private static Integer expiresIn;
     private static String bearerToken;
     private static String refreshToken;
     private static String sessionToken;
@@ -40,6 +49,14 @@ public class AuthManager {
     }
 
     private AuthManager() {
+    }
+
+    public Integer getExpiresIn() {
+        return expiresIn;
+    }
+
+    public void setExpiresIn(Integer expiresIn) {
+        AuthManager.expiresIn = expiresIn;
     }
 
     public String getRefreshToken() {
@@ -159,26 +176,53 @@ public class AuthManager {
 
     public boolean isExpiried() {
         try {
-            long expiresAt = DateUtil.getMilliseconds(getExpiresAt());
+            long fetchTime = AppPreferences.getInstance().getLongPreference("FETCH_TIME");
             long current = System.currentTimeMillis();
 
             // already expired
-//            if (current > expiresAt)
-//                return true;
-
-            setIdleTime(AppPreferences.getInstance().getLongPreference("IDLE_TIME"));
-            if (getIdleTime() <= 0)
-                return false;
-
-            // idle time is more than 10days
-            if (System.currentTimeMillis() > (getIdleTime() + SESSION_EXPIRY_TIME)) {
-                Timber.i("Expiry true: " + (System.currentTimeMillis() - (getIdleTime() + SESSION_EXPIRY_TIME)));
-                return true;
+            if ((current - fetchTime) > (AuthManager.getInstance().getExpiresIn() * 1000)) {
+                mHandler.sendEmptyMessage(0);
             }
-            Timber.i("Expiry false: " + (System.currentTimeMillis() - (getIdleTime() + SESSION_EXPIRY_TIME)));
             return false;
         } catch (NullPointerException ex) {
             return false;
         }
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            refreshToken();
+        }
+    };
+
+    public void refreshToken() {
+        NetworkManager.getInstance().refreshAccessToken(RESTConstants.GRANT_TYPE_REFRESH,
+                refreshToken,
+                RESTConstants.CLIENT_ID,
+                RESTConstants.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshAccessTokenResponse> call, Response<RefreshAccessTokenResponse> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        Timber.i("Session refresh " + response.body().getExpiresIn());
+                        AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
+                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
+                        AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
+                        AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
+                        CryptoManager.getInstance().saveToken();
+                    } catch (NullPointerException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshAccessTokenResponse> call, Throwable t) {
+                Timber.i("onFailure : ");
+            }
+        });
     }
 }

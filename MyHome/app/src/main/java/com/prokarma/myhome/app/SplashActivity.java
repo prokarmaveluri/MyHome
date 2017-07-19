@@ -49,6 +49,7 @@ import com.prokarma.myhome.features.update.UpdateActivity;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.RESTConstants;
@@ -121,7 +122,7 @@ public class SplashActivity extends AppCompatActivity implements
         }
     }
 
-    private void refreshAccessToken(String refreshToken) {
+    private void refreshAccessToken(final String refreshToken) {
         if (!ConnectionUtil.isConnected(this)) {
             Toast.makeText(this, R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
@@ -136,10 +137,17 @@ public class SplashActivity extends AppCompatActivity implements
             @Override
             public void onResponse(Call<RefreshAccessTokenResponse> call, Response<RefreshAccessTokenResponse> response) {
                 if (response.isSuccessful()) {
-                    AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
-                    AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
-                    CryptoManager.getInstance().saveToken();
-                    onRefreshSuccess();
+                    try {
+                        Timber.i("Session refresh " + response.body().getExpiresIn());
+                        AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
+                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
+                        AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
+                        AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
+                        CryptoManager.getInstance().saveToken();
+                        onRefreshSuccess();
+                    } catch (NullPointerException ex) {
+                        ex.printStackTrace();
+                    }
                 } else {
                     onRefreshFailed();
                 }
@@ -242,7 +250,7 @@ public class SplashActivity extends AppCompatActivity implements
                 isGPSVerified = true;
                 if (isGPSVerified) {
                     getAccessTokenFromRefresh();
-                }else {
+                } else {
                     versionCheck(isGPSVerified);
                 }
             }

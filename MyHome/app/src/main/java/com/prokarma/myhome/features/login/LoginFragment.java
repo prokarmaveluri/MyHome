@@ -576,10 +576,17 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
                 if (response.isSuccessful()) {
-                    AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
-                    AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
-                    CryptoManager.getInstance().saveToken();
-                    mHandler.sendEmptyMessage(ACTION_FINISH);
+                    try {
+                        AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
+                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
+                        AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
+                        AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
+                        CryptoManager.getInstance().saveToken();
+                        mHandler.sendEmptyMessage(ACTION_FINISH);
+                    }catch (NullPointerException ex){
+                        ex.printStackTrace();
+                        mHandler.sendEmptyMessage(TOKEN_ERROR);
+                    }
                 }
             }
 
