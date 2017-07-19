@@ -320,10 +320,9 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
 
     private List<String> getLocationNames(List<LocationResponse> list) {
         currentLocationSug.clear();
-        currentLocationSug.add("User Location");
+        currentLocationSug.add("Current Location");
         for (LocationResponse resp : list) {
             currentLocationSug.add(resp.getDisplayName());
-
         }
         return currentLocationSug;
     }

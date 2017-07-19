@@ -262,7 +262,7 @@ public class SplashActivity extends AppCompatActivity implements
                                 LocationResponse locObj = new LocationResponse();
                                 locObj.setLat(String.valueOf(location.getLatitude()));
                                 locObj.setLon(String.valueOf(location.getLongitude()));
-                                locObj.setDisplayName("User Location");
+                                locObj.setDisplayName("Current Location");
                                 locObj.setZipCode("");
                                 FadManager.getInstance().setCurrentLocation(locObj);
                                 FadManager.getInstance().setLocation(locObj);
