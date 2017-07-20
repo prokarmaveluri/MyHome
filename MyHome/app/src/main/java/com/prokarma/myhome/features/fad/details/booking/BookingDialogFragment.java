@@ -19,6 +19,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValida
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.views.WrappingViewPager;
 
 import retrofit2.Call;
@@ -189,7 +190,10 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     private void finishBooking() {
         final Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();
 
-        if (BookingManager.isBookingForMe() && !formsProfile.equalsSansBookingInfo(ProfileManager.getProfile())) {
+        if (BookingManager.isBookingForMe() && !formsProfile.shouldAskToSave(ProfileManager.getProfile())) {
+            //Not equal and all the data empty
+            ProfileManager.updateProfile(AuthManager.getInstance().getBearerToken(), formsProfile);
+        } else if (BookingManager.isBookingForMe() && formsProfile.shouldAskToSave(ProfileManager.getProfile())) {
             //Send the profile for saving, but without the booking info-specfic fields
             BookingSaveProfileDialog dialog = BookingSaveProfileDialog.newInstance(Profile.copySansBookingInfo(formsProfile));
             dialog.setSaveProfileInterface(this);

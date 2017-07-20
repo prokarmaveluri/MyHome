@@ -13,13 +13,7 @@ import android.view.ViewGroup;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
 
 /**
  * Fragment dialog to ask user whether they want to save info from Booking Flow
@@ -76,7 +70,7 @@ public class BookingSaveProfileDialog extends DialogFragment {
                 .setMessage(getString(R.string.save_profile_message))
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), formsProfile);
+                        ProfileManager.updateProfile(AuthManager.getInstance().getBearerToken(), formsProfile);
                         dismiss();
 
                         if (saveProfileInterface != null) {
@@ -96,31 +90,6 @@ public class BookingSaveProfileDialog extends DialogFragment {
 
         // Create the AlertDialog object and return it
         return builder.create();
-    }
-
-    /**
-     * Sends the profile information to the server to update the values
-     *
-     * @param bearer         the bearer token needed to provide authentication
-     * @param updatedProfile the updated profile information being attempted
-     */
-    private void sendUpdatedProfile(String bearer, Profile updatedProfile) {
-        NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    ProfileManager.setProfile(formsProfile);
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Timber.e("Something failed! :/");
-            }
-        });
     }
 
     public void setSaveProfileInterface(BookingSaveProfileInterface saveProfileInterface) {

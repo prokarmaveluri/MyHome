@@ -82,6 +82,31 @@ public class ProfileManager {
         });
     }
 
+    /**
+     * Sends the profile information to the server to update the values
+     *
+     * @param bearer         the bearer token needed to provide authentication
+     * @param updatedProfile the updated profile information being attempted
+     */
+    public static void updateProfile(final String bearer, final Profile updatedProfile) {
+        NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                    ProfileManager.setProfile(updatedProfile);
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Timber.e("Something failed! :/");
+            }
+        });
+    }
+
     public static void getAppointmentInfo() {
         String bearerToken = AuthManager.getInstance().getBearerToken();
         NetworkManager.getInstance().getAppointments(bearerToken).enqueue(new Callback<AppointmentResponse>() {

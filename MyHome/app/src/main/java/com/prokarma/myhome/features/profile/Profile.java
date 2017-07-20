@@ -138,31 +138,88 @@ public class Profile implements Parcelable {
     }
 
     /**
-     * Method to see if two Profile objects are the same.
-     * We ignore casing for gender.
+     * Method to see if we should ask before saving.
+     * We only need to ask before saving if any profile field was changed (not added).
      * We don't care about any booking fields (email, caregiver name, reason for visit, translator language...)
      *
      * @param o
      * @return
      */
-    public boolean equalsSansBookingInfo(Object o) {
+    public boolean shouldAskToSave(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Profile profile = (Profile) o;
-        return isPregnant == profile.isPregnant &&
-                Objects.equals(firstName, profile.firstName) &&
-                Objects.equals(middleInitial, profile.middleInitial) &&
-                Objects.equals(lastName, profile.lastName) &&
-                Objects.equals(preferredName, profile.preferredName) &&
-                Objects.equals(gender.toUpperCase(), profile.gender.toUpperCase()) &&
-                Objects.equals(dateOfBirth, profile.dateOfBirth) &&
-                Objects.equals(address, profile.address) &&
-                Objects.equals(phoneNumber, profile.phoneNumber) &&
-                Objects.equals(phoneNumberType, profile.phoneNumberType) &&
-                Objects.equals(primaryCaregiverName, profile.primaryCaregiverName) &&
-                Objects.equals(insuranceProvider, profile.insuranceProvider) &&
-                Objects.equals(clientID, profile.clientID) &&
-                Objects.equals(remoteID, profile.remoteID);
+        boolean askToSave = false;
+
+        if (!Objects.equals(firstName, profile.firstName) && (profile.firstName != null && !profile.firstName.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(lastName, profile.lastName) && (profile.lastName != null && !profile.lastName.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(preferredName, profile.preferredName) && (profile.preferredName != null && !profile.preferredName.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(gender.toUpperCase(), profile.gender.toUpperCase()) && !profile.gender.equalsIgnoreCase("Unknown")) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(dateOfBirth, profile.dateOfBirth) && (profile.dateOfBirth != null && !profile.dateOfBirth.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(address.line1, profile.address.line1) && (profile.address.line1 != null && !profile.address.line1.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(address.line2, profile.address.line2) && (profile.address.line2 != null && !profile.address.line2.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(address.city, profile.address.city) && (profile.address.city != null && !profile.address.city.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(address.stateOrProvince, profile.address.stateOrProvince) && (profile.address.stateOrProvince != null && !profile.address.stateOrProvince.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(address.zipCode, profile.address.zipCode) && (profile.address.zipCode != null && !profile.address.zipCode.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(address.countryCode, profile.address.countryCode) && (profile.address.countryCode != null && !profile.address.countryCode.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(phoneNumber, profile.phoneNumber) && (profile.phoneNumber != null && !profile.phoneNumber.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(insuranceProvider.providerName, profile.insuranceProvider.providerName) && (profile.insuranceProvider.providerName != null && !profile.insuranceProvider.providerName.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(insuranceProvider.memberNumber, profile.insuranceProvider.memberNumber) && (profile.insuranceProvider.memberNumber != null && !profile.insuranceProvider.memberNumber.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(insuranceProvider.groupNumber, profile.insuranceProvider.groupNumber) && (profile.insuranceProvider.groupNumber != null && !profile.insuranceProvider.groupNumber.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(clientID, profile.clientID) && (profile.clientID != null && !profile.clientID.isEmpty())) {
+            askToSave = true;
+        }
+
+        if (!Objects.equals(remoteID, profile.remoteID) && (profile.remoteID != null && !profile.remoteID.isEmpty())) {
+            askToSave = true;
+        }
+
+        return askToSave;
     }
 
     /**
