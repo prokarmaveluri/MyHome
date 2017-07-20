@@ -343,9 +343,12 @@ public class BookingDialogAdapter extends PagerAdapter {
             gender.setSelection(0);
         }
 
-        if (formsProfile.isPregnant) {
+        if(formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))){
             areYouPregnantLabel.setVisibility(View.VISIBLE);
             areYouPregnantGroup.setVisibility(View.VISIBLE);
+        }
+
+        if (formsProfile.isPregnant) {
             areYouPregnantGroup.check(R.id.radio_pregnant);
         }
 
