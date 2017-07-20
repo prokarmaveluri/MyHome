@@ -26,6 +26,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValida
 import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.features.profile.InsuranceProvider;
 import com.prokarma.myhome.features.profile.Profile;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
@@ -143,8 +144,8 @@ public class BookingDialogAdapter extends PagerAdapter {
                     populatePersonalLayout();
                 }
 
-                if (!BookingManager.isBookingForMe() && formsProfile.firstName != null && formsProfile.lastName != null){
-                    caregiverName.setText(formsProfile.firstName + " " + formsProfile.lastName);
+                if (!BookingManager.isBookingForMe() && ProfileManager.getProfile().firstName != null && ProfileManager.getProfile().lastName != null){
+                    caregiverName.setText(ProfileManager.getProfile().firstName + " " + ProfileManager.getProfile().lastName);
                 }
 
                 return personalLayout;
