@@ -700,7 +700,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onBookingSuccess() {
         //Booking Successful!
-        BookingManager.clearBookingData(true);
     }
 
     @Override
@@ -734,6 +733,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().popBackStack(TIME_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return true;
         } else if (fragment != null && fragment instanceof BookingDoneFragment) {
+            BookingManager.clearBookingData(true);
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();
