@@ -141,6 +141,6 @@ public interface RESTService {
     @GET(RESTConstants.CIAM_BASE_URL + "api/users")
     Call<ValidateEmailResponse> findEmail(@Query("email") String email);
 
-    @GET(RESTConstants.VERSIONING_PRD_URL + "api/versioning/dependencies")
+    @GET(RESTConstants.VERSIONING_URL + "api/versioning/dependencies")
     Call<UpdateResponse> versionCheck();
 }

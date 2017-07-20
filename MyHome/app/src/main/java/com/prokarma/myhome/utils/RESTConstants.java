@@ -14,19 +14,19 @@ public class RESTConstants {
 
     public static final String VERSIONING_DEV_URL = "http://web-usw1-versioningservices-dev.azurewebsites.net/";
 
-//    public static final String VERSIONING_TST_URL = "http://web-usw1-versioningservices-tst.azurewebsites.net/";
+    public static final String VERSIONING_URL = "http://web-usw1-versioningservices-tst.azurewebsites.net/";
 
     public static final String OKTA_BASE_URL = "https://dignityhealth.oktapreview.com/";
-//    public static final String CIAM_BASE_URL = "https://test.ciam.dignityhealth.org/";
-//    public static final String S2_BASE_URL = "https://web-usw1-fad-tst.azurewebsites.net/";
-//    public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-tst.azurewebsites.net/";
+    public static final String CIAM_BASE_URL = "https://test.ciam.dignityhealth.org/";
+    public static final String S2_BASE_URL = "https://web-usw1-fad-tst.azurewebsites.net/";
+    public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-tst.azurewebsites.net/";
 
 
     //PROD
-    public static final String VERSIONING_PRD_URL = "web-usw1-versioningservices-prd.azurewebsites.net/";
-    public static final String S2_BASE_URL = "https://e3findadocapp.azurewebsites.net/";
-    public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-prd.azurewebsites.net/";
-    public static final String CIAM_BASE_URL = "https://prod.ciam.dignityhealth.org";
+//    public static final String VERSIONING_URL = "web-usw1-versioningservices-prd.azurewebsites.net/";
+//    public static final String S2_BASE_URL = "https://e3findadocapp.azurewebsites.net/";
+//    public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-prd.azurewebsites.net/";
+//    public static final String CIAM_BASE_URL = "https://prod.ciam.dignityhealth.org";
 
 
     public static final String SCHEDULING_VISIT = "api/v1/visit/";
