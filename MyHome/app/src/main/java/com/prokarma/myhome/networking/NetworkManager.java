@@ -81,7 +81,7 @@ public class NetworkManager {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request().newBuilder()
                         .addHeader("Content-Type", "application/json").build();
-                if (request.url().toString().contains("oauth2/ausb2b0jbri7MsQGl0h7/v1/token"))
+                if (request.url().toString().contains("oauth2/aus32qsj5x26YmQN11t7/v1/token"))
                     chain.request().newBuilder().addHeader("Content-Type", "application/x-www-form-urlencoded").build();
                 Timber.i(" Request Url: " + request.url());
                 Timber.i(" Request headers: " + request.headers());
@@ -93,7 +93,7 @@ public class NetworkManager {
                         .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn")) {
                     AuthManager.getInstance().refreshToken();
                 }else if (response.code() == 400 && request.url().toString()
-                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/ausb2b0jbri7MsQGl0h7/v1/token")) {
+                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/aus32qsj5x26YmQN11t7/v1/token")) {
                     if (null != expiryListener)
                         expiryListener.expired();
                 }
