@@ -748,7 +748,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);
-            } else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && autoPopulateFromProfile && !DateUtil.isOlderThan18(DateUtil.convertReadableToUTC(dateOfBirth.getText().toString()))) {
+            } else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && BookingManager.isBookingForMe() && !DateUtil.isOlderThan18(DateUtil.convertReadableToUTC(dateOfBirth.getText().toString()))) {
                 dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_too_young));
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();
