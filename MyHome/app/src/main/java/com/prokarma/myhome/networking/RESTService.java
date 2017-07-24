@@ -17,6 +17,8 @@ import com.prokarma.myhome.features.login.LoginResponse;
 import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse;
+import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
+import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
@@ -143,4 +145,11 @@ public interface RESTService {
 
     @GET(RESTConstants.VERSIONING_URL + "api/versioning/dependencies")
     Call<UpdateResponse> versionCheck();
+
+    //1.1 APIs
+    @POST(RESTConstants.CIAM_BASE_URL + "api/users/me/favorite-providers")
+    Call<SaveDoctorResponse> saveDoctor(@Header("Authorization") String bearer, SaveDoctorRequest resuest);
+
+    @DELETE(RESTConstants.CIAM_BASE_URL + "api/users/me/favorite-providers/{npi}")
+    Call<SaveDoctorResponse> deleteSavedDoctor(@Header("Authorization") String bearer, @Path("npi") String npi);
 }
