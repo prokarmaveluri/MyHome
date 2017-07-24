@@ -19,12 +19,12 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.prokarma.myhome"
+        applicationId "org.dignityhealth.appdev.myhome"
         minSdkVersion 19
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 10
-        versionName "0.1.1"
+        versionCode 31
+        versionName "0.1.31"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'BUILD_TIME', 'new java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.US).format(new java.util.Date(' + System.currentTimeMillis() +'L))'
@@ -40,15 +40,15 @@ android {
         def REPORT_ANALYTICS = "REPORT_ANALYTICS"
         def SHOW_SETTINGS = "SHOW_SETTINGS"
         release {
-            HOCKEYAPP_APP_ID = "\"4583013ff4e54e8d86a1d136ed7a82c9\""
+            HOCKEYAPP_APP_ID = "\"19a9fa384bab4246a43242776eb80453\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField BOOLEAN, REPORT_LOGS, FALSE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
 
