@@ -25,6 +25,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
 
     private boolean recent = false;
     private boolean fromHome = false;
+    private boolean isMapCluster = false;
     private FragmentListDialogBinding binding;
     private ArrayList<ProviderDetailsResponse> providerList = new ArrayList<>();
 
@@ -47,6 +48,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
             providerList.addAll(list);
             recent = getArguments().getBoolean("PROVIDER_RECENT");
             fromHome = getArguments().getBoolean("PROVIDER_RECENT_HOME");
+            isMapCluster = getArguments().getBoolean("IS_MAP_CLUSTER");
         }
     }
 
@@ -71,6 +73,11 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
             binding.findCare.setVisibility(View.VISIBLE);
         } else {
             binding.findCare.setVisibility(View.GONE);
+        }
+
+        binding.title.setText(R.string.recent_providers);
+        if (isMapCluster){
+            binding.title.setText(R.string.provider_list);
         }
 
         binding.setHandlers(new DialogClick());

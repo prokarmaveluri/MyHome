@@ -188,6 +188,7 @@
     <string name="phone_number_unknown">Phone Number Unknown</string>
 
     <!--Booking Flow-->
+    <string name="provider_list">Provider List</string>
     <string name="recent_providers">Recent Providers</string>
     <string name="do_you_need_standing_assistance">Do you need standing assistance?</string>
     <string name="insurance_phone_number">Insurance Phone Number</string>
