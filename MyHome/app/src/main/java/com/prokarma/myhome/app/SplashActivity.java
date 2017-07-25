@@ -108,7 +108,6 @@ public class SplashActivity extends AppCompatActivity implements
                 versionCheck(true);
             }
         });
-        versionCheck(false);
     }
 
     private void getAccessTokenFromRefresh() {
@@ -390,12 +389,14 @@ public class SplashActivity extends AppCompatActivity implements
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
+                        isGPSVerified = true;
                         startSettings();
                     }
                 })
                 .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         NetworkManager.getInstance().getUserLocation();
+                        isGPSVerified = true;
                         versionCheck(true);
                         dialog.cancel();
                     }
@@ -425,7 +426,7 @@ public class SplashActivity extends AppCompatActivity implements
         return false;
     }
 
-    private void buildUpdateAlert(String message, boolean isForceupdate) {
+    private void buildUpdateAlert(String message, final boolean isForceupdate) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         if (!isForceupdate) {
@@ -434,12 +435,15 @@ public class SplashActivity extends AppCompatActivity implements
                     .setCancelable(false)
                     .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
+                            isVersionVerified = true;
                             updateApplication();
                             finish();
                         }
                     })
                     .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
+                            isVersionVerified = true;
+                            getAccessTokenFromRefresh();
                             dialog.cancel();
                         }
                     });
@@ -450,6 +454,7 @@ public class SplashActivity extends AppCompatActivity implements
                     .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
                             updateApplication();
+                            isVersionVerified = true;
                             finish();
                         }
                     });
@@ -460,8 +465,9 @@ public class SplashActivity extends AppCompatActivity implements
 
     private void updateApplication() {
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)));
         } catch (ActivityNotFoundException ex) {
+            Uri.parse("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
         }
     }
 
@@ -473,6 +479,8 @@ public class SplashActivity extends AppCompatActivity implements
             progress.setVisibility(View.GONE);
             return;
         }
+        if (isVersionVerified)
+            return;
         progress.setVisibility(View.VISIBLE);
         NetworkManager.getInstance().versionCheck().enqueue(new Callback<UpdateResponse>() {
             @Override
