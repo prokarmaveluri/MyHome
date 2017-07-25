@@ -275,6 +275,7 @@ public class MapViewFragment extends Fragment implements
         }
 
         bundle.putParcelableArrayList("PROVIDER_LIST", list);
+        bundle.putBoolean("IS_MAP_CLUSTER", true);
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, MAP_CLUSTER_LIST);
         dialog.show(getChildFragmentManager(), "List Dialog");

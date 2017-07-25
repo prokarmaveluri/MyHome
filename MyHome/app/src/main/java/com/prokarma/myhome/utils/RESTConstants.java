@@ -7,18 +7,31 @@ package com.prokarma.myhome.utils;
 public class RESTConstants {
 
 
+    //TEST
     public static final String auth2Url = "oauth2/v1/authorize?client_id=NtFXqaF8iMnVbfdtJfsF&redirect_uri=https%3A%2F%2Fdev.ciam.dignityhealth.org%2Fwidgets%2Fenrollment%2Fdist%2F&response_type=id_token&response_mode=fragment&state=%7B%22returnUrl%22%3A%22foobar%22%2C%22step%22%3A%22enrollment%22%2C%22stepProgress%22%3A%22confirmation%22%7D&nonce=o4VJePCJeaAE17PKtyHpXZK5xwIhvgNpOzaq80hucpd6DTYELlD8jt46D2Ex2WRu&scope=openid%20email%20profile%20phone%20groups&sessionToken=";
 
     public static final String FETCH_CODE = "oauth2/aus32qsj5x26YmQN11t7/v1/authorize?response_type=code&client_id=0oa32qpu3nZP1BlB91t7&redirect_uri=http://localhost:8080&response_mode=fragment&scope=email+profile+groups+offline_access+openid&state=foo&nonce=bar&code_challenge=%s&code_challenge_method=S256&sessionToken=%s";
 
     public static final String VERSIONING_DEV_URL = "http://web-usw1-versioningservices-prd.azurewebsites.net/";
 
+<<<<<<< HEAD
     public static final String VERSIONING_TST_URL = "http://web-usw1-versioningservices-prd.azurewebsites.net/";
+=======
+    public static final String VERSIONING_URL = "http://web-usw1-versioningservices-tst.azurewebsites.net/";
+>>>>>>> Development
 
     public static final String OKTA_BASE_URL = "https://dignityhealth.okta.com/";
     public static final String CIAM_BASE_URL = "https://prod.ciam.dignityhealth.org/";
     public static final String S2_BASE_URL = "https://e3findadocapp.azurewebsites.net/";
     public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-prd.azurewebsites.net/";
+
+
+    //PROD
+//    public static final String VERSIONING_URL = "web-usw1-versioningservices-prd.azurewebsites.net/";
+//    public static final String S2_BASE_URL = "https://e3findadocapp.azurewebsites.net/";
+//    public static final String SCHEDULING_BASE = "https://web-usw1-schedulingapi-prd.azurewebsites.net/";
+//    public static final String CIAM_BASE_URL = "https://prod.ciam.dignityhealth.org";
+
 
     public static final String SCHEDULING_VISIT = "api/v1/visit/";
     public static final String SCHEDULING_VALIDATION = "api/v1/visit/schedule/{scheduleID}/visit-settings";

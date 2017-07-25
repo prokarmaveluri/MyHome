@@ -22,6 +22,8 @@ import com.prokarma.myhome.features.login.LoginResponse;
 import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse;
+import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
+import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
@@ -92,8 +94,10 @@ public class NetworkManager {
                 if (response.code() == 401 && !request.url().toString()
                         .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn")) {
                     AuthManager.getInstance().refreshToken();
-                }else if (response.code() == 400 && request.url().toString()
-                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/aus32qsj5x26YmQN11t7/v1/token")) {
+
+                } else if (response.code() == 400 && request.url().toString()
+                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/ausb2b0jbri7MsQGl0h7/v1/token")) {
+
                     if (null != expiryListener)
                         expiryListener.expired();
                 }
@@ -353,6 +357,16 @@ public class NetworkManager {
                 clientId,
                 redirectUri);
     }
+
+
+    public Call<SaveDoctorResponse> saveDoctor(String bearerToken, SaveDoctorRequest request) {
+        return service.saveDoctor(BEARER + bearerToken, request);
+    }
+
+    public Call<SaveDoctorResponse> deleteSavedDoctor(String bearerToken, String npi) {
+        return service.deleteSavedDoctor(BEARER + bearerToken, npi);
+    }
+
 
     // Network Util
 
