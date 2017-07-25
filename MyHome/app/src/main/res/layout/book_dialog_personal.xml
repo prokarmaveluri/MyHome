@@ -439,7 +439,7 @@
                 android:background="@drawable/edit_text_boarder_grey"
                 android:gravity="left"
                 android:hint="@string/booking_reason_hint"
-                android:inputType="textCapWords|textMultiLine"
+                android:inputType="textCapSentences|textMultiLine"
                 android:maxLength="350" />
 
         </android.support.design.widget.TextInputLayout>
