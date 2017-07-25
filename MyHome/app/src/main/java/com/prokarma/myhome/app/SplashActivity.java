@@ -460,8 +460,9 @@ public class SplashActivity extends AppCompatActivity implements
 
     private void updateApplication() {
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)));
         } catch (ActivityNotFoundException ex) {
+            Uri.parse("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
         }
     }
 
