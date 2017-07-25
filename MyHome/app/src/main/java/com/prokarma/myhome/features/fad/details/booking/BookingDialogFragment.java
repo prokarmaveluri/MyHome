@@ -188,15 +188,17 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     }
 
     private void finishBooking() {
-        final Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();
+        final Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();   //Profile from the booking flow
+        final Profile savingProfile = Profile.copySansBookingInfo(formsProfile);    //Profile to save
+        savingProfile.setEmail(ProfileManager.getProfile().email);
 
         if (BookingManager.isBookingForMe() && !formsProfile.shouldAskToSave(ProfileManager.getProfile())) {
             //Not equal and all the data empty
-            ProfileManager.updateProfile(AuthManager.getInstance().getBearerToken(), Profile.copySansBookingInfo(formsProfile));
+            ProfileManager.updateProfile(AuthManager.getInstance().getBearerToken(), savingProfile);
             this.getDialog().dismiss();
         } else if (BookingManager.isBookingForMe() && formsProfile.shouldAskToSave(ProfileManager.getProfile())) {
             //Send the profile for saving, but without the booking info-specfic fields
-            BookingSaveProfileDialog dialog = BookingSaveProfileDialog.newInstance(Profile.copySansBookingInfo(formsProfile));
+            BookingSaveProfileDialog dialog = BookingSaveProfileDialog.newInstance(savingProfile);
             dialog.setSaveProfileInterface(this);
             dialog.show(getChildFragmentManager(), BookingSaveProfileDialog.BOOKING_SAVE_PROFILE_DIALOG_TAG);
         } else {
