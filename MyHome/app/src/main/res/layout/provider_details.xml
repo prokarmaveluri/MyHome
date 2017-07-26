@@ -44,23 +44,44 @@
             android:text="Family Medicine"
             tools:ignore="HardcodedText" />
 
-        <Button
-            android:id="@+id/book_appointment"
-            style="@style/primaryButtonStyle"
-            android:layout_width="255dp"
-            android:layout_height="45dp"
+        <LinearLayout
+            android:id="@+id/book_appointment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignLeft="@id/doctor_name"
             android:layout_below="@id/speciality"
-            android:layout_marginEnd="18dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/book_appointment"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/book_appointment"
+                style="@style/primaryButtonStyle"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_alignLeft="@id/doctor_name"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_toLeftOf="@+id/provider_details_fav"
+                android:text="@string/book_appointment"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/provider_details_fav"
+                android:layout_width="33dp"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/speciality"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_favorite_stroke"
+                android:tint="@color/accent" />
+        </LinearLayout>
 
         <com.github.aakira.expandablelayout.ExpandableLinearLayout
             android:id="@+id/expandable_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/book_appointment"
+            android:layout_below="@id/book_appointment_layout"
             android:layout_marginTop="12dp"
             android:orientation="vertical">
 

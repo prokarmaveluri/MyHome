@@ -343,20 +343,28 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     @Nullable
     private String parseIDToken(String url) {
 
-        int index = url.indexOf("code=");
-        if (-1 != index) {
-            String token = url.substring(index + "code=".length(), url.indexOf("&"));
-            return token;
+        try {
+            int index = url.indexOf("code=");
+            if (-1 != index) {
+                String token = url.substring(index + "code=".length(), url.indexOf("&"));
+                return token;
+            }
+        } catch (NullPointerException ex) {
+            return null;
         }
         return null;
     }
 
     @Nullable
     private String parseSid(String cookie) {
-        int index = cookie.indexOf("sid=");
-        if (-1 != index) {
-            String token = cookie.substring(index + "sid=".length(), cookie.indexOf(";"));
-            return token;
+        try {
+            int index = cookie.indexOf("sid=");
+            if (-1 != index) {
+                String token = cookie.substring(index + "sid=".length(), cookie.indexOf(";"));
+                return token;
+            }
+        } catch (NullPointerException ex) {
+            return null;
         }
         return null;
     }
@@ -532,6 +540,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         try {
             codeVerifier = generateRandomCodeVerifier();
             codeChallenge = deriveCodeVerifierChallenge(codeVerifier);
+            Timber.i("Session, codeVerifier " + codeVerifier);
+            Timber.i("Session, codeChallenge " + codeChallenge);
             URL url = new URL(RESTConstants.OKTA_BASE_URL + String.format(RESTConstants.FETCH_CODE,
                     codeChallenge, sessionToken));
             try {
@@ -583,7 +593,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                         AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
                         CryptoManager.getInstance().saveToken();
                         mHandler.sendEmptyMessage(ACTION_FINISH);
-                    }catch (NullPointerException ex){
+                    } catch (NullPointerException ex) {
                         ex.printStackTrace();
                         mHandler.sendEmptyMessage(TOKEN_ERROR);
                     }

@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -51,9 +52,13 @@ import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusFragm
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectTimeFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
+import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
+import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
+import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -108,6 +113,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView philosophy;
     private RecyclerView locations;
     private TextView locationsLabel;
+    private ImageView favProvider;
 
     //stats Experience
     private LinearLayout statsExperienceView;
@@ -122,6 +128,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
+
+
+    boolean fav = false;
 
     //Booking
     private BookingDialogFragment bookingRegistrationDialog;
@@ -177,6 +186,17 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
         phone = (TextView) providerDetailsView.findViewById(R.id.phone);
         errorView = (TextView) providerDetailsView.findViewById(R.id.errorView);
+        favProvider = (ImageView) providerDetailsView.findViewById(R.id.provider_details_fav);
+
+        favProvider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fav = !fav;
+                if (null != providerDetailsResponse && null != providerDetailsResponse.getNpi()) {
+                    saveDoctor(fav, providerDetailsResponse.getNpi());
+                }
+            }
+        });
 
         footerLayout = (LinearLayout) providerDetailsView.findViewById(R.id.provider_details_footer);
         detailsProgressBar = (ProgressBar) providerDetailsView.findViewById(R.id.details_progress_bar);
@@ -271,11 +291,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                             //Setup Booking
                             currentOffice = providerDetailsResponse.getOffices().get(0);
-                            bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+                            bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.GONE);
                             bookAppointment.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    bookAppointment.setVisibility(View.INVISIBLE);
+                                    bookAppointment.setVisibility(View.GONE);
 
                                     BookingManager.setBookingProvider(providerDetailsResponse);
                                     BookingManager.setBookingOffice(currentOffice);
@@ -291,6 +311,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                     getChildFragmentManager().executePendingTransactions();
                                 }
                             });
+                            for (MySavedDoctorsResponse.FavoriteProvider provider : ProfileManager.getFavoriteProviders())
+                                if (providerDetailsResponse.getNpi().contains(provider.getNpi())) {
+                                    CommonUtil.updateFavView(true, favProvider);
+                                    break;
+                                }
                         } catch (NullPointerException ex) {
                         }
                     } else {
@@ -365,7 +390,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         }
 
-        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.GONE);
 
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
         if (fragment != null) {
@@ -563,7 +588,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
 
-            bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+            bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -800,4 +825,41 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         }
     };
+
+    private void saveDoctor(boolean isSave, String npi) {
+        if (isSave) {
+            CommonUtil.updateFavView(fav, favProvider);
+            final SaveDoctorRequest request = new SaveDoctorRequest(npi);
+            NetworkManager.getInstance().saveDoctor(AuthManager.getInstance().getBearerToken(),
+                    request).enqueue(new Callback<SaveDoctorResponse>() {
+                @Override
+                public void onResponse(Call<SaveDoctorResponse> call, Response<SaveDoctorResponse> response) {
+                    if (response.isSuccessful()) {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
+
+                }
+            });
+        } else { //DELETE saved Doc
+            CommonUtil.updateFavView(!fav, favProvider);
+            NetworkManager.getInstance().deleteSavedDoctor(AuthManager.getInstance().getBearerToken(),
+                    npi).enqueue(new Callback<SaveDoctorResponse>() {
+                @Override
+                public void onResponse(Call<SaveDoctorResponse> call, Response<SaveDoctorResponse> response) {
+                    if (response.isSuccessful()) {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
+
+                }
+            });
+        }
+    }
 }

@@ -45,15 +45,20 @@ public class Decryptor {
             NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IOException,
             BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
 
-        final Cipher cipher = Cipher.getInstance(Encryptor.TRANSFORMATION);
-        final GCMParameterSpec spec = new GCMParameterSpec(128, encryptionIv);
-        cipher.init(Cipher.DECRYPT_MODE, getSecretKey(Encryptor.ANDROID_KEY_STORE_ALIAS), spec);
+        try {
+            final Cipher cipher = Cipher.getInstance(Encryptor.TRANSFORMATION);
+            final GCMParameterSpec spec = new GCMParameterSpec(128, encryptionIv);
+            cipher.init(Cipher.DECRYPT_MODE, getSecretKey(Encryptor.ANDROID_KEY_STORE_ALIAS), spec);
 
-        return new String(cipher.doFinal(encryptedData), "UTF-8");
+            return new String(cipher.doFinal(encryptedData), "UTF-8");
+        } catch (NullPointerException ex) {
+            return null;
+        }
     }
 
     private SecretKey getSecretKey(final String alias) throws NoSuchAlgorithmException,
             UnrecoverableEntryException, KeyStoreException {
+
         return ((KeyStore.SecretKeyEntry) keyStore.getEntry(alias, null)).getSecretKey();
     }
 }

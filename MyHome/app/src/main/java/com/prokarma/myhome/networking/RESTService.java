@@ -17,6 +17,8 @@ import com.prokarma.myhome.features.login.LoginResponse;
 import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse;
+import com.prokarma.myhome.features.preferences.MySavedDoctorsRequest;
+import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
 import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
 import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
 import com.prokarma.myhome.features.profile.Profile;
@@ -148,8 +150,11 @@ public interface RESTService {
 
     //1.1 APIs
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/me/favorite-providers")
-    Call<SaveDoctorResponse> saveDoctor(@Header("Authorization") String bearer, SaveDoctorRequest resuest);
+    Call<SaveDoctorResponse> saveDoctor(@Header("Authorization") String bearer, @Body SaveDoctorRequest resuest);
 
     @DELETE(RESTConstants.CIAM_BASE_URL + "api/users/me/favorite-providers/{npi}")
     Call<SaveDoctorResponse> deleteSavedDoctor(@Header("Authorization") String bearer, @Path("npi") String npi);
+
+    @POST(RESTConstants.CIAM_BASE_URL + "api/users/query")
+    Call<MySavedDoctorsResponse> getSavedDocctors(@Header("Authorization") String bearer, @Body MySavedDoctorsRequest request);
 }
