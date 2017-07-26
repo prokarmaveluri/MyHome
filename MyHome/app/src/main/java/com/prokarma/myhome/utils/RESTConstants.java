@@ -12,13 +12,9 @@ public class RESTConstants {
 
     public static final String FETCH_CODE = "oauth2/aus32qsj5x26YmQN11t7/v1/authorize?response_type=code&client_id=0oa32qpu3nZP1BlB91t7&redirect_uri=http://localhost:8080&response_mode=fragment&scope=email+profile+groups+offline_access+openid&state=foo&nonce=bar&code_challenge=%s&code_challenge_method=S256&sessionToken=%s";
 
-    public static final String VERSIONING_DEV_URL = "http://web-usw1-versioningservices-prd.azurewebsites.net/";
-
-<<<<<<< HEAD
-    public static final String VERSIONING_TST_URL = "http://web-usw1-versioningservices-prd.azurewebsites.net/";
-=======
-    public static final String VERSIONING_URL = "http://web-usw1-versioningservices-tst.azurewebsites.net/";
->>>>>>> Development
+    private static final String VERSIONING_PROD_URL = "http://web-usw1-versioningservices-prd.azurewebsites.net/";
+    private static final String VERSIONING_TST_URL = "http://web-usw1-versioningservices-tst.azurewebsites.net/";
+    public static final String VERSIONING_URL = VERSIONING_TST_URL;
 
     public static final String OKTA_BASE_URL = "https://dignityhealth.okta.com/";
     public static final String CIAM_BASE_URL = "https://prod.ciam.dignityhealth.org/";
