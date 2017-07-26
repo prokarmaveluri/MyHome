@@ -96,11 +96,15 @@ public class NetworkManager {
                 Timber.i(" Response Code: " + response.code());
                 //Session expired
                 if (response.code() == 401 && !request.url().toString()
-                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn")) {
+                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn") &&
+                        !request.url().toString()
+                                .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/" +
+                                        RESTConstants.AUTH_CLIENT_ID + "/v1/token")) {
                     AuthManager.getInstance().refreshToken();
 
                 } else if (response.code() == 400 && request.url().toString()
-                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/ausb2b0jbri7MsQGl0h7/v1/token")) {
+                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/" +
+                                RESTConstants.AUTH_CLIENT_ID + "/v1/token")) {
 
                     if (null != expiryListener)
                         expiryListener.expired();
@@ -470,9 +474,9 @@ public class NetworkManager {
             public void onResponse(Call<MySavedDoctorsResponse> call, retrofit2.Response<MySavedDoctorsResponse> response) {
                 if (response.isSuccessful()) {
                     try {
-                        Timber.i("SavedDoctors "+response.body().getData().getUser().getFavoriteProviders().size());
+                        Timber.i("SavedDoctors " + response.body().getData().getUser().getFavoriteProviders().size());
                         ProfileManager.setFavoriteProviders(response.body().getData().getUser().getFavoriteProviders());
-                    }catch (NullPointerException ex){
+                    } catch (NullPointerException ex) {
                         Timber.e("Error fetching SavedDoctors ");
                     }
                 }

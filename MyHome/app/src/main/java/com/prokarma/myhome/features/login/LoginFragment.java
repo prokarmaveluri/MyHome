@@ -543,7 +543,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             Timber.i("Session, codeVerifier " + codeVerifier);
             Timber.i("Session, codeChallenge " + codeChallenge);
             URL url = new URL(RESTConstants.OKTA_BASE_URL + String.format(RESTConstants.FETCH_CODE,
-                    codeChallenge, sessionToken));
+                    RESTConstants.AUTH_CLIENT_ID, RESTConstants.CLIENT_ID, RESTConstants.AUTH_REDIRECT_URI,
+                    RESTConstants.AUTH_SCOPE, codeChallenge, sessionToken));
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 java.net.CookieManager manager = new java.net.CookieManager();

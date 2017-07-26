@@ -48,6 +48,19 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
+            buildConfigField STRING, "VERSIONING_URL", "\"http://web-usw1-versioningservices-prd.azurewebsites.net/\""
+            buildConfigField STRING, "OKTA_BASE_URL", "\"https://dignityhealth.okata.com/\""
+            buildConfigField STRING, "CIAM_BASE_URL", "\"https://prd.ciam.dignityhealth.org/\""
+            buildConfigField STRING, "S2_BASE_URL", "\"https://e3findadocapp.azurewebsites.net/\""
+            buildConfigField STRING, "SCHEDULING_BASE", "\"https://web-usw1-schedulingapi-prd.azurewebsites.net/\""
+
+            buildConfigField STRING, "AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
+            buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
+
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -71,6 +84,19 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
+            buildConfigField STRING, "VERSIONING_URL", "\"http://web-usw1-versioningservices-tst.azurewebsites.net/\""
+            buildConfigField STRING, "OKTA_BASE_URL", "\"https://dignityhealth.oktapreview.com/\""
+            buildConfigField STRING, "CIAM_BASE_URL", "\"https://test.ciam.dignityhealth.org/\""
+            buildConfigField STRING, "S2_BASE_URL", "\"https://e3findadocapp.azurewebsites.net/\""
+            buildConfigField STRING, "SCHEDULING_BASE", "\"https://web-usw1-schedulingapi-tst.azurewebsites.net/\""
+
+            buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
+
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -84,6 +110,20 @@ android {
             buildConfigField BOOLEAN, REPORT_CRASHES, FALSE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
             buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
+
+
+            buildConfigField STRING, "VERSIONING_URL", "\"http://web-usw1-versioningservices-dev.azurewebsites.net/\""
+            buildConfigField STRING, "OKTA_BASE_URL", "\"https://dignityhealth.oktapreview.com/\""
+            buildConfigField STRING, "CIAM_BASE_URL", "\"https://dev.ciam.dignityhealth.org/\""
+            buildConfigField STRING, "S2_BASE_URL", "\"https://e3findadocapp.azurewebsites.net/\""
+            buildConfigField STRING, "SCHEDULING_BASE", "\"https://web-usw1-schedulingapi-dev.azurewebsites.net/\""
+
+            buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             signingConfig signingConfigs.config
             debuggable true
