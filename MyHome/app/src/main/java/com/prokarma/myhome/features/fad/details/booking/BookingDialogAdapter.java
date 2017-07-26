@@ -743,6 +743,20 @@ public class BookingDialogAdapter extends PagerAdapter {
                 genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
             }
 
+            if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {
+                weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_required));
+                if (scrollPosition == -1)
+                    scrollPosition = (int) weeksPregnantLayout.getY();
+                weeksPregnantLayout.setFocusable(true);
+            } else if (weeksPregnantLayout.getVisibility() == View.VISIBLE && !weeksPregnant.getText().toString().isEmpty() && Integer.parseInt(weeksPregnant.getText().toString()) > 45) {
+                weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_too_large));
+                if (scrollPosition == -1)
+                    scrollPosition = (int) weeksPregnantLayout.getY();
+                weeksPregnantLayout.setFocusable(true);
+            } else {
+                weeksPregnantLayout.setError(null);
+            }
+
             if (dateOfBirthLayout.getVisibility() == View.VISIBLE && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString())) {
                 dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_invalid));
                 if (scrollPosition == -1)
@@ -775,18 +789,13 @@ public class BookingDialogAdapter extends PagerAdapter {
                 cityLayout.setError(null);
             }
 
-            if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {
-                weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_required));
+            if (state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
+                cityLayout.setError(context.getString(R.string.state_required));
                 if (scrollPosition == -1)
-                    scrollPosition = (int) weeksPregnantLayout.getY();
-                weeksPregnantLayout.setFocusable(true);
-            } else if (weeksPregnantLayout.getVisibility() == View.VISIBLE && !weeksPregnant.getText().toString().isEmpty() && Integer.parseInt(weeksPregnant.getText().toString()) > 45) {
-                weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_too_large));
-                if (scrollPosition == -1)
-                    scrollPosition = (int) weeksPregnantLayout.getY();
-                weeksPregnantLayout.setFocusable(true);
+                    scrollPosition = (int) state.getY();
+                state.setFocusable(true);
             } else {
-                weeksPregnantLayout.setError(null);
+                cityLayout.setError(null);
             }
 
             if (zipLayout.getVisibility() == View.VISIBLE && zip.getText().toString().isEmpty()) {
