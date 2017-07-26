@@ -188,6 +188,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         errorView = (TextView) providerDetailsView.findViewById(R.id.errorView);
         favProvider = (ImageView) providerDetailsView.findViewById(R.id.provider_details_fav);
 
+        CommonUtil.updateFavView(false, favProvider);
         favProvider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -828,7 +829,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private void saveDoctor(boolean isSave, String npi) {
         if (isSave) {
-            CommonUtil.updateFavView(fav, favProvider);
+            CommonUtil.updateFavView(isSave, favProvider);
             final SaveDoctorRequest request = new SaveDoctorRequest(npi);
             NetworkManager.getInstance().saveDoctor(AuthManager.getInstance().getBearerToken(),
                     request).enqueue(new Callback<SaveDoctorResponse>() {
@@ -845,7 +846,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 }
             });
         } else { //DELETE saved Doc
-            CommonUtil.updateFavView(!fav, favProvider);
+            CommonUtil.updateFavView(isSave, favProvider);
             NetworkManager.getInstance().deleteSavedDoctor(AuthManager.getInstance().getBearerToken(),
                     npi).enqueue(new Callback<SaveDoctorResponse>() {
                 @Override

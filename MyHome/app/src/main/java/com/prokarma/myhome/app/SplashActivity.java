@@ -142,6 +142,7 @@ public class SplashActivity extends AppCompatActivity implements
                         AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
                         AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
                         AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
+                        NetworkManager.getInstance().getSavedDoctors();
                         CryptoManager.getInstance().saveToken();
                         onRefreshSuccess();
                     } catch (NullPointerException ex) {

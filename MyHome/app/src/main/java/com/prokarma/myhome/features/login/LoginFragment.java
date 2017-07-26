@@ -591,6 +591,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                         AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
                         AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
                         AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
+                        NetworkManager.getInstance().getSavedDoctors();
                         CryptoManager.getInstance().saveToken();
                         mHandler.sendEmptyMessage(ACTION_FINISH);
                     } catch (NullPointerException ex) {
