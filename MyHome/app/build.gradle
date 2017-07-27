@@ -14,8 +14,28 @@ android {
         enabled = true
     }
 
-    def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""
     //Old App ID? Get's redefined anyways...
+    def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""
+
+    //URLs
+    def PROD_VERSIONING_URL = "\"http://web-usw1-versioningservices-prd.azurewebsites.net/\""
+    def PROD_OKTA_BASE_URL = "\"https://dignityhealth.okata.com/\""
+    def PROD_CIAM_BASE_URL = "\"https://prd.ciam.dignityhealth.org/\""
+    def PROD_S2_BASE_URL = "\"https://e3findadocapp.azurewebsites.net/\""
+    def PROD_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-prd.azurewebsites.net/\""
+
+    def TEST_VERSIONING_URL = "\"http://web-usw1-versioningservices-tst.azurewebsites.net/\""
+    def TEST_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
+    def TEST_CIAM_BASE_URL = "\"https://test.ciam.dignityhealth.org/\""
+    def TEST_S2_BASE_URL = "\"https://e3findadocapp.azurewebsites.net/\""
+    def TEST_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-tst.azurewebsites.net/\""
+
+    def DEV_VERSIONING_URL = "\"http://web-usw1-versioningservices-dev.azurewebsites.net/\""
+    def DEV_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
+    def DEV_CIAM_BASE_URL = "\"https://dev.ciam.dignityhealth.org/\""
+    def DEV_S2_BASE_URL = "\"https://e3findadocapp.azurewebsites.net/\""
+    def DEV_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-dev.azurewebsites.net/\""
+
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
@@ -40,6 +60,11 @@ android {
         def REPORT_CRASHES = "REPORT_CRASHES"
         def REPORT_ANALYTICS = "REPORT_ANALYTICS"
         def SHOW_SETTINGS = "SHOW_SETTINGS"
+        def VERSIONING_URL = "VERSIONING_URL"
+        def OKTA_BASE_URL = "OKTA_BASE_URL"
+        def CIAM_BASE_URL = "CIAM_BASE_URL"
+        def S2_BASE_URL = "S2_BASE_URL"
+        def SCHEDULING_BASE = "SCHEDULING_BASE"
         release {
             HOCKEYAPP_APP_ID = "\"19a9fa384bab4246a43242776eb80453\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
@@ -47,6 +72,19 @@ android {
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
+
+            buildConfigField STRING, VERSIONING_URL, PROD_VERSIONING_URL
+            buildConfigField STRING, OKTA_BASE_URL, PROD_OKTA_BASE_URL
+            buildConfigField STRING, CIAM_BASE_URL, PROD_CIAM_BASE_URL
+            buildConfigField STRING, S2_BASE_URL, PROD_S2_BASE_URL
+            buildConfigField STRING, SCHEDULING_BASE, PROD_SCHEDULING_BASE
+
+            buildConfigField STRING, "AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
+            buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             minifyEnabled false
             shrinkResources false
@@ -71,6 +109,19 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
+            buildConfigField STRING, VERSIONING_URL, TEST_VERSIONING_URL
+            buildConfigField STRING, OKTA_BASE_URL, TEST_OKTA_BASE_URL
+            buildConfigField STRING, CIAM_BASE_URL, TEST_CIAM_BASE_URL
+            buildConfigField STRING, S2_BASE_URL, TEST_S2_BASE_URL
+            buildConfigField STRING, SCHEDULING_BASE, TEST_SCHEDULING_BASE
+
+            buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
+
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -84,6 +135,25 @@ android {
             buildConfigField BOOLEAN, REPORT_CRASHES, FALSE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
             buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
+
+//            buildConfigField STRING, VERSIONING_URL, DEV_VERSIONING_URL
+//            buildConfigField STRING, OKTA_BASE_URL, DEV_OKTA_BASE_URL
+//            buildConfigField STRING, CIAM_BASE_URL, DEV_CIAM_BASE_URL
+//            buildConfigField STRING, S2_BASE_URL, DEV_S2_BASE_URL
+//            buildConfigField STRING, SCHEDULING_BASE, DEV_SCHEDULING_BASE
+
+            buildConfigField STRING, VERSIONING_URL, TEST_VERSIONING_URL
+            buildConfigField STRING, OKTA_BASE_URL, TEST_OKTA_BASE_URL
+            buildConfigField STRING, CIAM_BASE_URL, TEST_CIAM_BASE_URL
+            buildConfigField STRING, S2_BASE_URL, TEST_S2_BASE_URL
+            buildConfigField STRING, SCHEDULING_BASE, TEST_SCHEDULING_BASE
+
+            buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             signingConfig signingConfigs.config
             debuggable true

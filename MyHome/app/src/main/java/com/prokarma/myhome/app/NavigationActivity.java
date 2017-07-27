@@ -139,7 +139,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         //Inspired by https://stackoverflow.com/a/26905894/2128921
         timezoneChangedReceiver = new MyBroadcastReceiver();
-
         registerReceiver(timezoneChangedReceiver, new IntentFilter("android.intent.action.TIMEZONE_CHANGED"));
 
         //Pre-load Google Play Services

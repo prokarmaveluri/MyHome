@@ -22,9 +22,12 @@ import com.prokarma.myhome.features.login.LoginResponse;
 import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse;
+import com.prokarma.myhome.features.preferences.MySavedDoctorsRequest;
+import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
 import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
 import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
 import com.prokarma.myhome.features.profile.Profile;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.tos.Tos;
@@ -90,13 +93,18 @@ public class NetworkManager {
                 Timber.i(" Request body: " + request.body());
                 Response response = chain.proceed(request);
 
+                Timber.i(" Response Code: " + response.code());
                 //Session expired
                 if (response.code() == 401 && !request.url().toString()
-                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn")) {
+                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn") &&
+                        !request.url().toString()
+                                .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/" +
+                                        RESTConstants.AUTH_CLIENT_ID + "/v1/token")) {
                     AuthManager.getInstance().refreshToken();
 
                 } else if (response.code() == 400 && request.url().toString()
-                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/ausb2b0jbri7MsQGl0h7/v1/token")) {
+                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/" +
+                                RESTConstants.AUTH_CLIENT_ID + "/v1/token")) {
 
                     if (null != expiryListener)
                         expiryListener.expired();
@@ -367,6 +375,10 @@ public class NetworkManager {
         return service.deleteSavedDoctor(BEARER + bearerToken, npi);
     }
 
+    public Call<MySavedDoctorsResponse> getSavedDoctors(String bearerToken, MySavedDoctorsRequest request) {
+        return service.getSavedDocctors(BEARER + bearerToken, request);
+    }
+
 
     // Network Util
 
@@ -450,5 +462,30 @@ public class NetworkManager {
             ex.printStackTrace();
             return false;
         }
+    }
+
+
+    //1.1
+
+    public void getSavedDoctors() {
+        NetworkManager.getInstance().getSavedDoctors(AuthManager.getInstance().getBearerToken(),
+                new MySavedDoctorsRequest()).enqueue(new Callback<MySavedDoctorsResponse>() {
+            @Override
+            public void onResponse(Call<MySavedDoctorsResponse> call, retrofit2.Response<MySavedDoctorsResponse> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        Timber.i("SavedDoctors " + response.body().getData().getUser().getFavoriteProviders().size());
+                        ProfileManager.setFavoriteProviders(response.body().getData().getUser().getFavoriteProviders());
+                    } catch (NullPointerException ex) {
+                        Timber.e("Error fetching SavedDoctors ");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MySavedDoctorsResponse> call, Throwable t) {
+                Timber.e("Error fetching SavedDoctors");
+            }
+        });
     }
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +79,7 @@ public class CommonUtil {
     }
 
     static public final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
+
     public static boolean isValidMobile(String phone) {
         return PHONE_NUMBER_PATTERN.matcher(phone).find();
     }
@@ -353,7 +355,7 @@ public class CommonUtil {
         }
 
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-            message = message + DateUtil.getDayOfWeek(appointment.appointmentStart) +", " +
+            message = message + DateUtil.getDayOfWeek(appointment.appointmentStart) + ", " +
                     DateUtil.getDateWords2FromUTC(appointment.appointmentStart) + " " +
                     DateUtil.getTime(appointment.appointmentStart);
         }
@@ -571,10 +573,26 @@ public class CommonUtil {
 
     /**
      * This method check whether strong is non null and null empty.
+     *
      * @param string, sting value to check.
      * @return @true if string is non null and non empty otherwise @false.
      */
-    public static boolean isEmptyString(String string){
+    public static boolean isEmptyString(String string) {
         return null == string || string.isEmpty();
+    }
+
+
+    /**
+     * update imageview fav icon
+     *
+     * @param isFav
+     * @param favProvider
+     */
+    public static void updateFavView(boolean isFav, ImageView favProvider) {
+        if (!isFav) {
+            favProvider.setImageResource(R.drawable.ic_favorite_stroke);
+        } else {
+            favProvider.setImageResource(R.drawable.ic_favorite_filled);
+        }
     }
 }

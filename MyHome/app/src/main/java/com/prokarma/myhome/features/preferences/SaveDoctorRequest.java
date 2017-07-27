@@ -7,6 +7,10 @@ package com.prokarma.myhome.features.preferences;
 public class SaveDoctorRequest {
     private String npi;
 
+    public SaveDoctorRequest(String npi) {
+        this.npi = npi;
+    }
+
     public String getNpi() {
         return npi;
     }
