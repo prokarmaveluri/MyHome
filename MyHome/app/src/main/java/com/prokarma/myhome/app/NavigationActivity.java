@@ -34,6 +34,7 @@ import com.prokarma.myhome.features.appointments.AppointmentsFragment;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.fad.FadFragment;
+import com.prokarma.myhome.features.fad.dashboard.FadDashboardFragment;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.home.HomeFragment;
@@ -121,7 +122,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                                 break;
 
                             case R.id.fad:
-                                loadFragment(ActivityTag.FAD, null);
+                                loadFragment(ActivityTag.FAD_DASH_BOARD, null);
                                 break;
 
                             case R.id.appointments:
@@ -236,6 +237,19 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commitAllowingStateLoss();
 
                     setActivityTag(ActivityTag.FAD);
+                }
+                break;
+
+            case FAD_DASH_BOARD:
+                if (getActivityTag() != ActivityTag.FAD_DASH_BOARD) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    FadDashboardFragment fadFragment = FadDashboardFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fadFragment, FadDashboardFragment.FAD_DASHBOARD_TAG)
+                            .commitAllowingStateLoss();
+
+                    setActivityTag(ActivityTag.FAD_DASH_BOARD);
                 }
                 break;
 

@@ -1,28 +1,12 @@
 package com.prokarma.myhome.features.preferences;
 
+import com.prokarma.myhome.utils.RESTConstants;
+
 /**
  * Created by cmajji on 7/25/17.
  */
 
 public class MySavedDoctorsRequest {
 
-    private String query = "{" +
-            "  user {" +
-            "  favoriteProviders {" +
-            "    firstName" +
-            "    lastName" +
-            "    npi" +
-            "    displayName" +
-            "    displayLastName" +
-            "    displayLastNamePlural" +
-            "    middleName" +
-            "    suffix" +
-            "    title" +
-            "    philosophy" +
-            "    supportsOnlineBooking" +
-            "    providerDetailsUrl" +
-            "    primarySpecialities" +
-            "  }" +
-            "  }" +
-            "}";
+    private String query = RESTConstants.MY_SAVED_DOCS;
 }

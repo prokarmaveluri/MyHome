@@ -257,4 +257,7 @@
     <string name="sign_out_fail">We\'re sorry, let\’s try that again.</string>
     <string name="failure_msg">We\'re sorry, we\’ve hit a snag. Please try again or contact support at 844-274-8497.</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fad_dashboard_title">Care</string>
+
 </resources>

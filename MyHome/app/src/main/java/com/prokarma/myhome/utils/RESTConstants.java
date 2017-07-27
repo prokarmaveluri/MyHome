@@ -36,4 +36,26 @@ public class RESTConstants {
     public static final String GRANT_TYPE_AUTH = BuildConfig.GRANT_TYPE_AUTH;
     public static final String GRANT_TYPE_REFRESH = BuildConfig.GRANT_TYPE_REFRESH;
 
+
+    //v1.1 graphql requests
+    public static final String MY_SAVED_DOCS = "{" +
+            "  user {" +
+            "  favoriteProviders {" +
+            "    firstName" +
+            "    lastName" +
+            "    npi" +
+            "    displayName" +
+            "    displayLastName" +
+            "    displayLastNamePlural" +
+            "    middleName" +
+            "    suffix" +
+            "    title" +
+            "    philosophy" +
+            "    supportsOnlineBooking" +
+            "    providerDetailsUrl" +
+            "    primarySpecialities" +
+            "  }" +
+            "  }" +
+            "}";
+
 }

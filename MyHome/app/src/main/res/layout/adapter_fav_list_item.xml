@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.prokarma.myhome.features.fad.dashboard.FavProvidersAdapter.ProviderClick" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{handlers::onClickProvider}"
+        android:orientation="vertical">
+
+        <com.prokarma.myhome.views.CircularImageView
+            android:id="@+id/docImage"
+            android:layout_width="65dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerInside" />
+
+        <RelativeLayout
+            android:id="@+id/docInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@+id/docImage">
+
+            <TextView
+                android:id="@+id/docDisplayName"
+                style="@style/tradeGothicLTStdLight_22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/fadDashBoardFav"
+                android:text="Richard paul, MD"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/docSpeciality"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/docDisplayName"
+                android:layout_marginTop="4dp"
+                android:layout_toLeftOf="@+id/directions"
+                android:text="Richard paul, MD" />
+
+            <ImageView
+                android:id="@+id/fadDashBoardFav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_favorite_stroke" />
+
+            <TextView
+                android:id="@+id/viewDoc"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/docSpeciality"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/directions"
+                android:text="View Doctor"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="25dp"
+            android:background="@color/db_white" />
+    </RelativeLayout>
+</layout>

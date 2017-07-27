@@ -9,6 +9,7 @@ public class Constants {
         NONE,
         HOME,
         FAD,
+        FAD_DASH_BOARD,
         APPOINTMENTS,
         APPOINTMENTS_DETAILS,
         PROFILE_VIEW,

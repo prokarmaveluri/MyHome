@@ -48,7 +48,7 @@ android {
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField 'String', 'BUILD_TIME', 'new java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.US).format(new java.util.Date(' + System.currentTimeMillis() +'L))'
+        buildConfigField 'String', 'BUILD_TIME', 'new java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.US).format(new java.util.Date(' + System.currentTimeMillis() + 'L))'
     }
     buildTypes {
         def STRING = "String"
@@ -187,6 +187,6 @@ dependencies {
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
     compile 'com.tealium:library:5.2.0'
     compile 'com.squareup:otto:1.3.8'
-    testCompile 'junit:junit:4.12'
     compile 'com.google.maps.android:android-maps-utils:0.5'
+    testCompile 'junit:junit:4.12'
 }
