@@ -42,44 +42,33 @@
             android:layout_alignParentEnd="true"
             android:src="@mipmap/calendar" />
 
-        <RelativeLayout
-            android:id="@+id/doctor_name_layout"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/doctor_name"
+            style="@style/tradeGothicLTStd_Dynamic20"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/time_header"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="30dp"
+            android:text="Dr. Steven M. Howard, MD"
+            android:textIsSelectable="true"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/doctor_name"
-                style="@style/tradeGothicLTStd_Dynamic20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="30dp"
-                android:layout_toLeftOf="@+id/apt_details_fav"
-                android:gravity="center"
-                android:text="Dr. Steven M. Howard, MD"
-                android:textIsSelectable="true"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
-
-            <ImageView
-                android:id="@+id/apt_details_fav"
-                android:layout_width="27dp"
-                android:layout_height="31dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/ic_favorite_stroke" />
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/apt_details_fav"
+            android:layout_width="27dp"
+            android:layout_height="31dp"
+            android:layout_alignBottom="@id/doctor_name"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_favorite_stroke" />
 
         <TextView
             android:id="@+id/facility_name"
             style="@style/tradeGothicLTStd_Dynamic20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/doctor_name_layout"
+            android:layout_below="@id/doctor_name"
             android:layout_marginTop="12dp"
             android:text="Sequoia Hospital"
             android:textIsSelectable="true"
