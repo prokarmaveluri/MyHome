@@ -206,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:hint="@string/address"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="2" />
 
         </android.support.design.widget.TextInputLayout>
@@ -225,7 +225,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:hint="@string/address_2"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="2" />
 
         </android.support.design.widget.TextInputLayout>
