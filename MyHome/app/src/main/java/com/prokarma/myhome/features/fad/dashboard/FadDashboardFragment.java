@@ -73,7 +73,7 @@ public class FadDashboardFragment extends Fragment implements FavProvidersAdapte
             switch (view.getId()) {
                 case R.id.fadDashBoardFindcare:
                     if (getActivity() != null) {
-                        ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
+                        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.FAD, null);
                     }
                     break;
             }
