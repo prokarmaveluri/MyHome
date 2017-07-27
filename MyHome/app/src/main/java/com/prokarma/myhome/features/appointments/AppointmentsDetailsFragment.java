@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -50,6 +51,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         ImageView pin = (ImageView) appointmentsView.findViewById(R.id.pin_icon);
         TextView shareText = (TextView) appointmentsView.findViewById(R.id.share_text);
         ImageView shareIcon = (ImageView) appointmentsView.findViewById(R.id.share_icon);
+        ImageView heartIcon = (ImageView) appointmentsView.findViewById(R.id.heart_icon);
 
         shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +96,13 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                 Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + phoneNumber.getText().toString()));
                 intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentPhone);
+            }
+        });
+
+        heartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Clicked heart thingy", Toast.LENGTH_SHORT).show();
             }
         });
 
