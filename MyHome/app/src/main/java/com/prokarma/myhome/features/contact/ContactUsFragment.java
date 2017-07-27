@@ -75,7 +75,7 @@ public class ContactUsFragment extends BaseFragment {
                             "I was using the My Home App and I had some questions. Can someone please contact me?\n\n" +
                             "Thank You,\n" +
                             ProfileManager.getProfile().firstName + " " + ProfileManager.getProfile().lastName + "\n" +
-                            (ProfileManager.getProfile().phoneNumber != null ? ProfileManager.getProfile().phoneNumber : "") + "\n");
+                            (ProfileManager.getProfile().phoneNumber != null ? CommonUtil.constructPhoneNumber(ProfileManager.getProfile().phoneNumber) : "") + "\n");
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
         } else {
             Timber.i("Don't have any Profile information. Showing placeholder...");
