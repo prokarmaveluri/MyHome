@@ -65,25 +65,20 @@ public class ContactUsFragment extends BaseFragment {
     private void composeEmail() {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"hello@dignityhealth.org"});
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Ask A Question");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{Constants.SUPPORT_EMAIL});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.ask_a_question));
 
         if (ProfileManager.getProfile() != null) {
             Timber.i("Have Profile information. Crafting Support email...");
-            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
-                    "Hello, \n\n" +
-                            "I was using the My Home App and I had some questions. Can someone please contact me?\n\n" +
-                            "Thank You,\n" +
-                            ProfileManager.getProfile().firstName + " " + ProfileManager.getProfile().lastName + "\n" +
-                            (ProfileManager.getProfile().phoneNumber != null ? CommonUtil.constructPhoneNumber(ProfileManager.getProfile().phoneNumber) : "") + "\n");
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.contact_us_email_body) + ",\n" +
+                    ProfileManager.getProfile().firstName + " " + ProfileManager.getProfile().lastName + "\n" +
+                    (ProfileManager.getProfile().phoneNumber != null ? CommonUtil.constructPhoneNumber(ProfileManager.getProfile().phoneNumber) : "") + "\n");
+            startActivity(Intent.createChooser(emailIntent, getString(R.string.contact_us_email_intent_header)));
         } else {
             Timber.i("Don't have any Profile information. Showing placeholder...");
             emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
-                    "Hello, \n\n" +
-                            "I was using the My Home App and I had some questions. Can someone please contact me?\n\n" +
-                            "Thank You\n");
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                    getString(R.string.contact_us_email_body));
+            startActivity(Intent.createChooser(emailIntent, getString(R.string.contact_us_email_intent_header)));
         }
     }
 
@@ -92,7 +87,7 @@ public class ContactUsFragment extends BaseFragment {
      */
     private void dailPhone() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + CommonUtil.constructPhoneNumber(getString(R.string.contact_us_phone))));
+        intent.setData(Uri.parse(Constants.TEL + CommonUtil.constructPhoneNumber(getString(R.string.contact_us_phone))));
         getActivity().startActivity(intent);
     }
 }

@@ -67,6 +67,7 @@ public class Constants {
     public static final String DID_YOU_KNOW_SEC2 = "https://dignityhealth.org/articles/a-little-bit-of-color-dont-let-a-sunburn-get-you-down-this-summer";
 
     public static final String TEL = "tel:";
+    public static final String SUPPORT_EMAIL = "hello@dignityhealth.org";
 
     //Preferences
     public static final String PREF_TIME_ZONE = "pref_time_zone";
