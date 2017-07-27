@@ -235,6 +235,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_assistance);
         reasonForVisitLayout = (TextInputLayout) personalLayout.findViewById(R.id.booking_reason_layout);
         reasonForVisit = (TextInputEditText) personalLayout.findViewById(R.id.booking_reason);
+        reasonForVisit.setHint(context.getString(R.string.booking_reason_hint));
 
         dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
