@@ -314,6 +314,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             });
                             for (MySavedDoctorsResponse.FavoriteProvider provider : ProfileManager.getFavoriteProviders())
                                 if (providerDetailsResponse.getNpi().contains(provider.getNpi())) {
+                                    fav = true;
                                     CommonUtil.updateFavView(true, favProvider);
                                     break;
                                 }
@@ -827,7 +828,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     };
 
-    private void saveDoctor(boolean isSave, String npi) {
+    private void saveDoctor(boolean isSave, final String npi) {
         if (isSave) {
             CommonUtil.updateFavView(isSave, favProvider);
             final SaveDoctorRequest request = new SaveDoctorRequest(npi);
@@ -836,7 +837,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 @Override
                 public void onResponse(Call<SaveDoctorResponse> call, Response<SaveDoctorResponse> response) {
                     if (response.isSuccessful()) {
-
+                        List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
+                        MySavedDoctorsResponse.FavoriteProvider provider = getSavedDocotor();
+                        if (null != provider && !isProviderFound(provider.getNpi())) {
+                            providerList.add(provider);
+                            ProfileManager.setFavoriteProviders(providerList);
+                        }
                     }
                 }
 
@@ -852,7 +858,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 @Override
                 public void onResponse(Call<SaveDoctorResponse> call, Response<SaveDoctorResponse> response) {
                     if (response.isSuccessful()) {
-
+                        deleteSavedDocotor(npi);
                     }
                 }
 
@@ -861,6 +867,59 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                 }
             });
+        }
+    }
+
+    private MySavedDoctorsResponse.FavoriteProvider getSavedDocotor() {
+        try {
+            MySavedDoctorsResponse.FavoriteProvider provider = new MySavedDoctorsResponse().new FavoriteProvider();
+            if (providerDetailsResponse == null)
+                return null;
+
+            provider.setDisplayLastName(providerDetailsResponse.getDisplayLastName());
+            provider.setDisplayName(providerDetailsResponse.getDisplayFullName());
+            provider.setDisplayLastNamePlural(providerDetailsResponse.getDisplayLastNamePlural());
+            provider.setFirstName(providerDetailsResponse.getFirstName());
+            provider.setLastName(providerDetailsResponse.getLastName());
+            provider.setNpi(providerDetailsResponse.getNpi());
+            provider.setMiddleName(providerDetailsResponse.getMiddleName());
+            provider.setPhilosophy(providerDetailsResponse.getPhilosophy());
+            provider.setPrimarySpecialities(providerDetailsResponse.getSpecialties());
+            provider.setTitle(providerDetailsResponse.getTitle());
+
+            return provider;
+        } catch (NullPointerException ex) {
+            return null;
+        }
+    }
+
+    private void deleteSavedDocotor(String npi) {
+        try {
+            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
+            for (int index = 0; index < providerList.size(); index++) {
+                if (providerList.get(index).getNpi().contains(npi)) {
+                    providerList.remove(index);
+                    break;
+                }
+            }
+            ProfileManager.setFavoriteProviders(providerList);
+        } catch (NullPointerException ex) {
+        }
+    }
+
+    private boolean isProviderFound(String npi) {
+        try {
+            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
+            if (null == providerList)
+                return false;
+            for (MySavedDoctorsResponse.FavoriteProvider provider : providerList) {
+                if (provider.getNpi().contains(npi)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (NullPointerException ex) {
+            return false;
         }
     }
 }

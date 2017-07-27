@@ -112,6 +112,8 @@ public class SessionUtil {
         AuthManager.getInstance().setRefreshToken(null);
         AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);
+        ProfileManager.setFavoriteProviders(null);
+        ProfileManager.setAppointments(null);
         FadFragment.providerList.clear();
         FadFragment.currentSearchQuery = "";
         RecentlyViewedDataSourceDB.getInstance().deleteTable();
