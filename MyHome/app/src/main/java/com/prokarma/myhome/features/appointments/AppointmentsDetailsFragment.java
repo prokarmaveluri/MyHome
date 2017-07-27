@@ -26,6 +26,8 @@ public class AppointmentsDetailsFragment extends BaseFragment {
 
     private Appointment appointment;
     private View appointmentsView;
+    private boolean favDoc = false;
+    private ImageView favProvider;
 
     public static AppointmentsDetailsFragment newInstance() {
         return new AppointmentsDetailsFragment();
@@ -50,6 +52,18 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         ImageView pin = (ImageView) appointmentsView.findViewById(R.id.pin_icon);
         TextView shareText = (TextView) appointmentsView.findViewById(R.id.share_text);
         ImageView shareIcon = (ImageView) appointmentsView.findViewById(R.id.share_icon);
+        favProvider = (ImageView) appointmentsView.findViewById(R.id.apt_details_fav);
+
+        favProvider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                favDoc = !favDoc;
+//                if (null != appointment && null != appointment.getNpi()) {
+//                    NetworkManager.getInstance().updateFavDoctor(favDoc, appointment.getNpi(),
+//                            favProvider, getSavedDocotor(appointment));
+//                }
+            }
+        });
 
         shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override

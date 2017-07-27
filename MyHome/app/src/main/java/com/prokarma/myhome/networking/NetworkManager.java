@@ -1,6 +1,7 @@
 package com.prokarma.myhome.networking;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.prokarma.myhome.R;
@@ -34,6 +35,7 @@ import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.RESTConstants;
 
 import java.io.IOException;
@@ -487,5 +489,80 @@ public class NetworkManager {
                 Timber.e("Error fetching SavedDoctors");
             }
         });
+    }
+
+    public void updateFavDoctor(boolean isSave, final String npi, ImageView favProvider,
+                                final MySavedDoctorsResponse.FavoriteProvider provider) {
+        if (isSave) {
+            CommonUtil.updateFavView(isSave, favProvider);
+            final SaveDoctorRequest request = new SaveDoctorRequest(npi);
+            NetworkManager.getInstance().saveDoctor(AuthManager.getInstance().getBearerToken(),
+                    request).enqueue(new Callback<SaveDoctorResponse>() {
+                @Override
+                public void onResponse(Call<SaveDoctorResponse> call, retrofit2.Response<SaveDoctorResponse> response) {
+                    if (response.isSuccessful()) {
+                        try {
+                            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
+                            if (null != providerList && null != provider && !isProviderFound(provider.getNpi())) {
+                                providerList.add(provider);
+                                ProfileManager.setFavoriteProviders(providerList);
+                            }
+                        } catch (NullPointerException ex) {
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
+
+                }
+            });
+        } else { //DELETE saved Doc
+            CommonUtil.updateFavView(isSave, favProvider);
+            NetworkManager.getInstance().deleteSavedDoctor(AuthManager.getInstance().getBearerToken(),
+                    npi).enqueue(new Callback<SaveDoctorResponse>() {
+                @Override
+                public void onResponse(Call<SaveDoctorResponse> call, retrofit2.Response<SaveDoctorResponse> response) {
+                    if (response.isSuccessful()) {
+                        deleteSavedDocotor(npi);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private void deleteSavedDocotor(String npi) {
+        try {
+            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
+            for (int index = 0; index < providerList.size(); index++) {
+                if (providerList.get(index).getNpi().contains(npi)) {
+                    providerList.remove(index);
+                    break;
+                }
+            }
+            ProfileManager.setFavoriteProviders(providerList);
+        } catch (NullPointerException ex) {
+        }
+    }
+
+    private boolean isProviderFound(String npi) {
+        try {
+            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
+            if (null == providerList)
+                return false;
+            for (MySavedDoctorsResponse.FavoriteProvider provider : providerList) {
+                if (provider.getNpi().contains(npi)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (NullPointerException ex) {
+            return false;
+        }
     }
 }

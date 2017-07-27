@@ -53,12 +53,9 @@ import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusInter
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectTimeFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
-import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
-import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
-import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -194,7 +191,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             public void onClick(View v) {
                 fav = !fav;
                 if (null != providerDetailsResponse && null != providerDetailsResponse.getNpi()) {
-                    saveDoctor(fav, providerDetailsResponse.getNpi());
+                    NetworkManager.getInstance().updateFavDoctor(fav, providerDetailsResponse.getNpi(),
+                            favProvider, getSavedDocotor(providerDetailsResponse));
                 }
             }
         });
@@ -828,49 +826,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     };
 
-    private void saveDoctor(boolean isSave, final String npi) {
-        if (isSave) {
-            CommonUtil.updateFavView(isSave, favProvider);
-            final SaveDoctorRequest request = new SaveDoctorRequest(npi);
-            NetworkManager.getInstance().saveDoctor(AuthManager.getInstance().getBearerToken(),
-                    request).enqueue(new Callback<SaveDoctorResponse>() {
-                @Override
-                public void onResponse(Call<SaveDoctorResponse> call, Response<SaveDoctorResponse> response) {
-                    if (response.isSuccessful()) {
-                        List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
-                        MySavedDoctorsResponse.FavoriteProvider provider = getSavedDocotor();
-                        if (null != provider && !isProviderFound(provider.getNpi())) {
-                            providerList.add(provider);
-                            ProfileManager.setFavoriteProviders(providerList);
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
-
-                }
-            });
-        } else { //DELETE saved Doc
-            CommonUtil.updateFavView(isSave, favProvider);
-            NetworkManager.getInstance().deleteSavedDoctor(AuthManager.getInstance().getBearerToken(),
-                    npi).enqueue(new Callback<SaveDoctorResponse>() {
-                @Override
-                public void onResponse(Call<SaveDoctorResponse> call, Response<SaveDoctorResponse> response) {
-                    if (response.isSuccessful()) {
-                        deleteSavedDocotor(npi);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
-
-                }
-            });
-        }
-    }
-
-    private MySavedDoctorsResponse.FavoriteProvider getSavedDocotor() {
+    private MySavedDoctorsResponse.FavoriteProvider getSavedDocotor(ProviderDetailsResponse providerDetailsResponse) {
         try {
             MySavedDoctorsResponse.FavoriteProvider provider = new MySavedDoctorsResponse().new FavoriteProvider();
             if (providerDetailsResponse == null)
@@ -890,36 +846,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return provider;
         } catch (NullPointerException ex) {
             return null;
-        }
-    }
-
-    private void deleteSavedDocotor(String npi) {
-        try {
-            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
-            for (int index = 0; index < providerList.size(); index++) {
-                if (providerList.get(index).getNpi().contains(npi)) {
-                    providerList.remove(index);
-                    break;
-                }
-            }
-            ProfileManager.setFavoriteProviders(providerList);
-        } catch (NullPointerException ex) {
-        }
-    }
-
-    private boolean isProviderFound(String npi) {
-        try {
-            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
-            if (null == providerList)
-                return false;
-            for (MySavedDoctorsResponse.FavoriteProvider provider : providerList) {
-                if (provider.getNpi().contains(npi)) {
-                    return true;
-                }
-            }
-            return false;
-        } catch (NullPointerException ex) {
-            return false;
         }
     }
 }
