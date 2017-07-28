@@ -2,6 +2,8 @@ package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
+import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
+import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
 import com.prokarma.myhome.features.fad.LocationResponse;
@@ -65,7 +67,7 @@ public interface RESTService {
     Call<LoginResponse> login(@Body LoginRequest request);
 
     @FormUrlEncoded
-    @POST(RESTConstants.OKTA_BASE_URL + "oauth2/"+RESTConstants.AUTH_CLIENT_ID+"/v1/token")
+    @POST(RESTConstants.OKTA_BASE_URL + "oauth2/" + RESTConstants.AUTH_CLIENT_ID + "/v1/token")
     Call<AccessTokenResponse> fetchAccessToken(@Field("grant_type") String grantType,
                                                @Field("code") String code,
                                                @Field("client_id") String clientId,
@@ -75,7 +77,7 @@ public interface RESTService {
     );
 
     @FormUrlEncoded
-    @POST(RESTConstants.OKTA_BASE_URL + "oauth2/"+RESTConstants.AUTH_CLIENT_ID+"/v1/token")
+    @POST(RESTConstants.OKTA_BASE_URL + "oauth2/" + RESTConstants.AUTH_CLIENT_ID + "/v1/token")
     Call<RefreshAccessTokenResponse> refreshAccessToken(@Field("grant_type") String grantType,
                                                         @Field("refresh_token") String refreshToken,
                                                         @Field("client_id") String clientId,
@@ -148,13 +150,22 @@ public interface RESTService {
     @GET(RESTConstants.VERSIONING_URL + "api/versioning/dependencies")
     Call<UpdateResponse> versionCheck();
 
+
     //1.1 APIs
+
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/me/favorite-providers")
-    Call<SaveDoctorResponse> saveDoctor(@Header("Authorization") String bearer, @Body SaveDoctorRequest resuest);
+    Call<SaveDoctorResponse> saveDoctor(@Header("Authorization") String bearer,
+                                        @Body SaveDoctorRequest resuest);
 
     @DELETE(RESTConstants.CIAM_BASE_URL + "api/users/me/favorite-providers/{npi}")
-    Call<SaveDoctorResponse> deleteSavedDoctor(@Header("Authorization") String bearer, @Path("npi") String npi);
+    Call<SaveDoctorResponse> deleteSavedDoctor(@Header("Authorization") String bearer,
+                                               @Path("npi") String npi);
 
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/query")
-    Call<MySavedDoctorsResponse> getSavedDocctors(@Header("Authorization") String bearer, @Body MySavedDoctorsRequest request);
+    Call<MySavedDoctorsResponse> getSavedDocctors(@Header("Authorization") String bearer,
+                                                  @Body MySavedDoctorsRequest request);
+
+    @POST(RESTConstants.CIAM_BASE_URL + "api/users/query")
+    Call<MyAppointmentsResponse> getMyAppointments(@Header("Authorization") String bearer,
+                                                   @Body MyAppointmentsRequest request);
 }

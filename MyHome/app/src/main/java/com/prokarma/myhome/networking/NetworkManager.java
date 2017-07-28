@@ -7,6 +7,8 @@ import android.widget.TextView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
+import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
+import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
 import com.prokarma.myhome.features.fad.FadManager;
@@ -39,6 +41,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.RESTConstants;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -377,10 +380,15 @@ public class NetworkManager {
         return service.deleteSavedDoctor(BEARER + bearerToken, npi);
     }
 
-    public Call<MySavedDoctorsResponse> getSavedDoctors(String bearerToken, MySavedDoctorsRequest request) {
+    public Call<MySavedDoctorsResponse> getSavedDoctors(String bearerToken,
+                                                        MySavedDoctorsRequest request) {
         return service.getSavedDocctors(BEARER + bearerToken, request);
     }
 
+    public Call<MyAppointmentsResponse> getMyAppointments(String bearerToken,
+                                                          MyAppointmentsRequest request) {
+        return service.getMyAppointments(BEARER + bearerToken, request);
+    }
 
     // Network Util
 
@@ -482,7 +490,7 @@ public class NetworkManager {
                         Timber.e("Error fetching SavedDoctors ");
                         ProfileManager.setFavoriteProviders(null);
                     }
-                }else {
+                } else {
                     ProfileManager.setFavoriteProviders(null);
                 }
             }
@@ -507,7 +515,10 @@ public class NetworkManager {
                     if (response.isSuccessful()) {
                         try {
                             List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
-                            if (null != providerList && null != provider && !isProviderFound(provider.getNpi())) {
+                            if (null != provider && !isProviderFound(provider.getNpi())) {
+                                if (null == providerList)
+                                    providerList = new ArrayList<>();
+
                                 providerList.add(provider);
                                 ProfileManager.setFavoriteProviders(providerList);
                             }

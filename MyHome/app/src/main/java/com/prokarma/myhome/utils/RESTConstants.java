@@ -58,4 +58,40 @@ public class RESTConstants {
             "  }" +
             "}";
 
+
+    public static final String APPOINTMENTS_DATE = "\"04-01-17\"";
+    public static final String MY_APPOINTMENTS_INCLUDE_INACTIVE = "{" +
+            "  user {" +
+            "      appointments(beginDate:" + APPOINTMENTS_DATE + ", includeInactive: true) {" +
+            "      appointmentId" +
+            "      secureId" +
+            "      appointmentStart" +
+            "      appointmentStatus" +
+            "      appointmentType" +
+            "      caregiverName" +
+            "      comments" +
+            "      doctorName" +
+            "      doctorSpecialty" +
+            "      visitReason" +
+            "      facilityName" +
+            "      facilityPhoneNumber" +
+//            "      provider {" +
+//            "        firstName" +
+//            "        lastName" +
+//            "        npi" +
+//            "        displayName" +
+//            "        displayLastName" +
+//            "        displayLastNamePlural" +
+//            "        middleName" +
+//            "        suffix" +
+//            "        title" +
+//            "        philosophy" +
+//            "        supportsOnlineBooking" +
+//            "        providerDetailsUrl" +
+//            "        primarySpecialities" +
+//            "      }" +
+            "    }" +
+            "  }" +
+            "}";
+
 }
