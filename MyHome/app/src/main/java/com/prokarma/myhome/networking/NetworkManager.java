@@ -480,13 +480,17 @@ public class NetworkManager {
                         ProfileManager.setFavoriteProviders(response.body().getData().getUser().getFavoriteProviders());
                     } catch (NullPointerException ex) {
                         Timber.e("Error fetching SavedDoctors ");
+                        ProfileManager.setFavoriteProviders(null);
                     }
+                }else {
+                    ProfileManager.setFavoriteProviders(null);
                 }
             }
 
             @Override
             public void onFailure(Call<MySavedDoctorsResponse> call, Throwable t) {
                 Timber.e("Error fetching SavedDoctors");
+                ProfileManager.setFavoriteProviders(null);
             }
         });
     }

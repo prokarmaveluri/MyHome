@@ -35,7 +35,8 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
     public FavProvidersAdapter(List<MySavedDoctorsResponse.FavoriteProvider> providers,
                                Context context, IProviderClick listener) {
         providerList.clear();
-        providerList.addAll(providers);
+        if (null != providers)
+            providerList.addAll(providers);
         mContext = context;
         this.listener = listener;
         if (providerList != null)

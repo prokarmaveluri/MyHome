@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -54,10 +55,12 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         ImageView shareIcon = (ImageView) appointmentsView.findViewById(R.id.share_icon);
         favProvider = (ImageView) appointmentsView.findViewById(R.id.apt_details_fav);
 
+        CommonUtil.updateFavView(false, favProvider);
         favProvider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 favDoc = !favDoc;
+                Toast.makeText(getActivity(), "Dev In Progress", Toast.LENGTH_SHORT).show();
 //                if (null != appointment && null != appointment.getNpi()) {
 //                    NetworkManager.getInstance().updateFavDoctor(favDoc, appointment.getNpi(),
 //                            favProvider, getSavedDocotor(appointment));
