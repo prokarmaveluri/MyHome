@@ -172,7 +172,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.find_care));
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
         myMap.getMapAsync(this);

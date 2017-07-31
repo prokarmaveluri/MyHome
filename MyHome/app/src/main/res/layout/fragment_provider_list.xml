@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/find_a_doctor"
+            android:text="@string/find_care"
             android:visibility="visible" />
 
         <ProgressBar

@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.FragmentFadDashboardBinding;
+import com.prokarma.myhome.features.preferences.MyFavoritesDialog;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.Constants;
+
+import timber.log.Timber;
 
 /**
  * Fad dashboard
@@ -43,7 +46,7 @@ public class FadDashboardFragment extends Fragment implements FavProvidersAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.fad_dashboard_title));
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.fad_title));
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_fad_dashboard, container, false);
 
         binder.mySavedDocs.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -65,7 +68,7 @@ public class FadDashboardFragment extends Fragment implements FavProvidersAdapte
 
     @Override
     public void providerClick(int position) {
-
+        Timber.i("fav dashboard click " + position);
     }
 
     public class FadDashboardClick {
@@ -74,6 +77,13 @@ public class FadDashboardFragment extends Fragment implements FavProvidersAdapte
                 case R.id.fadDashBoardFindcare:
                     if (getActivity() != null) {
                         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.FAD, null);
+                    }
+                    break;
+                case R.id.fadDashBoardViewall:
+                    if (null != ProfileManager.getFavoriteProviders() &&
+                            ProfileManager.getFavoriteProviders().size() > 0) {
+                        MyFavoritesDialog dialog = new MyFavoritesDialog();
+                        dialog.show(getChildFragmentManager(), "Favorites Dialog");
                     }
                     break;
             }

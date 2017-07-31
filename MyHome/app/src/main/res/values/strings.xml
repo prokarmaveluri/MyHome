@@ -31,7 +31,7 @@
     <string name="no_appointments">You have no upcoming appointments.</string>
 
     <!-- FAD -->
-    <string name="find_a_doctor">Find Care</string>
+    <string name="fad_title">Care</string>
 
     <string name="appointments">Appointments</string>
     <string name="home">Home</string>
@@ -190,6 +190,7 @@
     <!--Booking Flow-->
     <string name="provider_list">Provider List</string>
     <string name="recent_providers">Recent Providers</string>
+    <string name="fav_providers">My Favoties</string>
     <string name="do_you_need_standing_assistance">Do you need standing assistance?</string>
     <string name="insurance_phone_number">Insurance Phone Number</string>
     <string name="do_you_need_a_translator">Do you need a translator?</string>
@@ -256,8 +257,5 @@
 
     <string name="sign_out_fail">We\'re sorry, let\’s try that again.</string>
     <string name="failure_msg">We\'re sorry, we\’ve hit a snag. Please try again or contact support at 844-274-8497.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="fad_dashboard_title">Care</string>
 
 </resources>

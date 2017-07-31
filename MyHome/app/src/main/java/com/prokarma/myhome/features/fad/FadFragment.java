@@ -355,7 +355,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         } else {
             appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
-        appToolbar.setTitle("Find Care");
+        appToolbar.setTitle(getString(R.string.fad_title));
     }
 
     public boolean onCreateOptionsMenu(ImageView actionMore) {
