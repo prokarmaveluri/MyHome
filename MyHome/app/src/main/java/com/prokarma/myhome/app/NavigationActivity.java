@@ -400,6 +400,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 //                return true;
 //            case R.id.preferences:
 //                return true;
+            case R.id.bill_pay:
+                setActivityTag(ActivityTag.FAQ);
+                Intent intentFAQ = new Intent(this, OptionsActivity.class);
+                ActivityCompat.startActivity(this, intentFAQ, options.toBundle());
+                return true;
             case R.id.contact_us:
                 setActivityTag(ActivityTag.CONTACT_US);
                 Intent intentContactUs = new Intent(this, OptionsActivity.class);

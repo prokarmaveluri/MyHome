@@ -14,6 +14,7 @@ public class Constants {
         PROFILE_VIEW,
         PROFILE_EDIT,
         CONTACT_US,
+        FAQ,
         SETTINGS,
         HELP,
         DEVELOPER,

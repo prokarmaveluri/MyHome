@@ -33,6 +33,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/bill_pay"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/bill_pay"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/developer"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="@string/developer"

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
+import com.prokarma.myhome.features.faq.FaqFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
 import com.prokarma.myhome.features.tos.TosFragment;
 import com.prokarma.myhome.utils.Constants;
@@ -28,6 +29,17 @@ public class OptionsActivity extends BaseActivity {
         setContentView(R.layout.options_activity);
 
         switch (NavigationActivity.getActivityTag()) {
+            case FAQ:
+                FaqFragment faqFragment = FaqFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, faqFragment, FaqFragment.FAQ_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.FAQ);
+                break;
+
             case CONTACT_US:
                 ContactUsFragment contactUsFragment = ContactUsFragment.newInstance();
                 getSupportFragmentManager()
