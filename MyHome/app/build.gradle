@@ -27,13 +27,13 @@ android {
     def TEST_VERSIONING_URL = "\"http://web-usw1-versioningservices-tst.azurewebsites.net/\""
     def TEST_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def TEST_CIAM_BASE_URL = "\"https://test.ciam.dignityhealth.org/\""
-    def TEST_S2_BASE_URL = "\"https://e3findadocapp.azurewebsites.net/\""
+    def TEST_S2_BASE_URL = "\"https://web-usw1-fad-tst.azurewebsites.net/\""
     def TEST_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-tst.azurewebsites.net/\""
 
     def DEV_VERSIONING_URL = "\"http://web-usw1-versioningservices-dev.azurewebsites.net/\""
     def DEV_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def DEV_CIAM_BASE_URL = "\"https://dev.ciam.dignityhealth.org/\""
-    def DEV_S2_BASE_URL = "\"https://e3findadocapp.azurewebsites.net/\""
+    def DEV_S2_BASE_URL = "\"https://web-usw1-fad-dev.azurewebsites.net/\""
     def DEV_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-dev.azurewebsites.net/\""
 
     compileSdkVersion 25
@@ -43,8 +43,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 31
-        versionName "0.1.31"
+        versionCode 001001
+        versionName "1.1.1"
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -86,8 +86,8 @@ android {
             buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
             buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
 
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
 
@@ -109,11 +109,11 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
-            buildConfigField STRING, VERSIONING_URL, TEST_VERSIONING_URL
-            buildConfigField STRING, OKTA_BASE_URL, TEST_OKTA_BASE_URL
-            buildConfigField STRING, CIAM_BASE_URL, TEST_CIAM_BASE_URL
-            buildConfigField STRING, S2_BASE_URL, TEST_S2_BASE_URL
-            buildConfigField STRING, SCHEDULING_BASE, TEST_SCHEDULING_BASE
+            buildConfigField STRING, VERSIONING_URL, DEV_VERSIONING_URL
+            buildConfigField STRING, OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, CIAM_BASE_URL, DEV_CIAM_BASE_URL
+            buildConfigField STRING, S2_BASE_URL, DEV_S2_BASE_URL
+            buildConfigField STRING, SCHEDULING_BASE, DEV_SCHEDULING_BASE
 
             buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
             buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
@@ -122,8 +122,8 @@ android {
             buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
             buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
 
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             signingConfig signingConfigs.config
