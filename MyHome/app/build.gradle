@@ -43,7 +43,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 001001
+        versionCode 1001
         versionName "1.1.1"
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
@@ -116,7 +116,7 @@ android {
             buildConfigField STRING, SCHEDULING_BASE, DEV_SCHEDULING_BASE
 
             buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
-            buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
             buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
             buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
             buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
