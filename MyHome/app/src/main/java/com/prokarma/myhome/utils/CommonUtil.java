@@ -196,6 +196,10 @@ public class CommonUtil {
     @SuppressWarnings("deprecation")
     public static String constructPhoneNumber(@NonNull String number) {
         String phoneNumber;
+
+        if (null == number || number.trim().isEmpty())
+            return "";
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             phoneNumber = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
         } else {
