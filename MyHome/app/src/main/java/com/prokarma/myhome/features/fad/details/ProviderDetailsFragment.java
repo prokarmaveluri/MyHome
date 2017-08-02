@@ -227,7 +227,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void setupInitialView() {
-        if (providerDetailsView == null) {
+        if (providerDetailsView == null || providerDetailsResponse == null) {
             return;
         }
 
