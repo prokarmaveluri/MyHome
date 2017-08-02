@@ -60,10 +60,12 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
 
-    private void setResults(ProviderResponse provider) {
+    private void setResults(int position, String npi) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         try {
+            bundle.putInt("FAV_POSITION", position);
+            bundle.putString("FAV_NPI", npi);
             intent.putExtras(bundle);
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             dismiss();
@@ -74,6 +76,7 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
     @Override
     public void providerClick(int position) {
         Timber.i("fav dialog click " + position);
+        setResults(position, ProfileManager.getFavoriteProviders().get(position).getNpi());
     }
 
     public class FavDialogClick {
@@ -82,18 +85,7 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
                 case R.id.dialog_close:
                     dismiss();
                     break;
-                case R.id.find_care:
-                    setResults();
-                    dismiss();
-                    break;
             }
-        }
-    }
-
-    private void setResults() {
-        try {
-            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_FIRST_USER, null);
-        } catch (NullPointerException ex) {
         }
     }
 }
