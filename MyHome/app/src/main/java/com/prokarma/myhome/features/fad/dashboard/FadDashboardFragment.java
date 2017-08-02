@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.FragmentFadDashboardBinding;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.preferences.MyFavoritesDialog;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.Constants;
@@ -48,12 +49,17 @@ public class FadDashboardFragment extends Fragment implements FavProvidersAdapte
         // Inflate the layout for this fragment
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.fad_title));
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_fad_dashboard, container, false);
+        return binder.getRoot();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        binder.setHandlers(new FadDashboardClick());
         binder.mySavedDocs.setLayoutManager(new LinearLayoutManager(getActivity()));
         binder.mySavedDocs.setAdapter(new FavProvidersAdapter(ProfileManager.getFavoriteProviders(),
                 getActivity(), this));
-        binder.setHandlers(new FadDashboardClick());
-        return binder.getRoot();
     }
 
     @Override
@@ -69,6 +75,11 @@ public class FadDashboardFragment extends Fragment implements FavProvidersAdapte
     @Override
     public void providerClick(int position) {
         Timber.i("fav dashboard click " + position);
+        if (ProfileManager.getFavoriteProviders() != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString(ProviderDetailsFragment.PROVIDER_ID_KEY, ProfileManager.getFavoriteProviders().get(position).getNpi());
+            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
+        }
     }
 
     public class FadDashboardClick {

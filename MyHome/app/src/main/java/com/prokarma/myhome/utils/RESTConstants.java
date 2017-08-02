@@ -54,6 +54,12 @@ public class RESTConstants {
             "    supportsOnlineBooking" +
             "    providerDetailsUrl" +
             "    primarySpecialities" +
+            "    images {" +
+            "          imageType" +
+            "          url" +
+            "          width" +
+            "          height" +
+            "        }" +
             "  }" +
             "  }" +
             "}";
@@ -75,21 +81,27 @@ public class RESTConstants {
             "      visitReason" +
             "      facilityName" +
             "      facilityPhoneNumber" +
-//            "      provider {" +
-//            "        firstName" +
-//            "        lastName" +
-//            "        npi" +
-//            "        displayName" +
-//            "        displayLastName" +
-//            "        displayLastNamePlural" +
-//            "        middleName" +
-//            "        suffix" +
-//            "        title" +
-//            "        philosophy" +
-//            "        supportsOnlineBooking" +
-//            "        providerDetailsUrl" +
-//            "        primarySpecialities" +
-//            "      }" +
+            "      provider {" +
+            "        firstName" +
+            "        lastName" +
+            "        npi" +
+            "        displayName" +
+            "        displayLastName" +
+            "        displayLastNamePlural" +
+            "        middleName" +
+            "        suffix" +
+            "        title" +
+            "        philosophy" +
+            "        supportsOnlineBooking" +
+            "        providerDetailsUrl" +
+            "        primarySpecialities" +
+            "    images {" +
+            "          imageType" +
+            "          url" +
+            "          width" +
+            "          height" +
+            "        }" +
+            "      }" +
             "    }" +
             "  }" +
             "}";

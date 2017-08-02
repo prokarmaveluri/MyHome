@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.profile.Address;
 
 /**
@@ -24,8 +25,12 @@ public class Appointment implements Parcelable, Comparable {
     public String facilityName;
     public String facilityPhoneNumber;
     public Address facilityAddress;
+    public ProviderResponse provider;
 
-    public Appointment(int appointmentId, boolean isActive, String username, String appointmentStart, String appointmentType, boolean isCreatedByCaregiver, String caregiverName, String comments, String visitReason, String doctorName, String facilityName, String facilityPhoneNumber, Address facilityAddress) {
+    public Appointment(int appointmentId, boolean isActive, String username, String appointmentStart,
+                       String appointmentType, boolean isCreatedByCaregiver, String caregiverName,
+                       String comments, String visitReason, String doctorName, String facilityName,
+                       String facilityPhoneNumber, Address facilityAddress, ProviderResponse provider) {
         this.appointmentId = appointmentId;
         this.isActive = isActive;
         this.username = username;
@@ -39,6 +44,7 @@ public class Appointment implements Parcelable, Comparable {
         this.facilityName = facilityName;
         this.facilityPhoneNumber = facilityPhoneNumber;
         this.facilityAddress = facilityAddress;
+        this.provider = provider;
     }
 
     @Override
@@ -62,7 +68,7 @@ public class Appointment implements Parcelable, Comparable {
 
     @Override
     public int compareTo(@NonNull Object anotherAppointment) {
-        String compareDate = ((Appointment)anotherAppointment).appointmentStart;
+        String compareDate = ((Appointment) anotherAppointment).appointmentStart;
         return this.appointmentStart.compareTo(compareDate);
     }
 
@@ -86,9 +92,10 @@ public class Appointment implements Parcelable, Comparable {
         dest.writeString(this.facilityName);
         dest.writeString(this.facilityPhoneNumber);
         dest.writeParcelable(this.facilityAddress, flags);
+        dest.writeParcelable(this.provider, flags);
     }
 
-    public Appointment(Parcel in) {
+    protected Appointment(Parcel in) {
         this.appointmentId = in.readInt();
         this.isActive = in.readByte() != 0;
         this.username = in.readString();
@@ -102,9 +109,10 @@ public class Appointment implements Parcelable, Comparable {
         this.facilityName = in.readString();
         this.facilityPhoneNumber = in.readString();
         this.facilityAddress = in.readParcelable(Address.class.getClassLoader());
+        this.provider = in.readParcelable(ProviderResponse.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Appointment> CREATOR = new Parcelable.Creator<Appointment>() {
+    public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
         @Override
         public Appointment createFromParcel(Parcel source) {
             return new Appointment(source);

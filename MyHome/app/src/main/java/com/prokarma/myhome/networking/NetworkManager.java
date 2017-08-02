@@ -27,6 +27,7 @@ import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.prokarma.myhome.features.preferences.MySavedDoctorsRequest;
 import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
+import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
 import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
 import com.prokarma.myhome.features.profile.Profile;
@@ -504,7 +505,7 @@ public class NetworkManager {
     }
 
     public void updateFavDoctor(boolean isSave, final String npi, ImageView favProvider,
-                                final MySavedDoctorsResponse.FavoriteProvider provider) {
+                                final ProviderResponse provider) {
         if (isSave) {
             CommonUtil.updateFavView(isSave, favProvider);
             final SaveDoctorRequest request = new SaveDoctorRequest(npi);
@@ -514,7 +515,7 @@ public class NetworkManager {
                 public void onResponse(Call<SaveDoctorResponse> call, retrofit2.Response<SaveDoctorResponse> response) {
                     if (response.isSuccessful()) {
                         try {
-                            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
+                            List<ProviderResponse> providerList = ProfileManager.getFavoriteProviders();
                             if (null != provider && !isProviderFound(provider.getNpi())) {
                                 if (null == providerList)
                                     providerList = new ArrayList<>();
@@ -553,7 +554,7 @@ public class NetworkManager {
 
     private void deleteSavedDocotor(String npi) {
         try {
-            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
+            List<ProviderResponse> providerList = ProfileManager.getFavoriteProviders();
             for (int index = 0; index < providerList.size(); index++) {
                 if (providerList.get(index).getNpi().contains(npi)) {
                     providerList.remove(index);
@@ -567,10 +568,10 @@ public class NetworkManager {
 
     private boolean isProviderFound(String npi) {
         try {
-            List<MySavedDoctorsResponse.FavoriteProvider> providerList = ProfileManager.getFavoriteProviders();
+            List<ProviderResponse> providerList = ProfileManager.getFavoriteProviders();
             if (null == providerList)
                 return false;
-            for (MySavedDoctorsResponse.FavoriteProvider provider : providerList) {
+            for (ProviderResponse provider : providerList) {
                 if (provider.getNpi().contains(npi)) {
                     return true;
                 }

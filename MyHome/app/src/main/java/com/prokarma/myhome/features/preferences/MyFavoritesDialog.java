@@ -60,7 +60,7 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
 
-    private void setResults(MySavedDoctorsResponse.FavoriteProvider provider) {
+    private void setResults(ProviderResponse provider) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         try {

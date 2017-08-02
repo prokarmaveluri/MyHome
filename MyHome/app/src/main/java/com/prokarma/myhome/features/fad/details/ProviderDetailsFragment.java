@@ -52,7 +52,8 @@ import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusFragm
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectTimeFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
-import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
+import com.prokarma.myhome.features.preferences.ImagesResponse;
+import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -310,7 +311,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                     getChildFragmentManager().executePendingTransactions();
                                 }
                             });
-                            for (MySavedDoctorsResponse.FavoriteProvider provider : ProfileManager.getFavoriteProviders())
+                            for (ProviderResponse provider : ProfileManager.getFavoriteProviders())
                                 if (providerDetailsResponse.getNpi().contains(provider.getNpi())) {
                                     fav = true;
                                     CommonUtil.updateFavView(true, favProvider);
@@ -826,9 +827,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     };
 
-    private MySavedDoctorsResponse.FavoriteProvider getSavedDocotor(ProviderDetailsResponse providerDetailsResponse) {
+    private ProviderResponse getSavedDocotor(ProviderDetailsResponse providerDetailsResponse) {
         try {
-            MySavedDoctorsResponse.FavoriteProvider provider = new MySavedDoctorsResponse().new FavoriteProvider();
+            ProviderResponse provider = new ProviderResponse();
             if (providerDetailsResponse == null)
                 return null;
 
@@ -842,6 +843,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             provider.setPhilosophy(providerDetailsResponse.getPhilosophy());
             provider.setPrimarySpecialities(providerDetailsResponse.getSpecialties());
             provider.setTitle(providerDetailsResponse.getTitle());
+
+            List<ImagesResponse> imageUrls = new ArrayList<>();
+            for (Image image : providerDetailsResponse.getImageUrls()){
+                ImagesResponse response = new ImagesResponse();
+                response.setUrl(image.getUrl());
+                imageUrls.add(response);
+            }
+            provider.setImages(imageUrls);
 
             return provider;
         } catch (NullPointerException ex) {

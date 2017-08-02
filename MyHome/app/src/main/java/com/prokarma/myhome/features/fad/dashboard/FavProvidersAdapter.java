@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterFavListItemBinding;
-import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
+import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.squareup.picasso.Picasso;
@@ -27,12 +27,12 @@ import timber.log.Timber;
 
 public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapter.ProvidersVH> {
 
-    private List<MySavedDoctorsResponse.FavoriteProvider> providerList = new ArrayList<>();
+    private List<ProviderResponse> providerList = new ArrayList<>();
     private ArrayList<State> providerListFavState = new ArrayList<>();
     private IProviderClick listener;
     private Context mContext;
 
-    public FavProvidersAdapter(List<MySavedDoctorsResponse.FavoriteProvider> providers,
+    public FavProvidersAdapter(List<ProviderResponse> providers,
                                Context context, IProviderClick listener) {
         providerList.clear();
         if (null != providers)
@@ -77,20 +77,12 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
             binding = itemView;
         }
 
-        public void bind(MySavedDoctorsResponse.FavoriteProvider provider, final int position) {
+        public void bind(ProviderResponse provider, final int position) {
 
             try {
                 binding.itemLayout.setTag(position);
                 binding.fadDashBoardFav.setTag(position);
                 binding.docDisplayName.setText(provider.getDisplayName());
-                binding.docSpeciality.setText(provider.getPrimarySpecialities().get(0));
-
-                String url = provider.getProviderDetailsUrl();
-                url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
-
-                Picasso.with(mContext)
-                        .load(url)
-                        .into(binding.docImage);
 
                 binding.fadDashBoardFav.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -104,7 +96,15 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                         }
                     }
                 });
-            } catch (NullPointerException ex) {
+                binding.docSpeciality.setText(provider.getPrimarySpecialities().get(0));
+
+                String url = provider.getImages().get(2).getUrl();
+                url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
+
+                Picasso.with(mContext)
+                        .load(url)
+                        .into(binding.docImage);
+            } catch (NullPointerException | IndexOutOfBoundsException ex) {
 
             }
             binding.executePendingBindings();
