@@ -28,7 +28,6 @@ import timber.log.Timber;
 public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapter.ProvidersVH> {
 
     private List<ProviderResponse> providerList = new ArrayList<>();
-    private ArrayList<State> providerListFavState = new ArrayList<>();
     private IProviderClick listener;
     private boolean isDashboard = false;
     private Context mContext;
@@ -41,8 +40,6 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
         mContext = context;
         this.isDashboard = isDashboard;
         this.listener = listener;
-        if (providerList != null)
-            setFavState(providerList.size());
     }
 
     @Override
@@ -94,19 +91,6 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                 binding.itemLayout.setTag(position);
                 binding.fadDashBoardFav.setTag(position);
                 binding.docDisplayName.setText(provider.getDisplayName());
-
-                binding.fadDashBoardFav.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            providerListFavState.get(position)
-                                    .setFavState(!providerListFavState.get(position).isFavState());
-                            NetworkManager.getInstance().updateFavDoctor(providerListFavState.get(position).isFavState(),
-                                    providerList.get(position).getNpi(), binding.fadDashBoardFav, providerList.get(position));
-                        } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
-                        }
-                    }
-                });
                 binding.docSpeciality.setText(provider.getPrimarySpecialities().get(0));
 
                 String url = provider.getImages().get(2).getUrl();
@@ -133,11 +117,12 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                 case R.id.fadDashBoardFav:
                     try {
                         int position = (int) view.getTag();
-                        providerListFavState.get(position)
-                                .setFavState(!providerListFavState.get(position).isFavState());
-                        NetworkManager.getInstance().updateFavDoctor(providerListFavState.get(position).isFavState(),
+                        NetworkManager.getInstance().updateFavDoctor(false,
                                 providerList.get(position).getNpi(), (ImageView) view, providerList.get(position));
-                    } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+                        NetworkManager.getInstance().deleteSavedDocotor(providerList.get(position).getNpi());
+                        providerList.remove(position);
+                        notifyDataSetChanged();
+                    } catch (NullPointerException | IndexOutOfBoundsException ex) {
                     }
                     break;
             }
@@ -146,28 +131,5 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
 
     public interface IProviderClick {
         void providerClick(int position);
-    }
-
-    private class State {
-        private boolean favState;
-
-        State(boolean state) {
-            favState = state;
-        }
-
-        public boolean isFavState() {
-            return favState;
-        }
-
-        public void setFavState(boolean favState) {
-            this.favState = favState;
-        }
-    }
-
-    private void setFavState(int size) {
-        providerListFavState.clear();
-        for (int index = 0; index < size; index++) {
-            providerListFavState.add(new State(true));
-        }
     }
 }

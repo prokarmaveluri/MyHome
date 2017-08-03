@@ -520,7 +520,7 @@ public class NetworkManager {
                                 if (null == providerList)
                                     providerList = new ArrayList<>();
 
-                                providerList.add(provider);
+                                providerList.add(0, provider);
                                 ProfileManager.setFavoriteProviders(providerList);
                             }
                         } catch (NullPointerException ex) {
@@ -534,7 +534,7 @@ public class NetworkManager {
                 }
             });
         } else { //DELETE saved Doc
-            CommonUtil.updateFavView(isSave, favProvider);
+//            CommonUtil.updateFavView(isSave, favProvider);
             NetworkManager.getInstance().deleteSavedDoctor(AuthManager.getInstance().getBearerToken(),
                     npi).enqueue(new Callback<SaveDoctorResponse>() {
                 @Override
@@ -552,7 +552,7 @@ public class NetworkManager {
         }
     }
 
-    private void deleteSavedDocotor(String npi) {
+    public void deleteSavedDocotor(String npi) {
         try {
             List<ProviderResponse> providerList = ProfileManager.getFavoriteProviders();
             for (int index = 0; index < providerList.size(); index++) {
