@@ -30,14 +30,16 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
     private List<ProviderResponse> providerList = new ArrayList<>();
     private ArrayList<State> providerListFavState = new ArrayList<>();
     private IProviderClick listener;
+    private boolean isDashboard = false;
     private Context mContext;
 
     public FavProvidersAdapter(List<ProviderResponse> providers,
-                               Context context, IProviderClick listener) {
+                               Context context, IProviderClick listener, boolean isDashboard) {
         providerList.clear();
         if (null != providers)
             providerList.addAll(providers);
         mContext = context;
+        this.isDashboard = isDashboard;
         this.listener = listener;
         if (providerList != null)
             setFavState(providerList.size());
@@ -61,10 +63,19 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
 
     @Override
     public int getItemCount() {
-        if (null != providerList) {
-            return providerList.size();
+        if (!isDashboard) {
+            if (null != providerList) {
+                return providerList.size();
+            }
+            return 0;
+        } else {
+            if (null != providerList && providerList.size() <= 5) {
+                return providerList.size();
+            } else if (null != providerList && providerList.size() > 5) {
+                return 5; // display 5 fav providers in dashboard
+            }
+            return 0;
         }
-        return 0;
     }
 
     public class ProvidersVH extends RecyclerView.ViewHolder {

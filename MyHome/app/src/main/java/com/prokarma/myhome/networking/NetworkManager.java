@@ -485,20 +485,20 @@ public class NetworkManager {
             public void onResponse(Call<MySavedDoctorsResponse> call, retrofit2.Response<MySavedDoctorsResponse> response) {
                 if (response.isSuccessful()) {
                     try {
-                        Timber.i("SavedDoctors " + response.body().getData().getUser().getFavoriteProviders().size());
                         ProfileManager.setFavoriteProviders(response.body().getData().getUser().getFavoriteProviders());
                     } catch (NullPointerException ex) {
-                        Timber.e("Error fetching SavedDoctors ");
+                        Timber.e("Error onResponse SavedDoctors ");
                         ProfileManager.setFavoriteProviders(null);
                     }
                 } else {
+                    Timber.e("Error onResponse SavedDoctors with error code");
                     ProfileManager.setFavoriteProviders(null);
                 }
             }
 
             @Override
             public void onFailure(Call<MySavedDoctorsResponse> call, Throwable t) {
-                Timber.e("Error fetching SavedDoctors");
+                Timber.e("Error onFailure SavedDoctors");
                 ProfileManager.setFavoriteProviders(null);
             }
         });

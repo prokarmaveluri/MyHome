@@ -1,6 +1,5 @@
 package com.prokarma.myhome.features.preferences;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -25,6 +24,9 @@ import timber.log.Timber;
 public class MyFavoritesDialog extends DialogFragment implements FavProvidersAdapter.IProviderClick {
 
     private FragmentFavListDialogBinding binding;
+    public static final int PROVIDER_CLICK = 100;
+    public static final int DIALOG_CLOSE = 200;
+
 
     public MyFavoritesDialog() {
         // Required empty public constructor
@@ -49,7 +51,7 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
 
         binding.favList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.favList.setAdapter(new FavProvidersAdapter(ProfileManager.getFavoriteProviders(),
-                getActivity(), this));
+                getActivity(), this, false));
         binding.setHandlers(new FavDialogClick());
         return binding.getRoot();
     }
@@ -67,7 +69,18 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
             bundle.putInt("FAV_POSITION", position);
             bundle.putString("FAV_NPI", npi);
             intent.putExtras(bundle);
-            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+            getTargetFragment().onActivityResult(getTargetRequestCode(), PROVIDER_CLICK, intent);
+            dismiss();
+        } catch (NullPointerException ex) {
+        }
+    }
+
+    private void setResults() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        try {
+            intent.putExtras(bundle);
+            getTargetFragment().onActivityResult(getTargetRequestCode(), DIALOG_CLOSE, intent);
             dismiss();
         } catch (NullPointerException ex) {
         }
@@ -83,6 +96,7 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
         public void onClickEvent(View view) {
             switch (view.getId()) {
                 case R.id.dialog_close:
+                    setResults();
                     dismiss();
                     break;
             }

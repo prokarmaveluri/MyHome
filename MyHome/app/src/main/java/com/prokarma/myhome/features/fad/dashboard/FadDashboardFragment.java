@@ -1,6 +1,5 @@
 package com.prokarma.myhome.features.fad.dashboard;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -16,9 +15,15 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.FragmentFadDashboardBinding;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.preferences.MyFavoritesDialog;
+import com.prokarma.myhome.features.preferences.MySavedDoctorsRequest;
+import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.Constants;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import timber.log.Timber;
 
 /**
@@ -52,11 +57,23 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
         // Inflate the layout for this fragment
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.fad_title));
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_fad_dashboard, container, false);
-        binder.mySavedDocs.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binder.mySavedDocs.setAdapter(new FavProvidersAdapter(ProfileManager.getFavoriteProviders(),
-                getActivity(), this));
+
+        binder.fadDashBoardViewall.setVisibility(View.GONE);
+        if (ProfileManager.getFavoriteProviders() != null && ProfileManager.getFavoriteProviders().size() > 0) {
+            updateFavList();
+        } else {
+            getSavedDoctors();
+        }
         binder.setHandlers(new FadDashboardClick());
         return binder.getRoot();
+    }
+
+    private void updateFavList() {
+        if (ProfileManager.getFavoriteProviders() != null && ProfileManager.getFavoriteProviders().size() > 3)
+            binder.fadDashBoardViewall.setVisibility(View.VISIBLE);
+        binder.mySavedDocs.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binder.mySavedDocs.setAdapter(new FavProvidersAdapter(ProfileManager.getFavoriteProviders(),
+                getActivity(), this, true));
     }
 
     @Override
@@ -97,7 +114,7 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
                     break;
                 case R.id.fadDashBoardViewall:
                     if (null != ProfileManager.getFavoriteProviders() &&
-                            ProfileManager.getFavoriteProviders().size() > 0) {
+                            ProfileManager.getFavoriteProviders().size() > 3) {
                         startFavProvidersDialog();
                     }
                     break;
@@ -115,11 +132,15 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RECENT_PROVIDERS) {
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == MyFavoritesDialog.PROVIDER_CLICK) {
                 if (data.getExtras() != null) {
                     int position = data.getExtras().getInt("FAV_POSITION");
                     String npi = data.getExtras().getString("FAV_NPI");
                     providerDetails(npi);
+                }
+            } else if (resultCode == MyFavoritesDialog.DIALOG_CLOSE) {
+                if (data.getExtras() != null) {
+                    updateFavList();
                 }
             }
         }
@@ -129,5 +150,32 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
         Bundle bundle = new Bundle();
         bundle.putString(ProviderDetailsFragment.PROVIDER_ID_KEY, npi);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
+    }
+
+    public void getSavedDoctors() {
+        NetworkManager.getInstance().getSavedDoctors(AuthManager.getInstance().getBearerToken(),
+                new MySavedDoctorsRequest()).enqueue(new Callback<MySavedDoctorsResponse>() {
+            @Override
+            public void onResponse(Call<MySavedDoctorsResponse> call, retrofit2.Response<MySavedDoctorsResponse> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        ProfileManager.setFavoriteProviders(response.body().getData().getUser().getFavoriteProviders());
+                        updateFavList();
+                    } catch (NullPointerException ex) {
+                        Timber.e("Error onResponse SavedDoctors ");
+                        ProfileManager.setFavoriteProviders(null);
+                    }
+                } else {
+                    ProfileManager.setFavoriteProviders(null);
+                    Timber.e("Error onResponse SavedDoctors with error code");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MySavedDoctorsResponse> call, Throwable t) {
+                Timber.e("Error onFailure SavedDoctors");
+                ProfileManager.setFavoriteProviders(null);
+            }
+        });
     }
 }
