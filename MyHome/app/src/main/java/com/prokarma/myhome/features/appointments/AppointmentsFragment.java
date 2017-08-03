@@ -27,7 +27,6 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,7 +89,7 @@ public class AppointmentsFragment extends BaseFragment {
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         appointmentsList.addItemDecoration(itemDecoration);
 
-        getAppointmentInfo(AuthManager.getInstance().getBearerToken());
+        //getAppointmentInfo(AuthManager.getInstance().getBearerToken());
         // TODO:Testing
         getMyAppointments();
         return appointmentsView;
@@ -162,29 +161,52 @@ public class AppointmentsFragment extends BaseFragment {
     }
 
     private void getMyAppointments() {
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        showLoading();
+
         NetworkManager.getInstance().getMyAppointments(AuthManager.getInstance().getBearerToken(),
                 new MyAppointmentsRequest()).enqueue(new Callback<MyAppointmentsResponse>() {
             @Override
             public void onResponse(Call<MyAppointmentsResponse> call, Response<MyAppointmentsResponse> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    MyAppointmentsResponse myAppointmentsResponse = response.body();
-                    Timber.d("My Appointments Response: " + myAppointmentsResponse);
 
-                    if (myAppointmentsResponse.getData() != null && myAppointmentsResponse.getData().getUser() != null) {
-                        List<Appointment> appointments = myAppointmentsResponse.getData().getUser().getAppointments();
-                        Timber.i("Appointments: " + Arrays.deepToString(appointments.toArray()));
+                if (isAdded()) {
+                    showScreen();
+                    if (response.isSuccessful()) {
+                        Timber.d("Successful Response\n" + response);
+                        MyAppointmentsResponse myAppointmentsResponse = response.body();
+                        Timber.d("My Appointments Response: " + myAppointmentsResponse);
+
+                        if (myAppointmentsResponse.getData() != null && myAppointmentsResponse.getData().getUser() != null) {
+                            ArrayList<Appointment> appointments = (ArrayList<Appointment>) myAppointmentsResponse.getData().getUser().getAppointments();
+                            Timber.i("Appointments: " + Arrays.deepToString(appointments.toArray()));
+
+                            try {
+                                //Attempt to sort the appointments by startTime
+                                Collections.sort(appointments);
+                                appointmentsAdapter.setAppointments(appointments);
+                                ProfileManager.setAppointments(appointments);
+                            } catch (Exception e) {
+                                appointmentsAdapter.setAppointments(null);
+                            }
+                        }
+
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
                     }
-
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<MyAppointmentsResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
-                Timber.e("Throwable = " + t);
+                if (isAdded()) {
+                    showScreen();
+                    Timber.e("Something failed! :/");
+                    Timber.e("Throwable = " + t);
+                }
             }
         });
     }
