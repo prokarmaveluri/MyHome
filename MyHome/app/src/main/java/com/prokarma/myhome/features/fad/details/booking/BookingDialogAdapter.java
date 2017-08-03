@@ -671,7 +671,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         if (page == 0) {
             //Insurance Page
 
-            if (plan.getSelectedItemPosition() == 0) {
+            if (plan.getSelectedItem() == null || plan.getSelectedItemPosition() == 0) {
                 isValid = false;
                 planLabel.setText(R.string.plan_required);
                 planLabel.setTextColor(ContextCompat.getColor(context, R.color.red));
