@@ -48,7 +48,7 @@ android {
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField 'String', 'BUILD_TIME', 'new java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.US).format(new java.util.Date(' + System.currentTimeMillis() +'L))'
+        buildConfigField 'String', 'BUILD_TIME', 'new java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.US).format(new java.util.Date(' + System.currentTimeMillis() + 'L))'
     }
     buildTypes {
         def STRING = "String"
@@ -136,17 +136,17 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
             buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
 
-//            buildConfigField STRING, VERSIONING_URL, DEV_VERSIONING_URL
-//            buildConfigField STRING, OKTA_BASE_URL, DEV_OKTA_BASE_URL
-//            buildConfigField STRING, CIAM_BASE_URL, DEV_CIAM_BASE_URL
-//            buildConfigField STRING, S2_BASE_URL, DEV_S2_BASE_URL
-//            buildConfigField STRING, SCHEDULING_BASE, DEV_SCHEDULING_BASE
+            buildConfigField STRING, VERSIONING_URL, DEV_VERSIONING_URL
+            buildConfigField STRING, OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, CIAM_BASE_URL, DEV_CIAM_BASE_URL
+            buildConfigField STRING, S2_BASE_URL, DEV_S2_BASE_URL
+            buildConfigField STRING, SCHEDULING_BASE, DEV_SCHEDULING_BASE
 
-            buildConfigField STRING, VERSIONING_URL, TEST_VERSIONING_URL
-            buildConfigField STRING, OKTA_BASE_URL, TEST_OKTA_BASE_URL
-            buildConfigField STRING, CIAM_BASE_URL, TEST_CIAM_BASE_URL
-            buildConfigField STRING, S2_BASE_URL, TEST_S2_BASE_URL
-            buildConfigField STRING, SCHEDULING_BASE, TEST_SCHEDULING_BASE
+//            buildConfigField STRING, VERSIONING_URL, TEST_VERSIONING_URL
+//            buildConfigField STRING, OKTA_BASE_URL, TEST_OKTA_BASE_URL
+//            buildConfigField STRING, CIAM_BASE_URL, TEST_CIAM_BASE_URL
+//            buildConfigField STRING, S2_BASE_URL, TEST_S2_BASE_URL
+//            buildConfigField STRING, SCHEDULING_BASE, TEST_SCHEDULING_BASE
 
             buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
             buildConfigField STRING, "CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
@@ -187,6 +187,6 @@ dependencies {
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
     compile 'com.tealium:library:5.2.0'
     compile 'com.squareup:otto:1.3.8'
-    testCompile 'junit:junit:4.12'
     compile 'com.google.maps.android:android-maps-utils:0.5'
+    testCompile 'junit:junit:4.12'
 }

@@ -89,7 +89,8 @@ public class DeveloperFragment extends BaseFragment {
                         DevUtil.getRandomDoctor(),
                         DevUtil.getRandomFacilityName(),
                         DevUtil.getRandomPhoneNumber(),
-                        DevUtil.getRandomAddress());
+                        DevUtil.getRandomAddress(),
+                        null);
 
         NetworkManager.getInstance().createAppointment(bearer, dummyAppointment).enqueue(new Callback<Void>() {
             @Override

@@ -20,14 +20,14 @@ public class CreateAppointmentRequest {
         this.data = data;
     }
 
-    public CreateAppointmentRequest(String doctorName, String officeName, String officePhone, Profile bookingProfile, Appointment bookingAppointment, boolean isNewPatient, boolean isBookingForMe){
+    public CreateAppointmentRequest(String doctorName, String providerNpi, String officeName, String officePhone, Profile bookingProfile, Appointment bookingAppointment, boolean isNewPatient, boolean isBookingForMe){
         setJsonapi(new Jsonapi("1.0"));
 
         AppointmentDetails appointmentDetails = new AppointmentDetails(bookingAppointment.ScheduleId, "schedules");
         Schedule schedule = new Schedule(appointmentDetails);
         Relationships relationships = new Relationships(schedule);
 
-        setData(new Data("visits", new Attributes(doctorName, officeName, officePhone, bookingProfile, bookingAppointment, isNewPatient, isBookingForMe), relationships));
+        setData(new Data("visits", new Attributes(doctorName, providerNpi, officeName, officePhone, bookingProfile, bookingAppointment, isNewPatient, isBookingForMe), relationships));
     }
 
     public Jsonapi getJsonapi() {

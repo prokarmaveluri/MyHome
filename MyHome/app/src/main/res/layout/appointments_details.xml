@@ -168,6 +168,5 @@
             android:paddingBottom="35dp"
             android:text="@string/appointment_reschedule"
             android:textColor="@color/red" />
-
     </RelativeLayout>
 </ScrollView>

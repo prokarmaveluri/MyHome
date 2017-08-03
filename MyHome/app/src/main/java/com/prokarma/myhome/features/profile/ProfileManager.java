@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
-import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
+import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 
@@ -23,7 +23,7 @@ import timber.log.Timber;
 public class ProfileManager {
     private static Profile profile = null;
     public static ArrayList<Appointment> appointments = null;
-    private static List<MySavedDoctorsResponse.FavoriteProvider> favoriteProviders = null;
+    private static List<ProviderResponse> favoriteProviders = null;
 
     /**
      * Requests the Profile in the Singleton
@@ -139,11 +139,11 @@ public class ProfileManager {
         appointments = null;
     }
 
-    public static List<MySavedDoctorsResponse.FavoriteProvider> getFavoriteProviders() {
+    public static List<ProviderResponse> getFavoriteProviders() {
         return favoriteProviders;
     }
 
-    public static void setFavoriteProviders(List<MySavedDoctorsResponse.FavoriteProvider> favoriteProviders) {
+    public static void setFavoriteProviders(List<ProviderResponse> favoriteProviders) {
         ProfileManager.favoriteProviders = favoriteProviders;
     }
 }

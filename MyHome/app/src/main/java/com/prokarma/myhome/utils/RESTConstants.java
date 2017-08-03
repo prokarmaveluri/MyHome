@@ -36,4 +36,74 @@ public class RESTConstants {
     public static final String GRANT_TYPE_AUTH = BuildConfig.GRANT_TYPE_AUTH;
     public static final String GRANT_TYPE_REFRESH = BuildConfig.GRANT_TYPE_REFRESH;
 
+
+    //v1.1 graphql requests
+    public static final String MY_SAVED_DOCS = "{" +
+            "  user {" +
+            "  favoriteProviders {" +
+            "    firstName" +
+            "    lastName" +
+            "    npi" +
+            "    displayName" +
+            "    displayLastName" +
+            "    displayLastNamePlural" +
+            "    middleName" +
+            "    suffix" +
+            "    title" +
+            "    philosophy" +
+            "    supportsOnlineBooking" +
+            "    providerDetailsUrl" +
+            "    primarySpecialities" +
+            "    images {" +
+            "          imageType" +
+            "          url" +
+            "          width" +
+            "          height" +
+            "        }" +
+            "  }" +
+            "  }" +
+            "}";
+
+
+    public static final String APPOINTMENTS_DATE = "\"04-01-17\"";
+    public static final String MY_APPOINTMENTS_INCLUDE_INACTIVE = "{" +
+            "  user {" +
+            "      appointments(beginDate:" + APPOINTMENTS_DATE + ", includeInactive: true) {" +
+            "      appointmentId" +
+            "      secureId" +
+            "      appointmentStart" +
+            "      appointmentStatus" +
+            "      appointmentType" +
+            "      caregiverName" +
+            "      comments" +
+            "      doctorName" +
+            "      doctorSpecialty" +
+            "      visitReason" +
+            "      facilityName" +
+            "      facilityPhoneNumber" +
+            "      provider {" +
+            "        firstName" +
+            "        lastName" +
+            "        npi" +
+            "        displayName" +
+            "        displayLastName" +
+            "        displayLastNamePlural" +
+            "        middleName" +
+            "        suffix" +
+            "        title" +
+            "        philosophy" +
+            "        supportsOnlineBooking" +
+            "        providerDetailsUrl" +
+            "        primarySpecialities" +
+            "    images {" +
+            "          imageType" +
+            "          url" +
+            "          width" +
+            "          height" +
+            "        }" +
+            "      }" +
+            "    }" +
+            "  }" +
+            "}";
+
 }

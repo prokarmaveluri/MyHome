@@ -1,0 +1,121 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.prokarma.myhome.features.fad.dashboard.FadDashboardFragment.FadDashboardClick" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.prokarma.myhome.features.fad.dashboard.FadDashboardFragment">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="25dp"
+            android:focusableInTouchMode="true"
+            android:gravity="center|left">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/find_care_icon_orange" />
+
+            <TextView
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:lineSpacingExtra="10sp"
+                android:text="@string/find_care"
+                android:textColor="@color/db_gunmetal"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/fadDashBoardFindcare"
+            style="@style/db_searchButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="13dp"
+            android:ellipsize="end"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:lineSpacingExtra="5sp"
+            android:onClick="@{handlers::onClickEvent}"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingStart="10dp"
+            android:scrollHorizontally="true"
+            android:stateListAnimator="@null"
+            android:textColorHint="@color/db_gunmetal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="25dp">
+
+            <ImageView
+                android:id="@+id/mySavedDocsId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorited_icon" />
+
+            <TextView
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/fadDashBoardViewall"
+                android:layout_toRightOf="@+id/mySavedDocsId"
+                android:text="My Favorited Doctors"
+                android:textColor="@color/db_gunmetal"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/fadDashBoardViewall"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="4dp"
+                android:clickable="true"
+                android:letterSpacing="-0.01"
+                android:lineSpacingExtra="12sp"
+                android:onClick="@{handlers::onClickEvent}"
+                android:text="View All"
+                android:textColor="@color/db_deep_aqua"
+                android:textStyle="bold"
+                android:visibility="visible"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mySavedDocs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+</layout>
+

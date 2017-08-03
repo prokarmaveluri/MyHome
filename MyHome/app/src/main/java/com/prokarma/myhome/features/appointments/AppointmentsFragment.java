@@ -25,7 +25,9 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,6 +91,8 @@ public class AppointmentsFragment extends BaseFragment {
         appointmentsList.addItemDecoration(itemDecoration);
 
         getAppointmentInfo(AuthManager.getInstance().getBearerToken());
+        // TODO:Testing
+        getMyAppointments();
         return appointmentsView;
     }
 
@@ -155,5 +159,33 @@ public class AppointmentsFragment extends BaseFragment {
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.APPOINTMENTS;
+    }
+
+    private void getMyAppointments() {
+        NetworkManager.getInstance().getMyAppointments(AuthManager.getInstance().getBearerToken(),
+                new MyAppointmentsRequest()).enqueue(new Callback<MyAppointmentsResponse>() {
+            @Override
+            public void onResponse(Call<MyAppointmentsResponse> call, Response<MyAppointmentsResponse> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                    MyAppointmentsResponse myAppointmentsResponse = response.body();
+                    Timber.d("My Appointments Response: " + myAppointmentsResponse);
+
+                    if (myAppointmentsResponse.getData() != null && myAppointmentsResponse.getData().getUser() != null) {
+                        List<Appointment> appointments = myAppointmentsResponse.getData().getUser().getAppointments();
+                        Timber.i("Appointments: " + Arrays.deepToString(appointments.toArray()));
+                    }
+
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyAppointmentsResponse> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+            }
+        });
     }
 }

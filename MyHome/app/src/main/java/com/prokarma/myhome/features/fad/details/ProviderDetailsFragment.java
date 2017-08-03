@@ -52,13 +52,11 @@ import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusFragm
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectTimeFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
-import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
-import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
-import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
+import com.prokarma.myhome.features.preferences.ImagesResponse;
+import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
-import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -175,7 +173,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.find_care));
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
         myMap.getMapAsync(this);
@@ -194,7 +192,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             public void onClick(View v) {
                 fav = !fav;
                 if (null != providerDetailsResponse && null != providerDetailsResponse.getNpi()) {
-                    saveDoctor(fav, providerDetailsResponse.getNpi());
+                    NetworkManager.getInstance().updateFavDoctor(fav, providerDetailsResponse.getNpi(),
+                            favProvider, getSavedDocotor(providerDetailsResponse), false);
                 }
             }
         });
@@ -312,8 +311,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                     getChildFragmentManager().executePendingTransactions();
                                 }
                             });
-                            for (MySavedDoctorsResponse.FavoriteProvider provider : ProfileManager.getFavoriteProviders())
+                            for (ProviderResponse provider : ProfileManager.getFavoriteProviders())
                                 if (providerDetailsResponse.getNpi().contains(provider.getNpi())) {
+                                    fav = true;
                                     CommonUtil.updateFavView(true, favProvider);
                                     break;
                                 }
@@ -711,7 +711,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(), currentOffice.getName(), currentOffice.getPhone());
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(),
+                providerDetailsResponse.getNpi(), currentOffice.getName(), currentOffice.getPhone());
         bookingFragment.setDoneInterface(ProviderDetailsFragment.this);
         bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
         getChildFragmentManager()
@@ -827,40 +828,34 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     };
 
-    private void saveDoctor(boolean isSave, String npi) {
-        if (isSave) {
-            CommonUtil.updateFavView(isSave, favProvider);
-            final SaveDoctorRequest request = new SaveDoctorRequest(npi);
-            NetworkManager.getInstance().saveDoctor(AuthManager.getInstance().getBearerToken(),
-                    request).enqueue(new Callback<SaveDoctorResponse>() {
-                @Override
-                public void onResponse(Call<SaveDoctorResponse> call, Response<SaveDoctorResponse> response) {
-                    if (response.isSuccessful()) {
+    private ProviderResponse getSavedDocotor(ProviderDetailsResponse providerDetailsResponse) {
+        try {
+            ProviderResponse provider = new ProviderResponse();
+            if (providerDetailsResponse == null)
+                return null;
 
-                    }
-                }
+            provider.setDisplayLastName(providerDetailsResponse.getDisplayLastName());
+            provider.setDisplayName(providerDetailsResponse.getDisplayFullName());
+            provider.setDisplayLastNamePlural(providerDetailsResponse.getDisplayLastNamePlural());
+            provider.setFirstName(providerDetailsResponse.getFirstName());
+            provider.setLastName(providerDetailsResponse.getLastName());
+            provider.setNpi(providerDetailsResponse.getNpi());
+            provider.setMiddleName(providerDetailsResponse.getMiddleName());
+            provider.setPhilosophy(providerDetailsResponse.getPhilosophy());
+            provider.setPrimarySpecialities(providerDetailsResponse.getSpecialties());
+            provider.setTitle(providerDetailsResponse.getTitle());
 
-                @Override
-                public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
+            List<ImagesResponse> imageUrls = new ArrayList<>();
+            for (Image image : providerDetailsResponse.getImageUrls()){
+                ImagesResponse response = new ImagesResponse();
+                response.setUrl(image.getUrl());
+                imageUrls.add(response);
+            }
+            provider.setImages(imageUrls);
 
-                }
-            });
-        } else { //DELETE saved Doc
-            CommonUtil.updateFavView(isSave, favProvider);
-            NetworkManager.getInstance().deleteSavedDoctor(AuthManager.getInstance().getBearerToken(),
-                    npi).enqueue(new Callback<SaveDoctorResponse>() {
-                @Override
-                public void onResponse(Call<SaveDoctorResponse> call, Response<SaveDoctorResponse> response) {
-                    if (response.isSuccessful()) {
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
-
-                }
-            });
+            return provider;
+        } catch (NullPointerException ex) {
+            return null;
         }
     }
 }

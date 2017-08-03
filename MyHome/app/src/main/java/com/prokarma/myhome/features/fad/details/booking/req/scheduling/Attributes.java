@@ -100,6 +100,9 @@ public class Attributes {
     @SerializedName("doctor-name")
     private String doctorName;
 
+    @SerializedName("provider-npi")
+    private String doctorNpi;
+
     @SerializedName("facility-name")
     private String facilityName;
 
@@ -125,7 +128,7 @@ public class Attributes {
 
     }
 
-    public Attributes(String address, String address2, String appointmentAt, String appointmentType, String birthdate, String caregiverName, String city, String email, String firstName, String gender, Boolean hasPhysician, String insuranceGroupNumber, String insuranceMemberNumber, String insurancePlanName, String insurancePlanPermalink, String insurancePlanPhoneNumber, String lastName, String middleInitial, Boolean newPatient, String patientComplaint, String phoneNumber, Boolean pregnant, Boolean requiresStandingAssistance, Boolean requiresTranslator, String state, Boolean termsTos, String translatorLanguage, String weeksPregnant, String zip, String doctorName, String facilityName, String facilityPhoneNumber, String facilityAddressLine1, String facilityCity, String facilityState, String facilityZip, Boolean isCreatedByCaregiver) {
+    public Attributes(String address, String address2, String appointmentAt, String appointmentType, String birthdate, String caregiverName, String city, String email, String firstName, String gender, Boolean hasPhysician, String insuranceGroupNumber, String insuranceMemberNumber, String insurancePlanName, String insurancePlanPermalink, String insurancePlanPhoneNumber, String lastName, String middleInitial, Boolean newPatient, String patientComplaint, String phoneNumber, Boolean pregnant, Boolean requiresStandingAssistance, Boolean requiresTranslator, String state, Boolean termsTos, String translatorLanguage, String weeksPregnant, String zip, String doctorName, String providerNpi, String facilityName, String facilityPhoneNumber, String facilityAddressLine1, String facilityCity, String facilityState, String facilityZip, Boolean isCreatedByCaregiver) {
         this.address = address;
         this.address2 = address2;
         this.appointmentAt = appointmentAt;
@@ -156,6 +159,7 @@ public class Attributes {
         this.weeksPregnant = weeksPregnant;
         this.zip = zip;
         this.doctorName = doctorName;
+        this.doctorNpi = providerNpi;
         this.facilityName = facilityName;
         this.facilityPhoneNumber = facilityPhoneNumber;
         this.facilityAddressLine1 = facilityAddressLine1;
@@ -165,7 +169,7 @@ public class Attributes {
         this.isCreatedByCaregiver = isCreatedByCaregiver;
     }
 
-    public Attributes(String doctorName, String officeName, String officePhone, Profile profile, Appointment appointment, boolean isNewPatient, boolean isBookingForMe){
+    public Attributes(String doctorName, String providerNpi, String officeName, String officePhone, Profile profile, Appointment appointment, boolean isNewPatient, boolean isBookingForMe){
         this.address = profile.address.line1;
         this.address2 = profile.address.line2;
         this.appointmentAt = appointment.Time;
@@ -196,6 +200,7 @@ public class Attributes {
         this.weeksPregnant = profile.weeksPregnant;
         this.zip = profile.address.zipCode;
         this.doctorName = doctorName;
+        this.doctorNpi = providerNpi;
         this.facilityName = officeName;
         this.facilityPhoneNumber = officePhone;
         this.facilityAddressLine1 = appointment.FacilityAddress;

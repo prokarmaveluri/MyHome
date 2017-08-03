@@ -33,6 +33,7 @@ import timber.log.Timber;
 public class BookingDoneFragment extends Fragment {
     public static final String BOOKING_SELECT_PERSON_TAG = "booking_done_tag";
     public static final String DOCTOR_NAME_KEY = "doctor_name";
+    public static final String DOCTOR_NPI_KEY = "doctor_npi";
     public static final String OFFICE_NAME_KEY = "office_name_key";
     public static final String OFFICE_PHONE_KEY = "office_phone_key";
 
@@ -53,6 +54,7 @@ public class BookingDoneFragment extends Fragment {
     ProgressBar progressBar;
 
     String doctorName;
+    String providerNpi;
     String officeName;
     String officePhone;
 
@@ -60,10 +62,11 @@ public class BookingDoneFragment extends Fragment {
         return new BookingDoneFragment();
     }
 
-    public static BookingDoneFragment newInstance(String doctorName, String officeName, String officePhone) {
+    public static BookingDoneFragment newInstance(String doctorName, String providerNpi, String officeName, String officePhone) {
         BookingDoneFragment bookingFragment = new BookingDoneFragment();
         Bundle args = new Bundle();
         args.putString(DOCTOR_NAME_KEY, doctorName);
+        args.putString(DOCTOR_NPI_KEY, providerNpi);
         args.putString(OFFICE_NAME_KEY, officeName);
         args.putString(OFFICE_PHONE_KEY, officePhone);
         bookingFragment.setArguments(args);
@@ -77,6 +80,7 @@ public class BookingDoneFragment extends Fragment {
 
         if (args != null) {
             doctorName = args.getString(DOCTOR_NAME_KEY);
+            providerNpi = args.getString(DOCTOR_NPI_KEY);
             officeName = args.getString(OFFICE_NAME_KEY);
             officePhone = args.getString(OFFICE_PHONE_KEY);
         }
@@ -175,7 +179,7 @@ public class BookingDoneFragment extends Fragment {
     }
 
     private void scheduleAppointment() {
-        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, officeName, officePhone, BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.isNewPatient(), BookingManager.isBookingForMe());
+        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, providerNpi, officeName, officePhone, BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.isNewPatient(), BookingManager.isBookingForMe());
 
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Timber.i("Request = " + request);
