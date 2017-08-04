@@ -3,6 +3,7 @@ package com.prokarma.myhome.networking;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
@@ -39,6 +40,7 @@ import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.RESTConstants;
 
 import java.io.IOException;
@@ -505,7 +507,14 @@ public class NetworkManager {
     }
 
     public void updateFavDoctor(boolean isSave, final String npi, ImageView favProvider,
-                                final ProviderResponse provider, final boolean isList) {
+                                final ProviderResponse provider, final boolean isList,
+                                Context context) {
+
+        if (!ConnectionUtil.isConnected(context)) {
+            Toast.makeText(context, R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         if (isSave) {
             CommonUtil.updateFavView(isSave, favProvider);
             final SaveDoctorRequest request = new SaveDoctorRequest(npi);

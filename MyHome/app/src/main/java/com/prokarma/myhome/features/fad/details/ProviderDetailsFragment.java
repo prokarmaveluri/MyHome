@@ -193,7 +193,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 fav = !fav;
                 if (null != providerDetailsResponse && null != providerDetailsResponse.getNpi()) {
                     NetworkManager.getInstance().updateFavDoctor(fav, providerDetailsResponse.getNpi(),
-                            favProvider, getSavedDocotor(providerDetailsResponse), false);
+                            favProvider, getSavedDocotor(providerDetailsResponse), false, getActivity());
                 }
             }
         });

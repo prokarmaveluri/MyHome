@@ -118,7 +118,8 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                     try {
                         int position = (int) view.getTag();
                         NetworkManager.getInstance().updateFavDoctor(false,
-                                providerList.get(position).getNpi(), (ImageView) view, providerList.get(position), true);
+                                providerList.get(position).getNpi(), (ImageView) view,
+                                providerList.get(position), true, mContext);
                         NetworkManager.getInstance().deleteSavedDocotor(providerList.get(position).getNpi());
                         providerList.remove(position);
                         listener.favProviderListUpdate(position);
