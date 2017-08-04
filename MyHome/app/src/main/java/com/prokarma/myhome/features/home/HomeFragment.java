@@ -72,7 +72,7 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.home, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.dashboard));
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.welcome_home));
 
         return binding.getRoot();
     }
