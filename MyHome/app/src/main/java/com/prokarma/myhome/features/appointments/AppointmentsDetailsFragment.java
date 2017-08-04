@@ -63,10 +63,11 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     favDoc = !favDoc;
-                    Toast.makeText(getActivity(), "Dev In Progress", Toast.LENGTH_SHORT).show();
                     if (null != appointment && null != appointment.provider.getNpi()) {
                         NetworkManager.getInstance().updateFavDoctor(favDoc, appointment.provider.getNpi(),
                                 favProvider, appointment.provider, false, getActivity());
+                    } else {
+                        Toast.makeText(getActivity(), "Dev In Progress", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
