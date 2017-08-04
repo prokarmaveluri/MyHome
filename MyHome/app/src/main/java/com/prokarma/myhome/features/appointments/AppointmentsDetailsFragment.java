@@ -40,7 +40,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        appointment = getArguments().getParcelable(AppointmentsFragment.APPOINTMENT_KEY);
+        appointment = getArguments().getParcelable(AppointmentsListFragment.APPOINTMENT_KEY);
         appointmentsView = inflater.inflate(R.layout.appointments_details, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.details));
 
