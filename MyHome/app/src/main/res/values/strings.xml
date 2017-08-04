@@ -35,7 +35,7 @@
 
     <string name="appointments">Appointments</string>
     <string name="home">Home</string>
-    <string name="dashboard">Dashboard</string>
+    <string name="dashboard">Welcome home</string>
     <string name="profile">Profile</string>
     <string name="details">Details</string>
     <string name="share_appointment">Share Appointment</string>
@@ -196,7 +196,7 @@
     <string name="insurance_phone_number">Insurance Phone Number</string>
     <string name="do_you_need_a_translator">Do you need a translator?</string>
     <string name="add_to_calendar">Add to Calendar</string>
-    <string name="provider_plan">Provider Plan</string>
+    <string name="provider_plan">Insurance Plan</string>
     <string name="first_name_required">First Name is required</string>
     <string name="last_name_required">Last Name is required</string>
     <string name="gender_required">Gender is required</string>
