@@ -121,6 +121,7 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                                 providerList.get(position).getNpi(), (ImageView) view, providerList.get(position), true);
                         NetworkManager.getInstance().deleteSavedDocotor(providerList.get(position).getNpi());
                         providerList.remove(position);
+                        listener.favProviderListUpdate(position);
                         notifyDataSetChanged();
                     } catch (NullPointerException | IndexOutOfBoundsException ex) {
                     }
@@ -131,5 +132,7 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
 
     public interface IProviderClick {
         void providerClick(int position);
+
+        void favProviderListUpdate(int position);
     }
 }

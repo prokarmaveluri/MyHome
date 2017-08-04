@@ -92,6 +92,11 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
         setResults(position, ProfileManager.getFavoriteProviders().get(position).getNpi());
     }
 
+    @Override
+    public void favProviderListUpdate(int position) {
+
+    }
+
     public class FavDialogClick {
         public void onClickEvent(View view) {
             switch (view.getId()) {

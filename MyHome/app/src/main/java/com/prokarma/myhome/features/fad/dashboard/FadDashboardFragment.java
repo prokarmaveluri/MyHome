@@ -93,10 +93,17 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
 
     @Override
     public void providerClick(int position) {
-        Timber.i("fav dashboard click " + position);
         if (ProfileManager.getFavoriteProviders() != null) {
             providerDetails(ProfileManager.getFavoriteProviders().get(position).getNpi());
         }
+    }
+
+    @Override
+    public void favProviderListUpdate(int position) {
+        if (ProfileManager.getFavoriteProviders() != null && ProfileManager.getFavoriteProviders().size() > 3)
+            binder.fadDashBoardViewall.setVisibility(View.VISIBLE);
+        else
+            binder.fadDashBoardViewall.setVisibility(View.GONE);
     }
 
     @Override
