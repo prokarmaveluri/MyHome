@@ -47,9 +47,9 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return AppointmentsListFragment.newInstance(getFutureAppointments(appointments));
+                return AppointmentsListFragment.newInstance(getFutureAppointments(appointments), false);
             case 1:
-                return AppointmentsListFragment.newInstance(getPastAppointments(appointments));
+                return AppointmentsListFragment.newInstance(getPastAppointments(appointments), true);
             default:
                 return AppointmentsListFragment.newInstance();
         }

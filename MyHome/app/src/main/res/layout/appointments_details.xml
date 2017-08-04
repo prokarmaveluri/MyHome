@@ -92,7 +92,7 @@
             android:layout_width="24dp"
             android:layout_height="30dp"
             android:layout_alignBottom="@id/facility_address"
-            android:layout_alignRight="@id/calendar"
+            android:layout_alignParentEnd="true"
             android:src="@mipmap/map_blue"
             android:transitionName="@string/transition_appointment_map_pin" />
 
@@ -159,6 +159,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/reschedule_text"
             style="@style/tradeGothicLTStd_Dynamic16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

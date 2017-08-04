@@ -25,10 +25,12 @@ import java.util.ArrayList;
 public class AppointmentsListFragment extends Fragment {
     protected static final String APPOINTMENT_KEY = "appointment_key";
     public static final String APPOINTMENTS_KEY = "appointments_key";
+    public static final String PAST_APPOINTMENT_KEY = "past_appointment_key";
 
     private View appointmentsView;
     private RecyclerView appointmentsList;
     private AppointmentsRecyclerViewAdapter appointmentsAdapter;
+    private boolean isPastAppointmentList;
 
     private ArrayList<Appointment> appointments;
 
@@ -36,9 +38,10 @@ public class AppointmentsListFragment extends Fragment {
         return new AppointmentsListFragment();
     }
 
-    public static AppointmentsListFragment newInstance(ArrayList<Appointment> appointments) {
+    public static AppointmentsListFragment newInstance(ArrayList<Appointment> appointments, boolean isPastAppointmentList) {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(APPOINTMENTS_KEY, appointments);
+        bundle.putBoolean(PAST_APPOINTMENT_KEY, isPastAppointmentList);
         AppointmentsListFragment appointmentsListFragment = new AppointmentsListFragment();
         appointmentsListFragment.setArguments(bundle);
         return appointmentsListFragment;
@@ -52,6 +55,7 @@ public class AppointmentsListFragment extends Fragment {
 
         if (getArguments() != null) {
             appointments = getArguments().getParcelableArrayList(APPOINTMENTS_KEY);
+            isPastAppointmentList = getArguments().getBoolean(PAST_APPOINTMENT_KEY);
         }
 
         appointmentsAdapter = new AppointmentsRecyclerViewAdapter(getActivity(), appointments, new RecyclerViewListener() {
@@ -60,6 +64,7 @@ public class AppointmentsListFragment extends Fragment {
                 Appointment appointment = (Appointment) model;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(APPOINTMENT_KEY, appointment);
+                bundle.putBoolean(PAST_APPOINTMENT_KEY, isPastAppointmentList);
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.APPOINTMENTS_DETAILS, bundle);
             }
 
