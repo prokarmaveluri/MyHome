@@ -1,9 +1,11 @@
 package com.prokarma.myhome.features.appointments;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.prokarma.myhome.R;
 import com.prokarma.myhome.utils.DateUtil;
 
 import java.text.ParseException;
@@ -16,19 +18,24 @@ import timber.log.Timber;
  * Created by kwelsh on 8/3/17.
  */
 
-public class AppointmentsViewPagerAdapter extends FragmentPagerAdapter {
+public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
     private static final int PAGE_COUNT = 2;
 
-    private String tabTitles[] = new String[] { "Upcoming", "Past" };
+    private Context context;
+    private String tabTitles[];
     private ArrayList<Appointment> appointments;
 
-    public AppointmentsViewPagerAdapter(FragmentManager fm) {
+    public AppointmentsViewPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
+        this.context = context;
+        tabTitles = new String[]{context.getString(R.string.upcoming), context.getString(R.string.past)};
     }
 
-    public AppointmentsViewPagerAdapter(FragmentManager fm, ArrayList<Appointment> appointments){
+    public AppointmentsViewPagerAdapter(Context context, FragmentManager fm, ArrayList<Appointment> appointments) {
         super(fm);
+        this.context = context;
         this.appointments = appointments;
+        tabTitles = new String[]{context.getString(R.string.upcoming), context.getString(R.string.past)};
     }
 
     @Override
@@ -54,7 +61,7 @@ public class AppointmentsViewPagerAdapter extends FragmentPagerAdapter {
         return tabTitles[position];
     }
 
-    private ArrayList<Appointment> getPastAppointments(ArrayList<Appointment> allAppointments){
+    private ArrayList<Appointment> getPastAppointments(ArrayList<Appointment> allAppointments) {
         ArrayList<Appointment> pastAppointments = new ArrayList<>();
         Date todaysDate = new Date();
         Date appointmentDate = new Date();
@@ -75,7 +82,7 @@ public class AppointmentsViewPagerAdapter extends FragmentPagerAdapter {
         return pastAppointments;
     }
 
-    private ArrayList<Appointment> getFutureAppointments(ArrayList<Appointment> allAppointments){
+    private ArrayList<Appointment> getFutureAppointments(ArrayList<Appointment> allAppointments) {
         ArrayList<Appointment> futureAppointments = new ArrayList<>();
         Date todaysDate = new Date();
         Date appointmentDate = new Date();

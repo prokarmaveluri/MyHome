@@ -55,7 +55,7 @@ public class AppointmentsFragment extends BaseFragment {
 
         appointmentsViewPager = (ViewPager) appointmentsView.findViewById(R.id.appointment_viewpager);
         appointmentsViewPager.setOffscreenPageLimit(2);
-        appointmentsViewPager.setAdapter(new AppointmentsViewPagerAdapter(getChildFragmentManager()));
+        appointmentsViewPager.setAdapter(new AppointmentsViewPagerAdapter(getContext(), getChildFragmentManager()));
 
         appointmentsTabLayout = (TabLayout) appointmentsView.findViewById(R.id.appointment_tablayout);
         appointmentsTabLayout.setupWithViewPager(appointmentsViewPager);
@@ -116,7 +116,7 @@ public class AppointmentsFragment extends BaseFragment {
                                 Collections.sort(appointments);
                                 ProfileManager.setAppointments(appointments);
 
-                                appointmentsViewPager.setAdapter(new AppointmentsViewPagerAdapter(getChildFragmentManager(), appointments));
+                                appointmentsViewPager.setAdapter(new AppointmentsViewPagerAdapter(getContext(), getChildFragmentManager(), appointments));
                             } catch (Exception e) {
                                 appointmentsViewPager.setAdapter(null);
                             }

@@ -262,5 +262,7 @@
     <string name="ask_a_question">Ask A Question</string>
     <string name="contact_us_email_body">Hello, \n\nI was using the My Home App and I had some questions. Can someone please contact me? \n\nThank You</string>
     <string name="contact_us_email_intent_header">Send mail...</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="past">Past</string>
 
 </resources>
