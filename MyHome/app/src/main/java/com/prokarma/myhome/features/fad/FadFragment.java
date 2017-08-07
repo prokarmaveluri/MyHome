@@ -3,7 +3,6 @@ package com.prokarma.myhome.features.fad;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -12,7 +11,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -121,6 +119,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.fadFilter.setOnClickListener(this);
         binding.fadSearch.setOnClickListener(this);
         binding.fadRecent.setOnClickListener(this);
+        binding.fadBack.setOnClickListener(this);
 
         binding.searchQuery.setOnEditorActionListener(this);
         binding.searchQuery.setOnFocusChangeListener(this);
@@ -147,7 +146,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             NavigationActivity.eventBus.register(this);
         binding.suggestionList.setVisibility(View.GONE);
         ((NavigationActivity) getActivity()).getSupportActionBar().hide();
-        setActionBar();
     }
 
     @Override
@@ -351,18 +349,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         }
     }
 
-
-    private void setActionBar() {
-        Toolbar appToolbar = (Toolbar) binding.getRoot().findViewById(R.id.toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650,
-                    getActivity().getTheme()));
-        } else {
-            appToolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
-        }
-        appToolbar.setTitle(getString(R.string.fad_title));
-    }
-
     public boolean onCreateOptionsMenu(ImageView actionMore) {
         PopupMenu popup = new PopupMenu(getActivity(), actionMore);
         popup.getMenuInflater().inflate(R.menu.toolbar_menu, popup.getMenu());
@@ -406,6 +392,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 break;
             case R.id.fad_recent:
                 startListDialog();
+                break;
+            case R.id.fad_back:
+                ((NavigationActivity) getActivity()).onBackPressed();
                 break;
         }
 

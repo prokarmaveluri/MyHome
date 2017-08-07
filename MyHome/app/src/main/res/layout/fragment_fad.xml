@@ -10,9 +10,7 @@
         <RelativeLayout
             android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <include layout="@layout/toolbar_white" />
+            android:layout_height="?actionBarSize">
 
             <ImageView
                 android:id="@+id/fad_more"
@@ -41,6 +39,18 @@
                 android:padding="16dp"
                 android:src="@mipmap/filter_blue" />
 
+            <TextView
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/fad_back"
+                android:padding="16dp"
+                android:text="@string/fad_title"
+                android:textColor="@color/md_blue_grey_650"
+                android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/fad_search"
                 android:layout_width="wrap_content"
@@ -49,6 +59,16 @@
                 android:layout_toLeftOf="@+id/fad_filter"
                 android:padding="16dp"
                 android:src="@mipmap/search" />
+
+            <ImageView
+                android:id="@+id/fad_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:padding="16dp"
+                android:src="@drawable/ic_arrow_back" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
