@@ -107,9 +107,8 @@
                 android:layout_height="wrap_content"
                 android:text="Dignity Health"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"
                 android:visibility="gone"
-                />
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/id_label"
@@ -126,9 +125,8 @@
                 android:layout_height="wrap_content"
                 android:text="800-588-2300"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"
                 android:visibility="gone"
-                />
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/group_label"
@@ -145,9 +143,8 @@
                 android:layout_height="wrap_content"
                 android:text="230-2333"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"
                 android:visibility="gone"
-                />
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/sign_out"
@@ -177,5 +174,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/profile_unavailable"
+        android:textAlignment="center"
         android:visibility="gone" />
 </RelativeLayout>
