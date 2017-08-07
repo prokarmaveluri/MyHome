@@ -62,6 +62,10 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private ArrayList<Appointment> getPastAppointments(ArrayList<Appointment> allAppointments) {
+        if(allAppointments == null){
+            return null;
+        }
+
         ArrayList<Appointment> pastAppointments = new ArrayList<>();
         Date todaysDate = new Date();
         Date appointmentDate = new Date();
@@ -83,6 +87,10 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private ArrayList<Appointment> getFutureAppointments(ArrayList<Appointment> allAppointments) {
+        if(allAppointments == null){
+            return null;
+        }
+
         ArrayList<Appointment> futureAppointments = new ArrayList<>();
         Date todaysDate = new Date();
         Date appointmentDate = new Date();

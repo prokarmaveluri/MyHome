@@ -58,7 +58,7 @@ public class AppointmentsListFragment extends Fragment {
             isPastAppointmentList = getArguments().getBoolean(PAST_APPOINTMENT_KEY);
         }
 
-        appointmentsAdapter = new AppointmentsRecyclerViewAdapter(getActivity(), appointments, new RecyclerViewListener() {
+        appointmentsAdapter = new AppointmentsRecyclerViewAdapter(getActivity(), appointments, isPastAppointmentList, new RecyclerViewListener() {
             @Override
             public void onItemClick(Object model, int position) {
                 Appointment appointment = (Appointment) model;
