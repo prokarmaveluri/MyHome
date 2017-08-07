@@ -71,6 +71,10 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
     private void updateFavList() {
         if (ProfileManager.getFavoriteProviders() != null && ProfileManager.getFavoriteProviders().size() > 3)
             binder.fadDashBoardViewall.setVisibility(View.VISIBLE);
+        if (ProfileManager.getFavoriteProviders() != null && ProfileManager.getFavoriteProviders().size() > 0)
+            binder.errorView.setVisibility(View.GONE);
+        else
+            binder.errorView.setVisibility(View.VISIBLE);
         binder.mySavedDocs.setLayoutManager(new LinearLayoutManager(getActivity()));
         binder.mySavedDocs.setAdapter(new FavProvidersAdapter(ProfileManager.getFavoriteProviders(),
                 getActivity(), this, true));
@@ -104,6 +108,11 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
             binder.fadDashBoardViewall.setVisibility(View.VISIBLE);
         else
             binder.fadDashBoardViewall.setVisibility(View.GONE);
+
+        if (ProfileManager.getFavoriteProviders() != null && ProfileManager.getFavoriteProviders().size() > 0)
+            binder.errorView.setVisibility(View.GONE);
+        else
+            binder.errorView.setVisibility(View.VISIBLE);
     }
 
     @Override
