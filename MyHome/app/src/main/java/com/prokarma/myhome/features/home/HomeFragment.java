@@ -15,11 +15,9 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +28,6 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.HomeBinding;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
-import com.prokarma.myhome.features.fad.FadFragment;
 import com.prokarma.myhome.features.fad.ProviderListDialog;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
@@ -56,7 +53,7 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class HomeFragment extends BaseFragment implements TextView.OnEditorActionListener {
+public class HomeFragment extends BaseFragment {
 
     public static final String HOME_TAG = "home_tag";
     protected static final String APPOINTMENT_KEY = "appointment_key";
@@ -116,7 +113,13 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
                 startListDialog(getActivity());
             }
         });
-        binding.etxtDbFindcare.setOnEditorActionListener(this);
+        binding.etxtDbFindcare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.FAD, null);
+            }
+        });
 
         if (ConnectionUtil.isConnected(getActivity())) {
             // Get Name from profile
@@ -365,21 +368,21 @@ public class HomeFragment extends BaseFragment implements TextView.OnEditorActio
         txtReadmore.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_DONE ||
-                actionId == EditorInfo.IME_ACTION_SEARCH) {
-            CommonUtil.hideSoftKeyboard(getActivity());
-            if (v.getText().toString().length() > 0) {
-                FadFragment.currentSearchQuery = v.getText().toString();
-                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
-            } else {
-                Toast.makeText(getActivity(), getString(R.string.query_empty), Toast.LENGTH_LONG).show();
-            }
-            return true;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//        if (actionId == EditorInfo.IME_ACTION_DONE ||
+//                actionId == EditorInfo.IME_ACTION_SEARCH) {
+//            CommonUtil.hideSoftKeyboard(getActivity());
+//            if (v.getText().toString().length() > 0) {
+//                FadFragment.currentSearchQuery = v.getText().toString();
+//                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
+//            } else {
+//                Toast.makeText(getActivity(), getString(R.string.query_empty), Toast.LENGTH_LONG).show();
+//            }
+//            return true;
+//        }
+//        return false;
+//    }
 
     private void startWebView(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
