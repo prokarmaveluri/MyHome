@@ -144,7 +144,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                     populatePersonalLayout();
                 }
 
-                if (!BookingManager.isBookingForMe() && ProfileManager.getProfile().firstName != null && ProfileManager.getProfile().lastName != null){
+                if (!BookingManager.isBookingForMe() && ProfileManager.getProfile().firstName != null && ProfileManager.getProfile().lastName != null) {
                     caregiverName.setText(ProfileManager.getProfile().firstName + " " + ProfileManager.getProfile().lastName);
                 }
 
@@ -344,7 +344,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             gender.setSelection(0);
         }
 
-        if(formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))){
+        if (formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))) {
             areYouPregnantLabel.setVisibility(View.VISIBLE);
             areYouPregnantGroup.setVisibility(View.VISIBLE);
         }
@@ -618,7 +618,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             formsProfile.address.zipCode = zip.getText().toString().trim();
         }
 
-        if(email.getVisibility() == View.VISIBLE && email.getText() != null){
+        if (email.getVisibility() == View.VISIBLE && email.getText() != null) {
             formsProfile.email = email.getText().toString().trim();
         }
 
@@ -781,20 +781,21 @@ public class BookingDialogAdapter extends PagerAdapter {
                 addressLayout.setError(null);
             }
 
-            if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty()) {
+            if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty() && state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
+                cityLayout.setError(context.getString(R.string.city_and_state_required));
+                if (scrollPosition == -1)
+                    scrollPosition = (int) cityLayout.getY();
+                cityLayout.setFocusable(true);
+            } else if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty()) {
                 cityLayout.setError(context.getString(R.string.city_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();
                 cityLayout.setFocusable(true);
-            } else {
-                cityLayout.setError(null);
-            }
-
-            if (state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
+            } else if (state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
                 cityLayout.setError(context.getString(R.string.state_required));
                 if (scrollPosition == -1)
-                    scrollPosition = (int) state.getY();
-                state.setFocusable(true);
+                    scrollPosition = (int) cityLayout.getY();
+                cityLayout.setFocusable(true);
             } else {
                 cityLayout.setError(null);
             }

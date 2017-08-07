@@ -26,11 +26,13 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
     public final Context context;
     public ArrayList<Appointment> appointments;
     private final RecyclerViewListener onItemClickListener;
+    private final boolean isPastAppointments;
 
-    public AppointmentsRecyclerViewAdapter(Context context, @Nullable ArrayList<Appointment> appointments, RecyclerViewListener onItemClickListener) {
+    public AppointmentsRecyclerViewAdapter(Context context, @Nullable ArrayList<Appointment> appointments, boolean isPastAppointments, RecyclerViewListener onItemClickListener) {
         this.context = context;
         this.appointments = appointments;
         this.onItemClickListener = onItemClickListener;
+        this.isPastAppointments = isPastAppointments;
     }
 
     @Override
@@ -51,15 +53,15 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
                 ViewHolder holder = (ViewHolder) genericHolder;
                 Appointment appointment = appointments.get(position);
 
-                if(appointment.doctorName != null && !appointment.doctorName.isEmpty()){
+                if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
                     holder.doctorName.setText(appointment.doctorName);
                 }
 
-                if(appointment.facilityName != null && !appointment.facilityName.isEmpty()){
+                if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
                     holder.facility.setText(appointment.facilityName);
                 }
 
-                if(appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()){
+                if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
                     holder.date.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
                     holder.time.setText(DateUtil.getTime(appointment.appointmentStart));
                 }
@@ -70,7 +72,7 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
 
             case VIEW_TYPE_EMPTY:
                 ViewHolderEmpty holderEmpty = (ViewHolderEmpty) genericHolder;
-                //Stuff for Empty View...
+                holderEmpty.text.setText(isPastAppointments ? context.getString(R.string.no_past_appointments) : context.getString(R.string.no_upcoming_appointments));
                 break;
         }
     }
@@ -141,10 +143,12 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
 
     public static class ViewHolderEmpty extends RecyclerView.ViewHolder {
         public View view;
+        public TextView text;
 
         public ViewHolderEmpty(final Context context, final View view) {
             super(view);
             this.view = view;
+            text = (TextView) view.findViewById(R.id.empty_text);
         }
     }
 }

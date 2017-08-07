@@ -28,7 +28,8 @@
     <string name="sign_out">Sign Out</string>
     <string name="book_an_appointment">Book an Appointment</string>
     <string name="book_appointment">Book Appointment</string>
-    <string name="no_appointments">You have no upcoming appointments.</string>
+    <string name="no_upcoming_appointments">You have no upcoming appointments.</string>
+    <string name="no_past_appointments">You have no past appointments.</string>
 
     <!-- FAD -->
     <string name="fad_title">Care</string>
@@ -265,5 +266,6 @@
     <string name="upcoming">Upcoming</string>
     <string name="past">Past</string>
     <string name="no_favorite_doctors">You have no favorite doctors</string>
+    <string name="city_and_state_required"><![CDATA[City & State are required]]></string>
 
 </resources>
