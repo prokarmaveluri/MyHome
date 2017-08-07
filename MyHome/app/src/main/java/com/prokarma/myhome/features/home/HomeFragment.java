@@ -236,7 +236,7 @@ public class HomeFragment extends BaseFragment {
         }
         showLoading();
 
-        Timber.i("Session bearer " + bearer);
+        binding.relDbAppointItemLayout.setVisibility(View.GONE);
         NetworkManager.getInstance().getAppointments(bearer).enqueue(new Callback<AppointmentResponse>() {
             @Override
             public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
