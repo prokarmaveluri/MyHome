@@ -21,6 +21,8 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 
+import timber.log.Timber;
+
 /**
  * Created by kwelsh on 5/11/17.
  */
@@ -43,6 +45,9 @@ public class AppointmentsDetailsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         appointment = getArguments().getParcelable(AppointmentsListFragment.APPOINTMENT_KEY);
         isPastAppointment = getArguments().getBoolean(AppointmentsListFragment.PAST_APPOINTMENT_KEY);
+
+        Timber.i("AppointDetailsFragment\n" + "appointment=" + appointment + "\nisPastAppointment=" + isPastAppointment);
+
         appointmentsView = inflater.inflate(R.layout.appointments_details, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.details));
 
@@ -185,12 +190,14 @@ public class AppointmentsDetailsFragment extends BaseFragment {
             phoneNumber.setText(CommonUtil.constructPhoneNumber(appointment.facilityPhoneNumber));
         }
 
-        CommonUtil.updateFavView(false, favProvider);
-        for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
-            if (appointment.provider.getNpi() != null && appointment.provider.getNpi().contains(provider.getNpi())) {
-                favDoc = true;
-                CommonUtil.updateFavView(true, favProvider);
-                break;
+        if(ProfileManager.getFavoriteProviders() != null) {
+            CommonUtil.updateFavView(false, favProvider);
+            for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
+                if (appointment.provider.getNpi() != null && appointment.provider.getNpi().contains(provider.getNpi())) {
+                    favDoc = true;
+                    CommonUtil.updateFavView(true, favProvider);
+                    break;
+                }
             }
         }
 

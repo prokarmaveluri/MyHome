@@ -200,10 +200,12 @@
 
 -keep class com.prokarma.myhome.features.appointments.MyAppointmentsRequest{*;}
 -keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse{*;}
--keep class com.prokarma.myhome.features.appointments.AppointmentResponse{*;}
 -keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse$User{*;}
 -keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse$Data{*;}
-
+-keep class com.prokarma.myhome.features.appointments.AppointmentResponse{*;}
+-keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Result{*;}
+-keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Errors{*;}
+-keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Warnings{*;}
 
 -keepclassmembers class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator CREATOR;
