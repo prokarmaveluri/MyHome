@@ -29,6 +29,13 @@ public class MyAppointmentsResponse {
         public void setAppointments(List<Appointment> appointments) {
             this.appointments = appointments;
         }
+
+        @Override
+        public String toString() {
+            return "User{" +
+                    "appointments=" + appointments +
+                    '}';
+        }
     }
 
     public class Data {
@@ -42,5 +49,19 @@ public class MyAppointmentsResponse {
         public void setUser(User user) {
             this.user = user;
         }
+
+        @Override
+        public String toString() {
+            return "Data{" +
+                    "user=" + user +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "MyAppointmentsResponse{" +
+                "data=" + data +
+                '}';
     }
 }

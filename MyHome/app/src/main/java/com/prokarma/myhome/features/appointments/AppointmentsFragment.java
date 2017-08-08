@@ -99,7 +99,6 @@ public class AppointmentsFragment extends BaseFragment {
                 new MyAppointmentsRequest()).enqueue(new Callback<MyAppointmentsResponse>() {
             @Override
             public void onResponse(Call<MyAppointmentsResponse> call, Response<MyAppointmentsResponse> response) {
-
                 if (isAdded()) {
                     showScreen();
                     if (response.isSuccessful()) {

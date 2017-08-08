@@ -201,6 +201,9 @@
 -keep class com.prokarma.myhome.features.appointments.MyAppointmentsRequest{*;}
 -keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse{*;}
 -keep class com.prokarma.myhome.features.appointments.AppointmentResponse{*;}
+-keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse$User{*;}
+-keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse$Data{*;}
+
 
 -keepclassmembers class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator CREATOR;
