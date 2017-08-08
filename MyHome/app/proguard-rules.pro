@@ -197,6 +197,8 @@
 -keep class com.prokarma.myhome.features.preferences.ImagesResponse{*;}
 -keep class com.prokarma.myhome.features.preferences.MySavedDoctorsResponse{*;}
 -keep class com.prokarma.myhome.features.preferences.ProviderResponse{*;}
+-keep class com.prokarma.myhome.features.preferences.MySavedDoctorsResponse$Data{*;}
+-keep class com.prokarma.myhome.features.preferences.MySavedDoctorsResponse$User{*;}
 
 -keep class com.prokarma.myhome.features.appointments.MyAppointmentsRequest{*;}
 -keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse{*;}
