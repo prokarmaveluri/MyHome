@@ -311,13 +311,19 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                     getChildFragmentManager().executePendingTransactions();
                                 }
                             });
-                            for (ProviderResponse provider : ProfileManager.getFavoriteProviders())
-                                if (providerDetailsResponse.getNpi().contains(provider.getNpi())) {
-                                    fav = true;
-                                    CommonUtil.updateFavView(true, favProvider);
-                                    break;
+
+                            if (ProfileManager.getFavoriteProviders() != null) {
+                                for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
+                                    if (providerDetailsResponse.getNpi().contains(provider.getNpi())) {
+                                        fav = true;
+                                        CommonUtil.updateFavView(true, favProvider);
+                                        break;
+                                    }
                                 }
+                            }
+
                         } catch (NullPointerException ex) {
+                            Timber.e("ProviderDetailsFragment: NullPointerException\n" + ex.toString());
                         }
                     } else {
                         errorView.setVisibility(View.VISIBLE);
@@ -846,7 +852,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             provider.setTitle(providerDetailsResponse.getTitle());
 
             List<ImagesResponse> imageUrls = new ArrayList<>();
-            for (Image image : providerDetailsResponse.getImageUrls()){
+            for (Image image : providerDetailsResponse.getImageUrls()) {
                 ImagesResponse response = new ImagesResponse();
                 response.setUrl(image.getUrl());
                 imageUrls.add(response);
