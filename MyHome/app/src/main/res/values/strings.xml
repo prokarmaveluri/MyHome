@@ -265,7 +265,7 @@
     <string name="contact_us_email_intent_header">Send mail...</string>
     <string name="upcoming">Upcoming</string>
     <string name="past">Past</string>
-    <string name="no_favorite_doctors">You have no favorite doctors</string>
+    <string name="no_favorite_doctors">You have no saved doctors</string>
     <string name="city_and_state_required"><![CDATA[City & State are required]]></string>
 
 </resources>
