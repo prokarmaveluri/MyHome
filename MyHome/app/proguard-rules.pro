@@ -198,7 +198,9 @@
 -keep class com.prokarma.myhome.features.preferences.MySavedDoctorsResponse{*;}
 -keep class com.prokarma.myhome.features.preferences.ProviderResponse{*;}
 
-
+-keep class com.prokarma.myhome.features.appointments.MyAppointmentsRequest{*;}
+-keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse{*;}
+-keep class com.prokarma.myhome.features.appointments.AppointmentResponse{*;}
 
 -keepclassmembers class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator CREATOR;
