@@ -191,6 +191,13 @@
 -keep class com.prokarma.myhome.features.update.UpdateResponse$MyhomeMobileIos{*;}
 -keep class com.prokarma.myhome.features.update.UpdateResponse$Services{*;}
 
+-keep class com.prokarma.myhome.features.preferences.MySavedDoctorsRequest{*;}
+-keep class com.prokarma.myhome.features.preferences.SaveDoctorRequest{*;}
+-keep class com.prokarma.myhome.features.preferences.SaveDoctorRequest{*;}
+-keep class com.prokarma.myhome.features.preferences.ImagesResponse{*;}
+-keep class com.prokarma.myhome.features.preferences.MySavedDoctorsResponse{*;}
+-keep class com.prokarma.myhome.features.preferences.ProviderResponse{*;}
+
 
 
 -keepclassmembers class * implements android.os.Parcelable {
