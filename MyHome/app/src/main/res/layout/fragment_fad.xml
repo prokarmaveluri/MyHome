@@ -79,7 +79,7 @@
                     android:id="@+id/search_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="4dp"
                     android:background="@color/white"
                     android:elevation="8dp"
                     android:visibility="gone">
