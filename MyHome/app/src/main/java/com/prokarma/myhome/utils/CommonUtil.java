@@ -24,7 +24,9 @@ import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -598,5 +600,32 @@ public class CommonUtil {
         } else {
             favProvider.setImageResource(R.drawable.ic_favorite_filled);
         }
+    }
+
+    /**
+     *
+     * @param allAppointments
+     * @return
+     */
+    public static ArrayList<Appointment> getFutureAppointments(ArrayList<Appointment> allAppointments) {
+        if(allAppointments == null){
+            return null;
+        }
+        ArrayList<Appointment> futureAppointments = new ArrayList<>();
+        Date todaysDate = new Date();
+        Date appointmentDate = new Date();
+
+        for (Appointment appointment : allAppointments) {
+            try {
+                appointmentDate = DateUtil.getDateNoTimeZone(appointment.appointmentStart);
+            } catch (ParseException e) {
+                Timber.e(e);
+                e.printStackTrace();
+            }
+            if (appointmentDate.after(todaysDate)) {
+                futureAppointments.add(appointment);
+            }
+        }
+        return futureAppointments;
     }
 }

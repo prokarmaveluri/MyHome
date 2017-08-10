@@ -44,11 +44,9 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -327,7 +325,7 @@ public class HomeFragment extends BaseFragment {
     private void updateAppointViews() {
         ArrayList<Appointment> appointments = ProfileManager.getAppointments();
 
-        appointments = getFutureAppointments(appointments);
+        appointments = CommonUtil.getFutureAppointments(appointments);
         if (appointments != null && appointments.size() > 0) {
             try {
                 //Attempt to sort the appointments by startTime
@@ -460,28 +458,5 @@ public class HomeFragment extends BaseFragment {
         Bundle bundle = new Bundle();
         bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
-    }
-
-    private ArrayList<Appointment> getFutureAppointments(ArrayList<Appointment> allAppointments) {
-        if(allAppointments == null){
-            return null;
-        }
-        ArrayList<Appointment> futureAppointments = new ArrayList<>();
-        Date todaysDate = new Date();
-        Date appointmentDate = new Date();
-
-        for (Appointment appointment : allAppointments) {
-            try {
-                appointmentDate = DateUtil.getDateNoTimeZone(appointment.appointmentStart);
-            } catch (ParseException e) {
-                Timber.e(e);
-                e.printStackTrace();
-            }
-
-            if (DateUtil.isOnSameDay(appointmentDate, todaysDate) || appointmentDate.after(todaysDate)) {
-                futureAppointments.add(appointment);
-            }
-        }
-        return futureAppointments;
     }
 }

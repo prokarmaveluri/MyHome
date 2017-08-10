@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
 
 import java.text.ParseException;
@@ -47,7 +48,7 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return AppointmentsListFragment.newInstance(getFutureAppointments(appointments), false);
+                return AppointmentsListFragment.newInstance(CommonUtil.getFutureAppointments(appointments), false);
             case 1:
                 return AppointmentsListFragment.newInstance(getPastAppointments(appointments), true);
             default:
@@ -84,29 +85,5 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
         }
 
         return pastAppointments;
-    }
-
-    private ArrayList<Appointment> getFutureAppointments(ArrayList<Appointment> allAppointments) {
-        if (allAppointments == null) {
-            return null;
-        }
-
-        ArrayList<Appointment> futureAppointments = new ArrayList<>();
-        Date todaysDate = new Date();
-        Date appointmentDate = new Date();
-
-        for (Appointment appointment : allAppointments) {
-            try {
-                appointmentDate = DateUtil.getDateNoTimeZone(appointment.appointmentStart);
-            } catch (ParseException e) {
-                Timber.e(e);
-                e.printStackTrace();
-            }
-
-            if (DateUtil.isOnSameDay(appointmentDate, todaysDate) || appointmentDate.after(todaysDate)) {
-                futureAppointments.add(appointment);
-            }
-        }
-        return futureAppointments;
     }
 }
