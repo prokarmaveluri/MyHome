@@ -46,10 +46,11 @@
 
         <LinearLayout
             android:id="@+id/book_appointment_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/doctor_name"
             android:layout_below="@id/speciality"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
             <Button
@@ -58,7 +59,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:layout_marginEnd="12dp"
-                android:layout_marginTop="12dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="@string/book_appointment"
@@ -68,8 +68,7 @@
                 android:id="@+id/provider_details_fav"
                 android:layout_width="33dp"
                 android:layout_height="28dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_favorite_stroke" />
         </LinearLayout>
 
@@ -137,10 +136,10 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
             android:gravity="center"
+            android:text="616-867-5309"
             android:textColor="@color/primary"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
-
 
         <View
             android:id="@+id/divider"
