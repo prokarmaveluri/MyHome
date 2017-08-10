@@ -31,9 +31,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="42dp"
                     android:layout_marginRight="42dp"
+                    app:errorEnabled="true"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintTextAppearance="@style/hint_appearance">
 
@@ -58,9 +58,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/firstNameLayout"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="42dp"
                     android:layout_marginRight="42dp"
+                    app:errorEnabled="true"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintTextAppearance="@style/hint_appearance">
 
@@ -85,9 +85,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lastNameLayout"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="42dp"
                     android:layout_marginRight="42dp"
+                    app:errorEnabled="true"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintTextAppearance="@style/hint_appearance">
 
@@ -109,7 +109,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/emailLayout"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="42dp"
                     android:layout_marginRight="42dp">
 
@@ -118,6 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/password_criteria"
+                        app:errorEnabled="true"
                         app:errorTextAppearance="@style/error_appearance"
                         app:hintTextAppearance="@style/hint_appearance">
 
@@ -139,13 +139,14 @@
                         android:id="@+id/password_criteria"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/passwordLayout"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
+                        android:layout_alignTop="@id/passwordLayout"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginTop="10dp"
                         android:onClick="@{handlers::onClickEvent}"
-                        android:paddingBottom="0dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
-                        android:paddingTop="10dp"
                         android:src="@mipmap/tooltip" />
                 </RelativeLayout>
 
@@ -156,6 +157,7 @@
                     android:layout_below="@+id/password_layout"
                     android:layout_marginLeft="42dp"
                     android:layout_marginRight="42dp"
+                    app:errorEnabled="true"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintTextAppearance="@style/hint_appearance">
 

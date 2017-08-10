@@ -1,8 +1,8 @@
 package com.prokarma.myhome.networking;
 
 import android.content.Context;
+import android.support.design.widget.TextInputLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prokarma.myhome.R;
@@ -68,6 +68,7 @@ public class NetworkManager {
     private ISessionExpiry expiryListener;
     private static NetworkManager instance = null;
     private static OkHttpClient.Builder httpClient = null;
+    private static boolean isEmailTaken = false;
 
     private static final String BEARER = "Bearer ";
 
@@ -427,18 +428,29 @@ public class NetworkManager {
         });
     }
 
+    public static boolean isEmailTaken() {
+        return isEmailTaken;
+    }
+
     /**
      * Attempt to validate email already registered
      */
-    public void findEmail(final String email, final TextView view, final Context context) {
+    public void findEmail(final String email, final TextInputLayout view, final Context context) {
         NetworkManager.getInstance().findEmail(email).enqueue(new Callback<ValidateEmailResponse>() {
             @Override
             public void onResponse(Call<ValidateEmailResponse> call, retrofit2.Response<ValidateEmailResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getResult()) {
-                        if (null != view && null != context)
+                        if (context != null && view != null) {
+                            isEmailTaken = true;
                             view.setError(context.getString(R.string.email_already_registered));
-                        Timber.i("Email already exists!");
+                            Timber.i("Email already exists!");
+                        }
+                    } else {
+                        isEmailTaken = false;
+                        if (view != null) {
+                            view.setError(null);
+                        }
                     }
                 }
             }
@@ -446,6 +458,11 @@ public class NetworkManager {
             @Override
             public void onFailure(Call<ValidateEmailResponse> call, Throwable t) {
                 Timber.i("validateEmail, failed");
+                Timber.i("validateEmail, t=" + t.toString());
+                isEmailTaken = false;
+                if (view != null) {
+                    view.setError(null);
+                }
             }
         });
     }

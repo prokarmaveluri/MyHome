@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,22 +64,22 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_enrollment, container, false);
 
-        binding.firstName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.firstName,
+        binding.firstName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.firstName, binding.firstNameLayout,
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.FIRST_NAME));
-        binding.lastName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.lastName,
+        binding.lastName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.lastName, binding.lastNameLayout,
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.LAST_NAME));
 
-        binding.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.email,
+        binding.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.email, binding.emailLayout,
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.EMAIL_ENROLL));
 //        binding.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.password,
 //                Constants.INPUT_TYPE.PASSWORD));
         binding.reEnterPassword.setOnFocusChangeListener(
-                new ValidateInputsOnFocusChange(binding.reEnterPassword,
+                new ValidateInputsOnFocusChange(binding.reEnterPassword, binding.reEnterPasswordLayout,
                         getActivity().getApplicationContext(), Constants.INPUT_TYPE.PASSWORD));
 
         binding.firstName.addTextChangedListener(new EnrollTextWatcher(null, null));
         binding.lastName.addTextChangedListener(new EnrollTextWatcher(null, null));
-        binding.email.addTextChangedListener(new EnrollTextWatcher(binding.email, Constants.INPUT_TYPE.EMAIL_ENROLL));
+        binding.email.addTextChangedListener(new EnrollTextWatcher(binding.emailLayout, Constants.INPUT_TYPE.EMAIL_ENROLL));
         binding.password.addTextChangedListener(new EnrollTextWatcher(null, null));
         binding.reEnterPassword.addTextChangedListener(new EnrollTextWatcher(null, null));
 
@@ -142,17 +143,17 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     private EnrollmentRequest getRequest() {
 
         if (!CommonUtil.isValidTextInput(binding.firstName)) {
-            binding.firstName.setError(getString(R.string.valid_first_name));
+            binding.firstNameLayout.setError(getString(R.string.valid_first_name));
             return null;
         }
 
         if (!CommonUtil.isValidTextInput(binding.lastName)) {
-            binding.lastName.setError(getString(R.string.valid_last_name));
+            binding.lastNameLayout.setError(getString(R.string.valid_last_name));
             return null;
         }
 
         if (!CommonUtil.isValidEmail(binding.email.getText().toString())) {
-            binding.email.setError(getString(R.string.valid_email));
+            binding.emailLayout.setError(getString(R.string.valid_email));
             return null;
         }
 
@@ -167,7 +168,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                     Toast.LENGTH_LONG).show();
             return null;
         }
-        if (null != binding.email.getError() && binding.email.getError().length() > 0) {
+        if (null != binding.emailLayout.getError() && binding.emailLayout.getError().length() > 0) {
             Toast.makeText(getActivity(), getString(R.string.email_already_exists), Toast.LENGTH_LONG).show();
             return null;
         }
@@ -215,9 +216,9 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
     private class EnrollTextWatcher implements TextWatcher {
         Constants.INPUT_TYPE textType;
-        TextView view;
+        TextInputLayout view;
 
-        EnrollTextWatcher(TextView view, Constants.INPUT_TYPE type) {
+        EnrollTextWatcher(TextInputLayout view, Constants.INPUT_TYPE type) {
             textType = type;
             this.view = view;
         }

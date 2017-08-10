@@ -109,7 +109,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             // add your debugging credentials
         }
 
-        binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email,
+        binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email, binder.emailLayout,
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.EMAIL_LOGIN));
 //        binder.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.password,
 //                Constants.INPUT_TYPE.PASSWORD));
@@ -225,7 +225,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         LoginRequest request = null;
 
         if (!CommonUtil.isValidEmail(binder.email.getText().toString())) {
-            binder.email.setError(getString(R.string.valid_email));
+            binder.emailLayout.setError(getString(R.string.valid_email));
             return null;
         }
 
