@@ -90,7 +90,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="email">Email</string>
     <string name="you_cannot_edit_email_address">You cannot edit email address</string>
-    <string name="insurance_provider">Insurance Provider</string>
+    <string name="insurance_provider">Insurance Plan</string>
     <string name="member_id">Member ID</string>
     <string name="group_id">Group ID</string>
     <string name="profile_unavailable">We’re sorry, your profile is currently unavailable.</string>
@@ -197,7 +197,6 @@
     <string name="insurance_phone_number">Insurance Phone Number</string>
     <string name="do_you_need_a_translator">Do you need a translator?</string>
     <string name="add_to_calendar">Add to Calendar</string>
-    <string name="provider_plan">Insurance Plan</string>
     <string name="first_name_required">First Name is required</string>
     <string name="last_name_required">Last Name is required</string>
     <string name="gender_required">Gender is required</string>
