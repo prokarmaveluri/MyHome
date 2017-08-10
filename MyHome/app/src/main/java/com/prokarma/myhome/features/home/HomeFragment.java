@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -167,12 +168,15 @@ public class HomeFragment extends BaseFragment {
             if (providers.size() <= 0)
                 return;
 
-            bundle.putParcelableArrayList("PROVIDER_LIST", providers);
-            bundle.putBoolean("PROVIDER_RECENT", true);
-            bundle.putBoolean("PROVIDER_RECENT_HOME", true);
-            dialog.setArguments(bundle);
-            dialog.setTargetFragment(this, RECENT_PROVIDERS);
-            dialog.show(getChildFragmentManager(), getString(R.string.db_list_dilaog));
+            Fragment fragment = getChildFragmentManager().findFragmentByTag(getString(R.string.db_list_dilaog));
+            if (fragment == null || !fragment.isVisible()) {
+                bundle.putParcelableArrayList("PROVIDER_LIST", providers);
+                bundle.putBoolean("PROVIDER_RECENT", true);
+                bundle.putBoolean("PROVIDER_RECENT_HOME", true);
+                dialog.setArguments(bundle);
+                dialog.setTargetFragment(this, RECENT_PROVIDERS);
+                dialog.show(getChildFragmentManager(), getString(R.string.db_list_dilaog));
+            }
         } else {
             ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
         }

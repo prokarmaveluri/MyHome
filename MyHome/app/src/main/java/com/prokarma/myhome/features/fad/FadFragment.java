@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -280,11 +281,14 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             if (providers.size() <= 0)
                 return;
 
-            bundle.putParcelableArrayList("PROVIDER_LIST", providers);
-            bundle.putBoolean("PROVIDER_RECENT", true);
-            dialog.setArguments(bundle);
-            dialog.setTargetFragment(this, RECENT_PROVIDERS);
-            dialog.show(getChildFragmentManager(), "List Dialog");
+            Fragment fragment = getChildFragmentManager().findFragmentByTag(getString(R.string.db_list_dilaog));
+            if (fragment == null || !fragment.isVisible()) {
+                bundle.putParcelableArrayList("PROVIDER_LIST", providers);
+                bundle.putBoolean("PROVIDER_RECENT", true);
+                dialog.setArguments(bundle);
+                dialog.setTargetFragment(this, RECENT_PROVIDERS);
+                dialog.show(getChildFragmentManager(), "List Dialog");
+            }
         } else {
             Toast.makeText(getActivity(), getString(R.string.no_recent_providers),
                     Toast.LENGTH_LONG).show();
@@ -293,21 +297,24 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     private void startFilterDialog() {
-        FilterDialog dialog = new FilterDialog();
-        Bundle bundle = new Bundle();
+        Fragment fragment = getChildFragmentManager().findFragmentByTag("Filter Dialog");
+        if (fragment == null || !fragment.isVisible()) {
+            FilterDialog dialog = new FilterDialog();
+            Bundle bundle = new Bundle();
 
-        bundle.putInt("DISTANCE", distanceRange);
-        bundle.putParcelableArrayList("NEW_PATIENTS", newPatients);
-        bundle.putParcelableArrayList("SPECIALITY", specialties);
-        bundle.putParcelableArrayList("GENDER", gender);
-        bundle.putParcelableArrayList("LANGUAGE", languages);
-        bundle.putParcelableArrayList("HOSPITALS", hospitals);
-        bundle.putParcelableArrayList("PRACTICES", practices);
-        bundle.putParcelable("LOCATION", FadManager.getInstance().getLocation());
+            bundle.putInt("DISTANCE", distanceRange);
+            bundle.putParcelableArrayList("NEW_PATIENTS", newPatients);
+            bundle.putParcelableArrayList("SPECIALITY", specialties);
+            bundle.putParcelableArrayList("GENDER", gender);
+            bundle.putParcelableArrayList("LANGUAGE", languages);
+            bundle.putParcelableArrayList("HOSPITALS", hospitals);
+            bundle.putParcelableArrayList("PRACTICES", practices);
+            bundle.putParcelable("LOCATION", FadManager.getInstance().getLocation());
 
-        dialog.setArguments(bundle);
-        dialog.setTargetFragment(this, FILTER_REQUEST);
-        dialog.show(getChildFragmentManager(), "Filter Dialog");
+            dialog.setArguments(bundle);
+            dialog.setTargetFragment(this, FILTER_REQUEST);
+            dialog.show(getChildFragmentManager(), "Filter Dialog");
+        }
     }
 
     private void clearFilters() {
