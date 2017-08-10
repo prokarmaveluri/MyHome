@@ -103,7 +103,11 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         pin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
+                if (appointment == null || appointment.facilityAddress == null) {
+                    Toast.makeText(getContext(), getString(R.string.directions_not_found), Toast.LENGTH_LONG).show();
+                } else {
+                    CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
+                }
             }
         });
 
@@ -190,7 +194,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
             phoneNumber.setText(CommonUtil.constructPhoneNumber(appointment.facilityPhoneNumber));
         }
 
-        if(ProfileManager.getFavoriteProviders() != null) {
+        if (ProfileManager.getFavoriteProviders() != null) {
             CommonUtil.updateFavView(false, favProvider);
             for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
                 if (appointment.provider.getNpi() != null && appointment.provider.getNpi().contains(provider.getNpi())) {

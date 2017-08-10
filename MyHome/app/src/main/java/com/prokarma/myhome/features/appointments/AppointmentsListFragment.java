@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -71,7 +72,12 @@ public class AppointmentsListFragment extends Fragment {
             @Override
             public void onPinClick(Object model, int position) {
                 Appointment appointment = (Appointment) model;
-                CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
+
+                if (model == null || ((Appointment) model).facilityAddress == null) {
+                    Toast.makeText(getContext(), getString(R.string.directions_not_found), Toast.LENGTH_LONG).show();
+                } else {
+                    CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
+                }
             }
         });
 
