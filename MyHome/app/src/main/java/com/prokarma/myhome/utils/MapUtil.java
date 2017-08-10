@@ -109,6 +109,10 @@ public class MapUtil {
      */
     @Nullable
     public static CameraUpdate calculateZoom(Context context, ArrayList<Marker> markers) {
+        if(markers == null || markers.size() == 0){
+            return null;
+        }
+
         try {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
