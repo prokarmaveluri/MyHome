@@ -92,7 +92,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
+                mView.showEnrollmentStatus(mContext.getString(R.string.failure_msg));
                 mView.showView(true);
                 mView.showProgress(false);
                 Timber.e("Login failure");

@@ -136,7 +136,7 @@
     <string name="education">Education</string>
     <string name="done">Done</string>
     <string name="book">Book</string>
-    <string name="book_success">Your appointment has been successfully booked.</string>
+    <string name="book_success">Your appointment is confirmed. We’ll see you then!</string>
     <string name="get_directions">Get Directions</string>
     <string name="save_profile_title">Save Changes</string>
     <string name="save_profile_message">Do you wish to save this information for later?</string>
@@ -218,7 +218,7 @@
     <string name="plan_required">Plan is required</string>
     <string name="zip_required">Zipcode is required</string>
     <string name="please_pick_a_plan">Please pick a plan</string>
-    <string name="booking_failed">Unable to book.  Please check your information</string>
+    <string name="booking_failed">We\'re sorry, we couldn\'t confirm your appointment. Please contact your doctor\'s office.</string>
 
     <string name="insurance_phone_number_invalid">Invalid insurance Phone Number</string>
     <string name="phone_number_invalid">Invalid phone number</string>
@@ -267,5 +267,6 @@
     <string name="no_favorite_doctors">You have no saved doctors</string>
     <string name="city_and_state_required"><![CDATA[City & State are required]]></string>
     <string name="directions_not_found">Sorry, but we were unable to get directions</string>
+    <string name="provider_details_error_msg">We\'re sorry, we\'ve hit a snag. To learn more about this doctor, please try again or contact their office.</string>
 
 </resources>
