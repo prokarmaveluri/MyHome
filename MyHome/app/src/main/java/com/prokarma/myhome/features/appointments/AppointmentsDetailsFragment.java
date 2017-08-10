@@ -151,6 +151,8 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                     appointment.facilityAddress.city,
                     appointment.facilityAddress.stateOrProvince,
                     appointment.facilityAddress.zipCode));
+        } else {
+            facilityAddress.setText(null);
         }
 
         phoneIcon.setOnClickListener(new View.OnClickListener() {

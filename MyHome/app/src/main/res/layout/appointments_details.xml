@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/facility_name"
             android:selectAllOnFocus="true"
-            android:text="170 Alameda de las Pulgas\nRedwood City, CA 94062"
+            android:text="170 Fake Address Here\nParadise City, CA 94062"
             android:textIsSelectable="true"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
