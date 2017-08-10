@@ -5,7 +5,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -17,7 +19,8 @@ import com.prokarma.myhome.utils.Constants;
 
 public class FaqFragment extends BaseFragment {
     public static final String FAQ_TAG = "faq_tag";
-    public static final String FAQ_URL = "https://www.dignityhealth.org/my-home/billing-help-and-faq";
+    //    public static final String FAQ_URL = "https://www.dignityhealth.org/my-home/billing-help-and-faq";
+    public static final String FAQ_URL = "https://dignityhealth.org/billpay/";
 
     private WebView webView;
 
@@ -32,7 +35,12 @@ public class FaqFragment extends BaseFragment {
         getActivity().setTitle(getString(R.string.bill_pay));
         webView = (WebView) faqView.findViewById(R.id.faq_webview);
         webView.loadUrl(FAQ_URL);
-
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return super.shouldOverrideUrlLoading(view, request);
+            }
+        });
         return faqView;
     }
 
