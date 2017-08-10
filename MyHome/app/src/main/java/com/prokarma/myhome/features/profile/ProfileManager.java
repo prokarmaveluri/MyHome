@@ -110,6 +110,7 @@ public class ProfileManager {
         });
     }
 
+    @Deprecated
     public static void getAppointmentInfo() {
         String bearerToken = AuthManager.getInstance().getBearerToken();
         NetworkManager.getInstance().getAppointments(bearerToken).enqueue(new Callback<AppointmentResponse>() {

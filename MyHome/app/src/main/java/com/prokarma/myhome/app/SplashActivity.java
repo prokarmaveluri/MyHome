@@ -167,7 +167,7 @@ public class SplashActivity extends AppCompatActivity implements
     private void onRefreshSuccess() {
         //  Pre- load profile and appointment
         ProfileManager.getProfileInfo();
-        ProfileManager.getAppointmentInfo();
+        NetworkManager.getInstance().getMyAppointments();
         AuthManager.getInstance().setCount(0);
         Intent intentHome = new Intent(this, NavigationActivity.class);
         intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);

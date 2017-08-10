@@ -45,6 +45,8 @@ import com.prokarma.myhome.utils.RESTConstants;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -607,5 +609,40 @@ public class NetworkManager {
         } catch (NullPointerException ex) {
             return false;
         }
+    }
+
+    public void getMyAppointments() {
+        NetworkManager.getInstance().getMyAppointments(AuthManager.getInstance().getBearerToken(),
+                new MyAppointmentsRequest()).enqueue(new Callback<MyAppointmentsResponse>() {
+            @Override
+            public void onResponse(Call<MyAppointmentsResponse> call, retrofit2.Response<MyAppointmentsResponse> response) {
+                if (response.isSuccessful()) {
+                    MyAppointmentsResponse myAppointmentsResponse = response.body();
+
+                    if (myAppointmentsResponse.getData() != null && myAppointmentsResponse.getData().getUser() != null) {
+                        ArrayList<Appointment> appointments = (ArrayList<Appointment>) myAppointmentsResponse.getData().getUser().getAppointments();
+                        Timber.i("Appointments: " + Arrays.deepToString(appointments.toArray()));
+
+                        try {
+                            //Attempt to sort the appointments by startTime
+                            Collections.sort(appointments);
+                            ProfileManager.setAppointments(appointments);
+                        } catch (Exception e) {
+                        }
+                    }
+
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MyAppointmentsResponse> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+
+            }
+        });
     }
 }

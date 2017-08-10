@@ -62,7 +62,7 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private ArrayList<Appointment> getPastAppointments(ArrayList<Appointment> allAppointments) {
-        if(allAppointments == null){
+        if (allAppointments == null) {
             return null;
         }
 
@@ -79,7 +79,7 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
             }
 
             if (appointmentDate.before(todaysDate)) {
-                pastAppointments.add(appointment);
+                pastAppointments.add(0, appointment);
             }
         }
 
@@ -87,7 +87,7 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private ArrayList<Appointment> getFutureAppointments(ArrayList<Appointment> allAppointments) {
-        if(allAppointments == null){
+        if (allAppointments == null) {
             return null;
         }
 
@@ -107,7 +107,6 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
                 futureAppointments.add(appointment);
             }
         }
-
         return futureAppointments;
     }
 }

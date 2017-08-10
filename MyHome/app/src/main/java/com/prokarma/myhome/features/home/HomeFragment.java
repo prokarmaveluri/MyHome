@@ -29,6 +29,8 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.HomeBinding;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
+import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
+import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
 import com.prokarma.myhome.features.fad.ProviderListDialog;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
@@ -42,8 +44,11 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -134,7 +139,7 @@ public class HomeFragment extends BaseFragment {
             // Get Appointment Info
             if (ProfileManager.getAppointments() == null) {
                 Timber.i(getString(R.string.db_appoint_alert_one));
-                getAppointmentInfo(AuthManager.getInstance().getBearerToken());
+                getMyAppointments();
             } else {
                 Timber.i(getString(R.string.db_appoint_alert_two));
                 updateAppointViews();
@@ -232,6 +237,43 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
+    public void getMyAppointments() {
+        NetworkManager.getInstance().getMyAppointments(AuthManager.getInstance().getBearerToken(),
+                new MyAppointmentsRequest()).enqueue(new Callback<MyAppointmentsResponse>() {
+            @Override
+            public void onResponse(Call<MyAppointmentsResponse> call, retrofit2.Response<MyAppointmentsResponse> response) {
+                if (response.isSuccessful()) {
+                    MyAppointmentsResponse myAppointmentsResponse = response.body();
+
+                    if (myAppointmentsResponse.getData() != null && myAppointmentsResponse.getData().getUser() != null) {
+                        ArrayList<Appointment> appointments = (ArrayList<Appointment>) myAppointmentsResponse.getData().getUser().getAppointments();
+                        Timber.i("Appointments: " + Arrays.deepToString(appointments.toArray()));
+
+                        try {
+                            //Attempt to sort the appointments by startTime
+                            Collections.sort(appointments);
+                            ProfileManager.setAppointments(appointments);
+                            updateAppointViews();
+                        } catch (Exception e) {
+                        }
+                    }
+
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MyAppointmentsResponse> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+
+            }
+        });
+    }
+
+    @Deprecated
     private void getAppointmentInfo(String bearer) {
         if (!ConnectionUtil.isConnected(getActivity())) {
             Toast.makeText(getActivity(), R.string.no_network_msg,
@@ -285,6 +327,7 @@ public class HomeFragment extends BaseFragment {
     private void updateAppointViews() {
         ArrayList<Appointment> appointments = ProfileManager.getAppointments();
 
+        appointments = getFutureAppointments(appointments);
         if (appointments != null && appointments.size() > 0) {
             try {
                 //Attempt to sort the appointments by startTime
@@ -417,5 +460,28 @@ public class HomeFragment extends BaseFragment {
         Bundle bundle = new Bundle();
         bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
+    }
+
+    private ArrayList<Appointment> getFutureAppointments(ArrayList<Appointment> allAppointments) {
+        if(allAppointments == null){
+            return null;
+        }
+        ArrayList<Appointment> futureAppointments = new ArrayList<>();
+        Date todaysDate = new Date();
+        Date appointmentDate = new Date();
+
+        for (Appointment appointment : allAppointments) {
+            try {
+                appointmentDate = DateUtil.getDateNoTimeZone(appointment.appointmentStart);
+            } catch (ParseException e) {
+                Timber.e(e);
+                e.printStackTrace();
+            }
+
+            if (DateUtil.isOnSameDay(appointmentDate, todaysDate) || appointmentDate.after(todaysDate)) {
+                futureAppointments.add(appointment);
+            }
+        }
+        return futureAppointments;
     }
 }
