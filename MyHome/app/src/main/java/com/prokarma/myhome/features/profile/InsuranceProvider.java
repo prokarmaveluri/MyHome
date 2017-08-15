@@ -80,7 +80,7 @@ public class InsuranceProvider implements Parcelable {
         InsuranceProvider insuranceProvider = new InsuranceProvider();
 
         if (otherInsuranceProvider != null) {
-            insuranceProvider.providerName = otherInsuranceProvider.providerName;
+            insuranceProvider.insurancePlan = otherInsuranceProvider.insurancePlan;
             insuranceProvider.groupNumber = otherInsuranceProvider.groupNumber;
             insuranceProvider.memberNumber = otherInsuranceProvider.memberNumber;
         }

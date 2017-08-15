@@ -676,7 +676,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 planLabel.setText(R.string.plan_required);
                 planLabel.setTextColor(ContextCompat.getColor(context, R.color.red));
             } else {
-                planLabel.setText(context.getString(R.string.insurance_provider));
+                planLabel.setText(context.getString(R.string.insurance_plan));
                 planLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
             }
 

@@ -58,7 +58,7 @@ public class ProfileEditFragment extends BaseFragment {
     TextView email;
     TextView genderLabel;
 
-    TextInputEditText insuranceProvider;
+    TextInputEditText insurancePlan;
     TextInputEditText memberId;
     TextInputEditText group;
     ProgressBar progress;
@@ -97,7 +97,7 @@ public class ProfileEditFragment extends BaseFragment {
         email = (TextView) profileView.findViewById(R.id.email);
         progress = (ProgressBar) profileView.findViewById(R.id.profile_edit_progress);
 
-        insuranceProvider = (TextInputEditText) profileView.findViewById(R.id.provider);
+        insurancePlan = (TextInputEditText) profileView.findViewById(R.id.plan);
         memberId = (TextInputEditText) profileView.findViewById(R.id.id);
         group = (TextInputEditText) profileView.findViewById(R.id.group);
 
@@ -306,8 +306,8 @@ public class ProfileEditFragment extends BaseFragment {
             email.setText(profile.email);
         }
 
-        if (profile.insuranceProvider != null && profile.insuranceProvider.providerName != null) {
-            insuranceProvider.setText(profile.insuranceProvider.providerName);
+        if (profile.insuranceProvider != null && profile.insuranceProvider.insurancePlan != null) {
+            insurancePlan.setText(profile.insuranceProvider.insurancePlan);
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.memberNumber != null) {
@@ -425,8 +425,8 @@ public class ProfileEditFragment extends BaseFragment {
             profile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
         }
 
-        if (insuranceProvider.getText() != null) {
-            profile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();
+        if (insurancePlan.getText() != null) {
+            profile.insuranceProvider.insurancePlan = insurancePlan.getText().toString().trim();
         }
 
         if (memberId.getText() != null) {
