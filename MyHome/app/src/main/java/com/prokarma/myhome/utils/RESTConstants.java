@@ -80,7 +80,14 @@ public class RESTConstants {
             "      doctorSpecialty" +
             "      visitReason" +
             "      facilityName" +
-            "      facilityAddress " +
+            "     facilityAddress {" +
+            "        city" +
+            "        countryCode" +
+            "        line1" +
+            "        line2" +
+            "        stateOrProvince" +
+            "        zipCode" +
+            "      }" +
             "      facilityPhoneNumber" +
             "      provider {" +
             "        firstName" +
