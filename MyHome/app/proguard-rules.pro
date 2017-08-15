@@ -166,6 +166,7 @@
 -keep class com.prokarma.myhome.features.fad.CommonModel{*;}
 -keep class com.prokarma.myhome.features.fad.Office{*;}
 -keep class com.prokarma.myhome.features.profile.Address{*;}
+-keep class com.prokarma.myhome.features.profile.InsuranceProvider{*;}
 -keep class com.prokarma.myhome.features.fad.details.bookingBookingSelectPersonInterface{*;}
 -keep class com.prokarma.myhome.features.fad.details.Image{*;}
 -keep class com.google.android.gms.maps.model.Marker{*;}
