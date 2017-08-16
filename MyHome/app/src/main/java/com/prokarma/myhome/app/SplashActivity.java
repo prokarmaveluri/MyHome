@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +45,7 @@ import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.login.LoginActivity;
 import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
+import com.prokarma.myhome.features.login.fingerprint.FingerprintSignIn;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.update.UpdateActivity;
 import com.prokarma.myhome.features.update.UpdateResponse;
@@ -111,6 +113,25 @@ public class SplashActivity extends AppCompatActivity implements
     }
 
     private void getAccessTokenFromRefresh() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                (AuthManager.getInstance().getRefreshToken() != null ||
+                        CryptoManager.getInstance().getToken() != null)) {
+
+            FingerprintSignIn fingerprint = new FingerprintSignIn(this, FingerprintSignIn.DEFAULT_KEY_NAME);
+            fingerprint.initiateFingerprint();
+            if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
+                return;
+            }
+        }
+        refreshToken();
+    }
+
+    public void onFingerprintAithentication() {
+        refreshToken();
+    }
+
+    private void refreshToken() {
         if (AuthManager.getInstance().getRefreshToken() != null) {
             refreshAccessToken(AuthManager.getInstance().getRefreshToken());
         } else if (CryptoManager.getInstance().getToken() != null) {

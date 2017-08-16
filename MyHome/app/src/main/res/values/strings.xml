@@ -269,4 +269,12 @@
     <string name="directions_not_found">Sorry, but we were unable to get directions</string>
     <string name="provider_details_error_msg">We\'re sorry, we\'ve hit a snag. To learn more about this doctor, please try again or contact their office.</string>
 
+    <!-- Fingerprint -->
+    <string name="fingerprint_description">Confirm fingerprint to continue</string>
+    <string name="fingerprint_hint">Touch sensor</string>
+    <string name="description_fingerprint_icon">Fingerprint icon</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again</string>
+    <string name="fingerprint_success">Fingerprint recognized</string>
+    <string name="use_password">Use password</string>
+
 </resources>
