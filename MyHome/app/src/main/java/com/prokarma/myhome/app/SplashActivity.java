@@ -131,6 +131,14 @@ public class SplashActivity extends AppCompatActivity implements
         refreshToken();
     }
 
+    public void onFingerprintAithenticationCancel() {
+        finish();
+    }
+
+    public void onFingerprintAithenticationUsePassword() {
+        onRefreshFailed();
+    }
+
     private void refreshToken() {
         if (AuthManager.getInstance().getRefreshToken() != null) {
             refreshAccessToken(AuthManager.getInstance().getRefreshToken());

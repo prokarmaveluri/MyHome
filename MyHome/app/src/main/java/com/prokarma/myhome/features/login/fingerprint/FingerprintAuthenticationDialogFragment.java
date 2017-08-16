@@ -63,6 +63,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
 
         // Do not create a new Fragment when the Activity is re-created such as orientation changes.
         setRetainInstance(true);
+        setCancelable(false);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog);
     }
 
@@ -75,6 +76,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mActivity.onFingerprintAithenticationCancel();
                 dismiss();
             }
         });
@@ -87,6 +89,8 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
                     // use password
                     goToBackup();
                 }
+                mActivity.onFingerprintAithenticationUsePassword();
+                dismiss();
             }
         });
         mFingerprintContent = v.findViewById(R.id.fingerprint_container);
