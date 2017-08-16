@@ -68,10 +68,10 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
             }
             return 0;
         } else {
-            if (null != providerList && providerList.size() <= 5) {
+            if (null != providerList && providerList.size() <= 3) {
                 return providerList.size();
-            } else if (null != providerList && providerList.size() > 5) {
-                return 5; // display 5 fav providers in dashboard
+            } else if (null != providerList && providerList.size() > 3) {
+                return 3; // display 5 fav providers in dashboard
             }
             return 0;
         }
