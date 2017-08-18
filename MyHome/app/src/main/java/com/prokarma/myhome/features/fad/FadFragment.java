@@ -21,7 +21,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,7 +77,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private static int currentPageSelection = 0;
 
     private FragmentFadBinding binding;
-    private boolean isSugShow = false;
+    private boolean isSugShow = true;
     private ProviderSuggestionsAdapter suggestionAdapter;
     private FadInteractor.Presenter presenter;
     private List<SearchSuggestionResponse> suggestionList;
@@ -126,11 +125,14 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setOnFocusChangeListener(this);
         binding.searchQuery.addTextChangedListener(this);
 
-        if (providerList.size() <= 0 && currentSearchQuery.length() <= 0) {
-            searchForQuery(Constants.DEFAULT_FAD_QUERY, RESTConstants.PROVIDER_DISTANCE);
-        } else if (currentSearchQuery.length() > 0 && !currentSearchQuery.contains(Constants.DEFAULT_FAD_QUERY)) {
-            searchForQuery(currentSearchQuery, RESTConstants.PROVIDER_DISTANCE);
-        }
+        providerList.clear();
+        binding.suggestionList.setVisibility(View.VISIBLE);
+        binding.searchLayout.setVisibility(View.VISIBLE);
+        binding.searchQuery.requestFocus();
+        getSearchSuggestions("");
+        CommonUtil.showSoftKeyboard(binding.searchQuery, getActivity());
+        updateSuggestionList(presenter.getQuickSearchSuggestions());
+
         drawableClickEvent();
         return binding.getRoot();
     }
@@ -145,13 +147,19 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         super.onResume();
         if (null != NavigationActivity.eventBus)
             NavigationActivity.eventBus.register(this);
-        binding.suggestionList.setVisibility(View.GONE);
+        if (!isSugShow) {
+            binding.suggestionList.setVisibility(View.GONE);
+            binding.searchLayout.setVisibility(View.GONE);
+            CommonUtil.hideSoftKeyboard(getActivity());
+        }
         ((NavigationActivity) getActivity()).getSupportActionBar().hide();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        isSugShow = false;
+        CommonUtil.hideSoftKeyboard(getActivity());
         NavigationActivity.eventBus.unregister(this);
         ((NavigationActivity) getActivity()).getSupportActionBar().show();
     }
@@ -231,6 +239,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                         if (response.isSuccessful() && response.body().size() > 0) {
                             Timber.d("Successful Response\n" + response);
                             updateSuggestionList(response.body());
+                            isSugShow = true;
                             if (isSugShow && binding.searchLayout.isShown())
                                 binding.suggestionList.setVisibility(View.VISIBLE);
                         } else {
@@ -252,17 +261,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (!hasFocus) {
-            binding.suggestionList.setVisibility(View.GONE);
-        } else {
-            binding.suggestionList.setVisibility(View.VISIBLE);
-            if (((EditText) v).getText().toString().length() <= 0) {
-                //Display Quick suggestions
-                Timber.i("Quick Search on Focus");
-                binding.suggestionList.setVisibility(View.VISIBLE);
-                updateSuggestionList(presenter.getQuickSearchSuggestions());
-            }
-        }
+//        CommonUtil.showSoftKeyboard(getActivity());
     }
 
     private void startListDialog() {
@@ -387,15 +386,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 break;
             case R.id.fad_search:
                 binding.searchLayout.setVisibility(View.VISIBLE);
-                binding.searchQuery.setCursorVisible(false);
-                binding.searchQuery.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        binding.searchQuery.setCursorVisible(true);
-                        if (binding.searchQuery.isFocused())
-                            getSearchSuggestions("");
-                    }
-                });
+                getSearchSuggestions(currentSearchQuery);
+                binding.searchQuery.requestFocus();
+                CommonUtil.showSoftKeyboard(binding.searchQuery, getActivity());
                 break;
             case R.id.fad_recent:
                 startListDialog();
@@ -437,7 +430,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void afterTextChanged(Editable s) {
         if (isSugShow)
             getSearchSuggestions(s.toString());
-        isSugShow = true;
     }
 
     private void updateSuggestionList(List<SearchSuggestionResponse> list) {
@@ -641,13 +633,23 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                             if ((int) event.getRawX() >= (binding.searchQuery.getRight() -
                                     binding.searchQuery.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
-                                if (binding.searchQuery.getText().length() <= 0) {
-                                    binding.searchLayout.setVisibility(View.GONE);
-                                    binding.suggestionList.setVisibility(View.GONE);
+                                try {
+                                    if (binding.searchQuery.getText().length() <= 0) {
+                                        if (null != getActivity())
+                                            CommonUtil.hideSoftKeyboard(getActivity());
+                                        binding.searchLayout.setVisibility(View.GONE);
+                                        binding.suggestionList.setVisibility(View.GONE);
+                                    } else {
+                                        if (null != suggestionList)
+                                            suggestionList.clear();
+                                        binding.searchQuery.setText("");
+                                        currentSearchQuery = "";
+                                    }
+                                } catch (NullPointerException ex) {
                                     if (null != getActivity())
                                         CommonUtil.hideSoftKeyboard(getActivity());
-                                } else {
-                                    binding.searchQuery.setText("");
+                                    binding.searchLayout.setVisibility(View.GONE);
+                                    binding.suggestionList.setVisibility(View.GONE);
                                 }
                                 return true;
                             }
