@@ -71,6 +71,7 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
     }
 
     private void updateFavList() {
+        binder.fadDashBoardViewall.setVisibility(View.GONE);
         if (ProfileManager.getFavoriteProviders() != null && ProfileManager.getFavoriteProviders().size() > 3)
             binder.fadDashBoardViewall.setVisibility(View.VISIBLE);
         if (ProfileManager.getFavoriteProviders() != null && ProfileManager.getFavoriteProviders().size() > 0)
