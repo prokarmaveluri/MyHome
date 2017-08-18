@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -20,6 +21,7 @@ import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 
 import retrofit2.Call;
@@ -169,6 +171,12 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
     }
 
     public void getSavedDoctors() {
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        binder.favProgress.setVisibility(View.VISIBLE);
         NetworkManager.getInstance().getSavedDoctors(AuthManager.getInstance().getBearerToken(),
                 new MySavedDoctorsRequest()).enqueue(new Callback<MySavedDoctorsResponse>() {
             @Override
@@ -185,12 +193,14 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
                     ProfileManager.setFavoriteProviders(null);
                     Timber.e("Error onResponse SavedDoctors with error code");
                 }
+                binder.favProgress.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<MySavedDoctorsResponse> call, Throwable t) {
                 Timber.e("Error onFailure SavedDoctors");
                 ProfileManager.setFavoriteProviders(null);
+                binder.favProgress.setVisibility(View.GONE);
             }
         });
     }
