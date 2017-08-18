@@ -197,7 +197,7 @@ public class CommonUtil {
      */
     @SuppressWarnings("deprecation")
     public static String constructPhoneNumber(@NonNull String number) {
-        String phoneNumber;
+        String phoneNumber = "";
 
         if (null == number || number.trim().isEmpty())
             return "";
@@ -211,6 +211,8 @@ public class CommonUtil {
         phoneNumber = phoneNumber.replace("(", "");
         phoneNumber = phoneNumber.replace(")", "-");
         phoneNumber = phoneNumber.replace(" ", "");
+        if (!phoneNumber.contains("-") && phoneNumber.length() == 10)
+            phoneNumber = phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6, 10);
         return phoneNumber.trim();
     }
 
