@@ -543,6 +543,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             progressBarInsurance.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         } catch (NullPointerException ex) {
+            Timber.e(ex.toString());
             ex.printStackTrace();
         }
     }

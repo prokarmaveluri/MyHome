@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
@@ -172,8 +173,8 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                     ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(response.body());
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
-                    ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupInsurancePlanSpinner(null);
-                    ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(null);
+                    getDialog().dismiss();
+                    Toast.makeText(getContext(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -181,8 +182,8 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             public void onFailure(Call<RegValidationResponse> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
-                ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupInsurancePlanSpinner(null);
-                ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(null);
+                getDialog().dismiss();
+                Toast.makeText(getContext(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
             }
         });
     }
