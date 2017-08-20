@@ -1,7 +1,9 @@
 package com.prokarma.myhome.features.profile;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +14,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -63,6 +68,7 @@ public class ProfileViewFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -97,6 +103,9 @@ public class ProfileViewFragment extends BaseFragment {
             updateProfileViews(ProfileManager.getProfile());
         }
 
+//        viewProfile.setVisibility(View.INVISIBLE);
+//        getProfileInfo(AuthManager.getInstance().getBearerToken());
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +114,6 @@ public class ProfileViewFragment extends BaseFragment {
             }
         });
 
-        setHasOptionsMenu(true);
         return profileView;
     }
 
@@ -119,7 +127,6 @@ public class ProfileViewFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-
                 getActivity().onBackPressed();
                 break;
 
@@ -228,7 +235,7 @@ public class ProfileViewFragment extends BaseFragment {
         }
 
         if (!CommonUtil.isEmptyString(profile.phoneNumber)) {
-            phone.setText(CommonUtil.constructPhoneNumber(profile.phoneNumber).replaceAll("\\.","-"));
+            phone.setText(CommonUtil.constructPhoneNumber(profile.phoneNumber).replaceAll("\\.", "-"));
         } else {
             phone.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.phone_number_profile)));
         }
@@ -236,7 +243,7 @@ public class ProfileViewFragment extends BaseFragment {
         if (!CommonUtil.isEmptyString(profile.email)) {
             email.setText(profile.email);
         } else {
-            email.setText(String.format(getString(R.string.not_available_postfix),getString(R.string.email_profile)));
+            email.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.email_profile)));
         }
 
         if (profile.insuranceProvider != null && !CommonUtil.isEmptyString(profile.insuranceProvider.insurancePlan)) {
@@ -253,5 +260,28 @@ public class ProfileViewFragment extends BaseFragment {
             group.setText(profile.insuranceProvider.groupNumber);
             group.setVisibility(View.VISIBLE);
         }
+
+        Handler coachmarkHandler = new Handler();
+        coachmarkHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                coachmarkToolbar();
+            }
+        }, 1000);
+    }
+
+    private void coachmarkToolbar(){
+        Toolbar toolbar = ((NavigationActivity) getActivity()).getToolbar();
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forToolbarMenuItem(toolbar, R.id.edit_profile, "To Edit your profile, go here!"),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        Toast.makeText(getContext(), "You clicked it! YAY!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
     }
 }

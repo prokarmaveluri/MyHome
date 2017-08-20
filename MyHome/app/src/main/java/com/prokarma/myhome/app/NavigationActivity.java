@@ -618,4 +618,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             }
         }
     }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 }

@@ -188,5 +188,6 @@ dependencies {
     compile 'com.tealium:library:5.2.0'
     compile 'com.squareup:otto:1.3.8'
     compile 'com.google.maps.android:android-maps-utils:0.5'
+    compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
     testCompile 'junit:junit:4.12'
 }
