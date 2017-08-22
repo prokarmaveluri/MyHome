@@ -208,7 +208,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     private void getSearchSuggestions(String query) {
-        if (query.length() <= 0) {
+        if (query.trim().length() <= 0) {
             //get quick suggestions
             Timber.i("Quick Search");
             binding.suggestionList.setVisibility(View.VISIBLE);
@@ -238,7 +238,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                                            Response<List<SearchSuggestionResponse>> response) {
                         if (response.isSuccessful() && response.body().size() > 0) {
                             Timber.d("Successful Response\n" + response);
-                            updateSuggestionList(response.body());
+                            if (currentSearchQuery.trim().length() > 0)
+                                updateSuggestionList(response.body());
                             isSugShow = true;
                             if (isSugShow && binding.searchLayout.isShown())
                                 binding.suggestionList.setVisibility(View.VISIBLE);
@@ -430,6 +431,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void afterTextChanged(Editable s) {
         if (isSugShow)
             getSearchSuggestions(s.toString());
+        isSugShow = true;
+        currentSearchQuery = s.toString();
     }
 
     private void updateSuggestionList(List<SearchSuggestionResponse> list) {
