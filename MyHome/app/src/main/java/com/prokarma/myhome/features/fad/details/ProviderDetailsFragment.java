@@ -297,6 +297,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                 public void onClick(View v) {
                                     bookAppointment.setVisibility(View.GONE);
 
+                                    BookingManager.setBookingProfile(null);
                                     BookingManager.setBookingProvider(providerDetailsResponse);
                                     BookingManager.setBookingOffice(currentOffice);
 
