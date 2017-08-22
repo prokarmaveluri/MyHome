@@ -35,6 +35,7 @@ import timber.log.Timber;
 public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface, BookingSaveProfileInterface, DialogInterface {
     public static final String BOOKING_DIALOG_TAG = "booking_dialog_tag";
     public static final String SCHEDULE_ID_KEY = "schedule_id";
+    public static final String AUTOPOPULATE_INSURANCE_PLAN_KEY = "autopopulate_insurance_plan";
     public static final String IS_BOOKING_FOR_ME_KEY = "is_booking_for_me";
     public static final String BOOKING_PROFILE = "booking_profile";
 
@@ -45,15 +46,17 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     Toolbar toolbar;
 
     private String scheduleId;
+    private boolean autoPopulateInsurancePlan;
 
     public static BookingDialogFragment newInstance() {
         return new BookingDialogFragment();
     }
 
-    public static BookingDialogFragment newInstance(String scheduleId) {
+    public static BookingDialogFragment newInstance(String scheduleId, boolean autoPopulateInsurancePlan) {
         BookingDialogFragment bookingFragment = new BookingDialogFragment();
         Bundle args = new Bundle();
         args.putString(SCHEDULE_ID_KEY, scheduleId);
+        args.putBoolean(AUTOPOPULATE_INSURANCE_PLAN_KEY, autoPopulateInsurancePlan);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -71,6 +74,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
         if (args != null) {
             scheduleId = args.getString(SCHEDULE_ID_KEY);
+            autoPopulateInsurancePlan = args.getBoolean(AUTOPOPULATE_INSURANCE_PLAN_KEY);
         }
 
         //providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
@@ -78,7 +82,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
         bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
         bookingViewPager.setSwipeAllowed(false);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, BookingManager.getBookingProfile() != null, BookingManager.getBookingProfile()));
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, BookingManager.getBookingProfile() != null, autoPopulateInsurancePlan, BookingManager.getBookingProfile()));
 
         toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.find_care));
