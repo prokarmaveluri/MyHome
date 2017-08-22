@@ -28,7 +28,7 @@ android {
     def STAGE_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
     def STAGE_CIAM_BASE_URL = "\"https://stage.ciam.dignityhealth.org/\""
     def STAGE_S2_BASE_URL = "\"https://web-usw1-fad-stg.azurewebsites.net/\""
-    def STAGE_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-prd.azurewebsites.net/\""
+    def STAGE_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-stg.azurewebsites.net/\""
 
     def TEST_VERSIONING_URL = "\"http://web-usw1-versioningservices-tst.azurewebsites.net/\""
     def TEST_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
