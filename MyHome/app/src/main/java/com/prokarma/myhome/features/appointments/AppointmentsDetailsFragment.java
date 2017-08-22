@@ -74,7 +74,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                     NetworkManager.getInstance().updateFavDoctor(favDoc, appointment.provider.getNpi(),
                             favProvider, appointment.provider, false, getActivity());
                 } else {
-                    Toast.makeText(getActivity(), "Dev In Progress", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Sorry we are unable to add at this time.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
