@@ -14,15 +14,15 @@ public class MapClusterItem implements ClusterItem {
     private final String mSnippet;
     private ProviderDetailsResponse provider;
 
-    public MapClusterItem(double lat, double lng) {
-        mPosition = new LatLng(lat, lng);
+    public MapClusterItem(LatLng position) {
+        mPosition = position;
         mTitle = "";
         mSnippet = "";
     }
 
-    public MapClusterItem(double lat, double lng, String title, String snippet,
+    public MapClusterItem(LatLng position, String title, String snippet,
                           ProviderDetailsResponse provider) {
-        mPosition = new LatLng(lat, lng);
+        mPosition = position;
         mTitle = title;
         mSnippet = snippet;
         this.provider = provider;
