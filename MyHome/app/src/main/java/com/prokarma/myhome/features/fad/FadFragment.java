@@ -125,7 +125,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setOnFocusChangeListener(this);
         binding.searchQuery.addTextChangedListener(this);
 
-        providerList.clear();
+        if (isSugShow)
+            providerList.clear();
         binding.suggestionList.setVisibility(View.VISIBLE);
         binding.searchLayout.setVisibility(View.VISIBLE);
         binding.searchQuery.requestFocus();
