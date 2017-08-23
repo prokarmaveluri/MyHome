@@ -431,6 +431,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void afterTextChanged(Editable s) {
         if (isSugShow)
             getSearchSuggestions(s.toString());
+
+        if (!currentSearchQuery.equals(s.toString())) {
+            isSugShow = true;
+            currentSearchQuery = s.toString();
+        }
     }
 
     private void updateSuggestionList(List<SearchSuggestionResponse> list) {
