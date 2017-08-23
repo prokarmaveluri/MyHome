@@ -217,7 +217,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.APPOINTMENTS;
+        return Constants.ActivityTag.APPOINTMENTS_DETAILS;
     }
 
 }

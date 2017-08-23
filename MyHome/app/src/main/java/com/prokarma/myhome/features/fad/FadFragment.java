@@ -125,7 +125,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setOnFocusChangeListener(this);
         binding.searchQuery.addTextChangedListener(this);
 
-        providerList.clear();
+        if (isSugShow)
+            providerList.clear();
         binding.suggestionList.setVisibility(View.VISIBLE);
         binding.searchLayout.setVisibility(View.VISIBLE);
         binding.searchQuery.requestFocus();
@@ -431,8 +432,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void afterTextChanged(Editable s) {
         if (isSugShow)
             getSearchSuggestions(s.toString());
-        isSugShow = true;
-        currentSearchQuery = s.toString();
+
+        if (!currentSearchQuery.equals(s.toString())) {
+            isSugShow = true;
+            currentSearchQuery = s.toString();
+        }
     }
 
     private void updateSuggestionList(List<SearchSuggestionResponse> list) {
