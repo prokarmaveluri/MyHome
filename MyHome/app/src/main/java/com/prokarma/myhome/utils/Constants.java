@@ -24,7 +24,9 @@ public class Constants {
         FAD_LIST,
         FAD_MAP,
         PROVIDER_DETAILS,
-        PROVIDERS_FILTER
+        PROVIDERS_FILTER,
+        CHANGE_PASSWORD,
+        CAHNGE_SEC_QUESTION
     }
 
     public enum INPUT_TYPE {
@@ -58,6 +60,7 @@ public class Constants {
     public static final String TOS_SCREEN = "home_screen";
     public static final String CONTACT_US_SCREEN = "contact_us_screen";
     public static final String SETTINGS_SCREEN = "settings_screen";
+    public static final String CHANGE_PASSWORD_SCREEN = "change_password_screen";
 
     // events
     public static final String SIGN_IN_EVENT = "sign_in_event";

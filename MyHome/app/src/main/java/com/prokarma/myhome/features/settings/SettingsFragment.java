@@ -1,7 +1,9 @@
 package com.prokarma.myhome.features.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
@@ -25,6 +29,7 @@ public class SettingsFragment extends BaseFragment implements SettingsAdapter.IS
     private View settingsView;
     private RecyclerView settingList;
     private SettingsAdapter listAdapter;
+
 
     public enum SettingsAction {
         TOUCH_ID,
@@ -81,7 +86,9 @@ public class SettingsFragment extends BaseFragment implements SettingsAdapter.IS
         if (action == SettingsAction.TOUCH_ID) {
 
         } else if (action == SettingsAction.CHANGE_PASSWORD) {
-
+            NavigationActivity.setActivityTag(Constants.ActivityTag.CHANGE_PASSWORD);
+            Intent intentChangePassword = new Intent(getActivity(), OptionsActivity.class);
+            ActivityCompat.startActivity(getActivity(), intentChangePassword, null);
         } else if (action == SettingsAction.CHANGE_SEC_QUESTION) {
 
         }

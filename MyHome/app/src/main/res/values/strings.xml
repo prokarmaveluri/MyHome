@@ -105,6 +105,7 @@
     <string name="care_philosophy">Care Philosophy</string>
     <string name="locations">Locations</string>
     <string name="settings">Settings</string>
+    <string name="change_password">Change Password</string>
     <string name="help">Help</string>
     <string name="preferences">Preferences</string>
     <string name="contact_us">Contact Us</string>
@@ -268,5 +269,6 @@
     <string name="city_and_state_required"><![CDATA[City & State are required]]></string>
     <string name="directions_not_found">Sorry, but we were unable to get directions</string>
     <string name="provider_details_error_msg">We\'re sorry, we\'ve hit a snag. To learn more about this doctor, please try again or contact their office.</string>
+    <string name="password_changed_successfully">Password changed successfully</string>
 
 </resources>
