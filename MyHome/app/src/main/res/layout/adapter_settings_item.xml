@@ -11,8 +11,8 @@
     <RelativeLayout
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:onClick="@{handlers::onClickSuggestion}"
+        android:layout_height="54dp"
+        android:onClick="@{handlers::onClick}"
         android:orientation="vertical">
 
         <TextView

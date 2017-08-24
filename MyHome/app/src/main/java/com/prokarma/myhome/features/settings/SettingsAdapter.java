@@ -24,10 +24,12 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
 
     private List<String> list;
     private Context mContext;
+    private ISettingsClick listener;
 
-    public SettingsAdapter(List<String> list, Context context) {
+    public SettingsAdapter(List<String> list, Context context, ISettingsClick listener) {
         this.list = list;
         mContext = context;
+        this.listener = listener;
     }
 
     @Override
@@ -92,12 +94,24 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
     }
 
     public class SettingListClick {
-        public void onClickSuggestion(View view) {
-            Timber.i("POSITION " + (int) view.getId());
+        public void onClick(View view) {
+            try {
+                Timber.i("POSITION " + (int) view.getId());
+                if (listener != null) {
+                    if ((int) view.getId() == 0) {
+                        listener.settingsOptionClick(SettingsFragment.SettingsAction.TOUCH_ID);
+                    } else if ((int) view.getId() == 1) {
+                        listener.settingsOptionClick(SettingsFragment.SettingsAction.CHANGE_PASSWORD);
+                    } else if ((int) view.getId() == 2) {
+                        listener.settingsOptionClick(SettingsFragment.SettingsAction.CHANGE_SEC_QUESTION);
+                    }
+                }
+            } catch (NullPointerException ex) {
+            }
         }
     }
 
-    public interface IProviderSuggestionClick {
-        void suggestionClick(String text, String type, String providerId);
+    public interface ISettingsClick {
+        void settingsOptionClick(SettingsFragment.SettingsAction action);
     }
 }
