@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.prokarma.myhome.features.settings.SettingsAdapter.SettingListClick" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:onClick="@{handlers::onClickSuggestion}"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/suggestionText"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/md_blue_grey_680" />
+
+        <ImageView
+            android:id="@+id/sugession_carot"
+            android:layout_width="12dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_carrot_blue" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:background="@color/md_blue_grey_80" />
+    </RelativeLayout>
+</layout>
