@@ -172,11 +172,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         switch (item.getItemId()) {
 //            case R.id.help:
 //                return true;
-//            case R.id.settings:
-//                NavigationActivity.setActivityTag(Constants.ActivityTag.SETTINGS);
-//                Intent intentSettings = new Intent(getActivity(), OptionsActivity.class);
-//                ActivityCompat.startActivity(getActivity(), intentSettings, options.toBundle());
-//                return true;
+            case R.id.settings:
+                NavigationActivity.setActivityTag(Constants.ActivityTag.SETTINGS);
+                Intent intentSettings = new Intent(getActivity(), OptionsActivity.class);
+                ActivityCompat.startActivity(getActivity(), intentSettings, options.toBundle());
+                return true;
 //            case R.id.preferences:
 //                return true;
             case R.id.bill_pay:
