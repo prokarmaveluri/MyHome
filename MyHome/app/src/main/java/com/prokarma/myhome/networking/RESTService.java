@@ -26,6 +26,8 @@ import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
+import com.prokarma.myhome.features.settings.ChangePasswordRequest;
+import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.utils.RESTConstants;
@@ -168,4 +170,14 @@ public interface RESTService {
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/query")
     Call<MyAppointmentsResponse> getMyAppointments(@Header("Authorization") String bearer,
                                                    @Body MyAppointmentsRequest request);
+
+    //1.2 APIs
+
+    @POST(RESTConstants.CIAM_BASE_URL + "api/users/me/password")
+    Call<Void> changePassword(@Header("Authorization") String bearer,
+                              @Body ChangePasswordRequest request);
+
+    @POST(RESTConstants.CIAM_BASE_URL + "api/users/me/recovery/question")
+    Call<Void> changeSecurityQuestion(@Header("Authorization") String bearer,
+                                      @Body ChangeSesurityQuestionRequest request);
 }

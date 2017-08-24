@@ -35,6 +35,8 @@ import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
+import com.prokarma.myhome.features.settings.ChangePasswordRequest;
+import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -394,6 +396,18 @@ public class NetworkManager {
     public Call<MyAppointmentsResponse> getMyAppointments(String bearerToken,
                                                           MyAppointmentsRequest request) {
         return service.getMyAppointments(BEARER + bearerToken, request);
+    }
+
+    //1.2 APIs
+
+    public Call<Void> changePassword(String bearerToken,
+                                     ChangePasswordRequest request) {
+        return service.changePassword(BEARER + bearerToken, request);
+    }
+
+    public Call<Void> changeSecurityQuestion(String bearerToken,
+                                             ChangeSesurityQuestionRequest request) {
+        return service.changeSecurityQuestion(BEARER + bearerToken, request);
     }
 
     // Network Util
