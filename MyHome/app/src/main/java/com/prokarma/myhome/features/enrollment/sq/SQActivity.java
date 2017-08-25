@@ -26,6 +26,8 @@ public class SQActivity extends AppCompatActivity {
     private ActivitySecurityQuestionBinding binding;
     private EnrollmentRequest enrollmentRequest;
     private String questionId, questionText;
+    private boolean isChange = false;
+    private String password;
 
     /*
      * Get an intent for SQActivity activity.
@@ -45,6 +47,14 @@ public class SQActivity extends AppCompatActivity {
 
         questionText = getIntent().getStringExtra(Constants.ENROLLMENT_QUESTION);
         questionId = getIntent().getStringExtra(Constants.ENROLLMENT_QUESTION_ID);
+
+        if (getIntent() != null) {
+            isChange = getIntent().getBooleanExtra("IS_SEC_QUESTION_CHANGE", false);
+            password = getIntent().getStringExtra("SEC_QUESTION_PASSWORD");
+            if (isChange) {
+                setTitle(getString(R.string.change_question));
+            }
+        }
 
         Toolbar appToolbar = (Toolbar) findViewById(R.id.toolbarWhite);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -74,6 +84,8 @@ public class SQActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.ENROLLMENT_QUESTION_ID, questionId);
         bundle.putString(Constants.ENROLLMENT_QUESTION, questionText);
+        bundle.putString("SEC_QUESTION_PASSWORD", password);
+        bundle.putBoolean("IS_SEC_QUESTION_CHANGE", isChange);
         bundle.putParcelable(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
         fragment.setArguments(bundle);
         return fragment;

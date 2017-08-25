@@ -89,8 +89,11 @@ public class SettingsFragment extends BaseFragment implements SettingsAdapter.IS
             NavigationActivity.setActivityTag(Constants.ActivityTag.CHANGE_PASSWORD);
             Intent intentChangePassword = new Intent(getActivity(), OptionsActivity.class);
             ActivityCompat.startActivity(getActivity(), intentChangePassword, null);
-        } else if (action == SettingsAction.CHANGE_SEC_QUESTION) {
 
+        } else if (action == SettingsAction.CHANGE_SEC_QUESTION) {
+            NavigationActivity.setActivityTag(Constants.ActivityTag.ENTER_PASSWORD_SEC_QUESTION);
+            Intent intentChangePassword = new Intent(getActivity(), OptionsActivity.class);
+            ActivityCompat.startActivity(getActivity(), intentChangePassword, null);
         }
     }
 }

@@ -1,8 +1,11 @@
 package com.prokarma.myhome.features.settings;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,13 +44,16 @@ public class ChangePasswordFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_passowrd, container, false);
 
         getActivity().setTitle(getString(R.string.change_password));
+        binding.newPassword.addTextChangedListener(new PWDTextWatcher());
+        binding.existingPassword.addTextChangedListener(new PWDTextWatcher());
+        binding.confirmPassword.addTextChangedListener(new PWDTextWatcher());
         binding.setHandlers(new PWDHandler());
         return binding.getRoot();
     }
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.SETTINGS;
+        return Constants.ActivityTag.CHANGE_PASSWORD;
     }
 
     @Override
@@ -74,6 +80,7 @@ public class ChangePasswordFragment extends BaseFragment {
 
                     Toast.makeText(getActivity(), R.string.password_changed_successfully,
                             Toast.LENGTH_LONG).show();
+                    getActivity().finish();
                 } else {
                     Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
@@ -118,8 +125,55 @@ public class ChangePasswordFragment extends BaseFragment {
             Toast.makeText(getActivity(), getString(R.string.valid_password), Toast.LENGTH_LONG).show();
             return null;
         }
+        if (!binding.confirmPassword.getText().toString().equals(binding.newPassword.getText().toString())) {
+            Toast.makeText(getActivity(), getString(R.string.valid_password_match), Toast.LENGTH_LONG).show();
+            return null;
+        }
         ChangePasswordRequest request = new ChangePasswordRequest(binding.existingPassword.getText().toString(),
                 binding.newPassword.getText().toString(), binding.confirmPassword.getText().toString());
         return request;
+    }
+
+    private class PWDTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (isAllInputsValid()) {
+                updateButtonState(true);
+            } else {
+                updateButtonState(false);
+            }
+        }
+    }
+
+    private boolean isAllInputsValid() {
+        if (!CommonUtil.isValidPassword(binding.existingPassword.getText().toString())) {
+            return false;
+        }
+        if (!CommonUtil.isValidPassword(binding.newPassword.getText().toString())) {
+            return false;
+        }
+        if (!CommonUtil.isValidPassword(binding.confirmPassword.getText().toString())) {
+            return false;
+        }
+        return true;
+    }
+
+    private void updateButtonState(boolean isEnabled) {
+        if (isEnabled) {
+            binding.saveButton.setBackgroundResource(R.drawable.button_enabled);
+            binding.saveButton.setTextColor(Color.WHITE);
+        } else {
+            binding.saveButton.setBackgroundResource(R.drawable.button_boarder_grey);
+            binding.saveButton.setTextColor(Color.GRAY);
+        }
     }
 }
