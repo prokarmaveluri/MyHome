@@ -9,7 +9,7 @@ public class ChangeSesurityQuestionRequest {
     private String password;
     private Question question;
 
-    ChangeSesurityQuestionRequest(String password, Question question){
+    public ChangeSesurityQuestionRequest(String password, Question question){
         this.password = password;
         this.question = question;
     }
@@ -23,7 +23,7 @@ public class ChangeSesurityQuestionRequest {
     }
 
 
-    public class Question {
+    public static class Question {
 
         private String question;
         private String answer;

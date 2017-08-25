@@ -47,7 +47,7 @@ public class ChangePasswordFragment extends BaseFragment {
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.SETTINGS;
+        return Constants.ActivityTag.CHANGE_PASSWORD;
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.prokarma.myhome.features.contact.ContactUsFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.faq.FaqFragment;
 import com.prokarma.myhome.features.settings.ChangePasswordFragment;
+import com.prokarma.myhome.features.settings.ChangeSecQuestionFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
 import com.prokarma.myhome.features.tos.TosFragment;
 import com.prokarma.myhome.utils.Constants;
@@ -112,6 +113,16 @@ public class OptionsActivity extends BaseActivity {
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, changeFragment, ChangePasswordFragment.CHANGE_PASSWORD_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.CHANGE_PASSWORD);
+                break;
+            case ENTER_PASSWORD_SEC_QUESTION:
+                ChangeSecQuestionFragment enterPasswordFragment = ChangeSecQuestionFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, enterPasswordFragment, ChangeSecQuestionFragment.CHANGE_SEC_PASSWORD_TAG)
                         .commitAllowingStateLoss();
                 getSupportFragmentManager().executePendingTransactions();
 
