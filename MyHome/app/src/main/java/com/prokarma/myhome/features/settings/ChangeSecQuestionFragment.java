@@ -43,7 +43,7 @@ public class ChangeSecQuestionFragment extends BaseFragment implements View.OnCl
         binding.nextButton.setOnClickListener(this);
         binding.enterPassword.addTextChangedListener(new PWDTextWatcher());
 
-        getActivity().setTitle(getString(R.string.change_question));
+        getActivity().setTitle("Enter Password");
         return binding.getRoot();
     }
 
