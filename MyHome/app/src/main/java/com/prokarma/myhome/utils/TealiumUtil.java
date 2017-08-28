@@ -30,7 +30,6 @@ import timber.log.Timber;
 public final class TealiumUtil {
     private final static String ACCOUNT_NAME = "dignityhealth";
     private final static String PROFILE_NAME = "myhomeapp";
-    private final static String ENVIRONMENT = "dev";
     private final static String KEY_TEALIUM_INIT_COUNT = "tealium_init_count";
     private final static String KEY_TEALIUM_INITIALIZED = "tealium_initialized";
 
@@ -52,7 +51,11 @@ public final class TealiumUtil {
             WebView.setWebContentsDebuggingEnabled(true);
         }
 
-        final Tealium.Config config = Tealium.Config.create(application, ACCOUNT_NAME, PROFILE_NAME, ENVIRONMENT);
+        final Tealium.Config config = Tealium.Config.create(
+                application,
+                ACCOUNT_NAME,
+                PROFILE_NAME,
+                BuildConfig.TEALIUM_ENVIRONMENT);
 
         // (OPTIONAL) Get the WebView with UTag loaded
         config.getEventListeners().add(createWebViewLoadedListener());

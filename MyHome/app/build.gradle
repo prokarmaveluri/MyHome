@@ -71,9 +71,17 @@ android {
         def CIAM_BASE_URL = "CIAM_BASE_URL"
         def S2_BASE_URL = "S2_BASE_URL"
         def SCHEDULING_BASE = "SCHEDULING_BASE"
+
+        def TEALIUM_ENVIRONMENT = "TEALIUM_ENVIRONMENT"
+        def ENVIRONMENT_RELEASE = "prod"
+        def ENVIRONMENT_STAGE = "qa"
+        def ENVIRONMENT_DEBUG = "qa"
+        def ENVIRONMENT_DEV = "dev"
+
         release {
             HOCKEYAPP_APP_ID = "\"19a9fa384bab4246a43242776eb80453\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
+            buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_RELEASE
             buildConfigField BOOLEAN, REPORT_LOGS, FALSE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
@@ -110,6 +118,7 @@ android {
         stage {
             HOCKEYAPP_APP_ID = "\"19a9fa384bab4246a43242776eb80453\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
+            buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_STAGE
             buildConfigField BOOLEAN, REPORT_LOGS, FALSE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
@@ -146,6 +155,7 @@ android {
         debug {
             HOCKEYAPP_APP_ID = "\"b51e6a79f705472fb7613985e9f82e7f\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
+            buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_DEBUG
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
@@ -173,6 +183,7 @@ android {
         }
         developer {
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
+            buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_DEV
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, FALSE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
