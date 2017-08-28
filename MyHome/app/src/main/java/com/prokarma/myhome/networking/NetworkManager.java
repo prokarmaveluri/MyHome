@@ -38,6 +38,7 @@ import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.settings.ChangePasswordRequest;
 import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -401,13 +402,13 @@ public class NetworkManager {
 
     //1.2 APIs
 
-    public Call<Void> changePassword(String bearerToken,
+    public Call<CommonResponse> changePassword(String bearerToken,
                                      ChangePasswordRequest request) {
         return service.changePassword(BEARER + bearerToken, request);
     }
 
-    public Call<Void> changeSecurityQuestion(String bearerToken,
-                                             ChangeSesurityQuestionRequest request) {
+    public Call<CommonResponse> changeSecurityQuestion(String bearerToken,
+                                                       ChangeSesurityQuestionRequest request) {
         return service.changeSecurityQuestion(BEARER + bearerToken, request);
     }
 
