@@ -23,8 +23,9 @@ import com.prokarma.myhome.features.preferences.MySavedDoctorsRequest;
 import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
 import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
 import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
+import com.prokarma.myhome.features.profile.MyProfileRequest;
 import com.prokarma.myhome.features.profile.Profile;
-import com.prokarma.myhome.features.profile.ProfileResponse;
+import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.settings.ChangePasswordRequest;
 import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
@@ -59,8 +60,8 @@ public interface RESTService {
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/enrollment")
     Call<Void> register(@Body EnrollmentRequest request);
 
-    @GET(RESTConstants.CIAM_BASE_URL + "api/users/me")
-    Call<ProfileResponse> getProfile(@Header("Authorization") String bearer);
+//    @GET(RESTConstants.CIAM_BASE_URL + "api/users/me")
+//    Call<ProfileResponse> getProfile(@Header("Authorization") String bearer);
 
     @PATCH(RESTConstants.CIAM_BASE_URL + "api/users/me")
     Call<Void> updateProfile(@Header("Authorization") String bearer, @Body Profile updatedProfileData);
@@ -180,4 +181,8 @@ public interface RESTService {
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/me/recovery/question")
     Call<Void> changeSecurityQuestion(@Header("Authorization") String bearer,
                                       @Body ChangeSesurityQuestionRequest request);
+
+    @POST(RESTConstants.CIAM_BASE_URL + "api/users/query")
+    Call<ProfileGraphqlResponse> getUserProfile(@Header("Authorization") String bearer,
+                                                @Body MyProfileRequest request);
 }

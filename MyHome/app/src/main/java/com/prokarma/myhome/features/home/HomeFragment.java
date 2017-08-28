@@ -35,8 +35,8 @@ import com.prokarma.myhome.features.fad.ProviderListDialog;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
+import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -198,14 +198,14 @@ public class HomeFragment extends BaseFragment {
         }
         Timber.i("Session bearer " + bearer);
         showLoading();
-        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
+        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileGraphqlResponse>() {
             @Override
-            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+            public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
                 if (isAdded()) {
 
                     if (response.isSuccessful()) {
                         Timber.d(getString(R.string.db_res_success) + "\n" + response);
-                        ProfileManager.setProfile(response.body().result);
+                        ProfileManager.setProfile(response.body().getData().getUser());
                         updateProfileViews();
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
@@ -217,7 +217,7 @@ public class HomeFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+            public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e(getString(R.string.db_res_failed));
                     Timber.e(getString(R.string.db_res_throwable) + " = " + t);

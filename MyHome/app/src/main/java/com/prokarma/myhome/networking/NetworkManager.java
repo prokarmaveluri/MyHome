@@ -31,9 +31,10 @@ import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
 import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
+import com.prokarma.myhome.features.profile.MyProfileRequest;
 import com.prokarma.myhome.features.profile.Profile;
+import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.settings.ChangePasswordRequest;
 import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
@@ -151,9 +152,9 @@ public class NetworkManager {
      * @param bearer the bearer token of the user whose Profile we want
      * @return a Profile object of the user
      */
-    public Call<ProfileResponse> getProfile(String bearer) {
-        return service.getProfile(BEARER + bearer);
-    }
+//    public Call<ProfileResponse> getProfile(String bearer) {
+//        return service.getProfile(BEARER + bearer);
+//    }
 
     /**
      * Update a Profile for a particular user
@@ -408,6 +409,16 @@ public class NetworkManager {
     public Call<Void> changeSecurityQuestion(String bearerToken,
                                              ChangeSesurityQuestionRequest request) {
         return service.changeSecurityQuestion(BEARER + bearerToken, request);
+    }
+
+    /**
+     * Get a Profile
+     *
+     * @param bearer the bearer token of the user whose Profile we want
+     * @return a Profile object of the user
+     */
+    public Call<ProfileGraphqlResponse> getProfile(String bearer) {
+        return service.getUserProfile(BEARER + bearer, new MyProfileRequest());
     }
 
     // Network Util
