@@ -32,6 +32,12 @@ public final class TealiumUtil {
     private final static String PROFILE_NAME = "myhomeapp";
     private final static String KEY_TEALIUM_INIT_COUNT = "tealium_init_count";
     private final static String KEY_TEALIUM_INITIALIZED = "tealium_initialized";
+    private final static String KEY_TEALIUM_APP_NAME = "appName";
+    private final static String KEY_TEALIUM_APP_ID = "appId";
+    private final static String KEY_TEALIUM_APP_VERSION = "appVersion";
+    private final static String KEY_TEALIUM_SCREEN_NAME = "screenName";
+    private final static String KEY_TEALIUM_DHOME_ID = "dhomeId";
+    private final static String KEY_TEALIUM_USER_STATE = "userState";
 
     // Identifier for the main Tealium instance
     public static final String TEALIUM_MAIN = UUID.randomUUID().toString();
@@ -83,12 +89,25 @@ public final class TealiumUtil {
         TealiumUtil.trackEvent("initialization", data);
     }
 
-    public static void trackView(String viewName, @Nullable Map<String, ?> data) {
+    public static void trackView(String screenName, @Nullable Map<String, ?> data) {
         final Tealium instance = Tealium.getInstance(TEALIUM_MAIN);
 
         // Instance can be remotely destroyed through publish settings
         if (instance != null) {
-            instance.trackView(viewName, data);
+            Map<String, Object> tealiumData = new HashMap<>();
+            tealiumData.put(KEY_TEALIUM_APP_NAME, BuildConfig.TEALIUM_APP_NAME);
+            tealiumData.put(KEY_TEALIUM_APP_ID, "my-home-app-digital-home");
+            tealiumData.put(KEY_TEALIUM_APP_VERSION, BuildConfig.VERSION_NAME);
+            tealiumData.put(KEY_TEALIUM_SCREEN_NAME, screenName);
+            tealiumData.put(KEY_TEALIUM_DHOME_ID, "dhomeId HERE!!!");
+            tealiumData.put(KEY_TEALIUM_USER_STATE, "2");
+
+            if (data != null) {
+                tealiumData.putAll(data);
+            }
+
+            Timber.d("trackView " + screenName + "\n" + tealiumData);
+            instance.trackView(screenName, tealiumData);
         }
     }
 
