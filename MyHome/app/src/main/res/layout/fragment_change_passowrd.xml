@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="45dp"
             android:hint="Existing Password"
-            android:inputType="text" />
+            android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/newPassword"
@@ -31,7 +31,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="45dp"
             android:hint="New Password"
-            android:inputType="text" />
+            android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/confirmPassword"
@@ -42,7 +42,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="45dp"
             android:hint="Confirm Password"
-            android:inputType="text" />
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/saveButton"

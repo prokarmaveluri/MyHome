@@ -280,5 +280,8 @@
     <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again</string>
     <string name="fingerprint_success">Fingerprint recognized</string>
     <string name="use_password">Use password</string>
+    <string name="touch_id_text">Quick and easy sign in to view your personalized content. Most of the time you will not have to manually enter your password. \n\nSharing your device with anyone who has a saved fingerprint or knows your passcode gives them access to your account. We do not recommend using Touch ID if you share your device. \n\nTurn off Touch ID anytime from here.</string>
+    <string name="enable_touch_id">Enable Touch ID</string>
+    <string name="touch_id_title">Touch ID</string>
 
 </resources>

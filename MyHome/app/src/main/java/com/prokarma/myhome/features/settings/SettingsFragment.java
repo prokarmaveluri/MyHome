@@ -84,7 +84,9 @@ public class SettingsFragment extends BaseFragment implements SettingsAdapter.IS
     public void settingsOptionClick(SettingsAction action) {
 
         if (action == SettingsAction.TOUCH_ID) {
-
+            NavigationActivity.setActivityTag(Constants.ActivityTag.TOUCH_ID);
+            Intent intentChangePassword = new Intent(getActivity(), OptionsActivity.class);
+            ActivityCompat.startActivity(getActivity(), intentChangePassword, null);
         } else if (action == SettingsAction.CHANGE_PASSWORD) {
             NavigationActivity.setActivityTag(Constants.ActivityTag.CHANGE_PASSWORD);
             Intent intentChangePassword = new Intent(getActivity(), OptionsActivity.class);

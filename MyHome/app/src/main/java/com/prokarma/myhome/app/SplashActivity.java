@@ -115,6 +115,7 @@ public class SplashActivity extends AppCompatActivity implements
     private void getAccessTokenFromRefresh() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                AppPreferences.getInstance().getBooleanPreference("IS_TOUCH_ID_ENABLED") &&
                 (AuthManager.getInstance().getRefreshToken() != null ||
                         CryptoManager.getInstance().getToken() != null)) {
 
