@@ -18,6 +18,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentSecqBinding;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -211,33 +212,48 @@ public class SQFragment extends Fragment {
                 new ChangeSesurityQuestionRequest.Question(selectedQuestionId,
                         binding.answer.getText().toString());
 
+        binding.changeSecProgress.setVisibility(View.VISIBLE);
         ChangeSesurityQuestionRequest request = new ChangeSesurityQuestionRequest(password, question);
         NetworkManager.getInstance().changeSecurityQuestion(AuthManager.getInstance().getBearerToken(),
-                request).enqueue(new Callback<Void>() {
+                request).enqueue(new Callback<CommonResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<CommonResponse> call,
+                                   Response<CommonResponse> response) {
                 if (response.isSuccessful()) {
 
-                    Toast.makeText(getActivity(), R.string.sec_question_changed_successfully,
-                            Toast.LENGTH_LONG).show();
+                    if (response.body().getIsValid()) {
+                        Toast.makeText(getActivity(), R.string.sec_question_changed_successfully,
+                                Toast.LENGTH_LONG).show();
 
-                    getActivity().setResult(Activity.RESULT_OK);
-                    getActivity().finish();
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+                    } else {
+                        Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                        try {
+                            String message = response.body().getErrors().get(0).getMessage();
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                        } catch (NullPointerException | IndexOutOfBoundsException ex) {
+                            Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
                 } else {
                     Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
                             Toast.LENGTH_LONG).show();
                 }
+                binding.changeSecProgress.setVisibility(View.GONE);
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e(getString(R.string.db_res_failed));
                     Timber.e(getString(R.string.db_res_throwable) + " = " + t);
                     Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
                             Toast.LENGTH_LONG).show();
                 }
+                binding.changeSecProgress.setVisibility(View.GONE);
             }
         });
     }

@@ -73,14 +73,25 @@ public class ChangePasswordFragment extends BaseFragment {
             return;
         binding.changePWDProgress.setVisibility(View.VISIBLE);
         NetworkManager.getInstance().changePassword(AuthManager.getInstance().getBearerToken(),
-                request).enqueue(new Callback<Void>() {
+                request).enqueue(new Callback<CommonResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 if (response.isSuccessful()) {
 
-                    Toast.makeText(getActivity(), R.string.password_changed_successfully,
-                            Toast.LENGTH_LONG).show();
-                    getActivity().finish();
+                    if (response.body().getIsValid()) {
+                        Toast.makeText(getActivity(), R.string.password_changed_successfully,
+                                Toast.LENGTH_LONG).show();
+                        getActivity().finish();
+                    } else {
+                        Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                        try {
+                            String message = response.body().getErrors().get(0).getMessage();
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                        } catch (NullPointerException | IndexOutOfBoundsException ex) {
+                            Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
                 } else {
                     Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
@@ -90,7 +101,7 @@ public class ChangePasswordFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e(getString(R.string.db_res_failed));
                     Timber.e(getString(R.string.db_res_throwable) + " = " + t);

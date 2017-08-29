@@ -29,6 +29,7 @@ import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.settings.ChangePasswordRequest;
 import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.utils.RESTConstants;
@@ -175,12 +176,12 @@ public interface RESTService {
     //1.2 APIs
 
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/me/password")
-    Call<Void> changePassword(@Header("Authorization") String bearer,
+    Call<CommonResponse> changePassword(@Header("Authorization") String bearer,
                               @Body ChangePasswordRequest request);
 
-    @POST(RESTConstants.CIAM_BASE_URL + "api/users/me/recovery/question")
-    Call<Void> changeSecurityQuestion(@Header("Authorization") String bearer,
-                                      @Body ChangeSesurityQuestionRequest request);
+    @PATCH(RESTConstants.CIAM_BASE_URL + "api/users/me/recovery/question")
+    Call<CommonResponse> changeSecurityQuestion(@Header("Authorization") String bearer,
+                                                @Body ChangeSesurityQuestionRequest request);
 
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/query")
     Call<ProfileGraphqlResponse> getUserProfile(@Header("Authorization") String bearer,
