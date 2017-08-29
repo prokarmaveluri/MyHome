@@ -134,11 +134,11 @@ public class ChangePasswordFragment extends BaseFragment {
             return null;
         }
         if (!CommonUtil.isValidPassword(binding.confirmPassword.getText().toString())) {
-            binding.confirmPassword.setError(getString(R.string.valid_password));
+            binding.confirmPasswordLayout.setError(getString(R.string.valid_password));
             return null;
         }
         if (!binding.confirmPassword.getText().toString().equals(binding.newPassword.getText().toString())) {
-            binding.confirmPassword.setError(getString(R.string.valid_password_match));
+            binding.confirmPasswordLayout.setError(getString(R.string.valid_password_match));
             return null;
         }
         ChangePasswordRequest request = new ChangePasswordRequest(binding.existingPassword.getText().toString(),
