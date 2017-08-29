@@ -114,4 +114,36 @@ public class RESTConstants {
             "  }" +
             "}";
 
+    public static final String MY_PROFILE = "{" +
+            " user {" +
+            "   username" +
+            "   firstName" +
+            "   lastName" +
+            "   phoneNumber" +
+            "   dateOfBirth" +
+            "   email" +
+            "   isVerified" +
+            "   isTermsAccepted" +
+            "   preferredName" +
+            "   gender" +
+            "   idLevel" +
+            "   securityQuestion" +
+            "  address {" +
+            "    city" +
+            "    countryCode" +
+            "    line1" +
+            "    line2" +
+            "    stateOrProvince" +
+            "    zipCode" +
+            "  }" +
+            "  insuranceProvider {" +
+            "    groupNumber" +
+            "    insurancePlan" +
+            "    memberNumber" +
+            "    providerName" +
+            "  }" +
+            " }" +
+            "}";
+
+
 }

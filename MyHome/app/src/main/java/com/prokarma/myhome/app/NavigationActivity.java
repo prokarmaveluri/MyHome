@@ -409,11 +409,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         switch (item.getItemId()) {
 //            case R.id.help:
 //                return true;
-//            case R.id.settings:
-//                setActivityTag(ActivityTag.SETTINGS);
-//                Intent intentSettings = new Intent(this, OptionsActivity.class);
-//                ActivityCompat.startActivity(this, intentSettings, options.toBundle());
-//                return true;
+            case R.id.settings:
+                setActivityTag(ActivityTag.SETTINGS);
+                Intent intentSettings = new Intent(this, OptionsActivity.class);
+                ActivityCompat.startActivity(this, intentSettings, options.toBundle());
+                return true;
 //            case R.id.preferences:
 //                return true;
             case R.id.bill_pay:

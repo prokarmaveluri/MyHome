@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
@@ -34,6 +35,7 @@ import timber.log.Timber;
 public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface, BookingSaveProfileInterface, DialogInterface {
     public static final String BOOKING_DIALOG_TAG = "booking_dialog_tag";
     public static final String SCHEDULE_ID_KEY = "schedule_id";
+    public static final String AUTOPOPULATE_INSURANCE_PLAN_KEY = "autopopulate_insurance_plan";
     public static final String IS_BOOKING_FOR_ME_KEY = "is_booking_for_me";
     public static final String BOOKING_PROFILE = "booking_profile";
 
@@ -44,15 +46,17 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     Toolbar toolbar;
 
     private String scheduleId;
+    private boolean autoPopulateInsurancePlan;
 
     public static BookingDialogFragment newInstance() {
         return new BookingDialogFragment();
     }
 
-    public static BookingDialogFragment newInstance(String scheduleId) {
+    public static BookingDialogFragment newInstance(String scheduleId, boolean autoPopulateInsurancePlan) {
         BookingDialogFragment bookingFragment = new BookingDialogFragment();
         Bundle args = new Bundle();
         args.putString(SCHEDULE_ID_KEY, scheduleId);
+        args.putBoolean(AUTOPOPULATE_INSURANCE_PLAN_KEY, autoPopulateInsurancePlan);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -70,6 +74,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
         if (args != null) {
             scheduleId = args.getString(SCHEDULE_ID_KEY);
+            autoPopulateInsurancePlan = args.getBoolean(AUTOPOPULATE_INSURANCE_PLAN_KEY);
         }
 
         //providerDetailsResponse = args.getParcelable(PROVIDER_DETAILS_RESPONSE_KEY);
@@ -77,7 +82,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
         bookingViewPager = (WrappingViewPager) bookingView.findViewById(R.id.booking_dialog_view_pager);
         bookingViewPager.setSwipeAllowed(false);
-        bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, BookingManager.getBookingProfile() != null, BookingManager.getBookingProfile()));
+        bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, BookingManager.getBookingProfile() != null, autoPopulateInsurancePlan, BookingManager.getBookingProfile()));
 
         toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.find_care));
@@ -172,8 +177,8 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                     ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(response.body());
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
-                    ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupInsurancePlanSpinner(null);
-                    ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(null);
+                    getDialog().dismiss();
+                    Toast.makeText(getContext(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -181,8 +186,8 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             public void onFailure(Call<RegValidationResponse> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
-                ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupInsurancePlanSpinner(null);
-                ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(null);
+                getDialog().dismiss();
+                Toast.makeText(getContext(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
             }
         });
     }

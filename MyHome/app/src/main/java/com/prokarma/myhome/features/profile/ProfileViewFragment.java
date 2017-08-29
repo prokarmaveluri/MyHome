@@ -48,7 +48,7 @@ public class ProfileViewFragment extends BaseFragment {
     TextView phone;
     TextView email;
 
-    TextView insuranceProvider;
+    TextView insurancePlan;
     TextView memberId;
     TextView group;
     private Button logout;
@@ -79,7 +79,7 @@ public class ProfileViewFragment extends BaseFragment {
         phone = (TextView) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
 
-        insuranceProvider = (TextView) profileView.findViewById(R.id.provider);
+        insurancePlan = (TextView) profileView.findViewById(R.id.plan);
         memberId = (TextView) profileView.findViewById(R.id.id);
         group = (TextView) profileView.findViewById(R.id.group);
         logout = (Button) profileView.findViewById(R.id.sign_out);
@@ -148,15 +148,15 @@ public class ProfileViewFragment extends BaseFragment {
         viewProfile.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         errorText.setVisibility(View.GONE);
-        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
+        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileGraphqlResponse>() {
             @Override
-            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+            public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         try {
                             Timber.d("Successful Response\n" + response);
-                            ProfileManager.setProfile(response.body().result);
-                            updateProfileViews(response.body().result);
+                            ProfileManager.setProfile(response.body().getData().getUser());
+                            updateProfileViews(response.body().getData().getUser());
                             viewProfile.setVisibility(View.VISIBLE);
                             errorText.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
@@ -176,7 +176,7 @@ public class ProfileViewFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+            public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);
@@ -239,9 +239,9 @@ public class ProfileViewFragment extends BaseFragment {
             email.setText(String.format(getString(R.string.not_available_postfix),getString(R.string.email_profile)));
         }
 
-        if (profile.insuranceProvider != null && !CommonUtil.isEmptyString(profile.insuranceProvider.providerName)) {
-            insuranceProvider.setText(profile.insuranceProvider.providerName);
-            insuranceProvider.setVisibility(View.VISIBLE);
+        if (profile.insuranceProvider != null && !CommonUtil.isEmptyString(profile.insuranceProvider.insurancePlan)) {
+            insurancePlan.setText(profile.insuranceProvider.insurancePlan);
+            insurancePlan.setVisibility(View.VISIBLE);
         }
 
         if (profile.insuranceProvider != null && !CommonUtil.isEmptyString(profile.insuranceProvider.memberNumber)) {

@@ -172,12 +172,10 @@ public class MapViewFragment extends Fragment implements
 
             for (ProviderDetailsResponse provider : providerList) {
                 for (Office office : provider.getOffices()) {
-                    LatLng position = new LatLng(Double.valueOf(office.getLat()),
-                            Double.valueOf(office.getLong()));
+                    LatLng position = new LatLng(Double.valueOf(office.getLat()), Double.valueOf(office.getLong()));
                     builder.include(position);
 
-                    MapClusterItem item = new MapClusterItem(Double.valueOf(office.getLat()),
-                            Double.valueOf(office.getLong()),
+                    MapClusterItem item = new MapClusterItem(position,
                             provider.getDisplayFullName(),
                             office.getAddress(), provider);
                     mClusterManager.addItem(item);
@@ -385,6 +383,11 @@ public class MapViewFragment extends Fragment implements
         @Override
         protected int getColor(int clusterSize) {
             return Color.parseColor("#097288");
+        }
+
+        @Override
+        protected boolean shouldRenderAsCluster(Cluster<MapClusterItem> cluster) {
+            return cluster.getSize() > 1;
         }
 
         @Override

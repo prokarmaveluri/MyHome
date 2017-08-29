@@ -58,7 +58,7 @@ public class ProfileEditFragment extends BaseFragment {
     TextView email;
     TextView genderLabel;
 
-    TextInputEditText insuranceProvider;
+    TextInputEditText insurancePlan;
     TextInputEditText memberId;
     TextInputEditText group;
     ProgressBar progress;
@@ -97,7 +97,7 @@ public class ProfileEditFragment extends BaseFragment {
         email = (TextView) profileView.findViewById(R.id.email);
         progress = (ProgressBar) profileView.findViewById(R.id.profile_edit_progress);
 
-        insuranceProvider = (TextInputEditText) profileView.findViewById(R.id.provider);
+        insurancePlan = (TextInputEditText) profileView.findViewById(R.id.plan);
         memberId = (TextInputEditText) profileView.findViewById(R.id.id);
         group = (TextInputEditText) profileView.findViewById(R.id.group);
 
@@ -161,14 +161,14 @@ public class ProfileEditFragment extends BaseFragment {
 
     private void getProfileInfo(String bearer) {
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
+        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileGraphqlResponse>() {
             @Override
-            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+            public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
-                        ProfileManager.setProfile(response.body().result);
-                        updateProfileViews(response.body().result);
+                        ProfileManager.setProfile(response.body().getData().getUser());
+                        updateProfileViews(response.body().getData().getUser());
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                     }
@@ -177,7 +177,7 @@ public class ProfileEditFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+            public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     progress.setVisibility(View.GONE);
@@ -306,8 +306,8 @@ public class ProfileEditFragment extends BaseFragment {
             email.setText(profile.email);
         }
 
-        if (profile.insuranceProvider != null && profile.insuranceProvider.providerName != null) {
-            insuranceProvider.setText(profile.insuranceProvider.providerName);
+        if (profile.insuranceProvider != null && profile.insuranceProvider.insurancePlan != null) {
+            insurancePlan.setText(profile.insuranceProvider.insurancePlan);
         }
 
         if (profile.insuranceProvider != null && profile.insuranceProvider.memberNumber != null) {
@@ -425,8 +425,8 @@ public class ProfileEditFragment extends BaseFragment {
             profile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
         }
 
-        if (insuranceProvider.getText() != null) {
-            profile.insuranceProvider.providerName = insuranceProvider.getText().toString().trim();
+        if (insurancePlan.getText() != null) {
+            profile.insuranceProvider.insurancePlan = insurancePlan.getText().toString().trim();
         }
 
         if (memberId.getText() != null) {

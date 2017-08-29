@@ -96,7 +96,7 @@ public class Profile implements Parcelable {
                 ", primaryCaregiverName='" + primaryCaregiverName + '\'' +
                 ", isPregnant=" + isPregnant +
                 ", weeksPregnant='" + weeksPregnant + '\'' +
-                ", insuranceProvider=" + insuranceProvider +
+                ", insurancePlan=" + insuranceProvider +
                 ", clientID='" + clientID + '\'' +
                 ", remoteID='" + remoteID + '\'' +
                 ", email='" + email + '\'' +
@@ -203,7 +203,7 @@ public class Profile implements Parcelable {
             askToSave = true;
         }
 
-        if (!Objects.equals(insuranceProvider.providerName, profile.insuranceProvider.providerName) && (profile.insuranceProvider.providerName != null && !profile.insuranceProvider.providerName.isEmpty())) {
+        if (!Objects.equals(insuranceProvider.insurancePlan, profile.insuranceProvider.insurancePlan) && (profile.insuranceProvider.insurancePlan != null && !profile.insuranceProvider.insurancePlan.isEmpty())) {
             askToSave = true;
         }
 

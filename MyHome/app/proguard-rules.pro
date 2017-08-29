@@ -166,6 +166,7 @@
 -keep class com.prokarma.myhome.features.fad.CommonModel{*;}
 -keep class com.prokarma.myhome.features.fad.Office{*;}
 -keep class com.prokarma.myhome.features.profile.Address{*;}
+-keep class com.prokarma.myhome.features.profile.InsuranceProvider{*;}
 -keep class com.prokarma.myhome.features.fad.details.bookingBookingSelectPersonInterface{*;}
 -keep class com.prokarma.myhome.features.fad.details.Image{*;}
 -keep class com.google.android.gms.maps.model.Marker{*;}
@@ -208,6 +209,15 @@
 -keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Result{*;}
 -keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Errors{*;}
 -keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Warnings{*;}
+
+-keep class com.prokarma.myhome.features.settings.CommonResponse{*;}
+-keep class com.prokarma.myhome.features.settings.CommonResponse$Error{*;}
+-keep class com.prokarma.myhome.features.settings.ChangePasswordRequest{*;}
+-keep class com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest{*;}
+-keep class com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest$Question{*;}
+-keep class com.prokarma.myhome.features.profile.MyProfileRequest{*;}
+-keep class com.prokarma.myhome.features.profile.ProfileGraphqlResponse{*;}
+-keep class com.prokarma.myhome.features.profile.ProfileGraphqlResponse$Data{*;}
 
 -keepclassmembers class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator CREATOR;

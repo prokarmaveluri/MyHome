@@ -35,8 +35,8 @@ import com.prokarma.myhome.features.fad.ProviderListDialog;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
+import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -63,6 +63,7 @@ public class HomeFragment extends BaseFragment {
     protected static final String APPOINTMENT_KEY = "appointment_key";
     private static final int RECENT_PROVIDERS = 200;
     private HomeBinding binding;
+    private int progressStatus = 0;
     Appointment appointment = null;
 
     public static HomeFragment newInstance() {
@@ -128,6 +129,7 @@ public class HomeFragment extends BaseFragment {
         if (ConnectionUtil.isConnected(getActivity())) {
             // Get Name from profile
             if (ProfileManager.getProfile() == null) {
+                progressStatus = 1;
                 Timber.i(getString(R.string.db_profile_alert_one));
                 getProfileInfo(AuthManager.getInstance().getBearerToken());
             } else {
@@ -136,6 +138,7 @@ public class HomeFragment extends BaseFragment {
             }
             // Get Appointment Info
             if (ProfileManager.getAppointments() == null) {
+                progressStatus++;
                 Timber.i(getString(R.string.db_appoint_alert_one));
                 getMyAppointments();
             } else {
@@ -190,28 +193,31 @@ public class HomeFragment extends BaseFragment {
         if (!ConnectionUtil.isConnected(getActivity())) {
             Toast.makeText(getActivity(), R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
+            progressStatus--;
             return;
         }
         Timber.i("Session bearer " + bearer);
         showLoading();
-        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileResponse>() {
+        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileGraphqlResponse>() {
             @Override
-            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+            public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
                 if (isAdded()) {
 
                     if (response.isSuccessful()) {
                         Timber.d(getString(R.string.db_res_success) + "\n" + response);
-                        ProfileManager.setProfile(response.body().result);
+                        ProfileManager.setProfile(response.body().getData().getUser());
                         updateProfileViews();
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     }
-                    hideLoading();
+                    if (progressStatus == 1)
+                        hideLoading();
+                    progressStatus--;
                 }
             }
 
             @Override
-            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+            public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e(getString(R.string.db_res_failed));
                     Timber.e(getString(R.string.db_res_throwable) + " = " + t);
@@ -236,6 +242,8 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void getMyAppointments() {
+        showLoading();
+        binding.relDbAppointItemLayout.setVisibility(View.GONE);
         NetworkManager.getInstance().getMyAppointments(AuthManager.getInstance().getBearerToken(),
                 new MyAppointmentsRequest()).enqueue(new Callback<MyAppointmentsResponse>() {
             @Override
@@ -255,18 +263,19 @@ public class HomeFragment extends BaseFragment {
                         } catch (Exception e) {
                         }
                     }
-
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
-
+                if (progressStatus == 1)
+                    hideLoading();
+                progressStatus--;
             }
 
             @Override
             public void onFailure(Call<MyAppointmentsResponse> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
-
+                hideLoading();
             }
         });
     }
@@ -324,7 +333,6 @@ public class HomeFragment extends BaseFragment {
 
     private void updateAppointViews() {
         ArrayList<Appointment> appointments = ProfileManager.getAppointments();
-
         appointments = CommonUtil.getFutureAppointments(appointments);
         if (appointments != null && appointments.size() > 0) {
             try {
@@ -367,8 +375,7 @@ public class HomeFragment extends BaseFragment {
                 binding.txtDbAppointItemDate.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
                 binding.txtDbAppointItemTime.setText(DateUtil.getTime(appointment.appointmentStart));
             }
-
-
+            hideLoading();
         } else {
             binding.relDbAppointItemLayout.setVisibility(View.GONE);
             binding.viewAppointDivider.setVisibility(View.GONE);

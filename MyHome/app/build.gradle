@@ -19,10 +19,16 @@ android {
 
     //URLs
     def PROD_VERSIONING_URL = "\"http://web-usw1-versioningservices-prd.azurewebsites.net/\""
-    def PROD_OKTA_BASE_URL = "\"https://dignityhealth.okata.com/\""
-    def PROD_CIAM_BASE_URL = "\"https://prd.ciam.dignityhealth.org/\""
+    def PROD_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
+    def PROD_CIAM_BASE_URL = "\"https://prod.ciam.dignityhealth.org/\""
     def PROD_S2_BASE_URL = "\"https://e3findadocapp.azurewebsites.net/\""
     def PROD_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-prd.azurewebsites.net/\""
+
+    def STAGE_VERSIONING_URL = "\"http://web-usw1-versioningservices-stg.azurewebsites.net/\""
+    def STAGE_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
+    def STAGE_CIAM_BASE_URL = "\"https://stage.ciam.dignityhealth.org/\""
+    def STAGE_S2_BASE_URL = "\"https://web-usw1-fad-stg.azurewebsites.net/\""
+    def STAGE_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-stg.azurewebsites.net/\""
 
     def TEST_VERSIONING_URL = "\"http://web-usw1-versioningservices-tst.azurewebsites.net/\""
     def TEST_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
@@ -43,8 +49,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 1008
-        versionName "1.1.8"
+        versionCode 101018
+        versionName "1.1.18"
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -78,6 +84,42 @@ android {
             buildConfigField STRING, CIAM_BASE_URL, PROD_CIAM_BASE_URL
             buildConfigField STRING, S2_BASE_URL, PROD_S2_BASE_URL
             buildConfigField STRING, SCHEDULING_BASE, PROD_SCHEDULING_BASE
+
+            buildConfigField STRING, "AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
+            buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = outputFile.name.replace('.apk', "-" + defaultConfig.versionName + ".apk")
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+        stage {
+            HOCKEYAPP_APP_ID = "\"19a9fa384bab4246a43242776eb80453\""
+            buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
+            buildConfigField BOOLEAN, REPORT_LOGS, FALSE
+            buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
+            buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
+            buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
+
+            buildConfigField STRING, VERSIONING_URL, STAGE_VERSIONING_URL
+            buildConfigField STRING, OKTA_BASE_URL, STAGE_OKTA_BASE_URL
+            buildConfigField STRING, CIAM_BASE_URL, STAGE_CIAM_BASE_URL
+            buildConfigField STRING, S2_BASE_URL, STAGE_S2_BASE_URL
+            buildConfigField STRING, SCHEDULING_BASE, STAGE_SCHEDULING_BASE
 
             buildConfigField STRING, "AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
             buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
@@ -168,8 +210,8 @@ dependencies {
     })
 
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.2'
-    compile 'com.google.android.gms:play-services-maps:11.0.1'
-    compile 'com.google.android.gms:play-services-location:11.0.1'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
+    compile 'com.google.android.gms:play-services-location:11.0.4'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:multidex:1.0.1'
     compile 'net.hockeyapp.android:HockeySDK:4.1.5'

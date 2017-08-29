@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 
 /**
@@ -34,6 +36,7 @@ public class FaqFragment extends BaseFragment {
         View faqView = inflater.inflate(R.layout.faq, container, false);
         getActivity().setTitle(getString(R.string.bill_pay));
         webView = (WebView) faqView.findViewById(R.id.faq_webview);
+        TextView error = (TextView) faqView.findViewById(R.id.faqError);
         webView.loadUrl(FAQ_URL);
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -41,6 +44,14 @@ public class FaqFragment extends BaseFragment {
                 return super.shouldOverrideUrlLoading(view, request);
             }
         });
+
+        error.setVisibility(View.GONE);
+        webView.setVisibility(View.VISIBLE);
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            error.setVisibility(View.VISIBLE);
+            webView.setVisibility(View.GONE);
+        }
         return faqView;
     }
 

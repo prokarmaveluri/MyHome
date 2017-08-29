@@ -12,16 +12,27 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentSecqBinding;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
+import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.TosActivity;
+import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 /*
  * Fragment to select security question.
@@ -34,6 +45,8 @@ public class SQFragment extends Fragment {
     private EnrollmentRequest enrollmentRequest;
     private String selectedQuestionId;
     private String selectedQuestionTxt;
+    private boolean isChange = false;
+    private String password;
 
     private static final int SELECT_QUESTION_ACTION = 100;
 
@@ -54,6 +67,8 @@ public class SQFragment extends Fragment {
             enrollmentRequest = bundle.getParcelable(Constants.ENROLLMENT_REQUEST);
             selectedQuestionId = bundle.getString(Constants.ENROLLMENT_QUESTION_ID);
             selectedQuestionTxt = bundle.getString(Constants.ENROLLMENT_QUESTION);
+            isChange = bundle.getBoolean("IS_SEC_QUESTION_CHANGE", false);
+            password = bundle.getString("SEC_QUESTION_PASSWORD");
         }
     }
 
@@ -66,6 +81,9 @@ public class SQFragment extends Fragment {
         binding.setHandlers(new SQClickEvent());
         binding.answer.addTextChangedListener(new SQTextWatcher());
 
+        if (isChange) {
+            binding.submitQuestion.setText("Save");
+        }
         binding.selectQuestion.setText(selectedQuestionTxt);
         return binding.getRoot();
     }
@@ -92,6 +110,12 @@ public class SQFragment extends Fragment {
                 case R.id.submit_question:
                     if (binding.answer.getText().toString().isEmpty()) {
                         binding.answer.setError(getString(R.string.enter_valid_answer));
+                        break;
+                    }
+                    if (isChange) {
+                        //Submit the new question
+                        Timber.i("Submit the new question");
+                        changeSecurityQuestion();
                         break;
                     }
                     if (null != selectedQuestionId &&
@@ -176,5 +200,61 @@ public class SQFragment extends Fragment {
             binding.submitQuestion.setBackgroundResource(R.drawable.button_boarder_grey);
             binding.submitQuestion.setTextColor(Color.GRAY);
         }
+    }
+
+    private void changeSecurityQuestion() {
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        ChangeSesurityQuestionRequest.Question question =
+                new ChangeSesurityQuestionRequest.Question(selectedQuestionId,
+                        binding.answer.getText().toString());
+
+        binding.changeSecProgress.setVisibility(View.VISIBLE);
+        ChangeSesurityQuestionRequest request = new ChangeSesurityQuestionRequest(password, question);
+        NetworkManager.getInstance().changeSecurityQuestion(AuthManager.getInstance().getBearerToken(),
+                request).enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call,
+                                   Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+
+                    if (response.body().getIsValid()) {
+                        Toast.makeText(getActivity(), R.string.sec_question_changed_successfully,
+                                Toast.LENGTH_LONG).show();
+
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+                    } else {
+                        Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                        try {
+                            String message = response.body().getErrors().get(0).getMessage();
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                        } catch (NullPointerException | IndexOutOfBoundsException ex) {
+                            Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                } else {
+                    Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                    Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
+                            Toast.LENGTH_LONG).show();
+                }
+                binding.changeSecProgress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                if (isAdded()) {
+                    Timber.e(getString(R.string.db_res_failed));
+                    Timber.e(getString(R.string.db_res_throwable) + " = " + t);
+                    Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
+                            Toast.LENGTH_LONG).show();
+                }
+                binding.changeSecProgress.setVisibility(View.GONE);
+            }
+        });
     }
 }

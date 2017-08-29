@@ -11,6 +11,8 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.faq.FaqFragment;
+import com.prokarma.myhome.features.settings.ChangePasswordFragment;
+import com.prokarma.myhome.features.settings.ChangeSecQuestionFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
 import com.prokarma.myhome.features.tos.TosFragment;
 import com.prokarma.myhome.utils.Constants;
@@ -105,7 +107,27 @@ public class OptionsActivity extends BaseActivity {
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.DEVELOPER);
                 break;
+            case CHANGE_PASSWORD:
 
+                ChangePasswordFragment changeFragment = ChangePasswordFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, changeFragment, ChangePasswordFragment.CHANGE_PASSWORD_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.CHANGE_PASSWORD);
+                break;
+            case ENTER_PASSWORD_SEC_QUESTION:
+                ChangeSecQuestionFragment enterPasswordFragment = ChangeSecQuestionFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, enterPasswordFragment, ChangeSecQuestionFragment.CHANGE_SEC_PASSWORD_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.CHANGE_PASSWORD);
+                break;
             default:
                 Timber.w("Options Activity found an activity tag that isn't being handled!");
                 Toast.makeText(this, getString(R.string.unknown_activity_tag), Toast.LENGTH_SHORT).show();

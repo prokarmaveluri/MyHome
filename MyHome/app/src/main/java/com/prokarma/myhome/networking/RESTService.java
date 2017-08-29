@@ -23,9 +23,13 @@ import com.prokarma.myhome.features.preferences.MySavedDoctorsRequest;
 import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
 import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
 import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
+import com.prokarma.myhome.features.profile.MyProfileRequest;
 import com.prokarma.myhome.features.profile.Profile;
-import com.prokarma.myhome.features.profile.ProfileResponse;
+import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
+import com.prokarma.myhome.features.settings.ChangePasswordRequest;
+import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.utils.RESTConstants;
@@ -57,8 +61,8 @@ public interface RESTService {
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/enrollment")
     Call<Void> register(@Body EnrollmentRequest request);
 
-    @GET(RESTConstants.CIAM_BASE_URL + "api/users/me")
-    Call<ProfileResponse> getProfile(@Header("Authorization") String bearer);
+//    @GET(RESTConstants.CIAM_BASE_URL + "api/users/me")
+//    Call<ProfileResponse> getProfile(@Header("Authorization") String bearer);
 
     @PATCH(RESTConstants.CIAM_BASE_URL + "api/users/me")
     Call<Void> updateProfile(@Header("Authorization") String bearer, @Body Profile updatedProfileData);
@@ -168,4 +172,18 @@ public interface RESTService {
     @POST(RESTConstants.CIAM_BASE_URL + "api/users/query")
     Call<MyAppointmentsResponse> getMyAppointments(@Header("Authorization") String bearer,
                                                    @Body MyAppointmentsRequest request);
+
+    //1.2 APIs
+
+    @POST(RESTConstants.CIAM_BASE_URL + "api/users/me/password")
+    Call<CommonResponse> changePassword(@Header("Authorization") String bearer,
+                              @Body ChangePasswordRequest request);
+
+    @PATCH(RESTConstants.CIAM_BASE_URL + "api/users/me/recovery/question")
+    Call<CommonResponse> changeSecurityQuestion(@Header("Authorization") String bearer,
+                                                @Body ChangeSesurityQuestionRequest request);
+
+    @POST(RESTConstants.CIAM_BASE_URL + "api/users/query")
+    Call<ProfileGraphqlResponse> getUserProfile(@Header("Authorization") String bearer,
+                                                @Body MyProfileRequest request);
 }

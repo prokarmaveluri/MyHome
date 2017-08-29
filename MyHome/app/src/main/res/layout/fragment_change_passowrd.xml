@@ -1,0 +1,71 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="handlers"
+            type="com.prokarma.myhome.features.settings.ChangePasswordFragment.PWDHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+
+        <EditText
+            android:id="@+id/existingPassword"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:hint="Existing Password"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/newPassword"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/existingPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:hint="New Password"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/confirmPassword"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/newPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:hint="Confirm Password"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/saveButton"
+            style="@style/grayButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="48dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:onClick="@{handlers::onClick}"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textSize="@dimen/scalable_18"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/changePWDProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="8dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+</layout>
