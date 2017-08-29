@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -41,9 +40,9 @@ public class ChangeSecQuestionFragment extends BaseFragment implements View.OnCl
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sec_password, container, false);
 
         binding.nextButton.setOnClickListener(this);
-        binding.enterPassword.addTextChangedListener(new PWDTextWatcher());
+        binding.password.addTextChangedListener(new PWDTextWatcher());
 
-        getActivity().setTitle("Enter Password");
+        getActivity().setTitle(getString(R.string.change_question));
         return binding.getRoot();
     }
 
@@ -62,13 +61,13 @@ public class ChangeSecQuestionFragment extends BaseFragment implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nextButton:
-                if (!CommonUtil.isValidPassword(binding.enterPassword.getText().toString())) {
-                    Toast.makeText(getActivity(), getString(R.string.valid_password), Toast.LENGTH_LONG).show();
+                if (!CommonUtil.isValidPassword(binding.password.getText().toString())) {
+                    binding.passwordLayout.setError(getString(R.string.valid_password));
                     break;
                 }
                 Intent sqIntent = SQListActivity.getSQListActivityIntent(getActivity());
                 sqIntent.putExtra("IS_SEC_QUESTION_CHANGE", true);
-                sqIntent.putExtra("SEC_QUESTION_PASSWORD", binding.enterPassword.getText().toString());
+                sqIntent.putExtra("SEC_QUESTION_PASSWORD", binding.password.getText().toString());
                 startActivityForResult(sqIntent, CHANGE_QUESTION, null);
                 break;
         }
@@ -102,11 +101,12 @@ public class ChangeSecQuestionFragment extends BaseFragment implements View.OnCl
             } else {
                 updateButtonState(false);
             }
+            binding.passwordLayout.setError("");
         }
     }
 
     private boolean isAllInputsValid() {
-        if (CommonUtil.isValidPassword(binding.enterPassword.getText().toString())) {
+        if (CommonUtil.isValidPassword(binding.password.getText().toString())) {
             return true;
         }
         return false;
