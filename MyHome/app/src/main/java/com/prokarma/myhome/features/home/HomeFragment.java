@@ -6,8 +6,10 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -17,12 +19,16 @@ import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.gson.Gson;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -266,8 +272,10 @@ public class HomeFragment extends BaseFragment {
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
-                if (progressStatus == 1)
+                if (progressStatus == 1) {
                     hideLoading();
+                    coachmarkMenu();
+                }
                 progressStatus--;
             }
 
@@ -276,6 +284,7 @@ public class HomeFragment extends BaseFragment {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
                 hideLoading();
+                coachmarkMenu();
             }
         });
     }
@@ -465,5 +474,145 @@ public class HomeFragment extends BaseFragment {
         Bundle bundle = new Bundle();
         bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
+    }
+
+    private void coachmarkMenu(){
+        Toolbar toolbar = ((NavigationActivity) getActivity()).getToolbar();
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forToolbarOverflow(toolbar, "For more options, go here!"),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        Handler coachmarkHandler = new Handler();
+//                        coachmarkHandler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                coachmarkContactUs();
+//                            }
+//                        }, 1000);
+                        coachmarkFindCare();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkContactUs(){
+        Toolbar toolbar = ((NavigationActivity) getActivity()).getToolbar();
+        MenuItem menuItem = toolbar.getMenu().findItem(R.id.contact_us);
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forToolbarMenuItem(toolbar, R.id.contact_us, "To Contact Us, go here!"),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkSignOut();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkSignOut(){
+        Toolbar toolbar = ((NavigationActivity) getActivity()).getToolbar();
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forToolbarMenuItem(toolbar, R.id.contact_us, "To Signout, go here!"),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkBookAppointment();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkBookAppointment(){
+        TapTargetView.showFor(
+            getActivity(),
+                TapTarget.forView(binding.btnDbScheduleAppoint, "To Schedule an appointment with one of our providers, go here!"),
+                new TapTargetView.Listener(){
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkFindCare();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkFindCare(){
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(binding.etxtDbFindcare, "To Search, go here!"),
+                new TapTargetView.Listener(){
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkNavigationBarProfile();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkNavigationBarProfile(){
+        BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(bottomNavigationView.getIconAt(3), "To View or Edit your Profile, go here!"),
+                new TapTargetView.Listener(){
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkNavigationBarAppointments();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkNavigationBarAppointments(){
+        BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(bottomNavigationView.getIconAt(2), "To View Your Appointments, go here!"),
+                new TapTargetView.Listener(){
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkNavigationBarFad();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkNavigationBarFad(){
+        BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(bottomNavigationView.getIconAt(1), "To Browse Our Providers, go here!"),
+                new TapTargetView.Listener(){
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkNavigationBarHome();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkNavigationBarHome(){
+        BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(bottomNavigationView.getIconAt(0), "To Return Home, go here!"),
+                new TapTargetView.Listener(){
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                    }
+                }
+        );
     }
 }
