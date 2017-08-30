@@ -1,0 +1,49 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.prokarma.myhome.features.settings.ChangePasswordFragment.PWDHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+
+
+        <LinearLayout
+            android:id="@+id/toggleTouchID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/filterByTitle"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/touchIDSwitch"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:lineSpacingExtra="0sp"
+                android:text="@string/enable_touch_id" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toggleTouchID"
+            android:layout_marginTop="30dp"
+            android:text="@string/touch_id_text" />
+    </RelativeLayout>
+</layout>

@@ -27,7 +27,8 @@ public class Constants {
         PROVIDERS_FILTER,
         CHANGE_PASSWORD,
         ENTER_PASSWORD_SEC_QUESTION,
-        CHANGE_SEC_QUESTION
+        CHANGE_SEC_QUESTION,
+        TOUCH_ID
     }
 
     public enum INPUT_TYPE {
@@ -63,6 +64,7 @@ public class Constants {
     public static final String SETTINGS_SCREEN = "settings_screen";
     public static final String CHANGE_PASSWORD_SCREEN = "change_password_screen";
     public static final String CHANGE_SEC_QUESTION_PASSWORD_SCREEN = "change_sec_question_password_screen";
+    public static final String TOUCH_ID_SETTINGS = "touch_id_settings_screen";
 
     // events
     public static final String SIGN_IN_EVENT = "sign_in_event";
