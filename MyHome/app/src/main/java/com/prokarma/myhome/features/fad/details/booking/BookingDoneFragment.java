@@ -16,6 +16,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.profile.Address;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -200,6 +201,7 @@ public class BookingDoneFragment extends Fragment {
                         if (doneInterface != null) {
                             doneInterface.onBookingSuccess();
                         }
+                        ProfileManager.setAppointments(null);
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                         updateVisibility(false);

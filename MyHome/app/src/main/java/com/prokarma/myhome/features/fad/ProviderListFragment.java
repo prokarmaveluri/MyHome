@@ -103,7 +103,7 @@ public class ProviderListFragment extends Fragment implements
             binding.message.setText(errorMsg);
         } else {
             viewState(State.MESSAGE);
-            binding.message.setText(getString(R.string.find_care));
+//            binding.message.setText(getString(R.string.find_care));
         }
 
         binding.providersList.addOnScrollListener(new ListScroll());

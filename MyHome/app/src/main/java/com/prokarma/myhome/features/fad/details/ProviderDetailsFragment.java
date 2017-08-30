@@ -297,6 +297,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                 public void onClick(View v) {
                                     bookAppointment.setVisibility(View.GONE);
 
+                                    BookingManager.setBookingProfile(null);
                                     BookingManager.setBookingProvider(providerDetailsResponse);
                                     BookingManager.setBookingOffice(currentOffice);
 
@@ -610,13 +611,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         if (BookingManager.getBookingProfile() != null) {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId);
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
         } else if (BookingManager.isBookingForMe()) {
             BookingManager.setBookingProfile(ProfileManager.getProfile());
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId);
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, false);
         } else {
             //BookingManager.setBookingProfile(new Profile());
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId);
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
         }
 
         bookingRegistrationDialog.setBookingDialogInterface(this);

@@ -30,10 +30,14 @@ public class SQListActivity extends AppCompatActivity {
     private ActivitySecqListBinding binding;
     private String[] questionIds;
     private String[] questions;
+    private boolean isChange = false;
+    private String password;
+
+    private static final int CHANGE_QUESTION = 100;
 
     /*
- * Get an intent for SQActivity activity.
- */
+     * Get an intent for SQActivity activity.
+     */
     public static Intent getSQListActivityIntent(Context context) {
 
         return new Intent(context, SQListActivity.class);
@@ -45,6 +49,14 @@ public class SQListActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_secq_list);
         getResourceQuestions();
+
+        if (getIntent() != null) {
+            isChange = getIntent().getBooleanExtra("IS_SEC_QUESTION_CHANGE", false);
+            password = getIntent().getStringExtra("SEC_QUESTION_PASSWORD");
+            if (isChange) {
+                setTitle(getString(R.string.change_question));
+            }
+        }
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.sqList.setLayoutManager(layoutManager);
@@ -87,7 +99,13 @@ public class SQListActivity extends AppCompatActivity {
         intent.putExtra(Constants.ENROLLMENT_QUESTION_ID, questionId);
         intent.putExtra(Constants.ENROLLMENT_QUESTION, questionText);
         intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
-        startActivity(intent);
+        if (isChange) {
+            intent.putExtra("IS_SEC_QUESTION_CHANGE", isChange);
+            intent.putExtra("SEC_QUESTION_PASSWORD", password);
+            startActivityForResult(intent, CHANGE_QUESTION);
+        } else {
+            startActivity(intent);
+        }
     }
 
     private class QuestionListAdapter extends
@@ -137,5 +155,16 @@ public class SQListActivity extends AppCompatActivity {
     private void getResourceQuestions() {
         questionIds = getResources().getStringArray(R.array.security_question_ids);
         questions = getResources().getStringArray(R.array.security_question_text);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CHANGE_QUESTION) {
+            if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
     }
 }

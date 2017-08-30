@@ -210,6 +210,15 @@
 -keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Errors{*;}
 -keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Warnings{*;}
 
+-keep class com.prokarma.myhome.features.settings.CommonResponse{*;}
+-keep class com.prokarma.myhome.features.settings.CommonResponse$Error{*;}
+-keep class com.prokarma.myhome.features.settings.ChangePasswordRequest{*;}
+-keep class com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest{*;}
+-keep class com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest$Question{*;}
+-keep class com.prokarma.myhome.features.profile.MyProfileRequest{*;}
+-keep class com.prokarma.myhome.features.profile.ProfileGraphqlResponse{*;}
+-keep class com.prokarma.myhome.features.profile.ProfileGraphqlResponse$Data{*;}
+
 -keepclassmembers class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator CREATOR;
 }

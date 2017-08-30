@@ -44,6 +44,7 @@ public class BookingDialogAdapter extends PagerAdapter {
     private Context context;
     private BookingDialogToolbarInterface bookingDialogToolbarInterface;
     private boolean autoPopulateFromProfile;
+    private boolean autoPopulateInsurnacePlan;
     private static int NUM_ITEMS = 2;
 
     private ViewGroup insuranceLayout;
@@ -107,10 +108,11 @@ public class BookingDialogAdapter extends PagerAdapter {
         this.autoPopulateFromProfile = false;
     }
 
-    public BookingDialogAdapter(Context context, BookingDialogToolbarInterface bookingDialogToolbarInterface, boolean autoPopulateFromProfile, Profile profile) {
+    public BookingDialogAdapter(Context context, BookingDialogToolbarInterface bookingDialogToolbarInterface, boolean autoPopulateFromProfile, boolean autoPopulateInsurnacePlan, Profile profile) {
         this.context = context;
         this.bookingDialogToolbarInterface = bookingDialogToolbarInterface;
         this.autoPopulateFromProfile = autoPopulateFromProfile;
+        this.autoPopulateInsurnacePlan = autoPopulateInsurnacePlan;
         formsProfile = Profile.copy(profile);
     }
 
@@ -294,7 +296,7 @@ public class BookingDialogAdapter extends PagerAdapter {
      * Auto-populates Insurance page with values from Profile Singleton
      */
     private void populateInsuranceLayout() {
-        if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.insurancePlan != null && plan.getAdapter() != null) {
+        if (autoPopulateInsurnacePlan && formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.insurancePlan != null && plan.getAdapter() != null) {
             for (int i = 0; i < plan.getAdapter().getCount(); i++) {
                 if (formsProfile.insuranceProvider.insurancePlan.equalsIgnoreCase(((RegIncluded) plan.getAdapter().getItem(i)).getAttributes().getName())) {
                     plan.setSelection(i);
@@ -543,6 +545,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             progressBarInsurance.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         } catch (NullPointerException ex) {
+            Timber.e(ex.toString());
             ex.printStackTrace();
         }
     }

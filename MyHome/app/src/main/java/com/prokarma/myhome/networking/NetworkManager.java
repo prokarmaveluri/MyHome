@@ -31,10 +31,14 @@ import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.preferences.SaveDoctorRequest;
 import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
+import com.prokarma.myhome.features.profile.MyProfileRequest;
 import com.prokarma.myhome.features.profile.Profile;
+import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.profile.ProfileResponse;
 import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
+import com.prokarma.myhome.features.settings.ChangePasswordRequest;
+import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -149,9 +153,9 @@ public class NetworkManager {
      * @param bearer the bearer token of the user whose Profile we want
      * @return a Profile object of the user
      */
-    public Call<ProfileResponse> getProfile(String bearer) {
-        return service.getProfile(BEARER + bearer);
-    }
+//    public Call<ProfileResponse> getProfile(String bearer) {
+//        return service.getProfile(BEARER + bearer);
+//    }
 
     /**
      * Update a Profile for a particular user
@@ -394,6 +398,28 @@ public class NetworkManager {
     public Call<MyAppointmentsResponse> getMyAppointments(String bearerToken,
                                                           MyAppointmentsRequest request) {
         return service.getMyAppointments(BEARER + bearerToken, request);
+    }
+
+    //1.2 APIs
+
+    public Call<CommonResponse> changePassword(String bearerToken,
+                                     ChangePasswordRequest request) {
+        return service.changePassword(BEARER + bearerToken, request);
+    }
+
+    public Call<CommonResponse> changeSecurityQuestion(String bearerToken,
+                                                       ChangeSesurityQuestionRequest request) {
+        return service.changeSecurityQuestion(BEARER + bearerToken, request);
+    }
+
+    /**
+     * Get a Profile
+     *
+     * @param bearer the bearer token of the user whose Profile we want
+     * @return a Profile object of the user
+     */
+    public Call<ProfileGraphqlResponse> getProfile(String bearer) {
+        return service.getUserProfile(BEARER + bearer, new MyProfileRequest());
     }
 
     // Network Util

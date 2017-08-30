@@ -197,7 +197,7 @@ public class CommonUtil {
      */
     @SuppressWarnings("deprecation")
     public static String constructPhoneNumber(@NonNull String number) {
-        String phoneNumber;
+        String phoneNumber = "";
 
         if (null == number || number.trim().isEmpty())
             return "";
@@ -211,6 +211,8 @@ public class CommonUtil {
         phoneNumber = phoneNumber.replace("(", "");
         phoneNumber = phoneNumber.replace(")", "-");
         phoneNumber = phoneNumber.replace(" ", "");
+        if (!phoneNumber.contains("-") && phoneNumber.length() == 10)
+            phoneNumber = phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6, 10);
         return phoneNumber.trim();
     }
 
@@ -549,6 +551,33 @@ public class CommonUtil {
     }
 
     /**
+     * Toggle Keyboard
+     *
+     * @param activity the activtity that we are currently on at the time we want to hide the keyboard.
+     */
+    public static void toggleSoftKeyboard(Activity activity) {
+        try {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        } catch (NullPointerException | IllegalStateException ex) {
+        }
+    }
+
+    /**
+     * Show Keyboard
+     *
+     * @param activity the activtity that we are currently on at the time we want to hide the keyboard.
+     */
+    public static void showSoftKeyboard(View view, Activity activity) {
+        try {
+            InputMethodManager imm = (InputMethodManager) activity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+        } catch (NullPointerException | IllegalStateException ex) {
+        }
+    }
+
+    /**
      * Hides Keyboard
      *
      * @param activity the activtity that we are currently on at the time we want to hide the keyboard.
@@ -603,12 +632,11 @@ public class CommonUtil {
     }
 
     /**
-     *
      * @param allAppointments
      * @return
      */
     public static ArrayList<Appointment> getFutureAppointments(ArrayList<Appointment> allAppointments) {
-        if(allAppointments == null){
+        if (allAppointments == null) {
             return null;
         }
         ArrayList<Appointment> futureAppointments = new ArrayList<>();
