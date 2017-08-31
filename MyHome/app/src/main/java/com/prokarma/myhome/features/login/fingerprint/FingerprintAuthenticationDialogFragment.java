@@ -45,10 +45,6 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     private Button mCancelButton;
     private Button mSecondDialogButton;
     private View mFingerprintContent;
-    //    private View mBackupContent;
-//    private EditText mPassword;
-//    private CheckBox mUseFingerprintFutureCheckBox;
-//    private TextView mPasswordDescriptionTextView;
     private TextView mNewFingerprintEnrolledTextView;
 
     private Stage mStage = Stage.FINGERPRINT;
@@ -94,10 +90,6 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
             }
         });
         mFingerprintContent = v.findViewById(R.id.fingerprint_container);
-//        mUseFingerprintFutureCheckBox = (CheckBox)
-//                v.findViewById(R.id.use_fingerprint_in_future_check);
-//        mNewFingerprintEnrolledTextView = (TextView)
-//                v.findViewById(R.id.new_fingerprint_enrolled_description);
         mFingerprintUiHelper = new FingerprintUiHelper(
                 mActivity.getSystemService(FingerprintManager.class),
                 (ImageView) v.findViewById(R.id.fingerprint_icon),

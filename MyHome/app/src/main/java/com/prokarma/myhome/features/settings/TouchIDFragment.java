@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -36,9 +37,9 @@ public class TouchIDFragment extends BaseFragment {
         if (AppPreferences.getInstance().getBooleanPreference("IS_TOUCH_ID_ENABLED"))
             binding.touchIDSwitch.setChecked(true);
 
-        binding.touchIDSwitch.setOnClickListener(new View.OnClickListener() {
+        binding.touchIDSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (binding.touchIDSwitch.isChecked()) {
                     AppPreferences.getInstance().setBooleanPreference("IS_TOUCH_ID_ENABLED", true);
                 } else {
