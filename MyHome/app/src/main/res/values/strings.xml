@@ -269,8 +269,8 @@
     <string name="city_and_state_required"><![CDATA[City & State are required]]></string>
     <string name="directions_not_found">Sorry, but we were unable to get directions</string>
     <string name="provider_details_error_msg">We\'re sorry, we\'ve hit a snag. To learn more about this doctor, please try again or contact their office.</string>
-    <string name="password_changed_successfully">Password changed successfully</string>
-    <string name="sec_question_changed_successfully">Security question changed successfully</string>
+    <string name="password_changed_successfully">Password has been changed successfully</string>
+    <string name="sec_question_changed_successfully">Security question has been changed successfully</string>
     <string name="change_question">Change Question</string>
 
     <!-- Fingerprint -->
