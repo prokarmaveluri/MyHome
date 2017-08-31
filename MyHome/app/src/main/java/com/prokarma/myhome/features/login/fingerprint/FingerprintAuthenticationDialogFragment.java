@@ -147,7 +147,8 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
 
         // Fingerprint is not used anymore. Stop listening for it.
         mFingerprintUiHelper.stopListening();
-
+        mActivity.onFingerprintAithenticationUsePassword();
+        dismiss();
         //Use Password
     }
 
