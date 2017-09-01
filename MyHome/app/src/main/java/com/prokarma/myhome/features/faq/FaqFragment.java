@@ -5,9 +5,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.prokarma.myhome.R;
@@ -37,11 +39,24 @@ public class FaqFragment extends BaseFragment {
         getActivity().setTitle(getString(R.string.bill_pay));
         webView = (WebView) faqView.findViewById(R.id.faq_webview);
         TextView error = (TextView) faqView.findViewById(R.id.faqError);
+        final ProgressBar webProgress = (ProgressBar) faqView.findViewById(R.id.webProgress);
         webView.loadUrl(FAQ_URL);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return super.shouldOverrideUrlLoading(view, request);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                webProgress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                webProgress.setVisibility(View.GONE);
             }
         });
 
