@@ -285,8 +285,7 @@
     <string name="touch_id_title">Touch ID</string>
     <string name="pay_now">Pay Now</string>
     <string name="bill_pay_desc">You now have the ability to pay your bills online.</string>
-    <string name="my_care">My Care</string>
-    <string name="patient_portal">Patient Portal</string>
+    <string name="my_care">My Care Patient Portal</string>
     <string name="my_care_desc">You\'ll find your test results, medication lists, doctor notes, and more!</string>
 
 </resources>

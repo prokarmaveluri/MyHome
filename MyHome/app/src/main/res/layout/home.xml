@@ -265,6 +265,7 @@
                         android:src="@drawable/ic_bill_pay" />
 
                     <TextView
+                        android:id="@+id/textView2"
                         style="@style/tradeGothicLTStd_Dynamic20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -281,6 +282,8 @@
                         style="@style/tradeGothicLTStd_Dynamic18"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_alignBottom="@+id/textView2"
+                        android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="8dp"
                         android:clickable="true"
@@ -310,13 +313,13 @@
                     android:layout_marginLeft="1dp"
                     android:layout_marginStart="11dp"
                     android:layout_marginTop="16dp"
-                    android:focusableInTouchMode="true"
-                    android:gravity="center|left">
+                    android:focusableInTouchMode="true">
 
                     <ImageView
                         android:id="@+id/myCareIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
                         android:src="@drawable/ic_my_care" />
 
                     <TextView
@@ -325,24 +328,26 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/homeMyCareSignIn"
                         android:layout_toRightOf="@+id/myCareIcon"
-                        android:lineSpacingExtra="10sp"
                         android:text="@string/my_care"
                         android:textColor="@color/db_gunmetal"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/homeMyCare"
+                        android:id="@+id/homeMyCareSignIn"
                         style="@style/tradeGothicLTStd_Dynamic18"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="8dp"
                         android:clickable="true"
                         android:gravity="end"
                         android:letterSpacing="-0.01"
                         android:lineSpacingExtra="12sp"
-                        android:text="@string/patient_portal"
+                        android:text="@string/action_Login"
                         android:textColor="@color/db_deep_aqua"
                         android:textStyle="bold" />
                 </RelativeLayout>
