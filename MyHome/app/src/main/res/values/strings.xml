@@ -288,4 +288,6 @@
     <string name="my_care">My Care Patient Portal</string>
     <string name="my_care_desc">You\'ll find your test results, medication lists, doctor notes, and more!</string>
 
+    <string name="my_care_title">My Care</string>
+
 </resources>

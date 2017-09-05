@@ -16,6 +16,7 @@ public class Constants {
         PROFILE_EDIT,
         CONTACT_US,
         FAQ,
+        MY_CARE,
         SETTINGS,
         HELP,
         DEVELOPER,

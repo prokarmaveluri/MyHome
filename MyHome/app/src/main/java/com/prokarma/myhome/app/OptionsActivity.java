@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.features.care.MyCareFragment;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.faq.FaqFragment;
@@ -32,6 +33,18 @@ public class OptionsActivity extends BaseActivity {
         setContentView(R.layout.options_activity);
 
         switch (NavigationActivity.getActivityTag()) {
+
+            case MY_CARE:
+                MyCareFragment careFragment = MyCareFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, careFragment, MyCareFragment.MY_CARE_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.MY_CARE);
+                break;
+
             case FAQ:
                 FaqFragment faqFragment = FaqFragment.newInstance();
                 getSupportFragmentManager()

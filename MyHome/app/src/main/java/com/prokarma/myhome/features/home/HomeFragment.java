@@ -141,6 +141,17 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+        binding.homeMyCareSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((NavigationActivity) getActivity()).setActivityTag(Constants.ActivityTag.MY_CARE);
+                Intent intentFAQ = new Intent(getActivity(), OptionsActivity.class);
+                final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
+                        R.anim.slide_in_right, R.anim.slide_out_left);
+                ActivityCompat.startActivity(getActivity(), intentFAQ, options.toBundle());
+            }
+        });
+
         if (ConnectionUtil.isConnected(getActivity())) {
             // Get Name from profile
             if (ProfileManager.getProfile() == null) {
