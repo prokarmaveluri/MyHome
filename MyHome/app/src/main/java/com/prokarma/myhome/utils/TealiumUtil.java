@@ -8,6 +8,8 @@ import android.webkit.CookieManager;
 import android.webkit.WebView;
 
 import com.prokarma.myhome.BuildConfig;
+import com.prokarma.myhome.features.profile.Profile;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.tealium.internal.data.Dispatch;
 import com.tealium.internal.listeners.WebViewCreatedListener;
 import com.tealium.internal.listeners.WebViewLoadedListener;
@@ -91,6 +93,7 @@ public final class TealiumUtil {
 
     public static void trackView(String screenName, @Nullable Map<String, ?> data) {
         final Tealium instance = Tealium.getInstance(TEALIUM_MAIN);
+        final Profile userProfile = ProfileManager.getProfile();
 
         // Instance can be remotely destroyed through publish settings
         if (instance != null) {
@@ -99,8 +102,8 @@ public final class TealiumUtil {
             tealiumData.put(KEY_TEALIUM_APP_ID, "my-home-app-digital-home");
             tealiumData.put(KEY_TEALIUM_APP_VERSION, BuildConfig.VERSION_NAME);
             tealiumData.put(KEY_TEALIUM_SCREEN_NAME, screenName);
-            tealiumData.put(KEY_TEALIUM_DHOME_ID, "dhomeId HERE!!!");
-            tealiumData.put(KEY_TEALIUM_USER_STATE, "2");
+            tealiumData.put(KEY_TEALIUM_DHOME_ID, userProfile != null ? userProfile.userId : "Unknown");
+            tealiumData.put(KEY_TEALIUM_USER_STATE, userProfile != null ? userProfile.idLevel : "Unknown");
 
             if (data != null) {
                 tealiumData.putAll(data);
