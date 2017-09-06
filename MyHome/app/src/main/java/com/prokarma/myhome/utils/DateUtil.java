@@ -1,9 +1,6 @@
 package com.prokarma.myhome.utils;
 
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
-import android.text.Editable;
-import android.text.TextWatcher;
 
 import com.prokarma.myhome.features.fad.Appointment;
 
@@ -195,12 +192,12 @@ public class DateUtil {
      * @param date
      * @return
      */
-    public static int getAge(Date date) {
+    public static double getAge(Date date) {
         Date now = new Date();
         long timeBetween = now.getTime() - date.getTime();
         double yearsBetween = timeBetween / 3.156e+10;
-        int age = (int) Math.floor(yearsBetween);
-        return age;
+//        int age = (int) Math.floor(yearsBetween);
+        return yearsBetween;
     }
 
     /**

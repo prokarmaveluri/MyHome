@@ -8,12 +8,14 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.features.care.MyCareFragment;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.faq.FaqFragment;
 import com.prokarma.myhome.features.settings.ChangePasswordFragment;
 import com.prokarma.myhome.features.settings.ChangeSecQuestionFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
+import com.prokarma.myhome.features.settings.TouchIDFragment;
 import com.prokarma.myhome.features.tos.TosFragment;
 import com.prokarma.myhome.utils.Constants;
 
@@ -31,6 +33,18 @@ public class OptionsActivity extends BaseActivity {
         setContentView(R.layout.options_activity);
 
         switch (NavigationActivity.getActivityTag()) {
+
+            case MY_CARE:
+                MyCareFragment careFragment = MyCareFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, careFragment, MyCareFragment.MY_CARE_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.MY_CARE);
+                break;
+
             case FAQ:
                 FaqFragment faqFragment = FaqFragment.newInstance();
                 getSupportFragmentManager()
@@ -127,6 +141,16 @@ public class OptionsActivity extends BaseActivity {
                 getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.CHANGE_PASSWORD);
+                break;
+            case TOUCH_ID:
+                TouchIDFragment touchIDFragment = TouchIDFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, touchIDFragment, TouchIDFragment.TOUCH_ID_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.TOUCH_ID);
                 break;
             default:
                 Timber.w("Options Activity found an activity tag that isn't being handled!");

@@ -269,8 +269,25 @@
     <string name="city_and_state_required"><![CDATA[City & State are required]]></string>
     <string name="directions_not_found">Sorry, but we were unable to get directions</string>
     <string name="provider_details_error_msg">We\'re sorry, we\'ve hit a snag. To learn more about this doctor, please try again or contact their office.</string>
-    <string name="password_changed_successfully">Password changed successfully</string>
-    <string name="sec_question_changed_successfully">Security question changed successfully</string>
+    <string name="password_changed_successfully">Password has been changed successfully</string>
+    <string name="sec_question_changed_successfully">Security question has been changed successfully</string>
     <string name="change_question">Change Question</string>
+
+    <!-- Fingerprint -->
+    <string name="fingerprint_description">Confirm fingerprint to continue</string>
+    <string name="fingerprint_hint">Touch sensor</string>
+    <string name="description_fingerprint_icon">Fingerprint icon</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again</string>
+    <string name="fingerprint_success">Fingerprint recognized</string>
+    <string name="use_password">Use password</string>
+    <string name="touch_id_text">Quick and easy sign in to view your personalized content. Most of the time you will not have to manually enter your password. \n\nSharing your device with anyone who has a saved fingerprint or knows your passcode gives them access to your account. We do not recommend using Touch ID if you share your device. \n\nTurn off Touch ID anytime from here.</string>
+    <string name="enable_touch_id">Enable Touch ID</string>
+    <string name="touch_id_title">Touch ID</string>
+    <string name="pay_now">Pay Now</string>
+    <string name="bill_pay_desc">You now have the ability to pay your bills online.</string>
+    <string name="my_care">My Care Patient Portal</string>
+    <string name="my_care_desc">You\'ll find your test results, medication lists, doctor notes, and more!</string>
+
+    <string name="my_care_title">My Care</string>
 
 </resources>
