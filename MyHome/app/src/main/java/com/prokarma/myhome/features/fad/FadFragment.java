@@ -51,7 +51,9 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -412,6 +414,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             AppPreferences.getInstance().setPreference("SORT_BY", ""); // default/best match search
             mPageIndex = 1;
             searchForQuery(v.getText().toString(), RESTConstants.PROVIDER_DISTANCE);
+
+            Map<String, Object> tealiumData = new HashMap<>();
+            tealiumData.put(Constants.FAD_SEARCH_TERM, v.getText().toString());
+            tealiumData.put(Constants.FAD_SEARCH_GEO, Search_Geography_here);
+            TealiumUtil.trackEvent(Constants.FAD_SEARCH_STARTED_EVENT, tealiumData);
             return true;
         }
         return false;

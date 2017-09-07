@@ -167,7 +167,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
 
         Map<String, Object> tealiumData = new HashMap<>();
-        tealiumData.put("fadProviderNPI", providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
         TealiumUtil.trackView(Constants.PROVIDER_DETAILS_SCREEN, tealiumData);
     }
 
@@ -319,7 +319,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                     getChildFragmentManager().executePendingTransactions();
 
                                     Map<String, Object> tealiumData = new HashMap<>();
-                                    tealiumData.put("fadProviderNPI", providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+                                    tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
                                     TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
                                 }
                             });
@@ -748,7 +748,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onBookingSuccess() {
         //Booking Successful!
         Map<String, Object> tealiumData = new HashMap<>();
-        tealiumData.put("fadProviderNPI", providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
         TealiumUtil.trackEvent(Constants.SCHEDULING_ENDED_EVENT, tealiumData);
     }
 

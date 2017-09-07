@@ -54,6 +54,11 @@ public class Constants {
 
     public static int DEV_UPDATE_VERSION = 1;
 
+    // tealium keys
+    public static final String FAD_PROVIDER_NPI = "fadProviderNPI";
+    public static final String FAD_SEARCH_TERM = "fadSearchTerm";
+    public static final String FAD_SEARCH_GEO = "fadSearchGeo";
+
     // screen views
     public static final String HOME_SCREEN = "my home|dashboard home";
     public static final String FAD_LIST_SCREEN = "fad_list_screen";
@@ -73,8 +78,9 @@ public class Constants {
     public static final String SIGN_OUT_EVENT = "sign_out_event";
     public static final String APP_OPEN_EVENT = "app_open_event";
     public static final String APP_CLOSE_EVENT = "app_open_event";
-    public static final String SCHEDULING_STARTED_EVENT = "scheduling_started_event";
-    public static final String SCHEDULING_ENDED_EVENT = "scheduling_ended_event";
+    public static final String SCHEDULING_STARTED_EVENT = "schedulingInit";
+    public static final String SCHEDULING_ENDED_EVENT = "schedulingComplete";
+    public static final String FAD_SEARCH_STARTED_EVENT = "fadSearchInit";
 
     public static final String DID_YOU_KNOW_SEC1 = "https://hellohumankindness.org/story/the-power-of-time-off-why-vacations-are-essential/";
     public static final String DID_YOU_KNOW_SEC2 = "https://dignityhealth.org/articles/a-little-bit-of-color-dont-let-a-sunburn-get-you-down-this-summer";
