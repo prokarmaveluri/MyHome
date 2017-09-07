@@ -73,6 +73,8 @@ public class Constants {
     public static final String SIGN_OUT_EVENT = "sign_out_event";
     public static final String APP_OPEN_EVENT = "app_open_event";
     public static final String APP_CLOSE_EVENT = "app_open_event";
+    public static final String SCHEDULING_STARTED_EVENT = "scheduling_started_event";
+    public static final String SCHEDULING_ENDED_EVENT = "scheduling_ended_event";
 
     public static final String DID_YOU_KNOW_SEC1 = "https://hellohumankindness.org/story/the-power-of-time-off-why-vacations-are-essential/";
     public static final String DID_YOU_KNOW_SEC2 = "https://dignityhealth.org/articles/a-little-bit-of-color-dont-let-a-sunburn-get-you-down-this-summer";
