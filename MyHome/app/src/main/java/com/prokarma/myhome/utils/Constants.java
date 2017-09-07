@@ -55,7 +55,7 @@ public class Constants {
     public static int DEV_UPDATE_VERSION = 1;
 
     // screen views
-    public static final String HOME_SCREEN = "home_screen";
+    public static final String HOME_SCREEN = "my home|dashboard home";
     public static final String FAD_LIST_SCREEN = "fad_list_screen";
     public static final String FAD_MAP_SCREEN = "fad_map_screen";
     public static final String APPOINTMENTS_SCREEN = "appointments_screen";
@@ -66,6 +66,7 @@ public class Constants {
     public static final String CHANGE_PASSWORD_SCREEN = "change_password_screen";
     public static final String CHANGE_SEC_QUESTION_PASSWORD_SCREEN = "change_sec_question_password_screen";
     public static final String TOUCH_ID_SETTINGS = "touch_id_settings_screen";
+    public static final String PROVIDER_DETAILS_SCREEN = "my home|doctor details";
 
     // events
     public static final String SIGN_IN_EVENT = "sign_in_event";

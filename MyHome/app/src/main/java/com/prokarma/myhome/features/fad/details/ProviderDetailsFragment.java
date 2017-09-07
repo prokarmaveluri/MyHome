@@ -62,6 +62,7 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.utils.MapUtil;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -162,6 +163,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         super.onResume();
         if (null != providerDetailsResponse)
             RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
+        TealiumUtil.trackView(Constants.PROVIDER_DETAILS_SCREEN, null);
     }
 
     @Override
