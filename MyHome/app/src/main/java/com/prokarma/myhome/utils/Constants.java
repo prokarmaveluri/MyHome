@@ -16,6 +16,7 @@ public class Constants {
         PROFILE_EDIT,
         CONTACT_US,
         FAQ,
+        MY_CARE,
         SETTINGS,
         HELP,
         DEVELOPER,
@@ -27,7 +28,8 @@ public class Constants {
         PROVIDERS_FILTER,
         CHANGE_PASSWORD,
         ENTER_PASSWORD_SEC_QUESTION,
-        CHANGE_SEC_QUESTION
+        CHANGE_SEC_QUESTION,
+        TOUCH_ID
     }
 
     public enum INPUT_TYPE {
@@ -52,8 +54,13 @@ public class Constants {
 
     public static int DEV_UPDATE_VERSION = 1;
 
+    // tealium keys
+    public static final String FAD_PROVIDER_NPI = "fadProviderNPI";
+    public static final String FAD_SEARCH_TERM = "fadSearchTerm";
+    public static final String FAD_SEARCH_GEO = "fadSearchGeo";
+
     // screen views
-    public static final String HOME_SCREEN = "home_screen";
+    public static final String HOME_SCREEN = "my home|dashboard home";
     public static final String FAD_LIST_SCREEN = "fad_list_screen";
     public static final String FAD_MAP_SCREEN = "fad_map_screen";
     public static final String APPOINTMENTS_SCREEN = "appointments_screen";
@@ -63,12 +70,17 @@ public class Constants {
     public static final String SETTINGS_SCREEN = "settings_screen";
     public static final String CHANGE_PASSWORD_SCREEN = "change_password_screen";
     public static final String CHANGE_SEC_QUESTION_PASSWORD_SCREEN = "change_sec_question_password_screen";
+    public static final String TOUCH_ID_SETTINGS = "touch_id_settings_screen";
+    public static final String PROVIDER_DETAILS_SCREEN = "my home|doctor details";
 
     // events
     public static final String SIGN_IN_EVENT = "sign_in_event";
     public static final String SIGN_OUT_EVENT = "sign_out_event";
     public static final String APP_OPEN_EVENT = "app_open_event";
     public static final String APP_CLOSE_EVENT = "app_open_event";
+    public static final String SCHEDULING_STARTED_EVENT = "schedulingInit";
+    public static final String SCHEDULING_ENDED_EVENT = "schedulingComplete";
+    public static final String FAD_SEARCH_STARTED_EVENT = "fadSearchInit";
 
     public static final String DID_YOU_KNOW_SEC1 = "https://hellohumankindness.org/story/the-power-of-time-off-why-vacations-are-essential/";
     public static final String DID_YOU_KNOW_SEC2 = "https://dignityhealth.org/articles/a-little-bit-of-color-dont-let-a-sunburn-get-you-down-this-summer";

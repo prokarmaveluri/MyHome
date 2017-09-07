@@ -51,7 +51,9 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -417,6 +419,23 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         return false;
     }
 
+    private void fadAnalytics(String searchTearm) {
+
+        String searchLocation = "";
+        if (null != FadManager.getInstance().getLocation() && null != FadManager.getInstance().getLocation().getCity()) {
+            searchLocation = FadManager.getInstance().getLocation().getCity();
+            if (null != FadManager.getInstance().getLocation().getState())
+                searchLocation = searchLocation + ", " + FadManager.getInstance().getLocation().getState();
+        } else if (null != FadManager.getInstance().getLocation()) {
+            searchLocation = "Lat: " + FadManager.getInstance().getLocation().getLat() + ", Long: " +
+                    FadManager.getInstance().getLocation().getLong();
+        }
+
+        Map<String, Object> tealiumData = new HashMap<>();
+        tealiumData.put(Constants.FAD_SEARCH_TERM, searchTearm);
+        tealiumData.put(Constants.FAD_SEARCH_GEO, searchLocation);
+        TealiumUtil.trackEvent(Constants.FAD_SEARCH_STARTED_EVENT, tealiumData);
+    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -507,6 +526,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                         Toast.LENGTH_LONG).show();
                 return;
             }
+            fadAnalytics(query);
             if (mPageIndex == 1)
                 currentScroll = 0;
             showProgress(true);

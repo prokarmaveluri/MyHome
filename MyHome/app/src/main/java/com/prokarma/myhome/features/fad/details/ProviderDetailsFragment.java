@@ -62,12 +62,15 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.utils.MapUtil;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -162,6 +165,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         super.onResume();
         if (null != providerDetailsResponse)
             RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
+
+        Map<String, Object> tealiumData = new HashMap<>();
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+        TealiumUtil.trackView(Constants.PROVIDER_DETAILS_SCREEN, tealiumData);
     }
 
     @Override
@@ -310,6 +317,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                             .addToBackStack(null)
                                             .commit();
                                     getChildFragmentManager().executePendingTransactions();
+
+                                    Map<String, Object> tealiumData = new HashMap<>();
+                                    tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+                                    TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
                                 }
                             });
 
@@ -736,6 +747,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onBookingSuccess() {
         //Booking Successful!
+        Map<String, Object> tealiumData = new HashMap<>();
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+        TealiumUtil.trackEvent(Constants.SCHEDULING_ENDED_EVENT, tealiumData);
     }
 
     @Override

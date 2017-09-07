@@ -17,4 +17,14 @@
         android:padding="16dp"
         android:text="@string/no_network_msg"
         android:textAlignment="center" />
+
+    <ProgressBar
+        android:id="@+id/webProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true" />
 </RelativeLayout>

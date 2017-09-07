@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_margin="8dp"
         android:background="@color/primary"
         android:lineSpacingExtra="4dp"
         android:padding="16dp"

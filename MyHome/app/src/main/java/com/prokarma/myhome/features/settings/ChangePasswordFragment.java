@@ -1,15 +1,21 @@
 package com.prokarma.myhome.features.settings;
 
+import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prokarma.myhome.R;
@@ -120,6 +126,9 @@ public class ChangePasswordFragment extends BaseFragment {
                 case R.id.saveButton:
                     changePassword();
                     break;
+                case R.id.password_criteria:
+                    displayPopupWindow(getActivity(), binding.passwordCriteria);
+                    break;
             }
         }
     }
@@ -194,5 +203,22 @@ public class ChangePasswordFragment extends BaseFragment {
             binding.saveButton.setBackgroundResource(R.drawable.button_boarder_grey);
             binding.saveButton.setTextColor(Color.GRAY);
         }
+    }
+
+    private void displayPopupWindow(Activity activity, View anchorView) {
+        PopupWindow popup = new PopupWindow(activity);
+        View layout = getActivity().getLayoutInflater().inflate(R.layout.popup_content, null);
+        TextView textView = (TextView) layout.findViewById(R.id.criteria_text);
+        textView.setText(CommonUtil.getBulletPoints(activity));
+        popup.setContentView(layout);
+        // Set content width and height
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        // Closes the popup window when touch outside of it - when looses focus
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        // Show anchored to button
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        popup.showAtLocation(anchorView, Gravity.CENTER, 0, 0);
     }
 }

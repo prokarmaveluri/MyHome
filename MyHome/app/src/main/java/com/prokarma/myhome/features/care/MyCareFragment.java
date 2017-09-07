@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.faq;
+package com.prokarma.myhome.features.care;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,26 +21,25 @@ import com.prokarma.myhome.utils.Constants;
  * Created by kwelsh on 7/28/17.
  */
 
-public class FaqFragment extends BaseFragment {
-    public static final String FAQ_TAG = "faq_tag";
-    //    public static final String FAQ_URL = "https://www.dignityhealth.org/my-home/billing-help-and-faq";
-    public static final String FAQ_URL = "https://dignityhealth.org/billpay/";
+public class MyCareFragment extends BaseFragment {
+    public static final String MY_CARE_TAG = "my_care_tag";
+    public static final String MY_CARE_URL = "https://www.dignityhealth.org/my-home/my-care-dignity-health";
 
     private WebView webView;
 
-    public static FaqFragment newInstance() {
-        return new FaqFragment();
+    public static MyCareFragment newInstance() {
+        return new MyCareFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View faqView = inflater.inflate(R.layout.faq, container, false);
-        getActivity().setTitle(getString(R.string.bill_pay));
+        getActivity().setTitle(getString(R.string.my_care_title));
         webView = (WebView) faqView.findViewById(R.id.faq_webview);
         TextView error = (TextView) faqView.findViewById(R.id.faqError);
         final ProgressBar webProgress = (ProgressBar) faqView.findViewById(R.id.webProgress);
-        webView.loadUrl(FAQ_URL);
+        webView.loadUrl(MY_CARE_URL);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -72,6 +71,6 @@ public class FaqFragment extends BaseFragment {
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.FAQ;
+        return Constants.ActivityTag.MY_CARE;
     }
 }

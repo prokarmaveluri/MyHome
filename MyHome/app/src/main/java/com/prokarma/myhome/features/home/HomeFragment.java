@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
@@ -32,6 +34,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.databinding.HomeBinding;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentResponse;
@@ -129,6 +132,29 @@ public class HomeFragment extends BaseFragment {
             public void onClick(View v) {
                 ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.FAD, null);
+            }
+        });
+
+        binding.homeBillPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((NavigationActivity) getActivity()).setActivityTag(Constants.ActivityTag.FAQ);
+                Intent intentFAQ = new Intent(getActivity(), OptionsActivity.class);
+                final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
+                        R.anim.slide_in_right, R.anim.slide_out_left);
+                ActivityCompat.startActivity(getActivity(), intentFAQ, options.toBundle());
+            }
+        });
+
+        binding.homeMyCareSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((NavigationActivity) getActivity()).setActivityTag(Constants.ActivityTag.MY_CARE);
+                Intent intentFAQ = new Intent(getActivity(), OptionsActivity.class);
+                final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
+                        R.anim.slide_in_right, R.anim.slide_out_left);
+                ActivityCompat.startActivity(getActivity(), intentFAQ, options.toBundle());
             }
         });
 
