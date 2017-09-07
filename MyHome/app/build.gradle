@@ -131,14 +131,14 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
+            buildConfigField STRING, OKTA_BASE_URL, DEV_OKTA_BASE_URL
             buildConfigField STRING, VERSIONING_URL, STAGE_VERSIONING_URL
-            buildConfigField STRING, OKTA_BASE_URL, STAGE_OKTA_BASE_URL
             buildConfigField STRING, CIAM_BASE_URL, STAGE_CIAM_BASE_URL
             buildConfigField STRING, S2_BASE_URL, STAGE_S2_BASE_URL
             buildConfigField STRING, SCHEDULING_BASE, STAGE_SCHEDULING_BASE
 
-            buildConfigField STRING, "AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
-            buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
             buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
             buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
             buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
