@@ -116,9 +116,23 @@ public final class TealiumUtil {
 
     public static void trackEvent(String eventName, @Nullable Map<String, ?> data) {
         final Tealium instance = Tealium.getInstance(TEALIUM_MAIN);
+        final Profile userProfile = ProfileManager.getProfile();
 
         // Instance can be remotely destroyed through publish settings
         if (instance != null) {
+
+            Map<String, Object> tealiumData = new HashMap<>();
+            tealiumData.put(KEY_TEALIUM_APP_NAME, BuildConfig.TEALIUM_APP_NAME);
+            tealiumData.put(KEY_TEALIUM_APP_ID, "my-home-app-digital-home");
+            tealiumData.put(KEY_TEALIUM_APP_VERSION, BuildConfig.VERSION_NAME);
+            tealiumData.put(KEY_TEALIUM_SCREEN_NAME, Constants.HOME_SCREEN);    //TODO KEVIN - This doesn't make sense, but the document has this value never changing...
+            tealiumData.put(KEY_TEALIUM_DHOME_ID, userProfile != null ? userProfile.userId : "Unknown");
+            tealiumData.put(KEY_TEALIUM_USER_STATE, userProfile != null ? userProfile.idLevel : "Unknown");
+
+            if (data != null) {
+                tealiumData.putAll(data);
+            }
+
             instance.trackEvent(eventName, data);
         }
     }
