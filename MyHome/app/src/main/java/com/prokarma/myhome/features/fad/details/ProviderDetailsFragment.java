@@ -68,7 +68,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -163,7 +165,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         super.onResume();
         if (null != providerDetailsResponse)
             RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
-        TealiumUtil.trackView(Constants.PROVIDER_DETAILS_SCREEN, null);
+
+        Map<String, Object> tealiumData = new HashMap<>();
+        tealiumData.put("fadProviderNPI", providerId);
+        TealiumUtil.trackView(Constants.PROVIDER_DETAILS_SCREEN, tealiumData);
     }
 
     @Override
