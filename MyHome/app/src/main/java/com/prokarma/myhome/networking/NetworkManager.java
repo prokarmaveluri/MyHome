@@ -45,13 +45,17 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
+import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.RESTConstants;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -403,7 +407,7 @@ public class NetworkManager {
     //1.2 APIs
 
     public Call<CommonResponse> changePassword(String bearerToken,
-                                     ChangePasswordRequest request) {
+                                               ChangePasswordRequest request) {
         return service.changePassword(BEARER + bearerToken, request);
     }
 
@@ -571,6 +575,9 @@ public class NetworkManager {
                         try {
                             List<ProviderResponse> providerList = ProfileManager.getFavoriteProviders();
                             if (null != provider && !isProviderFound(provider.getNpi())) {
+                                Map<String, Object> tealiumData = new HashMap<>();
+                                tealiumData.put(Constants.FAVORITE_PROVIDER_NPI, npi);
+                                TealiumUtil.trackEvent(Constants.FAVORITE_PROVIDER_EVENT, tealiumData);
                                 if (null == providerList)
                                     providerList = new ArrayList<>();
 
@@ -588,6 +595,10 @@ public class NetworkManager {
                 }
             });
         } else { //DELETE saved Doc
+            Map<String, Object> tealiumData = new HashMap<>();
+            tealiumData.put(Constants.FAVORITE_PROVIDER_NPI, npi);
+            TealiumUtil.trackEvent(Constants.UNFAVORITE_PROVIDER_EVENT, tealiumData);  //TODO - KEVIN: Should this be in the onResponse/ response.isSuccessful network call???
+
             if (!isList)
                 CommonUtil.updateFavView(isSave, favProvider);
             NetworkManager.getInstance().deleteSavedDoctor(AuthManager.getInstance().getBearerToken(),

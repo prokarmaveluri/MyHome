@@ -52,6 +52,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,6 +87,12 @@ public class HomeFragment extends BaseFragment {
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.welcome_home));
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.HOME_SCREEN, null);
     }
 
     @Override

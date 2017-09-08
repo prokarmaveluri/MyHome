@@ -16,6 +16,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 /**
  * Created by kwelsh on 7/28/17.
@@ -29,6 +30,12 @@ public class MyCareFragment extends BaseFragment {
 
     public static MyCareFragment newInstance() {
         return new MyCareFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        TealiumUtil.trackEvent(Constants.MYCARE_EVENT, null);
     }
 
     @Nullable

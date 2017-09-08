@@ -24,6 +24,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -200,6 +201,7 @@ public class ProfileEditFragment extends BaseFragment {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
+                        TealiumUtil.trackEvent(Constants.PROFILE_UPDATE_EVENT, null);
                         Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
                     } else {

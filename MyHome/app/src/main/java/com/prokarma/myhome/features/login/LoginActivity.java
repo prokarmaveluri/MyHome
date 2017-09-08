@@ -50,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean enrollmentSuccess = getIntent().getBooleanExtra("ENROLL_SUCCESS", false);
         if (enrollmentSuccess) {
+            TealiumUtil.trackEvent(Constants.ENROLLMENT_SUCCESS_EVENT, null);
+
             EnrollmentSuccessDialog dialog = EnrollmentSuccessDialog.newInstance();
             dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
         }

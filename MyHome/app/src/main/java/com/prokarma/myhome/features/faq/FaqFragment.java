@@ -16,6 +16,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 /**
  * Created by kwelsh on 7/28/17.
@@ -30,6 +31,12 @@ public class FaqFragment extends BaseFragment {
 
     public static FaqFragment newInstance() {
         return new FaqFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        TealiumUtil.trackEvent(Constants.BILLPAY_EVENT, null);
     }
 
     @Nullable
