@@ -25,6 +25,7 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -226,6 +227,7 @@ public class SQFragment extends Fragment {
                         Toast.makeText(getActivity(), R.string.sec_question_changed_successfully,
                                 Toast.LENGTH_LONG).show();
 
+                        TealiumUtil.trackEvent(Constants.CHANGED_SECURITY_QUESTION_EVENT, null);
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                     } else {
