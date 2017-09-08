@@ -86,6 +86,7 @@ public class ChangePasswordFragment extends BaseFragment {
                 if (response.isSuccessful()) {
 
                     if (response.body().getIsValid()) {
+                        TealiumUtil.trackEvent(Constants.CHANGED_PASSWORD_EVENT, null);
                         Toast.makeText(getActivity(), R.string.password_changed_successfully,
                                 Toast.LENGTH_LONG).show();
                         getActivity().finish();

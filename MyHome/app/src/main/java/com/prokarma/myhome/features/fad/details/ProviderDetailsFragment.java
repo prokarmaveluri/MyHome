@@ -754,6 +754,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onBookingFailed(String errorMessage) {
+        Map<String, Object> tealiumData = new HashMap<>();
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+        TealiumUtil.trackEvent(Constants.SCHEDULING_FAILED_EVENT, tealiumData);
+
         if (isAdded()) {
             Toast.makeText(getActivity(), getString(R.string.booking_failed), Toast.LENGTH_LONG).show();
 

@@ -16,11 +16,12 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
 /**
- * Created by kwelsh on 4/26/17.
+ * Created by cmajji on 8/26/17.
  */
 
 public class TouchIDFragment extends BaseFragment {
     public static final String TOUCH_ID_TAG = "touch_id_tag";
+    public static final String TOUCH_ID_KEY = "IS_TOUCH_ID_ENABLED";
     private FragmentTouchIdBinding binding;
 
     public static TouchIDFragment newInstance() {
@@ -34,16 +35,18 @@ public class TouchIDFragment extends BaseFragment {
 
         getActivity().setTitle(getString(R.string.touch_id_title));
         binding.touchIDSwitch.setChecked(false);
-        if (AppPreferences.getInstance().getBooleanPreference("IS_TOUCH_ID_ENABLED"))
+        if (AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY))
             binding.touchIDSwitch.setChecked(true);
 
         binding.touchIDSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (binding.touchIDSwitch.isChecked()) {
-                    AppPreferences.getInstance().setBooleanPreference("IS_TOUCH_ID_ENABLED", true);
+                    AppPreferences.getInstance().setBooleanPreference(TOUCH_ID_KEY, true);
+                    TealiumUtil.trackEvent(Constants.TOUCH_ID_ENABLED_EVENT, null);
                 } else {
-                    AppPreferences.getInstance().setBooleanPreference("IS_TOUCH_ID_ENABLED", false);
+                    AppPreferences.getInstance().setBooleanPreference(TOUCH_ID_KEY, false);
+                    TealiumUtil.trackEvent(Constants.TOUCH_ID_DISABLED_EVENT, null);
                 }
             }
         });
@@ -58,6 +61,6 @@ public class TouchIDFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        TealiumUtil.trackView(Constants.TOUCH_ID_SETTINGS, null);
+        TealiumUtil.trackView(Constants.TOUCH_ID_SETTINGS_SCREEN, null);
     }
 }
