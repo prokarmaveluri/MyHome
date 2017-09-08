@@ -572,7 +572,8 @@ public class HomeFragment extends BaseFragment {
     private void coachmarkFindCare(){
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(binding.etxtDbFindcare, "To Search, go here!"),
+                TapTarget.forView(binding.etxtDbFindcare, "To Search, go here!")
+                .transparentTarget(true),
                 new TapTargetView.Listener(){
                     @Override
                     public void onTargetClick(TapTargetView view) {

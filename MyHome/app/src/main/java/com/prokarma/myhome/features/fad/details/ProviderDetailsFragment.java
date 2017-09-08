@@ -23,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -77,7 +79,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback, BookingSelectPersonInterface, BookingSelectStatusInterface, BookingDateHeaderInterface, BookingDialogInterface, BookingConfirmationInterface, BookingDoneInterface, BookingBackButton, BookingRefreshInterface {
+public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyCallback,
+        BookingSelectPersonInterface, BookingSelectStatusInterface, BookingDateHeaderInterface,
+        BookingDialogInterface, BookingConfirmationInterface, BookingDoneInterface, BookingBackButton,
+        BookingRefreshInterface {
+
     public static final String PROVIDER_KEY = "PROVIDER_KEY";
     public static final String PROVIDER_ID_KEY = "PROVIDER_ID";
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
@@ -333,7 +339,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                     }
                                 }
                             }
-
+                            coachmarkFav();
                         } catch (NullPointerException ex) {
                             Timber.e("ProviderDetailsFragment: NullPointerException\n" + ex.toString());
                         }
@@ -880,5 +886,71 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         } catch (NullPointerException ex) {
             return null;
         }
+    }
+
+    private void coachmarkFav() {
+        if (favProvider.getVisibility() != View.VISIBLE)
+            return;
+
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(favProvider, "Click here to save this provider as favorite provider."),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkBooking();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkBooking() {
+        if (bookAppointment.getVisibility() != View.VISIBLE) {
+            coachmarkLocations();
+            return;
+        }
+
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(bookAppointment, "Click here to book an appointment online.")
+                        .transparentTarget(true),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkLocations();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkLocations() {
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(myMap.getView(), "Click here to view location information.")
+                        .transparentTarget(true),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkCall();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkCall() {
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(phone, "Click here to connect.")
+                        .transparentTarget(true),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                    }
+                }
+        );
     }
 }
