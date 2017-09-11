@@ -3,6 +3,7 @@ package com.prokarma.myhome.features.fad;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -840,11 +841,18 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     private void coachmarkList() {
+        Drawable drawable;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            drawable = getResources().getDrawable(R.drawable.home, getActivity().getTheme());
+        } else {
+            drawable = getResources().getDrawable(R.drawable.home);
+        }
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(binding.fadPager,
                         "Scroll up and down to view all your providers in your search results.")
-                        .transparentTarget(false),
+                        .transparentTarget(false)
+                        .icon(drawable),
                 new TapTargetView.Listener() {
                     @Override
                     public void onTargetClick(TapTargetView view) {
