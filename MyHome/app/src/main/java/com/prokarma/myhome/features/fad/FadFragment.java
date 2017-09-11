@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.prokarma.myhome.BuildConfig;
@@ -562,6 +564,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             NavigationActivity.eventBus.post(data);
             return;
         }
+        coachmarkRecent();
         providerList.clear();
         providerList.addAll(response.getProviders());
         try {
@@ -753,6 +756,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         }
     }
 
+    public class CoachMarksList {
+        boolean listCoachMarks = true;
+    }
+
     /**
      * @param provider
      */
@@ -761,5 +768,84 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
         bundle.putString(ProviderDetailsFragment.PROVIDER_ID_KEY, providerId);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
+    }
+
+    //FAD coach marks
+
+    private void coachmarkRecent() {
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(binding.fadRecent, "Click here to see Providers you recently viewed.")
+                        .transparentTarget(true),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkFilter();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkFilter() {
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(binding.fadFilter, "Click here to Change your location and refine your search.")
+                        .transparentTarget(true),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkSearch();
+                    }
+                }
+        );
+    }
+
+//    private void coachmarkMaps() {
+//        TapTargetView.showFor(
+//                getActivity(),
+//                TapTarget.forView(binding.fadTabs,
+//                        "Click here to View providers and their locations.")
+//                        .transparentTarget(true),
+//                new TapTargetView.Listener() {
+//                    @Override
+//                    public void onTargetClick(TapTargetView view) {
+//                        super.onTargetClick(view);
+//                        coachmarkList();
+//                    }
+//                }
+//        );
+//    }
+
+    private void coachmarkSearch() {
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(binding.fadSearch, "Click here to Change your search criteria.")
+                        .transparentTarget(true),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+//                        coachmarkMaps();
+                        coachmarkList();
+                    }
+                }
+        );
+    }
+
+    private void coachmarkList() {
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(binding.fadPager,
+                        "Scroll up and down to view all your providers in your search results.")
+                        .transparentTarget(false),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                    }
+                }
+        );
     }
 }
