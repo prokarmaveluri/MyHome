@@ -291,5 +291,10 @@
     <string name="my_care_title">My Care</string>
     <string name="coachmark_appointments_favorite_doctor">Everyone has favorites.  Favorite your provider for quick access to their location information.</string>
     <string name="coachmark_appointments_calendar">Get a reminder.  Save your appointment to your personal calendar.</string>
+    <string name="coachmark_home_book_appointment">See recently-viewed providers or search for a provider to book an appointment.</string>
+    <string name="coachmark_home_find_care">Search for providers, find provider location information, and book appointments.</string>
+    <string name="coachmark_home_navbar_profile">Help us help you.  Adding information to your profile will streamline your experience and help you type less later.</string>
+    <string name="coachmark_home_navbar_appointments">Tap Appointments to view all of your scheduled appointments.</string>
+    <string name="coachmark_home_navbar_fad">See providers you recently viewed, find provider location information, and book appointments.</string>
 
 </resources>
