@@ -289,5 +289,7 @@
     <string name="my_care_desc">You\'ll find your test results, medication lists, doctor notes, and more!</string>
 
     <string name="my_care_title">My Care</string>
+    <string name="coachmark_appointments_favorite_doctor">Everyone has favorites.  Favorite your provider for quick access to their location information.</string>
+    <string name="coachmark_appointments_calendar">Get a reminder.  Save your appointment to your personal calendar.</string>
 
 </resources>
