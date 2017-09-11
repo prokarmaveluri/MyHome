@@ -898,7 +898,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(favProvider, "Click here to save this provider as favorite provider."),
+                TapTarget.forView(favProvider, "Click here to save this provider as favorite provider.")
+                        .cancelable(false),
                 new TapTargetView.Listener() {
                     @Override
                     public void onTargetClick(TapTargetView view) {
@@ -918,6 +919,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(bookAppointment, "Click here to book an appointment online.")
+                        .cancelable(false)
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
@@ -933,6 +935,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(myMap.getView(), "Click here to view location information.")
+                        .cancelable(false)
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
@@ -948,6 +951,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(phone, "Click here to connect.")
+                        .cancelable(false)
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override

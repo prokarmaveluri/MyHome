@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -35,6 +37,8 @@ public class AppointmentsDetailsFragment extends BaseFragment {
     private boolean favDoc = false;
     private boolean isPastAppointment;
     private ImageView favProvider;
+    private ImageView phoneIcon;
+    private ImageView calendarIcon;
 
     public static AppointmentsDetailsFragment newInstance() {
         return new AppointmentsDetailsFragment();
@@ -58,8 +62,8 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         TextView facilityAddress = (TextView) appointmentsView.findViewById(R.id.facility_address);
         TextView reason = (TextView) appointmentsView.findViewById(R.id.reason);
         final TextView phoneNumber = (TextView) appointmentsView.findViewById(R.id.phone_number);
-        ImageView phoneIcon = (ImageView) appointmentsView.findViewById(R.id.phone_icon);
-        ImageView calendar = (ImageView) appointmentsView.findViewById(R.id.calendar);
+        phoneIcon = (ImageView) appointmentsView.findViewById(R.id.phone_icon);
+        calendarIcon = (ImageView) appointmentsView.findViewById(R.id.calendar);
         ImageView pin = (ImageView) appointmentsView.findViewById(R.id.pin_icon);
         TextView shareText = (TextView) appointmentsView.findViewById(R.id.share_text);
         ImageView shareIcon = (ImageView) appointmentsView.findViewById(R.id.share_icon);
@@ -93,7 +97,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
             }
         });
 
-        calendar.setOnClickListener(new View.OnClickListener() {
+        calendarIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommonUtil.addCalendarEvent(getActivity(), appointment);
@@ -208,8 +212,11 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         }
 
         if (isPastAppointment) {
-            calendar.setVisibility(View.GONE);
+            calendarIcon.setVisibility(View.GONE);
             rescheduleText.setVisibility(View.GONE);
+            coachmarkHeart();
+        } else {
+            coachmarkCalendar();
         }
 
         return appointmentsView;
@@ -220,4 +227,34 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         return Constants.ActivityTag.APPOINTMENTS_DETAILS;
     }
 
+    private void coachmarkHeart() {
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(favProvider, getString(R.string.coachmark_appointments_favorite_doctor))
+                        .cancelable(false)
+                        .transparentTarget(true),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                    }
+                }
+        );
+    }
+
+    private void coachmarkCalendar() {
+        TapTargetView.showFor(
+                getActivity(),
+                TapTarget.forView(calendarIcon, getString(R.string.coachmark_appointments_calendar))
+                        .cancelable(false)
+                        .transparentTarget(true),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        coachmarkHeart();
+                    }
+                }
+        );
+    }
 }
