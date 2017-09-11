@@ -773,6 +773,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     //FAD coach marks
 
     private void coachmarkRecent() {
+        boolean skip = AppPreferences.getInstance().getBooleanPreference("SKIP_COACH_MARKS");
+        if (skip)
+            return;
+
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(binding.fadRecent, "Click here to see Providers you recently viewed.")
@@ -782,6 +786,12 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkFilter();
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
                     }
                 }
         );
@@ -798,25 +808,15 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                         super.onTargetClick(view);
                         coachmarkSearch();
                     }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                    }
                 }
         );
     }
-
-//    private void coachmarkMaps() {
-//        TapTargetView.showFor(
-//                getActivity(),
-//                TapTarget.forView(binding.fadTabs,
-//                        "Click here to View providers and their locations.")
-//                        .transparentTarget(true),
-//                new TapTargetView.Listener() {
-//                    @Override
-//                    public void onTargetClick(TapTargetView view) {
-//                        super.onTargetClick(view);
-//                        coachmarkList();
-//                    }
-//                }
-//        );
-//    }
 
     private void coachmarkSearch() {
         TapTargetView.showFor(
@@ -827,8 +827,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-//                        coachmarkMaps();
                         coachmarkList();
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
                     }
                 }
         );
@@ -844,6 +849,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
                     }
                 }
         );
