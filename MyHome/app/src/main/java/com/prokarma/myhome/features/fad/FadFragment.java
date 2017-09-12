@@ -774,13 +774,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     //FAD coach marks
 
     private void coachmarkRecent() {
-        boolean skip = AppPreferences.getInstance().getBooleanPreference("SKIP_COACH_MARKS");
+        boolean skip = false;
         if (skip)
             return;
 
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(binding.fadRecent, "Click here to see Providers you recently viewed.")
+                TapTarget.forView(binding.fadRecent, "Providers you recently viewed.")
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
@@ -801,28 +801,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private void coachmarkFilter() {
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(binding.fadFilter, "Click here to Change your location and refine your search.")
-                        .transparentTarget(true),
-                new TapTargetView.Listener() {
-                    @Override
-                    public void onTargetClick(TapTargetView view) {
-                        super.onTargetClick(view);
-                        coachmarkSearch();
-                    }
-
-                    @Override
-                    public void onTargetCancel(TapTargetView view) {
-                        super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
-                    }
-                }
-        );
-    }
-
-    private void coachmarkSearch() {
-        TapTargetView.showFor(
-                getActivity(),
-                TapTarget.forView(binding.fadSearch, "Click here to Change your search criteria.")
+                TapTarget.forView(binding.fadFilter, "Change your location and refine your search.")
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
@@ -850,7 +829,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(binding.fadPager,
-                        "Scroll up and down to view all your providers in your search results.")
+                        "View providers and their locations on a map.")
                         .transparentTarget(false)
                         .icon(drawable),
                 new TapTargetView.Listener() {

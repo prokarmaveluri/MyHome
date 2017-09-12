@@ -1,9 +1,7 @@
 package com.prokarma.myhome.features.profile;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,10 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -260,28 +255,5 @@ public class ProfileViewFragment extends BaseFragment {
             group.setText(profile.insuranceProvider.groupNumber);
             group.setVisibility(View.VISIBLE);
         }
-
-        Handler coachmarkHandler = new Handler();
-        coachmarkHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                coachmarkToolbar();
-            }
-        }, 1000);
-    }
-
-    private void coachmarkToolbar(){
-        Toolbar toolbar = ((NavigationActivity) getActivity()).getToolbar();
-        TapTargetView.showFor(
-                getActivity(),
-                TapTarget.forToolbarMenuItem(toolbar, R.id.edit_profile, "To Edit your profile, go here!"),
-                new TapTargetView.Listener() {
-                    @Override
-                    public void onTargetClick(TapTargetView view) {
-                        super.onTargetClick(view);
-                        Toast.makeText(getContext(), "You clicked it! YAY!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
     }
 }

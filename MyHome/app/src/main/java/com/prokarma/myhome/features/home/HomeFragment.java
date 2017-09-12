@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -305,7 +304,7 @@ public class HomeFragment extends BaseFragment {
                 }
                 if (progressStatus == 1) {
                     hideLoading();
-                    coachmarkMenu();
+                    coachmarkBookAppointment();
                 }
                 progressStatus--;
             }
@@ -315,7 +314,7 @@ public class HomeFragment extends BaseFragment {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
                 hideLoading();
-                coachmarkMenu();
+                coachmarkBookAppointment();
             }
         });
     }
@@ -507,66 +506,11 @@ public class HomeFragment extends BaseFragment {
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 
-    private void coachmarkMenu() {
-        Toolbar toolbar = ((NavigationActivity) getActivity()).getToolbar();
-        TapTargetView.showFor(
-                getActivity(),
-                TapTarget.forToolbarOverflow(toolbar, "For more options, go here!")
-                        .cancelable(false),
-                new TapTargetView.Listener() {
-                    @Override
-                    public void onTargetClick(TapTargetView view) {
-                        super.onTargetClick(view);
-                        coachmarkBookAppointment();
-//                        Handler coachmarkHandler = new Handler();
-//                        coachmarkHandler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                coachmarkContactUs();
-//                            }
-//                        }, 1000);
-                    }
-                }
-        );
-    }
-
-//    private void coachmarkContactUs(){
-//        Toolbar toolbar = ((NavigationActivity) getActivity()).getToolbar();
-//        MenuItem menuItem = toolbar.getMenu().findItem(R.id.contact_us);
-//        TapTargetView.showFor(
-//                getActivity(),
-//                TapTarget.forToolbarMenuItem(toolbar, R.id.contact_us, "To Contact Us, go here!"),
-//                new TapTargetView.Listener() {
-//                    @Override
-//                    public void onTargetClick(TapTargetView view) {
-//                        super.onTargetClick(view);
-//                        coachmarkSignOut();
-//                    }
-//                }
-//        );
-//    }
-//
-//    private void coachmarkSignOut(){
-//        Toolbar toolbar = ((NavigationActivity) getActivity()).getToolbar();
-//        TapTargetView.showFor(
-//                getActivity(),
-//                TapTarget.forToolbarMenuItem(toolbar, R.id.contact_us, "To Signout, go here!"),
-//                new TapTargetView.Listener() {
-//                    @Override
-//                    public void onTargetClick(TapTargetView view) {
-//                        super.onTargetClick(view);
-//                        coachmarkBookAppointment();
-//                    }
-//                }
-//        );
-//    }
-
     private void coachmarkBookAppointment() {
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(binding.btnDbScheduleAppoint, getString(R.string.coachmark_home_book_appointment))
-                        .transparentTarget(true)
-                        .cancelable(false),
+                        .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
                     public void onTargetClick(TapTargetView view) {
@@ -581,7 +525,6 @@ public class HomeFragment extends BaseFragment {
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(binding.etxtDbFindcare, getString(R.string.coachmark_home_find_care))
-                        .cancelable(false)
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
@@ -597,24 +540,7 @@ public class HomeFragment extends BaseFragment {
         BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(bottomNavigationView.getIconAt(3), getString(R.string.coachmark_home_navbar_profile))
-                        .cancelable(false),
-                new TapTargetView.Listener() {
-                    @Override
-                    public void onTargetClick(TapTargetView view) {
-                        super.onTargetClick(view);
-                        coachmarkNavigationBarAppointments();
-                    }
-                }
-        );
-    }
-
-    private void coachmarkNavigationBarAppointments() {
-        BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
-        TapTargetView.showFor(
-                getActivity(),
-                TapTarget.forView(bottomNavigationView.getIconAt(2), getString(R.string.coachmark_home_navbar_appointments))
-                        .cancelable(false),
+                TapTarget.forView(bottomNavigationView.getIconAt(3), getString(R.string.coachmark_home_navbar_profile)),
                 new TapTargetView.Listener() {
                     @Override
                     public void onTargetClick(TapTargetView view) {
@@ -629,24 +555,7 @@ public class HomeFragment extends BaseFragment {
         BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(bottomNavigationView.getIconAt(1), getString(R.string.coachmark_home_navbar_fad))
-                        .cancelable(false),
-                new TapTargetView.Listener() {
-                    @Override
-                    public void onTargetClick(TapTargetView view) {
-                        super.onTargetClick(view);
-                        //coachmarkNavigationBarHome();
-                    }
-                }
-        );
-    }
-
-    private void coachmarkNavigationBarHome() {
-        BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
-        TapTargetView.showFor(
-                getActivity(),
-                TapTarget.forView(bottomNavigationView.getIconAt(0), "To Return Home, go here!")
-                        .cancelable(false),
+                TapTarget.forView(bottomNavigationView.getIconAt(1), getString(R.string.coachmark_home_navbar_fad)),
                 new TapTargetView.Listener() {
                     @Override
                     public void onTargetClick(TapTargetView view) {

@@ -339,7 +339,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                     }
                                 }
                             }
-                            coachmarkFav();
+                            coachmarkBooking();
                         } catch (NullPointerException ex) {
                             Timber.e("ProviderDetailsFragment: NullPointerException\n" + ex.toString());
                         }
@@ -892,24 +892,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     }
 
-    private void coachmarkFav() {
-        if (favProvider.getVisibility() != View.VISIBLE)
-            return;
-
-        TapTargetView.showFor(
-                getActivity(),
-                TapTarget.forView(favProvider, "Click here to save this provider as favorite provider.")
-                        .cancelable(false),
-                new TapTargetView.Listener() {
-                    @Override
-                    public void onTargetClick(TapTargetView view) {
-                        super.onTargetClick(view);
-                        coachmarkBooking();
-                    }
-                }
-        );
-    }
-
     private void coachmarkBooking() {
         if (bookAppointment.getVisibility() != View.VISIBLE) {
             coachmarkLocations();
@@ -918,8 +900,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(bookAppointment, "Click here to book an appointment online.")
-                        .cancelable(false)
+                TapTarget.forView(bookAppointment, getString(R.string.coachmark_provider_details_book))
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
@@ -934,24 +915,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private void coachmarkLocations() {
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(myMap.getView(), "Click here to view location information.")
-                        .cancelable(false)
-                        .transparentTarget(true),
-                new TapTargetView.Listener() {
-                    @Override
-                    public void onTargetClick(TapTargetView view) {
-                        super.onTargetClick(view);
-                        coachmarkCall();
-                    }
-                }
-        );
-    }
-
-    private void coachmarkCall() {
-        TapTargetView.showFor(
-                getActivity(),
-                TapTarget.forView(phone, "Click here to connect.")
-                        .cancelable(false)
+                TapTarget.forView(myMap.getView(), getString(R.string.coachmarks_provider_details_location))
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
