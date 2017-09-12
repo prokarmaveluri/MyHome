@@ -98,8 +98,8 @@ public class Constants {
     public static final String CHANGED_SECURITY_QUESTION_EVENT = "changeSecurityQuestionSuccess";
 
 
-    public static final String DID_YOU_KNOW_SEC1 = "https://hellohumankindness.org/story/the-power-of-time-off-why-vacations-are-essential/";
-    public static final String DID_YOU_KNOW_SEC2 = "https://dignityhealth.org/articles/a-little-bit-of-color-dont-let-a-sunburn-get-you-down-this-summer";
+    public static final String DID_YOU_KNOW_SEC1 = "https://www.dignityhealth.org/articles/Teaching-Kids-About-Germs-at-School";
+    public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/articles/Help-High-School-Athletes-Avoid-Injury";
 
     public static final String TEL = "tel:";
     public static final String SUPPORT_EMAIL = "hello@dignityhealth.org";
