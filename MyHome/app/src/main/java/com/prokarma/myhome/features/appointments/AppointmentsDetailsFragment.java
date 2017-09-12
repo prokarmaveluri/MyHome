@@ -231,7 +231,6 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(favProvider, getString(R.string.coachmark_appointments_favorite_doctor))
-                        .cancelable(false)
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
@@ -246,7 +245,6 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(calendarIcon, getString(R.string.coachmark_appointments_calendar))
-                        .cancelable(false)
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
