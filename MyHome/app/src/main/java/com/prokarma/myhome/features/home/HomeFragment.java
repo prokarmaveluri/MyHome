@@ -444,12 +444,17 @@ public class HomeFragment extends BaseFragment {
                 int id = textView.getId();
                 switch (id) {
                     case R.id.txt_db_didyouknow_first:
-                        startWebView(Constants.DID_YOU_KNOW_SEC1);
+                        NavigationActivity.setActivityTag(Constants.ActivityTag.HOME_DID_YOU_KNOW_SEC_1);
                         break;
                     case R.id.txt_db_didyouknow_second:
-                        startWebView(Constants.DID_YOU_KNOW_SEC2);
+                        NavigationActivity.setActivityTag(Constants.ActivityTag.HOME_DID_YOU_KNOW_SEC_2);
                         break;
                 }
+
+                final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
+                        R.anim.slide_in_right, R.anim.slide_out_left);
+                Intent intent = new Intent(getActivity(), OptionsActivity.class);
+                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
             }
         };
         partTwo.setSpan(span1, 0, partTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -458,22 +463,6 @@ public class HomeFragment extends BaseFragment {
         txtReadmore.setText(builder1);
         txtReadmore.setMovementMethod(LinkMovementMethod.getInstance());
     }
-
-//    @Override
-//    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//        if (actionId == EditorInfo.IME_ACTION_DONE ||
-//                actionId == EditorInfo.IME_ACTION_SEARCH) {
-//            CommonUtil.hideSoftKeyboard(getActivity());
-//            if (v.getText().toString().length() > 0) {
-//                FadFragment.currentSearchQuery = v.getText().toString();
-//                ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
-//            } else {
-//                Toast.makeText(getActivity(), getString(R.string.query_empty), Toast.LENGTH_LONG).show();
-//            }
-//            return true;
-//        }
-//        return false;
-//    }
 
     private void startWebView(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

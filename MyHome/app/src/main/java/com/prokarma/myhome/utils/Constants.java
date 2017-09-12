@@ -29,7 +29,9 @@ public class Constants {
         CHANGE_PASSWORD,
         ENTER_PASSWORD_SEC_QUESTION,
         CHANGE_SEC_QUESTION,
-        TOUCH_ID
+        TOUCH_ID,
+        HOME_DID_YOU_KNOW_SEC_1,
+        HOME_DID_YOU_KNOW_SEC_2
     }
 
     public enum INPUT_TYPE {
@@ -73,6 +75,7 @@ public class Constants {
     public static final String CHANGE_SEC_QUESTION_PASSWORD_SCREEN = "my home|change security question";
     public static final String TOUCH_ID_SETTINGS_SCREEN = "my home|touch id settings";
     public static final String PROVIDER_DETAILS_SCREEN = "my home|doctor details";
+    public static final String HOME_DID_YOU_KNOW_SCREEN = "home, did you know";
 
     // events
     public static final String SIGN_IN_EVENT = "loginSuccess";

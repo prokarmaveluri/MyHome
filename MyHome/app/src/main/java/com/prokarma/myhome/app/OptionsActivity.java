@@ -12,6 +12,7 @@ import com.prokarma.myhome.features.care.MyCareFragment;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.faq.FaqFragment;
+import com.prokarma.myhome.features.home.HomeDidYouKnowFragment;
 import com.prokarma.myhome.features.settings.ChangePasswordFragment;
 import com.prokarma.myhome.features.settings.ChangeSecQuestionFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
@@ -151,6 +152,32 @@ public class OptionsActivity extends BaseActivity {
                 getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.TOUCH_ID);
+                break;
+            case HOME_DID_YOU_KNOW_SEC_1:
+                HomeDidYouKnowFragment fragment = HomeDidYouKnowFragment.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putString("SECTION_TYPE", "HOME_DID_YOU_KNOW_SEC_1");
+                fragment.setArguments(bundle);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, fragment, HomeDidYouKnowFragment.DID_YOU_KNOW_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.HOME_DID_YOU_KNOW_SEC_1);
+                break;
+            case HOME_DID_YOU_KNOW_SEC_2:
+                fragment = HomeDidYouKnowFragment.newInstance();
+                bundle = new Bundle();
+                bundle.putString("SECTION_TYPE", "HOME_DID_YOU_KNOW_SEC_2");
+                fragment.setArguments(bundle);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, fragment, HomeDidYouKnowFragment.DID_YOU_KNOW_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.HOME_DID_YOU_KNOW_SEC_2);
                 break;
             default:
                 Timber.w("Options Activity found an activity tag that isn't being handled!");
