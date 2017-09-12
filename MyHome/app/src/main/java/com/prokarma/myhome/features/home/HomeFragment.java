@@ -240,9 +240,12 @@ public class HomeFragment extends BaseFragment {
                 if (isAdded()) {
 
                     if (response.isSuccessful()) {
-                        Timber.d(getString(R.string.db_res_success) + "\n" + response);
-                        ProfileManager.setProfile(response.body().getData().getUser());
-                        updateProfileViews();
+                        try {
+                            Timber.d(getString(R.string.db_res_success) + "\n" + response);
+                            ProfileManager.setProfile(response.body().getData().getUser());
+                            updateProfileViews();
+                        } catch (NullPointerException ex) {
+                        }
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     }

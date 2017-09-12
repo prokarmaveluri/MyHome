@@ -70,8 +70,11 @@ public class ProfileManager {
             @Override
             public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
                 if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    ProfileManager.setProfile(response.body().getData().getUser());
+                    try {
+                        Timber.d("Successful Response\n" + response);
+                        ProfileManager.setProfile(response.body().getData().getUser());
+                    } catch (NullPointerException ex) {
+                    }
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                 }
@@ -120,7 +123,7 @@ public class ProfileManager {
                     try {
                         AppointmentResponse result = response.body();
                         setAppointments(result.result.appointments);
-                    }catch (NullPointerException ex){
+                    } catch (NullPointerException ex) {
                     }
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
