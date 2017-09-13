@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,7 @@ import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -132,6 +134,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     //stats Education
     private LinearLayout statsEducationView;
     private RecyclerView educationList;
+    private ScrollView providerDetailsLayout;
 
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
@@ -220,6 +223,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         statsEducationView = (LinearLayout) footerLayout.findViewById(R.id.stats_education);
         statsExperienceView = (LinearLayout) footerLayout.findViewById(R.id.stats_experience);
 
+        providerDetailsLayout = (ScrollView) providerDetailsView.findViewById(R.id.provider_details);
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
 
@@ -289,6 +293,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             showStatsView();
                             updateStatsView(providerDetailsResponse);
 
+                            providerDetailsLayout.smoothScrollTo(0, 0);
                             MapUtil.clearMarkers(getContext(), providerMap);
                             markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(),
                                     BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
@@ -339,7 +344,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                     }
                                 }
                             }
-                            coachmarkBooking();
                         } catch (NullPointerException ex) {
                             Timber.e("ProviderDetailsFragment: NullPointerException\n" + ex.toString());
                         }
@@ -353,6 +357,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     }
 
                     MapUtil.zoomMap(getContext(), providerMap, markers);
+                    coachmarkBooking();
                 }
             }
 
@@ -893,11 +898,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void coachmarkBooking() {
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS);
+        if (skip)
+            return;
         if (bookAppointment.getVisibility() != View.VISIBLE) {
             coachmarkLocations();
             return;
         }
-
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(bookAppointment, getString(R.string.coachmark_provider_details_book))
@@ -907,6 +914,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkLocations();
+                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS, true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS, true);
                     }
                 }
         );
@@ -921,6 +935,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS, true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS, true);
                     }
                 }
         );

@@ -45,6 +45,7 @@ import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -499,6 +500,10 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void coachmarkBookAppointment() {
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.HOME_SKIP_COACH_MARKS);
+        if (skip)
+            return;
+
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(binding.btnDbScheduleAppoint, getString(R.string.coachmark_home_book_appointment))
@@ -508,6 +513,13 @@ public class HomeFragment extends BaseFragment {
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkFindCare();
+                        AppPreferences.getInstance().setBooleanPreference(Constants.HOME_SKIP_COACH_MARKS, true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.HOME_SKIP_COACH_MARKS, true);
                     }
                 }
         );
@@ -523,6 +535,13 @@ public class HomeFragment extends BaseFragment {
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkNavigationBarFad();
+                        AppPreferences.getInstance().setBooleanPreference(Constants.HOME_SKIP_COACH_MARKS, true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.HOME_SKIP_COACH_MARKS, true);
                     }
                 }
         );
@@ -537,6 +556,13 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.HOME_SKIP_COACH_MARKS, true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.HOME_SKIP_COACH_MARKS, true);
                     }
                 }
         );
@@ -552,6 +578,13 @@ public class HomeFragment extends BaseFragment {
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkNavigationBarProfile();
+                        AppPreferences.getInstance().setBooleanPreference(Constants.HOME_SKIP_COACH_MARKS, true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.HOME_SKIP_COACH_MARKS, true);
                     }
                 }
         );

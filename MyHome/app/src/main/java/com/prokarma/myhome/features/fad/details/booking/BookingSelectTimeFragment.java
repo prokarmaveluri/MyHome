@@ -23,6 +23,7 @@ import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.utils.AppPreferences;
+import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.views.FlowLayout;
@@ -380,6 +381,10 @@ public class BookingSelectTimeFragment extends Fragment {
     }
 
     private void coachmarkTimeSlots(View view) {
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.BOOKING_SKIP_COACH_MARKS);
+        if (skip)
+            return;
+
         if (view != null && view.getVisibility() != View.VISIBLE)
             return;
         TapTargetView.showFor(getActivity(),
@@ -389,13 +394,13 @@ public class BookingSelectTimeFragment extends Fragment {
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_SKIP_COACH_MARKS, true);
                     }
                 }
         );

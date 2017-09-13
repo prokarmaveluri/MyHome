@@ -19,6 +19,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
@@ -228,6 +229,9 @@ public class AppointmentsDetailsFragment extends BaseFragment {
     }
 
     private void coachmarkHeart() {
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS);
+        if (skip)
+            return;
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(favProvider, getString(R.string.coachmark_appointments_favorite_doctor))
@@ -236,12 +240,22 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS, true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS, true);
                     }
                 }
         );
     }
 
     private void coachmarkCalendar() {
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS);
+        if (skip)
+            return;
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(calendarIcon, getString(R.string.coachmark_appointments_calendar))
@@ -251,6 +265,13 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkHeart();
+                        AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS, true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS, true);
                     }
                 }
         );
