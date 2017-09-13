@@ -289,7 +289,7 @@
     <string name="my_care_desc">You\'ll find your test results, medication lists, doctor notes, and more!</string>
 
     <string name="my_care_title">My Care</string>
-    <string name="coachmark_appointments_favorite_doctor">Everyone has favorites.  Favorite your provider for quick access to their location information.</string>
+    <string name="coachmark_appointments_favorite_doctor">Save your provider to build your health team and get quick access to book appointments</string>
     <string name="coachmark_appointments_calendar">Get a reminder.  Save your appointment to your personal calendar.</string>
     <string name="coachmark_home_book_appointment">See recently-viewed providers or search for a provider to book an appointment.</string>
     <string name="coachmark_home_find_care">Search for providers, find provider location information, and book appointments.</string>
@@ -302,7 +302,8 @@
     <string name="coachmark_filter">Change your location and refine your search.</string>
     <string name="coachmark_list">View providers and their locations on a map.</string>
     <string name="coachmark_fad_location">Quickly see where the provider is located and get directions</string>
-    <string name="coachmark_time_slots">A user can tap on the date to open a calendar to search by a specifc date</string>
+    <string name="coachmark_fad_map">Pinch and Swipe to adjust the map and distance of your search. Swipe the map to move it, and tap "Search this Area" to see providers in the new area.</string>
+    <string name="coachmark_time_slots">Tapping the date will open a calendar to select  a specific day.</string>
     <string name="coachmark_share_apt">Send your appointment information by text and email </string>
 
 </resources>

@@ -2,7 +2,6 @@ package com.prokarma.myhome.features.fad.details.booking;
 
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -158,7 +157,7 @@ public class BookingSelectTimeFragment extends Fragment {
         });
 
         setupView();
-
+        coachmarkTimeSlots(dateHeader);
         return bookingView;
     }
 
@@ -279,7 +278,6 @@ public class BookingSelectTimeFragment extends Fragment {
 
             timeGroup.addView(timeButton, layoutParams);
         }
-        coachmarkTimeSlots();
     }
 
     private ArrayList<Appointment> getTodaysAppointments(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
@@ -381,19 +379,12 @@ public class BookingSelectTimeFragment extends Fragment {
         this.refreshInterface = refreshInterface;
     }
 
-    private void coachmarkTimeSlots() {
-        if (timeLayout != null && timeLayout.getVisibility() != View.VISIBLE)
+    private void coachmarkTimeSlots(View view) {
+        if (view != null && view.getVisibility() != View.VISIBLE)
             return;
-        Drawable drawable;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            drawable = getResources().getDrawable(R.drawable.ic_dot_image, getActivity().getTheme());
-        } else {
-            drawable = getResources().getDrawable(R.drawable.ic_dot_image);
-        }
         TapTargetView.showFor(getActivity(),
-                TapTarget.forView(timeLayout, getString(R.string.coachmark_time_slots))
-                        .transparentTarget(true)
-                        .icon(drawable),
+                TapTarget.forView(view, getString(R.string.coachmark_time_slots))
+                        .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
                     public void onTargetClick(TapTargetView view) {
