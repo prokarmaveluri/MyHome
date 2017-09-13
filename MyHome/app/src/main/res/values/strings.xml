@@ -298,5 +298,11 @@
     <string name="coachmark_home_navbar_fad">See providers you recently viewed, find provider location information, and book appointments.</string>
     <string name="coachmark_provider_details_book">This provider allows you to book appointments online. If online booking is not available, you can always call for an appointment.</string>
     <string name="coachmarks_provider_details_location">View location information</string>
+    <string name="coachmark_recent">Providers you recently viewed.</string>
+    <string name="coachmark_filter">Change your location and refine your search.</string>
+    <string name="coachmark_list">View providers and their locations on a map.</string>
+    <string name="coachmark_fad_location">Quickly see where the provider is located and get directions</string>
+    <string name="coachmark_time_slots">A user can tap on the date to open a calendar to search by a specifc date</string>
+    <string name="coachmark_share_apt">Send your appointment information by text and email </string>
 
 </resources>

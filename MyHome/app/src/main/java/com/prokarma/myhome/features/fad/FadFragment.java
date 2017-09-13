@@ -3,7 +3,6 @@ package com.prokarma.myhome.features.fad;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -780,7 +779,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(binding.fadRecent, "Providers you recently viewed.")
+                TapTarget.forView(binding.fadRecent, getString(R.string.coachmark_recent))
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
@@ -801,7 +800,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private void coachmarkFilter() {
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(binding.fadFilter, "Change your location and refine your search.")
+                TapTarget.forView(binding.fadFilter, getString(R.string.coachmark_filter))
                         .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
@@ -820,18 +819,40 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     private void coachmarkList() {
-        Drawable drawable;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            drawable = getResources().getDrawable(R.drawable.home, getActivity().getTheme());
-        } else {
-            drawable = getResources().getDrawable(R.drawable.home);
+        if (null == ProvidersAdapter.coachItemLayout) {
+            coachmarkListLocation();
+            return;
         }
+
         TapTargetView.showFor(
                 getActivity(),
-                TapTarget.forView(binding.fadPager,
-                        "View providers and their locations on a map.")
-                        .transparentTarget(false)
-                        .icon(drawable),
+                TapTarget.forView(ProvidersAdapter.coachItemLayout,
+                        getString(R.string.coachmark_list))
+                        .transparentTarget(false),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                        coachmarkListLocation();
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                    }
+                }
+        );
+    }
+
+    private void coachmarkListLocation() {
+        if (null == ProvidersAdapter.coachMarkView)
+            return;
+
+        TapTargetView.showFor(getActivity(),
+                TapTarget.forView(ProvidersAdapter.coachMarkView, getString(R.string.coachmark_fad_location))
+                        .transparentTarget(true),
                 new TapTargetView.Listener() {
                     @Override
                     public void onTargetClick(TapTargetView view) {

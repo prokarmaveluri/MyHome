@@ -1,6 +1,6 @@
 package com.prokarma.myhome.features.fad;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,16 +31,20 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
     private boolean recent;
     private List<ProviderDetailsResponse> providerList;
     private IProviderClick listener;
-    private Context mContext;
+    private Activity mContext;
+    public static View coachMarkView;
+    public static View coachItemLayout;
     private ArrayList<String> recentProviders;
 
     public ProvidersAdapter(List<ProviderDetailsResponse> providers,
-                            Context context, IProviderClick listener,
+                            Activity context, IProviderClick listener,
                             ArrayList<String> recentProviders, boolean recent) {
         providerList = providers;
         mContext = context;
         this.recent = recent;
         this.listener = listener;
+        coachMarkView = null;
+        coachItemLayout = null;
         this.recentProviders = recentProviders;
     }
 
@@ -57,6 +61,11 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
 
     @Override
     public void onBindViewHolder(ProvidersVH holder, int position) {
+
+        if (position == 1) {
+            coachMarkView = holder.binding.directions;
+            coachItemLayout = holder.binding.docInfoLayout;
+        }
         holder.bind(providerList.get(position), position);
     }
 

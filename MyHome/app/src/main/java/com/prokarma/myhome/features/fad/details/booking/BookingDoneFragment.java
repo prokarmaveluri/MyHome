@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.prokarma.myhome.R;
@@ -19,6 +21,7 @@ import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
 
@@ -202,6 +205,7 @@ public class BookingDoneFragment extends Fragment {
                             doneInterface.onBookingSuccess();
                         }
                         ProfileManager.setAppointments(null);
+                        coachmarkBookingDone();
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                         updateVisibility(false);
@@ -256,6 +260,29 @@ public class BookingDoneFragment extends Fragment {
                 new Address(BookingManager.getBookingOffice().getAddress1(), BookingManager.getBookingOffice().getAddress2(), BookingManager.getBookingOffice().getCity(), BookingManager.getBookingOffice().getState(), BookingManager.getBookingOffice().getZipCode(), null),
                 BookingManager.getBookingOffice().getPhone(),
                 BookingManager.getBookingProfile().reasonForVisit
+        );
+    }
+
+    private void coachmarkBookingDone() {
+        if (shareIcon != null && shareIcon.getVisibility() != View.VISIBLE)
+            return;
+
+        TapTargetView.showFor(getActivity(),
+                TapTarget.forView(shareIcon, getString(R.string.coachmark_share_apt))
+                        .transparentTarget(true),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                    }
+                }
         );
     }
 }

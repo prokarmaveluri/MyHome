@@ -2,6 +2,7 @@ package com.prokarma.myhome.features.fad.details.booking;
 
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,8 +19,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.Appointment;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.views.FlowLayout;
@@ -162,7 +166,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if(refreshInterface != null){
+        if (refreshInterface != null) {
             refreshInterface.onRefreshView(true);
         }
     }
@@ -275,6 +279,7 @@ public class BookingSelectTimeFragment extends Fragment {
 
             timeGroup.addView(timeButton, layoutParams);
         }
+        coachmarkTimeSlots();
     }
 
     private ArrayList<Appointment> getTodaysAppointments(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
@@ -374,5 +379,34 @@ public class BookingSelectTimeFragment extends Fragment {
 
     public void setRefreshInterface(BookingRefreshInterface refreshInterface) {
         this.refreshInterface = refreshInterface;
+    }
+
+    private void coachmarkTimeSlots() {
+        if (timeLayout != null && timeLayout.getVisibility() != View.VISIBLE)
+            return;
+        Drawable drawable;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            drawable = getResources().getDrawable(R.drawable.ic_dot_image, getActivity().getTheme());
+        } else {
+            drawable = getResources().getDrawable(R.drawable.ic_dot_image);
+        }
+        TapTargetView.showFor(getActivity(),
+                TapTarget.forView(timeLayout, getString(R.string.coachmark_time_slots))
+                        .transparentTarget(true)
+                        .icon(drawable),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                    }
+
+                    @Override
+                    public void onTargetCancel(TapTargetView view) {
+                        super.onTargetCancel(view);
+                        AppPreferences.getInstance().setBooleanPreference("SKIP_COACH_MARKS", true);
+                    }
+                }
+        );
     }
 }
