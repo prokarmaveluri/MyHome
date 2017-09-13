@@ -522,7 +522,7 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        coachmarkNavigationBarProfile();
+                        coachmarkNavigationBarFad();
                     }
                 }
         );
@@ -537,7 +537,6 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        coachmarkNavigationBarFad();
                     }
                 }
         );
@@ -552,6 +551,7 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
+                        coachmarkNavigationBarProfile();
                     }
                 }
         );

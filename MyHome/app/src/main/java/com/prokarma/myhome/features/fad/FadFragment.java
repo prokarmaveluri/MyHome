@@ -564,7 +564,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             NavigationActivity.eventBus.post(data);
             return;
         }
-        coachmarkRecent();
+        coachmarkFilter();
         providerList.clear();
         providerList.addAll(response.getProviders());
         try {
@@ -785,7 +785,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        coachmarkFilter();
+                        coachmarkList();
                     }
 
                     @Override
@@ -806,7 +806,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        coachmarkList();
+                        coachmarkRecent();
                     }
 
                     @Override
