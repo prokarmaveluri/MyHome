@@ -267,7 +267,7 @@ public class BookingDoneFragment extends Fragment {
     private void coachmarkBookingDone() {
         if (shareIcon != null && shareIcon.getVisibility() != View.VISIBLE)
             return;
-        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.BOOKING_SKIP_COACH_MARKS);
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.BOOKING_DONE_SKIP_COACH_MARKS);
         if (skip)
             return;
         TapTargetView.showFor(getActivity(),
@@ -277,13 +277,13 @@ public class BookingDoneFragment extends Fragment {
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_DONE_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_DONE_SKIP_COACH_MARKS, true);
                     }
                 }
         );

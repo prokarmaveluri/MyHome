@@ -229,7 +229,11 @@ public class AppointmentsDetailsFragment extends BaseFragment {
     }
 
     private void coachmarkHeart() {
-        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS);
+        boolean skip;
+        if (isPastAppointment)
+            skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_PAST_SKIP_COACH_MARKS);
+        else
+            skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_UPCOMING_SKIP_COACH_MARKS);
         if (skip)
             return;
         TapTargetView.showFor(
@@ -240,20 +244,30 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS, true);
+                        if (isPastAppointment)
+                            AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_PAST_SKIP_COACH_MARKS, true);
+                        else
+                            AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_UPCOMING_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS, true);
+                        if (isPastAppointment)
+                            AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_PAST_SKIP_COACH_MARKS, true);
+                        else
+                            AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_UPCOMING_SKIP_COACH_MARKS, true);
                     }
                 }
         );
     }
 
     private void coachmarkCalendar() {
-        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS);
+        boolean skip;
+        if (isPastAppointment)
+            skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_PAST_SKIP_COACH_MARKS);
+        else
+            skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_UPCOMING_SKIP_COACH_MARKS);
         if (skip)
             return;
         TapTargetView.showFor(
@@ -265,13 +279,19 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkHeart();
-                        AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS, true);
+                        if (isPastAppointment)
+                            AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_PAST_SKIP_COACH_MARKS, true);
+                        else
+                            AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_UPCOMING_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_SKIP_COACH_MARKS, true);
+                        if (isPastAppointment)
+                            AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_PAST_SKIP_COACH_MARKS, true);
+                        else
+                            AppPreferences.getInstance().setBooleanPreference(Constants.APT_DETAILS_UPCOMING_SKIP_COACH_MARKS, true);
                     }
                 }
         );

@@ -898,13 +898,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void coachmarkBooking() {
-        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS);
-        if (skip)
-            return;
         if (bookAppointment.getVisibility() != View.VISIBLE) {
             coachmarkLocations();
             return;
         }
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.PROVIDER_DETAILS_BOOK_SKIP_COACH_MARKS);
+        if (skip)
+            return;
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(bookAppointment, getString(R.string.coachmark_provider_details_book))
@@ -914,19 +914,22 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkLocations();
-                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_BOOK_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_BOOK_SKIP_COACH_MARKS, true);
                     }
                 }
         );
     }
 
     private void coachmarkLocations() {
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.PROVIDER_DETAILS_LOCATION_SKIP_COACH_MARKS);
+        if (skip)
+            return;
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(myMap.getView(), getString(R.string.coachmarks_provider_details_location))
@@ -935,13 +938,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_LOCATION_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.PROVIDER_DETAILS_LOCATION_SKIP_COACH_MARKS, true);
                     }
                 }
         );
