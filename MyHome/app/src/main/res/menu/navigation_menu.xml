@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/fad"
-        android:icon="@drawable/ic_find_care_blue"
+        android:icon="@mipmap/find_care_blue"
         android:title="@string/find_care"
         app:showAsAction="ifRoom" />
 
