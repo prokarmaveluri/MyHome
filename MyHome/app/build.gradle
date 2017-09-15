@@ -74,8 +74,8 @@ android {
 
         def TEALIUM_ENVIRONMENT = "TEALIUM_ENVIRONMENT"
         def ENVIRONMENT_RELEASE = "\"prod\""
-        def ENVIRONMENT_STAGE = "\"qa\""
-        def ENVIRONMENT_DEBUG = "\"qa\""
+        def ENVIRONMENT_STAGE = "\"stage\""
+        def ENVIRONMENT_DEBUG = "\"test\""
         def ENVIRONMENT_DEV = "\"dev\""
         def TEALIUM_APP_NAME = "TEALIUM_APP_NAME"
         def APP_NAME_RELEASE = "\"My Home App - Digital Home\""
