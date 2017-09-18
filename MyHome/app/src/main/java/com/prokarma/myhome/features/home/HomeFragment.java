@@ -183,6 +183,8 @@ public class HomeFragment extends BaseFragment {
                 updateAppointViews();
 
             }
+            if (progressStatus == 0)
+                coachmarkBookAppointment();
         } else {
             Toast.makeText(getActivity(), R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
@@ -250,8 +252,10 @@ public class HomeFragment extends BaseFragment {
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     }
-                    if (progressStatus == 1)
+                    if (progressStatus == 1) {
                         hideLoading();
+                        coachmarkBookAppointment();
+                    }
                     progressStatus--;
                 }
             }
@@ -262,6 +266,7 @@ public class HomeFragment extends BaseFragment {
                     Timber.e(getString(R.string.db_res_failed));
                     Timber.e(getString(R.string.db_res_throwable) + " = " + t);
                     hideLoading();
+                    coachmarkBookAppointment();
                 }
             }
         });

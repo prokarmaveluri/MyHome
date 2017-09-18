@@ -381,7 +381,7 @@ public class BookingSelectTimeFragment extends Fragment {
     }
 
     private void coachmarkTimeSlots(View view) {
-        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.BOOKING_SKIP_COACH_MARKS);
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.BOOKING_DATE_SKIP_COACH_MARKS);
         if (skip)
             return;
 
@@ -394,13 +394,13 @@ public class BookingSelectTimeFragment extends Fragment {
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_DATE_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.BOOKING_DATE_SKIP_COACH_MARKS, true);
                     }
                 }
         );

@@ -108,11 +108,15 @@ public class Constants {
     public static final String PREF_TIME_ZONE = "pref_time_zone";
 
     //Coach Marks Constants
-    public static final String BOOKING_SKIP_COACH_MARKS = "BOOKING_SKIP_COACH_MARKS";
-    public static final String PROVIDER_DETAILS_SKIP_COACH_MARKS = "PROVIDER_DETAILS_SKIP_COACH_MARKS";
+    public static final String BOOKING_DONE_SKIP_COACH_MARKS = "BOOKING_DONE_SKIP_COACH_MARKS";
+    public static final String BOOKING_DATE_SKIP_COACH_MARKS = "BOOKING_DATE_SKIP_COACH_MARKS";
+    public static final String PROVIDER_DETAILS_BOOK_SKIP_COACH_MARKS = "PROVIDER_DETAILS_BOOK_SKIP_COACH_MARKS";
+    public static final String PROVIDER_DETAILS_LOCATION_SKIP_COACH_MARKS = "PROVIDER_DETAILS_LOCATION_SKIP_COACH_MARKS";
     public static final String FAD_SKIP_COACH_MARKS = "FAD_SKIP_COACH_MARKS";
     public static final String HOME_SKIP_COACH_MARKS = "HOME_SKIP_COACH_MARKS";
     public static final String APT_DETAILS_SKIP_COACH_MARKS = "APT_DETAILS_SKIP_COACH_MARKS";
+    public static final String APT_DETAILS_PAST_SKIP_COACH_MARKS = "APT_DETAILS_PAST_SKIP_COACH_MARKS";
+    public static final String APT_DETAILS_UPCOMING_SKIP_COACH_MARKS = "APT_DETAILS_UPCOMING_SKIP_COACH_MARKS";
 
 }
 
