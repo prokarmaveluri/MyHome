@@ -19,6 +19,7 @@
     <string name="valid_email">Please enter a valid email.</string>
     <string name="valid_password">Please enter a valid password.</string>
     <string name="valid_password_match">Please match your password entries.</string>
+    <string name="valid_password_same">New and existing passwords cannot be same.</string>
     <string name="forgot_password_success_msg">Please check your email for instructions to reset your password.</string>
     <string name="enrollment_success">Congratulations! Your new My Home is ready.</string>
     <string name="no_network_msg">We\'re sorry, we\'re unable to detect your network. Please connect and try again.</string>

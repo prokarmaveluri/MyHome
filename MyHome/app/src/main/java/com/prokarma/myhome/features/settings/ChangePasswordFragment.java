@@ -151,6 +151,10 @@ public class ChangePasswordFragment extends BaseFragment {
             binding.confirmPasswordLayout.setError(getString(R.string.valid_password_match));
             return null;
         }
+        if (binding.existingPassword.getText().toString().equals(binding.newPassword.getText().toString())) {
+            binding.confirmPasswordLayout.setError(getString(R.string.valid_password_same));
+            return null;
+        }
         ChangePasswordRequest request = new ChangePasswordRequest(binding.existingPassword.getText().toString(),
                 binding.newPassword.getText().toString(), binding.confirmPassword.getText().toString());
         return request;
