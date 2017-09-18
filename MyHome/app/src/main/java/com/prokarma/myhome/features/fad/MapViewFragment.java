@@ -103,6 +103,7 @@ public class MapViewFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 searchThisArea.setVisibility(View.INVISIBLE);
+                location = new LocationResponse();
                 location.setLat(String.valueOf(latlon.latitude));
                 location.setLon(String.valueOf(latlon.longitude));
                 location.setDisplayName("Map Search Location");
@@ -189,7 +190,7 @@ public class MapViewFragment extends Fragment implements
             map.moveCamera(cu);
             map.setOnInfoWindowClickListener(this);
             map.setOnCameraMoveCanceledListener(this);
-        } catch (NullPointerException | IllegalStateException ex) {
+        } catch (NullPointerException | NumberFormatException | IllegalStateException ex) {
         }
     }
 
