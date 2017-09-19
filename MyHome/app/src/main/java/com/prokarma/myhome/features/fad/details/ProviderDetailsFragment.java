@@ -357,7 +357,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     }
 
                     MapUtil.zoomMap(getContext(), providerMap, markers);
-                    coachmarkBooking();
+                    mHandler.sendEmptyMessageDelayed(1, 200);
                 }
             }
 
@@ -834,34 +834,42 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
 
-            if (fragment instanceof BookingSelectCalendarFragment) {
-                //You're on the calendar
-                BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(),
-                        currentOffice.getAppointments()), BookingManager.getBookingDate());
-                bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
-                bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
-                getChildFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
-                        .replace(R.id.booking_frame, bookingFragment)
-                        .addToBackStack(null)
-                        .commit();
-                getChildFragmentManager().executePendingTransactions();
-            } else if (fragment instanceof BookingSelectTimeFragment) {
-                //You were on the times
-                BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(BookingManager.getBookingDate(),
-                        filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
-                bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
-                bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
-                getChildFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
-                        .replace(R.id.booking_frame, bookingFragment)
-                        .addToBackStack(null)
-                        .commit();
-                getChildFragmentManager().executePendingTransactions();
+            switch (msg.what) {
+                case 0:
+                    Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
+
+                    if (fragment instanceof BookingSelectCalendarFragment) {
+                        //You're on the calendar
+                        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(),
+                                currentOffice.getAppointments()), BookingManager.getBookingDate());
+                        bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
+                        bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                        getChildFragmentManager()
+                                .beginTransaction()
+                                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
+                                .replace(R.id.booking_frame, bookingFragment)
+                                .addToBackStack(null)
+                                .commit();
+                        getChildFragmentManager().executePendingTransactions();
+                    } else if (fragment instanceof BookingSelectTimeFragment) {
+                        //You were on the times
+                        BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(BookingManager.getBookingDate(),
+                                filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
+                        bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
+                        bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                        getChildFragmentManager()
+                                .beginTransaction()
+                                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
+                                .replace(R.id.booking_frame, bookingFragment)
+                                .addToBackStack(null)
+                                .commit();
+                        getChildFragmentManager().executePendingTransactions();
+                    }
+                    break;
+                case 1:
+                    coachmarkBooking();
+                    break;
             }
         }
     };
