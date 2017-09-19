@@ -49,8 +49,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 102011
-        versionName "1.2.11"
+        versionCode 102012
+        versionName "1.2.12"
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
