@@ -59,7 +59,7 @@
             android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_marginTop="46dp"
-            android:text="@string/book" />
+            android:text="Book this appointment" />
 
     </LinearLayout>
 </ScrollView>
