@@ -176,7 +176,7 @@
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
                         android:ellipsize="end"
                         android:hint="@string/city"
-                        android:inputType="text"
+                        android:inputType="textCapWords"
                         android:maxLines="2" />
 
                 </android.support.design.widget.TextInputLayout>
