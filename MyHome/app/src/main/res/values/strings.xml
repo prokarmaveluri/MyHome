@@ -306,5 +306,6 @@
     <string name="coachmark_fad_map">Pinch and Swipe to adjust the map and distance of your search. Swipe the map to move it, and tap "Search this Area" to see providers in the new area.</string>
     <string name="coachmark_time_slots">Tapping the date will open a calendar to select  a specific day.</string>
     <string name="coachmark_share_apt">Send your appointment information by text and email </string>
+    <string name="book_this_appointment">Book this appointment</string>
 
 </resources>
