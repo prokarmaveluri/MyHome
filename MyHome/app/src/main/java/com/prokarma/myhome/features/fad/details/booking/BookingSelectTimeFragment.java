@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.Constants;
@@ -101,6 +102,8 @@ public class BookingSelectTimeFragment extends Fragment {
         }
 
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle("Select the appointment time");
+
         timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
         timeLayout.setGravity(Gravity.CENTER);
         noAppointments = (Button) bookingView.findViewById(R.id.empty_appointments);

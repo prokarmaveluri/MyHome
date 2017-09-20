@@ -15,6 +15,7 @@ import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.profile.Address;
@@ -197,6 +198,8 @@ public class BookingDoneFragment extends Fragment {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
                         Timber.i("Request JSON = " + gson.toJson(response.body()));
+                        ((NavigationActivity) getActivity()).setActionBarTitle("Appointment booked");
+
                         updateVisibility(false);
                         date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().Time));
                         time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().Time));
@@ -209,6 +212,8 @@ public class BookingDoneFragment extends Fragment {
                         coachmarkBookingDone();
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
+                        ((NavigationActivity) getActivity()).setActionBarTitle("Unable to book");
+
                         updateVisibility(false);
 
                         if (doneInterface != null) {
@@ -223,6 +228,8 @@ public class BookingDoneFragment extends Fragment {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);
+                    ((NavigationActivity) getActivity()).setActionBarTitle("Unable to book");
+
                     updateVisibility(false);
 
                     if (doneInterface != null) {
