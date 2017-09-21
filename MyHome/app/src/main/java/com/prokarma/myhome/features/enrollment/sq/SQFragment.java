@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -85,6 +88,7 @@ public class SQFragment extends Fragment {
         if (isChange) {
             binding.submitQuestion.setText("Save");
         }
+        drawableClickEvent();
         binding.selectQuestion.setText(selectedQuestionTxt);
         return binding.getRoot();
     }
@@ -259,5 +263,43 @@ public class SQFragment extends Fragment {
                 binding.changeSecProgress.setVisibility(View.GONE);
             }
         });
+    }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            CommonUtil.hideSoftKeyboard(getActivity());
+        }
+    };
+
+    private void drawableClickEvent() {
+        binding.answer.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        try {
+                            if (event.getAction() == MotionEvent.ACTION_UP) {
+                                int[] locationOnScreen = new int[2];
+                                binding.answer.getLocationOnScreen(locationOnScreen);
+                                int touchXCoordinate = (int) event.getRawX() - locationOnScreen[0];
+                                Timber.i("OnTouch " + (binding.answer.getRight() - binding.answer.getTotalPaddingRight()));
+                                Timber.i("OnTouch  " + (binding.answer.getRight() - binding.answer.getPaddingRight()));
+                                Timber.i("touchXCoordinate  " + touchXCoordinate);
+                                if (touchXCoordinate >= (binding.answer.getRight() - binding.answer.getTotalPaddingRight()) &&
+                                        touchXCoordinate <= (binding.answer.getRight() - binding.answer.getPaddingRight())) {
+                                    CommonUtil.displayPopupWindow(getActivity(), binding.answer,
+                                            CommonUtil.getBulletPoints(CommonUtil.getSecurityAnswerCriteria(getActivity())));
+                                    mHandler.sendEmptyMessageDelayed(0, 500);
+                                } else {
+                                    CommonUtil.showSoftKeyboard(binding.answer, getActivity());
+                                }
+                            }
+                        } catch (NullPointerException ex) {
+                            return false;
+                        }
+                        return false;
+                    }
+                });
     }
 }

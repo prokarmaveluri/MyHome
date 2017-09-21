@@ -308,4 +308,8 @@
     <string name="coachmark_share_apt">Send your appointment information by text and email </string>
     <string name="book_this_appointment">Book this appointment</string>
 
+    <string name="sq_criteria_4char">Answer must be at least 4 characters</string>
+    <string name="sq_criteria_question">Must not contain part of security question</string>
+    <string name="sq_criteria_username">Must not contain user name</string>
+    <string name="sq_criteria_password">Must not contain password</string>
 </resources>
