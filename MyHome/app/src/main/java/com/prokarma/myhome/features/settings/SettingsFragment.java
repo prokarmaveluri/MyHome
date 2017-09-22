@@ -26,6 +26,9 @@ import java.util.List;
 
 public class SettingsFragment extends BaseFragment implements SettingsAdapter.ISettingsClick {
     public static final String SETTINGS_TAG = "settings_tag";
+    public static final String CHANGE_PASSWORD = "Change Password";
+    public static final String CHANGE_SECURITY_QUESTION = "Change Security Question";
+    public static final String FINGERPRINT_SIGN_IN = "Fingerprint Sign-In";
     private View settingsView;
     private RecyclerView settingList;
     private SettingsAdapter listAdapter;
@@ -74,9 +77,9 @@ public class SettingsFragment extends BaseFragment implements SettingsAdapter.IS
 
     private List<String> getList() {
         List<String> list = new ArrayList<>();
-        list.add("Touch ID");
-        list.add("Change Password");
-        list.add("Change Security Question");
+        list.add(FINGERPRINT_SIGN_IN);
+        list.add(CHANGE_PASSWORD);
+        list.add(CHANGE_SECURITY_QUESTION);
         return list;
     }
 
