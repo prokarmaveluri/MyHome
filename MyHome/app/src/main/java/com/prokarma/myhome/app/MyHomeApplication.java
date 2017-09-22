@@ -7,7 +7,6 @@ import android.support.multidex.MultiDexApplication;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.FadManager;
-import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.TealiumUtil;
 
@@ -52,7 +51,7 @@ public class MyHomeApplication extends MultiDexApplication {
         }
 
         //init retrofit service
-        NetworkManager.getInstance().initService();
+//        NetworkManager.getInstance().initService();
         AuthManager.getInstance().setContext(this);
         FadManager.getInstance().setLocation(null);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

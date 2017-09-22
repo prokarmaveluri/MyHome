@@ -48,6 +48,7 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.EnviHandler;
 import com.prokarma.myhome.utils.RESTConstants;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
@@ -542,9 +543,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             codeChallenge = deriveCodeVerifierChallenge(codeVerifier);
             Timber.i("Session, codeVerifier " + codeVerifier);
             Timber.i("Session, codeChallenge " + codeChallenge);
-            URL url = new URL(RESTConstants.OKTA_BASE_URL + String.format(RESTConstants.FETCH_CODE,
-                    RESTConstants.AUTH_CLIENT_ID, RESTConstants.CLIENT_ID, RESTConstants.AUTH_REDIRECT_URI,
-                    RESTConstants.AUTH_SCOPE, codeChallenge, sessionToken));
+            URL url = new URL(EnviHandler.OKTA_BASE_URL + String.format(RESTConstants.FETCH_CODE,
+                    EnviHandler.AUTH_CLIENT_ID, EnviHandler.CLIENT_ID, EnviHandler.AUTH_REDIRECT_URI,
+                    EnviHandler.AUTH_SCOPE, codeChallenge, sessionToken));
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 java.net.CookieManager manager = new java.net.CookieManager();
@@ -578,11 +579,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     }
 
     private void getAccessToken(String code) {
-        NetworkManager.getInstance().fetchAccessToken(RESTConstants.GRANT_TYPE_AUTH,
+        NetworkManager.getInstance().fetchAccessToken(EnviHandler.GRANT_TYPE_AUTH,
                 code,
-                RESTConstants.CLIENT_ID,
-                RESTConstants.AUTH_SCOPE,
-                RESTConstants.AUTH_REDIRECT_URI,
+                EnviHandler.CLIENT_ID,
+                EnviHandler.AUTH_SCOPE,
+                EnviHandler.AUTH_REDIRECT_URI,
                 codeVerifier).enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {

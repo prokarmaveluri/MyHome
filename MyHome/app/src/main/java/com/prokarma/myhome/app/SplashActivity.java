@@ -54,7 +54,7 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.prokarma.myhome.utils.RESTConstants;
+import com.prokarma.myhome.utils.EnviHandler;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,6 +71,7 @@ public class SplashActivity extends AppCompatActivity implements
     private TextView clickToRefresh;
     private boolean isGPSVerified = false;
     private boolean isVersionVerified = false;
+    private static EnviHandler.EnvType currentEnv = EnviHandler.EnvType.NONE;
 
     //Location
     private GoogleApiClient mGoogleApiClient;
@@ -94,7 +95,9 @@ public class SplashActivity extends AppCompatActivity implements
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_splash);
 
-        initApiClient();
+//        initApiClient();
+        buildEnvAlert();
+
         CryptoManager.getInstance().setContext(getApplicationContext());
         progress = (ProgressBar) findViewById(R.id.splash_progress);
         clickToRefresh = (TextView) findViewById(R.id.splashRefresh);
@@ -110,6 +113,59 @@ public class SplashActivity extends AppCompatActivity implements
                 versionCheck(true);
             }
         });
+    }
+
+    private void buildEnvAlert() {
+
+        if (!BuildConfig.BUILD_TYPE.contains("release")) {
+            if (currentEnv != EnviHandler.EnvType.NONE) {
+                if (currentEnv == EnviHandler.EnvType.DEV) {
+                    EnviHandler.initEnv(EnviHandler.EnvType.DEV);
+                } else if (currentEnv == EnviHandler.EnvType.STAGE) {
+                    EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
+                } else if (currentEnv == EnviHandler.EnvType.PROD) {
+                    EnviHandler.initEnv(EnviHandler.EnvType.PROD);
+                }
+            }
+        } else {
+            EnviHandler.initEnv(EnviHandler.EnvType.PROD);
+        }
+
+        if (!BuildConfig.BUILD_TYPE.contains("release") && currentEnv == EnviHandler.EnvType.NONE) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.select_env)
+                    .setCancelable(false)
+                    .setItems(R.array.build_env, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                currentEnv = EnviHandler.EnvType.DEV;
+                                EnviHandler.initEnv(EnviHandler.EnvType.DEV);
+                            } else if (which == 1) {
+                                currentEnv = EnviHandler.EnvType.STAGE;
+                                EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
+                            } else if (which == 2) {
+                                currentEnv = EnviHandler.EnvType.PROD;
+                                EnviHandler.initEnv(EnviHandler.EnvType.PROD);
+                            }
+                            initApiClient();
+
+                            //init retrofit service
+                            NetworkManager.getInstance().initService();
+
+                            startLocationFetch();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+        } else {
+            initApiClient();
+
+            //init retrofit service
+            NetworkManager.getInstance().initService();
+
+            startLocationFetch();
+        }
     }
 
     private void getAccessTokenFromRefresh() {
@@ -159,10 +215,10 @@ public class SplashActivity extends AppCompatActivity implements
             return;
         }
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().refreshAccessToken(RESTConstants.GRANT_TYPE_REFRESH,
+        NetworkManager.getInstance().refreshAccessToken(EnviHandler.GRANT_TYPE_REFRESH,
                 refreshToken,
-                RESTConstants.CLIENT_ID,
-                RESTConstants.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
+                EnviHandler.CLIENT_ID,
+                EnviHandler.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
             @Override
             public void onResponse(Call<RefreshAccessTokenResponse> call, Response<RefreshAccessTokenResponse> response) {
                 if (response.isSuccessful()) {
@@ -221,7 +277,7 @@ public class SplashActivity extends AppCompatActivity implements
     @Override
     public void onStart() {
         super.onStart();
-        startLocationFetch();
+
     }
 
 

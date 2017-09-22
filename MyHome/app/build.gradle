@@ -66,11 +66,24 @@ android {
         def REPORT_CRASHES = "REPORT_CRASHES"
         def REPORT_ANALYTICS = "REPORT_ANALYTICS"
         def SHOW_SETTINGS = "SHOW_SETTINGS"
-        def VERSIONING_URL = "VERSIONING_URL"
-        def OKTA_BASE_URL = "OKTA_BASE_URL"
-        def CIAM_BASE_URL = "CIAM_BASE_URL"
-        def S2_BASE_URL = "S2_BASE_URL"
-        def SCHEDULING_BASE = "SCHEDULING_BASE"
+
+        def P_VERSIONING_URL = "P_VERSIONING_URL"
+        def P_OKTA_BASE_URL = "P_OKTA_BASE_URL"
+        def P_CIAM_BASE_URL = "P_CIAM_BASE_URL"
+        def P_S2_BASE_URL = "P_S2_BASE_URL"
+        def P_SCHEDULING_BASE = "P_SCHEDULING_BASE"
+
+        def S_VERSIONING_URL = "S_VERSIONING_URL"
+        def S_OKTA_BASE_URL = "S_OKTA_BASE_URL"
+        def S_CIAM_BASE_URL = "S_CIAM_BASE_URL"
+        def S_S2_BASE_URL = "S_S2_BASE_URL"
+        def S_SCHEDULING_BASE = "S_SCHEDULING_BASE"
+
+        def D_VERSIONING_URL = "D_VERSIONING_URL"
+        def D_OKTA_BASE_URL = "D_OKTA_BASE_URL"
+        def D_CIAM_BASE_URL = "D_CIAM_BASE_URL"
+        def D_S2_BASE_URL = "D_S2_BASE_URL"
+        def D_SCHEDULING_BASE = "D_SCHEDULING_BASE"
 
         def TEALIUM_ENVIRONMENT = "TEALIUM_ENVIRONMENT"
         def ENVIRONMENT_RELEASE = "\"prod\""
@@ -93,18 +106,46 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
-            buildConfigField STRING, VERSIONING_URL, PROD_VERSIONING_URL
-            buildConfigField STRING, OKTA_BASE_URL, PROD_OKTA_BASE_URL
-            buildConfigField STRING, CIAM_BASE_URL, PROD_CIAM_BASE_URL
-            buildConfigField STRING, S2_BASE_URL, PROD_S2_BASE_URL
-            buildConfigField STRING, SCHEDULING_BASE, PROD_SCHEDULING_BASE
 
-            buildConfigField STRING, "AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
-            buildConfigField STRING, "CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
-            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
-            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
-            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
-            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
+            buildConfigField STRING, S_OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, S_VERSIONING_URL, STAGE_VERSIONING_URL
+            buildConfigField STRING, S_CIAM_BASE_URL, STAGE_CIAM_BASE_URL
+            buildConfigField STRING, S_S2_BASE_URL, STAGE_S2_BASE_URL
+            buildConfigField STRING, S_SCHEDULING_BASE, STAGE_SCHEDULING_BASE
+
+            buildConfigField STRING, "S_AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "S_CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "S_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "S_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "S_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "S_GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+
+            buildConfigField STRING, D_VERSIONING_URL, DEV_VERSIONING_URL
+            buildConfigField STRING, D_OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, D_CIAM_BASE_URL, DEV_CIAM_BASE_URL
+            buildConfigField STRING, D_S2_BASE_URL, DEV_S2_BASE_URL
+            buildConfigField STRING, D_SCHEDULING_BASE, DEV_SCHEDULING_BASE
+
+            buildConfigField STRING, "D_AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "D_CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "D_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "D_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "D_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "D_GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+            buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
+            buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
+            buildConfigField STRING, P_CIAM_BASE_URL, PROD_CIAM_BASE_URL
+            buildConfigField STRING, P_S2_BASE_URL, PROD_S2_BASE_URL
+            buildConfigField STRING, P_SCHEDULING_BASE, PROD_SCHEDULING_BASE
+
+            buildConfigField STRING, "P_AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
+            buildConfigField STRING, "P_CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "P_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "P_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "P_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             minifyEnabled true
             shrinkResources true
@@ -121,7 +162,7 @@ android {
                 }
             }
         }
-        stage {
+        /*stage {
             HOCKEYAPP_APP_ID = "\"19a9fa384bab4246a43242776eb80453\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_STAGE
@@ -131,18 +172,45 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
-            buildConfigField STRING, OKTA_BASE_URL, DEV_OKTA_BASE_URL
-            buildConfigField STRING, VERSIONING_URL, STAGE_VERSIONING_URL
-            buildConfigField STRING, CIAM_BASE_URL, STAGE_CIAM_BASE_URL
-            buildConfigField STRING, S2_BASE_URL, STAGE_S2_BASE_URL
-            buildConfigField STRING, SCHEDULING_BASE, STAGE_SCHEDULING_BASE
+            buildConfigField STRING, S_OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, S_VERSIONING_URL, STAGE_VERSIONING_URL
+            buildConfigField STRING, S_CIAM_BASE_URL, STAGE_CIAM_BASE_URL
+            buildConfigField STRING, S_S2_BASE_URL, STAGE_S2_BASE_URL
+            buildConfigField STRING, S_SCHEDULING_BASE, STAGE_SCHEDULING_BASE
 
-            buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
-            buildConfigField STRING, "CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
-            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
-            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
-            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
-            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
+            buildConfigField STRING, "S_AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "S_CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "S_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "S_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "S_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "S_GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+
+            buildConfigField STRING, D_VERSIONING_URL, DEV_VERSIONING_URL
+            buildConfigField STRING, D_OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, D_CIAM_BASE_URL, DEV_CIAM_BASE_URL
+            buildConfigField STRING, D_S2_BASE_URL, DEV_S2_BASE_URL
+            buildConfigField STRING, D_SCHEDULING_BASE, DEV_SCHEDULING_BASE
+
+            buildConfigField STRING, "D_AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "D_CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "D_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "D_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "D_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "D_GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+            buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
+            buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
+            buildConfigField STRING, P_CIAM_BASE_URL, PROD_CIAM_BASE_URL
+            buildConfigField STRING, P_S2_BASE_URL, PROD_S2_BASE_URL
+            buildConfigField STRING, P_SCHEDULING_BASE, PROD_SCHEDULING_BASE
+
+            buildConfigField STRING, "P_AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
+            buildConfigField STRING, "P_CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "P_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "P_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "P_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             minifyEnabled true
             shrinkResources true
@@ -158,7 +226,7 @@ android {
                     }
                 }
             }
-        }
+        }*/
         debug {
             HOCKEYAPP_APP_ID = "\"b51e6a79f705472fb7613985e9f82e7f\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
@@ -169,27 +237,56 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
-            buildConfigField STRING, VERSIONING_URL, DEV_VERSIONING_URL
-            buildConfigField STRING, OKTA_BASE_URL, DEV_OKTA_BASE_URL
-            buildConfigField STRING, CIAM_BASE_URL, DEV_CIAM_BASE_URL
-            buildConfigField STRING, S2_BASE_URL, DEV_S2_BASE_URL
-            buildConfigField STRING, SCHEDULING_BASE, DEV_SCHEDULING_BASE
 
-            buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
-            buildConfigField STRING, "CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
-            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
-            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
-            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
-            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
+            buildConfigField STRING, S_OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, S_VERSIONING_URL, STAGE_VERSIONING_URL
+            buildConfigField STRING, S_CIAM_BASE_URL, STAGE_CIAM_BASE_URL
+            buildConfigField STRING, S_S2_BASE_URL, STAGE_S2_BASE_URL
+            buildConfigField STRING, S_SCHEDULING_BASE, STAGE_SCHEDULING_BASE
+
+            buildConfigField STRING, "S_AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "S_CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "S_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "S_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "S_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "S_GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+
+            buildConfigField STRING, D_VERSIONING_URL, DEV_VERSIONING_URL
+            buildConfigField STRING, D_OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, D_CIAM_BASE_URL, DEV_CIAM_BASE_URL
+            buildConfigField STRING, D_S2_BASE_URL, DEV_S2_BASE_URL
+            buildConfigField STRING, D_SCHEDULING_BASE, DEV_SCHEDULING_BASE
+
+            buildConfigField STRING, "D_AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "D_CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "D_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "D_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "D_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "D_GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+            buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
+            buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
+            buildConfigField STRING, P_CIAM_BASE_URL, PROD_CIAM_BASE_URL
+            buildConfigField STRING, P_S2_BASE_URL, PROD_S2_BASE_URL
+            buildConfigField STRING, P_SCHEDULING_BASE, PROD_SCHEDULING_BASE
+
+            buildConfigField STRING, "P_AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
+            buildConfigField STRING, "P_CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "P_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "P_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "P_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             minifyEnabled true
             shrinkResources true
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             signingConfig signingConfigs.config
             debuggable true
         }
-        developer {
+        /*developer {
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_DEV
             buildConfigField STRING, TEALIUM_APP_NAME, APP_NAME_DEV
@@ -198,28 +295,50 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
             buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
 
-            buildConfigField STRING, VERSIONING_URL, DEV_VERSIONING_URL
-            buildConfigField STRING, OKTA_BASE_URL, DEV_OKTA_BASE_URL
-            buildConfigField STRING, CIAM_BASE_URL, DEV_CIAM_BASE_URL
-            buildConfigField STRING, S2_BASE_URL, DEV_S2_BASE_URL
-            buildConfigField STRING, SCHEDULING_BASE, DEV_SCHEDULING_BASE
 
-//            buildConfigField STRING, VERSIONING_URL, TEST_VERSIONING_URL
-//            buildConfigField STRING, OKTA_BASE_URL, TEST_OKTA_BASE_URL
-//            buildConfigField STRING, CIAM_BASE_URL, TEST_CIAM_BASE_URL
-//            buildConfigField STRING, S2_BASE_URL, TEST_S2_BASE_URL
-//            buildConfigField STRING, SCHEDULING_BASE, TEST_SCHEDULING_BASE
+            buildConfigField STRING, S_OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, S_VERSIONING_URL, STAGE_VERSIONING_URL
+            buildConfigField STRING, S_CIAM_BASE_URL, STAGE_CIAM_BASE_URL
+            buildConfigField STRING, S_S2_BASE_URL, STAGE_S2_BASE_URL
+            buildConfigField STRING, S_SCHEDULING_BASE, STAGE_SCHEDULING_BASE
 
-            buildConfigField STRING, "AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
-            buildConfigField STRING, "CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
-            buildConfigField STRING, "AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
-            buildConfigField STRING, "AUTH_REDIRECT_URI", "\"http://localhost:8080\""
-            buildConfigField STRING, "GRANT_TYPE_AUTH", "\"authorization_code\""
-            buildConfigField STRING, "GRANT_TYPE_REFRESH", "\"refresh_token\""
+            buildConfigField STRING, "S_AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "S_CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "S_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "S_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "S_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "S_GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+
+            buildConfigField STRING, D_VERSIONING_URL, DEV_VERSIONING_URL
+            buildConfigField STRING, D_OKTA_BASE_URL, DEV_OKTA_BASE_URL
+            buildConfigField STRING, D_CIAM_BASE_URL, DEV_CIAM_BASE_URL
+            buildConfigField STRING, D_S2_BASE_URL, DEV_S2_BASE_URL
+            buildConfigField STRING, D_SCHEDULING_BASE, DEV_SCHEDULING_BASE
+
+            buildConfigField STRING, "D_AUTH_CLIENT_ID", "\"ausb2b0jbri7MsQGl0h7\""
+            buildConfigField STRING, "D_CLIENT_ID", "\"0oab54ai6q0zFI8fq0h7\""
+            buildConfigField STRING, "D_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "D_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "D_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "D_GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+            buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
+            buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
+            buildConfigField STRING, P_CIAM_BASE_URL, PROD_CIAM_BASE_URL
+            buildConfigField STRING, P_S2_BASE_URL, PROD_S2_BASE_URL
+            buildConfigField STRING, P_SCHEDULING_BASE, PROD_SCHEDULING_BASE
+
+            buildConfigField STRING, "P_AUTH_CLIENT_ID", "\"aus32qsj5x26YmQN11t7\""
+            buildConfigField STRING, "P_CLIENT_ID", "\"0oa32qpu3nZP1BlB91t7\""
+            buildConfigField STRING, "P_AUTH_SCOPE", "\"openid+email+profile+offline_access+groups\""
+            buildConfigField STRING, "P_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
+            buildConfigField STRING, "P_GRANT_TYPE_AUTH", "\"authorization_code\""
+            buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             signingConfig signingConfigs.config
             debuggable true
-        }
+        }*/
     }
 }
 
