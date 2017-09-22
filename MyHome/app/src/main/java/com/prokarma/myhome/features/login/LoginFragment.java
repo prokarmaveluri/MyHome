@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -26,20 +25,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
-import android.webkit.ValueCallback;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
-import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.databinding.FragmentLoginBinding;
 import com.prokarma.myhome.features.contact.ContactUsActivity;
+import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -48,25 +41,14 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.prokarma.myhome.utils.EnviHandler;
-import com.prokarma.myhome.utils.RESTConstants;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.CookieHandler;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import timber.log.Timber;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
@@ -183,8 +165,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     }
 
     @Override
-    public void fetchIdToken(String sessionToken) {
-        loadWebView(sessionToken);
+    public void SignInSuccess() {
+        mHandler.sendEmptyMessage(ACTION_FINISH);
     }
 
     public class LoginViewClickEvent {
@@ -196,7 +178,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     break;
                 case R.id.log_in_button:
                     if (ConnectionUtil.isConnected(getActivity())) {
-                        LoginRequest request = getRequest();
+                        SignInRequest request = getRequest();
                         if (null != request) {
                             AppPreferences.getInstance().setPreference("EMAIL_PREF", binder.email.getText().toString());
                             showView(false);
@@ -222,8 +204,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     }
 
     @Nullable
-    private LoginRequest getRequest() {
-        LoginRequest request = null;
+    private SignInRequest getRequest() {
+        SignInRequest request = null;
 
         if (!CommonUtil.isValidEmail(binder.email.getText().toString())) {
             binder.emailLayout.setError(getString(R.string.valid_email));
@@ -242,132 +224,10 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             return null;
         }
         LoginRequest.Options options = new LoginRequest.Options(true, true);
-        request = new LoginRequest(binder.email.getText().toString(),
-                binder.password.getText().toString(), options);
+        request = new SignInRequest(binder.email.getText().toString(),
+                binder.password.getText().toString());
 
         return request;
-    }
-
-    private void loadWebView(String sessionToken) {
-        showView(true);
-        this.sessionToken = sessionToken;
-        binder.webViewRedirect.clearCache(true);
-        binder.webViewRedirect.clearHistory();
-        binder.webViewRedirect.clearSslPreferences();
-
-        CookieManager cookieManager = CookieManager.getInstance();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cookieManager.removeAllCookies(new ValueCallback<Boolean>() {
-                @Override
-                public void onReceiveValue(Boolean value) {
-
-                }
-            });
-        } else {
-            //noinspection deprecation
-            cookieManager.removeAllCookie();
-        }
-
-        if (false) { // webView
-            CookieManager.getInstance().setAcceptCookie(true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                CookieManager.getInstance().setAcceptThirdPartyCookies(binder.webViewRedirect, true);
-            }
-            binder.webViewRedirect.setWebViewClient(new RedirectClient());
-            binder.webViewRedirect.getSettings().setJavaScriptEnabled(true);
-            binder.webViewRedirect.loadUrl(RESTConstants.auth2Url + sessionToken);
-        } else {
-            Thread thread = new Thread(urlRunnable);
-            thread.start();
-        }
-    }
-
-    private class RedirectClient extends WebViewClient {
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-            showProgress(true);
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            showProgress(false);
-            String cookies = CookieManager.getInstance().getCookie(url);
-            Timber.i("Cookie " + cookies);
-        }
-
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest resourceRequest) {
-
-//            String cookies = CookieManager.getInstance().getCookie(view.getUrl());
-//            Timber.i("Cookie " + cookies);
-            return super.shouldInterceptRequest(view, resourceRequest);
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-
-            String cookies = CookieManager.getInstance().getCookie(url);
-            Timber.i("Cookie " + cookies);
-            return super.shouldInterceptRequest(view, url);
-        }
-
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return super.shouldOverrideUrlLoading(view, request);
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            String token = parseIDToken(url);
-
-            String cookies = CookieManager.getInstance().getCookie(url);
-
-            Timber.i("Cookie " + cookies);
-            if (null != token) {
-                AuthManager.getInstance().setBearerToken(token);
-                mHandler.sendEmptyMessageDelayed(ACTION_FINISH, 100);
-            } else {
-                mHandler.sendEmptyMessageDelayed(TOKEN_ERROR, 100);
-            }
-            showProgress(false);
-            showView(true);
-            return false;
-        }
-    }
-
-    @Nullable
-    private String parseIDToken(String url) {
-
-        try {
-            int index = url.indexOf("code=");
-            if (-1 != index) {
-                String token = url.substring(index + "code=".length(), url.indexOf("&"));
-                return token;
-            }
-        } catch (NullPointerException ex) {
-            return null;
-        }
-        return null;
-    }
-
-    @Nullable
-    private String parseSid(String cookie) {
-        try {
-            int index = cookie.indexOf("sid=");
-            if (-1 != index) {
-                String token = cookie.substring(index + "sid=".length(), cookie.indexOf(";"));
-                return token;
-            }
-        } catch (NullPointerException ex) {
-            return null;
-        }
-        return null;
     }
 
     private Handler mHandler = new Handler() {
@@ -526,108 +386,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         binder.password.setCompoundDrawables(null, null, drawable, null);
     }
 
-    Runnable urlRunnable = new Runnable() {
-        @Override
-        public void run() {
-            fetchIdTokenUrlConnection();
-        }
-    };
-
-    /**
-     * fetch Id token and sid using HttpURLConnection
-     */
-    private void fetchIdTokenUrlConnection() {
-
-        try {
-            codeVerifier = generateRandomCodeVerifier();
-            codeChallenge = deriveCodeVerifierChallenge(codeVerifier);
-            Timber.i("Session, codeVerifier " + codeVerifier);
-            Timber.i("Session, codeChallenge " + codeChallenge);
-            URL url = new URL(EnviHandler.OKTA_BASE_URL + String.format(RESTConstants.FETCH_CODE,
-                    EnviHandler.AUTH_CLIENT_ID, EnviHandler.CLIENT_ID, EnviHandler.AUTH_REDIRECT_URI,
-                    EnviHandler.AUTH_SCOPE, codeChallenge, sessionToken));
-            try {
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                java.net.CookieManager manager = new java.net.CookieManager();
-                CookieHandler.setDefault(manager);
-                urlConnection.setInstanceFollowRedirects(false);
-                urlConnection.connect();
-
-                Timber.i("Session, Response Code " + urlConnection.getResponseCode());
-
-                String location = urlConnection.getHeaderField("Location");
-                List<String> setCookie = urlConnection.getHeaderFields().get("Set-Cookie");
-                String token = parseIDToken(location);
-
-                Timber.i("Session, id token : " + token);
-                Timber.i("Session, sid : " + retrieveSid(setCookie));
-
-                if (null != token) {
-                    AuthManager.getInstance().setSid(retrieveSid(setCookie));
-                    if (null != AuthManager.getInstance().getSid())
-                        presenter.createSession(AuthManager.getInstance().getSid());
-                    getAccessToken(token);
-                } else {
-                    mHandler.sendEmptyMessage(TOKEN_ERROR);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void getAccessToken(String code) {
-        NetworkManager.getInstance().fetchAccessToken(EnviHandler.GRANT_TYPE_AUTH,
-                code,
-                EnviHandler.CLIENT_ID,
-                EnviHandler.AUTH_SCOPE,
-                EnviHandler.AUTH_REDIRECT_URI,
-                codeVerifier).enqueue(new Callback<AccessTokenResponse>() {
-            @Override
-            public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
-                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
-                        AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
-                        AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
-                        NetworkManager.getInstance().getSavedDoctors();
-                        CryptoManager.getInstance().saveToken();
-                        mHandler.sendEmptyMessage(ACTION_FINISH);
-                    } catch (NullPointerException ex) {
-                        ex.printStackTrace();
-                        mHandler.sendEmptyMessage(TOKEN_ERROR);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
-                Timber.i("onFailure : ");
-                mHandler.sendEmptyMessage(TOKEN_ERROR);
-            }
-        });
-    }
-
-    /**
-     * fetch sid from cookies
-     *
-     * @param cookies
-     * @return
-     */
-    String retrieveSid(List<String> cookies) {
-        String cookieValue = null;
-        if (null != cookies) {
-            for (String cookie : cookies) {
-                if (cookie.contains("sid")) {
-                    return parseSid(cookie);
-                }
-            }
-        }
-        return cookieValue;
-    }
 
     // Generate Code Verifier and Code Challenge for new login
 

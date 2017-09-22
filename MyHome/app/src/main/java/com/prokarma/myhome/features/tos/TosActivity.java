@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseActivity;
+import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
-import com.prokarma.myhome.features.login.LoginActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -89,7 +89,7 @@ public class TosActivity extends BaseActivity {
         finish();
     }
 
-    private void registerUser(EnrollmentRequest request) {
+    private void registerUser(final EnrollmentRequest request) {
         showProgress(true);
         NetworkManager.getInstance().register(request).enqueue(new Callback<Void>() {
             @Override
@@ -97,7 +97,7 @@ public class TosActivity extends BaseActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), R.string.enrollment_success,
                             Toast.LENGTH_LONG).show();
-                    startLoginPage();
+                    startLoginPage(request.getEmail(), request.getPassword());
                 } else {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
@@ -122,9 +122,12 @@ public class TosActivity extends BaseActivity {
         }
     }
 
-    private void startLoginPage() {
-        Intent intent = LoginActivity.getLoginIntent(this);
+    private void startLoginPage(String userName, String password) {
+
+        Intent intent = SplashActivity.getSplashIntent(this);
         intent.putExtra("ENROLL_SUCCESS", true);
+        intent.putExtra("USER_NAME", userName);
+        intent.putExtra("PASSWORD", password);
         startActivity(intent);
         finishAffinity();
     }

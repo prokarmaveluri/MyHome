@@ -23,12 +23,15 @@ import com.prokarma.myhome.R;
  */
 public class EnrollmentSuccessDialog extends DialogFragment {
 
+    private static EnrollDialogAction listener;
+
     public EnrollmentSuccessDialog() {
         // Required empty public constructor
     }
 
-    public static EnrollmentSuccessDialog newInstance() {
+    public static EnrollmentSuccessDialog newInstance(EnrollDialogAction actionListener) {
         EnrollmentSuccessDialog fragment = new EnrollmentSuccessDialog();
+        listener = actionListener;
         return fragment;
     }
 
@@ -69,15 +72,21 @@ public class EnrollmentSuccessDialog extends DialogFragment {
         textView.setLayoutParams(params);
         textView.setText(R.string.enrollment_success_dialog_tittle);
         layout.addView(textView);
+        builder.setCancelable(false);
         builder.setCustomTitle(layout)
 
                 .setMessage(R.string.enrollment_success_dialog_msg)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        listener.onEnrollDialogUserAction();
                         dismiss();
                     }
                 });
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    public interface EnrollDialogAction {
+        public void onEnrollDialogUserAction();
     }
 }

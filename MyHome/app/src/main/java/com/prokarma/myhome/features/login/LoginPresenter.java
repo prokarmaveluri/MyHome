@@ -6,8 +6,9 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.enrollment.EnrollmentActivity;
+import com.prokarma.myhome.features.login.endpoint.SignInRequest;
+import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
@@ -40,7 +41,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
 
 
     @Override
-    public void signIn(LoginRequest request) {
+    public void signIn(SignInRequest request) {
 
         mView.showView(true);
         mView.showProgress(true);
@@ -63,24 +64,20 @@ public class LoginPresenter implements LoginInteractor.Presenter {
         }
     }
 
-    @Override
-    public void createSession(String sid) {
-        createSessionId(sid);
-    }
-
-    private void login(final LoginRequest request) {
-        NetworkManager.getInstance().login(request).enqueue(new Callback<LoginResponse>() {
+    private void login(final SignInRequest request) {
+        NetworkManager.getInstance().SignIn(request).enqueue(new Callback<SignInResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
+                if (response.isSuccessful() && response.body().getValid()) {
                     // get id_token & session id
                     AuthManager.getInstance().setCount(0);
                     ProfileManager.clearSessionData();
                     AppPreferences.getInstance().setLongPreference("IDLE_TIME", 0);
-                    AuthManager.getInstance().setExpiresAt(response.body().getExpiresAt());
-                    AuthManager.getInstance().setSessionToken(response.body().getSessionToken());
-                    Timber.d("Session token : " + response.body().getSessionToken());
-                    mView.fetchIdToken(response.body().getSessionToken());
+//                    AuthManager.getInstance().setExpiresAt(response.body().getExpiresAt());
+                    AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
+                    AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                    AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
+                    mView.SignInSuccess();
                 } else {
                     AuthManager.getInstance().setFailureAttempt();
                     mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
@@ -91,39 +88,12 @@ public class LoginPresenter implements LoginInteractor.Presenter {
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onFailure(Call<SignInResponse> call, Throwable t) {
                 mView.showEnrollmentStatus(mContext.getString(R.string.failure_msg));
                 mView.showView(true);
                 mView.showProgress(false);
                 Timber.e("Login failure");
                 Timber.e("Throwable = " + t);
-            }
-        });
-    }
-
-    public void createSessionId(String sid) {
-        NetworkManager.getInstance().createSession("sid=" + sid).enqueue(new Callback<CreateSessionResponse>() {
-            @Override
-            public void onResponse(Call<CreateSessionResponse> call, Response<CreateSessionResponse> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Session Id: " + response.body().getId());
-                    AuthManager.getInstance().setSessionId(response.body().getId());
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
-                    mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
-                }
-                mView.showView(true);
-                mView.showProgress(false);
-            }
-
-            @Override
-            public void onFailure(Call<CreateSessionResponse> call, Throwable t) {
-                Timber.e("Session Id: Failed");
-                Timber.e("Throwable = " + t);
-                Timber.e(mContext.getString(R.string.something_went_wrong));
-                AuthManager.getInstance().setSessionId(null);
-                mView.showView(true);
-                mView.showProgress(false);
             }
         });
     }
