@@ -142,9 +142,9 @@ public class AuthManager {
     public void setFailureAttempt() {
         if (System.currentTimeMillis() - prevTimestamp >= MINITUES_5) {
             prevTimestamp = System.currentTimeMillis();
-            //count = 1;
+            count = 1;
         } else {
-            //count++;
+            count++;
         }
         storeLockoutInfo();
     }
