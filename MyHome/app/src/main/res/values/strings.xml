@@ -19,6 +19,7 @@
     <string name="valid_email">Please enter a valid email.</string>
     <string name="valid_password">Please enter a valid password.</string>
     <string name="valid_password_match">Please match your password entries.</string>
+    <string name="valid_password_same">New and existing passwords cannot be same.</string>
     <string name="forgot_password_success_msg">Please check your email for instructions to reset your password.</string>
     <string name="enrollment_success">Congratulations! Your new My Home is ready.</string>
     <string name="no_network_msg">We\'re sorry, we\'re unable to detect your network. Please connect and try again.</string>
@@ -156,7 +157,7 @@
     <string name="app_force_update_message">Please update your app in the App Store! We have made several improvements since your last visit and your previous version is no longer in use!</string>
     <string name="app_suggest_update_message">Please update your app in the App Store. We have made several improvements since your last visit and don\'t want you to miss out!</string>
     <string name="new_update_available">New Update Available!</string>
-    <string name="no_recent_providers">No recently viewed doctors</string>
+    <string name="no_recent_providers">No Recent Providers to show. Tap Find Care to start.</string>
     <!--Dashboard-->
     <string name="db_text_one">Teaching Kids About Germs at School.</string>
     <string name="db_text_two">Help High School Athletes Avoid Injury.</string>
@@ -280,9 +281,9 @@
     <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again</string>
     <string name="fingerprint_success">Fingerprint recognized</string>
     <string name="use_password">Use password</string>
-    <string name="touch_id_text">Quick and easy sign in to view your personalized content. Most of the time you will not have to manually enter your password. \n\nSharing your device with anyone who has a saved fingerprint or knows your passcode gives them access to your account. We do not recommend using Touch ID if you share your device. \n\nTurn off Touch ID anytime from here.</string>
-    <string name="enable_touch_id">Enable Touch ID</string>
-    <string name="touch_id_title">Touch ID</string>
+    <string name="touch_id_text">Quick and easy sign in to view your personalized content. Most of the time you will not have to manually enter your password. \n\nSharing your device with anyone who has a saved fingerprint or knows your passcode gives them access to your account. We do not recommend using Fingerprint Sign-In if you share your device. \n\nTurn off Fingerprint Sign-In anytime from here.</string>
+    <string name="enable_touch_id">Enable Fingerprint Sign-In</string>
+    <string name="touch_id_title">Fingerprint Sign-In</string>
     <string name="pay_now">Pay Now</string>
     <string name="bill_pay_desc">You now have the ability to pay your bills online.</string>
     <string name="my_care">My Care Patient Portal</string>
@@ -305,5 +306,10 @@
     <string name="coachmark_fad_map">Pinch and Swipe to adjust the map and distance of your search. Swipe the map to move it, and tap "Search this Area" to see providers in the new area.</string>
     <string name="coachmark_time_slots">Tapping the date will open a calendar to select  a specific day.</string>
     <string name="coachmark_share_apt">Send your appointment information by text and email </string>
+    <string name="book_this_appointment">Book this appointment</string>
 
+    <string name="sq_criteria_4char">Answer must be at least 4 characters</string>
+    <string name="sq_criteria_question">Must not contain part of security question</string>
+    <string name="sq_criteria_username">Must not contain user name</string>
+    <string name="sq_criteria_password">Must not contain password</string>
 </resources>

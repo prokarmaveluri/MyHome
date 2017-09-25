@@ -10,6 +10,8 @@
     <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:context="com.prokarma.myhome.features.login.LoginActivity">
@@ -18,8 +20,6 @@
             android:id="@+id/select_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="42dp"
-            android:layout_marginRight="42dp"
             android:layout_marginTop="70dp"
             android:focusableInTouchMode="false"
             android:onClick="@{handlers::onClickEvent}" />
@@ -30,14 +30,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/select_question"
-            android:layout_marginLeft="42dp"
-            android:layout_marginRight="42dp"
             android:layout_marginTop="70dp"
+            android:drawableRight="@mipmap/tooltip"
             android:hint="@string/prompt_answer"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:lines="1"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
         <Button
             android:id="@+id/submit_question"

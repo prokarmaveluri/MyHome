@@ -129,8 +129,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         binding.searchQuery.setOnFocusChangeListener(this);
         binding.searchQuery.addTextChangedListener(this);
 
-        if (isSugShow)
+        if (isSugShow) {
             providerList.clear();
+            clearFilters();
+        }
         binding.suggestionList.setVisibility(View.VISIBLE);
         binding.searchLayout.setVisibility(View.VISIBLE);
         binding.searchQuery.requestFocus();
@@ -698,6 +700,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void onPageSelected(int position) {
         currentPageSelection = position;
         if (position == 0) {
+            coachmarkFilter();
             TealiumUtil.trackView(Constants.FAD_LIST_SCREEN, null);
         } else {
             TealiumUtil.trackView(Constants.FAD_MAP_SCREEN, null);
@@ -794,10 +797,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         );
     }
 
+    private boolean isCoachMArksInProgress = false;
+
     private void coachmarkFilter() {
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.FAD_SKIP_COACH_MARKS);
-        if (skip)
+        if (skip || currentPageSelection != 0 || isCoachMArksInProgress)
             return;
+        isCoachMArksInProgress = true;
         TapTargetView.showFor(
                 getActivity(),
                 TapTarget.forView(binding.fadFilter, getString(R.string.coachmark_filter))

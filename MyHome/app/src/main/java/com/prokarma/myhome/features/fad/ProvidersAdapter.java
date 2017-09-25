@@ -62,7 +62,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
     @Override
     public void onBindViewHolder(ProvidersVH holder, int position) {
 
-        if (position == 1) {
+        if (position == 0) {
             coachMarkView = holder.binding.directions;
             coachItemLayout = holder.binding.docInfoLayout;
         }

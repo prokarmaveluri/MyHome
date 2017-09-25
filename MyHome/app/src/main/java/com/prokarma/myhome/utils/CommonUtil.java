@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CalendarContract;
@@ -11,11 +12,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,13 +90,31 @@ public class CommonUtil {
         return PHONE_NUMBER_PATTERN.matcher(phone).find();
     }
 
-    public static String getBulletPoints(Context context) {
+    public static void displayPopupWindow(Activity activity, View anchorView, String points) {
+        PopupWindow popup = new PopupWindow(activity);
+        View layout = activity.getLayoutInflater().inflate(R.layout.popup_content, null);
+        TextView textView = (TextView) layout.findViewById(R.id.criteria_text);
+        textView.setText(points);
+        popup.setContentView(layout);
+        // Set content width and height
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        // Closes the popup window when touch outside of it - when looses focus
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        // Show anchored to button
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        popup.showAtLocation(anchorView, Gravity.CENTER, 0, 0);
+
+    }
+
+    public static String getBulletPoints(List<String> list) {
         String points = "";
-        for (int index = 0; index < getCriteria(context).size(); index++) {
-            if (index != getCriteria(context).size() - 1) {
-                points = points.concat("\u2022 " + getCriteria(context).get(index) + "\n");
+        for (int index = 0; index < list.size(); index++) {
+            if (index != list.size() - 1) {
+                points = points.concat("\u2022 " + list.get(index) + "\n");
             } else {
-                points = points.concat("\u2022 " + getCriteria(context).get(index));
+                points = points.concat("\u2022 " + list.get(index));
             }
         }
         return points;
@@ -112,6 +134,21 @@ public class CommonUtil {
         criteria.add(context.getString(R.string.password_criteria_lowercase));
         criteria.add(context.getString(R.string.password_criteria_number));
         criteria.add(context.getString(R.string.password_criteria_special_char));
+        return criteria;
+    }
+
+    /**
+     * The list of criteria for security question answer
+     *
+     * @param context
+     * @return a list of all the criteria for security question answer
+     */
+    public static List<String> getSecurityAnswerCriteria(Context context) {
+        List<String> criteria = new ArrayList<>();
+        criteria.add(context.getString(R.string.sq_criteria_4char));
+        criteria.add(context.getString(R.string.sq_criteria_question));
+        criteria.add(context.getString(R.string.sq_criteria_username));
+        criteria.add(context.getString(R.string.sq_criteria_password));
         return criteria;
     }
 

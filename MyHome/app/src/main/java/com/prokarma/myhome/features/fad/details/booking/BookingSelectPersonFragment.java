@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
 
 /**
  * Created by kwelsh on 5/25/17.
@@ -30,6 +31,7 @@ public class BookingSelectPersonFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         bookingView = inflater.inflate(R.layout.book_select_person, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle("Select the patient");
 
         final Button buttonMe = (Button) bookingView.findViewById(R.id.book_me);
         final Button buttonOther = (Button) bookingView.findViewById(R.id.book_other);

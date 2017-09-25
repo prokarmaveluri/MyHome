@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
 
 /**
  * Created by kwelsh on 5/25/17.
@@ -54,6 +55,8 @@ public class BookingSelectStatusFragment extends Fragment {
         showExisting = args.getBoolean(SHOW_EXISTING_KEY);
 
         bookingView = inflater.inflate(R.layout.book_select_status, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle("Select your patient's history");
+
         final TextView header = (TextView) bookingView.findViewById(R.id.status_header);
         final TextView noAppointments = (TextView) bookingView.findViewById(R.id.no_times_available);
         final Button buttonNew = (Button) bookingView.findViewById(R.id.book_new);

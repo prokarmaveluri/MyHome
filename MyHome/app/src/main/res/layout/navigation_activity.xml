@@ -13,6 +13,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:elevation="0.5dp"
         android:layout_below="@+id/toolbar"
         android:background="@color/md_blue_grey_650" />
 

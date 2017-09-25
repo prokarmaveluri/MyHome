@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -58,6 +59,7 @@ public class BookingSelectCalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle("Select the appointment day");
 
         final Calendar cal = Calendar.getInstance();
         //cal.add(Calendar.DATE, 1);
