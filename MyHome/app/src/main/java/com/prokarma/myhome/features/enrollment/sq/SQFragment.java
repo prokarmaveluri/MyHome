@@ -204,14 +204,25 @@ public class SQFragment extends Fragment {
                 binding.answerLayout.setError(getString(R.string.sq_criteria_question));
                 return false;
             }
-            if (password.toLowerCase().contains(binding.answer.getText().toString().trim().toLowerCase())) {
-                binding.answerLayout.setError(getString(R.string.sq_criteria_password));
-                return false;
-            }
-            if (ProfileManager.getProfile() != null &&
-                    ProfileManager.getProfile().email.contains(binding.answer.getText().toString().trim())) {
-                binding.answerLayout.setError(getString(R.string.sq_criteria_username));
-                return false;
+            if (isChange) {
+                if (password.toLowerCase().contains(binding.answer.getText().toString().trim().toLowerCase())) {
+                    binding.answerLayout.setError(getString(R.string.sq_criteria_password));
+                    return false;
+                }
+                if (ProfileManager.getProfile() != null &&
+                        ProfileManager.getProfile().email.contains(binding.answer.getText().toString().trim())) {
+                    binding.answerLayout.setError(getString(R.string.sq_criteria_username));
+                    return false;
+                }
+            } else if (null != enrollmentRequest) {
+                if (enrollmentRequest.getPassword().toLowerCase().contains(binding.answer.getText().toString().trim().toLowerCase())) {
+                    binding.answerLayout.setError(getString(R.string.sq_criteria_password));
+                    return false;
+                }
+                if (enrollmentRequest.getEmail().contains(binding.answer.getText().toString().trim())) {
+                    binding.answerLayout.setError(getString(R.string.sq_criteria_username));
+                    return false;
+                }
             }
         } catch (NullPointerException ex) {
         }
