@@ -60,6 +60,7 @@ import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
@@ -792,6 +793,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
      */
     @Override
     public boolean onBackButtonPressed() {
+        ApiErrorUtil.getInstance().clearErrorMessage();
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
         if (fragment != null && (fragment instanceof BookingSelectCalendarFragment || fragment instanceof BookingSelectTimeFragment)) {
             //If on Time or Calendar booking page, just popbackstack to before all the Time/Calendar fragments
