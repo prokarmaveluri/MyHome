@@ -18,11 +18,13 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.networking.NetworkError;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.ErrorUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.prokarma.myhome.utils.TealiumUtil;
 
@@ -195,7 +197,7 @@ public class ProfileEditFragment extends BaseFragment {
      */
     private void sendUpdatedProfile(String bearer, Profile updatedProfile) {
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
+        NetworkManager.getInstance().updateProfile(bearer + "messupbearertoken", updatedProfile).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (isAdded()) {
@@ -206,7 +208,11 @@ public class ProfileEditFragment extends BaseFragment {
                         getActivity().onBackPressed();
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
-                        Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
+
+                        NetworkError networkError = ErrorUtil.parseError(response);
+                        Toast.makeText(getActivity(), networkError.toString(), Toast.LENGTH_LONG).show();
+
+                        //Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     }
 
                     progress.setVisibility(View.GONE);
