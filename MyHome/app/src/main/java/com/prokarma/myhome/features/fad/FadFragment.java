@@ -788,13 +788,14 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkList();
-                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_ACTIONBAR_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_ACTIONBAR_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_LIST_SKIP_COACH_MARKS, true);
                     }
                 }
         );
@@ -803,9 +804,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private boolean isCoachMArksInProgress = false;
 
     private void coachmarkFilter() {
-        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.FAD_SKIP_COACH_MARKS);
-        if (skip || currentPageSelection!= 0 || isCoachMArksInProgress || providerList.size() <= 0 ||
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.FAD_ACTIONBAR_SKIP_COACH_MARKS);
+        if (skip || isCoachMArksInProgress || providerList.size() <= 0 ||
                 binding.searchLayout.getVisibility() == View.VISIBLE) {
+            coachmarkList();
             return;
         }
         isCoachMArksInProgress = true;
@@ -818,13 +820,14 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
                         coachmarkRecent();
-                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_ACTIONBAR_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_ACTIONBAR_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_LIST_SKIP_COACH_MARKS, true);
                     }
                 }
         );
@@ -832,6 +835,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     private void coachmarkList() {
 
+        boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.FAD_LIST_SKIP_COACH_MARKS);
+        if (skip || providerList.size() <= 0 || currentPageSelection != 0) {
+            return;
+        }
         isCoachMArksInProgress = true;
         if (null == ProvidersAdapter.coachItemLayout) {
             coachmarkListLocation();
@@ -847,14 +854,14 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_LIST_SKIP_COACH_MARKS, true);
                         coachmarkListLocation();
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_LIST_SKIP_COACH_MARKS, true);
                     }
                 }
         );
@@ -871,13 +878,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     @Override
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_LIST_SKIP_COACH_MARKS, true);
                     }
 
                     @Override
                     public void onTargetCancel(TapTargetView view) {
                         super.onTargetCancel(view);
-                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_SKIP_COACH_MARKS, true);
+                        AppPreferences.getInstance().setBooleanPreference(Constants.FAD_LIST_SKIP_COACH_MARKS, true);
                     }
                 }
         );
