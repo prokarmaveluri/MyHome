@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -566,7 +568,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             NavigationActivity.eventBus.post(data);
             return;
         }
-        coachmarkFilter();
         providerList.clear();
         providerList.addAll(response.getProviders());
         try {
@@ -578,7 +579,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             pagerAdapter.notifyDataSetChanged();
 
             clearFilters();
-
             newPatients.addAll(response.getAcceptsNewPatients());
             specialties.addAll(response.getSpecialties());
             gender.addAll(response.getGenders());
@@ -587,6 +587,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             practices.addAll(response.getPractices());
         } catch (IllegalStateException | NullPointerException ex) {
         }
+        mHandler.removeMessages(0);
+        mHandler.sendEmptyMessageDelayed(0, 300);
     }
 
     private String getParam(List<CommonModel> listModel) {
@@ -700,7 +702,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void onPageSelected(int position) {
         currentPageSelection = position;
         if (position == 0) {
-            coachmarkFilter();
+            mHandler.removeMessages(0);
+            mHandler.sendEmptyMessageDelayed(0, 300);
             TealiumUtil.trackView(Constants.FAD_LIST_SCREEN, null);
         } else {
             TealiumUtil.trackView(Constants.FAD_MAP_SCREEN, null);
@@ -801,8 +804,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
     private void coachmarkFilter() {
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.FAD_SKIP_COACH_MARKS);
-        if (skip || currentPageSelection != 0 || isCoachMArksInProgress)
+        if (skip || currentPageSelection!= 0 || isCoachMArksInProgress || providerList.size() <= 0 ||
+                binding.searchLayout.getVisibility() == View.VISIBLE) {
             return;
+        }
         isCoachMArksInProgress = true;
         TapTargetView.showFor(
                 getActivity(),
@@ -826,6 +831,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     private void coachmarkList() {
+
+        isCoachMArksInProgress = true;
         if (null == ProvidersAdapter.coachItemLayout) {
             coachmarkListLocation();
             return;
@@ -875,4 +882,12 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 }
         );
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            coachmarkFilter();
+        }
+    };
 }
