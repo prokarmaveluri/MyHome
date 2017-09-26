@@ -2,6 +2,7 @@ package com.prokarma.myhome.features.profile;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
@@ -18,13 +19,11 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
-import com.prokarma.myhome.networking.NetworkError;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
-import com.prokarma.myhome.utils.ErrorUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.prokarma.myhome.utils.TealiumUtil;
 
@@ -208,10 +207,7 @@ public class ProfileEditFragment extends BaseFragment {
                         getActivity().onBackPressed();
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
-
-                        NetworkError networkError = ErrorUtil.parseError(response);
-                        Toast.makeText(getActivity(), networkError.toString(), Toast.LENGTH_LONG).show();
-
+                        Snackbar.make(profileView, response.message(), Snackbar.LENGTH_INDEFINITE).show();
                         //Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     }
 
