@@ -51,6 +51,7 @@ android {
         multiDexEnabled true
         versionCode 102012
         versionName "1.2.12"
+        setProperty("archivesBaseName", "DignityHealth-MyHome-$versionName")
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -110,16 +111,6 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
-
-//            applicationVariants.all { variant ->
-//                variant.outputs.each { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        def fileName = outputFile.name.replace('.apk', "-" + defaultConfig.versionName + ".apk")
-//                        output.outputFile = new File(outputFile.parent, fileName)
-//                    }
-//                }
-//            }
         }
         stage {
             HOCKEYAPP_APP_ID = "\"19a9fa384bab4246a43242776eb80453\""
@@ -148,16 +139,6 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
-
-//            applicationVariants.all { variant ->
-//                variant.outputs.each { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        def fileName = outputFile.name.replace('.apk', "-" + defaultConfig.versionName + ".apk")
-//                        output.outputFile = new File(outputFile.parent, fileName)
-//                    }
-//                }
-//            }
         }
         debug {
             HOCKEYAPP_APP_ID = "\"b51e6a79f705472fb7613985e9f82e7f\""
