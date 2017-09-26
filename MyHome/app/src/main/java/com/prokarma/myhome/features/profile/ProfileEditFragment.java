@@ -2,7 +2,6 @@ package com.prokarma.myhome.features.profile;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
@@ -21,6 +20,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
@@ -207,8 +207,8 @@ public class ProfileEditFragment extends BaseFragment {
                         getActivity().onBackPressed();
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
-                        Snackbar.make(profileView, response.message(), Snackbar.LENGTH_INDEFINITE).show();
-                        //Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
+                        ApiErrorUtil.getInstance().updateProfileError(getContext(), profileView, response);
+                        Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     }
 
                     progress.setVisibility(View.GONE);
@@ -219,6 +219,7 @@ public class ProfileEditFragment extends BaseFragment {
             public void onFailure(Call<Void> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
+                    ApiErrorUtil.getInstance().updateProfileFailed(getContext(), profileView, t);
                     Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);
                 }

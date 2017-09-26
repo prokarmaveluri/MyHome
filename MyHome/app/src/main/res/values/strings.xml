@@ -312,4 +312,6 @@
     <string name="sq_criteria_question">Must not contain part of security question</string>
     <string name="sq_criteria_username">Must not contain user name</string>
     <string name="sq_criteria_password">Must not contain password</string>
+
+    <string name="api_error_message">Still enjoy My Home while we do maintenance</string>
 </resources>
