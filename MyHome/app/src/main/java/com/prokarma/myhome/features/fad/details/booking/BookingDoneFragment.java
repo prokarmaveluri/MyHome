@@ -198,7 +198,7 @@ public class BookingDoneFragment extends Fragment {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
                         Timber.i("Request JSON = " + gson.toJson(response.body()));
-                        ((NavigationActivity) getActivity()).setActionBarTitle("Appointment booked");
+                        ((NavigationActivity) getActivity()).setActionBarTitle("Appointment Confirmed");
 
                         updateVisibility(false);
                         date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().Time));
