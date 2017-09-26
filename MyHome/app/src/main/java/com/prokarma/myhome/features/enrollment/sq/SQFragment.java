@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentSecqBinding;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
 import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.TosActivity;
@@ -191,11 +192,30 @@ public class SQFragment extends Fragment {
 
 
     private boolean isAllInputsValid() {
-        if (CommonUtil.isValidTextInput(binding.answer) &&
-                binding.answer.getText().toString().trim().length() >= 4) {
-            return true;
+        try {
+            binding.answerLayout.setError("");
+            if (CommonUtil.isValidTextInput(binding.answer) &&
+                    binding.answer.getText().toString().trim().length() >= 4) {
+            } else {
+                binding.answerLayout.setError(getString(R.string.sq_criteria_4char));
+                return false;
+            }
+            if (selectedQuestionTxt.toLowerCase().contains(binding.answer.getText().toString().trim().toLowerCase())) {
+                binding.answerLayout.setError(getString(R.string.sq_criteria_question));
+                return false;
+            }
+            if (password.toLowerCase().contains(binding.answer.getText().toString().trim().toLowerCase())) {
+                binding.answerLayout.setError(getString(R.string.sq_criteria_password));
+                return false;
+            }
+            if (ProfileManager.getProfile() != null &&
+                    ProfileManager.getProfile().email.contains(binding.answer.getText().toString().trim())) {
+                binding.answerLayout.setError(getString(R.string.sq_criteria_username));
+                return false;
+            }
+        } catch (NullPointerException ex) {
         }
-        return false;
+        return true;
     }
 
     private void updateButtonState(boolean isEnabled) {
@@ -265,7 +285,7 @@ public class SQFragment extends Fragment {
         });
     }
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
