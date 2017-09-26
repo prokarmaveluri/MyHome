@@ -196,7 +196,7 @@ public class ProfileEditFragment extends BaseFragment {
      */
     private void sendUpdatedProfile(String bearer, Profile updatedProfile) {
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().updateProfile(bearer + "messupbearertoken", updatedProfile).enqueue(new Callback<Void>() {
+        NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (isAdded()) {

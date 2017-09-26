@@ -18,6 +18,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
@@ -164,12 +165,14 @@ public class ProfileViewFragment extends BaseFragment {
                             progressBar.setVisibility(View.GONE);
                         } catch (NullPointerException ex) {
                             Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                            ApiErrorUtil.getInstance().getProfileError(getContext(), profileView, response);
                             viewProfile.setVisibility(View.GONE);
                             errorText.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
                         }
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
+                        ApiErrorUtil.getInstance().getProfileError(getContext(), profileView, response);
                         viewProfile.setVisibility(View.GONE);
                         errorText.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
@@ -182,6 +185,7 @@ public class ProfileViewFragment extends BaseFragment {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);
+                    ApiErrorUtil.getInstance().getProfileFailed(getContext(), profileView, t);
                     viewProfile.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
                     errorText.setVisibility(View.VISIBLE);

@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 
 import retrofit2.Response;
 
@@ -35,6 +36,16 @@ public class ApiErrorUtil {
     public void updateProfileFailed(final Context context, final View view, final Throwable throwable) {
         genericError(context, view);
     }
+
+    public void getProfileError(final Context context, final View view, final Response<ProfileGraphqlResponse> response){
+        genericError(context, view);
+    }
+
+    public void getProfileFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view);
+    }
+
+
 
     public void clearErrorMessage(){
         if(snackbar != null){
