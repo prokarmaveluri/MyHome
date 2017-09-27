@@ -51,7 +51,6 @@ import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.login.fingerprint.FingerprintSignIn;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.update.UpdateActivity;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -502,27 +501,6 @@ public class SplashActivity extends AppCompatActivity implements
                 });
         final AlertDialog alert = builder.create();
         alert.show();
-    }
-
-    private void startUpdateActivity(boolean isForceUpdate) {
-        Intent intent = UpdateActivity.getLoginIntent(this);
-        intent.putExtra("IS_FORCE_UPDATE", isForceUpdate);
-        startActivity(intent);
-
-        if (isForceUpdate)
-            finish();
-    }
-
-    private boolean isForceUpdate() {
-        if (BuildConfig.VERSION_CODE == Constants.DEV_UPDATE_VERSION)
-            return true;
-        return false;
-    }
-
-    private boolean isSoftUpdate() {
-        if (BuildConfig.VERSION_CODE == Constants.DEV_UPDATE_VERSION)
-            return true;
-        return false;
     }
 
     private void buildUpdateAlert(String message, final boolean isForceupdate) {
