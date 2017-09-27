@@ -3,7 +3,6 @@ package com.prokarma.myhome.features.profile;
 import android.support.annotation.Nullable;
 
 import com.prokarma.myhome.features.appointments.Appointment;
-import com.prokarma.myhome.features.appointments.AppointmentResponse;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -109,31 +108,6 @@ public class ProfileManager {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Timber.e("Something failed! :/");
-            }
-        });
-    }
-
-    @Deprecated
-    public static void getAppointmentInfo() {
-        String bearerToken = AuthManager.getInstance().getBearerToken();
-        NetworkManager.getInstance().getAppointments(bearerToken).enqueue(new Callback<AppointmentResponse>() {
-            @Override
-            public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        AppointmentResponse result = response.body();
-                        setAppointments(result.result.appointments);
-                    } catch (NullPointerException ex) {
-                    }
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AppointmentResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
-                Timber.e("Throwable = " + t);
             }
         });
     }
