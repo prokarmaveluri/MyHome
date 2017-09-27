@@ -44,7 +44,11 @@ import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.login.LoginActivity;
-import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
+import com.prokarma.myhome.features.login.dialog.EnrollmentSuccessDialog;
+import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
+import com.prokarma.myhome.features.login.endpoint.RefreshResponse;
+import com.prokarma.myhome.features.login.endpoint.SignInRequest;
+import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.login.fingerprint.FingerprintSignIn;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.update.UpdateActivity;
@@ -55,6 +59,7 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.EnviHandler;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,7 +70,8 @@ import timber.log.Timber;
  * MyHome splash activity
  */
 public class SplashActivity extends AppCompatActivity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        EnrollmentSuccessDialog.EnrollDialogAction {
 
     private ProgressBar progress;
     private TextView clickToRefresh;
@@ -95,13 +101,19 @@ public class SplashActivity extends AppCompatActivity implements
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_splash);
 
-//        initApiClient();
-        buildEnvAlert();
-
         CryptoManager.getInstance().setContext(getApplicationContext());
         progress = (ProgressBar) findViewById(R.id.splash_progress);
         clickToRefresh = (TextView) findViewById(R.id.splashRefresh);
 
+        progress.setVisibility(View.GONE);
+        if (getIntent() != null && getIntent().getBooleanExtra("ENROLL_SUCCESS", false)) {
+
+            TealiumUtil.trackEvent(Constants.ENROLLMENT_SUCCESS_EVENT, null);
+            EnrollmentSuccessDialog dialog = EnrollmentSuccessDialog.newInstance(this);
+            dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
+        } else {
+            buildEnvAlert();
+        }
         clickToRefresh.setVisibility(View.GONE);
         if (!ConnectionUtil.isConnected(this)) {
             clickToRefresh.setVisibility(View.VISIBLE);
@@ -148,6 +160,7 @@ public class SplashActivity extends AppCompatActivity implements
                                 currentEnv = EnviHandler.EnvType.PROD;
                                 EnviHandler.initEnv(EnviHandler.EnvType.PROD);
                             }
+                            progress.setVisibility(View.VISIBLE);
                             initApiClient();
 
                             //init retrofit service
@@ -215,19 +228,18 @@ public class SplashActivity extends AppCompatActivity implements
             return;
         }
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().refreshAccessToken(EnviHandler.GRANT_TYPE_REFRESH,
-                refreshToken,
-                EnviHandler.CLIENT_ID,
-                EnviHandler.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
+        NetworkManager.getInstance().SignInRefresh(new RefreshRequest(
+                        AuthManager.getInstance().getRefreshToken()),
+                AuthManager.getInstance().getBearerToken()).enqueue(new Callback<RefreshResponse>() {
             @Override
-            public void onResponse(Call<RefreshAccessTokenResponse> call, Response<RefreshAccessTokenResponse> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                if (response.isSuccessful() && response.body().getValid()) {
                     try {
-                        Timber.i("Session refresh " + response.body().getExpiresIn());
+//                        Timber.i("Session refresh " + response.body().getExpiresIn());
                         AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
-                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
-                        AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
-                        AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
+//                        AuthManager.getInstance().setExpiresIn(response.body().getResult().getExpiresIn());
+                        AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                        AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                         NetworkManager.getInstance().getSavedDoctors();
                         CryptoManager.getInstance().saveToken();
                         onRefreshSuccess();
@@ -241,7 +253,7 @@ public class SplashActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onFailure(Call<RefreshAccessTokenResponse> call, Throwable t) {
+            public void onFailure(Call<RefreshResponse> call, Throwable t) {
                 Timber.i("onFailure : ");
                 progress.setVisibility(View.GONE);
                 onRefreshFailed();
@@ -619,5 +631,50 @@ public class SplashActivity extends AppCompatActivity implements
             return true;
         }
         return false;
+    }
+
+    private void login(final SignInRequest request) {
+        if (!ConnectionUtil.isConnected(this)) {
+            Toast.makeText(this, R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            progress.setVisibility(View.GONE);
+            return;
+        }
+        progress.setVisibility(View.VISIBLE);
+        NetworkManager.getInstance().SignIn(request).enqueue(new Callback<SignInResponse>() {
+            @Override
+            public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
+                if (response.isSuccessful() && response.body().getValid()) {
+                    // get id_token & session id
+                    AuthManager.getInstance().setCount(0);
+                    ProfileManager.clearSessionData();
+                    AppPreferences.getInstance().setLongPreference("IDLE_TIME", 0);
+//                    AuthManager.getInstance().setExpiresAt(response.body().getExpiresAt());
+                    AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
+                    AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                    AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
+                    onRefreshSuccess();
+                } else {
+                    onRefreshFailed();
+                }
+                progress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<SignInResponse> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+                onRefreshFailed();
+                Timber.e("Login failure");
+                Timber.e("Throwable = " + t);
+            }
+        });
+    }
+
+    @Override
+    public void onEnrollDialogUserAction() {
+        String userName = getIntent().getStringExtra("USER_NAME");
+        String password = getIntent().getStringExtra("PASSWORD");
+        SignInRequest request = new SignInRequest(userName, password);
+        login(request);
     }
 }

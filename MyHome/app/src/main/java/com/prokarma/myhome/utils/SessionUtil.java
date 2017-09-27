@@ -13,7 +13,9 @@ import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.fad.FadFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.login.LoginActivity;
+import com.prokarma.myhome.features.login.endpoint.SignOutRequest;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 
@@ -52,14 +54,17 @@ public class SessionUtil {
             return;
         }
         TealiumUtil.trackEvent(Constants.SIGN_OUT_EVENT, null);
-        NetworkManager.getInstance().logout(
-                AuthManager.getInstance().getSid()).enqueue(new Callback<Void>() {
+        NetworkManager.getInstance().SignOut(
+                new SignOutRequest(AuthManager.getInstance().getSessionId(),
+                        AuthManager.getInstance().getBearerToken(),
+                        AuthManager.getInstance().getRefreshToken()),
+                AuthManager.getInstance().getBearerToken()).enqueue(new Callback<CommonResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 if (null != progressBar)
                     progressBar.setVisibility(View.GONE);
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body().getIsValid()) {
                     Timber.i("Response successful: " + response);
                     Toast.makeText(activity, activity.getString(R.string.signed_out_successfully),
                             Toast.LENGTH_SHORT).show();
@@ -77,7 +82,7 @@ public class SessionUtil {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
                 Timber.i("Logout failed");
                 Toast.makeText(activity, activity.getString(R.string.something_went_wrong),
                         Toast.LENGTH_LONG).show();

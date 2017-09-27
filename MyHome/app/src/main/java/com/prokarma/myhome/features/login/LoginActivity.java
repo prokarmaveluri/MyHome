@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.ActivityLoginBinding;
-import com.prokarma.myhome.features.login.dialog.EnrollmentSuccessDialog;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
@@ -48,13 +47,13 @@ public class LoginActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(binding.loginFrame.getId(), fragment).commit();
 
-        boolean enrollmentSuccess = getIntent().getBooleanExtra("ENROLL_SUCCESS", false);
-        if (enrollmentSuccess) {
-            TealiumUtil.trackEvent(Constants.ENROLLMENT_SUCCESS_EVENT, null);
-
-            EnrollmentSuccessDialog dialog = EnrollmentSuccessDialog.newInstance();
-            dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
-        }
+//        boolean enrollmentSuccess = getIntent().getBooleanExtra("ENROLL_SUCCESS", false);
+//        if (enrollmentSuccess) {
+//            TealiumUtil.trackEvent(Constants.ENROLLMENT_SUCCESS_EVENT, null);
+//
+//            EnrollmentSuccessDialog dialog = EnrollmentSuccessDialog.newInstance();
+//            dialog.show(getSupportFragmentManager(), "EnrollmentSuccessDialog");
+//        }
 
         NetworkManager.getInstance().setExpiryListener(null);
         new LoginPresenter(fragment, this);

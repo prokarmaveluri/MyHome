@@ -13,10 +13,11 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateApp
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
-import com.prokarma.myhome.features.login.AccessTokenResponse;
-import com.prokarma.myhome.features.login.LoginRequest;
-import com.prokarma.myhome.features.login.LoginResponse;
-import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
+import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
+import com.prokarma.myhome.features.login.endpoint.RefreshResponse;
+import com.prokarma.myhome.features.login.endpoint.SignInRequest;
+import com.prokarma.myhome.features.login.endpoint.SignInResponse;
+import com.prokarma.myhome.features.login.endpoint.SignOutRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.prokarma.myhome.features.preferences.MySavedDoctorsRequest;
@@ -26,7 +27,6 @@ import com.prokarma.myhome.features.preferences.SaveDoctorResponse;
 import com.prokarma.myhome.features.profile.MyProfileRequest;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
-import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.settings.ChangePasswordRequest;
 import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
 import com.prokarma.myhome.features.settings.CommonResponse;
@@ -38,8 +38,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
@@ -70,42 +68,42 @@ public interface RESTService {
                              @Body Profile updatedProfileData);
 
     //    @POST(EnviHandler.OKTA_BASE_URL + "api/v1/authn")
-    @POST
-    Call<LoginResponse> login(@Url String url, @Body LoginRequest request);
+//    @POST
+//    Call<SignInResponse> login(@Url String url, @Body LoginRequest request);
 
-    @FormUrlEncoded
+//    @FormUrlEncoded
 //    @POST(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token")
-    @POST
-    Call<AccessTokenResponse> fetchAccessToken(@Url String url,
-                                               @Field("grant_type") String grantType,
-                                               @Field("code") String code,
-                                               @Field("client_id") String clientId,
-                                               @Field("scope") String scope,
-                                               @Field("redirect_uri") String redirectUri,
-                                               @Field("code_verifier") String codeUerifier
-    );
+//    @POST
+//    Call<AccessTokenResponse> fetchAccessToken(@Url String url,
+//                                               @Field("grant_type") String grantType,
+//                                               @Field("code") String code,
+//                                               @Field("client_id") String clientId,
+//                                               @Field("scope") String scope,
+//                                               @Field("redirect_uri") String redirectUri,
+//                                               @Field("code_verifier") String codeUerifier
+//    );
 
-    @FormUrlEncoded
+//    @FormUrlEncoded
 //    @POST(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token")
-    @POST
-    Call<RefreshAccessTokenResponse> refreshAccessToken(@Url String url,
-                                                        @Field("grant_type") String grantType,
-                                                        @Field("refresh_token") String refreshToken,
-                                                        @Field("client_id") String clientId,
-                                                        @Field("redirect_uri") String redirectUri
-    );
+//    @POST
+//    Call<RefreshAccessTokenResponse> refreshAccessToken(@Url String url,
+//                                                        @Field("grant_type") String grantType,
+//                                                        @Field("refresh_token") String refreshToken,
+//                                                        @Field("client_id") String clientId,
+//                                                        @Field("redirect_uri") String redirectUri
+//    );
 
     //    @POST(EnviHandler.OKTA_BASE_URL + "api/v1/authn/recovery/password")
     @POST
     Call<ForgotPasswordResponse> forgotPassword(@Url String url, @Body ForgotPasswordRequest request);
 
     //    @GET(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me")
-    @GET
-    Call<CreateSessionResponse> createSession(@Url String url, @Header("Cookie") String sid);
+//    @GET
+//    Call<CreateSessionResponse> createSession(@Url String url, @Header("Cookie") String sid);
 
     //    @DELETE(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me")
-    @DELETE
-    Call<Void> logout(@Url String url, @Header("Cookie") String sid);
+//    @DELETE
+//    Call<Void> logout(@Url String url, @Header("Cookie") String sid);
 
     //    @GET(EnviHandler.CIAM_BASE_URL + "api/terms-and-conditions")
     @GET
@@ -230,4 +228,17 @@ public interface RESTService {
     Call<ProfileGraphqlResponse> getUserProfile(@Url String url,
                                                 @Header("Authorization") String bearer,
                                                 @Body MyProfileRequest request);
+
+    /************ New Auth **************************************/
+
+    @POST
+    Call<SignInResponse> SignIn(@Url String url, @Body SignInRequest request);
+
+    @POST
+    Call<RefreshResponse> SignInRefresh(@Url String url, @Header("Authorization") String bearer,
+                                        @Body RefreshRequest request);
+
+    @POST
+    Call<CommonResponse> SignOut(@Url String url, @Header("Authorization") String bearer,
+                                 @Body SignOutRequest request);
 }

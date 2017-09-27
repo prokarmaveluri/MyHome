@@ -9,10 +9,10 @@ import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.login.LoginActivity;
-import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
+import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
+import com.prokarma.myhome.features.login.endpoint.RefreshResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.AppPreferences;
-import com.prokarma.myhome.utils.EnviHandler;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -198,19 +198,18 @@ public class AuthManager {
     };
 
     public void refreshToken() {
-        NetworkManager.getInstance().refreshAccessToken(EnviHandler.GRANT_TYPE_REFRESH,
-                refreshToken,
-                EnviHandler.CLIENT_ID,
-                EnviHandler.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
+        NetworkManager.getInstance().SignInRefresh(new RefreshRequest(
+                AuthManager.getInstance().getRefreshToken()),
+                AuthManager.getInstance().getBearerToken()).enqueue(new Callback<RefreshResponse>() {
             @Override
-            public void onResponse(Call<RefreshAccessTokenResponse> call, Response<RefreshAccessTokenResponse> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+                if (response.isSuccessful() && response.body().getValid()) {
                     try {
-                        Timber.i("Session refresh " + response.body().getExpiresIn());
+//                        Timber.i("Session refresh " + response.body().getExpiresIn());
                         AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
-                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
-                        AuthManager.getInstance().setBearerToken(response.body().getAccessToken());
-                        AuthManager.getInstance().setRefreshToken(response.body().getRefreshToken());
+//                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
+                        AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                        AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                         CryptoManager.getInstance().saveToken();
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
@@ -220,7 +219,7 @@ public class AuthManager {
             }
 
             @Override
-            public void onFailure(Call<RefreshAccessTokenResponse> call, Throwable t) {
+            public void onFailure(Call<RefreshResponse> call, Throwable t) {
                 Timber.i("onFailure : ");
             }
         });

@@ -20,10 +20,11 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateApp
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
-import com.prokarma.myhome.features.login.AccessTokenResponse;
-import com.prokarma.myhome.features.login.LoginRequest;
-import com.prokarma.myhome.features.login.LoginResponse;
-import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
+import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
+import com.prokarma.myhome.features.login.endpoint.RefreshResponse;
+import com.prokarma.myhome.features.login.endpoint.SignInRequest;
+import com.prokarma.myhome.features.login.endpoint.SignInResponse;
+import com.prokarma.myhome.features.login.endpoint.SignOutRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse;
 import com.prokarma.myhome.features.preferences.MySavedDoctorsRequest;
@@ -35,7 +36,6 @@ import com.prokarma.myhome.features.profile.MyProfileRequest;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.profile.signout.CreateSessionResponse;
 import com.prokarma.myhome.features.settings.ChangePasswordRequest;
 import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
 import com.prokarma.myhome.features.settings.CommonResponse;
@@ -180,9 +180,9 @@ public class NetworkManager {
      * @param request the Login object of the user we wish to log in
      * @return the LoginReponse with many valuable fields such as expiration dates, session ID...
      */
-    public Call<LoginResponse> login(LoginRequest request) {
-        return service.login(EnviHandler.OKTA_BASE_URL + "api/v1/authn", request);
-    }
+//    public Call<SignInResponse> login(LoginRequest request) {
+//        return service.login(EnviHandler.OKTA_BASE_URL + "api/v1/authn", request);
+//    }
 
     /**
      * Send a Forgot Password request to the server
@@ -201,9 +201,9 @@ public class NetworkManager {
      * @param sid the session ID we use to create a Session
      * @return a CreateSessionReponse containing many valuable fields such as status, expiration, cookieToken...
      */
-    public Call<CreateSessionResponse> createSession(String sid) {
-        return service.createSession(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me", sid);
-    }
+//    public Call<CreateSessionResponse> createSession(String sid) {
+//        return service.createSession(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me", sid);
+//    }
 
     /**
      * Attempt to logout
@@ -211,9 +211,9 @@ public class NetworkManager {
      * @param id the Session ID we're attempting to log out
      * @return Void
      */
-    public Call<Void> logout(String id) {
-        return service.logout(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me", "sid=" + id);
-    }
+//    public Call<Void> logout(String id) {
+//        return service.logout(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me", "sid=" + id);
+//    }
 
     /**
      * Get Terms of Service.
@@ -370,31 +370,40 @@ public class NetworkManager {
         return service.versionCheck(EnviHandler.VERSIONING_URL + "api/versioning/dependencies");
     }
 
-    public Call<AccessTokenResponse> fetchAccessToken(String grantType,
-                                                      String code,
-                                                      String clientId,
-                                                      String scope,
-                                                      String redirectUri,
-                                                      String codeUerifier) {
-        return service.fetchAccessToken(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token",
-                grantType,
-                code,
-                clientId,
-                scope,
-                redirectUri,
-                codeUerifier);
-    }
+//    /**
+//     * @param grantType
+//     * @param code
+//     * @param clientId
+//     * @param scope
+//     * @param redirectUri
+//     * @param codeUerifier
+//     * @return
+//     */
+//    public Call<AccessTokenResponse> fetchAccessToken(String grantType,
+//                                                      String code,
+//                                                      String clientId,
+//                                                      String scope,
+//                                                      String redirectUri,
+//                                                      String codeUerifier) {
+//        return service.fetchAccessToken(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token",
+//                grantType,
+//                code,
+//                clientId,
+//                scope,
+//                redirectUri,
+//                codeUerifier);
+//    }
 
-    public Call<RefreshAccessTokenResponse> refreshAccessToken(String grantType,
-                                                               String refreshToken,
-                                                               String clientId,
-                                                               String redirectUri) {
-        return service.refreshAccessToken(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token",
-                grantType,
-                refreshToken,
-                clientId,
-                redirectUri);
-    }
+//    public Call<RefreshAccessTokenResponse> refreshAccessToken(String grantType,
+//                                                               String refreshToken,
+//                                                               String clientId,
+//                                                               String redirectUri) {
+//        return service.refreshAccessToken(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token",
+//                grantType,
+//                refreshToken,
+//                clientId,
+//                redirectUri);
+//    }
 
 
     public Call<SaveDoctorResponse> saveDoctor(String bearerToken, SaveDoctorRequest request) {
@@ -442,6 +451,42 @@ public class NetworkManager {
         return service.getUserProfile(EnviHandler.CIAM_BASE_URL + "api/users/query",
                 BEARER + bearer, new MyProfileRequest());
     }
+
+    /************** New Auth *************************************/
+
+    /**
+     * endpoint for SignIn
+     *
+     * @param request reuest body for SignIn
+     * @return login response
+     */
+    public Call<SignInResponse> SignIn(SignInRequest request) {
+        return service.SignIn(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/sign-in", request);
+    }
+
+
+    /**
+     * endpoint for SignIn Refresh
+     *
+     * @param request reuest body for SignIn Refresh
+     * @return refresh response
+     */
+    public Call<RefreshResponse> SignInRefresh(RefreshRequest request, String bearerToken) {
+        return service.SignInRefresh(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/refresh",
+                BEARER + bearerToken, request);
+    }
+
+    /**
+     * endpoint for SignOut
+     *
+     * @param request reuest body for SignOut
+     * @return Sign out response
+     */
+    public Call<CommonResponse> SignOut(SignOutRequest request, String bearerToken) {
+        return service.SignOut(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/sign-out",
+                BEARER + bearerToken, request);
+    }
+
 
     // Network Util
 
@@ -522,22 +567,20 @@ public class NetworkManager {
 
     private boolean refreshToken() {
         try {
-            retrofit2.Response<RefreshAccessTokenResponse> syncResp = NetworkManager.getInstance()
-                    .refreshAccessToken(EnviHandler.GRANT_TYPE_REFRESH,
-                            AuthManager.getInstance().getRefreshToken(),
-                            EnviHandler.CLIENT_ID,
-                            EnviHandler.AUTH_REDIRECT_URI).execute();
-            if (syncResp.isSuccessful()) {
+            retrofit2.Response<RefreshResponse> syncResp = NetworkManager.getInstance()
+                    .SignInRefresh(new RefreshRequest(AuthManager.getInstance().getRefreshToken()),
+                            AuthManager.getInstance().getBearerToken()).execute();
+            if (syncResp.isSuccessful() && syncResp.body().getValid()) {
                 System.out.println("REQ: syncResp" + syncResp.body().toString());
-                AuthManager.getInstance().setBearerToken(syncResp.body().getAccessToken());
-                AuthManager.getInstance().setRefreshToken(syncResp.body().getRefreshToken());
+                AuthManager.getInstance().setBearerToken(syncResp.body().getResult().getAccessToken());
+                AuthManager.getInstance().setRefreshToken(syncResp.body().getResult().getRefreshToken());
                 return true;
             } else {
                 //TODO:Chandra Login on refresh fail
                     /*need handler to post to main thread as it will be updating mybag count*/
                 return false;
             }
-        } catch (IOException ex) {
+        } catch (IOException | NullPointerException ex) {
             ex.printStackTrace();
             return false;
         }

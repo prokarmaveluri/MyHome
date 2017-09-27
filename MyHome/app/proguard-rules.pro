@@ -76,7 +76,7 @@
 -dontwarn com.squareup.okhttp3.**
 -keep class com.squareup.okhttp3.**
 #-keep class com.prokarma.myhome.features.login.LoginRequest { *; }
-#-keep class com.prokarma.myhome.features.login.LoginResponse { *; }
+#-keep class com.prokarma.myhome.features.login.SignInResponse { *; }
 
 ## Google Play Services specific rules ##
 ## https://developer.android.com/google/play-services/setup.html#Proguard ##
@@ -218,6 +218,17 @@
 -keep class com.prokarma.myhome.features.profile.MyProfileRequest{*;}
 -keep class com.prokarma.myhome.features.profile.ProfileGraphqlResponse{*;}
 -keep class com.prokarma.myhome.features.profile.ProfileGraphqlResponse$Data{*;}
+
+-keep class com.prokarma.myhome.features.login.endpoint.SignInResponse{*;}
+-keep class com.prokarma.myhome.features.login.endpoint.SignInResponse$Address{*;}
+-keep class com.prokarma.myhome.features.login.endpoint.SignInResponse$InsuranceProvider{*;}
+-keep class com.prokarma.myhome.features.login.endpoint.SignInResponse$Result{*;}
+-keep class com.prokarma.myhome.features.login.endpoint.RefreshResponse{*;}
+-keep class com.prokarma.myhome.features.login.endpoint.RefreshResponse$Result{*;}
+-keep class com.prokarma.myhome.features.login.endpoint.RefreshRequest{*;}
+-keep class com.prokarma.myhome.features.login.endpoint.SignOutRequest{*;}
+-keep class com.prokarma.myhome.features.login.endpoint.SignInRequest{*;}
+
 
 -keepclassmembers class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator CREATOR;
