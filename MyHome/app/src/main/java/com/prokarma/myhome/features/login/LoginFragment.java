@@ -19,8 +19,6 @@ import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.UnderlineSpan;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,11 +42,6 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-
 import timber.log.Timber;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
@@ -57,7 +50,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     private LoginInteractor.Presenter presenter;
     private FragmentLoginBinding binder;
-    private String sessionToken;
 
     private static final int ACTION_FINISH = 100;
     private static final int TOKEN_ERROR = 200;
@@ -384,71 +376,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             drawable.setBounds(0, 0, w, h);
         }
         binder.password.setCompoundDrawables(null, null, drawable, null);
-    }
-
-
-    // Generate Code Verifier and Code Challenge for new login
-
-    private String codeVerifier;
-    private String codeChallenge;
-
-    /**
-     * Base64 encoding settings used for generated code verifiers.
-     */
-    private static final int PKCE_BASE64_ENCODE_SETTINGS =
-            Base64.NO_WRAP | Base64.NO_PADDING | Base64.URL_SAFE;
-
-    /**
-     * The default entropy (in bytes) used for the code verifier.
-     */
-    public static final int DEFAULT_CODE_VERIFIER_ENTROPY = 64;
-
-    /**
-     * The minimum permitted entropy (in bytes) for use with
-     * {@link #generateRandomCodeVerifier(SecureRandom, int)}.
-     */
-    public static final int MIN_CODE_VERIFIER_ENTROPY = 32;
-
-    /**
-     * The maximum permitted entropy (in bytes) for use with
-     * {@link #generateRandomCodeVerifier(SecureRandom, int)}.
-     */
-    public static final int MAX_CODE_VERIFIER_ENTROPY = 96;
-
-
-    public static String deriveCodeVerifierChallenge(String codeVerifier) {
-        try {
-            MessageDigest sha256Digester = MessageDigest.getInstance("SHA-256");
-            sha256Digester.update(codeVerifier.getBytes("ISO_8859_1"));
-            byte[] digestBytes = sha256Digester.digest();
-            return Base64.encodeToString(digestBytes, PKCE_BASE64_ENCODE_SETTINGS);
-        } catch (NoSuchAlgorithmException e) {
-            Log.w("CodeVerifierChallenge", "SHA-256 is not supported on this device! Using plain challenge", e);
-            return codeVerifier;
-        } catch (UnsupportedEncodingException e) {
-            Log.e("CodeVerifierChallenge", "ISO-8859-1 encoding not supported on this device!", e);
-            throw new IllegalStateException("ISO-8859-1 encoding not supported", e);
-        }
-    }
-
-    /**
-     * Generates a random code verifier string using {@link SecureRandom} as the source of
-     * entropy, with the default entropy quantity as defined by
-     * {@link #DEFAULT_CODE_VERIFIER_ENTROPY}.
-     */
-    public static String generateRandomCodeVerifier() {
-//        return generateRandomCodeVerifier(new SecureRandom(), DEFAULT_CODE_VERIFIER_ENTROPY);
-        return generateRandomCodeVerifier(new SecureRandom(), 32);
-    }
-
-    /**
-     * Generates a random code verifier string using the provided entropy source and the specified
-     * number of bytes of entropy.
-     */
-    public static String generateRandomCodeVerifier(SecureRandom entropySource, int entropyBytes) {
-        byte[] randomBytes = new byte[entropyBytes];
-        entropySource.nextBytes(randomBytes);
-        return Base64.encodeToString(randomBytes, PKCE_BASE64_ENCODE_SETTINGS);
     }
 }
 

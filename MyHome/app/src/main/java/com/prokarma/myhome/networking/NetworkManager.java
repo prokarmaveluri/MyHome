@@ -335,8 +335,8 @@ public class NetworkManager {
     }
 
     public Call<RegValidationResponse> getValidationRules(String scheduleId, String includeQuery) {
-        return service.getValidationRules(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION,
-                scheduleId, includeQuery);
+        return service.getValidationRules(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION + scheduleId
+                + RESTConstants.SCHEDULING_VALIDATION_ENDPOINT, includeQuery);
     }
 
     public Call<ValidateEmailResponse> findEmail(String email) {

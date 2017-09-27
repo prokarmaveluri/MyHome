@@ -139,12 +139,6 @@
                         android:textColor="@color/primary" />
                 </RelativeLayout>
 
-                <WebView
-                    android:id="@+id/web_view_redirect"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
                 <!-- Login progress -->
                 <ProgressBar
                     android:id="@+id/login_progress"
