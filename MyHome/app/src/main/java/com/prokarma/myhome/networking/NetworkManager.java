@@ -226,18 +226,6 @@ public class NetworkManager {
     }
 
     /**
-     * Create an Appointment
-     *
-     * @param bearer      the bearer token of the user who we want to create an appointment for
-     * @param appointment the appointment we wish to create
-     * @return Void
-     */
-    public Call<Void> createAppointment(String bearer, Appointment appointment) {
-        return service.createAppointment(EnviHandler.SCHEDULING_BASE + "v1/visit",
-                BEARER + bearer, appointment);
-    }
-
-    /**
      * Get the Location Suggestions when a user enters their location in the filter
      *
      * @param queryString the query of the user entering their location
