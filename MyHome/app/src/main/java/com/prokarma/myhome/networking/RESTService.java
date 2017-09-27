@@ -1,7 +1,6 @@
 package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.appointments.Appointment;
-import com.prokarma.myhome.features.appointments.AppointmentResponse;
 import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
 import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
@@ -108,10 +107,6 @@ public interface RESTService {
     //    @GET(EnviHandler.CIAM_BASE_URL + "api/terms-and-conditions")
     @GET
     Call<Tos> getTos(@Url String url, @Header("Authorization") String bearer);
-
-    //    @GET(EnviHandler.CIAM_BASE_URL + "api/appointments")
-    @GET
-    Call<AppointmentResponse> getAppointments(@Url String url, @Header("Authorization") String bearer);
 
     //    @POST(EnviHandler.SCHEDULING_BASE + "v1/visit")
     @POST

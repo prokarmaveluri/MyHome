@@ -34,7 +34,6 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.databinding.HomeBinding;
 import com.prokarma.myhome.features.appointments.Appointment;
-import com.prokarma.myhome.features.appointments.AppointmentResponse;
 import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
 import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
 import com.prokarma.myhome.features.fad.ProviderListDialog;
@@ -45,7 +44,6 @@ import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
-import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
@@ -325,50 +323,6 @@ public class HomeFragment extends BaseFragment {
                 Timber.e("Throwable = " + t);
                 hideLoading();
                 coachmarkBookAppointment();
-            }
-        });
-    }
-
-    @Deprecated
-    private void getAppointmentInfo(String bearer) {
-        if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-        showLoading();
-
-        binding.relDbAppointItemLayout.setVisibility(View.GONE);
-        NetworkManager.getInstance().getAppointments(bearer).enqueue(new Callback<AppointmentResponse>() {
-            @Override
-            public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
-                if (isAdded()) {
-                    if (response.isSuccessful()) {
-                        try {
-                            AppointmentResponse result = response.body();
-                            ProfileManager.setAppointments(result.result.appointments);
-                            updateAppointViews();
-                        } catch (NullPointerException ex) {
-                            Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
-                            ApiErrorUtil.getInstance().getAppointmentsError(getContext(), getView(), response);
-                        }
-                    } else {
-                        Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
-                        ApiErrorUtil.getInstance().getAppointmentsError(getContext(), getView(), response);
-                    }
-
-                    hideLoading();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AppointmentResponse> call, Throwable t) {
-                if (isAdded()) {
-                    Timber.e(getString(R.string.db_res_failed));
-                    Timber.e(getString(R.string.db_res_throwable) + " = " + t);
-                    ApiErrorUtil.getInstance().getAppointmentsFailed(getContext(), getView(), t);
-                    hideLoading();
-                }
             }
         });
     }

@@ -54,14 +54,6 @@ public class ApiErrorUtil {
         genericError(context, view);
     }
 
-    public <T> void getAppointmentsError(final Context context, final View view, final Response<T> response){
-        genericError(context, view);
-    }
-
-    public void getAppointmentsFailed(final Context context, final View view, final Throwable throwable){
-        genericError(context, view);
-    }
-
 
 
     public void clearErrorMessage(){

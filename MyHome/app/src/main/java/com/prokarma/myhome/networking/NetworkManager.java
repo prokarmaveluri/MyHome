@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
-import com.prokarma.myhome.features.appointments.AppointmentResponse;
 import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
 import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
@@ -224,16 +223,6 @@ public class NetworkManager {
      */
     public Call<Tos> getTos(String bearer) {
         return service.getTos(EnviHandler.CIAM_BASE_URL + "api/terms-and-conditions", BEARER + bearer);
-    }
-
-    /**
-     * Get the Appointments for the user.
-     *
-     * @param bearer the bearer token of the user whose appointments we want
-     * @return AppointmentReponse that should contain a user's appointments
-     */
-    public Call<AppointmentResponse> getAppointments(String bearer) {
-        return service.getAppointments(EnviHandler.CIAM_BASE_URL + "api/appointments", BEARER + bearer);
     }
 
     /**
