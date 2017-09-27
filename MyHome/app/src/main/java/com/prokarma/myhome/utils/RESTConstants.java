@@ -13,7 +13,8 @@ public class RESTConstants {
     public static final String FETCH_CODE = "oauth2/%s/v1/authorize?response_type=code&client_id=%s&redirect_uri=%s&response_mode=fragment&scope=%s&state=foo&nonce=bar&code_challenge=%s&code_challenge_method=S256&sessionToken=%s";
 
     public static final String SCHEDULING_VISIT = "api/v1/visit/";
-    public static final String SCHEDULING_VALIDATION = "api/v1/visit/schedule/{scheduleID}/visit-settings";
+    public static final String SCHEDULING_VALIDATION = "api/v1/visit/schedule/";
+    public static final String SCHEDULING_VALIDATION_ENDPOINT = "/visit-settings";
 
     public static final String PROVIDER_PAGE_NO = "1";
     public static final String PROVIDER_PAGE_SIZE = "25";
