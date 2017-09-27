@@ -22,6 +22,7 @@ import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -191,7 +192,7 @@ public class BookingDoneFragment extends Fragment {
         Timber.i("Request = " + request);
         Timber.i("Request JSON = " + gson.toJson(request));
         updateVisibility(true);
-        NetworkManager.getInstance().createAppointment(AuthManager.getInstance().getBearerToken(), request).enqueue(new Callback<CreateAppointmentResponse>() {
+        NetworkManager.getInstance().createAppointment(AuthManager.getInstance().getBearerToken() + "messupbearertoken", request).enqueue(new Callback<CreateAppointmentResponse>() {
             @Override
             public void onResponse(Call<CreateAppointmentResponse> call, Response<CreateAppointmentResponse> response) {
                 if (isAdded()) {
@@ -212,6 +213,7 @@ public class BookingDoneFragment extends Fragment {
                         coachmarkBookingDone();
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
+                        ApiErrorUtil.getInstance().createAppointmentError(getContext(), bookingView, response);
                         ((NavigationActivity) getActivity()).setActionBarTitle("Unable to book");
 
                         updateVisibility(false);
@@ -228,6 +230,7 @@ public class BookingDoneFragment extends Fragment {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);
+                    ApiErrorUtil.getInstance().createAppointmentFailed(getContext(), bookingView, t);
                     ((NavigationActivity) getActivity()).setActionBarTitle("Unable to book");
 
                     updateVisibility(false);

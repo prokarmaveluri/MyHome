@@ -349,10 +349,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             Timber.e("ProviderDetailsFragment: NullPointerException\n" + ex.toString());
                         }
                     } else {
+                        ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
                         errorView.setVisibility(View.VISIBLE);
                         detailsProgressBar.setVisibility(View.GONE);
                         errorView.setText(View.VISIBLE);
-                        Toast.makeText(getActivity(), R.string.provider_details_error_msg, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), R.string.provider_details_error_msg, Toast.LENGTH_SHORT).show();
                         Timber.e("Response, but not successful?\n" + response);
                         showStatsUnavailable();
                     }
@@ -367,6 +368,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);
+                    ApiErrorUtil.getInstance().getProviderDetailsFailed(getContext(), providerDetailsView, t);
 
                     detailsProgressBar.setVisibility(View.GONE);
                     errorView.setVisibility(View.VISIBLE);
