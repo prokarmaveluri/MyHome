@@ -208,7 +208,6 @@ public class ProfileEditFragment extends BaseFragment {
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                         ApiErrorUtil.getInstance().updateProfileError(getContext(), profileView, response);
-                        Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     }
 
                     progress.setVisibility(View.GONE);
@@ -220,7 +219,6 @@ public class ProfileEditFragment extends BaseFragment {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     ApiErrorUtil.getInstance().updateProfileFailed(getContext(), profileView, t);
-                    Toast.makeText(getActivity(), getString(R.string.profile_save_failed), Toast.LENGTH_LONG).show();
                     progress.setVisibility(View.GONE);
                 }
             }

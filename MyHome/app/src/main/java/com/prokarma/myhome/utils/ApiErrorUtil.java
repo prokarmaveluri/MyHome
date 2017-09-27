@@ -5,7 +5,6 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 
 import retrofit2.Response;
 
@@ -29,7 +28,8 @@ public class ApiErrorUtil {
         snackbar.show();
     }
 
-    public void updateProfileError(final Context context, final View view, final Response<Void> response) {
+    //Profile
+    public <T> void updateProfileError(final Context context, final View view, final Response<T> response) {
         genericError(context, view);
     }
 
@@ -37,11 +37,28 @@ public class ApiErrorUtil {
         genericError(context, view);
     }
 
-    public void getProfileError(final Context context, final View view, final Response<ProfileGraphqlResponse> response){
+    public <T> void getProfileError(final Context context, final View view, final Response<T> response){
         genericError(context, view);
     }
 
     public void getProfileFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view);
+    }
+
+    //Appointments
+    public <T> void getMyAppointmentsError(final Context context, final View view, final Response<T> response){
+        genericError(context, view);
+    }
+
+    public void getMyAppointmentsFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view);
+    }
+
+    public <T> void getAppointmentsError(final Context context, final View view, final Response<T> response){
+        genericError(context, view);
+    }
+
+    public void getAppointmentsFailed(final Context context, final View view, final Throwable throwable){
         genericError(context, view);
     }
 
@@ -52,5 +69,4 @@ public class ApiErrorUtil {
             snackbar.dismiss();
         }
     }
-
 }

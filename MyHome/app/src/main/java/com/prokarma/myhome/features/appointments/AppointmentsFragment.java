@@ -16,6 +16,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
@@ -123,6 +124,7 @@ public class AppointmentsFragment extends BaseFragment {
 
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
+                        ApiErrorUtil.getInstance().getMyAppointmentsError(getContext(), appointmentsView, response);
                     }
                 }
             }
@@ -130,9 +132,10 @@ public class AppointmentsFragment extends BaseFragment {
             @Override
             public void onFailure(Call<MyAppointmentsResponse> call, Throwable t) {
                 if (isAdded()) {
-                    showScreen();
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);
+                    showScreen();
+                    ApiErrorUtil.getInstance().getMyAppointmentsFailed(getContext(), appointmentsView, t);
                 }
             }
         });

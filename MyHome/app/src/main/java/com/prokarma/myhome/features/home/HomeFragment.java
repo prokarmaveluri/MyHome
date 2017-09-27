@@ -45,6 +45,7 @@ import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
@@ -342,7 +343,6 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
                 if (isAdded()) {
-
                     if (response.isSuccessful()) {
                         try {
                             AppointmentResponse result = response.body();
@@ -350,10 +350,13 @@ public class HomeFragment extends BaseFragment {
                             updateAppointViews();
                         } catch (NullPointerException ex) {
                             Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                            ApiErrorUtil.getInstance().getAppointmentsError(getContext(), getView(), response);
                         }
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                        ApiErrorUtil.getInstance().getAppointmentsError(getContext(), getView(), response);
                     }
+
                     hideLoading();
                 }
             }
@@ -361,9 +364,10 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFailure(Call<AppointmentResponse> call, Throwable t) {
                 if (isAdded()) {
-                    hideLoading();
                     Timber.e(getString(R.string.db_res_failed));
                     Timber.e(getString(R.string.db_res_throwable) + " = " + t);
+                    ApiErrorUtil.getInstance().getAppointmentsFailed(getContext(), getView(), t);
+                    hideLoading();
                 }
             }
         });
