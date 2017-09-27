@@ -54,6 +54,14 @@ public class ApiErrorUtil {
         genericError(context, view);
     }
 
+    //ToS
+    public <T> void getTosError(final Context context, final View view, final Response<T> response){
+        genericError(context, view);
+    }
+
+    public void getTosFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view);
+    }
 
 
     public void clearErrorMessage(){

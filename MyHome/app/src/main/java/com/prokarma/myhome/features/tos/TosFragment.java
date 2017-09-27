@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 
@@ -72,6 +73,7 @@ public class TosFragment extends BaseFragment {
                     Tos termsOfService = response.body();
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
+                    ApiErrorUtil.getInstance().getTosError(getContext(), tosView, response);
                 }
             }
 
@@ -79,6 +81,7 @@ public class TosFragment extends BaseFragment {
             public void onFailure(Call<Tos> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
+                ApiErrorUtil.getInstance().getTosFailed(getContext(), tosView, t);
             }
         });
     }
