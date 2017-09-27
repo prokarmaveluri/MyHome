@@ -82,6 +82,8 @@ public class ApiErrorUtil {
         genericError(context, view);
     }
 
+
+
     public void clearErrorMessage(){
         if(snackbar != null){
             snackbar.dismiss();

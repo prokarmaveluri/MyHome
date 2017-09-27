@@ -285,6 +285,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         setupInitialView();
                         if (providerDetailsResponse == null) {
                             showStatsUnavailable();
+                            ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
                             return;
                         }
                         if (null != providerDetailsResponse)
@@ -347,6 +348,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             }
                         } catch (NullPointerException ex) {
                             Timber.e("ProviderDetailsFragment: NullPointerException\n" + ex.toString());
+                            ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
                         }
                     } else {
                         ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
