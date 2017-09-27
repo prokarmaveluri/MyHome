@@ -746,6 +746,16 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     @Override
+    public void onValidationRulesError(Response response) {
+        ApiErrorUtil.getInstance().getValidationRulesError(getContext(), providerDetailsView, response);
+    }
+
+    @Override
+    public void onValidationRulesFailed(Throwable throwable) {
+        ApiErrorUtil.getInstance().getValidationRulesFailed(getContext(), providerDetailsView, throwable);
+    }
+
+    @Override
     public void onClickBook() {
         BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(),
                 providerDetailsResponse.getNpi(), currentOffice.getName(), currentOffice.getPhone());

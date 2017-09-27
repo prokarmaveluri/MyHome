@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
@@ -168,7 +167,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     }
 
     private void getValidationRules() {
-        NetworkManager.getInstance().getValidationRules(scheduleId, "insurance,schedule-properties").enqueue(new Callback<RegValidationResponse>() {
+        NetworkManager.getInstance().getValidationRules(scheduleId + 4235, "insurance,schedule-properties").enqueue(new Callback<RegValidationResponse>() {
             @Override
             public void onResponse(Call<RegValidationResponse> call, Response<RegValidationResponse> response) {
                 if (response.isSuccessful()) {
@@ -178,7 +177,10 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                     getDialog().dismiss();
-                    Toast.makeText(getContext(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+
+                    if (bookingDialogInterface != null) {
+                        bookingDialogInterface.onValidationRulesError(response);
+                    }
                 }
             }
 
@@ -187,7 +189,10 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
                 getDialog().dismiss();
-                Toast.makeText(getContext(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+
+                if (bookingDialogInterface != null) {
+                    bookingDialogInterface.onValidationRulesFailed(t);
+                }
             }
         });
     }

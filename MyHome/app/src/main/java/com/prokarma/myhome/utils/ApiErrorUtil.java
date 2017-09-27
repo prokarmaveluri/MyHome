@@ -45,7 +45,7 @@ public class ApiErrorUtil {
         genericError(context, view);
     }
 
-    //Appointments
+    //Appointments & Booking
     public <T> void getMyAppointmentsError(final Context context, final View view, final Response<T> response){
         genericError(context, view);
     }
@@ -62,6 +62,14 @@ public class ApiErrorUtil {
     //TODO - Ask designers what they want to do for when Booking Done Fails (send to reg forms currently)
     public void createAppointmentFailed(final Context context, final View view, final Throwable throwable) {
         //genericError(context, view);
+    }
+
+    public <T> void getValidationRulesError(final Context context, final View view, final Response<T> response){
+        genericError(context, view);
+    }
+
+    public void getValidationRulesFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view);
     }
 
     //ToS
@@ -81,6 +89,7 @@ public class ApiErrorUtil {
     public void getProviderDetailsFailed(final Context context, final View view, final Throwable throwable) {
         genericError(context, view);
     }
+
 
 
 
