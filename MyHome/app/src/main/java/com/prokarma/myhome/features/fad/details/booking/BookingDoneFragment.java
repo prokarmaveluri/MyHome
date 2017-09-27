@@ -192,7 +192,7 @@ public class BookingDoneFragment extends Fragment {
         Timber.i("Request = " + request);
         Timber.i("Request JSON = " + gson.toJson(request));
         updateVisibility(true);
-        NetworkManager.getInstance().createAppointment(AuthManager.getInstance().getBearerToken() + "messupbearertoken", request).enqueue(new Callback<CreateAppointmentResponse>() {
+        NetworkManager.getInstance().createAppointment(AuthManager.getInstance().getBearerToken(), request).enqueue(new Callback<CreateAppointmentResponse>() {
             @Override
             public void onResponse(Call<CreateAppointmentResponse> call, Response<CreateAppointmentResponse> response) {
                 if (isAdded()) {
