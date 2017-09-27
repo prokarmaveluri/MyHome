@@ -12,7 +12,7 @@ import com.prokarma.myhome.features.login.LoginActivity;
 import com.prokarma.myhome.features.login.RefreshAccessTokenResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.AppPreferences;
-import com.prokarma.myhome.utils.RESTConstants;
+import com.prokarma.myhome.utils.EnviHandler;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -198,10 +198,10 @@ public class AuthManager {
     };
 
     public void refreshToken() {
-        NetworkManager.getInstance().refreshAccessToken(RESTConstants.GRANT_TYPE_REFRESH,
+        NetworkManager.getInstance().refreshAccessToken(EnviHandler.GRANT_TYPE_REFRESH,
                 refreshToken,
-                RESTConstants.CLIENT_ID,
-                RESTConstants.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
+                EnviHandler.CLIENT_ID,
+                EnviHandler.AUTH_REDIRECT_URI).enqueue(new Callback<RefreshAccessTokenResponse>() {
             @Override
             public void onResponse(Call<RefreshAccessTokenResponse> call, Response<RefreshAccessTokenResponse> response) {
                 if (response.isSuccessful()) {

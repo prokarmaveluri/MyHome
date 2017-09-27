@@ -46,6 +46,7 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.EnviHandler;
 import com.prokarma.myhome.utils.RESTConstants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
@@ -115,15 +116,15 @@ public class NetworkManager {
                 Timber.i(" Response Code: " + response.code());
                 //Session expired
                 if (response.code() == 401 && !request.url().toString()
-                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "api/v1/authn") &&
+                        .equalsIgnoreCase(EnviHandler.OKTA_BASE_URL + "api/v1/authn") &&
                         !request.url().toString()
-                                .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/" +
-                                        RESTConstants.AUTH_CLIENT_ID + "/v1/token")) {
+                                .equalsIgnoreCase(EnviHandler.OKTA_BASE_URL + "oauth2/" +
+                                        EnviHandler.AUTH_CLIENT_ID + "/v1/token")) {
                     AuthManager.getInstance().refreshToken();
 
                 } else if (response.code() == 400 && request.url().toString()
-                        .equalsIgnoreCase(RESTConstants.OKTA_BASE_URL + "oauth2/" +
-                                RESTConstants.AUTH_CLIENT_ID + "/v1/token")) {
+                        .equalsIgnoreCase(EnviHandler.OKTA_BASE_URL + "oauth2/" +
+                                EnviHandler.AUTH_CLIENT_ID + "/v1/token")) {
 
                     if (null != expiryListener)
                         expiryListener.expired();
@@ -133,7 +134,7 @@ public class NetworkManager {
         });
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RESTConstants.CIAM_BASE_URL)
+                .baseUrl(EnviHandler.CIAM_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
@@ -148,7 +149,7 @@ public class NetworkManager {
      * @return Void
      */
     public Call<Void> register(EnrollmentRequest request) {
-        return service.register(request);
+        return service.register(EnviHandler.CIAM_BASE_URL + "api/users/enrollment", request);
     }
 
     /**
@@ -169,7 +170,8 @@ public class NetworkManager {
      * @return Void
      */
     public Call<Void> updateProfile(String bearer, Profile updatedProfileData) {
-        return service.updateProfile(BEARER + bearer, updatedProfileData);
+        return service.updateProfile(EnviHandler.CIAM_BASE_URL + "api/users/me",
+                BEARER + bearer, updatedProfileData);
     }
 
     /**
@@ -179,7 +181,7 @@ public class NetworkManager {
      * @return the LoginReponse with many valuable fields such as expiration dates, session ID...
      */
     public Call<LoginResponse> login(LoginRequest request) {
-        return service.login(request);
+        return service.login(EnviHandler.OKTA_BASE_URL + "api/v1/authn", request);
     }
 
     /**
@@ -189,7 +191,8 @@ public class NetworkManager {
      * @return a ForgotPasswordReponse denoting the status of the request
      */
     public Call<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request) {
-        return service.forgotPassword(request);
+        return service.forgotPassword(EnviHandler.OKTA_BASE_URL + "api/v1/authn/recovery/password",
+                request);
     }
 
     /**
@@ -199,7 +202,7 @@ public class NetworkManager {
      * @return a CreateSessionReponse containing many valuable fields such as status, expiration, cookieToken...
      */
     public Call<CreateSessionResponse> createSession(String sid) {
-        return service.createSession(sid);
+        return service.createSession(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me", sid);
     }
 
     /**
@@ -209,7 +212,7 @@ public class NetworkManager {
      * @return Void
      */
     public Call<Void> logout(String id) {
-        return service.logout("sid=" + id);
+        return service.logout(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me", "sid=" + id);
     }
 
     /**
@@ -220,7 +223,7 @@ public class NetworkManager {
      * @return a ToS object. Currently not very helpful
      */
     public Call<Tos> getTos(String bearer) {
-        return service.getTos(BEARER + bearer);
+        return service.getTos(EnviHandler.CIAM_BASE_URL + "api/terms-and-conditions", BEARER + bearer);
     }
 
     /**
@@ -230,7 +233,7 @@ public class NetworkManager {
      * @return AppointmentReponse that should contain a user's appointments
      */
     public Call<AppointmentResponse> getAppointments(String bearer) {
-        return service.getAppointments(BEARER + bearer);
+        return service.getAppointments(EnviHandler.CIAM_BASE_URL + "api/appointments", BEARER + bearer);
     }
 
     /**
@@ -241,7 +244,8 @@ public class NetworkManager {
      * @return Void
      */
     public Call<Void> createAppointment(String bearer, Appointment appointment) {
-        return service.createAppointment(BEARER + bearer, appointment);
+        return service.createAppointment(EnviHandler.SCHEDULING_BASE + "v1/visit",
+                BEARER + bearer, appointment);
     }
 
     /**
@@ -251,7 +255,8 @@ public class NetworkManager {
      * @return List of Locations to suggest
      */
     public Call<List<LocationResponse>> getLocationSuggestions(String queryString) {
-        return service.getLocationSuggestions(queryString);
+        return service.getLocationSuggestions(EnviHandler.S2_BASE_URL + "api/locationsuggestion",
+                queryString);
     }
 
     /**
@@ -269,7 +274,8 @@ public class NetworkManager {
                                                                      String lon,
                                                                      String displayName,
                                                                      String zipCode) {
-        return service.getSearchSuggestions(queryString,
+        return service.getSearchSuggestions(EnviHandler.S2_BASE_URL + "api/suggestion",
+                queryString,
                 lat,
                 lon,
                 displayName,
@@ -283,7 +289,7 @@ public class NetworkManager {
      * @return The Location found
      */
     public Call<LocationResponse> getLocation() {
-        return service.getUserLocation();
+        return service.getUserLocation(EnviHandler.S2_BASE_URL + "api/location/");
     }
 
     /**
@@ -321,7 +327,8 @@ public class NetworkManager {
                                                 String facilities,
                                                 String practices,
                                                 String patients) {
-        return service.getProviders(queryString, lat, lon, displayName, zipCode,
+        return service.getProviders(EnviHandler.S2_BASE_URL + "api/providers",
+                queryString, lat, lon, displayName, zipCode,
                 page,
                 pageSize,
                 distance,
@@ -341,24 +348,26 @@ public class NetworkManager {
      * @return a More in-depth look of the provider
      */
     public Call<ProviderDetailsResponse> getProviderDetails(String id) {
-        return service.getProviderDetails(id);
+        return service.getProviderDetails(EnviHandler.S2_BASE_URL + "api/providerdetails", id);
     }
 
     public Call<CreateAppointmentResponse> createAppointment(String bearerToken,
                                                              CreateAppointmentRequest request) {
-        return service.createAppointment(BEARER + bearerToken, request);
+        return service.createAppointment(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VISIT,
+                BEARER + bearerToken, request);
     }
 
     public Call<RegValidationResponse> getValidationRules(String scheduleId, String includeQuery) {
-        return service.getValidationRules(scheduleId, includeQuery);
+        return service.getValidationRules(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION,
+                scheduleId, includeQuery);
     }
 
     public Call<ValidateEmailResponse> findEmail(String email) {
-        return service.findEmail(email);
+        return service.findEmail(EnviHandler.CIAM_BASE_URL + "api/users", email);
     }
 
     public Call<UpdateResponse> versionCheck() {
-        return service.versionCheck();
+        return service.versionCheck(EnviHandler.VERSIONING_URL + "api/versioning/dependencies");
     }
 
     public Call<AccessTokenResponse> fetchAccessToken(String grantType,
@@ -367,7 +376,8 @@ public class NetworkManager {
                                                       String scope,
                                                       String redirectUri,
                                                       String codeUerifier) {
-        return service.fetchAccessToken(grantType,
+        return service.fetchAccessToken(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token",
+                grantType,
                 code,
                 clientId,
                 scope,
@@ -379,7 +389,8 @@ public class NetworkManager {
                                                                String refreshToken,
                                                                String clientId,
                                                                String redirectUri) {
-        return service.refreshAccessToken(grantType,
+        return service.refreshAccessToken(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token",
+                grantType,
                 refreshToken,
                 clientId,
                 redirectUri);
@@ -387,33 +398,38 @@ public class NetworkManager {
 
 
     public Call<SaveDoctorResponse> saveDoctor(String bearerToken, SaveDoctorRequest request) {
-        return service.saveDoctor(BEARER + bearerToken, request);
+        return service.saveDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers",
+                BEARER + bearerToken, request);
     }
 
     public Call<SaveDoctorResponse> deleteSavedDoctor(String bearerToken, String npi) {
-        return service.deleteSavedDoctor(BEARER + bearerToken, npi);
+        return service.deleteSavedDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers/" + npi, BEARER + bearerToken);
     }
 
     public Call<MySavedDoctorsResponse> getSavedDoctors(String bearerToken,
                                                         MySavedDoctorsRequest request) {
-        return service.getSavedDocctors(BEARER + bearerToken, request);
+        return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
+                BEARER + bearerToken, request);
     }
 
     public Call<MyAppointmentsResponse> getMyAppointments(String bearerToken,
                                                           MyAppointmentsRequest request) {
-        return service.getMyAppointments(BEARER + bearerToken, request);
+        return service.getMyAppointments(EnviHandler.CIAM_BASE_URL + "api/users/query",
+                BEARER + bearerToken, request);
     }
 
     //1.2 APIs
 
     public Call<CommonResponse> changePassword(String bearerToken,
                                                ChangePasswordRequest request) {
-        return service.changePassword(BEARER + bearerToken, request);
+        return service.changePassword(EnviHandler.CIAM_BASE_URL + "api/users/me/password",
+                BEARER + bearerToken, request);
     }
 
     public Call<CommonResponse> changeSecurityQuestion(String bearerToken,
                                                        ChangeSesurityQuestionRequest request) {
-        return service.changeSecurityQuestion(BEARER + bearerToken, request);
+        return service.changeSecurityQuestion(EnviHandler.CIAM_BASE_URL + "api/users/me/recovery/question",
+                BEARER + bearerToken, request);
     }
 
     /**
@@ -423,7 +439,8 @@ public class NetworkManager {
      * @return a Profile object of the user
      */
     public Call<ProfileGraphqlResponse> getProfile(String bearer) {
-        return service.getUserProfile(BEARER + bearer, new MyProfileRequest());
+        return service.getUserProfile(EnviHandler.CIAM_BASE_URL + "api/users/query",
+                BEARER + bearer, new MyProfileRequest());
     }
 
     // Network Util
@@ -506,10 +523,10 @@ public class NetworkManager {
     private boolean refreshToken() {
         try {
             retrofit2.Response<RefreshAccessTokenResponse> syncResp = NetworkManager.getInstance()
-                    .refreshAccessToken(RESTConstants.GRANT_TYPE_REFRESH,
+                    .refreshAccessToken(EnviHandler.GRANT_TYPE_REFRESH,
                             AuthManager.getInstance().getRefreshToken(),
-                            RESTConstants.CLIENT_ID,
-                            RESTConstants.AUTH_REDIRECT_URI).execute();
+                            EnviHandler.CLIENT_ID,
+                            EnviHandler.AUTH_REDIRECT_URI).execute();
             if (syncResp.isSuccessful()) {
                 System.out.println("REQ: syncResp" + syncResp.body().toString());
                 AuthManager.getInstance().setBearerToken(syncResp.body().getAccessToken());
