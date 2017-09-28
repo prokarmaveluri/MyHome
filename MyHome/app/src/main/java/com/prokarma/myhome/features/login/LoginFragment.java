@@ -148,6 +148,11 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     }
 
     @Override
+    public View getRootView() {
+        return binder.getRoot();
+    }
+
+    @Override
     public void showEnrollmentStatus(String status) {
 
         checkNotNull(status);

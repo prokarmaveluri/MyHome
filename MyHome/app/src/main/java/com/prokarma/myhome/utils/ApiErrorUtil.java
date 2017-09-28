@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 
 import retrofit2.Response;
 
@@ -16,8 +17,8 @@ public class ApiErrorUtil {
     private static ApiErrorUtil mInstance = null;
     private Snackbar snackbar;
 
-    public static ApiErrorUtil getInstance(){
-        if(mInstance == null){
+    public static ApiErrorUtil getInstance() {
+        if (mInstance == null) {
             mInstance = new ApiErrorUtil();
         }
         return mInstance;
@@ -25,6 +26,11 @@ public class ApiErrorUtil {
 
     private void genericError(final Context context, final View view) {
         snackbar = Snackbar.make(view, context.getString(R.string.api_error_message), Snackbar.LENGTH_INDEFINITE);
+        snackbar.show();
+    }
+
+    private void invalidPassword(final Context context, final View view) {
+        snackbar = Snackbar.make(view, context.getString(R.string.api_error_incorrect_password), Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 
@@ -37,7 +43,7 @@ public class ApiErrorUtil {
         genericError(context, view);
     }
 
-    public <T> void getProfileError(final Context context, final View view, final Response<T> response){
+    public <T> void getProfileError(final Context context, final View view, final Response<T> response) {
         genericError(context, view);
     }
 
@@ -46,7 +52,7 @@ public class ApiErrorUtil {
     }
 
     //Appointments & Booking
-    public <T> void getMyAppointmentsError(final Context context, final View view, final Response<T> response){
+    public <T> void getMyAppointmentsError(final Context context, final View view, final Response<T> response) {
         genericError(context, view);
     }
 
@@ -55,7 +61,7 @@ public class ApiErrorUtil {
     }
 
     //TODO - Ask designers what they want to do for when Booking Done Fails (send to reg forms currently)
-    public <T> void createAppointmentError(final Context context, final View view, final Response<T> response){
+    public <T> void createAppointmentError(final Context context, final View view, final Response<T> response) {
         //genericError(context, view);
     }
 
@@ -64,7 +70,7 @@ public class ApiErrorUtil {
         //genericError(context, view);
     }
 
-    public <T> void getValidationRulesError(final Context context, final View view, final Response<T> response){
+    public <T> void getValidationRulesError(final Context context, final View view, final Response<T> response) {
         genericError(context, view);
     }
 
@@ -73,7 +79,7 @@ public class ApiErrorUtil {
     }
 
     //ToS
-    public <T> void getTosError(final Context context, final View view, final Response<T> response){
+    public <T> void getTosError(final Context context, final View view, final Response<T> response) {
         genericError(context, view);
     }
 
@@ -82,7 +88,7 @@ public class ApiErrorUtil {
     }
 
     //Provider Details
-    public <T> void getProviderDetailsError(final Context context, final View view, final Response<T> response){
+    public <T> void getProviderDetailsError(final Context context, final View view, final Response<T> response) {
         genericError(context, view);
     }
 
@@ -91,15 +97,19 @@ public class ApiErrorUtil {
     }
 
     //Login
-    public <T> void signInError(final Context context, final View view, final Response<T> response){
-        genericError(context, view);
+    public <T> void signInError(final Context context, final View view, final Response<SignInResponse> response) {
+        if (response != null && response.body() != null && !response.body().getValid()) {
+            invalidPassword(context, view);
+        } else {
+            genericError(context, view);
+        }
     }
 
     public void signInFailed(final Context context, final View view, final Throwable throwable) {
         genericError(context, view);
     }
 
-    public <T> void signInRefreshError(final Context context, final View view, final Response<T> response){
+    public <T> void signInRefreshError(final Context context, final View view, final Response<T> response) {
         genericError(context, view);
     }
 
@@ -107,7 +117,7 @@ public class ApiErrorUtil {
         genericError(context, view);
     }
 
-    public <T> void signOutError(final Context context, final View view, final Response<T> response){
+    public <T> void signOutError(final Context context, final View view, final Response<T> response) {
         genericError(context, view);
     }
 
@@ -116,8 +126,8 @@ public class ApiErrorUtil {
     }
 
 
-    public void clearErrorMessage(){
-        if(snackbar != null){
+    public void clearErrorMessage() {
+        if (snackbar != null) {
             snackbar.dismiss();
         }
     }

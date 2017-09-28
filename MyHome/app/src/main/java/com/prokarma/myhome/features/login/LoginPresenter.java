@@ -11,6 +11,7 @@ import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.ConnectionUtil;
 
@@ -80,7 +81,8 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                     mView.SignInSuccess();
                 } else {
                     AuthManager.getInstance().setFailureAttempt();
-                    mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
+                    ApiErrorUtil.getInstance().signInError(mContext, mView.getRootView(), response);
+                    //mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                     mView.showProgress(false);
                     Timber.e("Response, but not successful?\n" + response);
                     mView.showView(true);
@@ -89,7 +91,8 @@ public class LoginPresenter implements LoginInteractor.Presenter {
 
             @Override
             public void onFailure(Call<SignInResponse> call, Throwable t) {
-                mView.showEnrollmentStatus(mContext.getString(R.string.failure_msg));
+                ApiErrorUtil.getInstance().signInFailed(mContext, mView.getRootView(), t);
+                //mView.showEnrollmentStatus(mContext.getString(R.string.failure_msg));
                 mView.showView(true);
                 mView.showProgress(false);
                 Timber.e("Login failure");

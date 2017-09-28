@@ -315,4 +315,5 @@
     <string name="sq_criteria_password">Must not contain password</string>
 
     <string name="api_error_message">Still enjoy My Home while we do maintenance</string>
+    <string name="api_error_incorrect_password">Incorrect password. Please try again</string>
 </resources>

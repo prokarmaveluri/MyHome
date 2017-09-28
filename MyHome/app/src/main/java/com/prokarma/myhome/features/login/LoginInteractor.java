@@ -16,6 +16,8 @@ public interface LoginInteractor {
 
         void showView(boolean show);
 
+        android.view.View getRootView();
+
         void showEnrollmentStatus(String status);
 
         void SignInSuccess();
