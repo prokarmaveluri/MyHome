@@ -432,35 +432,35 @@ public class NetworkManager {
     /************** New Auth *************************************/
 
     /**
-     * endpoint for SignIn
+     * endpoint for signIn
      *
-     * @param request reuest body for SignIn
+     * @param request request body for signIn
      * @return login response
      */
-    public Call<SignInResponse> SignIn(SignInRequest request) {
-        return service.SignIn(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/sign-in", request);
+    public Call<SignInResponse> signIn(SignInRequest request) {
+        return service.signIn(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/sign-in", request);
     }
 
 
     /**
-     * endpoint for SignIn Refresh
+     * endpoint for signIn Refresh
      *
-     * @param request reuest body for SignIn Refresh
+     * @param request request body for signIn Refresh
      * @return refresh response
      */
-    public Call<RefreshResponse> SignInRefresh(RefreshRequest request, String bearerToken) {
-        return service.SignInRefresh(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/refresh",
+    public Call<RefreshResponse> signInRefresh(RefreshRequest request, String bearerToken) {
+        return service.signInRefresh(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/refresh",
                 BEARER + bearerToken, request);
     }
 
     /**
-     * endpoint for SignOut
+     * endpoint for signOut
      *
-     * @param request reuest body for SignOut
+     * @param request request body for signOut
      * @return Sign out response
      */
-    public Call<CommonResponse> SignOut(SignOutRequest request, String bearerToken) {
-        return service.SignOut(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/sign-out",
+    public Call<CommonResponse> signOut(SignOutRequest request, String bearerToken) {
+        return service.signOut(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/sign-out",
                 BEARER + bearerToken, request);
     }
 
@@ -545,7 +545,7 @@ public class NetworkManager {
     private boolean refreshToken() {
         try {
             retrofit2.Response<RefreshResponse> syncResp = NetworkManager.getInstance()
-                    .SignInRefresh(new RefreshRequest(AuthManager.getInstance().getRefreshToken()),
+                    .signInRefresh(new RefreshRequest(AuthManager.getInstance().getRefreshToken()),
                             AuthManager.getInstance().getBearerToken()).execute();
             if (syncResp.isSuccessful() && syncResp.body().getValid()) {
                 System.out.println("REQ: syncResp" + syncResp.body().toString());

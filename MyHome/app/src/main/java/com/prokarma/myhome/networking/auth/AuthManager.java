@@ -198,7 +198,7 @@ public class AuthManager {
     };
 
     public void refreshToken() {
-        NetworkManager.getInstance().SignInRefresh(new RefreshRequest(
+        NetworkManager.getInstance().signInRefresh(new RefreshRequest(
                 AuthManager.getInstance().getRefreshToken()),
                 AuthManager.getInstance().getBearerToken()).enqueue(new Callback<RefreshResponse>() {
             @Override

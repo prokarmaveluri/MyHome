@@ -54,7 +54,7 @@ public class SessionUtil {
             return;
         }
         TealiumUtil.trackEvent(Constants.SIGN_OUT_EVENT, null);
-        NetworkManager.getInstance().SignOut(
+        NetworkManager.getInstance().signOut(
                 new SignOutRequest(AuthManager.getInstance().getSessionId(),
                         AuthManager.getInstance().getBearerToken(),
                         AuthManager.getInstance().getRefreshToken()),

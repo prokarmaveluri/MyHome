@@ -227,7 +227,7 @@ public class SplashActivity extends AppCompatActivity implements
             return;
         }
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().SignInRefresh(new RefreshRequest(
+        NetworkManager.getInstance().signInRefresh(new RefreshRequest(
                         AuthManager.getInstance().getRefreshToken()),
                 AuthManager.getInstance().getBearerToken()).enqueue(new Callback<RefreshResponse>() {
             @Override
@@ -619,7 +619,7 @@ public class SplashActivity extends AppCompatActivity implements
             return;
         }
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().SignIn(request).enqueue(new Callback<SignInResponse>() {
+        NetworkManager.getInstance().signIn(request).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.isSuccessful() && response.body().getValid()) {

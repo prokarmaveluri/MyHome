@@ -90,7 +90,30 @@ public class ApiErrorUtil {
         genericError(context, view);
     }
 
+    //Login
+    public <T> void signInError(final Context context, final View view, final Response<T> response){
+        genericError(context, view);
+    }
 
+    public void signInFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view);
+    }
+
+    public <T> void signInRefreshError(final Context context, final View view, final Response<T> response){
+        genericError(context, view);
+    }
+
+    public void signInRefreshFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view);
+    }
+
+    public <T> void signOutError(final Context context, final View view, final Response<T> response){
+        genericError(context, view);
+    }
+
+    public void signOutFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view);
+    }
 
 
     public void clearErrorMessage(){

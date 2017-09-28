@@ -219,13 +219,13 @@ public interface RESTService {
     /************ New Auth **************************************/
 
     @POST
-    Call<SignInResponse> SignIn(@Url String url, @Body SignInRequest request);
+    Call<SignInResponse> signIn(@Url String url, @Body SignInRequest request);
 
     @POST
-    Call<RefreshResponse> SignInRefresh(@Url String url, @Header("Authorization") String bearer,
+    Call<RefreshResponse> signInRefresh(@Url String url, @Header("Authorization") String bearer,
                                         @Body RefreshRequest request);
 
     @POST
-    Call<CommonResponse> SignOut(@Url String url, @Header("Authorization") String bearer,
+    Call<CommonResponse> signOut(@Url String url, @Header("Authorization") String bearer,
                                  @Body SignOutRequest request);
 }

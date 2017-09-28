@@ -65,7 +65,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
     }
 
     private void login(final SignInRequest request) {
-        NetworkManager.getInstance().SignIn(request).enqueue(new Callback<SignInResponse>() {
+        NetworkManager.getInstance().signIn(request).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.isSuccessful() && response.body().getValid()) {
