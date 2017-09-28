@@ -39,6 +39,7 @@ public class EnviHandler {
                 initStage();
                 break;
             case TEST:
+                initTest();
                 break;
             case PROD:
                 initProd();
@@ -80,13 +81,13 @@ public class EnviHandler {
         GRANT_TYPE_REFRESH = BuildConfig.S_GRANT_TYPE_REFRESH;
     }
 
-    private void initTest() {
+    private static void initTest() {
 
-//        VERSIONING_URL = BuildConfig.D;
-//        OKTA_BASE_URL = BuildConfig.OKTA_BASE_URL;
-//        CIAM_BASE_URL = BuildConfig.CIAM_BASE_URL;
-//        S2_BASE_URL = BuildConfig.S2_BASE_URL;
-//        SCHEDULING_BASE = BuildConfig.SCHEDULING_BASE;
+//        VERSIONING_URL = BuildConfig.T_VERSIONING_URL;
+//        OKTA_BASE_URL = BuildConfig.T_OKTA_BASE_URL;
+//        CIAM_BASE_URL = BuildConfig.T_CIAM_BASE_URL;
+//        S2_BASE_URL = BuildConfig.T_S2_BASE_URL;
+//        SCHEDULING_BASE = BuildConfig.T_SCHEDULING_BASE;
 //
 //
 //        AUTH_CLIENT_ID = BuildConfig.D_AUTH_CLIENT_ID;
