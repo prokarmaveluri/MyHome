@@ -13,6 +13,7 @@ import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 
 import retrofit2.Call;
@@ -43,7 +44,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
 
     @Override
     public void signIn(SignInRequest request) {
-
+        CommonUtil.hideSoftKeyboard(mContext, mView.getRootView());
         mView.showView(true);
         mView.showProgress(true);
 
