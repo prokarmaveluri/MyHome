@@ -59,7 +59,7 @@ public class BookingSelectCalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle("Select the appointment day");
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
         final Calendar cal = Calendar.getInstance();
         //cal.add(Calendar.DATE, 1);

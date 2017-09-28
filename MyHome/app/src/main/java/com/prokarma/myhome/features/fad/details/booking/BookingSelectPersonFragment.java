@@ -31,7 +31,7 @@ public class BookingSelectPersonFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         bookingView = inflater.inflate(R.layout.book_select_person, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle("Select the patient");
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
         final Button buttonMe = (Button) bookingView.findViewById(R.id.book_me);
         final Button buttonOther = (Button) bookingView.findViewById(R.id.book_other);
@@ -60,7 +60,7 @@ public class BookingSelectPersonFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if(refreshInterface != null){
+        if (refreshInterface != null) {
             refreshInterface.onRefreshView(true);
         }
     }

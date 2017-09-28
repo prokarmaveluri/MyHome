@@ -55,7 +55,7 @@ public class BookingSelectStatusFragment extends Fragment {
         showExisting = args.getBoolean(SHOW_EXISTING_KEY);
 
         bookingView = inflater.inflate(R.layout.book_select_status, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle("Select your patient's history");
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
         final TextView header = (TextView) bookingView.findViewById(R.id.status_header);
         final TextView noAppointments = (TextView) bookingView.findViewById(R.id.no_times_available);
