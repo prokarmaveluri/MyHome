@@ -2,12 +2,12 @@ package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
-import com.prokarma.myhome.features.profile.Profile;
-import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
+import com.prokarma.myhome.utils.EnviHandler;
 
 import org.junit.Assert;
 
 import java.io.IOException;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -18,7 +18,22 @@ import retrofit2.Response;
 
 public class TestUtil {
 
-    public static String getLogin(SignInRequest loginRequest){
+    public static void setDevEnvironment() {
+        EnviHandler.initEnv(EnviHandler.EnvType.DEV);
+        NetworkManager.getInstance().initService();
+    }
+
+    public static void setStagingEnvironment() {
+        EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
+        NetworkManager.getInstance().initService();
+    }
+
+    public static void setProdEnvironment() {
+        EnviHandler.initEnv(EnviHandler.EnvType.PROD);
+        NetworkManager.getInstance().initService();
+    }
+
+    public static String getLogin(SignInRequest loginRequest) {
         Assert.assertNotNull(loginRequest);
         Call<SignInResponse> call = NetworkManager.getInstance().signIn(loginRequest);
         try {
@@ -37,20 +52,15 @@ public class TestUtil {
         }
     }
 
-    public static Profile getProfile(String bearerToken) {
-        Assert.assertTrue(bearerToken != null && !bearerToken.isEmpty());
-        Call<ProfileGraphqlResponse> call = NetworkManager.getInstance().getProfile(bearerToken);
-        try {
-            Response<ProfileGraphqlResponse> response = call.execute();
-            Assert.assertNotNull(response);
-            Assert.assertTrue(response.isSuccessful());
-            Profile profile = response.body().getData().getUser();
-            Assert.assertNotNull(profile);
-            return profile;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Assert.fail(e.toString());
-            return null;
-        }
+    /**
+     * Returns a random integer intended to be dummy data for a zipcode
+     *
+     * @return random zipcode value
+     */
+    public static int getRandomZipCode() {
+        Random r = new Random();
+        int low = 00501;
+        int high = 99999;
+        return r.nextInt(high - low) + low;
     }
 }

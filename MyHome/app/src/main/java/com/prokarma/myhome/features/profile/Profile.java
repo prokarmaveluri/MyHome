@@ -79,6 +79,10 @@ public class Profile implements Parcelable {
         this.email = email;
     }
 
+    public void setZipCode(String zipCode){
+        this.address.setZipCode(zipCode);
+    }
+
     @Override
     public String toString() {
         return "Profile{" +

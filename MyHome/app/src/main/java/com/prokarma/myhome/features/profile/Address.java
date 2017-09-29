@@ -27,6 +27,10 @@ public class Address implements Parcelable {
         this.countryCode = countryCode;
     }
 
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
     @Override
     public String toString() {
         return "Address{" +

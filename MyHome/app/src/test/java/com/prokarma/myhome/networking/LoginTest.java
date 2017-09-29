@@ -1,7 +1,6 @@
 package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
-import com.prokarma.myhome.utils.EnviHandler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +19,8 @@ public class LoginTest {
 
     @Test
     public void getLogin_Dev() {
+        TestUtil.setDevEnvironment();
         SignInRequest loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
-        EnviHandler.initEnv(EnviHandler.EnvType.DEV);
-        NetworkManager.getInstance().initService();
         TestUtil.getLogin(loginRequest);
     }
 
@@ -36,17 +34,15 @@ public class LoginTest {
 
     @Test
     public void getLogin_Stage() {
+        TestUtil.setStagingEnvironment();
         SignInRequest loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
-        EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
-        NetworkManager.getInstance().initService();
         TestUtil.getLogin(loginRequest);
     }
 
     @Test
     public void getLogin_Prod() {
+        TestUtil.setProdEnvironment();
         SignInRequest loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
-        EnviHandler.initEnv(EnviHandler.EnvType.PROD);
-        NetworkManager.getInstance().initService();
         TestUtil.getLogin(loginRequest);
     }
 }
