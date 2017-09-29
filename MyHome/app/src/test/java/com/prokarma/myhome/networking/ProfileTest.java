@@ -47,8 +47,28 @@ public class ProfileTest {
     }
 
     @Test
+    public void updateProfile_Dev() {
+        TestUtil.setDevEnvironment();
+        SignInRequest loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
+        String bearerToken = TestUtil.getLogin(loginRequest);
+
+        Profile profile = getProfile(bearerToken);
+        updateProfile(bearerToken, profile);
+    }
+
+    @Test
     public void updateProfile_Stage() {
         TestUtil.setStagingEnvironment();
+        SignInRequest loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
+        String bearerToken = TestUtil.getLogin(loginRequest);
+
+        Profile profile = getProfile(bearerToken);
+        updateProfile(bearerToken, profile);
+    }
+
+    @Test
+    public void updateProfile_Prod() {
+        TestUtil.setProdEnvironment();
         SignInRequest loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
         String bearerToken = TestUtil.getLogin(loginRequest);
 
@@ -86,7 +106,7 @@ public class ProfileTest {
      */
     public void updateProfile(String bearerToken, Profile profile) {
         Assert.assertTrue(bearerToken != null && !bearerToken.isEmpty());
-        String randomZipCode = String.valueOf(TestUtil.getRandomZipCode());
+        String randomZipCode = String.valueOf(TestUtil.getRandomZipCode()).trim();
         profile.setZipCode(randomZipCode);
 
         Call<Void> call = NetworkManager.getInstance().updateProfile(bearerToken, profile);
