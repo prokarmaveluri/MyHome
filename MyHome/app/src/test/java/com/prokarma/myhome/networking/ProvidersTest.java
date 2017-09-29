@@ -1,5 +1,6 @@
 package com.prokarma.myhome.networking;
 
+import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.ProvidersResponse;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
@@ -81,6 +82,42 @@ public class ProvidersTest {
     public void getSearchSuggestions_Prod() {
         TestUtil.setProdEnvironment();
         getSearchSuggestions();
+    }
+
+    @Test
+    public void getLocation_Dev() {
+        TestUtil.setStagingEnvironment();
+        getLocation();
+    }
+
+    @Test
+    public void getLocation_Stage() {
+        TestUtil.setStagingEnvironment();
+        getLocation();
+    }
+
+    @Test
+    public void getLocation_Prod() {
+        TestUtil.setProdEnvironment();
+        getLocation();
+    }
+
+    public LocationResponse getLocation(){
+        Call<LocationResponse> call = NetworkManager.getInstance().getLocation();
+
+        try {
+            Response<LocationResponse> response = call.execute();
+
+            Assert.assertNotNull(response);
+            Assert.assertTrue(response.isSuccessful());
+            Assert.assertNotNull(response.body());
+            Assert.assertFalse(response.body().getState().isEmpty());
+
+            return response.body();
+        } catch (IOException e) {
+            Assert.fail(e.toString());
+            return null;
+        }
     }
 
     public List<SearchSuggestionResponse> getSearchSuggestions() {
