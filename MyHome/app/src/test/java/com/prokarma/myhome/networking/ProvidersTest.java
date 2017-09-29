@@ -2,6 +2,7 @@ package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.fad.ProvidersResponse;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
+import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,42 +27,83 @@ public class ProvidersTest {
     }
 
     @Test
-    public void getProviders_Dev(){
+    public void getProviders_Dev() {
         TestUtil.setDevEnvironment();
         getProviderList();
     }
 
     @Test
-    public void getProviders_Stage(){
+    public void getProviders_Stage() {
         TestUtil.setStagingEnvironment();
         getProviderList();
     }
 
     @Test
-    public void getProviders_Prod(){
+    public void getProviders_Prod() {
         TestUtil.setProdEnvironment();
         getProviderList();
     }
 
     @Test
-    public void getProviderDetails_Dev(){
+    public void getProviderDetails_Dev() {
         TestUtil.setDevEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
         getProviderDetails(list.get(0).getNpi());
     }
 
     @Test
-    public void getProviderDetails_Stage(){
+    public void getProviderDetails_Stage() {
         TestUtil.setStagingEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
         getProviderDetails(list.get(0).getNpi());
     }
 
     @Test
-    public void getProviderDetails_Prod(){
+    public void getProviderDetails_Prod() {
         TestUtil.setProdEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
         getProviderDetails(list.get(0).getNpi());
+    }
+
+    @Test
+    public void getSearchSuggestions_Dev() {
+        TestUtil.setStagingEnvironment();
+        getSearchSuggestions();
+    }
+
+    @Test
+    public void getSearchSuggestions_Stage() {
+        TestUtil.setStagingEnvironment();
+        getSearchSuggestions();
+    }
+
+    @Test
+    public void getSearchSuggestions_Prod() {
+        TestUtil.setProdEnvironment();
+        getSearchSuggestions();
+    }
+
+    public List<SearchSuggestionResponse> getSearchSuggestions() {
+        Call<List<SearchSuggestionResponse>> call = NetworkManager.getInstance().getSearchSuggestions(
+                "Primary Care",
+                "40.587509",
+                "-122.392929",
+                "",
+                "");
+
+        try {
+            Response<List<SearchSuggestionResponse>> response = call.execute();
+
+            Assert.assertNotNull(response);
+            Assert.assertTrue(response.isSuccessful());
+            Assert.assertNotNull(response.body());
+            Assert.assertFalse(response.body().isEmpty());
+
+            return response.body();
+        } catch (IOException e) {
+            Assert.fail(e.toString());
+            return null;
+        }
     }
 
     public List<ProviderDetailsResponse> getProviderList() {
@@ -98,7 +140,7 @@ public class ProvidersTest {
         }
     }
 
-    public ProviderDetailsResponse getProviderDetails(String npi){
+    public ProviderDetailsResponse getProviderDetails(String npi) {
         Call<ProviderDetailsResponse> call = NetworkManager.getInstance().getProviderDetails(npi);
 
         try {
@@ -113,7 +155,7 @@ public class ProvidersTest {
             Assert.assertFalse(response.body().LastName.isEmpty());
 
             return response.body();
-        } catch (IOException e){
+        } catch (IOException e) {
             Assert.fail(e.toString());
             return null;
         }
