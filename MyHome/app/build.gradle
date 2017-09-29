@@ -15,7 +15,7 @@ android {
     }
 
     //Old App ID? Get's redefined anyways...
-    def HOCKEYAPP_APP_ID = "\"0ed48f0d6244471398fdf01def1ca008\""
+    def HOCKEYAPP_APP_ID = "\"130889d29f5c440fb043c5e2def8ff86\""
 
     //URLs
     def PROD_VERSIONING_URL = "\"http://web-usw1-versioningservices-prd.azurewebsites.net/\""
@@ -154,7 +154,7 @@ android {
             signingConfig signingConfigs.config
         }
         debug {
-            HOCKEYAPP_APP_ID = "\"b51e6a79f705472fb7613985e9f82e7f\""
+            HOCKEYAPP_APP_ID = "\"130889d29f5c440fb043c5e2def8ff86\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_DEBUG
             buildConfigField STRING, TEALIUM_APP_NAME, APP_NAME_DEBUG
