@@ -1,6 +1,6 @@
 package com.prokarma.myhome.features.appointments;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by cmajji on 7/28/17.
@@ -20,13 +20,13 @@ public class MyAppointmentsResponse {
 
     public class User {
 
-        private List<Appointment> appointments = null;
+        private ArrayList<Appointment> appointments = null;
 
-        public List<Appointment> getAppointments() {
+        public ArrayList<Appointment> getAppointments() {
             return appointments;
         }
 
-        public void setAppointments(List<Appointment> appointments) {
+        public void setAppointments(ArrayList<Appointment> appointments) {
             this.appointments = appointments;
         }
 

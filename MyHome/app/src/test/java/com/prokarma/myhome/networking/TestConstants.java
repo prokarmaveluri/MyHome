@@ -15,6 +15,6 @@ public class TestConstants {
     public static final String STAGE_USER = "suji@mailinator.com";
     public static final String STAGE_PASSWORD = "Ap29bx1442@";
 
-    public static final String PROD_USER = "kutala@mailinator.com";
+    public static final String PROD_USER = "karthik.qa1442@gmail.com";
     public static final String PROD_PASSWORD = "Ap29bx1442@";
 }
