@@ -167,7 +167,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     }
 
     private void getValidationRules() {
-        NetworkManager.getInstance().getValidationRules(scheduleId + 4235, "insurance,schedule-properties").enqueue(new Callback<RegValidationResponse>() {
+        NetworkManager.getInstance().getValidationRules(scheduleId, "insurance,schedule-properties").enqueue(new Callback<RegValidationResponse>() {
             @Override
             public void onResponse(Call<RegValidationResponse> call, Response<RegValidationResponse> response) {
                 if (response.isSuccessful()) {

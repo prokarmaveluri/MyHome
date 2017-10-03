@@ -693,4 +693,29 @@ public class CommonUtil {
         }
         return futureAppointments;
     }
+
+    public static ArrayList<Appointment> getPastAppointments(ArrayList<Appointment> allAppointments) {
+        if (allAppointments == null) {
+            return null;
+        }
+
+        ArrayList<Appointment> pastAppointments = new ArrayList<>();
+        Date todaysDate = new Date();
+        Date appointmentDate = new Date();
+
+        for (Appointment appointment : allAppointments) {
+            try {
+                appointmentDate = DateUtil.getDateNoTimeZone(appointment.appointmentStart);
+            } catch (ParseException e) {
+                Timber.e(e);
+                e.printStackTrace();
+            }
+
+            if (appointmentDate.before(todaysDate)) {
+                pastAppointments.add(0, appointment);
+            }
+        }
+
+        return pastAppointments;
+    }
 }

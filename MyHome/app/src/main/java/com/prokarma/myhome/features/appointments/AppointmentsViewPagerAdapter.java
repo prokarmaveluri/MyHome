@@ -7,13 +7,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.utils.CommonUtil;
-import com.prokarma.myhome.utils.DateUtil;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-
-import timber.log.Timber;
 
 /**
  * Created by kwelsh on 8/3/17.
@@ -50,7 +45,7 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return AppointmentsListFragment.newInstance(CommonUtil.getFutureAppointments(appointments), false);
             case 1:
-                return AppointmentsListFragment.newInstance(getPastAppointments(appointments), true);
+                return AppointmentsListFragment.newInstance(CommonUtil.getPastAppointments(appointments), true);
             default:
                 return AppointmentsListFragment.newInstance();
         }
@@ -62,28 +57,4 @@ public class AppointmentsViewPagerAdapter extends FragmentStatePagerAdapter {
         return tabTitles[position];
     }
 
-    private ArrayList<Appointment> getPastAppointments(ArrayList<Appointment> allAppointments) {
-        if (allAppointments == null) {
-            return null;
-        }
-
-        ArrayList<Appointment> pastAppointments = new ArrayList<>();
-        Date todaysDate = new Date();
-        Date appointmentDate = new Date();
-
-        for (Appointment appointment : allAppointments) {
-            try {
-                appointmentDate = DateUtil.getDateNoTimeZone(appointment.appointmentStart);
-            } catch (ParseException e) {
-                Timber.e(e);
-                e.printStackTrace();
-            }
-
-            if (appointmentDate.before(todaysDate)) {
-                pastAppointments.add(0, appointment);
-            }
-        }
-
-        return pastAppointments;
-    }
 }
