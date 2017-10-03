@@ -143,7 +143,7 @@ public class ProvidersTest {
         }
     }
 
-    public List<ProviderDetailsResponse> getProviderList() {
+    public static List<ProviderDetailsResponse> getProviderList() {
         Call<ProvidersResponse> call = NetworkManager.getInstance().getProviders(
                 "Primary Care",
                 "40.587509",
@@ -177,7 +177,7 @@ public class ProvidersTest {
         }
     }
 
-    public ProviderDetailsResponse getProviderDetails(String npi) {
+    public static ProviderDetailsResponse getProviderDetails(String npi) {
         Call<ProviderDetailsResponse> call = NetworkManager.getInstance().getProviderDetails(npi);
 
         try {

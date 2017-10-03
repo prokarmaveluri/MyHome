@@ -2,6 +2,8 @@ package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.features.fad.AppointmentType;
+import com.prokarma.myhome.features.fad.Office;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
@@ -9,10 +11,12 @@ import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.features.profile.InsuranceProvider;
 import com.prokarma.myhome.features.profile.Profile;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -28,31 +32,57 @@ public class SchedulingTest {
     }
 
     @Test
-    public void createAppointment_Dev(){
+    public void createAppointment_Dev() {
         TestUtil.setDevEnvironment();
         SignInRequest loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
-        createAppointment(TestUtil.getLogin(loginRequest));
+        List<ProviderDetailsResponse> providerList = ProvidersTest.getProviderList();
+        ProviderDetailsResponse provider = getOnlineProvider(providerList);
+
+        Assert.assertNotNull(provider);
+        Assert.assertNotNull(provider.getNpi());
+        Assert.assertFalse(provider.getNpi().isEmpty());
+
+        ProviderDetailsResponse providerDetails = ProvidersTest.getProviderDetails(provider.getNpi());
+        createAppointment(TestUtil.getLogin(loginRequest), providerDetails);
     }
 
     @Test
-    public void createAppointment_Stage(){
+    public void createAppointment_Stage() {
         TestUtil.setStagingEnvironment();
         SignInRequest loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
-        createAppointment(TestUtil.getLogin(loginRequest));
+        List<ProviderDetailsResponse> providerList = ProvidersTest.getProviderList();
+        ProviderDetailsResponse provider = getOnlineProvider(providerList);
+
+        Assert.assertNotNull(provider);
+        Assert.assertNotNull(provider.getNpi());
+        Assert.assertFalse(provider.getNpi().isEmpty());
+
+        ProviderDetailsResponse providerDetails = ProvidersTest.getProviderDetails(provider.getNpi());
+        createAppointment(TestUtil.getLogin(loginRequest), providerDetails);
     }
 
     //TODO Uncomment the test annotation to test creating an appointment in prod. BE CAREFUL!
     //@Test
-    public void createAppointment_Prod(){
+    public void createAppointment_Prod() {
         TestUtil.setProdEnvironment();
         SignInRequest loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
-        createAppointment(TestUtil.getLogin(loginRequest));
+        List<ProviderDetailsResponse> providerList = ProvidersTest.getProviderList();
+        ProviderDetailsResponse provider = getOnlineProvider(providerList);
+
+        Assert.assertNotNull(provider);
+        Assert.assertNotNull(provider.getNpi());
+        Assert.assertFalse(provider.getNpi().isEmpty());
+
+        ProviderDetailsResponse providerDetails = ProvidersTest.getProviderDetails(provider.getNpi());
+        createAppointment(TestUtil.getLogin(loginRequest), providerDetails);
     }
 
-    public void createAppointment(String bearerToken){
+    public void createAppointment(String bearerToken, ProviderDetailsResponse providerDetails) {
         Address bookingAddress = new Address("540 Trinity Lane N", "Apt 5301", "St.Petersburg", "FL", "33716", "US");
         InsuranceProvider insuranceProvider = new InsuranceProvider("", "AARP Medicare Complete", "12321", "131312", "616-826-1635", "aarp-medicare-complete");
         Profile bookingProfile = new Profile("Kevin", "C", "Welsh", "Nickname", "Male", "1988-12-12T00:00:00Z", bookingAddress, "1212121212", null, null, null, "", false, null, insuranceProvider, null, null, "draman@prokarma.com", "Sick", false, "", false);
+
+        Office office = getOfficeWithAppointments(providerDetails);
 
         ArrayList<AppointmentType> appointmentTypes = new ArrayList<>();
         AppointmentType appointmentType = new AppointmentType("established-patient-1", "Established Patient Visit", "established-patient");
@@ -71,5 +101,24 @@ public class SchedulingTest {
                         true));
 
 
+    }
+
+    public static ProviderDetailsResponse getOnlineProvider(List<ProviderDetailsResponse> providers) {
+        for (ProviderDetailsResponse provider : providers) {
+            if (provider.getHasAppointments()) {
+                return provider;
+            }
+        }
+        return null;
+    }
+
+    //TODO - KEVIN, YOU STILL NEED TO WORK ON THIS STUFF HERE
+    public static Office getOfficeWithAppointments(ProviderDetailsResponse providerDetails) {
+        for (Office office : providerDetails.getOffices()) {
+            if (!office.getAppointments().isEmpty()) {
+                return office;
+            }
+        }
+        return null;
     }
 }
