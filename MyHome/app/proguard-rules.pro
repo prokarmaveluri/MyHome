@@ -24,6 +24,12 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# Make sure we print out the mapping (we can upload it to Hockey)
+# https://stackoverflow.com/questions/38784091/proguard-doesnt-generate-mapping-file
+-dump obfuscation/class_files.txt
+-printseeds obfuscation/seeds.txt
+-printusage obfuscation/unused.txt
+-printmapping obfuscation/mapping.txt
 
 # Proguard rules for Picasso (found here: https://github.com/square/picasso)
 -dontwarn com.squareup.okhttp.**
