@@ -204,10 +204,10 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_AUTH", "\"authorization_code\""
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
-            minifyEnabled true
-            shrinkResources true
+            //minifyEnabled true
+            //shrinkResources true
             debuggable true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             signingConfig signingConfigs.config
         }
