@@ -15,6 +15,7 @@ import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
+import com.prokarma.myhome.utils.DateUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,23 +71,41 @@ public class LoginPresenter implements LoginInteractor.Presenter {
         NetworkManager.getInstance().signIn(request).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-                if (response.isSuccessful() && response.body().getValid()) {
-                    // get id_token & session id
-                    AuthManager.getInstance().setCount(0);
-                    ProfileManager.clearSessionData();
-                    AppPreferences.getInstance().setLongPreference("IDLE_TIME", 0);
-//                    AuthManager.getInstance().setExpiresAt(response.body().getExpiresAt());
-                    AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
-                    AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
-                    AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
-                    mView.SignInSuccess();
-                } else {
-                    AuthManager.getInstance().setFailureAttempt();
-                    ApiErrorUtil.getInstance().signInError(mContext, mView.getRootView(), response);
-                    //mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
-                    mView.showProgress(false);
-                    Timber.e("Response, but not successful?\n" + response);
-                    mView.showView(true);
+                try {
+                    if (response.isSuccessful() && response.body().getValid()) {
+                        // get id_token & session id
+                        AuthManager.getInstance().setCount(0);
+                        ProfileManager.clearSessionData();
+                        AppPreferences.getInstance().setLongPreference("IDLE_TIME", 0);
+                        AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
+                        AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                        AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
+
+                        ProfileManager.setProfile(response.body().getResult().getUserProfile());
+                        if (null != response.body().getResult().getUserProfile() &&
+                                !response.body().getResult().getUserProfile().isVerified &&
+                                isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
+                            mView.SignInSuccessBut30days();
+                        } else if (null != response.body().getResult().getUserProfile() &&
+                                !response.body().getResult().getUserProfile().isTermsAccepted) {
+                            if (!response.body().getResult().getUserProfile().isVerified &&
+                                    isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
+                                mView.acceptTermsOfService(false);
+                            } else {
+                                mView.acceptTermsOfService(true);
+                            }
+                        } else {
+                            mView.SignInSuccess();
+                        }
+                    } else {
+                        AuthManager.getInstance().setFailureAttempt();
+                        mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
+                        mView.showProgress(false);
+                        ApiErrorUtil.getInstance().signInError(mContext, mView.getRootView(), response);
+                        Timber.e("Response, but not successful?\n" + response);
+                        mView.showView(true);
+                    }
+                } catch (NullPointerException ex) {
                 }
             }
 
@@ -100,5 +119,15 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                 Timber.e("Throwable = " + t);
             }
         });
+    }
+
+    private boolean isMoreThan30days(String createDate) {
+        if (createDate == null || createDate.isEmpty())
+            return false;
+
+        if (DateUtil.getDays(createDate) >= 30) {
+            return true;
+        }
+        return false;
     }
 }

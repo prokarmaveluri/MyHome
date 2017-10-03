@@ -228,4 +228,8 @@ public interface RESTService {
     @POST
     Call<CommonResponse> signOut(@Url String url, @Header("Authorization") String bearer,
                                  @Body SignOutRequest request);
+
+    //1.3 APIs
+    @POST
+    Call<CommonResponse> resendEmail(@Url String url, @Header("Authorization") String bearer);
 }

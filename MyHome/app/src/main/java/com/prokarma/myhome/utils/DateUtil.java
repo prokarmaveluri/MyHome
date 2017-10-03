@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
@@ -164,7 +165,7 @@ public class DateUtil {
      * @return
      */
     public static boolean isValidDateOfBirth(String readableDate) {
-        if(CommonUtil.isEmptyString(readableDate)){
+        if (CommonUtil.isEmptyString(readableDate)) {
             return false;
         }
         try {
@@ -198,6 +199,29 @@ public class DateUtil {
         double yearsBetween = timeBetween / 3.156e+10;
 //        int age = (int) Math.floor(yearsBetween);
         return yearsBetween;
+    }
+
+    /**
+     * Calculates the days based on milliseconds of Dates.
+     *
+     * @param date
+     * @return
+     */
+    public static long getDays(String date) {
+
+        try {
+            SIMPLE_DATE_HYPHEN_FORMAT.setLenient(false);
+            Date createDate = SIMPLE_DATE_HYPHEN_FORMAT.parse(date);
+            Date now = new Date();
+
+            long timeBetween = now.getTime() - createDate.getTime();
+            long days = TimeUnit.DAYS.convert(timeBetween, TimeUnit.MILLISECONDS);
+            return days;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**

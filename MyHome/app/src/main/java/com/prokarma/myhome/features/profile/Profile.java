@@ -41,6 +41,10 @@ public class Profile implements Parcelable {
     public String translatorLanguage;
     public boolean assistanceNeeded;
 
+    public boolean isTermsAccepted;
+    public String termsAcceptedDate;
+    public String securityQuestion;
+
     public Profile() {
 
     }
@@ -332,6 +336,11 @@ public class Profile implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.userId);
+        dest.writeString(this.userName);
+        dest.writeString(this.idLevel);
+        dest.writeByte(this.isVerified ? (byte) 1 : (byte) 0);
+        dest.writeString(this.createdDate);
         dest.writeString(this.firstName);
         dest.writeString(this.middleInitial);
         dest.writeString(this.lastName);
@@ -351,9 +360,20 @@ public class Profile implements Parcelable {
         dest.writeString(this.remoteID);
         dest.writeString(this.email);
         dest.writeString(this.reasonForVisit);
+        dest.writeByte(this.translationNeeded ? (byte) 1 : (byte) 0);
+        dest.writeString(this.translatorLanguage);
+        dest.writeByte(this.assistanceNeeded ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isTermsAccepted ? (byte) 1 : (byte) 0);
+        dest.writeString(this.termsAcceptedDate);
+        dest.writeString(this.securityQuestion);
     }
 
     protected Profile(Parcel in) {
+        this.userId = in.readString();
+        this.userName = in.readString();
+        this.idLevel = in.readString();
+        this.isVerified = in.readByte() != 0;
+        this.createdDate = in.readString();
         this.firstName = in.readString();
         this.middleInitial = in.readString();
         this.lastName = in.readString();
@@ -373,9 +393,15 @@ public class Profile implements Parcelable {
         this.remoteID = in.readString();
         this.email = in.readString();
         this.reasonForVisit = in.readString();
+        this.translationNeeded = in.readByte() != 0;
+        this.translatorLanguage = in.readString();
+        this.assistanceNeeded = in.readByte() != 0;
+        this.isTermsAccepted = in.readByte() != 0;
+        this.termsAcceptedDate = in.readString();
+        this.securityQuestion = in.readString();
     }
 
-    public static final Parcelable.Creator<Profile> CREATOR = new Parcelable.Creator<Profile>() {
+    public static final Creator<Profile> CREATOR = new Creator<Profile>() {
         @Override
         public Profile createFromParcel(Parcel source) {
             return new Profile(source);

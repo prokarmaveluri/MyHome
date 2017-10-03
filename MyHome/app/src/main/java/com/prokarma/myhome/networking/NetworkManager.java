@@ -465,6 +465,18 @@ public class NetworkManager {
     }
 
 
+    /**
+     * resend email to the user.
+     *
+     * @param bearerToken bearer token to resend email
+     * @return
+     */
+    public Call<CommonResponse> resendEmail(String bearerToken) {
+        return service.resendEmail(EnviHandler.CIAM_BASE_URL + "api/users/me/verification-email",
+                BEARER + bearerToken);
+    }
+
+
     // Network Util
 
     /**
