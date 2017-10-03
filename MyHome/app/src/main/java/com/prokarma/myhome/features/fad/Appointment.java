@@ -53,6 +53,22 @@ public class Appointment implements Parcelable, Comparable {
     public Appointment() {
     }
 
+    public Appointment(String time, ArrayList<AppointmentType> appointmentTypes, boolean selected, String facilityId, String facilityAddress, String facilityCity, String facilityState, String facilityZip, String facilityLat, String facilityLong, String registrationUrl, String scheduleId, String fullAddress) {
+        Time = time;
+        AppointmentTypes = appointmentTypes;
+        Selected = selected;
+        FacilityId = facilityId;
+        FacilityAddress = facilityAddress;
+        FacilityCity = facilityCity;
+        FacilityState = facilityState;
+        FacilityZip = facilityZip;
+        FacilityLat = facilityLat;
+        FacilityLong = facilityLong;
+        RegistrationUrl = registrationUrl;
+        ScheduleId = scheduleId;
+        FullAddress = fullAddress;
+    }
+
     protected Appointment(Parcel in) {
         this.Time = in.readString();
         this.AppointmentTypes = in.createTypedArrayList(AppointmentType.CREATOR);

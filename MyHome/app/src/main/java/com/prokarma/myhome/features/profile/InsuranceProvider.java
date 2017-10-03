@@ -17,6 +17,18 @@ public class InsuranceProvider implements Parcelable {
     public String insurancePhoneNumber;
     public String insurancePlanPermaLink;
 
+    public InsuranceProvider() {
+    }
+
+    public InsuranceProvider(String providerName, String insurancePlan, String groupNumber, String memberNumber, String insurancePhoneNumber, String insurancePlanPermaLink) {
+        this.providerName = providerName;
+        this.insurancePlan = insurancePlan;
+        this.groupNumber = groupNumber;
+        this.memberNumber = memberNumber;
+        this.insurancePhoneNumber = insurancePhoneNumber;
+        this.insurancePlanPermaLink = insurancePlanPermaLink;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,9 +113,6 @@ public class InsuranceProvider implements Parcelable {
         dest.writeString(this.memberNumber);
         dest.writeString(this.insurancePhoneNumber);
         dest.writeString(this.insurancePlanPermaLink);
-    }
-
-    public InsuranceProvider() {
     }
 
     protected InsuranceProvider(Parcel in) {

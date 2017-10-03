@@ -12,6 +12,15 @@ public class AppointmentType implements Parcelable {
     public String Description;
     public String WellKnown;
 
+    public AppointmentType() {
+    }
+
+    public AppointmentType(String id, String description, String wellKnown) {
+        Id = id;
+        Description = description;
+        WellKnown = wellKnown;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -22,9 +31,6 @@ public class AppointmentType implements Parcelable {
         dest.writeString(this.Id);
         dest.writeString(this.Description);
         dest.writeString(this.WellKnown);
-    }
-
-    public AppointmentType() {
     }
 
     protected AppointmentType(Parcel in) {
