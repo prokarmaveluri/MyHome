@@ -74,5 +74,17 @@ public class AppointmentsTest {
     }
 
 
+//    public void createAppointment(String bearerToken){
+//        Call<CreateAppointmentResponse> call = NetworkManager.getInstance().createAppointment(bearerToken,
+//                new CreateAppointmentRequest(
+//                        "doctorName",
+//                        "providerNpi",
+//                        "officeName",
+//                        "officePhone",
+//                        bookingProfile,
+//                        bookingAppointment,
+//                        false,
+//                        true));
+//    }
 
 }
