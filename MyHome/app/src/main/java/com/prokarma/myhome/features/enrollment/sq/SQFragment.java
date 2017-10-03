@@ -245,6 +245,8 @@ public class SQFragment extends Fragment {
                     Toast.LENGTH_LONG).show();
             return;
         }
+        if (!isAllInputsValid())
+            return;
         ChangeSesurityQuestionRequest.Question question =
                 new ChangeSesurityQuestionRequest.Question(selectedQuestionId,
                         binding.answer.getText().toString());
