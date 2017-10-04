@@ -5,6 +5,7 @@ import android.support.design.widget.TextInputLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
@@ -20,7 +21,6 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateApp
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
-import com.prokarma.myhome.features.login.endpoint.RefreshResponse;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.login.endpoint.SignOutRequest;
@@ -78,9 +78,9 @@ public class NetworkManager {
     private ISessionExpiry expiryListener;
     private static NetworkManager instance = null;
     private static OkHttpClient.Builder httpClient = null;
-    private static boolean isEmailTaken = false;
 
     private static final String BEARER = "Bearer ";
+    private static Boolean isEmailTaken = false;
 
     public static NetworkManager getInstance() {
 
@@ -438,7 +438,8 @@ public class NetworkManager {
      * @return login response
      */
     public Call<SignInResponse> signIn(SignInRequest request) {
-        return service.signIn(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/sign-in", request);
+        return service.signIn(EnviHandler.CIAM_BASE_URL +
+                "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-in", request);
     }
 
 
@@ -448,9 +449,10 @@ public class NetworkManager {
      * @param request request body for signIn Refresh
      * @return refresh response
      */
-    public Call<RefreshResponse> signInRefresh(RefreshRequest request, String bearerToken) {
-        return service.signInRefresh(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/refresh",
-                BEARER + bearerToken, request);
+    public Call<SignInResponse> signInRefresh(RefreshRequest request) {
+        return service.signInRefresh(EnviHandler.CIAM_BASE_URL +
+                        "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/refresh",
+                request);
     }
 
     /**
@@ -460,7 +462,8 @@ public class NetworkManager {
      * @return Sign out response
      */
     public Call<CommonResponse> signOut(SignOutRequest request, String bearerToken) {
-        return service.signOut(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/sign-out",
+        return service.signOut(EnviHandler.CIAM_BASE_URL +
+                        "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-out",
                 BEARER + bearerToken, request);
     }
 
@@ -544,9 +547,8 @@ public class NetworkManager {
 
     private boolean refreshToken() {
         try {
-            retrofit2.Response<RefreshResponse> syncResp = NetworkManager.getInstance()
-                    .signInRefresh(new RefreshRequest(AuthManager.getInstance().getRefreshToken()),
-                            AuthManager.getInstance().getBearerToken()).execute();
+            retrofit2.Response<SignInResponse> syncResp = NetworkManager.getInstance()
+                    .signInRefresh(new RefreshRequest(AuthManager.getInstance().getRefreshToken())).execute();
             if (syncResp.isSuccessful() && syncResp.body().getValid()) {
                 System.out.println("REQ: syncResp" + syncResp.body().toString());
                 AuthManager.getInstance().setBearerToken(syncResp.body().getResult().getAccessToken());

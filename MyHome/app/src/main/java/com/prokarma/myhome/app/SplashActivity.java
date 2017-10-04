@@ -46,7 +46,6 @@ import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.login.LoginActivity;
 import com.prokarma.myhome.features.login.dialog.EnrollmentSuccessDialog;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
-import com.prokarma.myhome.features.login.endpoint.RefreshResponse;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.login.fingerprint.FingerprintSignIn;
@@ -228,10 +227,9 @@ public class SplashActivity extends AppCompatActivity implements
         }
         progress.setVisibility(View.VISIBLE);
         NetworkManager.getInstance().signInRefresh(new RefreshRequest(
-                        AuthManager.getInstance().getRefreshToken()),
-                AuthManager.getInstance().getBearerToken()).enqueue(new Callback<RefreshResponse>() {
+                AuthManager.getInstance().getRefreshToken())).enqueue(new Callback<SignInResponse>() {
             @Override
-            public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
+            public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.isSuccessful() && response.body().getValid()) {
                     try {
 //                        Timber.i("Session refresh " + response.body().getExpiresIn());
@@ -252,7 +250,7 @@ public class SplashActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onFailure(Call<RefreshResponse> call, Throwable t) {
+            public void onFailure(Call<SignInResponse> call, Throwable t) {
                 Timber.i("onFailure : ");
                 progress.setVisibility(View.GONE);
                 onRefreshFailed();
@@ -263,7 +261,7 @@ public class SplashActivity extends AppCompatActivity implements
 
     private void onRefreshSuccess() {
         //  Pre- load profile and appointment
-        ProfileManager.getProfileInfo();
+//        ProfileManager.getProfileInfo();
         NetworkManager.getInstance().getMyAppointments();
         AuthManager.getInstance().setCount(0);
         Intent intentHome = new Intent(this, NavigationActivity.class);
