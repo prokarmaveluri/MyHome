@@ -45,6 +45,11 @@ public class Profile implements Parcelable {
     public String termsAcceptedDate;
     public String securityQuestion;
 
+    public int numPortalProofWizardAttempts;
+    public boolean showPortalProofWizard;
+    public int photoUploadCountThisPeriod;
+    public String photoUploadStartOfThisPeriod;
+
     public Profile() {
 
     }
