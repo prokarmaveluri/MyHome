@@ -225,6 +225,22 @@ public class DateUtil {
     }
 
     /**
+     * Calculates the date is more than 30days old.
+     *
+     * @param createDate date of account creation
+     * @return true if more than 30days else false.
+     */
+    public static boolean isMoreThan30days(String createDate) {
+        if (createDate == null || createDate.isEmpty())
+            return false;
+
+        if (DateUtil.getDays(createDate) >= 30) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Convert a Date object into a human-friendly format.
      *
      * @param date the date object. This object's date should already be set and finalized before making this call.

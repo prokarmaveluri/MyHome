@@ -82,18 +82,17 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
+
+                        ProfileManager.setProfile(response.body().getResult().getUserProfile());
                         if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isVerified &&
-                                isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
+                                DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
+
                             mView.SignInSuccessBut30days();
                         } else if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isTermsAccepted) {
-                            if (!response.body().getResult().getUserProfile().isVerified &&
-                                    isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
-                                mView.acceptTermsOfService(false);
-                            } else {
-                                mView.acceptTermsOfService(true);
-                            }
+                            mView.acceptTermsOfService(false);
+
                         } else {
                             mView.SignInSuccess();
                         }
@@ -119,15 +118,5 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                 Timber.e("Throwable = " + t);
             }
         });
-    }
-
-    private boolean isMoreThan30days(String createDate) {
-        if (createDate == null || createDate.isEmpty())
-            return false;
-
-        if (DateUtil.getDays(createDate) >= 30) {
-            return true;
-        }
-        return false;
     }
 }
