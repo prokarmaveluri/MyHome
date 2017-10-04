@@ -234,50 +234,50 @@ public class SplashActivity extends AppCompatActivity implements
             return;
         }
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().signInRefresh(new RefreshRequest(
-                AuthManager.getInstance().getRefreshToken())).enqueue(new Callback<SignInResponse>() {
-            @Override
-            public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-                progress.setVisibility(View.GONE);
-                if (response.isSuccessful() && response.body().getValid()) {
-                    try {
-                        ProfileManager.setProfile(response.body().getResult().getUserProfile());
+        NetworkManager.getInstance().signInRefresh(new RefreshRequest(refreshToken))
+                .enqueue(new Callback<SignInResponse>() {
+                    @Override
+                    public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
+                        progress.setVisibility(View.GONE);
+                        if (response.isSuccessful() && response.body().getValid()) {
+                            try {
+                                ProfileManager.setProfile(response.body().getResult().getUserProfile());
 
-                        AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
+                                AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
 //                        AuthManager.getInstance().setExpiresIn(response.body().getResult().getExpiresIn());
-                        AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
-                        AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
-                        NetworkManager.getInstance().getSavedDoctors();
-                        CryptoManager.getInstance().saveToken();
-                        ProfileManager.setProfile(response.body().getResult().getUserProfile());
+                                AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                                AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
+                                NetworkManager.getInstance().getSavedDoctors();
+                                CryptoManager.getInstance().saveToken();
+                                ProfileManager.setProfile(response.body().getResult().getUserProfile());
 
-                        if (null != response.body().getResult().getUserProfile() &&
-                                !response.body().getResult().getUserProfile().isVerified &&
-                                DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
+                                if (null != response.body().getResult().getUserProfile() &&
+                                        !response.body().getResult().getUserProfile().isVerified &&
+                                        DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
 
-                            SignInSuccessBut30days();
-                        } else if (null != response.body().getResult().getUserProfile() &&
-                                !response.body().getResult().getUserProfile().isTermsAccepted) {
-                            acceptTermsOfService(false);
+                                    SignInSuccessBut30days();
+                                } else if (null != response.body().getResult().getUserProfile() &&
+                                        !response.body().getResult().getUserProfile().isTermsAccepted) {
+                                    acceptTermsOfService(false);
 
+                                } else {
+                                    onRefreshSuccess();
+                                }
+                            } catch (NullPointerException ex) {
+                                ex.printStackTrace();
+                            }
                         } else {
-                            onRefreshSuccess();
+                            onRefreshFailed();
                         }
-                    } catch (NullPointerException ex) {
-                        ex.printStackTrace();
                     }
-                } else {
-                    onRefreshFailed();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<SignInResponse> call, Throwable t) {
-                Timber.i("onFailure : ");
-                progress.setVisibility(View.GONE);
-                onRefreshFailed();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<SignInResponse> call, Throwable t) {
+                        Timber.i("onFailure : ");
+                        progress.setVisibility(View.GONE);
+                        onRefreshFailed();
+                    }
+                });
     }
 
 
@@ -668,7 +668,7 @@ public class SplashActivity extends AppCompatActivity implements
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
-
+                        CryptoManager.getInstance().saveToken();
                         if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isVerified &&
                                 DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {

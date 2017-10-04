@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.enrollment.EnrollmentActivity;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
@@ -82,8 +83,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
-
-                        ProfileManager.setProfile(response.body().getResult().getUserProfile());
+                        CryptoManager.getInstance().saveToken();
                         if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isVerified &&
                                 DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
