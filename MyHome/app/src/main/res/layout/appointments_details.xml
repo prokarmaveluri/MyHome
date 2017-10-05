@@ -42,33 +42,47 @@
             android:layout_alignParentEnd="true"
             android:src="@mipmap/calendar" />
 
-        <TextView
-            android:id="@+id/doctor_name"
-            style="@style/tradeGothicLTStd_Dynamic20"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/docImageLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/time_header"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="30dp"
-            android:text="Dr. Steven M. Howard, MD"
-            android:textIsSelectable="true"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText" />
+            android:layout_below="@id/time_header">
 
-        <ImageView
-            android:id="@+id/heart_icon"
-            android:layout_width="27dp"
-            android:layout_height="31dp"
-            android:layout_alignBottom="@id/doctor_name"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_favorite_stroke" />
+            <com.prokarma.myhome.views.CircularImageView
+                android:id="@+id/doctor_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="12dp"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/doctor_name"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="8dp"
+                android:layout_toRightOf="@+id/doctor_image"
+                android:textIsSelectable="true"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/heart_icon"
+                android:layout_width="27dp"
+                android:layout_height="31dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_favorite_stroke" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/facility_name"
             style="@style/tradeGothicLTStd_Dynamic20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/doctor_name"
+            android:layout_below="@id/docImageLayout"
             android:layout_marginTop="12dp"
             android:text="Sequoia Hospital"
             android:textIsSelectable="true"

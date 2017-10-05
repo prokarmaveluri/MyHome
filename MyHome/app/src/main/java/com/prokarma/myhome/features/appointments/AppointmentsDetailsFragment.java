@@ -23,6 +23,9 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.DeviceDisplayManager;
+import com.prokarma.myhome.views.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import timber.log.Timber;
 
@@ -40,6 +43,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
     private ImageView favProvider;
     private ImageView phoneIcon;
     private ImageView calendarIcon;
+    private ImageView docImage;
 
     public static AppointmentsDetailsFragment newInstance() {
         return new AppointmentsDetailsFragment();
@@ -70,6 +74,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         ImageView shareIcon = (ImageView) appointmentsView.findViewById(R.id.share_icon);
         TextView rescheduleText = (TextView) appointmentsView.findViewById(R.id.reschedule_text);
         favProvider = (ImageView) appointmentsView.findViewById(R.id.heart_icon);
+        docImage = (CircularImageView) appointmentsView.findViewById(R.id.doctor_image);
 
         favProvider.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,6 +223,17 @@ public class AppointmentsDetailsFragment extends BaseFragment {
             coachmarkHeart();
         } else {
             coachmarkCalendar();
+        }
+        try {
+            if (null != appointment.provider.getImages()) {
+                String url = appointment.provider.getImages().get(2).getUrl();
+                url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
+
+                Picasso.with(getActivity())
+                        .load(url)
+                        .into(docImage);
+            }
+        } catch (NullPointerException ex) {
         }
 
         return appointmentsView;

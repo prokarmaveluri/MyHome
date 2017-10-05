@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -49,7 +48,9 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.utils.TealiumUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,7 +109,7 @@ public class HomeFragment extends BaseFragment {
                 ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.APPOINTMENTS);
             }
         });
-        binding.relDbAppointItemLayout.setOnClickListener(new View.OnClickListener() {
+        binding.appointmentItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.APPOINTMENTS);
@@ -117,7 +118,7 @@ public class HomeFragment extends BaseFragment {
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.APPOINTMENTS_DETAILS, bundle);
             }
         });
-        binding.imgDbAppointItemPinIcon.setOnClickListener(new View.OnClickListener() {
+        binding.pinIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != appointment && null != appointment.facilityAddress)
@@ -187,7 +188,7 @@ public class HomeFragment extends BaseFragment {
         } else {
             Toast.makeText(getActivity(), R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
-            binding.relDbAppointItemLayout.setVisibility(View.GONE);
+            binding.appointmentItemLayout.setVisibility(View.GONE);
         }
     }
 
@@ -287,7 +288,7 @@ public class HomeFragment extends BaseFragment {
 
     public void getMyAppointments() {
         showLoading();
-        binding.relDbAppointItemLayout.setVisibility(View.GONE);
+        binding.appointmentItemLayout.setVisibility(View.GONE);
         NetworkManager.getInstance().getMyAppointments(AuthManager.getInstance().getBearerToken(),
                 new MyAppointmentsRequest()).enqueue(new Callback<MyAppointmentsResponse>() {
             @Override
@@ -347,7 +348,7 @@ public class HomeFragment extends BaseFragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            binding.relDbAppointItemLayout.setVisibility(View.VISIBLE);
+            binding.appointmentItemLayout.setVisibility(View.VISIBLE);
             binding.viewAppointDivider.setVisibility(View.VISIBLE);
             SpannableStringBuilder builder1 = new SpannableStringBuilder();
             SpannableString partOne = new SpannableString(getString(R.string.db_appoint_one) + " ");
@@ -370,20 +371,32 @@ public class HomeFragment extends BaseFragment {
             }
             appointment = appointments.get(0);
             if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
-                binding.txtDbAppointItemDoctorName.setText(appointment.doctorName);
+                binding.doctorName.setText(appointment.doctorName);
             }
 
             if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
-                binding.txtDbAppointItemFacility.setText(appointment.facilityName);
+                binding.facility.setText(appointment.facilityName);
             }
 
             if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-                binding.txtDbAppointItemDate.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
-                binding.txtDbAppointItemTime.setText(DateUtil.getTime(appointment.appointmentStart));
+                binding.date.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
+                binding.time.setText(DateUtil.getTime(appointment.appointmentStart));
             }
+            try {
+                if (null != appointment.provider.getImages()) {
+                    String url = appointment.provider.getImages().get(2).getUrl();
+                    url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
+
+                    Picasso.with(getActivity())
+                            .load(url)
+                            .into(binding.docImage);
+                }
+            } catch (NullPointerException ex) {
+            }
+
             hideLoading();
         } else {
-            binding.relDbAppointItemLayout.setVisibility(View.GONE);
+            binding.appointmentItemLayout.setVisibility(View.GONE);
             binding.viewAppointDivider.setVisibility(View.GONE);
             binding.txtDbAppointViewall.setVisibility(View.GONE);
             binding.txtDbAppointContent.setText(getString(R.string.db_appoint_four));
@@ -429,11 +442,6 @@ public class HomeFragment extends BaseFragment {
         builder1.append(partTwo);
         txtReadmore.setText(builder1);
         txtReadmore.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-    private void startWebView(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        startActivity(intent);
     }
 
     @Override

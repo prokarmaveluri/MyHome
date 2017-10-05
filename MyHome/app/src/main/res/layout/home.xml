@@ -102,81 +102,86 @@
                     android:background="@color/db_white" />
 
                 <RelativeLayout
-                    android:id="@+id/rel_db_appoint_item_layout"
+                    android:id="@+id/appointment_item_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginEnd="11dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="3dp"
+                    android:layout_margin="8dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
                     android:minHeight="48dp"
-                    android:visibility="visible"
                     tools:ignore="HardcodedText">
 
+                    <com.prokarma.myhome.views.CircularImageView
+                        android:id="@+id/docImage"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="fitCenter" />
+
                     <TextView
-                        android:id="@+id/txt_db_appoint_item_date"
+                        android:id="@+id/date"
                         style="@style/tradeGothicLTStd_Dynamic22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/time"
+                        android:layout_toRightOf="@+id/docImage"
                         android:text="Thurs May 26"
-                        android:textStyle="bold"
-                        android:transitionName="@string/transition_appointment_date" />
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txt_db_appoint_item_time"
+                        android:id="@+id/time"
                         style="@style/tradeGothicLTStd_Dynamic18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginLeft="12dp"
                         android:gravity="center"
                         android:maxWidth="285dp"
                         android:text="2:45 PM" />
 
                     <TextView
-                        android:id="@+id/txt_db_appoint_item_facility"
+                        android:id="@+id/facility"
                         style="@style/tradeGothicLTStd_Dynamic18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_below="@id/txt_db_appoint_item_date"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_toLeftOf="@+id/img_db_appoint_item_pin_icon"
+                        android:layout_below="@id/date"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toLeftOf="@+id/pin_icon"
+                        android:layout_toRightOf="@+id/docImage"
                         android:maxWidth="285dp"
                         android:text="Sequoia Hospital"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txt_db_appoint_item_doctor_name"
+                        android:id="@+id/doctor_name"
                         style="@style/tradeGothicLTStd_Dynamic16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_below="@id/txt_db_appoint_item_facility"
-                        android:layout_marginLeft="12dp"
-                        android:layout_toLeftOf="@+id/img_db_appoint_item_pin_icon"
+                        android:layout_below="@id/facility"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/pin_icon"
+                        android:layout_toRightOf="@+id/docImage"
                         android:maxWidth="285dp"
                         android:text="Dr. Steven M. Howard, MD" />
 
                     <ImageView
-                        android:id="@+id/img_db_appoint_item_pin_icon"
-                        android:layout_width="24dp"
-                        android:layout_height="30dp"
-                        android:layout_alignBottom="@id/txt_db_appoint_item_doctor_name"
-                        android:layout_alignLeft="@id/txt_db_appoint_item_time"
-                        android:layout_alignRight="@id/txt_db_appoint_item_time"
-                        android:layout_marginLeft="10dp"
-                        android:clickable="true"
-                        android:src="@mipmap/map_blue"
-                        android:transitionName="@string/transition_appointment_map_pin" />
+                        android:id="@+id/pin_icon"
+                        android:layout_width="21dp"
+                        android:layout_height="32dp"
+                        android:layout_alignBottom="@id/doctor_name"
+                        android:layout_alignLeft="@id/time"
+                        android:layout_alignRight="@id/time"
+                        android:src="@mipmap/map_blue" />
 
                 </RelativeLayout>
 

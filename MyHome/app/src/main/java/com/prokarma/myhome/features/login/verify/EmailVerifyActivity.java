@@ -44,6 +44,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
 
     private ActivityVerifyBinding binding;
     private boolean isCreated = true;
+    private AlertDialog alert;
 
     /*
      * Get an intent for Email Verify activity.
@@ -104,6 +105,13 @@ public class EmailVerifyActivity extends AppCompatActivity {
             getProfileInfo();
         }
         isCreated = false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (null != alert)
+            alert.cancel();
     }
 
     private void resendEmail() {
@@ -197,7 +205,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
-        final AlertDialog alert = builder.create();
+        alert = builder.create();
         alert.show();
     }
 }
