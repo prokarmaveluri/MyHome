@@ -193,9 +193,9 @@ public class SQFragment extends Fragment {
     private boolean isAllInputsValid() {
         try {
             binding.answerLayout.setError("");
-            if (CommonUtil.isValidTextInput(binding.answer) &&
-                    binding.answer.getText().toString().trim().length() >= 4) {
-            } else {
+            String text = binding.answer.getText().toString().trim();
+            Timber.i("Error " + text);
+            if (binding.answer.getText().toString().trim().length() < 4) {
                 binding.answerLayout.setError(getString(R.string.sq_criteria_4char));
                 return false;
             }
