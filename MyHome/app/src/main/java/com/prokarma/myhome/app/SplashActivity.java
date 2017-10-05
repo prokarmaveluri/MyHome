@@ -82,6 +82,7 @@ public class SplashActivity extends AppCompatActivity implements
 
     //Location
     private GoogleApiClient mGoogleApiClient;
+    public static final int VERIFY_EMAIL = 90;
     private static final int REQUEST_CHECK_SETTINGS = 200;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 100;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -241,15 +242,15 @@ public class SplashActivity extends AppCompatActivity implements
                         progress.setVisibility(View.GONE);
                         if (response.isSuccessful() && response.body().getValid()) {
                             try {
-                                ProfileManager.setProfile(response.body().getResult().getUserProfile());
 
                                 AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
-//                        AuthManager.getInstance().setExpiresIn(response.body().getResult().getExpiresIn());
                                 AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                                 AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                                 NetworkManager.getInstance().getSavedDoctors();
                                 CryptoManager.getInstance().saveToken();
+
                                 ProfileManager.setProfile(response.body().getResult().getUserProfile());
+                                NetworkManager.getInstance().getSavedDoctors();
 
                                 if (null != response.body().getResult().getUserProfile() &&
                                         !response.body().getResult().getUserProfile().isVerified &&
@@ -472,6 +473,11 @@ public class SplashActivity extends AppCompatActivity implements
                     startLocationFetch();
                 }
                 break;
+            case VERIFY_EMAIL:
+                if (resultCode == Activity.RESULT_OK) {
+                    finish();
+                }
+                break;
         }
     }
 
@@ -661,13 +667,12 @@ public class SplashActivity extends AppCompatActivity implements
                         ProfileManager.clearSessionData();
                         AppPreferences.getInstance().setLongPreference("IDLE_TIME", 0);
 
-                        ProfileManager.setProfile(response.body().getResult().getUserProfile());
-
                         AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
+                        NetworkManager.getInstance().getSavedDoctors();
                         CryptoManager.getInstance().saveToken();
                         if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isVerified &&
@@ -712,13 +717,13 @@ public class SplashActivity extends AppCompatActivity implements
 
     public void acceptTermsOfService(boolean isTermsOfServiceAccepted) {
         startTermsOfServiceActivity();
+        finish();
     }
 
     private void startTermsOfServiceActivity() {
         Intent intent = new Intent(this, TosActivity.class);
 //        intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
         startActivity(intent);
-        finish();
     }
 
     private void startVerify() {
@@ -726,7 +731,7 @@ public class SplashActivity extends AppCompatActivity implements
         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this,
                 R.anim.slide_in_right, R.anim.slide_out_left);
 
-        ActivityCompat.startActivity(this, intentVerify, options.toBundle());
+        ActivityCompat.startActivityForResult(this, intentVerify, VERIFY_EMAIL, options.toBundle());
         finish();
     }
 }

@@ -75,6 +75,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
         }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.xblue);
     }
 
     //If you do the back button via the manifest, you won't get the proper animation when you click back arrow
@@ -98,7 +99,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        TealiumUtil.trackEvent(Constants.APP_RESEND_EMAIL, null);
+        TealiumUtil.trackView(Constants.RESEND_EMAIL, null);
         if (!isCreated) {
             getProfileInfo();
         }
