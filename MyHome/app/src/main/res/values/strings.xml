@@ -316,4 +316,8 @@
 
     <string name="api_error_message">Still enjoy My Home while we do maintenance</string>
     <string name="api_error_incorrect_password">Incorrect password. Please try again</string>
+    <string name="resend_email">Resend Email</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="resend_email_success">Your verification email has been resent. Please check your inbox.</string>
+    <string name="resend_email_message">We\'ll send you an email! To activate your account, Click on \"Resend Email\".</string>
 </resources>

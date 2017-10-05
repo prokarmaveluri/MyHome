@@ -21,6 +21,10 @@ public interface LoginInteractor {
         void showEnrollmentStatus(String status);
 
         void SignInSuccess();
+
+        void SignInSuccessBut30days();
+
+        void acceptTermsOfService(boolean isTermsOfServiceAccepted);
     }
 
     interface Presenter extends BasePresenter {

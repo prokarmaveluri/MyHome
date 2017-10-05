@@ -97,6 +97,7 @@ public class Constants {
     public static final String CHANGED_PASSWORD_EVENT = "changePasswordSuccess";
     public static final String CHANGED_SECURITY_QUESTION_EVENT = "changeSecurityQuestionSuccess";
 
+    public static final String APP_RESEND_EMAIL = "resendEmail";
 
     public static final String DID_YOU_KNOW_SEC1 = "https://www.dignityhealth.org/articles/Teaching-Kids-About-Germs-at-School";
     public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/articles/Help-High-School-Athletes-Avoid-Injury";

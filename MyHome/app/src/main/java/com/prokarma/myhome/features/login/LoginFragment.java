@@ -1,6 +1,7 @@
 package com.prokarma.myhome.features.login;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -32,7 +33,8 @@ import com.prokarma.myhome.databinding.FragmentLoginBinding;
 import com.prokarma.myhome.features.contact.ContactUsActivity;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordActivity;
-import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.features.login.verify.EmailVerifyActivity;
+import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
@@ -51,6 +53,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     private LoginInteractor.Presenter presenter;
     private FragmentLoginBinding binder;
 
+    public static final int VERIFY_EMAIL = 90;
     private static final int ACTION_FINISH = 100;
     private static final int TOKEN_ERROR = 200;
     private static boolean showPassword = false;
@@ -166,6 +169,29 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         mHandler.sendEmptyMessage(ACTION_FINISH);
     }
 
+    @Override
+    public void SignInSuccessBut30days() {
+        binder.loginProgress.setVisibility(View.GONE);
+        startVerify();
+    }
+
+    @Override
+    public void acceptTermsOfService(boolean isTermsOfServiceAccepted) {
+        startTermsOfServiceActivity();
+    }
+
+    private void startTermsOfServiceActivity() {
+        Intent intent = new Intent(getActivity(), TosActivity.class);
+//        intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
+        startActivity(intent);
+    }
+
+    private void startVerify() {
+        Intent intentVerify = EmailVerifyActivity.getEmailVerifyIntent(getActivity());
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
+        ActivityCompat.startActivityForResult(getActivity(), intentVerify, VERIFY_EMAIL, options.toBundle());
+    }
+
     public class LoginViewClickEvent {
 
         public void onClickEvent(View view) {
@@ -236,7 +262,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     //received token and stored it in AuthManager. start nav activity
                     if (isAdded()) {
                         //  Pre- load profile and appointment
-                        ProfileManager.getProfileInfo();
+                        //ProfileManager.getProfileInfo();
                         NetworkManager.getInstance().getMyAppointments();
                         AuthManager.getInstance().setCount(0);
                         Intent intentHome = new Intent(getActivity(), NavigationActivity.class);
@@ -381,6 +407,16 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             drawable.setBounds(0, 0, w, h);
         }
         binder.password.setCompoundDrawables(null, null, drawable, null);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == VERIFY_EMAIL) {
+            if (resultCode == Activity.RESULT_OK) {
+
+            }
+        }
     }
 }
 

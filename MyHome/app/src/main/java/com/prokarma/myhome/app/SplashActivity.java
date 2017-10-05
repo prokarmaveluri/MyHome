@@ -46,17 +46,19 @@ import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.login.LoginActivity;
 import com.prokarma.myhome.features.login.dialog.EnrollmentSuccessDialog;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
-import com.prokarma.myhome.features.login.endpoint.RefreshResponse;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.login.fingerprint.FingerprintSignIn;
+import com.prokarma.myhome.features.login.verify.EmailVerifyActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.EnviHandler;
 import com.prokarma.myhome.utils.TealiumUtil;
 
@@ -219,6 +221,11 @@ public class SplashActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Refresh Auth tokens
+     *
+     * @param refreshToken
+     */
     private void refreshAccessToken(final String refreshToken) {
         if (!ConnectionUtil.isConnected(this)) {
             Toast.makeText(this, R.string.no_network_msg,
@@ -227,43 +234,56 @@ public class SplashActivity extends AppCompatActivity implements
             return;
         }
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().signInRefresh(new RefreshRequest(
-                        AuthManager.getInstance().getRefreshToken()),
-                AuthManager.getInstance().getBearerToken()).enqueue(new Callback<RefreshResponse>() {
-            @Override
-            public void onResponse(Call<RefreshResponse> call, Response<RefreshResponse> response) {
-                if (response.isSuccessful() && response.body().getValid()) {
-                    try {
-//                        Timber.i("Session refresh " + response.body().getExpiresIn());
-                        AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
-//                        AuthManager.getInstance().setExpiresIn(response.body().getResult().getExpiresIn());
-                        AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
-                        AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
-                        NetworkManager.getInstance().getSavedDoctors();
-                        CryptoManager.getInstance().saveToken();
-                        onRefreshSuccess();
-                    } catch (NullPointerException ex) {
-                        ex.printStackTrace();
-                    }
-                } else {
-                    onRefreshFailed();
-                }
-                progress.setVisibility(View.GONE);
-            }
+        NetworkManager.getInstance().signInRefresh(new RefreshRequest(refreshToken))
+                .enqueue(new Callback<SignInResponse>() {
+                    @Override
+                    public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
+                        progress.setVisibility(View.GONE);
+                        if (response.isSuccessful() && response.body().getValid()) {
+                            try {
+                                ProfileManager.setProfile(response.body().getResult().getUserProfile());
 
-            @Override
-            public void onFailure(Call<RefreshResponse> call, Throwable t) {
-                Timber.i("onFailure : ");
-                progress.setVisibility(View.GONE);
-                onRefreshFailed();
-            }
-        });
+                                AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
+//                        AuthManager.getInstance().setExpiresIn(response.body().getResult().getExpiresIn());
+                                AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                                AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
+                                NetworkManager.getInstance().getSavedDoctors();
+                                CryptoManager.getInstance().saveToken();
+                                ProfileManager.setProfile(response.body().getResult().getUserProfile());
+
+                                if (null != response.body().getResult().getUserProfile() &&
+                                        !response.body().getResult().getUserProfile().isVerified &&
+                                        DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
+
+                                    SignInSuccessBut30days();
+                                } else if (null != response.body().getResult().getUserProfile() &&
+                                        !response.body().getResult().getUserProfile().isTermsAccepted) {
+                                    acceptTermsOfService(false);
+
+                                } else {
+                                    onRefreshSuccess();
+                                }
+                            } catch (NullPointerException ex) {
+                                ex.printStackTrace();
+                            }
+                        } else {
+                            onRefreshFailed();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SignInResponse> call, Throwable t) {
+                        Timber.i("onFailure : ");
+                        progress.setVisibility(View.GONE);
+                        onRefreshFailed();
+                    }
+                });
     }
 
 
     private void onRefreshSuccess() {
         //  Pre- load profile and appointment
-        ProfileManager.getProfileInfo();
+//        ProfileManager.getProfileInfo();
         NetworkManager.getInstance().getMyAppointments();
         AuthManager.getInstance().setCount(0);
         Intent intentHome = new Intent(this, NavigationActivity.class);
@@ -548,6 +568,11 @@ public class SplashActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Application version check
+     *
+     * @param isGPSVerified
+     */
     private void versionCheck(final boolean isGPSVerified) {
         isVersionVerified = false;
         if (!ConnectionUtil.isConnected(this)) {
@@ -611,6 +636,11 @@ public class SplashActivity extends AppCompatActivity implements
         return false;
     }
 
+    /**
+     * Auto Login from enrollment
+     *
+     * @param request
+     */
     private void login(final SignInRequest request) {
         if (!ConnectionUtil.isConnected(this)) {
             Toast.makeText(this, R.string.no_network_msg,
@@ -622,20 +652,40 @@ public class SplashActivity extends AppCompatActivity implements
         NetworkManager.getInstance().signIn(request).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
+
+                progress.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body().getValid()) {
-                    // get id_token & session id
-                    AuthManager.getInstance().setCount(0);
-                    ProfileManager.clearSessionData();
-                    AppPreferences.getInstance().setLongPreference("IDLE_TIME", 0);
-//                    AuthManager.getInstance().setExpiresAt(response.body().getExpiresAt());
-                    AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
-                    AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
-                    AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
-                    onRefreshSuccess();
+                    try {
+                        // get id_token & session id
+                        AuthManager.getInstance().setCount(0);
+                        ProfileManager.clearSessionData();
+                        AppPreferences.getInstance().setLongPreference("IDLE_TIME", 0);
+
+                        ProfileManager.setProfile(response.body().getResult().getUserProfile());
+
+                        AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
+                        AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                        AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
+
+                        ProfileManager.setProfile(response.body().getResult().getUserProfile());
+                        CryptoManager.getInstance().saveToken();
+                        if (null != response.body().getResult().getUserProfile() &&
+                                !response.body().getResult().getUserProfile().isVerified &&
+                                DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
+
+                            SignInSuccessBut30days();
+                        } else if (null != response.body().getResult().getUserProfile() &&
+                                !response.body().getResult().getUserProfile().isTermsAccepted) {
+                            acceptTermsOfService(false);
+
+                        } else {
+                            onRefreshSuccess();
+                        }
+                    } catch (NullPointerException ex) {
+                    }
                 } else {
                     onRefreshFailed();
                 }
-                progress.setVisibility(View.GONE);
             }
 
             @Override
@@ -654,5 +704,29 @@ public class SplashActivity extends AppCompatActivity implements
         String password = getIntent().getStringExtra("PASSWORD");
         SignInRequest request = new SignInRequest(userName, password);
         login(request);
+    }
+
+    public void SignInSuccessBut30days() {
+        startVerify();
+    }
+
+    public void acceptTermsOfService(boolean isTermsOfServiceAccepted) {
+        startTermsOfServiceActivity();
+    }
+
+    private void startTermsOfServiceActivity() {
+        Intent intent = new Intent(this, TosActivity.class);
+//        intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
+        startActivity(intent);
+        finish();
+    }
+
+    private void startVerify() {
+        Intent intentVerify = EmailVerifyActivity.getEmailVerifyIntent(this);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this,
+                R.anim.slide_in_right, R.anim.slide_out_left);
+
+        ActivityCompat.startActivity(this, intentVerify, options.toBundle());
+        finish();
     }
 }

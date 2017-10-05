@@ -12,7 +12,6 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateApp
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
-import com.prokarma.myhome.features.login.endpoint.RefreshResponse;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.login.endpoint.SignOutRequest;
@@ -216,16 +215,19 @@ public interface RESTService {
                                                 @Header("Authorization") String bearer,
                                                 @Body MyProfileRequest request);
 
-    /************ New Auth **************************************/
+    /************ New Auth with ClientID **************************************/
 
     @POST
     Call<SignInResponse> signIn(@Url String url, @Body SignInRequest request);
 
     @POST
-    Call<RefreshResponse> signInRefresh(@Url String url, @Header("Authorization") String bearer,
-                                        @Body RefreshRequest request);
+    Call<SignInResponse> signInRefresh(@Url String url, @Body RefreshRequest request);
 
     @POST
     Call<CommonResponse> signOut(@Url String url, @Header("Authorization") String bearer,
                                  @Body SignOutRequest request);
+
+    //1.3 APIs
+    @POST
+    Call<CommonResponse> resendEmail(@Url String url, @Header("Authorization") String bearer);
 }

@@ -43,7 +43,7 @@ android {
     def DEV_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-dev.azurewebsites.net/\""
 
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "org.dignityhealth.appdev.myhome"
         minSdkVersion 21
@@ -97,7 +97,12 @@ android {
         def APP_NAME_DEBUG = "\"My Home App - Digital Home - QA\""
         def APP_NAME_DEV = "\"My Home App - Digital Home - Dev\""
 
+        def URL_PATH_CLIENT_ID = "URL_PATH_CLIENT_ID"
+
         release {
+
+            buildConfigField STRING, URL_PATH_CLIENT_ID, "\"myhome.mobile.consumer\""
+
             HOCKEYAPP_APP_ID = "\"19a9fa384bab4246a43242776eb80453\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_RELEASE
@@ -154,6 +159,9 @@ android {
             signingConfig signingConfigs.config
         }
         debug {
+
+            buildConfigField STRING, URL_PATH_CLIENT_ID, "\"myhome.mobile.consumer\""
+
             HOCKEYAPP_APP_ID = "\"130889d29f5c440fb043c5e2def8ff86\""
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_DEBUG
@@ -212,6 +220,9 @@ android {
             signingConfig signingConfigs.config
         }
         developer {
+
+            buildConfigField STRING, URL_PATH_CLIENT_ID, "\"myhome.mobile.consumer\""
+
             buildConfigField STRING, HOCKEY_ID, HOCKEYAPP_APP_ID
             buildConfigField STRING, TEALIUM_ENVIRONMENT, ENVIRONMENT_DEV
             buildConfigField STRING, TEALIUM_APP_NAME, APP_NAME_DEV
