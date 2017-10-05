@@ -114,8 +114,7 @@ public class SQFragment extends Fragment {
         public void onClickEvent(View view) {
             switch (view.getId()) {
                 case R.id.submit_question:
-                    if (binding.answer.getText().toString().trim().length() < 4) {
-                        binding.answer.setError("Enter minmum 4 characters");
+                    if (!isAllInputsValid()) {
                         break;
                     }
                     if (isChange) {
