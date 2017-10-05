@@ -75,7 +75,8 @@ public class Constants {
     public static final String CHANGE_SEC_QUESTION_PASSWORD_SCREEN = "my home|change security question";
     public static final String TOUCH_ID_SETTINGS_SCREEN = "my home|touch id settings";
     public static final String PROVIDER_DETAILS_SCREEN = "my home|doctor details";
-    public static final String HOME_DID_YOU_KNOW_SCREEN = "home, did you know";
+    public static final String HOME_DID_YOU_KNOW_SCREEN = "my home|home, did you know";
+    public static final String RESEND_EMAIL = "my home|resendEmail";
 
     // events
     public static final String SIGN_IN_EVENT = "loginSuccess";
@@ -96,8 +97,6 @@ public class Constants {
     public static final String TOUCH_ID_DISABLED_EVENT = "touchIdDisabled";
     public static final String CHANGED_PASSWORD_EVENT = "changePasswordSuccess";
     public static final String CHANGED_SECURITY_QUESTION_EVENT = "changeSecurityQuestionSuccess";
-
-    public static final String APP_RESEND_EMAIL = "resendEmail";
 
     public static final String DID_YOU_KNOW_SEC1 = "https://www.dignityhealth.org/articles/Teaching-Kids-About-Germs-at-School";
     public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/articles/Help-High-School-Athletes-Avoid-Injury";

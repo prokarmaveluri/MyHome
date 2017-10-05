@@ -414,7 +414,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VERIFY_EMAIL) {
             if (resultCode == Activity.RESULT_OK) {
-
+                getActivity().finish();
             }
         }
     }
