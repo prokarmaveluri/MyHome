@@ -17,6 +17,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.databinding.FragmentChangePassowrdBinding;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -87,17 +88,16 @@ public class ChangePasswordFragment extends BaseFragment {
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                         try {
-                            String message = response.body().getErrors().get(0).getMessage();
-                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                            //String message = response.body().getErrors().get(0).getMessage();
+                            //Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                            ApiErrorUtil.getInstance().changePasswordError(getContext(), getView(), response);
                         } catch (NullPointerException | IndexOutOfBoundsException ex) {
-                            Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
-                                    Toast.LENGTH_LONG).show();
+                            ApiErrorUtil.getInstance().changePasswordError(getContext(), getView(), response);
                         }
                     }
                 } else {
                     Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
-                    Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
-                            Toast.LENGTH_LONG).show();
+                    ApiErrorUtil.getInstance().changePasswordError(getContext(), getView(), response);
                 }
                 binding.changePWDProgress.setVisibility(View.GONE);
             }
@@ -107,8 +107,7 @@ public class ChangePasswordFragment extends BaseFragment {
                 if (isAdded()) {
                     Timber.e(getString(R.string.db_res_failed));
                     Timber.e(getString(R.string.db_res_throwable) + " = " + t);
-                    Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
-                            Toast.LENGTH_LONG).show();
+                    ApiErrorUtil.getInstance().changePasswordFailed(getContext(), getView(), t);
                 }
                 binding.changePWDProgress.setVisibility(View.GONE);
             }
