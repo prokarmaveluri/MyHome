@@ -39,6 +39,14 @@ public class EnrollmentRequest implements Parcelable {
         return password;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     static public class RecoveryQuestion implements Parcelable {
 
         private String question;

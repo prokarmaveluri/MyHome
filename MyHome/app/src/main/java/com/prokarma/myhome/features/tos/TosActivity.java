@@ -15,6 +15,7 @@ import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
@@ -99,16 +100,14 @@ public class TosActivity extends BaseActivity {
                             Toast.LENGTH_LONG).show();
                     startLoginPage(request.getEmail(), request.getPassword());
                 } else {
-                    Toast.makeText(getApplicationContext(),
-                            getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                    ApiErrorUtil.getInstance().registerError(getApplicationContext(), findViewById(android.R.id.content), response);
                 }
                 showProgress(false);
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),
-                        getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                ApiErrorUtil.getInstance().registerFailed(getApplicationContext(), findViewById(android.R.id.content), t);
                 showProgress(false);
             }
         });
