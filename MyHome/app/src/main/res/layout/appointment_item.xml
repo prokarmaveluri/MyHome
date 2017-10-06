@@ -11,13 +11,25 @@
     android:minHeight="48dp"
     tools:ignore="HardcodedText">
 
+    <com.prokarma.myhome.views.CircularImageView
+        android:id="@+id/docImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitCenter" />
+
     <TextView
         android:id="@+id/date"
         style="@style/tradeGothicLTStd_Dynamic22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:gravity="center"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@+id/time"
+        android:layout_toRightOf="@+id/docImage"
         android:text="Thurs May 26"
         android:textStyle="bold" />
 
@@ -38,11 +50,12 @@
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/date"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/pin_icon"
+        android:layout_toRightOf="@+id/docImage"
         android:maxWidth="285dp"
         android:text="Sequoia Hospital"
         android:textStyle="bold" />
@@ -52,10 +65,11 @@
         style="@style/tradeGothicLTStd_Dynamic16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/facility"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
         android:layout_toLeftOf="@+id/pin_icon"
+        android:layout_toRightOf="@+id/docImage"
         android:maxWidth="285dp"
         android:text="Dr. Steven M. Howard, MD" />
 

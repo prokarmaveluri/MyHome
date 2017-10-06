@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.DeviceDisplayManager;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -65,7 +67,17 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
                     holder.date.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
                     holder.time.setText(DateUtil.getTime(appointment.appointmentStart));
                 }
+                try {
+                    if (null != appointment.provider.getImages()) {
+                        String url = appointment.provider.getImages().get(2).getUrl();
+                        url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
 
+                        Picasso.with(context)
+                                .load(url)
+                                .into(holder.doctorImage);
+                    }
+                } catch (NullPointerException ex) {
+                }
                 holder.setOnItemClickListener(appointment, onItemClickListener);
                 holder.setOnPinClickListener(appointment, onItemClickListener);
                 break;
@@ -114,7 +126,7 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
             super(view);
             this.view = view;
             layout = view.findViewById(R.id.appointment_item_layout);
-            doctorImage = (ImageView) view.findViewById(R.id.doctor_image);
+            doctorImage = (ImageView) view.findViewById(R.id.docImage);
             date = (TextView) view.findViewById(R.id.date);
             time = (TextView) view.findViewById(R.id.time);
             facility = (TextView) view.findViewById(R.id.facility);
