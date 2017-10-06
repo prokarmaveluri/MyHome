@@ -26,6 +26,7 @@ import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -269,17 +270,16 @@ public class SQFragment extends Fragment {
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                         try {
-                            String message = response.body().getErrors().get(0).getMessage();
-                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+//                            String message = response.body().getErrors().get(0).getMessage();
+//                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                            ApiErrorUtil.getInstance().changeSecurityQuestionError(getContext(), getView(), response);
                         } catch (NullPointerException | IndexOutOfBoundsException ex) {
-                            Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
-                                    Toast.LENGTH_LONG).show();
+                            ApiErrorUtil.getInstance().changeSecurityQuestionError(getContext(), getView(), response);
                         }
                     }
                 } else {
                     Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
-                    Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
-                            Toast.LENGTH_LONG).show();
+                    ApiErrorUtil.getInstance().changeSecurityQuestionError(getContext(), getView(), response);
                 }
                 binding.changeSecProgress.setVisibility(View.GONE);
             }
@@ -289,8 +289,7 @@ public class SQFragment extends Fragment {
                 if (isAdded()) {
                     Timber.e(getString(R.string.db_res_failed));
                     Timber.e(getString(R.string.db_res_throwable) + " = " + t);
-                    Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
-                            Toast.LENGTH_LONG).show();
+                    ApiErrorUtil.getInstance().changeSecurityQuestionFailed(getContext(), getView(), t);
                 }
                 binding.changeSecProgress.setVisibility(View.GONE);
             }
