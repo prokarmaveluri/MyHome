@@ -624,19 +624,18 @@ public class NetworkManager {
                 @Override
                 public void onResponse(Call<SaveDoctorResponse> call, retrofit2.Response<SaveDoctorResponse> response) {
                     if (response.isSuccessful()) {
-                        try {
-                            List<ProviderResponse> providerList = ProfileManager.getFavoriteProviders();
-                            if (null != provider && !isProviderFound(provider.getNpi())) {
-                                Map<String, Object> tealiumData = new HashMap<>();
-                                tealiumData.put(Constants.FAVORITE_PROVIDER_NPI, npi);
-                                TealiumUtil.trackEvent(Constants.FAVORITE_PROVIDER_EVENT, tealiumData);
-                                if (null == providerList)
-                                    providerList = new ArrayList<>();
+                        List<ProviderResponse> providerList = ProfileManager.getFavoriteProviders();
+                        if (provider != null && provider.getNpi() != null && !isProviderFound(provider.getNpi())) {
+                            Map<String, Object> tealiumData = new HashMap<>();
+                            tealiumData.put(Constants.FAVORITE_PROVIDER_NPI, npi);
+                            TealiumUtil.trackEvent(Constants.FAVORITE_PROVIDER_EVENT, tealiumData);
 
-                                providerList.add(0, provider);
-                                ProfileManager.setFavoriteProviders(providerList);
+                            if (providerList == null) {
+                                providerList = new ArrayList<>();
                             }
-                        } catch (NullPointerException ex) {
+
+                            providerList.add(0, provider);
+                            ProfileManager.setFavoriteProviders(providerList);
                         }
                     } else {
                         ApiErrorUtil.getInstance().saveDoctorError(context, favProvider, response);
