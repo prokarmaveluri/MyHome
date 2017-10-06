@@ -534,6 +534,7 @@ public class NetworkManager {
                             Timber.i("Email already exists!");
                         }
                     } else {
+                        ApiErrorUtil.getInstance().findEmailError(context, view, response);
                         isEmailTaken = false;
                         if (view != null) {
                             view.setError(null);
@@ -546,6 +547,7 @@ public class NetworkManager {
             public void onFailure(Call<ValidateEmailResponse> call, Throwable t) {
                 Timber.i("validateEmail, failed");
                 Timber.i("validateEmail, t=" + t.toString());
+                ApiErrorUtil.getInstance().findEmailFailed(context, view, t);
                 isEmailTaken = false;
                 if (view != null) {
                     view.setError(null);
