@@ -48,9 +48,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
-import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.utils.TealiumUtil;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -381,17 +379,6 @@ public class HomeFragment extends BaseFragment {
             if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
                 binding.date.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
                 binding.time.setText(DateUtil.getTime(appointment.appointmentStart));
-            }
-            try {
-                if (null != appointment.provider.getImages()) {
-                    String url = appointment.provider.getImages().get(2).getUrl();
-                    url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
-
-                    Picasso.with(getActivity())
-                            .load(url)
-                            .into(binding.docImage);
-                }
-            } catch (NullPointerException ex) {
             }
 
             hideLoading();
