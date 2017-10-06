@@ -607,7 +607,7 @@ public class NetworkManager {
         });
     }
 
-    public void updateFavDoctor(boolean isSave, final String npi, final ImageView favProvider,
+    public void updateFavDoctor(final boolean isSave, final String npi, final ImageView favProvider,
                                 final ProviderResponse provider, final boolean isList,
                                 final Context context) {
 
@@ -638,20 +638,18 @@ public class NetworkManager {
                             ProfileManager.setFavoriteProviders(providerList);
                         }
                     } else {
+                        CommonUtil.updateFavView(!isSave, favProvider);
                         ApiErrorUtil.getInstance().saveDoctorError(context, favProvider, response);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
+                    CommonUtil.updateFavView(!isSave, favProvider);
                     ApiErrorUtil.getInstance().saveDoctorFailed(context, favProvider, t);
                 }
             });
         } else { //DELETE saved Doc
-            Map<String, Object> tealiumData = new HashMap<>();
-            tealiumData.put(Constants.FAVORITE_PROVIDER_NPI, npi);
-            TealiumUtil.trackEvent(Constants.UNFAVORITE_PROVIDER_EVENT, tealiumData);  //TODO - KEVIN: Should this be in the onResponse/ response.isSuccessful network call???
-
             if (!isList)
                 CommonUtil.updateFavView(isSave, favProvider);
             NetworkManager.getInstance().deleteSavedDoctor(AuthManager.getInstance().getBearerToken(),
@@ -659,13 +657,21 @@ public class NetworkManager {
                 @Override
                 public void onResponse(Call<SaveDoctorResponse> call, retrofit2.Response<SaveDoctorResponse> response) {
                     if (response.isSuccessful()) {
+                        Map<String, Object> tealiumData = new HashMap<>();
+                        tealiumData.put(Constants.FAVORITE_PROVIDER_NPI, npi);
+                        TealiumUtil.trackEvent(Constants.UNFAVORITE_PROVIDER_EVENT, tealiumData);
+
                         deleteSavedDocotor(npi);
+                    } else {
+                        CommonUtil.updateFavView(!isSave, favProvider);
+                        ApiErrorUtil.getInstance().deleteSavedDoctorError(context, favProvider, response);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
-
+                    CommonUtil.updateFavView(!isSave, favProvider);
+                    ApiErrorUtil.getInstance().deleteSavedDoctorFailed(context, favProvider, t);
                 }
             });
         }
