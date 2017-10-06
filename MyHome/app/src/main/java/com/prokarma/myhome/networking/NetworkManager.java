@@ -41,6 +41,7 @@ import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
@@ -606,9 +607,9 @@ public class NetworkManager {
         });
     }
 
-    public void updateFavDoctor(boolean isSave, final String npi, ImageView favProvider,
+    public void updateFavDoctor(boolean isSave, final String npi, final ImageView favProvider,
                                 final ProviderResponse provider, final boolean isList,
-                                Context context) {
+                                final Context context) {
 
         if (!ConnectionUtil.isConnected(context)) {
             Toast.makeText(context, R.string.no_network_msg,
@@ -637,12 +638,14 @@ public class NetworkManager {
                             }
                         } catch (NullPointerException ex) {
                         }
+                    } else {
+                        ApiErrorUtil.getInstance().saveDoctorError(context, favProvider, response);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
-
+                    ApiErrorUtil.getInstance().saveDoctorFailed(context, favProvider, t);
                 }
             });
         } else { //DELETE saved Doc
