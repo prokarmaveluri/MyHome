@@ -70,8 +70,7 @@ public class SessionUtil {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     Timber.i("Response not successful: " + response);
-                    Toast.makeText(activity, activity.getString(R.string.something_went_wrong),
-                            Toast.LENGTH_LONG).show();
+                    ApiErrorUtil.getInstance().signOutError(activity.getApplicationContext(), activity.getCurrentFocus(), response);
                 }
 
                 activity.finishAffinity();
@@ -84,8 +83,7 @@ public class SessionUtil {
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {
                 Timber.i("Logout failed");
-                Toast.makeText(activity, activity.getString(R.string.something_went_wrong),
-                        Toast.LENGTH_LONG).show();
+                ApiErrorUtil.getInstance().signOutFailed(activity.getApplicationContext(), activity.getCurrentFocus(), t);
 
                 if (null != progressBar)
                     progressBar.setVisibility(View.GONE);

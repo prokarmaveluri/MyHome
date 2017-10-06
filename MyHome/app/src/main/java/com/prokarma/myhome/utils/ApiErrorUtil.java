@@ -119,19 +119,21 @@ public class ApiErrorUtil {
     }
 
     public <T> void signInRefreshError(final Context context, final View view, final Response<T> response) {
-        genericError(context, view, true);
+        //genericError(context, view, true);
     }
 
     public void signInRefreshFailed(final Context context, final View view, final Throwable throwable) {
-        genericError(context, view, true);
+        //genericError(context, view, true);
     }
 
     public <T> void signOutError(final Context context, final View view, final Response<T> response) {
-        genericError(context, view, true);
+        //Leaving this empty, as we don't care about if the signout fails cause the user is sent to the login screen either way
+        //genericError(context, view, true);
     }
 
     public void signOutFailed(final Context context, final View view, final Throwable throwable) {
-        genericError(context, view, true);
+        //Leaving this empty, as we don't care about if the signout fails cause the user is sent to the login screen either way
+        //genericError(context, view, true);
     }
 
     public <T> void registerError(final Context context, final View view, final Response<T> response) {
