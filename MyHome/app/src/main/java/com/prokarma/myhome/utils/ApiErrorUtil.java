@@ -41,7 +41,7 @@ public class ApiErrorUtil {
     }
 
     private void invalidPassword(final Context context, final View view) {
-        snackbar = Snackbar.make(view, "This is a really long line of text. Obnoxiously long to test out the character limit for a snackbar. I'm curious how the word wrapping will handle itself on an Android phone. Love, Kevin.", Snackbar.LENGTH_LONG);
+        snackbar = Snackbar.make(view, context.getString(R.string.api_error_incorrect_password), Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 

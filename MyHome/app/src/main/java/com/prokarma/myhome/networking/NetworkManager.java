@@ -392,8 +392,13 @@ public class NetworkManager {
      * @return login response
      */
     public Call<SignInResponse> signIn(SignInRequest request) {
-        return service.signIn(EnviHandler.CIAM_BASE_URL +
-                "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-in", request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_IN_FORCE_ERROR)) {
+            return service.signIn(EnviHandler.CIAM_BASE_URL +
+                    "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-in", new SignInRequest());
+        } else {
+            return service.signIn(EnviHandler.CIAM_BASE_URL +
+                    "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-in", request);
+        }
     }
 
 
@@ -404,9 +409,15 @@ public class NetworkManager {
      * @return refresh response
      */
     public Call<SignInResponse> signInRefresh(RefreshRequest request) {
-        return service.signInRefresh(EnviHandler.CIAM_BASE_URL +
-                        "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/refresh",
-                request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_IN_REFRESH_FORCE_ERROR)) {
+            return service.signInRefresh(EnviHandler.CIAM_BASE_URL +
+                            "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/refresh",
+                    new RefreshRequest("messedUpRequestToken123"));
+        } else {
+            return service.signInRefresh(EnviHandler.CIAM_BASE_URL +
+                            "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/refresh",
+                    request);
+        }
     }
 
     /**
@@ -416,9 +427,15 @@ public class NetworkManager {
      * @return Sign out response
      */
     public Call<CommonResponse> signOut(SignOutRequest request, String bearerToken) {
-        return service.signOut(EnviHandler.CIAM_BASE_URL +
-                        "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-out",
-                BEARER + bearerToken, request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_OUT_FORCE_ERROR)) {
+            return service.signOut(EnviHandler.CIAM_BASE_URL +
+                            "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-out",
+                    BEARER + bearerToken.concat("messUpBearerToken123"), request);
+        } else {
+            return service.signOut(EnviHandler.CIAM_BASE_URL +
+                            "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-out",
+                    BEARER + bearerToken, request);
+        }
     }
 
 

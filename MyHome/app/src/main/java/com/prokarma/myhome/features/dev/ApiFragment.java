@@ -31,6 +31,9 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat createAppointmentSwitch;
     SwitchCompat getValidationRulesSwitch;
     SwitchCompat getProviderDetailsSwitch;
+    SwitchCompat signInSwitch;
+    SwitchCompat signInRefreshSwitch;
+    SwitchCompat signOutSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -48,6 +51,9 @@ public class ApiFragment extends BaseFragment {
         createAppointmentSwitch = (SwitchCompat) apiView.findViewById(R.id.create_appointments_switch);
         getValidationRulesSwitch = (SwitchCompat) apiView.findViewById(R.id.get_validation_rules_switch);
         getProviderDetailsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_provider_details_switch);
+        signInSwitch = (SwitchCompat) apiView.findViewById(R.id.sign_in_switch);
+        signInRefreshSwitch = (SwitchCompat) apiView.findViewById(R.id.sign_in_refresh_switch);
+        signOutSwitch = (SwitchCompat) apiView.findViewById(R.id.sign_out_switch);
 
         setupSwitches();
 
@@ -93,6 +99,27 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        signInSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_SIGN_IN_FORCE_ERROR, !isChecked);
+            }
+        });
+
+        signInRefreshSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_SIGN_IN_REFRESH_FORCE_ERROR, !isChecked);
+            }
+        });
+
+        signOutSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_SIGN_OUT_FORCE_ERROR, !isChecked);
+            }
+        });
+
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +142,9 @@ public class ApiFragment extends BaseFragment {
         createAppointmentSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_CREATE_APPOINTMENT_FORCE_ERROR));
         getValidationRulesSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_VALIDATION_RULES_FORCE_ERROR));
         getProviderDetailsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR));
+        signInSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_IN_FORCE_ERROR));
+        signInRefreshSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_IN_REFRESH_FORCE_ERROR));
+        signOutSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_OUT_FORCE_ERROR));
     }
 
     @Override
