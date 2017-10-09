@@ -74,9 +74,14 @@ public class EmailVerifyActivity extends AppCompatActivity {
             //noinspection deprecation
             toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
         }
+        if (null != ProfileManager.getProfile()) {
+            binding.verifyEmailMessage.setText(String.format(getResources().getString(R.string.resend_email_message),
+                    ProfileManager.getProfile().email));
+        }
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.xblue);
+        setTitle(getResources().getString(R.string.validate_email));
     }
 
     //If you do the back button via the manifest, you won't get the proper animation when you click back arrow

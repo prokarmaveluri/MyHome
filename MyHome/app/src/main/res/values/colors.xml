@@ -391,4 +391,5 @@
     <color name="hint_color">#42000000</color>
     <color name="success_color">#009688</color>
 
+    <color name="almost_done_color">#ed7420</color>
 </resources>
