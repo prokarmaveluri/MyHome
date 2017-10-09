@@ -256,7 +256,7 @@ public class NetworkManager {
      * @return The Location found
      */
     public Call<LocationResponse> getLocation() {
-        if(AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_LOCATION_FORCE_ERROR)){
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_LOCATION_FORCE_ERROR)) {
             return service.getUserLocation(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/location/");
         } else {
             return service.getUserLocation(EnviHandler.S2_BASE_URL + "api/location/");
@@ -363,11 +363,19 @@ public class NetworkManager {
     }
 
     public Call<ValidateEmailResponse> findEmail(String email) {
-        return service.findEmail(EnviHandler.CIAM_BASE_URL + "api/users", email);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_FIND_EMAIL_FORCE_ERROR)) {
+            return service.findEmail(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users", email);
+        } else {
+            return service.findEmail(EnviHandler.CIAM_BASE_URL + "api/users", email);
+        }
     }
 
     public Call<UpdateResponse> versionCheck() {
-        return service.versionCheck(EnviHandler.VERSIONING_URL + "api/versioning/dependencies");
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_VERSION_CHECK_FORCE_ERROR)) {
+            return service.versionCheck(EnviHandler.VERSIONING_URL.concat("messUpUrl123") + "api/versioning/dependencies");
+        } else {
+            return service.versionCheck(EnviHandler.VERSIONING_URL + "api/versioning/dependencies");
+        }
     }
 
     public Call<SaveDoctorResponse> saveDoctor(String bearerToken, SaveDoctorRequest request) {
