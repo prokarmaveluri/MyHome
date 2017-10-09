@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.ActivityVerifyBinding;
+import com.prokarma.myhome.features.login.LoginActivity;
 import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.settings.CommonResponse;
@@ -79,9 +80,21 @@ public class EmailVerifyActivity extends AppCompatActivity {
                     ProfileManager.getProfile().email));
         }
 
+        binding.reEnroll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginActivity();
+            }
+        });
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getResources().getString(R.string.validate_email));
+    }
+
+    private void loginActivity() {
+        Intent intent = LoginActivity.getLoginIntent(this);
+        startActivity(intent);
+        finish();
     }
 
     //If you do the back button via the manifest, you won't get the proper animation when you click back arrow
@@ -89,7 +102,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                loginActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
