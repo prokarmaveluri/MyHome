@@ -208,8 +208,13 @@ public class NetworkManager {
      * @return List of Locations to suggest
      */
     public Call<List<LocationResponse>> getLocationSuggestions(String queryString) {
-        return service.getLocationSuggestions(EnviHandler.S2_BASE_URL + "api/locationsuggestion",
-                queryString);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_LOCATION_SUGGESTIONS_FORCE_ERROR)) {
+            return service.getLocationSuggestions(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/locationsuggestion",
+                    queryString);
+        } else {
+            return service.getLocationSuggestions(EnviHandler.S2_BASE_URL + "api/locationsuggestion",
+                    queryString);
+        }
     }
 
     /**
