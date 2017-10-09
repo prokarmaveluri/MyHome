@@ -2,6 +2,7 @@ package com.prokarma.myhome.networking;
 
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -581,7 +582,7 @@ public class NetworkManager {
 
     //1.1
 
-    public void getSavedDoctors() {
+    public void getSavedDoctors(final Context context, final View view) {
         NetworkManager.getInstance().getSavedDoctors(AuthManager.getInstance().getBearerToken(),
                 new MySavedDoctorsRequest()).enqueue(new Callback<MySavedDoctorsResponse>() {
             @Override
@@ -591,10 +592,12 @@ public class NetworkManager {
                         ProfileManager.setFavoriteProviders(response.body().getData().getUser().getFavoriteProviders());
                     } catch (NullPointerException ex) {
                         Timber.e("Error onResponse SavedDoctors ");
+                        ApiErrorUtil.getInstance().getSavedDoctorsError(context, view, response);
                         ProfileManager.setFavoriteProviders(null);
                     }
                 } else {
                     Timber.e("Error onResponse SavedDoctors with error code");
+                    ApiErrorUtil.getInstance().getSavedDoctorsError(context, view, response);
                     ProfileManager.setFavoriteProviders(null);
                 }
             }
@@ -602,6 +605,7 @@ public class NetworkManager {
             @Override
             public void onFailure(Call<MySavedDoctorsResponse> call, Throwable t) {
                 Timber.e("Error onFailure SavedDoctors");
+                ApiErrorUtil.getInstance().getSavedDoctorsFailed(context, view, t);
                 ProfileManager.setFavoriteProviders(null);
             }
         });

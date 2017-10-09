@@ -246,11 +246,11 @@ public class SplashActivity extends AppCompatActivity implements
                                 AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
                                 AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                                 AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
-                                NetworkManager.getInstance().getSavedDoctors();
+                                NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
                                 CryptoManager.getInstance().saveToken();
 
                                 ProfileManager.setProfile(response.body().getResult().getUserProfile());
-                                NetworkManager.getInstance().getSavedDoctors();
+                                NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
 
                                 if (null != response.body().getResult().getUserProfile() &&
                                         !response.body().getResult().getUserProfile().isVerified &&
@@ -672,7 +672,7 @@ public class SplashActivity extends AppCompatActivity implements
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
-                        NetworkManager.getInstance().getSavedDoctors();
+                        NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
                         CryptoManager.getInstance().saveToken();
                         if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isVerified &&

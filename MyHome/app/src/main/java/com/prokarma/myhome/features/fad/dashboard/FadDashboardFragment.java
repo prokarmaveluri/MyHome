@@ -21,6 +21,7 @@ import com.prokarma.myhome.features.preferences.MySavedDoctorsResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 
@@ -188,11 +189,13 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
                         updateFavList();
                     } catch (NullPointerException ex) {
                         Timber.e("Error onResponse SavedDoctors ");
+                        ApiErrorUtil.getInstance().getSavedDoctorsError(getContext(), getView(), response);
                         ProfileManager.setFavoriteProviders(null);
                     }
                 } else {
-                    ProfileManager.setFavoriteProviders(null);
                     Timber.e("Error onResponse SavedDoctors with error code");
+                    ApiErrorUtil.getInstance().getSavedDoctorsError(getContext(), getView(), response);
+                    ProfileManager.setFavoriteProviders(null);
                 }
                 binder.favProgress.setVisibility(View.GONE);
             }
@@ -200,6 +203,7 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
             @Override
             public void onFailure(Call<MySavedDoctorsResponse> call, Throwable t) {
                 Timber.e("Error onFailure SavedDoctors");
+                ApiErrorUtil.getInstance().getSavedDoctorsFailed(getContext(), getView(), t);
                 ProfileManager.setFavoriteProviders(null);
                 binder.favProgress.setVisibility(View.GONE);
             }
