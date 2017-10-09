@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Profile Get API is called to get the user's profile information." />
+            android:text="The Profile Get API is called to get the user's profile information. This is normally an irrelevant call; we get the profile info directly from the Sign In API" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/profile_get_switch"
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Get My Appointments API is called to when fetching a user's appointments." />
+            android:text="The Get My Appointments API is called when fetching a user's appointments. This is called mainly on the Appointment's screen." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/get_my_appointments_switch"
@@ -105,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Create Appointment API is used when booking an appointment in the booking flow." />
+            android:text="The Create Appointment API is used when booking an appointment in the booking flow. It's called right after confirming the booking appointment." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/create_appointments_switch"
@@ -159,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Get Provider Details API is used to get the provider's full profile." />
+            android:text="The Get Provider Details API is used to get the provider's full profile. It's called when we land on a the Provider's Page (often, some basic details are already known)." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/get_provider_details_switch"
@@ -186,7 +186,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Sign In API is used to log into the app. WARNING: You'll have to uninstall the app to log back in if you turn this API off!" />
+            android:text="The Sign In API is used to log into the app." />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="WARNING: You'll have to uninstall the app to log back in if you turn this API off!"
+            android:textColor="@color/red"
+            android:textStyle="bold" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/sign_in_switch"
@@ -214,6 +222,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             android:text="The Sign In Refresh API is used to log users back into the app automatically (if the sign in token is not expired). A failure here will just silently send the user to the Login Screen." />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="WARNING: You may experience issues and have to uninstall if you want to sign in again!"
+            android:textColor="@color/red"
+            android:textStyle="bold" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/sign_in_refresh_switch"
