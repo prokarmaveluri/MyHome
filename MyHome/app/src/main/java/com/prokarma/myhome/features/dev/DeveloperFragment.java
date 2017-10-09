@@ -1,15 +1,21 @@
 package com.prokarma.myhome.features.dev;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -50,6 +56,17 @@ public class DeveloperFragment extends BaseFragment {
         maps.setText(getString(R.string.google_maps_api_key));
         TextView type = (TextView) developerView.findViewById(R.id.type);
         type.setText(BuildConfig.BUILD_TYPE);
+
+        Button apiButton = (Button) developerView.findViewById(R.id.api_overview);
+        apiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationActivity.setActivityTag(Constants.ActivityTag.API);
+                Intent intentDeveloper = new Intent(getActivity(), OptionsActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
+                ActivityCompat.startActivity(getActivity(), intentDeveloper, options.toBundle());
+            }
+        });
 
         return developerView;
     }

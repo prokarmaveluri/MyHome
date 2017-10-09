@@ -44,6 +44,7 @@
     <string name="terms_of_service">Terms of Service</string>
     <string name="contact_support">Help</string>
     <string name="developer_settings">Developer Settings</string>
+    <string name="api_settings">API Settings</string>
     <string name="no_providers">Please adjust your search to view more doctors.</string>
     <string name="no_education_found">No Education Found</string>
     <string name="appointment_reschedule">To reschedule or cancel your appointment, please call your doctor\'s location directly.</string>

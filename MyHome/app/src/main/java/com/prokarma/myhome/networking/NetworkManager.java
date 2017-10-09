@@ -153,16 +153,6 @@ public class NetworkManager {
     }
 
     /**
-     * Get a Profile
-     *
-     * @param bearer the bearer token of the user whose Profile we want
-     * @return a Profile object of the user
-     */
-//    public Call<ProfileResponse> getProfile(String bearer) {
-//        return service.getProfile(BEARER + bearer);
-//    }
-
-    /**
      * Update a Profile for a particular user
      *
      * @param bearer             the bearer token of the user whose Profile we wish to modify
@@ -170,19 +160,14 @@ public class NetworkManager {
      * @return Void
      */
     public Call<Void> updateProfile(String bearer, Profile updatedProfileData) {
-        return service.updateProfile(EnviHandler.CIAM_BASE_URL + "api/users/me",
-                BEARER + bearer, updatedProfileData);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_UPDATE_FORCE_ERROR)) {
+            return service.updateProfile(EnviHandler.CIAM_BASE_URL + "api/users/me",
+                    BEARER + bearer + "messUpBearerToken123", updatedProfileData);
+        } else {
+            return service.updateProfile(EnviHandler.CIAM_BASE_URL + "api/users/me",
+                    BEARER + bearer, updatedProfileData);
+        }
     }
-
-    /**
-     * Attempt to Log In
-     *
-     * @param request the Login object of the user we wish to log in
-     * @return the LoginReponse with many valuable fields such as expiration dates, session ID...
-     */
-//    public Call<SignInResponse> login(LoginRequest request) {
-//        return service.login(EnviHandler.OKTA_BASE_URL + "api/v1/authn", request);
-//    }
 
     /**
      * Send a Forgot Password request to the server
@@ -194,26 +179,6 @@ public class NetworkManager {
         return service.forgotPassword(EnviHandler.OKTA_BASE_URL + "api/v1/authn/recovery/password",
                 request);
     }
-
-    /**
-     * Create a session
-     *
-     * @param sid the session ID we use to create a Session
-     * @return a CreateSessionReponse containing many valuable fields such as status, expiration, cookieToken...
-     */
-//    public Call<CreateSessionResponse> createSession(String sid) {
-//        return service.createSession(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me", sid);
-//    }
-
-    /**
-     * Attempt to logout
-     *
-     * @param id the Session ID we're attempting to log out
-     * @return Void
-     */
-//    public Call<Void> logout(String id) {
-//        return service.logout(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me", "sid=" + id);
-//    }
 
     /**
      * Get Terms of Service.
@@ -348,42 +313,6 @@ public class NetworkManager {
         return service.versionCheck(EnviHandler.VERSIONING_URL + "api/versioning/dependencies");
     }
 
-//    /**
-//     * @param grantType
-//     * @param code
-//     * @param clientId
-//     * @param scope
-//     * @param redirectUri
-//     * @param codeUerifier
-//     * @return
-//     */
-//    public Call<AccessTokenResponse> fetchAccessToken(String grantType,
-//                                                      String code,
-//                                                      String clientId,
-//                                                      String scope,
-//                                                      String redirectUri,
-//                                                      String codeUerifier) {
-//        return service.fetchAccessToken(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token",
-//                grantType,
-//                code,
-//                clientId,
-//                scope,
-//                redirectUri,
-//                codeUerifier);
-//    }
-
-//    public Call<RefreshAccessTokenResponse> refreshAccessToken(String grantType,
-//                                                               String refreshToken,
-//                                                               String clientId,
-//                                                               String redirectUri) {
-//        return service.refreshAccessToken(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token",
-//                grantType,
-//                refreshToken,
-//                clientId,
-//                redirectUri);
-//    }
-
-
     public Call<SaveDoctorResponse> saveDoctor(String bearerToken, SaveDoctorRequest request) {
         return service.saveDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers",
                 BEARER + bearerToken, request);
@@ -426,8 +355,13 @@ public class NetworkManager {
      * @return a Profile object of the user
      */
     public Call<ProfileGraphqlResponse> getProfile(String bearer) {
-        return service.getUserProfile(EnviHandler.CIAM_BASE_URL + "api/users/query",
-                BEARER + bearer, new MyProfileRequest());
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_GET_FORCE_ERROR)) {
+            return service.getUserProfile(EnviHandler.CIAM_BASE_URL + "api/users/query",
+                    BEARER + bearer + "messUpBearerToken123", new MyProfileRequest());
+        } else {
+            return service.getUserProfile(EnviHandler.CIAM_BASE_URL + "api/users/query",
+                    BEARER + bearer, new MyProfileRequest());
+        }
     }
 
     /************** New Auth *************************************/
@@ -557,7 +491,7 @@ public class NetworkManager {
     }
 
     public interface ISessionExpiry {
-        public void expired();
+        void expired();
     }
 
     private boolean refreshToken() {

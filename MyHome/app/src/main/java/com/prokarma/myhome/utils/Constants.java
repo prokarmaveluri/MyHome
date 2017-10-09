@@ -20,6 +20,7 @@ public class Constants {
         SETTINGS,
         HELP,
         DEVELOPER,
+        API,
         PREFERENCES,
         TERMS_OF_SERVICE,
         FAD_LIST,
@@ -119,6 +120,10 @@ public class Constants {
     public static final String APT_DETAILS_SKIP_COACH_MARKS = "APT_DETAILS_SKIP_COACH_MARKS";
     public static final String APT_DETAILS_PAST_SKIP_COACH_MARKS = "APT_DETAILS_PAST_SKIP_COACH_MARKS";
     public static final String APT_DETAILS_UPCOMING_SKIP_COACH_MARKS = "APT_DETAILS_UPCOMING_SKIP_COACH_MARKS";
+
+    //Preference Keys for API Error Toggling
+    public static final String API_PROFILE_GET_FORCE_ERROR = "API_PROFILE_GET_FORCE_ERROR";
+    public static final String API_PROFILE_UPDATE_FORCE_ERROR = "API_PROFILE_UPDATE_FORCE_ERROR";
 
 }
 

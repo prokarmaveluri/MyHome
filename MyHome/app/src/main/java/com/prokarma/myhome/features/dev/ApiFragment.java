@@ -1,0 +1,86 @@
+package com.prokarma.myhome.features.dev;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.SwitchCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+
+import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.utils.AppPreferences;
+import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.SessionUtil;
+
+/**
+ * Created by kwelsh on 5/17/17.
+ */
+
+@SuppressWarnings("HardCodedStringLiteral")
+public class ApiFragment extends BaseFragment {
+    public static final String API_TAG = "api_tag";
+
+    View apiView;
+    SwitchCompat profileGetSwitch;
+    SwitchCompat profileUpdateSwitch;
+
+    public static ApiFragment newInstance() {
+        return new ApiFragment();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        apiView = inflater.inflate(R.layout.api, container, false);
+        getActivity().setTitle(getString(R.string.api_settings));
+
+        profileGetSwitch = (SwitchCompat) apiView.findViewById(R.id.profile_get_switch);
+        profileUpdateSwitch = (SwitchCompat) apiView.findViewById(R.id.profile_update_switch);
+
+
+        setupSwitches();
+
+        profileGetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_PROFILE_GET_FORCE_ERROR, !isChecked);
+            }
+        });
+
+        profileUpdateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_PROFILE_UPDATE_FORCE_ERROR, !isChecked);
+            }
+        });
+
+
+        Button save = (Button) apiView.findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SessionUtil.logout(getActivity(), null);
+
+                if (getActivity() != null) {
+                    CommonUtil.exitApp(getContext(), getActivity());
+                }
+            }
+        });
+
+        return apiView;
+    }
+
+    public void setupSwitches() {
+        profileGetSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_GET_FORCE_ERROR));
+        profileUpdateSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_UPDATE_FORCE_ERROR));
+    }
+
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        return Constants.ActivityTag.API;
+    }
+}
