@@ -55,6 +55,7 @@ import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -620,12 +621,15 @@ public class SplashActivity extends AppCompatActivity implements
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
                     }
+                }else {
+                    ApiErrorUtil.getInstance().versionCheckFailed(getApplicationContext(), progress, response);
                 }
             }
 
             @Override
             public void onFailure(Call<UpdateResponse> call, Throwable t) {
                 progress.setVisibility(View.GONE);
+                ApiErrorUtil.getInstance().versionCheckFailed(getApplicationContext(), progress, t);
             }
         });
     }

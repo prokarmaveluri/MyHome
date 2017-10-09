@@ -200,6 +200,14 @@ public class ApiErrorUtil {
         genericError(context, view, true);
     }
 
+    public void versionCheckFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view, true);
+    }
+
+    public <T> void versionCheckFailed(final Context context, final View view, final Response<T> response) {
+        genericError(context, view, true);
+    }
+
     public void clearErrorMessage() {
         if (snackbar != null) {
             snackbar.dismiss();
