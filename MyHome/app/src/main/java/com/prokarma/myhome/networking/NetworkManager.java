@@ -181,8 +181,13 @@ public class NetworkManager {
      * @return a ForgotPasswordReponse denoting the status of the request
      */
     public Call<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request) {
-        return service.forgotPassword(EnviHandler.OKTA_BASE_URL + "api/v1/authn/recovery/password",
-                request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_FORGOT_PASSWORD_FORCE_ERROR)) {
+            return service.forgotPassword(EnviHandler.OKTA_BASE_URL + "api/v1/authn/recovery/password",
+                    new ForgotPasswordRequest(null, null, null));
+        } else {
+            return service.forgotPassword(EnviHandler.OKTA_BASE_URL + "api/v1/authn/recovery/password",
+                    request);
+        }
     }
 
     /**

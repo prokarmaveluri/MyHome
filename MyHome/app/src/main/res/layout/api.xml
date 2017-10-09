@@ -432,6 +432,33 @@
             android:layout_margin="6dp"
             android:background="@color/secondary_text" />
 
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Forgot Password API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Forgot Password API is used when a user forgets their credentials. It should send an email with instructions on how to recover their account." />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/forgot_password_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
         <Button
             android:id="@+id/save"
             style="@style/enableButtonStyle"

@@ -40,6 +40,7 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat getSavedDoctorsSwitch;
     SwitchCompat saveDoctorSwitch;
     SwitchCompat deleteSavedDoctorSwitch;
+    SwitchCompat forgotPasswordSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -66,6 +67,7 @@ public class ApiFragment extends BaseFragment {
         getSavedDoctorsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_saved_doctors_switch);
         saveDoctorSwitch = (SwitchCompat) apiView.findViewById(R.id.save_doctor_switch);
         deleteSavedDoctorSwitch = (SwitchCompat) apiView.findViewById(R.id.delete_saved_doctor_switch);
+        forgotPasswordSwitch = (SwitchCompat) apiView.findViewById(R.id.forgot_password_switch);
 
         setupSwitches();
 
@@ -174,6 +176,13 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        forgotPasswordSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_FORGOT_PASSWORD_FORCE_ERROR, !isChecked);
+            }
+        });
+
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,6 +214,7 @@ public class ApiFragment extends BaseFragment {
         getSavedDoctorsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_SAVED_DOCTORS_FORCE_ERROR));
         saveDoctorSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SAVE_DOCTOR_FORCE_ERROR));
         deleteSavedDoctorSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_DELETE_SAVED_DOCTOR_FORCE_ERROR));
+        forgotPasswordSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_FORGOT_PASSWORD_FORCE_ERROR));
     }
 
     @Override
