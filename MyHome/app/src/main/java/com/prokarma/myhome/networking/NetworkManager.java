@@ -232,12 +232,21 @@ public class NetworkManager {
                                                                      String lon,
                                                                      String displayName,
                                                                      String zipCode) {
-        return service.getSearchSuggestions(EnviHandler.S2_BASE_URL + "api/suggestion",
-                queryString,
-                lat,
-                lon,
-                displayName,
-                zipCode);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_SEARCH_SUGGESTIONS_FORCE_ERROR)) {
+            return service.getSearchSuggestions(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/suggestion",
+                    queryString,
+                    lat,
+                    lon,
+                    displayName,
+                    zipCode);
+        } else {
+            return service.getSearchSuggestions(EnviHandler.S2_BASE_URL + "api/suggestion",
+                    queryString,
+                    lat,
+                    lon,
+                    displayName,
+                    zipCode);
+        }
     }
 
     /**

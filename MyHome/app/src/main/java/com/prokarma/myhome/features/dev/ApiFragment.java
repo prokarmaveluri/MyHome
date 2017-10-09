@@ -43,6 +43,7 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat forgotPasswordSwitch;
     SwitchCompat getProvidersSwitch;
     SwitchCompat getLocationSuggestionsSwitch;
+    SwitchCompat getSearchSuggestionsSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -72,6 +73,7 @@ public class ApiFragment extends BaseFragment {
         forgotPasswordSwitch = (SwitchCompat) apiView.findViewById(R.id.forgot_password_switch);
         getProvidersSwitch = (SwitchCompat) apiView.findViewById(R.id.get_providers_switch);
         getLocationSuggestionsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_location_suggestions_switch);
+        getSearchSuggestionsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_search_suggestions_switch);
 
         setupSwitches();
 
@@ -201,6 +203,13 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        getSearchSuggestionsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_GET_SEARCH_SUGGESTIONS_FORCE_ERROR, !isChecked);
+            }
+        });
+
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,6 +244,7 @@ public class ApiFragment extends BaseFragment {
         forgotPasswordSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_FORGOT_PASSWORD_FORCE_ERROR));
         getProvidersSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDERS_FORCE_ERROR));
         getLocationSuggestionsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_LOCATION_SUGGESTIONS_FORCE_ERROR));
+        getSearchSuggestionsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_SEARCH_SUGGESTIONS_FORCE_ERROR));
     }
 
     @Override
