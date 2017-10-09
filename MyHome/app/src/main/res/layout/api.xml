@@ -32,6 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
@@ -52,6 +58,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -74,6 +86,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
@@ -95,6 +113,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
@@ -108,13 +132,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Get Validation Rules API is used to get the rules for the Booking Registration Forms. It also gets the list of Insurance Providers. This call occurs only in the Booking Flow, right after a time is selected."/>
+            android:text="The Get Validation Rules API is used to get the rules for the Booking Registration Forms. It also gets the list of Insurance Providers. This call occurs only in the Booking Flow, right after a time is selected." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/get_validation_rules_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -129,13 +159,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Get Provider Details API is used to get the provider's full profile."/>
+            android:text="The Get Provider Details API is used to get the provider's full profile." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/get_provider_details_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -150,13 +186,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Sign In API is used to log into the app. WARNING: You'll have to uninstall the app to log back in if you turn this API off!"/>
+            android:text="The Sign In API is used to log into the app. WARNING: You'll have to uninstall the app to log back in if you turn this API off!" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/sign_in_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -171,13 +213,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Sign In Refresh API is used to log users back into the app automatically (if the sign in token is not expired). A failure here will just silently send the user to the Login Screen."/>
+            android:text="The Sign In Refresh API is used to log users back into the app automatically (if the sign in token is not expired). A failure here will just silently send the user to the Login Screen." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/sign_in_refresh_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -192,13 +240,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Sign Out API is used to log the user out of the app. This should just fail silently, as the user is always taken back to the log in screen and doesn't care if the call actually failed."/>
+            android:text="The Sign Out API is used to log the user out of the app. This should just fail silently, as the user is always taken back to the log in screen and doesn't care if the call actually failed." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/sign_out_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -213,13 +267,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Register API is used to enroll the user for the app."/>
+            android:text="The Register API is used to enroll the user for the app." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/register_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -234,13 +294,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Change Password API is used to change the user's password."/>
+            android:text="The Change Password API is used to change the user's password." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/change_password_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -255,13 +321,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Change Security Question API is used to change the user's security question."/>
+            android:text="The Change Security Question API is used to change the user's security question." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/change_security_question_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -276,13 +348,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Get Saved Doctors API is used to fetch the list of favorite providers of the users."/>
+            android:text="The Get Saved Doctors API is used to fetch the list of favorite providers of the users." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/get_saved_doctors_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -297,13 +375,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Save Doctor API is used to favorite a provider."/>
+            android:text="The Save Doctor API is used to favorite a provider." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/save_doctor_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -318,13 +402,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:text="The Delete Saved Doctor API is used to delete a favorite provider."/>
+            android:text="The Delete Saved Doctor API is used to delete a favorite provider." />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/delete_saved_doctor_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
 
         <Button
             android:id="@+id/save"
