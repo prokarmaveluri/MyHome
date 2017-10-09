@@ -19,6 +19,9 @@ public class EnrollmentRequest implements Parcelable {
     private Boolean skipVerification = false;
     private List<RecoveryQuestion> recoveryQuestions = null;
 
+    public EnrollmentRequest() {
+    }
+
     public EnrollmentRequest(String firstName, String lastName, String email, String password,
                              boolean hasAcceptedTerms,
                              boolean skipVerification, List<RecoveryQuestion> recoveryQuestions) {

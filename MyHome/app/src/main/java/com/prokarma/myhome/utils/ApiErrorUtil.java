@@ -177,11 +177,11 @@ public class ApiErrorUtil {
     }
 
     public <T> void findEmailError(final Context context, final View view, final Response<T> response) {
-        genericError(context, view, true);
+        //genericError(context, view, true);
     }
 
     public void findEmailFailed(final Context context, final View view, final Throwable throwable) {
-        genericError(context, view, true);
+        //genericError(context, view, true);
     }
 
     public <T> void getProvidersError(final Context context, final View view, final Response<T> response) {

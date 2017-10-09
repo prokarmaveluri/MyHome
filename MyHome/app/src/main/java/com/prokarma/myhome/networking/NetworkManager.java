@@ -149,7 +149,11 @@ public class NetworkManager {
      * @return Void
      */
     public Call<Void> register(EnrollmentRequest request) {
-        return service.register(EnviHandler.CIAM_BASE_URL + "api/users/enrollment", request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_REGISTER_FORCE_ERROR)) {
+            return service.register(EnviHandler.CIAM_BASE_URL + "api/users/enrollment", new EnrollmentRequest());
+        } else {
+            return service.register(EnviHandler.CIAM_BASE_URL + "api/users/enrollment", request);
+        }
     }
 
     /**
