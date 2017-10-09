@@ -151,7 +151,7 @@ public class NetworkManager {
      */
     public Call<Void> register(EnrollmentRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_REGISTER_FORCE_ERROR)) {
-            return service.register(EnviHandler.CIAM_BASE_URL + "api/users/enrollment", new EnrollmentRequest());
+            return service.register(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/enrollment", request);
         } else {
             return service.register(EnviHandler.CIAM_BASE_URL + "api/users/enrollment", request);
         }
@@ -166,8 +166,8 @@ public class NetworkManager {
      */
     public Call<Void> updateProfile(String bearer, Profile updatedProfileData) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_UPDATE_FORCE_ERROR)) {
-            return service.updateProfile(EnviHandler.CIAM_BASE_URL + "api/users/me",
-                    BEARER + bearer + "messUpBearerToken123", updatedProfileData);
+            return service.updateProfile(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/me",
+                    BEARER + bearer, updatedProfileData);
         } else {
             return service.updateProfile(EnviHandler.CIAM_BASE_URL + "api/users/me",
                     BEARER + bearer, updatedProfileData);
@@ -182,8 +182,8 @@ public class NetworkManager {
      */
     public Call<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_FORGOT_PASSWORD_FORCE_ERROR)) {
-            return service.forgotPassword(EnviHandler.OKTA_BASE_URL + "api/v1/authn/recovery/password",
-                    new ForgotPasswordRequest(null, null, null));
+            return service.forgotPassword(EnviHandler.OKTA_BASE_URL.concat("messUpUrl123") + "api/v1/authn/recovery/password",
+                    request);
         } else {
             return service.forgotPassword(EnviHandler.OKTA_BASE_URL + "api/v1/authn/recovery/password",
                     request);
@@ -281,7 +281,7 @@ public class NetworkManager {
                                                 String practices,
                                                 String patients) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDERS_FORCE_ERROR)) {
-            return service.getProviders(EnviHandler.S2_BASE_URL.concat("messUpProvidersUrl123") + "api/providers",
+            return service.getProviders(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/providers",
                     queryString, lat, lon, displayName, zipCode,
                     page,
                     pageSize,
@@ -317,7 +317,7 @@ public class NetworkManager {
      */
     public Call<ProviderDetailsResponse> getProviderDetails(String id) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
-            return service.getProviderDetails(EnviHandler.S2_BASE_URL + "api/providerdetails", id.concat("messUpProviderId123"));
+            return service.getProviderDetails(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/providerdetails", id);
         } else {
             return service.getProviderDetails(EnviHandler.S2_BASE_URL + "api/providerdetails", id);
         }
@@ -326,8 +326,8 @@ public class NetworkManager {
     public Call<CreateAppointmentResponse> createAppointment(String bearerToken,
                                                              CreateAppointmentRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_CREATE_APPOINTMENT_FORCE_ERROR)) {
-            return service.createAppointment(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VISIT,
-                    BEARER + bearerToken, new CreateAppointmentRequest());
+            return service.createAppointment(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + RESTConstants.SCHEDULING_VISIT,
+                    BEARER + bearerToken, request);
         } else {
             return service.createAppointment(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VISIT,
                     BEARER + bearerToken, request);
@@ -336,8 +336,8 @@ public class NetworkManager {
 
     public Call<RegValidationResponse> getValidationRules(String scheduleId, String includeQuery) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_VALIDATION_RULES_FORCE_ERROR)) {
-            return service.getValidationRules(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION + scheduleId.concat("messUpScheduleId123")
-                    + RESTConstants.SCHEDULING_VALIDATION_ENDPOINT, includeQuery);
+            return service.getValidationRules(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION + scheduleId
+                    + RESTConstants.SCHEDULING_VALIDATION_ENDPOINT.concat("messUpUrl123"), includeQuery);
         } else {
             return service.getValidationRules(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION + scheduleId
                     + RESTConstants.SCHEDULING_VALIDATION_ENDPOINT, includeQuery);
@@ -354,8 +354,8 @@ public class NetworkManager {
 
     public Call<SaveDoctorResponse> saveDoctor(String bearerToken, SaveDoctorRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SAVE_DOCTOR_FORCE_ERROR)) {
-            return service.saveDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers",
-                    BEARER + bearerToken.concat("messUpBearerToken123"), request);
+            return service.saveDoctor(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/me/favorite-providers",
+                    BEARER + bearerToken, request);
         } else {
             return service.saveDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers",
                     BEARER + bearerToken, request);
@@ -364,7 +364,7 @@ public class NetworkManager {
 
     public Call<SaveDoctorResponse> deleteSavedDoctor(String bearerToken, String npi) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_DELETE_SAVED_DOCTOR_FORCE_ERROR)) {
-            return service.deleteSavedDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers/" + npi, BEARER + bearerToken.concat("messUpBearerToken123"));
+            return service.deleteSavedDoctor(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/me/favorite-providers/" + npi, BEARER + bearerToken);
         } else {
             return service.deleteSavedDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers/" + npi, BEARER + bearerToken);
         }
@@ -373,8 +373,8 @@ public class NetworkManager {
     public Call<MySavedDoctorsResponse> getSavedDoctors(String bearerToken,
                                                         MySavedDoctorsRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_SAVED_DOCTORS_FORCE_ERROR)) {
-            return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
-                    BEARER + bearerToken.concat("messUpBearerToken123"), request);
+            return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/query",
+                    BEARER + bearerToken, request);
         } else {
             return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
                     BEARER + bearerToken, request);
@@ -384,8 +384,8 @@ public class NetworkManager {
     public Call<MyAppointmentsResponse> getMyAppointments(String bearerToken,
                                                           MyAppointmentsRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_MY_APPOINTMENTS_FORCE_ERROR)) {
-            return service.getMyAppointments(EnviHandler.CIAM_BASE_URL + "api/users/query",
-                    BEARER + bearerToken + "messUpMyBearerToken123", request);
+            return service.getMyAppointments(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/query",
+                    BEARER + bearerToken, request);
         } else {
             return service.getMyAppointments(EnviHandler.CIAM_BASE_URL + "api/users/query",
                     BEARER + bearerToken, request);
@@ -397,8 +397,8 @@ public class NetworkManager {
     public Call<CommonResponse> changePassword(String bearerToken,
                                                ChangePasswordRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_PASSWORD_FORCE_ERROR)) {
-            return service.changePassword(EnviHandler.CIAM_BASE_URL + "api/users/me/password",
-                    BEARER + bearerToken.concat("messUpBearerToken"), new ChangePasswordRequest());
+            return service.changePassword(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/me/password",
+                    BEARER + bearerToken, request);
         } else {
             return service.changePassword(EnviHandler.CIAM_BASE_URL + "api/users/me/password",
                     BEARER + bearerToken, request);
@@ -408,8 +408,8 @@ public class NetworkManager {
     public Call<CommonResponse> changeSecurityQuestion(String bearerToken,
                                                        ChangeSesurityQuestionRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_SECURITY_QUESTION_FORCE_ERROR)) {
-            return service.changeSecurityQuestion(EnviHandler.CIAM_BASE_URL + "api/users/me/recovery/question",
-                    BEARER + bearerToken.concat("messupBearerToken"), new ChangeSesurityQuestionRequest());
+            return service.changeSecurityQuestion(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/me/recovery/question",
+                    BEARER + bearerToken, request);
         } else {
             return service.changeSecurityQuestion(EnviHandler.CIAM_BASE_URL + "api/users/me/recovery/question",
                     BEARER + bearerToken, request);
@@ -424,8 +424,8 @@ public class NetworkManager {
      */
     public Call<ProfileGraphqlResponse> getProfile(String bearer) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_GET_FORCE_ERROR)) {
-            return service.getUserProfile(EnviHandler.CIAM_BASE_URL + "api/users/query",
-                    BEARER + bearer + "messUpBearerToken123", new MyProfileRequest());
+            return service.getUserProfile(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/query",
+                    BEARER + bearer, new MyProfileRequest());
         } else {
             return service.getUserProfile(EnviHandler.CIAM_BASE_URL + "api/users/query",
                     BEARER + bearer, new MyProfileRequest());
@@ -442,8 +442,8 @@ public class NetworkManager {
      */
     public Call<SignInResponse> signIn(SignInRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_IN_FORCE_ERROR)) {
-            return service.signIn(EnviHandler.CIAM_BASE_URL +
-                    "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-in", new SignInRequest());
+            return service.signIn(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") +
+                    "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-in", request);
         } else {
             return service.signIn(EnviHandler.CIAM_BASE_URL +
                     "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-in", request);
@@ -459,9 +459,9 @@ public class NetworkManager {
      */
     public Call<SignInResponse> signInRefresh(RefreshRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_IN_REFRESH_FORCE_ERROR)) {
-            return service.signInRefresh(EnviHandler.CIAM_BASE_URL +
+            return service.signInRefresh(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") +
                             "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/refresh",
-                    new RefreshRequest("messedUpRequestToken123"));
+                    request);
         } else {
             return service.signInRefresh(EnviHandler.CIAM_BASE_URL +
                             "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/refresh",
@@ -477,9 +477,9 @@ public class NetworkManager {
      */
     public Call<CommonResponse> signOut(SignOutRequest request, String bearerToken) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_OUT_FORCE_ERROR)) {
-            return service.signOut(EnviHandler.CIAM_BASE_URL +
+            return service.signOut(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") +
                             "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-out",
-                    BEARER + bearerToken.concat("messUpBearerToken123"), request);
+                    BEARER + bearerToken, request);
         } else {
             return service.signOut(EnviHandler.CIAM_BASE_URL +
                             "api/mobile/auth/" + BuildConfig.URL_PATH_CLIENT_ID + "/sign-out",
