@@ -28,6 +28,9 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat profileGetSwitch;
     SwitchCompat profileUpdateSwitch;
     SwitchCompat getMyAppointmentsSwitch;
+    SwitchCompat createAppointmentSwitch;
+    SwitchCompat getValidationRulesSwitch;
+    SwitchCompat getProviderDetailsSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -42,6 +45,9 @@ public class ApiFragment extends BaseFragment {
         profileGetSwitch = (SwitchCompat) apiView.findViewById(R.id.profile_get_switch);
         profileUpdateSwitch = (SwitchCompat) apiView.findViewById(R.id.profile_update_switch);
         getMyAppointmentsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_my_appointments_switch);
+        createAppointmentSwitch = (SwitchCompat) apiView.findViewById(R.id.create_appointments_switch);
+        getValidationRulesSwitch = (SwitchCompat) apiView.findViewById(R.id.get_validation_rules_switch);
+        getProviderDetailsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_provider_details_switch);
 
         setupSwitches();
 
@@ -66,6 +72,27 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        createAppointmentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_CREATE_APPOINTMENT_FORCE_ERROR, !isChecked);
+            }
+        });
+
+        getValidationRulesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_GET_VALIDATION_RULES_FORCE_ERROR, !isChecked);
+            }
+        });
+
+        getProviderDetailsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR, !isChecked);
+            }
+        });
+
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +112,9 @@ public class ApiFragment extends BaseFragment {
         profileGetSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_GET_FORCE_ERROR));
         profileUpdateSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_UPDATE_FORCE_ERROR));
         getMyAppointmentsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_MY_APPOINTMENTS_FORCE_ERROR));
+        createAppointmentSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_CREATE_APPOINTMENT_FORCE_ERROR));
+        getValidationRulesSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_VALIDATION_RULES_FORCE_ERROR));
+        getProviderDetailsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR));
     }
 
     @Override

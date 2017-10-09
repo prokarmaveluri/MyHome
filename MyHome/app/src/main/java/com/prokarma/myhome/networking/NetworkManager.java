@@ -291,18 +291,32 @@ public class NetworkManager {
      * @return a More in-depth look of the provider
      */
     public Call<ProviderDetailsResponse> getProviderDetails(String id) {
-        return service.getProviderDetails(EnviHandler.S2_BASE_URL + "api/providerdetails", id);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
+            return service.getProviderDetails(EnviHandler.S2_BASE_URL + "api/providerdetails", id.concat("messUpProviderId123"));
+        } else {
+            return service.getProviderDetails(EnviHandler.S2_BASE_URL + "api/providerdetails", id);
+        }
     }
 
     public Call<CreateAppointmentResponse> createAppointment(String bearerToken,
                                                              CreateAppointmentRequest request) {
-        return service.createAppointment(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VISIT,
-                BEARER + bearerToken, request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_CREATE_APPOINTMENT_FORCE_ERROR)) {
+            return service.createAppointment(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VISIT,
+                    BEARER + bearerToken, new CreateAppointmentRequest());
+        } else {
+            return service.createAppointment(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VISIT,
+                    BEARER + bearerToken, request);
+        }
     }
 
     public Call<RegValidationResponse> getValidationRules(String scheduleId, String includeQuery) {
-        return service.getValidationRules(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION + scheduleId
-                + RESTConstants.SCHEDULING_VALIDATION_ENDPOINT, includeQuery);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_VALIDATION_RULES_FORCE_ERROR)) {
+            return service.getValidationRules(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION + scheduleId.concat("messUpScheduleId123")
+                    + RESTConstants.SCHEDULING_VALIDATION_ENDPOINT, includeQuery);
+        } else {
+            return service.getValidationRules(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION + scheduleId
+                    + RESTConstants.SCHEDULING_VALIDATION_ENDPOINT, includeQuery);
+        }
     }
 
     public Call<ValidateEmailResponse> findEmail(String email) {

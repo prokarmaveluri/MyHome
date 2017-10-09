@@ -74,6 +74,69 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
 
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Create Appointment API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Create Appointment API is used when booking an appointment in the booking flow." />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/create_appointments_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Get Validation Rules API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Get Validation Rules API is used to get the rules for the Booking Registration Forms. It also gets the list of Insurance Providers. This call occurs only in the Booking Flow, right after a time is selected."/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/get_validation_rules_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Get Provider Details API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Get Provider Details API is used to get the provider's full profile."/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/get_provider_details_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
         <Button
             android:id="@+id/save"
             style="@style/enableButtonStyle"
