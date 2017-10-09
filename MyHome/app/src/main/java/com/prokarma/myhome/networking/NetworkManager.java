@@ -521,8 +521,13 @@ public class NetworkManager {
      * @return
      */
     public Call<CommonResponse> resendEmail(String bearerToken) {
-        return service.resendEmail(EnviHandler.CIAM_BASE_URL + "api/users/me/verification-email",
-                BEARER + bearerToken);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_RESEND_EMAIL_FORCE_ERROR)) {
+            return service.resendEmail(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/me/verification-email",
+                    BEARER + bearerToken);
+        } else {
+            return service.resendEmail(EnviHandler.CIAM_BASE_URL + "api/users/me/verification-email",
+                    BEARER + bearerToken);
+        }
     }
 
 

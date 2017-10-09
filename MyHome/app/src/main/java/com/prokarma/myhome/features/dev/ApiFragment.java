@@ -47,6 +47,7 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat getLocationSwitch;
     SwitchCompat findEmailSwitch;
     SwitchCompat versionCheckSwitch;
+    SwitchCompat resendEmailSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -80,6 +81,7 @@ public class ApiFragment extends BaseFragment {
         getLocationSwitch = (SwitchCompat) apiView.findViewById(R.id.get_location_switch);
         findEmailSwitch = (SwitchCompat) apiView.findViewById(R.id.find_email_switch);
         versionCheckSwitch = (SwitchCompat) apiView.findViewById(R.id.version_check_switch);
+        resendEmailSwitch = (SwitchCompat) apiView.findViewById(R.id.resend_email_switch);
 
         setupSwitches();
 
@@ -237,6 +239,13 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        resendEmailSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_RESEND_EMAIL_FORCE_ERROR, !isChecked);
+            }
+        });
+
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,6 +284,7 @@ public class ApiFragment extends BaseFragment {
         getLocationSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_LOCATION_FORCE_ERROR));
         findEmailSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_FIND_EMAIL_FORCE_ERROR));
         versionCheckSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_VERSION_CHECK_FORCE_ERROR));
+        resendEmailSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_RESEND_EMAIL_FORCE_ERROR));
     }
 
     @Override
