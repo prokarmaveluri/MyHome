@@ -27,6 +27,7 @@ public class ApiFragment extends BaseFragment {
     View apiView;
     SwitchCompat profileGetSwitch;
     SwitchCompat profileUpdateSwitch;
+    SwitchCompat getMyAppointmentsSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -40,7 +41,7 @@ public class ApiFragment extends BaseFragment {
 
         profileGetSwitch = (SwitchCompat) apiView.findViewById(R.id.profile_get_switch);
         profileUpdateSwitch = (SwitchCompat) apiView.findViewById(R.id.profile_update_switch);
-
+        getMyAppointmentsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_my_appointments_switch);
 
         setupSwitches();
 
@@ -58,6 +59,12 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        getMyAppointmentsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_GET_MY_APPOINTMENTS_FORCE_ERROR, !isChecked);
+            }
+        });
 
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +84,7 @@ public class ApiFragment extends BaseFragment {
     public void setupSwitches() {
         profileGetSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_GET_FORCE_ERROR));
         profileUpdateSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_UPDATE_FORCE_ERROR));
+        getMyAppointmentsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_MY_APPOINTMENTS_FORCE_ERROR));
     }
 
     @Override

@@ -124,6 +124,6 @@ public class Constants {
     //Preference Keys for API Error Toggling
     public static final String API_PROFILE_GET_FORCE_ERROR = "API_PROFILE_GET_FORCE_ERROR";
     public static final String API_PROFILE_UPDATE_FORCE_ERROR = "API_PROFILE_UPDATE_FORCE_ERROR";
-
+    public static final String API_GET_MY_APPOINTMENTS_FORCE_ERROR = "API_GET_MY_APPOINTMENTS_FORCE_ERROR";
 }
 

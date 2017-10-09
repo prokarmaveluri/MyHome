@@ -53,6 +53,27 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
 
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Get My Appointments API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Get My Appointments API is called to when fetching a user's appointments." />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/get_my_appointments_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
         <Button
             android:id="@+id/save"
             style="@style/enableButtonStyle"

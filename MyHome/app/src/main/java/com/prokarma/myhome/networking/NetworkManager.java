@@ -330,8 +330,13 @@ public class NetworkManager {
 
     public Call<MyAppointmentsResponse> getMyAppointments(String bearerToken,
                                                           MyAppointmentsRequest request) {
-        return service.getMyAppointments(EnviHandler.CIAM_BASE_URL + "api/users/query",
-                BEARER + bearerToken, request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_MY_APPOINTMENTS_FORCE_ERROR)) {
+            return service.getMyAppointments(EnviHandler.CIAM_BASE_URL + "api/users/query",
+                    BEARER + bearerToken + "messUpMyBearerToken123", request);
+        } else {
+            return service.getMyAppointments(EnviHandler.CIAM_BASE_URL + "api/users/query",
+                    BEARER + bearerToken, request);
+        }
     }
 
     //1.2 APIs
