@@ -16,6 +16,103 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
+            android:text="Sign In API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Sign In API is used to log into the app. It also gives us profile information so our dashboard can be populated faster." />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="WARNING: You'll have to uninstall the app to log back in if you turn this API off!"
+            android:textColor="@color/red"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/sign_in_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Sign In Refresh API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Sign In Refresh API is used to log users back into the app automatically (if the sign in token is not expired). A failure here will just silently send the user to the Login Screen." />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="WARNING: You may experience issues and have to uninstall if you want to sign in again!"
+            android:textColor="@color/red"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/sign_in_refresh_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Sign Out API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Sign Out API is used to log the user out of the app. This should just fail silently, as the user is always taken back to the log in screen and doesn't care if the call actually failed." />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/sign_out_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
             android:text="Profile Get API"
             android:textStyle="bold" />
 
@@ -163,103 +260,6 @@
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/get_provider_details_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="6dp"
-            android:background="@color/secondary_text" />
-
-        <TextView
-            style="@style/tradeGothicLTStd_Dynamic18"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="Sign In API"
-            android:textStyle="bold" />
-
-        <TextView
-            style="@style/tradeGothicLTStdLight_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="The Sign In API is used to log into the app. It also gives us profile information so our dashboard can be populated faster." />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="WARNING: You'll have to uninstall the app to log back in if you turn this API off!"
-            android:textColor="@color/red"
-            android:textStyle="bold" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/sign_in_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="6dp"
-            android:background="@color/secondary_text" />
-
-        <TextView
-            style="@style/tradeGothicLTStd_Dynamic18"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="Sign In Refresh API"
-            android:textStyle="bold" />
-
-        <TextView
-            style="@style/tradeGothicLTStdLight_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="The Sign In Refresh API is used to log users back into the app automatically (if the sign in token is not expired). A failure here will just silently send the user to the Login Screen." />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="WARNING: You may experience issues and have to uninstall if you want to sign in again!"
-            android:textColor="@color/red"
-            android:textStyle="bold" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/sign_in_refresh_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="6dp"
-            android:background="@color/secondary_text" />
-
-        <TextView
-            style="@style/tradeGothicLTStd_Dynamic18"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="Sign Out API"
-            android:textStyle="bold" />
-
-        <TextView
-            style="@style/tradeGothicLTStdLight_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="The Sign Out API is used to log the user out of the app. This should just fail silently, as the user is always taken back to the log in screen and doesn't care if the call actually failed." />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/sign_out_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
