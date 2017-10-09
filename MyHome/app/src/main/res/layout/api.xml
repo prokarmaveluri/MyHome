@@ -263,6 +263,69 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp" />
 
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Get Saved Doctors API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Get Saved Doctors API is used to fetch the list of favorite providers of the users."/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/get_saved_doctors_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Save Doctor API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Save Doctor API is used to favorite a provider."/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/save_doctor_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Delete Saved Doctor API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Delete Saved Doctor API is used to delete a favorite provider."/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/delete_saved_doctor_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
         <Button
             android:id="@+id/save"
             style="@style/enableButtonStyle"

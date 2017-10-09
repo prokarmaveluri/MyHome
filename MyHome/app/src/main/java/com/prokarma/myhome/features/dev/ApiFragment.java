@@ -37,6 +37,9 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat registerSwitch;
     SwitchCompat changePasswordSwitch;
     SwitchCompat changeSecurityQuestionSwitch;
+    SwitchCompat getSavedDoctorsSwitch;
+    SwitchCompat saveDoctorSwitch;
+    SwitchCompat deleteSavedDoctorSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -60,6 +63,9 @@ public class ApiFragment extends BaseFragment {
         registerSwitch = (SwitchCompat) apiView.findViewById(R.id.register_switch);
         changePasswordSwitch = (SwitchCompat) apiView.findViewById(R.id.change_password_switch);
         changeSecurityQuestionSwitch = (SwitchCompat) apiView.findViewById(R.id.change_security_question_switch);
+        getSavedDoctorsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_saved_doctors_switch);
+        saveDoctorSwitch = (SwitchCompat) apiView.findViewById(R.id.save_doctor_switch);
+        deleteSavedDoctorSwitch = (SwitchCompat) apiView.findViewById(R.id.delete_saved_doctor_switch);
 
         setupSwitches();
 
@@ -147,6 +153,27 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        getSavedDoctorsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_GET_SAVED_DOCTORS_FORCE_ERROR, !isChecked);
+            }
+        });
+
+        saveDoctorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_SAVE_DOCTOR_FORCE_ERROR, !isChecked);
+            }
+        });
+
+        deleteSavedDoctorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_DELETE_SAVED_DOCTOR_FORCE_ERROR, !isChecked);
+            }
+        });
+
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +202,9 @@ public class ApiFragment extends BaseFragment {
         registerSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_REGISTER_FORCE_ERROR));
         changePasswordSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_PASSWORD_FORCE_ERROR));
         changeSecurityQuestionSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_SECURITY_QUESTION_FORCE_ERROR));
+        getSavedDoctorsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_SAVED_DOCTORS_FORCE_ERROR));
+        saveDoctorSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SAVE_DOCTOR_FORCE_ERROR));
+        deleteSavedDoctorSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_DELETE_SAVED_DOCTOR_FORCE_ERROR));
     }
 
     @Override

@@ -332,18 +332,32 @@ public class NetworkManager {
     }
 
     public Call<SaveDoctorResponse> saveDoctor(String bearerToken, SaveDoctorRequest request) {
-        return service.saveDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers",
-                BEARER + bearerToken, request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SAVE_DOCTOR_FORCE_ERROR)) {
+            return service.saveDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers",
+                    BEARER + bearerToken.concat("messUpBearerToken123"), request);
+        } else {
+            return service.saveDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers",
+                    BEARER + bearerToken, request);
+        }
     }
 
     public Call<SaveDoctorResponse> deleteSavedDoctor(String bearerToken, String npi) {
-        return service.deleteSavedDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers/" + npi, BEARER + bearerToken);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_DELETE_SAVED_DOCTOR_FORCE_ERROR)) {
+            return service.deleteSavedDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers/" + npi, BEARER + bearerToken.concat("messUpBearerToken123"));
+        } else {
+            return service.deleteSavedDoctor(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers/" + npi, BEARER + bearerToken);
+        }
     }
 
     public Call<MySavedDoctorsResponse> getSavedDoctors(String bearerToken,
                                                         MySavedDoctorsRequest request) {
-        return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
-                BEARER + bearerToken, request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_SAVED_DOCTORS_FORCE_ERROR)) {
+            return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
+                    BEARER + bearerToken.concat("messUpBearerToken123"), request);
+        } else {
+            return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
+                    BEARER + bearerToken, request);
+        }
     }
 
     public Call<MyAppointmentsResponse> getMyAppointments(String bearerToken,
