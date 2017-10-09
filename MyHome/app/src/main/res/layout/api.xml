@@ -459,6 +459,33 @@
             android:layout_margin="6dp"
             android:background="@color/secondary_text" />
 
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Get Providers API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Get Providers API is used to fetch a list of doctors in FAD." />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/get_providers_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
         <Button
             android:id="@+id/save"
             style="@style/enableButtonStyle"

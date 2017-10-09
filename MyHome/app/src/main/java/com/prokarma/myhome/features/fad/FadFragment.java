@@ -647,6 +647,23 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     @Override
+    public void showEmptyMessage(String message) {
+        providerList.clear();
+        // Update list
+
+        CommonUtil.hideSoftKeyboard(getActivity());
+        binding.searchLayout.setVisibility(View.GONE);
+        if (isResumed()) {
+            pagerAdapter =
+                    new FadPagerAdapter(getChildFragmentManager(), providerList, message);
+            binding.fadPager.setAdapter(pagerAdapter);
+            binding.fadTabs.setupWithViewPager(binding.fadPager);
+        }
+
+        clearFilters();
+    }
+
+    @Override
     public void updateLocationSuggestions() {
 
     }

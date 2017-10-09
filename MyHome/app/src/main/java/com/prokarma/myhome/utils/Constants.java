@@ -138,5 +138,6 @@ public class Constants {
     public static final String API_SAVE_DOCTOR_FORCE_ERROR = "API_SAVE_DOCTOR_FORCE_ERROR";
     public static final String API_DELETE_SAVED_DOCTOR_FORCE_ERROR = "API_DELETE_SAVED_DOCTOR_FORCE_ERROR";
     public static final String API_FORGOT_PASSWORD_FORCE_ERROR = "API_FORGOT_PASSWORD_FORCE_ERROR";
+    public static final String API_GET_PROVIDERS_FORCE_ERROR = "API_GET_PROVIDERS_FORCE_ERROR";
 }
 

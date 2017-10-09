@@ -41,6 +41,7 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat saveDoctorSwitch;
     SwitchCompat deleteSavedDoctorSwitch;
     SwitchCompat forgotPasswordSwitch;
+    SwitchCompat getProvidersSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -68,6 +69,7 @@ public class ApiFragment extends BaseFragment {
         saveDoctorSwitch = (SwitchCompat) apiView.findViewById(R.id.save_doctor_switch);
         deleteSavedDoctorSwitch = (SwitchCompat) apiView.findViewById(R.id.delete_saved_doctor_switch);
         forgotPasswordSwitch = (SwitchCompat) apiView.findViewById(R.id.forgot_password_switch);
+        getProvidersSwitch = (SwitchCompat) apiView.findViewById(R.id.get_providers_switch);
 
         setupSwitches();
 
@@ -183,6 +185,13 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        getProvidersSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_GET_PROVIDERS_FORCE_ERROR, !isChecked);
+            }
+        });
+
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,6 +224,7 @@ public class ApiFragment extends BaseFragment {
         saveDoctorSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SAVE_DOCTOR_FORCE_ERROR));
         deleteSavedDoctorSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_DELETE_SAVED_DOCTOR_FORCE_ERROR));
         forgotPasswordSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_FORGOT_PASSWORD_FORCE_ERROR));
+        getProvidersSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDERS_FORCE_ERROR));
     }
 
     @Override

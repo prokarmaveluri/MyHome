@@ -38,6 +38,13 @@ public interface FadInteractor {
         void showErrorMessage(String message);
 
         /**
+         * empty message from presenter to fragment.
+         *
+         * @param message
+         */
+        void showEmptyMessage(String message);
+
+        /**
          * update the location suggestions
          */
         void updateLocationSuggestions();

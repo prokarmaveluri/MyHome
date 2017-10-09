@@ -77,9 +77,13 @@ public class FadPresenter implements FadInteractor.Presenter {
                             Timber.d("Successful Response\n" + response);
                             mView.updateProviderList(response.body());
                             FadFragment.maxCount = response.body().getNumResults();
+                        } else if(response.isSuccessful() && response.body().getProviders().size() < 1) {
+                            Timber.e("Successful Response, but no providers\n" + response);
+                            mView.showEmptyMessage(mContext.getString(R.string.no_providers));
+                            mView.providersListError();
                         } else {
                             Timber.e("Response, but not successful?\n" + response);
-                            mView.showErrorMessage(mContext.getString(R.string.no_providers));
+                            mView.showErrorMessage(mContext.getString(R.string.something_went_wrong) + "\n" + mContext.getString(R.string.api_error_message));
                             mView.providersListError();
                         }
                         mView.showProgress(false);
@@ -90,7 +94,7 @@ public class FadPresenter implements FadInteractor.Presenter {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + t);
                         mView.showProgress(false);
-                        mView.showErrorMessage("Something went wrong!");
+                        mView.showErrorMessage(mContext.getString(R.string.something_went_wrong) + "\n" + mContext.getString(R.string.api_error_message));
                         mView.providersListError();
                     }
                 });

@@ -280,18 +280,33 @@ public class NetworkManager {
                                                 String facilities,
                                                 String practices,
                                                 String patients) {
-        return service.getProviders(EnviHandler.S2_BASE_URL + "api/providers",
-                queryString, lat, lon, displayName, zipCode,
-                page,
-                pageSize,
-                distance,
-                sortBy,
-                gender,
-                languages,
-                specialties,
-                facilities,
-                practices,
-                patients);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDERS_FORCE_ERROR)) {
+            return service.getProviders(EnviHandler.S2_BASE_URL.concat("messUpProvidersUrl123") + "api/providers",
+                    queryString, lat, lon, displayName, zipCode,
+                    page,
+                    pageSize,
+                    distance,
+                    sortBy,
+                    gender,
+                    languages,
+                    specialties,
+                    facilities,
+                    practices,
+                    patients);
+        } else {
+            return service.getProviders(EnviHandler.S2_BASE_URL + "api/providers",
+                    queryString, lat, lon, displayName, zipCode,
+                    page,
+                    pageSize,
+                    distance,
+                    sortBy,
+                    gender,
+                    languages,
+                    specialties,
+                    facilities,
+                    practices,
+                    patients);
+        }
     }
 
     /**
