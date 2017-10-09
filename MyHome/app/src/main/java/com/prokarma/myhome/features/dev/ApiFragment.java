@@ -44,6 +44,7 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat getProvidersSwitch;
     SwitchCompat getLocationSuggestionsSwitch;
     SwitchCompat getSearchSuggestionsSwitch;
+    SwitchCompat getLocationSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -74,6 +75,7 @@ public class ApiFragment extends BaseFragment {
         getProvidersSwitch = (SwitchCompat) apiView.findViewById(R.id.get_providers_switch);
         getLocationSuggestionsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_location_suggestions_switch);
         getSearchSuggestionsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_search_suggestions_switch);
+        getLocationSwitch = (SwitchCompat) apiView.findViewById(R.id.get_location_switch);
 
         setupSwitches();
 
@@ -210,6 +212,13 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        getLocationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_GET_LOCATION_FORCE_ERROR, !isChecked);
+            }
+        });
+
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,6 +254,7 @@ public class ApiFragment extends BaseFragment {
         getProvidersSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDERS_FORCE_ERROR));
         getLocationSuggestionsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_LOCATION_SUGGESTIONS_FORCE_ERROR));
         getSearchSuggestionsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_SEARCH_SUGGESTIONS_FORCE_ERROR));
+        getLocationSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_LOCATION_FORCE_ERROR));
     }
 
     @Override

@@ -540,6 +540,33 @@
             android:layout_margin="6dp"
             android:background="@color/secondary_text" />
 
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Get Location API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Get Location API is used to get a user's location. This is usually called in the background, silently, and should fail silently." />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/get_location_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
         <Button
             android:id="@+id/save"
             style="@style/enableButtonStyle"

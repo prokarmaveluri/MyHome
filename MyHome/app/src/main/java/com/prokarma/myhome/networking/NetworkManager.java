@@ -256,7 +256,11 @@ public class NetworkManager {
      * @return The Location found
      */
     public Call<LocationResponse> getLocation() {
-        return service.getUserLocation(EnviHandler.S2_BASE_URL + "api/location/");
+        if(AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_LOCATION_FORCE_ERROR)){
+            return service.getUserLocation(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/location/");
+        } else {
+            return service.getUserLocation(EnviHandler.S2_BASE_URL + "api/location/");
+        }
     }
 
     /**
