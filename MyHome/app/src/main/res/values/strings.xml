@@ -320,5 +320,9 @@
     <string name="resend_email">Resend Email</string>
     <string name="verify_email">Verify Email</string>
     <string name="resend_email_success">Your verification email has been resent. Please check your inbox.</string>
-    <string name="resend_email_message">We\'ll send you an email! To activate your account, Click on \"Resend Email\".</string>
+    <string name="resend_email_message">We’ve sent an email to %s! To activate your account, please click on the confirmation link inside that email.</string>
+    <string name="resend_email_message_spam">If you haven’t received the email in your inbox, check your spam folder. </string>
+    <string name="almost_done">Almost done…</string>
+    <string name="validate_email">Validate Email</string>
+    <string name="re_enroll">Re-enroll Account</string>
 </resources>

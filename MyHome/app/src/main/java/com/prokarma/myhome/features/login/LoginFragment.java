@@ -182,7 +182,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     private void startTermsOfServiceActivity() {
         Intent intent = new Intent(getActivity(), TosActivity.class);
-//        intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
         startActivity(intent);
     }
 
@@ -190,6 +189,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         Intent intentVerify = EmailVerifyActivity.getEmailVerifyIntent(getActivity());
         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
         ActivityCompat.startActivityForResult(getActivity(), intentVerify, VERIFY_EMAIL, options.toBundle());
+        getActivity().finish();
     }
 
     public class LoginViewClickEvent {

@@ -4,43 +4,101 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_white" />
-
-        <View
-            android:id="@+id/actionbarSeparator"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/toolbar"
-            android:background="@color/md_blue_grey_650" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/tradeGothicLTStdLight_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/actionbarSeparator"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="48dp"
-            android:text="@string/resend_email_message"
-            android:textColor="@color/text_darker"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <Button
-            android:id="@+id/verify_button"
-            style="@style/enableButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="48dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginRight="52dp"
-            android:text="@string/resend_email"
-            android:textAllCaps="false"
-            android:textSize="@dimen/scalable_18"
-            android:textStyle="bold" />
+                <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/toolbar_white" />
+
+                <View
+                    android:id="@+id/actionbarSeparator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/toolbar"
+                    android:background="@color/md_blue_grey_650" />
+
+                <TextView
+                    style="@style/tradeGothicLTStdLight_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/actionbarSeparator"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="25dp"
+                    android:text="@string/almost_done"
+                    android:textColor="@color/almost_done_color"
+                    android:textSize="40sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/verifyEmailMessage"
+                    style="@style/tradeGothicLTStdLight_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/actionbarSeparator"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="25dp"
+                    android:text="@string/resend_email_message"
+                    android:textColor="@color/text_darker"
+                    android:textSize="20sp" />
+
+                <TextView
+                    style="@style/tradeGothicLTStdLight_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/actionbarSeparator"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="25dp"
+                    android:text="@string/resend_email_message_spam"
+                    android:textColor="@color/text_darker"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/verify_button"
+                    style="@style/enableButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="48dp"
+                    android:layout_marginLeft="38dp"
+                    android:layout_marginRight="38dp"
+                    android:layout_marginTop="96dp"
+                    android:text="@string/resend_email"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/scalable_18"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/reEnroll"
+                    style="@style/tradeGothicLTStd_Dynamic18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="48dp"
+                    android:layout_marginLeft="52dp"
+                    android:layout_marginRight="52dp"
+                    android:gravity="bottom"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/re_enroll"
+                    android:textAlignment="center"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </ScrollView>
 
         <ProgressBar
             android:id="@+id/verify_progress"
