@@ -132,5 +132,7 @@ public class Constants {
     public static final String API_SIGN_IN_REFRESH_FORCE_ERROR = "API_SIGN_IN_REFRESH_FORCE_ERROR";
     public static final String API_SIGN_OUT_FORCE_ERROR = "API_SIGN_OUT_FORCE_ERROR";
     public static final String API_REGISTER_FORCE_ERROR = "API_REGISTER_FORCE_ERROR";
+    public static final String API_CHANGE_PASSWORD_FORCE_ERROR = "API_CHANGE_PASSWORD_FORCE_ERROR";
+    public static final String API_CHANGE_SECURITY_QUESTION_FORCE_ERROR = "API_CHANGE_SECURITY_QUESTION_FORCE_ERROR";
 }
 

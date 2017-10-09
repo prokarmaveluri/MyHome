@@ -35,6 +35,8 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat signInRefreshSwitch;
     SwitchCompat signOutSwitch;
     SwitchCompat registerSwitch;
+    SwitchCompat changePasswordSwitch;
+    SwitchCompat changeSecurityQuestionSwitch;
 
     public static ApiFragment newInstance() {
         return new ApiFragment();
@@ -56,6 +58,8 @@ public class ApiFragment extends BaseFragment {
         signInRefreshSwitch = (SwitchCompat) apiView.findViewById(R.id.sign_in_refresh_switch);
         signOutSwitch = (SwitchCompat) apiView.findViewById(R.id.sign_out_switch);
         registerSwitch = (SwitchCompat) apiView.findViewById(R.id.register_switch);
+        changePasswordSwitch = (SwitchCompat) apiView.findViewById(R.id.change_password_switch);
+        changeSecurityQuestionSwitch = (SwitchCompat) apiView.findViewById(R.id.change_security_question_switch);
 
         setupSwitches();
 
@@ -129,6 +133,20 @@ public class ApiFragment extends BaseFragment {
             }
         });
 
+        changePasswordSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_CHANGE_PASSWORD_FORCE_ERROR, !isChecked);
+            }
+        });
+
+        changeSecurityQuestionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_CHANGE_SECURITY_QUESTION_FORCE_ERROR, !isChecked);
+            }
+        });
+
         Button save = (Button) apiView.findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +173,8 @@ public class ApiFragment extends BaseFragment {
         signInRefreshSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_IN_REFRESH_FORCE_ERROR));
         signOutSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_OUT_FORCE_ERROR));
         registerSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_REGISTER_FORCE_ERROR));
+        changePasswordSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_PASSWORD_FORCE_ERROR));
+        changeSecurityQuestionSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_SECURITY_QUESTION_FORCE_ERROR));
     }
 
     @Override

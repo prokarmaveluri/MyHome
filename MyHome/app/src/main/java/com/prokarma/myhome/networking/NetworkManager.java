@@ -361,14 +361,24 @@ public class NetworkManager {
 
     public Call<CommonResponse> changePassword(String bearerToken,
                                                ChangePasswordRequest request) {
-        return service.changePassword(EnviHandler.CIAM_BASE_URL + "api/users/me/password",
-                BEARER + bearerToken, request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_PASSWORD_FORCE_ERROR)) {
+            return service.changePassword(EnviHandler.CIAM_BASE_URL + "api/users/me/password",
+                    BEARER + bearerToken.concat("messUpBearerToken"), new ChangePasswordRequest());
+        } else {
+            return service.changePassword(EnviHandler.CIAM_BASE_URL + "api/users/me/password",
+                    BEARER + bearerToken, request);
+        }
     }
 
     public Call<CommonResponse> changeSecurityQuestion(String bearerToken,
                                                        ChangeSesurityQuestionRequest request) {
-        return service.changeSecurityQuestion(EnviHandler.CIAM_BASE_URL + "api/users/me/recovery/question",
-                BEARER + bearerToken, request);
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_SECURITY_QUESTION_FORCE_ERROR)) {
+            return service.changeSecurityQuestion(EnviHandler.CIAM_BASE_URL + "api/users/me/recovery/question",
+                    BEARER + bearerToken.concat("messupBearerToken"), new ChangeSesurityQuestionRequest());
+        } else {
+            return service.changeSecurityQuestion(EnviHandler.CIAM_BASE_URL + "api/users/me/recovery/question",
+                    BEARER + bearerToken, request);
+        }
     }
 
     /**
