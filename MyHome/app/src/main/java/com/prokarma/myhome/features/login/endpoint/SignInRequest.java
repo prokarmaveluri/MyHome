@@ -9,6 +9,9 @@ public class SignInRequest {
     public String username;
     public String password;
 
+    public SignInRequest() {
+    }
+
     public SignInRequest(String username, String password) {
         this.username = username;
         this.password = password;

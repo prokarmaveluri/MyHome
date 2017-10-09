@@ -9,6 +9,9 @@ public class ChangeSesurityQuestionRequest {
     private String password;
     private Question question;
 
+    public ChangeSesurityQuestionRequest() {
+    }
+
     public ChangeSesurityQuestionRequest(String password, Question question){
         this.password = password;
         this.question = question;

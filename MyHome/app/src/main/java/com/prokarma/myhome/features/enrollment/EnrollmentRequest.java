@@ -19,6 +19,9 @@ public class EnrollmentRequest implements Parcelable {
     private Boolean skipVerification = false;
     private List<RecoveryQuestion> recoveryQuestions = null;
 
+    public EnrollmentRequest() {
+    }
+
     public EnrollmentRequest(String firstName, String lastName, String email, String password,
                              boolean hasAcceptedTerms,
                              boolean skipVerification, List<RecoveryQuestion> recoveryQuestions) {
@@ -37,6 +40,14 @@ public class EnrollmentRequest implements Parcelable {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     static public class RecoveryQuestion implements Parcelable {

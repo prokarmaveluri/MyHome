@@ -718,4 +718,11 @@ public class CommonUtil {
 
         return pastAppointments;
     }
+
+    public static void exitApp(Context context, Activity activity){
+        Intent i = activity.getBaseContext().getPackageManager().getLaunchIntentForPackage(activity.getBaseContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(i);
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
 }

@@ -10,6 +10,9 @@ public class ChangePasswordRequest {
     private String newPassword;
     private String verifyNewPassword;
 
+    public ChangePasswordRequest() {
+    }
+
     public ChangePasswordRequest(String oldPassword, String newPassword,
                                  String verifyNewPassword){
         this.oldPassword = oldPassword;

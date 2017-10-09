@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.care.MyCareFragment;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
+import com.prokarma.myhome.features.dev.ApiFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.faq.FaqFragment;
 import com.prokarma.myhome.features.home.HomeDidYouKnowFragment;
@@ -122,6 +123,18 @@ public class OptionsActivity extends BaseActivity {
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.DEVELOPER);
                 break;
+
+            case API:
+                ApiFragment apiFragment = ApiFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, apiFragment, ApiFragment.API_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.API);
+                break;
+
             case CHANGE_PASSWORD:
 
                 ChangePasswordFragment changeFragment = ChangePasswordFragment.newInstance();

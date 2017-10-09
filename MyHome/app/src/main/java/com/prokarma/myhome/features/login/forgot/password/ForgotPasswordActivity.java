@@ -19,6 +19,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.ActivityForgotPasswordBinding;
 import com.prokarma.myhome.features.login.LoginFragment;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 
@@ -51,7 +52,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         String email = getIntent().getStringExtra(LoginFragment.EMAIL_ID_KEY);
 
         binding.email.addTextChangedListener(new ForgotPasswordTextWatcher());
-        if (null != email && !email.isEmpty()){
+        if (null != email && !email.isEmpty()) {
             binding.email.setText(email);
         }
 
@@ -103,16 +104,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             buildForgotPasswordAlert(getString(R.string.forgot_password_success_msg));
                         } else {
-                            Toast.makeText(getApplicationContext(),
-                                    getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                            ApiErrorUtil.getInstance().forgotPasswordError(getApplicationContext(), binding.getRoot(), response);
                         }
                         binding.forgotProgress.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),
-                                getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                        ApiErrorUtil.getInstance().forgotPasswordFailed(getApplicationContext(), binding.getRoot(), t);
                         binding.forgotProgress.setVisibility(View.GONE);
                     }
                 });

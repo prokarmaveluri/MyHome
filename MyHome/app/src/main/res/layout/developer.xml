@@ -142,5 +142,15 @@
             android:layout_margin="6dp"
             android:text="type here" />
 
+        <Button
+            android:id="@+id/api_overview"
+            style="@style/enableButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/type"
+            android:layout_margin="6dp"
+            android:padding="12dp"
+            android:text="API Overview" />
+
     </RelativeLayout>
 </ScrollView>
