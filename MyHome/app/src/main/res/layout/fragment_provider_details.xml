@@ -10,14 +10,6 @@
             android:id="@+id/provider_details"
             layout="@layout/provider_details" />
 
-        <TextView
-            android:id="@+id/errorView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/something_went_wrong"
-            android:visibility="gone" />
-
         <ProgressBar
             android:id="@+id/details_progress_bar"
             android:layout_width="wrap_content"

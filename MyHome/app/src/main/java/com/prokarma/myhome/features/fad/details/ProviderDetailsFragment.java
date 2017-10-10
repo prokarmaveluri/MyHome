@@ -104,7 +104,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private TextView speciality;
     private TextView address;
     private TextView phone;
-    private TextView errorView;
     private Button bookAppointment;
     private ExpandableLinearLayout expandableLinearLayout;
 
@@ -200,7 +199,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         speciality = (TextView) providerDetailsView.findViewById(R.id.speciality);
         address = (TextView) providerDetailsView.findViewById(R.id.facility_address);
         phone = (TextView) providerDetailsView.findViewById(R.id.phone);
-        errorView = (TextView) providerDetailsView.findViewById(R.id.errorView);
         favProvider = (ImageView) providerDetailsView.findViewById(R.id.provider_details_fav);
 
         CommonUtil.updateFavView(false, favProvider);
@@ -277,7 +275,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             public void onResponse(Call<ProviderDetailsResponse> call, Response<ProviderDetailsResponse> response) {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
-                        errorView.setVisibility(View.GONE);
                         detailsProgressBar.setVisibility(View.GONE);
                         Timber.d("Successful Response\n" + response);
                         providerDetailsResponse = response.body();
@@ -352,9 +349,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         }
                     } else {
                         ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
-                        errorView.setVisibility(View.VISIBLE);
                         detailsProgressBar.setVisibility(View.GONE);
-                        errorView.setText(View.VISIBLE);
                         //Toast.makeText(getActivity(), R.string.provider_details_error_msg, Toast.LENGTH_SHORT).show();
                         Timber.e("Response, but not successful?\n" + response);
                         showStatsUnavailable();
@@ -373,7 +368,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     ApiErrorUtil.getInstance().getProviderDetailsFailed(getContext(), providerDetailsView, t);
 
                     detailsProgressBar.setVisibility(View.GONE);
-                    errorView.setVisibility(View.VISIBLE);
                     MapUtil.zoomMap(getContext(), providerMap, markers);
                     showStatsUnavailable();
                 }
