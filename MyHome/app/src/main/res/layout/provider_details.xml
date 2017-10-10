@@ -29,7 +29,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginTop="6dp"
             android:layout_toRightOf="@id/doctor_image"
-            android:text="Dr. Edward Patterson, MD"
+            android:text=""
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
@@ -41,7 +41,7 @@
             android:layout_alignLeft="@id/doctor_name"
             android:layout_below="@id/doctor_name"
             android:layout_marginEnd="18dp"
-            android:text="Family Medicine"
+            android:text=""
             tools:ignore="HardcodedText" />
 
         <RelativeLayout
@@ -118,7 +118,7 @@
             android:layout_marginStart="18dp"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:text="170 Alameda de las Pulgas\nRedwood City, CA 94062"
+            android:text=""
             tools:ignore="HardcodedText" />
 
         <ImageView
@@ -140,7 +140,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
             android:gravity="center"
-            android:text="616-867-5309"
+            android:text=""
             android:textColor="@color/primary"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />

@@ -40,7 +40,7 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/yes" />
+                android:text="" />
 
         </LinearLayout>
 
@@ -63,7 +63,7 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="English"
+                android:text=""
                 tools:ignore="HardcodedText" />
         </LinearLayout>
     </LinearLayout>
@@ -94,7 +94,7 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/male" />
+                android:text="" />
 
         </LinearLayout>
 
@@ -117,7 +117,7 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="30 Years"
+                android:text=""
                 tools:ignore="HardcodedText" />
         </LinearLayout>
     </LinearLayout>
@@ -136,7 +136,7 @@
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Specialities Request: Pediatric\nGastroenterology"
+        android:text=""
         tools:ignore="HardcodedText" />
 
     <TextView
