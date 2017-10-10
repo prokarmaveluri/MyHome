@@ -189,12 +189,24 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
                         updateFavList();
                     } catch (NullPointerException ex) {
                         Timber.e("Error onResponse SavedDoctors ");
-                        ApiErrorUtil.getInstance().getSavedDoctorsError(getContext(), getView(), response);
+
+                        try {
+                            ApiErrorUtil.getInstance().getSavedDoctorsError(getContext(), getView(), response);
+                        } catch (IllegalStateException e) {
+                            Timber.w("Failed to get Saved Doctors, but we probably already left this view so let's not bother with the error message...");
+                        }
+
                         ProfileManager.setFavoriteProviders(null);
                     }
                 } else {
                     Timber.e("Error onResponse SavedDoctors with error code");
-                    ApiErrorUtil.getInstance().getSavedDoctorsError(getContext(), getView(), response);
+
+                    try {
+                        ApiErrorUtil.getInstance().getSavedDoctorsError(getContext(), getView(), response);
+                    } catch (IllegalStateException e) {
+                        Timber.w("Failed to get Saved Doctors, but we probably already left this view so let's not bother with the error message...");
+                    }
+
                     ProfileManager.setFavoriteProviders(null);
                 }
                 binder.favProgress.setVisibility(View.GONE);
@@ -203,7 +215,13 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
             @Override
             public void onFailure(Call<MySavedDoctorsResponse> call, Throwable t) {
                 Timber.e("Error onFailure SavedDoctors");
-                ApiErrorUtil.getInstance().getSavedDoctorsFailed(getContext(), getView(), t);
+
+                try {
+                    ApiErrorUtil.getInstance().getSavedDoctorsFailed(getContext(), getView(), t);
+                } catch (IllegalStateException e) {
+                    Timber.w("Failed to get Saved Doctors, but we probably already left this view so let's not bother with the error message...");
+                }
+
                 ProfileManager.setFavoriteProviders(null);
                 binder.favProgress.setVisibility(View.GONE);
             }
