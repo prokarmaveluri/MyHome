@@ -69,6 +69,20 @@ public class CommonUtil {
 
     public static boolean isValidEmail(String email) {
 
+        if (null == email)
+            return false;
+        if (email.isEmpty() || !email.contains("@"))
+            return false;
+        String[] tokens = email.split("\\@");
+
+        if (null == tokens)
+            return false;
+        if (tokens.length != 2)
+            return false;
+
+        if (tokens[0].length() > 49 || tokens[1].length() > 50)
+            return false;
+
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
@@ -719,7 +733,7 @@ public class CommonUtil {
         return pastAppointments;
     }
 
-    public static void exitApp(Context context, Activity activity){
+    public static void exitApp(Context context, Activity activity) {
         Intent i = activity.getBaseContext().getPackageManager().getLaunchIntentForPackage(activity.getBaseContext().getPackageName());
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(i);
