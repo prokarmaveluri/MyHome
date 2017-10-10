@@ -25,6 +25,10 @@ public class ApiErrorUtil {
     }
 
     private void genericError(final Context context, final View view, boolean isDismissable) {
+        if(context == null || view == null){
+            return;
+        }
+
         snackbar = Snackbar.make(view, context.getString(R.string.api_error_message), Snackbar.LENGTH_INDEFINITE);
 
         if (isDismissable) {
