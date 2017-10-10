@@ -30,9 +30,11 @@
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
                     android:ellipsize="end"
                     android:hint="@string/first_name"
+                    android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="35"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -51,9 +53,11 @@
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
                     android:ellipsize="end"
                     android:hint="@string/last_name"
+                    android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="35"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -72,9 +76,11 @@
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
                     android:ellipsize="end"
                     android:hint="@string/preferred_name"
+                    android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="35"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -111,9 +117,11 @@
                     android:digits="0123456789"
                     android:ellipsize="end"
                     android:hint="@string/date_of_birth"
+                    android:imeOptions="actionNext"
                     android:inputType="number|phone"
                     android:maxLength="10"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -131,8 +139,10 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:hint="@string/address"
+                    android:imeOptions="actionNext"
                     android:inputType="textCapWords"
-                    android:maxLines="2" />
+                    android:maxLines="2"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -150,8 +160,10 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:hint="@string/address_2"
+                    android:imeOptions="actionNext"
                     android:inputType="textCapWords"
-                    android:maxLines="2" />
+                    android:maxLines="2"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -176,8 +188,10 @@
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
                         android:ellipsize="end"
                         android:hint="@string/city"
+                        android:imeOptions="actionNext"
                         android:inputType="textCapWords"
-                        android:maxLines="2" />
+                        android:maxLines="2"
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -212,8 +226,10 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:hint="@string/zip"
+                        android:imeOptions="actionNext"
                         android:inputType="number"
-                        android:maxLength="5" />
+                        android:maxLength="5"
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -233,9 +249,11 @@
                         android:ellipsize="end"
                         android:ems="10"
                         android:hint="@string/phone_number"
+                        android:imeOptions="actionNext"
                         android:inputType="phone"
                         android:maxLength="12"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
@@ -282,8 +300,10 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:hint="@string/insurance_plan"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -301,8 +321,10 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:hint="@string/member_id"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -320,8 +342,10 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:hint="@string/group_id"
+                    android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 

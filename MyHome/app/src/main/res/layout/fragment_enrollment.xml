@@ -49,7 +49,8 @@
                         android:maxLength="35"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp" />
+                        android:paddingRight="10dp"
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -76,7 +77,8 @@
                         android:maxLength="35"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp" />
+                        android:paddingRight="10dp"
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -100,7 +102,8 @@
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp" />
+                        android:paddingRight="10dp"
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
 

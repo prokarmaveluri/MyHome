@@ -43,8 +43,10 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:hint="@string/member_id"
+                android:imeOptions="actionNext"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -62,8 +64,10 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:hint="@string/group_id"
+                android:imeOptions="actionNext"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -82,9 +86,11 @@
                 android:ellipsize="end"
                 android:ems="10"
                 android:hint="@string/insurance_phone_number"
+                android:imeOptions="actionDone"
                 android:inputType="phone"
                 android:maxLength="12"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
 
