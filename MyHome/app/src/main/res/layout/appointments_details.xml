@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -63,6 +64,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@+id/heart_icon"
                 android:layout_toRightOf="@+id/doctor_image"
                 android:textIsSelectable="true"
                 android:textStyle="bold"
@@ -74,7 +76,7 @@
                 android:layout_height="31dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_favorite_stroke" />
+                app:srcCompat="@drawable/ic_favorite_stroke" />
         </RelativeLayout>
 
         <TextView

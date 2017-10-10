@@ -76,6 +76,7 @@ public class HomeDidYouKnowFragment extends BaseFragment {
         error.setVisibility(View.GONE);
         webView.setVisibility(View.VISIBLE);
 
+        getActivity().setTitle(getString(R.string.did_you_know));
         if (!ConnectionUtil.isConnected(getActivity())) {
             error.setVisibility(View.VISIBLE);
             webView.setVisibility(View.GONE);
