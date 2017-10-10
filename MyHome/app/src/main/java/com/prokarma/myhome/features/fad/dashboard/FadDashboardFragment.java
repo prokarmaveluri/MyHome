@@ -81,7 +81,7 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
             binder.errorView.setVisibility(View.VISIBLE);
         binder.mySavedDocs.setLayoutManager(new LinearLayoutManager(getActivity()));
         binder.mySavedDocs.setAdapter(new FavProvidersAdapter(ProfileManager.getFavoriteProviders(),
-                getActivity(), this, true));
+                getActivity(), this, true, binder.getRoot()));
     }
 
     @Override

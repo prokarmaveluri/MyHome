@@ -51,7 +51,7 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
 
         binding.favList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.favList.setAdapter(new FavProvidersAdapter(ProfileManager.getFavoriteProviders(),
-                getActivity(), this, false));
+                getActivity(), this, false, binding.getRoot()));
         binding.setHandlers(new FavDialogClick());
         return binding.getRoot();
     }

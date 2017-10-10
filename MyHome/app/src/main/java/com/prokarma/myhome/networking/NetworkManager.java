@@ -664,7 +664,7 @@ public class NetworkManager {
 
     public void updateFavDoctor(final boolean isSave, final String npi, final ImageView favProvider,
                                 final ProviderResponse provider, final boolean isList,
-                                final Context context) {
+                                final Context context, final View parentView) {
 
         if (!ConnectionUtil.isConnected(context)) {
             Toast.makeText(context, R.string.no_network_msg,
@@ -694,14 +694,14 @@ public class NetworkManager {
                         }
                     } else {
                         CommonUtil.updateFavView(!isSave, favProvider);
-                        ApiErrorUtil.getInstance().saveDoctorError(context, favProvider, response);
+                        ApiErrorUtil.getInstance().saveDoctorError(context, parentView, response);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
                     CommonUtil.updateFavView(!isSave, favProvider);
-                    ApiErrorUtil.getInstance().saveDoctorFailed(context, favProvider, t);
+                    ApiErrorUtil.getInstance().saveDoctorFailed(context, parentView, t);
                 }
             });
         } else { //DELETE saved Doc
@@ -719,14 +719,14 @@ public class NetworkManager {
                         deleteSavedDocotor(npi);
                     } else {
                         CommonUtil.updateFavView(!isSave, favProvider);
-                        ApiErrorUtil.getInstance().deleteSavedDoctorError(context, favProvider, response);
+                        ApiErrorUtil.getInstance().deleteSavedDoctorError(context, parentView, response);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
                     CommonUtil.updateFavView(!isSave, favProvider);
-                    ApiErrorUtil.getInstance().deleteSavedDoctorFailed(context, favProvider, t);
+                    ApiErrorUtil.getInstance().deleteSavedDoctorFailed(context, parentView, t);
                 }
             });
         }

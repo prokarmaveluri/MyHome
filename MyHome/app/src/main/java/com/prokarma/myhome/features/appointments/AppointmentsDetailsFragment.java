@@ -82,7 +82,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                 favDoc = !favDoc;
                 if (null != appointment && null != appointment.provider.getNpi()) {
                     NetworkManager.getInstance().updateFavDoctor(favDoc, appointment.provider.getNpi(),
-                            favProvider, appointment.provider, false, getActivity());
+                            favProvider, appointment.provider, false, getActivity(), appointmentsView);
                 } else {
                     Toast.makeText(getActivity(), "Sorry we are unable to add at this time.", Toast.LENGTH_SHORT).show();
                 }

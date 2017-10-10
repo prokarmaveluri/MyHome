@@ -33,15 +33,17 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
     private IProviderClick listener;
     private boolean isDashboard = false;
     private Context mContext;
+    private View parentView;
 
     public FavProvidersAdapter(List<ProviderResponse> providers,
-                               Context context, IProviderClick listener, boolean isDashboard) {
+                               Context context, IProviderClick listener, boolean isDashboard, View parentView) {
         providerList.clear();
         if (null != providers)
             providerList.addAll(providers);
         mContext = context;
         this.isDashboard = isDashboard;
         this.listener = listener;
+        this.parentView = parentView;
     }
 
     @Override
@@ -131,7 +133,7 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                         int position = (int) view.getTag();
                         NetworkManager.getInstance().updateFavDoctor(false,
                                 providerList.get(position).getNpi(), (ImageView) view,
-                                providerList.get(position), true, mContext);
+                                providerList.get(position), true, mContext, parentView);
                         NetworkManager.getInstance().deleteSavedDocotor(providerList.get(position).getNpi());
                         providerList.remove(position);
                         listener.favProviderListUpdate(position);
