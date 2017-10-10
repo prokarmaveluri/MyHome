@@ -94,6 +94,9 @@ public class AppointmentsFragment extends BaseFragment {
                     Toast.LENGTH_LONG).show();
             return;
         }
+
+        appointmentsViewPager.setAdapter(new AppointmentsViewPagerAdapter(getContext(), getChildFragmentManager(), ProfileManager.getAppointments()));
+
         showLoading();
 
         NetworkManager.getInstance().getMyAppointments(AuthManager.getInstance().getBearerToken(),
