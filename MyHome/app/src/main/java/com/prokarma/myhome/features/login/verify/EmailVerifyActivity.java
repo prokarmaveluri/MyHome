@@ -188,7 +188,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
 
                             startTermsOfServiceActivity();
                         } else {
-                            finish();
+                            //TODO: if it is not verified keep the user in the same screen
                         }
                     } catch (NullPointerException ex) {
                     }
@@ -208,7 +208,6 @@ public class EmailVerifyActivity extends AppCompatActivity {
 
     private void startTermsOfServiceActivity() {
         Intent intent = new Intent(this, TosActivity.class);
-//        intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
         startActivity(intent);
     }
 
