@@ -138,6 +138,31 @@ public class DateUtil {
     }
 
     /**
+     * Finds the TimeZone of a given appointment. The implementation is hacky and only will return "MST", "PDT", or "PST"
+     *
+     * @param appointment the appointment we want a timezone for
+     * @return a TimeZone (the only values we return are "MST", "PDT", or "PST")
+     */
+    public static String getReadableTimeZone(Appointment appointment) {
+        if (appointment.FacilityState.toLowerCase() == "AZ".toLowerCase()) {
+            return "MST";
+        } else {
+            TimeZone pstTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
+            try {
+                Date dateWithoutTimeZone = DateUtil.getDateTimeZone(appointment.Time);
+                if (pstTimeZone.inDaylightTime(dateWithoutTimeZone)) {
+                    return "PDT";
+                } else {
+                    return "PST";
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+    }
+
+    /**
      * Convert a UTC date to a more "human-friendly" format.
      *
      * @param utcDate the UTC date (formatted like such: "yyyy-MM-dd'T'HH:mm:ss" with +- for TimeZone)
