@@ -76,6 +76,38 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         favProvider = (ImageView) appointmentsView.findViewById(R.id.heart_icon);
         docImage = (CircularImageView) appointmentsView.findViewById(R.id.doctor_image);
 
+        if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
+            dateHeader.setText(DateUtil.getDateWords2FromUTC(appointment.appointmentStart));
+            timeHeader.setText(DateUtil.getTime(appointment.appointmentStart) + " " + DateUtil.getReadableTimeZone(appointment));
+        }
+
+        if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
+            doctorName.setText(appointment.doctorName);
+        }
+
+        if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
+            facilityName.setText(appointment.facilityName);
+        }
+
+        if (appointment.facilityAddress != null) {
+            facilityAddress.setText(CommonUtil.constructAddress(
+                    appointment.facilityAddress.line1,
+                    appointment.facilityAddress.line2,
+                    appointment.facilityAddress.city,
+                    appointment.facilityAddress.stateOrProvince,
+                    appointment.facilityAddress.zipCode));
+        } else {
+            facilityAddress.setText(null);
+        }
+
+        if (appointment.visitReason != null && !appointment.visitReason.isEmpty()) {
+            reason.setText(appointment.visitReason);
+        }
+
+        if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
+            phoneNumber.setText(CommonUtil.constructPhoneNumber(appointment.facilityPhoneNumber));
+        }
+
         favProvider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,71 +172,6 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                 startActivity(intentPhone);
             }
         });
-
-        if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-            dateHeader.setText(DateUtil.getDateWords2FromUTC(appointment.appointmentStart));
-            timeHeader.setText(DateUtil.getTime(appointment.appointmentStart));
-        }
-
-        if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
-            doctorName.setText(appointment.doctorName);
-        }
-
-        if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
-            facilityName.setText(appointment.facilityName);
-        }
-
-        if (appointment.facilityAddress != null) {
-            facilityAddress.setText(CommonUtil.constructAddress(
-                    appointment.facilityAddress.line1,
-                    appointment.facilityAddress.line2,
-                    appointment.facilityAddress.city,
-                    appointment.facilityAddress.stateOrProvince,
-                    appointment.facilityAddress.zipCode));
-        } else {
-            facilityAddress.setText(null);
-        }
-
-        phoneIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL +
-                        phoneNumber.getText().toString()));
-                intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intentPhone);
-            }
-        });
-
-        phoneNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL +
-                        phoneNumber.getText().toString()));
-                intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intentPhone);
-            }
-        });
-
-        if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
-            dateHeader.setText(DateUtil.getDateWords2FromUTC(appointment.appointmentStart));
-            timeHeader.setText(DateUtil.getTime(appointment.appointmentStart));
-        }
-
-        if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
-            doctorName.setText(appointment.doctorName);
-        }
-
-        if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
-            facilityName.setText(appointment.facilityName);
-        }
-
-        if (appointment.visitReason != null && !appointment.visitReason.isEmpty()) {
-            reason.setText(appointment.visitReason);
-        }
-
-        if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
-            phoneNumber.setText(CommonUtil.constructPhoneNumber(appointment.facilityPhoneNumber));
-        }
 
         if (ProfileManager.getFavoriteProviders() != null) {
             CommonUtil.updateFavView(false, favProvider);
