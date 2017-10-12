@@ -203,7 +203,7 @@ public class BookingDoneFragment extends Fragment {
 
                         updateVisibility(false);
                         date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().Time));
-                        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().Time));
+                        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().Time) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingAppointment()));
                         address.setText(CommonUtil.constructAddress(BookingManager.getBookingAppointment().FacilityAddress, null, BookingManager.getBookingAppointment().FacilityCity, BookingManager.getBookingAppointment().FacilityState, BookingManager.getBookingAppointment().FacilityZip));
 
                         if (doneInterface != null) {

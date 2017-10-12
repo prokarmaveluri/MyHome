@@ -40,7 +40,7 @@
             android:layout_below="@id/date"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="10:30am"
+            android:text="10:30am PST"
             tools:ignore="HardcodedText" />
 
         <TextView
