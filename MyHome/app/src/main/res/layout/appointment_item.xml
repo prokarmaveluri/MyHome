@@ -43,7 +43,7 @@
         android:layout_marginLeft="12dp"
         android:gravity="center"
         android:maxWidth="285dp"
-        android:text="2:45 PM" />
+        android:text="2:45 PM PST" />
 
     <TextView
         android:id="@+id/facility"
