@@ -96,6 +96,47 @@ public class DateUtil {
         return utcDate.substring(utcDate.length() - 6, utcDate.length());
     }
 
+    //iOS implementation of the TimeZones
+//    static func getTimezone(appt: UserAppointment) -> String {
+//        if ("AZ".lowercased() == appt.facilityAddress?.stateOrProvince?.lowercased()) {
+//            return "MST"
+//        } else {
+//            if let pstTimeZone = TimeZone(identifier: "America/Los_Angeles"), let dateWithoutTimeZone = UtilityMethods.getDateWithoutTimezone(timeStamp: appt.appointmentStart!) {
+//                if pstTimeZone.isDaylightSavingTime(for: dateWithoutTimeZone) {
+//                    return "PDT"
+//                } else {
+//                    return "PST"
+//                }
+//            }
+//        }
+//        return ""
+//    }
+
+    /**
+     * Finds the TimeZone of a given appointment. The implementation is hacky and only will return "MST", "PDT", or "PST"
+     *
+     * @param appointment the appointment we want a timezone for
+     * @return a TimeZone (the only values we return are "MST", "PDT", or "PST")
+     */
+    public static String getReadableTimeZone(com.prokarma.myhome.features.appointments.Appointment appointment) {
+        if (appointment.facilityAddress.stateOrProvince.toLowerCase() == "AZ".toLowerCase()) {
+            return "MST";
+        } else {
+            TimeZone pstTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
+            try {
+                Date dateWithoutTimeZone = DateUtil.getDateTimeZone(appointment.appointmentStart);
+                if (pstTimeZone.inDaylightTime(dateWithoutTimeZone)) {
+                    return "PDT";
+                } else {
+                    return "PST";
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+    }
+
     /**
      * Convert a UTC date to a more "human-friendly" format.
      *
