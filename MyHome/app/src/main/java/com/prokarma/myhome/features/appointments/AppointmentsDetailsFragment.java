@@ -200,7 +200,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                         .load(url)
                         .into(docImage);
             }
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException | IndexOutOfBoundsException ex) {
         }
 
         return appointmentsView;

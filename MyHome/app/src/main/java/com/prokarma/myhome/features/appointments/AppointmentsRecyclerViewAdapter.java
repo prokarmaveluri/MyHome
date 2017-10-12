@@ -76,7 +76,7 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
                                 .load(url)
                                 .into(holder.doctorImage);
                     }
-                } catch (NullPointerException ex) {
+                } catch (NullPointerException | IndexOutOfBoundsException ex) {
                 }
                 holder.setOnItemClickListener(appointment, onItemClickListener);
                 holder.setOnPinClickListener(appointment, onItemClickListener);
