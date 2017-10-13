@@ -190,10 +190,10 @@ public class BookingSelectTimeFragment extends Fragment {
             timeZoneWarning.setVisibility(View.VISIBLE);
             timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
                     DateUtil.getReadableTimeZone(todaysAppointments.get(0))));
+
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
             timeLayout.setVisibility(View.GONE);
-            timeZoneWarning.setVisibility(View.GONE);
             noAppointments.setVisibility(View.VISIBLE);
 
             if (DateUtil.isToday(bookingDate)) {
@@ -203,6 +203,9 @@ public class BookingSelectTimeFragment extends Fragment {
             }
 
             if (nextAppointment != null) {
+                timeZoneWarning.setVisibility(View.VISIBLE);
+                timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
+                        DateUtil.getReadableTimeZone(nextAppointment)));
 
                 //Bold just the Date part
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -231,6 +234,7 @@ public class BookingSelectTimeFragment extends Fragment {
                 });
             } else {
                 noAppointments.setText(getString(R.string.no_appointments_available));
+                timeZoneWarning.setVisibility(View.GONE);
             }
 
             if (DateUtil.isToday(bookingDate)) {
