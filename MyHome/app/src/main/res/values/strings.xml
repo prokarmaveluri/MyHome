@@ -58,6 +58,7 @@
     <string name="forgot_password_subheader">An email will be sent to entered address with reset instructions</string>
     <string name="booking_select_person_header">Who is this appointment for?</string>
     <string name="booking_select_status_header">Are you a new patient?</string>
+    <string name="booking_timezone_warning">All appointments are in %s time zone</string>
     <string name="me">Me</string>
     <string name="family_member">Family Member</string>
     <string name="booking_reason_hint">Please tell us the purpose of your visit.</string>

@@ -56,6 +56,7 @@ public class BookingSelectTimeFragment extends Fragment {
 
     View bookingView;
     TextView monthLabel;
+    TextView timeZoneWarning;
     ImageView rightArrow;
     ImageView leftArrow;
     FlowLayout timeLayout;
@@ -108,6 +109,7 @@ public class BookingSelectTimeFragment extends Fragment {
         timeLayout.setGravity(Gravity.CENTER);
         noAppointments = (Button) bookingView.findViewById(R.id.empty_appointments);
         callForAppointments = (Button) bookingView.findViewById(R.id.call_for_appointment);
+        timeZoneWarning = (TextView) bookingView.findViewById(R.id.timezone_warning);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -185,6 +187,8 @@ public class BookingSelectTimeFragment extends Fragment {
             timeLayout.setVisibility(View.VISIBLE);
             noAppointments.setVisibility(View.GONE);
             callForAppointments.setVisibility(View.GONE);
+            timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
+                    DateUtil.getReadableTimeZone(todaysAppointments.get(0))));
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
             timeLayout.setVisibility(View.GONE);

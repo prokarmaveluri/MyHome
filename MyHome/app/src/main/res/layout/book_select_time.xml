@@ -12,6 +12,17 @@
         android:id="@+id/date_header"
         layout="@layout/book_date_header" />
 
+    <TextView
+        android:id="@+id/timezone_warning"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="7sp"
+        android:text="All appointments are in PST time"
+        android:textColor="@color/secondary_text" />
+
     <com.prokarma.myhome.views.FlowLayout
         android:id="@+id/time_group"
         android:layout_width="match_parent"
