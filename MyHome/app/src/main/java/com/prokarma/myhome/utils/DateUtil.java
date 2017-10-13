@@ -119,22 +119,7 @@ public class DateUtil {
      * @return a TimeZone (the only values we return are "MST", "PDT", or "PST")
      */
     public static String getReadableTimeZone(com.prokarma.myhome.features.appointments.Appointment appointment) {
-        if (appointment.facilityAddress.stateOrProvince.toLowerCase() == "AZ".toLowerCase()) {
-            return "MST";
-        } else {
-            TimeZone pstTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
-            try {
-                Date dateWithoutTimeZone = DateUtil.getDateTimeZone(appointment.appointmentStart);
-                if (pstTimeZone.inDaylightTime(dateWithoutTimeZone)) {
-                    return "PDT";
-                } else {
-                    return "PST";
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return "";
-            }
-        }
+        return getReadableTimeZone(appointment.facilityAddress.stateOrProvince, appointment.appointmentStart);
     }
 
     /**
@@ -144,12 +129,16 @@ public class DateUtil {
      * @return a TimeZone (the only values we return are "MST", "PDT", or "PST")
      */
     public static String getReadableTimeZone(Appointment appointment) {
-        if (appointment.FacilityState.toLowerCase() == "AZ".toLowerCase()) {
+        return getReadableTimeZone(appointment.FacilityState, appointment.Time);
+    }
+
+    public static String getReadableTimeZone(String state, String time) {
+        if (state.toLowerCase() == "AZ".toLowerCase()) {
             return "MST";
         } else {
             TimeZone pstTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
             try {
-                Date dateWithoutTimeZone = DateUtil.getDateTimeZone(appointment.Time);
+                Date dateWithoutTimeZone = DateUtil.getDateTimeZone(time);
                 if (pstTimeZone.inDaylightTime(dateWithoutTimeZone)) {
                     return "PDT";
                 } else {
