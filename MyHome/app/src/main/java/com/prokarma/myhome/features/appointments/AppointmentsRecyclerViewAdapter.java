@@ -71,12 +71,14 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
                     if (null != appointment.provider.getImages()) {
                         String url = appointment.provider.getImages().get(2).getUrl();
                         url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
+                        holder.doctorImage.setVisibility(View.VISIBLE);
 
                         Picasso.with(context)
                                 .load(url)
                                 .into(holder.doctorImage);
                     }
                 } catch (NullPointerException | IndexOutOfBoundsException ex) {
+                    holder.doctorImage.setVisibility(View.INVISIBLE);
                 }
                 holder.setOnItemClickListener(appointment, onItemClickListener);
                 holder.setOnPinClickListener(appointment, onItemClickListener);
