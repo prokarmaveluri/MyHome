@@ -187,11 +187,13 @@ public class BookingSelectTimeFragment extends Fragment {
             timeLayout.setVisibility(View.VISIBLE);
             noAppointments.setVisibility(View.GONE);
             callForAppointments.setVisibility(View.GONE);
+            timeZoneWarning.setVisibility(View.VISIBLE);
             timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
                     DateUtil.getReadableTimeZone(todaysAppointments.get(0))));
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
             timeLayout.setVisibility(View.GONE);
+            timeZoneWarning.setVisibility(View.GONE);
             noAppointments.setVisibility(View.VISIBLE);
 
             if (DateUtil.isToday(bookingDate)) {
