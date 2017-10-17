@@ -326,4 +326,5 @@
     <string name="almost_done">Almost done…</string>
     <string name="validate_email">Validate Email</string>
     <string name="re_enroll">Re-enroll Account</string>
+    <string name="create_new_account">Create New Account</string>
 </resources>
