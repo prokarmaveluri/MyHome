@@ -378,7 +378,7 @@ public class HomeFragment extends BaseFragment {
 
             if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
                 binding.date.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
-                binding.time.setText(DateUtil.getTime(appointment.appointmentStart));
+                binding.time.setText(DateUtil.getTime(appointment.appointmentStart) + " " + DateUtil.getReadableTimeZone(appointment));
             }
 
             hideLoading();
