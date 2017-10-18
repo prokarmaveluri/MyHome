@@ -92,7 +92,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:paddingTop="8dp"
-                    android:text="@string/re_enroll"
+                    android:text="@string/create_new_account"
                     android:textAlignment="center"
                     android:textColor="@color/primary"
                     android:textStyle="bold" />

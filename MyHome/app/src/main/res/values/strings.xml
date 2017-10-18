@@ -316,7 +316,7 @@
     <string name="sq_criteria_username">Must not contain user name</string>
     <string name="sq_criteria_password">Must not contain password</string>
 
-    <string name="api_error_message">Still enjoy My Home while we do maintenance</string>
+    <string name="api_error_message">We are currently performing maintenance. Some features may be temporarily unavailable.</string>
     <string name="api_error_incorrect_password">Incorrect password. Please try again</string>
     <string name="resend_email">Resend Email</string>
     <string name="verify_email">Verify Email</string>
@@ -325,7 +325,7 @@
     <string name="resend_email_message_spam">If you haven’t received the email in your inbox, check your spam folder. </string>
     <string name="almost_done">Almost done…</string>
     <string name="validate_email">Validate Email</string>
-    <string name="re_enroll">Re-enroll Account</string>
+    <string name="create_new_account">Create New Account</string>
 
 
     <!--AWSDK-->
