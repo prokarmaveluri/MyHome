@@ -1,5 +1,6 @@
 package com.prokarma.myhome.features.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.americanwell.sdksample.SampleApplication;
+import com.americanwell.sdksample.login.LoginActivity;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -53,6 +56,7 @@ public class ProfileViewFragment extends BaseFragment {
     TextView memberId;
     TextView group;
     private Button logout;
+    private Button videoVisit;
     ProgressBar progressBar;
     TextView errorText;
     LinearLayout viewProfile;
@@ -85,6 +89,7 @@ public class ProfileViewFragment extends BaseFragment {
         memberId = (TextView) profileView.findViewById(R.id.id);
         group = (TextView) profileView.findViewById(R.id.group);
         logout = (Button) profileView.findViewById(R.id.sign_out);
+        videoVisit = (Button) profileView.findViewById(R.id.videoVisit);
         progressBar = (ProgressBar) profileView.findViewById(R.id.profile_view_progress);
         errorText = (TextView) profileView.findViewById(R.id.profile_unavailable);
         viewProfile = (LinearLayout) profileView.findViewById(R.id.viewProfile);
@@ -99,17 +104,22 @@ public class ProfileViewFragment extends BaseFragment {
             updateProfileViews(ProfileManager.getProfile());
         }
 
-//        viewProfile.setVisibility(View.INVISIBLE);
-//        getProfileInfo(AuthManager.getInstance().getBearerToken());
-
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                SessionUtil.logout(getActivity(), progressBar);
                 SessionUtil.signOutAlert(getActivity(), progressBar);
             }
         });
 
+        videoVisit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SampleApplication.getInstance().initVisit(getActivity().getApplicationContext());
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         return profileView;
     }
 

@@ -23,4 +23,8 @@
     <declare-styleable name="FlowLayout_Layout">
         <attr name="android:layout_gravity" />
     </declare-styleable>
+
+    <declare-styleable name="VisitReportSubHeaderView">
+        <attr name="titleText" format="string" localization="suggested"/>
+    </declare-styleable>
 </resources>

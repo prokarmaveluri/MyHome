@@ -155,6 +155,15 @@
                 android:layout_marginBottom="@dimen/profile_label_marginBottom"
                 android:layout_marginTop="48dp"
                 android:text="@string/sign_out" />
+
+            <Button
+                android:id="@+id/videoVisit"
+                style="@style/enableButtonStyle"
+                android:layout_width="255dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/profile_label_marginBottom"
+                android:text="Video Visit" />
         </LinearLayout>
     </ScrollView>
 

@@ -256,4 +256,75 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoTitleBar">
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="TextAppearance.AmericanWell" parent="@style/TextAppearance.AppCompat"/>
+
+    <style name="TextAppearance.AmericanWell.Small">
+        <item name="android:textColor">@color/awsdk_color_black</item>
+        <item name="android:textSize">@dimen/awsdk_text_size_small</item>
+    </style>
+
+    <style name="TextAppearance.AmericanWell.Medium">
+        <item name="android:textColor">@color/awsdk_color_black</item>
+        <item name="android:textSize">@dimen/awsdk_text_size_medium</item>
+    </style>
+
+    <style name="TextAppearance.AmericanWell.Large">
+        <item name="android:textColor">@color/awsdk_color_black</item>
+        <item name="android:textSize">@dimen/awsdk_text_size_large</item>
+    </style>
+
+    <style name="TextAppearance.AmericanWell.Micro">
+        <item name="android:textColor">@color/awsdk_color_black</item>
+        <item name="android:textSize">@dimen/textSizeMicro</item>
+    </style>
+
+    <style name="TextAppearance.AmericanWell.Small.Inverse" parent="@android:style/TextAppearance.Inverse">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/awsdk_text_size_small</item>
+    </style>
+
+    <style name="TextAppearance.AmericanWell.Medium.Inverse" parent="@android:style/TextAppearance.Inverse">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/awsdk_text_size_medium</item>
+    </style>
+
+    <style name="TextAppearance.AmericanWell.MediumLarge.Inverse" parent="@android:style/TextAppearance.Inverse">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/textSizeMediumLarge</item>
+    </style>
+
+    <style name="TextAppearance.AmericanWell.Large.Inverse" parent="@android:style/TextAppearance.Inverse">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/awsdk_text_size_large</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/color_link</item>
+    </style>
+
+    <style name="TextAppearance.AmericanWell.ExtraSmall">
+        <item name="android:textColor">@color/awsdk_color_black</item>
+        <item name="android:textSize">@dimen/textSizeExtraSmall</item>
+    </style>
+
+    <style name="InputLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:paddingBottom">@dimen/input_label_vertical_spacing</item>
+        <item name="android:paddingLeft">@dimen/input_label_horizontal_spacing</item>
+        <item name="android:paddingRight">@dimen/input_label_horizontal_spacing</item>
+    </style>
+
 </resources>

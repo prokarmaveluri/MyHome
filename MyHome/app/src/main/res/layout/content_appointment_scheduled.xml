@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2016 American Well Systems
+  ~ All rights reserved.
+  ~ <p/>
+  ~ It is illegal to use, reproduce or distribute
+  ~ any part of this Intellectual Property without
+  ~ prior written authorization from American Well.
+  -->
+<LinearLayout
+    android:id="@+id/content_appointment_scheduled"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.americanwell.sdksample.services.AppointmentScheduledActivity"
+    tools:showIn="@layout/activity_appointment_scheduled">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:background="@color/color_appointment_scheduled"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AmericanWell.Large.Inverse"
+            android:drawableStart="@drawable/check"
+            android:drawableLeft="@drawable/check"
+            android:drawablePadding="20dp"
+            android:gravity="center"
+            android:text="@string/appointment_scheduled_header"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="30dp">
+
+        <TextView
+            android:id="@+id/appointment_scheduled_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AmericanWell.Medium"
+            tools:text="@string/appointment_scheduled_details"/>
+
+        <LinearLayout
+            android:id="@+id/provider_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/appointment_details_provider_image"
+                android:layout_width="@dimen/provider_details_image_width"
+                android:layout_height="@dimen/provider_details_image_height"
+                android:contentDescription="@string/img_desc_provider_photo"/>
+
+            <TextView
+                android:id="@+id/appointment_details_with"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:ellipsize="marquee"
+                android:gravity="center_horizontal"
+                android:lines="1"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:textColor="@color/awsdk_color_black"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/appointment_details_with_specialty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/color_text_gray"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/appointment_datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AmericanWell.Medium"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            tools:text="Fri, Nov 25, 2016 at 12:45 PM EST"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2016 American Well Systems
+  ~ All rights reserved.
+  ~ <p/>
+  ~ It is illegal to use, reproduce or distribute
+  ~ any part of this Intellectual Property without
+  ~ prior written authorization from American Well.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/prescription_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="Ibuprofen 400 mg Tab"/>
+
+    <TextView
+        android:id="@+id/prescription_directions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textSize="14sp"
+        tools:text="Directions: 2 tablets 3 times a day until directed to stop.  Additional instructions: This is a prescription instruction for t.  Quantity to dispense: 8 Tablet.  Refills: 1. Note to Pharmacist: This is a note to the pharmacist. Yeah pharmacists!. Date Written: 09/27/2016.  Others: Dispense as written, brand medically necessary"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="6dp"
+        android:src="@color/awsdk_color_black"/>
+</merge>

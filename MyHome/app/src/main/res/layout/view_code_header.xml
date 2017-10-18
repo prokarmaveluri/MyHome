@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2016 American Well Systems
+  ~ All rights reserved.
+  ~ <p/>
+  ~ It is illegal to use, reproduce or distribute
+  ~ any part of this Intellectual Property without
+  ~ prior written authorization from American Well.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/cv_code_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="@string/visit_reports_diagnoses_code"/>
+
+    <TextView
+        android:id="@+id/cv_description_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="70dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="@string/visit_reports_diagnoses_description"/>
+
+    <ImageView
+        android:id="@+id/cv_div"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/cv_description_title"
+        android:src="@color/awsdk_color_black"/>
+</RelativeLayout>

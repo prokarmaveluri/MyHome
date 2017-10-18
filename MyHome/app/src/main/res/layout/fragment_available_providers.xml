@@ -1,0 +1,78 @@
+<!--
+  ~ Copyright 2016 American Well Systems
+  ~ All rights reserved.
+  ~ <p/>
+  ~ It is illegal to use, reproduce or distribute
+  ~ any part of this Intellectual Property without
+  ~ prior written authorization from American Well.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.americanwell.sdksample.services.AvailableProvidersFragment">
+
+    <TextView
+        android:id="@+id/first_available_prompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:text="@string/first_available_prompt"
+        android:textAppearance="@style/TextAppearance.AmericanWell.Medium"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/button_first_available"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/first_available_button"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="16dp"
+        android:text="@string/other_providers"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_msg_divider_gray"/>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="8dp"
+            android:drawableTop="@drawable/no_providers"
+            android:gravity="center"
+            android:text="@string/no_providers"
+            android:textAppearance="@style/TextAppearance.AmericanWell.Medium"
+            android:textColor="@color/color_text_light_gray"/>
+
+    </LinearLayout>
+
+</LinearLayout>

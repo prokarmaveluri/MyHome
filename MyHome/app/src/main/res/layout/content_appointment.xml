@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * Copyright 2016 American Well Systems
+    * All rights reserved.
+    * <p/>
+    * It is illegal to use, reproduce or distribute
+    * any part of this Intellectual Property without
+    * prior written authorization from American Well.
+-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.americanwell.sdksample.appointments.AppointmentActivity"
+    tools:showIn="@layout/activity_appointment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/appointment_details_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appointment_early"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/appointment_details_header_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:gravity="left"
+                android:text="@string/appointment_details_header_greeting"
+                android:textAppearance="@style/TextAppearance.AmericanWell.Medium.Inverse"/>
+
+            <TextView
+                android:id="@+id/appointment_details_header_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:gravity="left"
+                android:text="@string/appointment_details_header_early_text"
+                android:textAppearance="@style/TextAppearance.AmericanWell.Medium.Inverse"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/appointment_details_provider_image"
+                    android:layout_width="@dimen/provider_details_image_width"
+                    android:layout_height="@dimen/provider_details_image_height"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@string/img_desc_provider_photo"/>
+
+                <TextView
+                    android:id="@+id/appointment_details_with"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:ellipsize="marquee"
+                    android:gravity="center_horizontal"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textColor="@color/awsdk_color_black"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/appointment_details_with_specialty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/color_text_gray"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/appointment_details_startTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.AmericanWell.Medium"/>
+
+                <TextView
+                    android:id="@+id/appointment_details_startDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.AmericanWell.Medium"/>
+
+                <TextView
+                    android:id="@+id/appointment_details_forDependent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="marquee"
+                    android:gravity="center_horizontal"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:text="@string/appointment_details_for"
+                    android:textAppearance="@style/TextAppearance.AmericanWell.Medium"/>
+
+                <TextView
+                    android:id="@+id/appointment_details_notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.AmericanWell.Medium"/>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/appointment_details_early_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="21dp"
+        android:gravity="bottom|center_horizontal"
+        android:text="@string/appointment_details_early_text"
+        android:textAppearance="@style/TextAppearance.AmericanWell.Small"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

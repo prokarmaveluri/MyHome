@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * Copyright 2016 American Well Systems
+    * All rights reserved.
+    * <p/>
+    * It is illegal to use, reproduce or distribute
+    * any part of this Intellectual Property without
+    * prior written authorization from American Well.
+-->
+<resources>
+    <plurals name="waiting_room_plurals">
+        <item quantity="one">@string/provider_details_waiting_room_count_single</item>
+        <item quantity="other">@string/provider_details_waiting_room_count_other</item>
+    </plurals>
+    <plurals name="patients_ahead_plurals">
+        <item quantity="one">@string/waiting_room_contact_provider_waiting_one</item>
+        <item quantity="many">@string/waiting_room_contact_provider_waiting_other</item>
+        <item quantity="other">@string/waiting_room_contact_provider_waiting_other</item>
+    </plurals>
+    <plurals name="visit_reports_schedule_summary_minutes_plurals">
+        <item quantity="one">@string/visit_reports_schedule_summary_minutes_one</item>
+        <item quantity="many">@string/visit_reports_schedule_summary_minutes_other</item>
+        <item quantity="other">@string/visit_reports_schedule_summary_minutes_other</item>
+    </plurals>
+    <plurals name="provider_appointments_plurals">
+        <item quantity="one">@string/service_provider_appointment_count_one</item>
+        <item quantity="other">@string/service_provider_appointment_count_other</item>
+    </plurals>
+</resources>
