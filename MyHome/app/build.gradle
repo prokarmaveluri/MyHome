@@ -18,25 +18,25 @@ android {
     def HOCKEYAPP_APP_ID = "\"130889d29f5c440fb043c5e2def8ff86\""
 
     //URLs
-    def PROD_VERSIONING_URL = "\"http://web-usw1-versioningservices-prd.azurewebsites.net/\""
+    def PROD_VERSIONING_URL = "\"https://web-usw1-versioningservices-prd.azurewebsites.net/\""
     def PROD_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
     def PROD_CIAM_BASE_URL = "\"https://prod.ciam.dignityhealth.org/\""
     def PROD_S2_BASE_URL = "\"https://e3findadocapp.azurewebsites.net/\""
     def PROD_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-prd.azurewebsites.net/\""
 
-    def STAGE_VERSIONING_URL = "\"http://web-usw1-versioningservices-stg.azurewebsites.net/\""
+    def STAGE_VERSIONING_URL = "\"https://web-usw1-versioningservices-stg.azurewebsites.net/\""
     def STAGE_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
     def STAGE_CIAM_BASE_URL = "\"https://stage.ciam.dignityhealth.org/\""
     def STAGE_S2_BASE_URL = "\"https://web-usw1-fad-stg.azurewebsites.net/\""
     def STAGE_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-stg.azurewebsites.net/\""
 
-    def TEST_VERSIONING_URL = "\"http://web-usw1-versioningservices-tst.azurewebsites.net/\""
+    def TEST_VERSIONING_URL = "\"https://web-usw1-versioningservices-tst.azurewebsites.net/\""
     def TEST_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def TEST_CIAM_BASE_URL = "\"https://test.ciam.dignityhealth.org/\""
     def TEST_S2_BASE_URL = "\"https://web-usw1-fad-tst.azurewebsites.net/\""
     def TEST_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-tst.azurewebsites.net/\""
 
-    def DEV_VERSIONING_URL = "\"http://web-usw1-versioningservices-dev.azurewebsites.net/\""
+    def DEV_VERSIONING_URL = "\"https://web-usw1-versioningservices-dev.azurewebsites.net/\""
     def DEV_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def DEV_CIAM_BASE_URL = "\"https://dev.ciam.dignityhealth.org/\""
     def DEV_S2_BASE_URL = "\"https://web-usw1-fad-dev.azurewebsites.net/\""
