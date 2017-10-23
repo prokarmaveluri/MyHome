@@ -98,7 +98,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                         }
                     } else {
                         AuthManager.getInstance().setFailureAttempt();
-                        mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
+                        //mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
                         mView.showProgress(false);
                         ApiErrorUtil.getInstance().signInError(mContext, mView.getRootView(), response);
                         Timber.e("Response, but not successful?\n" + response);
