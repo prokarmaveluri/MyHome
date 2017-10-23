@@ -45,6 +45,7 @@ import com.prokarma.myhome.features.fad.suggestions.FadSuggesstions;
 import com.prokarma.myhome.features.fad.suggestions.ProviderSuggestionsAdapter;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
@@ -254,6 +255,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                                 binding.suggestionList.setVisibility(View.VISIBLE);
                         } else {
                             Timber.e("Response, but not successful?\n" + response);
+                            ApiErrorUtil.getInstance().getSearchSuggestionError(getContext(), getView(), response);
                             binding.suggestionList.setVisibility(View.GONE);
                             isSugShow = false;
                         }
@@ -263,6 +265,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     public void onFailure(Call<List<SearchSuggestionResponse>> call, Throwable t) {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + t);
+                        ApiErrorUtil.getInstance().getSearchSuggestionFailed(getContext(), getView(), t);
                         binding.suggestionList.setVisibility(View.GONE);
                         isSugShow = false;
                     }
