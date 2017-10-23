@@ -50,7 +50,7 @@ public class StartupActivity extends NucleusAppCompatActivity<StartupPresenter> 
             intent = new Intent(this, GuestLoginActivity.class);
         }
         intent.setData(getIntent().getData());
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

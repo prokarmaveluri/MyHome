@@ -311,7 +311,7 @@ public abstract class BaseSampleNucleusActivity<P extends Presenter> extends Nuc
     protected void goHome() {
         setNothingIsBusy();
         final Intent intent = HomeActivity.makeIntent(this);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
