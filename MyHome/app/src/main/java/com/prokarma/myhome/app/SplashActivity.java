@@ -622,7 +622,7 @@ public class SplashActivity extends AppCompatActivity implements
                         ex.printStackTrace();
                     }
                 }else {
-                    ApiErrorUtil.getInstance().versionCheckFailed(getApplicationContext(), progress, response);
+                    ApiErrorUtil.getInstance().versionCheckError(getApplicationContext(), progress, response);
                 }
             }
 
