@@ -33,6 +33,7 @@ import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
@@ -307,6 +308,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                             locationSuggestions(getLocationNames(response.body()));
                         } else {
                             Timber.e("Response, but not successful?\n" + response);
+                            ApiErrorUtil.getInstance().getLocationSuggestionError(getContext(), getView(), response);
                         }
                     }
 
@@ -314,6 +316,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                     public void onFailure(Call<List<LocationResponse>> call, Throwable t) {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + t);
+                        ApiErrorUtil.getInstance().getLocationSuggestionFailed(getContext(), getView(), t);
                     }
                 });
     }

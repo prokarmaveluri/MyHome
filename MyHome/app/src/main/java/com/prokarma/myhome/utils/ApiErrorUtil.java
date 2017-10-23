@@ -25,7 +25,11 @@ public class ApiErrorUtil {
     }
 
     private void genericError(final Context context, final View view, boolean isDismissable) {
-        if(context == null || view == null){
+        if (context == null || view == null) {
+            return;
+        }
+
+        if (snackbar != null && snackbar.isShown()) {
             return;
         }
 
@@ -209,6 +213,14 @@ public class ApiErrorUtil {
     }
 
     public void versionCheckFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view, true);
+    }
+
+    public <T> void getLocationSuggestionError(final Context context, final View view, final Response<T> response) {
+        genericError(context, view, true);
+    }
+
+    public void getLocationSuggestionFailed(final Context context, final View view, final Throwable throwable) {
         genericError(context, view, true);
     }
 
