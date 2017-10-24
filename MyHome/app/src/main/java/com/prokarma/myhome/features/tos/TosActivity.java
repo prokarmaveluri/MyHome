@@ -91,6 +91,12 @@ public class TosActivity extends BaseActivity {
     }
 
     private void registerUser(final EnrollmentRequest request) {
+        if (!ConnectionUtil.isConnected(this)) {
+            Toast.makeText(this,
+                    R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         showProgress(true);
         NetworkManager.getInstance().register(request).enqueue(new Callback<Void>() {
             @Override
