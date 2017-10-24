@@ -202,6 +202,17 @@ public class NetworkManager {
     }
 
     /**
+     * Accept Terms of Service.
+     * This API is still heavily under construction, but not used currently in MVP
+     *
+     * @param bearer the bearer token of the user
+     * @return a ToS object. Currently not very helpful
+     */
+    public Call<Tos> acceptTos(String bearer) {
+        return service.acceptTos(EnviHandler.CIAM_BASE_URL + "api/terms-and-conditions", BEARER + bearer);
+    }
+
+    /**
      * Get the Location Suggestions when a user enters their location in the filter
      *
      * @param queryString the query of the user entering their location

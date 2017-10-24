@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -27,7 +29,9 @@ import timber.log.Timber;
 
 public class TosFragment extends BaseFragment {
     public static final String TOS_TAG = "tos_tag";
-    View tosView;
+    private View tosView;
+    private WebView webView;
+    private ProgressBar progress;
 
     public static TosFragment newInstance() {
         return new TosFragment();
@@ -43,7 +47,7 @@ public class TosFragment extends BaseFragment {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptTerms();
+                acceptTerms(AuthManager.getInstance().getBearerToken());
             }
         });
 
@@ -55,30 +59,49 @@ public class TosFragment extends BaseFragment {
             }
         });
 
-        WebView tos = (WebView) tosView.findViewById(R.id.terms_of_service);
-        tos.loadUrl(TosActivity.FILE_ANDROID_ASSET_TOS_HTML);
+        progress = (ProgressBar) tosView.findViewById(R.id.terms_progress);
+        webView = (WebView) tosView.findViewById(R.id.terms_of_service);
+        webView.loadUrl(TosActivity.FILE_ANDROID_ASSET_TOS_HTML);
 
-        //getTosInfo(AuthManager.getInstance().getBearerToken());
+        getTosInfo(AuthManager.getInstance().getBearerToken());
         tosView.findViewById(R.id.tc_button_bar).setVisibility(View.GONE);  //Hide buttons when you're already logged into the app
         return tosView;
     }
 
     private void getTosInfo(String bearer) {
+        webView.setVisibility(View.GONE);
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(),
+                    R.string.no_network_msg,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        progress.setVisibility(View.VISIBLE);
         Timber.i("Session bearer " + bearer);
         NetworkManager.getInstance().getTos(bearer).enqueue(new Callback<Tos>() {
             @Override
             public void onResponse(Call<Tos> call, Response<Tos> response) {
-                if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
-                    Tos termsOfService = response.body();
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
-                    ApiErrorUtil.getInstance().getTosError(getContext(), tosView, response);
+                try {
+                    progress.setVisibility(View.GONE);
+                    if (response.isSuccessful() && response.body().isValid) {
+                        Timber.d("Successful Response\n" + response);
+                        webView.setVisibility(View.VISIBLE);
+                        if (isAdded() && response.body().result.isTermsAccepted) {
+                            tosView.findViewById(R.id.tc_button_bar).setVisibility(View.GONE);
+                        } else {
+                            tosView.findViewById(R.id.tc_button_bar).setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
+                        ApiErrorUtil.getInstance().getTosError(getContext(), tosView, response);
+                    }
+                } catch (NullPointerException ex) {
                 }
             }
 
             @Override
             public void onFailure(Call<Tos> call, Throwable t) {
+                progress.setVisibility(View.GONE);
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
                 ApiErrorUtil.getInstance().getTosFailed(getContext(), tosView, t);
@@ -86,13 +109,35 @@ public class TosFragment extends BaseFragment {
         });
     }
 
-    private void acceptTerms() {
+    private void acceptTerms(String bearer) {
         if (!ConnectionUtil.isConnected(getActivity())) {
             Toast.makeText(getActivity(),
                     R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
+            return;
         } else {
-            //TODO send PATCH API call for ToS here...
+            progress.setVisibility(View.VISIBLE);
+            NetworkManager.getInstance().acceptTos(bearer).enqueue(new Callback<Tos>() {
+                @Override
+                public void onResponse(Call<Tos> call, Response<Tos> response) {
+                    progress.setVisibility(View.GONE);
+                    if (response.isSuccessful() && response.body().isValid) {
+                        //TODO TOS accepted... notify the user.
+                        tosView.findViewById(R.id.tc_button_bar).setVisibility(View.GONE);
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
+                        ApiErrorUtil.getInstance().getTosError(getContext(), tosView, response);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Tos> call, Throwable t) {
+                    progress.setVisibility(View.GONE);
+                    Timber.e("Something failed! :/");
+                    Timber.e("Throwable = " + t);
+                    ApiErrorUtil.getInstance().getTosFailed(getContext(), tosView, t);
+                }
+            });
 
         }
     }

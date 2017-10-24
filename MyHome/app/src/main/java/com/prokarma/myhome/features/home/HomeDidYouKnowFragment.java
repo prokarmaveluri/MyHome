@@ -54,6 +54,9 @@ public class HomeDidYouKnowFragment extends BaseFragment {
             webView.loadUrl(Constants.DID_YOU_KNOW_SEC1);
         }
 
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {

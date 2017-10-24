@@ -42,11 +42,16 @@ public class MyCareFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View faqView = inflater.inflate(R.layout.faq, container, false);
+
         getActivity().setTitle(getString(R.string.my_care_title));
         webView = (WebView) faqView.findViewById(R.id.faq_webview);
         TextView error = (TextView) faqView.findViewById(R.id.faqError);
         final ProgressBar webProgress = (ProgressBar) faqView.findViewById(R.id.webProgress);
         webView.loadUrl(MY_CARE_URL);
+
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {

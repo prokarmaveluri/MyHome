@@ -105,6 +105,9 @@ public interface RESTService {
     @GET
     Call<Tos> getTos(@Url String url, @Header("Authorization") String bearer);
 
+    @POST
+    Call<Tos> acceptTos(@Url String url, @Header("Authorization") String bearer);
+
     //    @GET(EnviHandler.S2_BASE_URL + "api/locationsuggestion")
     @GET
     Call<List<LocationResponse>> getLocationSuggestions(@Url String url,
