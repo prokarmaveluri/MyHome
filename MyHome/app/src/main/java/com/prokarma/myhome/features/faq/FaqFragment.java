@@ -43,14 +43,20 @@ public class FaqFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View faqView = inflater.inflate(R.layout.faq, container, false);
+
         getActivity().setTitle(getString(R.string.bill_pay));
         webView = (WebView) faqView.findViewById(R.id.faq_webview);
         TextView error = (TextView) faqView.findViewById(R.id.faqError);
         final ProgressBar webProgress = (ProgressBar) faqView.findViewById(R.id.webProgress);
         webView.loadUrl(FAQ_URL);
+
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                webView.loadUrl(request.getUrl().toString());
                 return super.shouldOverrideUrlLoading(view, request);
             }
 
