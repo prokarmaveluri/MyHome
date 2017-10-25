@@ -106,7 +106,6 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                         }
 
                         mView.showProgress(false);
-                        ApiErrorUtil.getInstance().signInError(mContext, mView.getRootView(), response);
                         Timber.e("Response, but not successful?\n" + response);
                         mView.showView(true);
                     }
