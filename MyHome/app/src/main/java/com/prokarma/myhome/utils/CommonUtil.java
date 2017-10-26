@@ -48,6 +48,26 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 public class CommonUtil {
     private static final String TYPE_PLAIN = "text/plain";
 
+    public static final String GOOD_IRI_CHAR =
+            "a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF";
+
+    /**
+     * Regular expression for a domain label, as per RFC 3490.
+     * Its total length must not exceed 63 octets, according to RFC 5890.
+     */
+    private static final String LABEL_REGEXP =
+            "([" + GOOD_IRI_CHAR + "\\-]{2,61})?";
+
+    /**
+     * Expression that matches a domain name, including international domain names in Punycode or
+     * Unicode.
+     */
+    private static final String DOMAIN_REGEXP =
+            "(" + LABEL_REGEXP + "\\.)+"                 // Subdomains and domain
+                    // Top-level domain must be at least 2 chars
+                    + "[" + GOOD_IRI_CHAR + "\\-]{2,61}";
+
+
     public static boolean isValidPassword(String password) {
 
         Pattern p = Pattern.compile(Constants.REGEX_PASSWORD);
@@ -81,6 +101,11 @@ public class CommonUtil {
             return false;
 
         if (tokens[0].length() > 49 || tokens[1].length() > 50)
+            return false;
+
+        Pattern domainRegEx = Pattern.compile(DOMAIN_REGEXP);
+
+        if (!domainRegEx.matcher(tokens[1]).matches())
             return false;
 
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
