@@ -115,11 +115,7 @@ public class ApiErrorUtil {
 
     //Login
     public <T> void signInError(final Context context, final View view, final Response<SignInResponse> response) {
-        if (response != null && response.body() != null && !response.body().getValid()) {
-            invalidPassword(context, view);
-        } else {
-            genericError(context, view, true);
-        }
+        genericError(context, view, true);
     }
 
     public void signInFailed(final Context context, final View view, final Throwable throwable) {

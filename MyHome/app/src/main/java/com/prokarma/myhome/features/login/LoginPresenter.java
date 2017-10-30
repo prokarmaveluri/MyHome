@@ -98,9 +98,14 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                         }
                     } else {
                         AuthManager.getInstance().setFailureAttempt();
-                        //mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
+
+                        if (response != null && response.body() != null && !response.body().getValid()) {
+                            mView.showEnrollmentStatus(mContext.getString(R.string.something_went_wrong));
+                        } else {
+                            ApiErrorUtil.getInstance().signInError(mContext, mView.getRootView(), response);
+                        }
+
                         mView.showProgress(false);
-                        ApiErrorUtil.getInstance().signInError(mContext, mView.getRootView(), response);
                         Timber.e("Response, but not successful?\n" + response);
                         mView.showView(true);
                     }
