@@ -84,6 +84,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="10dp"
+                android:contentDescription="@string/requirements_for_a_safe_password"
                 android:src="@mipmap/tooltip" />
         </RelativeLayout>
 

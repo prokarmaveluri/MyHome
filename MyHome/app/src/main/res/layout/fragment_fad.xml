@@ -18,6 +18,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/more_options"
                 android:padding="16dp"
                 android:src="@mipmap/more" />
 
@@ -27,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/fad_more"
+                android:contentDescription="@string/display_recently_viewed_doctors"
                 android:padding="16dp"
                 android:src="@drawable/ic_recent_blue" />
 
@@ -36,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/fad_recent"
+                android:contentDescription="@string/filter_title"
                 android:padding="16dp"
                 android:src="@mipmap/filter_blue" />
 
@@ -57,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/fad_filter"
+                android:contentDescription="@string/search"
                 android:padding="16dp"
                 android:src="@mipmap/search" />
 
@@ -67,6 +71,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="4dp"
+                android:contentDescription="@string/back"
                 android:padding="16dp"
                 android:src="@drawable/ic_arrow_back" />
 

@@ -327,4 +327,11 @@
     <string name="validate_email">Validate Email</string>
     <string name="re_enroll">Re-enroll Account</string>
     <string name="create_new_account">Create New Account</string>
+
+    <string name="email_content_description">E-mail address %s</string>
+    <string name="phone_description">Phone number %s</string>
+    <string name="requirements_for_a_safe_password">Requirements for a safe password</string>
+    <string name="search">Search</string>
+    <string name="back">Back</string>
+    <string name="more_options">More Options</string>
 </resources>

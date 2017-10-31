@@ -35,7 +35,11 @@ public class ContactUsFragment extends BaseFragment {
         contactUsView = inflater.inflate(R.layout.contact_us, container, false);
         getActivity().setTitle(getString(R.string.contact_support));
         TextView emailView = (TextView) contactUsView.findViewById(R.id.email);
+        String emailViewContentDescription = String.format(getString(R.string.email_content_description), getString(R.string.contact_us_email));
+        emailView.setContentDescription(emailViewContentDescription);
         TextView phoneView = (TextView) contactUsView.findViewById(R.id.phone);
+        String phoneViewContentDescription =  String.format(getString(R.string.phone_description), CommonUtil.constructPhoneNumber(getString(R.string.contact_us_phone)));
+        phoneView.setContentDescription(phoneViewContentDescription);
         emailView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

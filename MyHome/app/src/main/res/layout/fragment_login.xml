@@ -58,6 +58,7 @@
                             android:id="@+id/email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@string/prompt_email"
                             android:hint="@string/prompt_email"
                             android:imeOptions="actionNext"
                             android:inputType="textEmailAddress"
@@ -85,6 +86,7 @@
                             android:layout_marginBottom="36dp"
                             android:layout_marginLeft="52dp"
                             android:layout_marginRight="52dp"
+                            android:contentDescription="@string/prompt_password"
                             android:drawableRight="@mipmap/show_password"
                             android:hint="@string/prompt_password"
                             android:imeOptions="actionDone"
@@ -103,6 +105,7 @@
                         android:layout_marginBottom="48dp"
                         android:layout_marginLeft="52dp"
                         android:layout_marginRight="52dp"
+                        android:contentDescription="@string/action_Login"
                         android:onClick="@{handlers::onClickEvent}"
                         android:text="@string/action_Login"
                         android:textAllCaps="false"
@@ -120,6 +123,7 @@
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:paddingTop="8dp"
+                        android:contentDescription="@string/forgot_password"
                         android:text="@string/forgot_password"
                         android:textAlignment="center"
                         android:textColor="@color/primary" />
@@ -134,6 +138,7 @@
                         android:onClick="@{handlers::onClickEvent}"
                         android:padding="16dp"
                         android:text="@string/login_help"
+                        android:contentDescription="@string/help"
                         android:textAlignment="center"
                         android:textColor="@color/primary" />
                 </RelativeLayout>
