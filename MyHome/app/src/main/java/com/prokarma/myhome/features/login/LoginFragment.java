@@ -232,11 +232,13 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
         if (!CommonUtil.isValidEmail(binder.email.getText().toString())) {
             binder.emailLayout.setError(getString(R.string.valid_email));
+            binder.email.requestFocus();
             return null;
         }
 
         if (!CommonUtil.isValidPassword(binder.password.getText().toString())) {
             Toast.makeText(getActivity(), getString(R.string.valid_password), Toast.LENGTH_LONG).show();
+            binder.password.requestFocus();
             return null;
         }
 

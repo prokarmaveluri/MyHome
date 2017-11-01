@@ -138,16 +138,19 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
         if (!CommonUtil.isValidTextInput(binding.firstName)) {
             binding.firstNameLayout.setError(getString(R.string.valid_first_name));
+            binding.firstName.requestFocus();
             return null;
         }
 
         if (!CommonUtil.isValidTextInput(binding.lastName)) {
             binding.lastNameLayout.setError(getString(R.string.valid_last_name));
+            binding.lastName.requestFocus();
             return null;
         }
 
         if (!CommonUtil.isValidEmail(binding.email.getText().toString())) {
             binding.emailLayout.setError(getString(R.string.valid_email));
+            binding.email.requestFocus();
             return null;
         }
 
@@ -155,15 +158,18 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
                 binding.firstName.getText().toString(), binding.lastName.getText().toString())) {
             Toast.makeText(getActivity(), getString(R.string.valid_password),
                     Toast.LENGTH_LONG).show();
+            binding.password.requestFocus();
             return null;
         }
         if (!binding.password.getText().toString().equals(binding.reEnterPassword.getText().toString())) {
             Toast.makeText(getActivity(), getResources().getString(R.string.valid_password_match),
                     Toast.LENGTH_LONG).show();
+            binding.reEnterPassword.requestFocus();
             return null;
         }
         if (null != binding.emailLayout.getError() && binding.emailLayout.getError().length() > 0) {
             Toast.makeText(getActivity(), getString(R.string.email_already_exists), Toast.LENGTH_LONG).show();
+            binding.email.requestFocus();
             return null;
         }
 
