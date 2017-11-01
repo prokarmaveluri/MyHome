@@ -125,7 +125,9 @@
                         android:layout_toLeftOf="@+id/password_criteria"
                         app:errorEnabled="true"
                         app:errorTextAppearance="@style/error_appearance"
-                        app:hintTextAppearance="@style/hint_appearance">
+                        app:hintTextAppearance="@style/hint_appearance"
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@color/primary">
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/password"
