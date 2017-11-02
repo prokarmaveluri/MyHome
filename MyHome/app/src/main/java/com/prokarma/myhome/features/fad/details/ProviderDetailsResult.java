@@ -4,12 +4,15 @@ package com.prokarma.myhome.features.fad.details;
  * Created by kwelsh on 10/31/17.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ProviderDetailsResult {
+public class ProviderDetailsResult implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -37,7 +40,7 @@ public class ProviderDetailsResult {
     private String lastName;
     @SerializedName("suffix")
     @Expose
-    private Object suffix;
+    private String suffix;
     @SerializedName("title")
     @Expose
     private String title;
@@ -46,7 +49,7 @@ public class ProviderDetailsResult {
     private List<ProviderDetailsImage> images = null;
     @SerializedName("philosophy")
     @Expose
-    private Object philosophy;
+    private String philosophy;
     @SerializedName("offices")
     @Expose
     private List<ProviderDetailsOffice> offices = null;
@@ -124,11 +127,11 @@ public class ProviderDetailsResult {
         this.lastName = lastName;
     }
 
-    public Object getSuffix() {
+    public String getSuffix() {
         return suffix;
     }
 
-    public void setSuffix(Object suffix) {
+    public void setSuffix(String suffix) {
         this.suffix = suffix;
     }
 
@@ -148,11 +151,11 @@ public class ProviderDetailsResult {
         this.images = images;
     }
 
-    public Object getPhilosophy() {
+    public String getPhilosophy() {
         return philosophy;
     }
 
-    public void setPhilosophy(Object philosophy) {
+    public void setPhilosophy(String philosophy) {
         this.philosophy = philosophy;
     }
 
@@ -187,4 +190,63 @@ public class ProviderDetailsResult {
     public void setProviderDetailsUrl(String providerDetailsUrl) {
         this.providerDetailsUrl = providerDetailsUrl;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.npi);
+        dest.writeString(this.displayName);
+        dest.writeString(this.displayLastName);
+        dest.writeString(this.displayLastNamePlural);
+        dest.writeString(this.firstName);
+        dest.writeString(this.middleName);
+        dest.writeString(this.lastName);
+        dest.writeString(this.suffix);
+        dest.writeString(this.title);
+        dest.writeTypedList(this.images);
+        dest.writeString(this.philosophy);
+        dest.writeTypedList(this.offices);
+        dest.writeStringList(this.primarySpecialities);
+        dest.writeValue(this.supportsOnlineBooking);
+        dest.writeString(this.providerDetailsUrl);
+    }
+
+    public ProviderDetailsResult() {
+    }
+
+    protected ProviderDetailsResult(Parcel in) {
+        this.id = in.readString();
+        this.npi = in.readString();
+        this.displayName = in.readString();
+        this.displayLastName = in.readString();
+        this.displayLastNamePlural = in.readString();
+        this.firstName = in.readString();
+        this.middleName = in.readString();
+        this.lastName = in.readString();
+        this.suffix = in.readString();
+        this.title = in.readString();
+        this.images = in.createTypedArrayList(ProviderDetailsImage.CREATOR);
+        this.philosophy = in.readString();
+        this.offices = in.createTypedArrayList(ProviderDetailsOffice.CREATOR);
+        this.primarySpecialities = in.createStringArrayList();
+        this.supportsOnlineBooking = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.providerDetailsUrl = in.readString();
+    }
+
+    public static final Parcelable.Creator<ProviderDetailsResult> CREATOR = new Parcelable.Creator<ProviderDetailsResult>() {
+        @Override
+        public ProviderDetailsResult createFromParcel(Parcel source) {
+            return new ProviderDetailsResult(source);
+        }
+
+        @Override
+        public ProviderDetailsResult[] newArray(int size) {
+            return new ProviderDetailsResult[size];
+        }
+    };
 }
