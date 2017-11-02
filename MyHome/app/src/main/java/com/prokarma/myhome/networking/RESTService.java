@@ -6,6 +6,7 @@ import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.ProvidersResponse;
+import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
@@ -233,4 +234,9 @@ public interface RESTService {
     //1.3 APIs
     @POST
     Call<CommonResponse> resendEmail(@Url String url, @Header("Authorization") String bearer);
+
+    //1.4 APIs
+    @GET
+    Call<ProviderDetails> getNewProviderDetails(@Url String url,
+                                                @Query("npis") String id);
 }

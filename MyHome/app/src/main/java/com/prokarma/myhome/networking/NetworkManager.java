@@ -16,6 +16,7 @@ import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.ProvidersResponse;
+import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
@@ -638,6 +639,20 @@ public class NetworkManager {
         } catch (IOException | NullPointerException ex) {
             ex.printStackTrace();
             return false;
+        }
+    }
+
+    /**
+     * Get a detailed profile of a provider
+     *
+     * @param id the Provider ID
+     * @return a More in-depth look of the provider
+     */
+    public Call<ProviderDetails> getNewProviderDetails(String id) {
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
+            return service.getNewProviderDetails(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/test/providers", id);
+        } else {
+            return service.getNewProviderDetails(EnviHandler.CIAM_BASE_URL + "api/test/providers", id);
         }
     }
 

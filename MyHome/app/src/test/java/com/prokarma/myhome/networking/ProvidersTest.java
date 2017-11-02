@@ -2,6 +2,7 @@ package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.ProvidersResponse;
+import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 
@@ -49,21 +50,21 @@ public class ProvidersTest {
     public void getProviderDetails_Dev() {
         TestUtil.setDevEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
-        getProviderDetails(list.get(0).getNpi());
+        getNewProviderDetails(list.get(0).getNpi());
     }
 
     @Test
     public void getProviderDetails_Stage() {
         TestUtil.setStagingEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
-        getProviderDetails(list.get(0).getNpi());
+        getNewProviderDetails(list.get(0).getNpi());
     }
 
     @Test
     public void getProviderDetails_Prod() {
         TestUtil.setProdEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
-        getProviderDetails(list.get(0).getNpi());
+        getNewProviderDetails(list.get(0).getNpi());
     }
 
     @Test
@@ -190,6 +191,27 @@ public class ProvidersTest {
             Assert.assertFalse(response.body().Npi.isEmpty());
             Assert.assertNotNull(response.body().LastName);
             Assert.assertFalse(response.body().LastName.isEmpty());
+
+            return response.body();
+        } catch (IOException e) {
+            Assert.fail(e.toString());
+            return null;
+        }
+    }
+
+    public static ProviderDetails getNewProviderDetails(String npi) {
+        Call<ProviderDetails> call = NetworkManager.getInstance().getNewProviderDetails(npi);
+
+        try {
+            Response<ProviderDetails> response = call.execute();
+
+            Assert.assertNotNull(response);
+            Assert.assertTrue(response.isSuccessful());
+            Assert.assertNotNull(response.body());
+            Assert.assertNotNull(response.body().getResult());
+            Assert.assertFalse(response.body().getResult().isEmpty());
+            Assert.assertNotNull(response.body().getResult().get(0).getNpi());
+            Assert.assertNotNull(response.body().getResult().get(0).getLastName());
 
             return response.body();
         } catch (IOException e) {
