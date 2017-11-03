@@ -10,6 +10,7 @@ import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
@@ -239,4 +240,10 @@ public interface RESTService {
     @GET
     Call<ProviderDetails> getNewProviderDetails(@Url String url,
                                                 @Query("npis") String id);
+
+    @GET
+    Call<AppointmentTimeSlots> getProviderAppointments(@Url String url,
+                                                       @Query("from") String fromDate,
+                                                       @Query("to") String toDate);
+
 }

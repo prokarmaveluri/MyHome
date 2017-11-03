@@ -3,6 +3,7 @@ package com.prokarma.myhome.networking;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -13,6 +14,7 @@ import org.junit.Assert;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -42,7 +44,7 @@ public class TestUtil {
         setSharedPreferences();
     }
 
-    private static void setSharedPreferences(){
+    private static void setSharedPreferences() {
         final Context context = Mockito.mock(Context.class);
         final SharedPreferences sharedPrefs = Mockito.mock(SharedPreferences.class);
         Mockito.when(context.getSharedPreferences(AppPreferences.APP_PREFERENCES, Context.MODE_PRIVATE)).thenReturn(sharedPrefs);
@@ -66,6 +68,22 @@ public class TestUtil {
             Assert.fail(e.toString());
             return null;
         }
+    }
+
+    /**
+     * Method to find a provider out of the list that has online appointments
+     *
+     * @param providers
+     * @return
+     */
+    public static String getOnlineProvider(List<ProviderDetailsResponse> providers) {
+        for (ProviderDetailsResponse provider : providers) {
+            if (provider.getHasAppointments()) {
+                return provider.getNpi();
+            }
+        }
+
+        return "";
     }
 
     /**

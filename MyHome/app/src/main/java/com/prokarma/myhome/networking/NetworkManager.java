@@ -1,6 +1,7 @@
 package com.prokarma.myhome.networking;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
@@ -656,6 +658,15 @@ public class NetworkManager {
         }
     }
 
+    public Call<AppointmentTimeSlots> getProviderAppointments(@NonNull String npi, String fromDate, String toDate) {
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
+            //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+            return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+        } else {
+            //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+            return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+        }
+    }
 
     //1.1
 

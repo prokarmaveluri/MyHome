@@ -4,6 +4,7 @@ import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.ProvidersResponse;
 import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 
 import org.junit.Assert;
@@ -22,6 +23,8 @@ import retrofit2.Response;
  */
 
 public class ProvidersTest {
+    public static final String APPOINTMENT_FROM_DATE = "11/01/2017";
+    public static final String APPOINTMENT_TO_DATE = "11/30/2017";
 
     @Before
     public void setup() {
@@ -68,6 +71,27 @@ public class ProvidersTest {
     }
 
     @Test
+    public void getProviderAppointments_Dev() {
+        TestUtil.setDevEnvironment();
+        List<ProviderDetailsResponse> list = getProviderList();
+        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE);
+    }
+
+    @Test
+    public void getProviderAppointments_Stage() {
+        TestUtil.setStagingEnvironment();
+        List<ProviderDetailsResponse> list = getProviderList();
+        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE);
+    }
+
+    @Test
+    public void getProviderAppointments_Prod() {
+        TestUtil.setProdEnvironment();
+        List<ProviderDetailsResponse> list = getProviderList();
+        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE);
+    }
+
+    @Test
     public void getSearchSuggestions_Dev() {
         TestUtil.setStagingEnvironment();
         getSearchSuggestions();
@@ -103,7 +127,7 @@ public class ProvidersTest {
         getLocation();
     }
 
-    public LocationResponse getLocation(){
+    public LocationResponse getLocation() {
         Call<LocationResponse> call = NetworkManager.getInstance().getLocation();
 
         try {
@@ -212,6 +236,33 @@ public class ProvidersTest {
             Assert.assertFalse(response.body().getResult().isEmpty());
             Assert.assertNotNull(response.body().getResult().get(0).getNpi());
             Assert.assertNotNull(response.body().getResult().get(0).getLastName());
+
+            return response.body();
+        } catch (IOException e) {
+            Assert.fail(e.toString());
+            return null;
+        }
+    }
+
+    public static AppointmentTimeSlots getProviderAppointments(String npi, String fromDate, String toDate) {
+        Call<AppointmentTimeSlots> call = NetworkManager.getInstance().getProviderAppointments(npi, fromDate, toDate);
+
+        try {
+            Response<AppointmentTimeSlots> response = call.execute();
+
+            Assert.assertNotNull(response);
+            Assert.assertTrue(response.isSuccessful());
+            Assert.assertNotNull(response.body());
+            Assert.assertNotNull(response.body().getData());
+            Assert.assertFalse(response.body().getData().isEmpty());
+            Assert.assertNotNull(response.body().getData().get(0).getAttributes());
+            Assert.assertNotNull(response.body().getData().get(0).getAttributes().getProvider());
+            Assert.assertNotNull(response.body().getData().get(0).getAttributes().getService());
+            Assert.assertNotNull(response.body().getData().get(0).getAttributes().getFacility());
+            Assert.assertNotNull(response.body().getData().get(0).getAttributes().getLocation());
+            Assert.assertNotNull(response.body().getData().get(0).getAttributes().getAvailableTimes());
+            Assert.assertNotNull(response.body().getData().get(0).getAttributes().getAppointmentTypes());
+            Assert.assertNotNull(response.body().getData().get(0).getAttributes().getNextAvailableTimes());
 
             return response.body();
         } catch (IOException e) {
