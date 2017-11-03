@@ -162,7 +162,7 @@
 -keep class com.prokarma.myhome.features.fad.LocationResponse{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse{*;}
 -keep class com.prokarma.myhome.features.enrollment.ValidateEmailResponse{*;}
--keep class com.prokarma.myhome.features.fad.details.booking.req.validation.Jsonapi{*;}
+-keep class com.prokarma.myhome.networking.Jsonapi{*;}
 -keep class com.prokarma.myhome.features.fad.recent.RecentlyViewedSQLiteHelper{*;}
 -keep class com.google.android.gms.maps.model.zza{*;}
 -keep class com.squareup.okhttp.**{*;}

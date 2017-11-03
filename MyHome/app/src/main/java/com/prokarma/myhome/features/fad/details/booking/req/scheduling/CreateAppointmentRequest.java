@@ -2,6 +2,7 @@ package com.prokarma.myhome.features.fad.details.booking.req.scheduling;
 
 import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.features.profile.Profile;
+import com.prokarma.myhome.networking.Jsonapi;
 
 /**
  * Created by cmajji on 6/8/17.

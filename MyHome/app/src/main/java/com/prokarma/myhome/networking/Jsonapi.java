@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.fad.details.booking.req.validation;
+package com.prokarma.myhome.networking;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,6 +12,10 @@ public class Jsonapi {
     @SerializedName("version")
     @Expose
     private String version;
+
+    public Jsonapi(String version) {
+        this.version = version;
+    }
 
     public String getVersion() {
         return version;

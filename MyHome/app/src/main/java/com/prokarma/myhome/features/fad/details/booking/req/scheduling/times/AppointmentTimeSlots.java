@@ -6,7 +6,7 @@ package com.prokarma.myhome.features.fad.details.booking.req.scheduling.times;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.prokarma.myhome.features.fad.details.booking.req.scheduling.Jsonapi;
+import com.prokarma.myhome.networking.Jsonapi;
 
 import java.util.List;
 
