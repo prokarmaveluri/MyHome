@@ -10,7 +10,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.Jsonapi;
 
 import java.util.List;
 
-public class AppointmentTimes {
+public class AppointmentTimeSlots {
 
     @SerializedName("jsonapi")
     @Expose
