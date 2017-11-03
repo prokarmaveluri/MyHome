@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsImage;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 
@@ -756,6 +757,29 @@ public class CommonUtil {
         }
 
         return pastAppointments;
+    }
+
+    /**
+     * Find the highest resolution image available (for a Provider)
+     *
+     * @param images the list of provider images
+     * @return the image with the largest width & largest height
+     */
+    @Nullable
+    public static ProviderDetailsImage getBestImage(List<ProviderDetailsImage> images) {
+        int width = 0;
+        int height = 0;
+        ProviderDetailsImage bestImage = null;
+
+        for (ProviderDetailsImage image : images) {
+            if (image.getHeight() > height && image.getWidth() > width) {
+                bestImage = image;
+                width = image.getWidth();
+                height = image.getHeight();
+            }
+        }
+
+        return bestImage;
     }
 
     public static void exitApp(Context context, Activity activity) {
