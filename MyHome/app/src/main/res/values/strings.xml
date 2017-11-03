@@ -334,4 +334,6 @@
     <string name="search">Search</string>
     <string name="back">Back</string>
     <string name="more_options">More Options</string>
+    <string name="browser_alert">Do you want to open in new browser ?</string>
+    <string name="url">http://terms.dignityhealth.org</string>
 </resources>
