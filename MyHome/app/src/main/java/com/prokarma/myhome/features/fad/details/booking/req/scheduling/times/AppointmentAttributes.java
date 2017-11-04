@@ -4,12 +4,16 @@ package com.prokarma.myhome.features.fad.details.booking.req.scheduling.times;
  * Created by kwelsh on 11/3/17.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AppointmentAttributes {
+public class AppointmentAttributes implements Parcelable {
 
     @SerializedName("registration-url")
     @Expose
@@ -110,4 +114,50 @@ public class AppointmentAttributes {
     public void setNextAvailableTimes(List<AppointmentNextAvailableTime> nextAvailableTimes) {
         this.nextAvailableTimes = nextAvailableTimes;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.registrationUrl);
+        dest.writeParcelable(this.provider, flags);
+        dest.writeParcelable(this.service, flags);
+        dest.writeParcelable(this.facility, flags);
+        dest.writeParcelable(this.location, flags);
+        dest.writeList(this.availableTimes);
+        dest.writeTypedList(this.appointmentTypes);
+        dest.writeValue(this.hasAvailability);
+        dest.writeTypedList(this.nextAvailableTimes);
+    }
+
+    public AppointmentAttributes() {
+    }
+
+    protected AppointmentAttributes(Parcel in) {
+        this.registrationUrl = in.readString();
+        this.provider = in.readParcelable(AppointmentProvider.class.getClassLoader());
+        this.service = in.readParcelable(AppointmentService.class.getClassLoader());
+        this.facility = in.readParcelable(AppointmentFacility.class.getClassLoader());
+        this.location = in.readParcelable(AppointmentLocation.class.getClassLoader());
+        this.availableTimes = new ArrayList<AppointmentAvailableTime>();
+        in.readList(this.availableTimes, AppointmentAvailableTime.class.getClassLoader());
+        this.appointmentTypes = in.createTypedArrayList(AppointmentType.CREATOR);
+        this.hasAvailability = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.nextAvailableTimes = in.createTypedArrayList(AppointmentNextAvailableTime.CREATOR);
+    }
+
+    public static final Parcelable.Creator<AppointmentAttributes> CREATOR = new Parcelable.Creator<AppointmentAttributes>() {
+        @Override
+        public AppointmentAttributes createFromParcel(Parcel source) {
+            return new AppointmentAttributes(source);
+        }
+
+        @Override
+        public AppointmentAttributes[] newArray(int size) {
+            return new AppointmentAttributes[size];
+        }
+    };
 }

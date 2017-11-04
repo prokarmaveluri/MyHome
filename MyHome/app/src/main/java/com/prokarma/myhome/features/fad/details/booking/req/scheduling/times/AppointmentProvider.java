@@ -4,12 +4,15 @@ package com.prokarma.myhome.features.fad.details.booking.req.scheduling.times;
  * Created by kwelsh on 11/3/17.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class AppointmentProvider {
+public class AppointmentProvider implements Parcelable {
 
     @SerializedName("name")
     @Expose
@@ -66,4 +69,41 @@ public class AppointmentProvider {
     public void setServices(List<String> services) {
         this.services = services;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.id);
+        dest.writeStringList(this.credentials);
+        dest.writeStringList(this.languages);
+        dest.writeStringList(this.services);
+    }
+
+    public AppointmentProvider() {
+    }
+
+    protected AppointmentProvider(Parcel in) {
+        this.name = in.readString();
+        this.id = in.readString();
+        this.credentials = in.createStringArrayList();
+        this.languages = in.createStringArrayList();
+        this.services = in.createStringArrayList();
+    }
+
+    public static final Parcelable.Creator<AppointmentProvider> CREATOR = new Parcelable.Creator<AppointmentProvider>() {
+        @Override
+        public AppointmentProvider createFromParcel(Parcel source) {
+            return new AppointmentProvider(source);
+        }
+
+        @Override
+        public AppointmentProvider[] newArray(int size) {
+            return new AppointmentProvider[size];
+        }
+    };
 }

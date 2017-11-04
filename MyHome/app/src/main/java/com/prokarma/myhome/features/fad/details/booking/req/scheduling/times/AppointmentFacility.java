@@ -4,10 +4,13 @@ package com.prokarma.myhome.features.fad.details.booking.req.scheduling.times;
  * Created by kwelsh on 11/3/17.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AppointmentFacility {
+public class AppointmentFacility implements Parcelable {
 
     @SerializedName("name")
     @Expose
@@ -54,4 +57,38 @@ public class AppointmentFacility {
         this.inventoryUrl = inventoryUrl;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.id);
+        dest.writeString(this.homepageUrl);
+        dest.writeString(this.inventoryUrl);
+    }
+
+    public AppointmentFacility() {
+    }
+
+    protected AppointmentFacility(Parcel in) {
+        this.name = in.readString();
+        this.id = in.readString();
+        this.homepageUrl = in.readString();
+        this.inventoryUrl = in.readString();
+    }
+
+    public static final Parcelable.Creator<AppointmentFacility> CREATOR = new Parcelable.Creator<AppointmentFacility>() {
+        @Override
+        public AppointmentFacility createFromParcel(Parcel source) {
+            return new AppointmentFacility(source);
+        }
+
+        @Override
+        public AppointmentFacility[] newArray(int size) {
+            return new AppointmentFacility[size];
+        }
+    };
 }

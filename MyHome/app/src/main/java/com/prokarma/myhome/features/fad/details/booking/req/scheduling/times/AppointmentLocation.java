@@ -4,12 +4,15 @@ package com.prokarma.myhome.features.fad.details.booking.req.scheduling.times;
  * Created by kwelsh on 11/3/17.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class AppointmentLocation {
+public class AppointmentLocation implements Parcelable {
 
     @SerializedName("name")
     @Expose
@@ -132,4 +135,53 @@ public class AppointmentLocation {
     public void setHash(String hash) {
         this.hash = hash;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.id);
+        dest.writeString(this.address);
+        dest.writeString(this.state);
+        dest.writeString(this.city);
+        dest.writeValue(this.zip);
+        dest.writeString(this.phone);
+        dest.writeValue(this.latitude);
+        dest.writeValue(this.longitude);
+        dest.writeTypedList(this.services);
+        dest.writeString(this.hash);
+    }
+
+    public AppointmentLocation() {
+    }
+
+    protected AppointmentLocation(Parcel in) {
+        this.name = in.readString();
+        this.id = in.readString();
+        this.address = in.readString();
+        this.state = in.readString();
+        this.city = in.readString();
+        this.zip = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.phone = in.readString();
+        this.latitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.longitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.services = in.createTypedArrayList(AppointmentService.CREATOR);
+        this.hash = in.readString();
+    }
+
+    public static final Parcelable.Creator<AppointmentLocation> CREATOR = new Parcelable.Creator<AppointmentLocation>() {
+        @Override
+        public AppointmentLocation createFromParcel(Parcel source) {
+            return new AppointmentLocation(source);
+        }
+
+        @Override
+        public AppointmentLocation[] newArray(int size) {
+            return new AppointmentLocation[size];
+        }
+    };
 }
