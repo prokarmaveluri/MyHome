@@ -659,6 +659,14 @@ public class NetworkManager {
         }
     }
 
+    /**
+     * Get time slots for all office locations
+     *
+     * @param npi
+     * @param fromDate
+     * @param toDate
+     * @return
+     */
     public Call<AppointmentTimeSlots> getProviderAppointments(@NonNull String npi, String fromDate, String toDate) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
             //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
@@ -666,6 +674,24 @@ public class NetworkManager {
         } else {
             //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
             return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+        }
+    }
+
+    /**
+     * Get time slots for a specific address
+     *
+     * @param npi
+     * @param fromDate
+     * @param toDate
+     * @return
+     */
+    public Call<AppointmentTimeSlots> getProviderAppointments(@NonNull String npi, String fromDate, String toDate, String addressHash) {
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
+            //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+            return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate, addressHash);
+        } else {
+            //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+            return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate, addressHash);
         }
     }
 

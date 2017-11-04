@@ -246,4 +246,9 @@ public interface RESTService {
                                                        @Query("from") String fromDate,
                                                        @Query("to") String toDate);
 
+    @GET
+    Call<AppointmentTimeSlots> getProviderAppointments(@Url String url,
+                                                       @Query("from") String fromDate,
+                                                       @Query("to") String toDate,
+                                                       @Query("addresses") String addressHash);
 }

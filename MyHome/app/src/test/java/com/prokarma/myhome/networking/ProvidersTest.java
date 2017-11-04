@@ -74,21 +74,21 @@ public class ProvidersTest {
     public void getProviderAppointments_Dev() {
         TestUtil.setDevEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
-        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE);
+        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE, null);
     }
 
     @Test
     public void getProviderAppointments_Stage() {
         TestUtil.setStagingEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
-        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE);
+        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE, null);
     }
 
     @Test
     public void getProviderAppointments_Prod() {
         TestUtil.setProdEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
-        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE);
+        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE, null);
     }
 
     @Test
@@ -244,8 +244,14 @@ public class ProvidersTest {
         }
     }
 
-    public static AppointmentTimeSlots getProviderAppointments(String npi, String fromDate, String toDate) {
-        Call<AppointmentTimeSlots> call = NetworkManager.getInstance().getProviderAppointments(npi, fromDate, toDate);
+    public static AppointmentTimeSlots getProviderAppointments(String npi, String fromDate, String toDate, String addressHash) {
+        Call<AppointmentTimeSlots> call;
+
+        if (addressHash != null && !addressHash.isEmpty()) {
+            call = NetworkManager.getInstance().getProviderAppointments(npi, fromDate, toDate, addressHash);
+        } else {
+            call = NetworkManager.getInstance().getProviderAppointments(npi, fromDate, toDate);
+        }
 
         try {
             Response<AppointmentTimeSlots> response = call.execute();
