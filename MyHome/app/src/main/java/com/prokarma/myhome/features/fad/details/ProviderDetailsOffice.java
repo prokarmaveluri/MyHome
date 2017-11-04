@@ -4,12 +4,16 @@ package com.prokarma.myhome.features.fad.details;
  * Created by kwelsh on 10/31/17.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProviderDetailsOffice {
+public class ProviderDetailsOffice implements Parcelable {
 
     @SerializedName("Guid")
     @Expose
@@ -99,4 +103,48 @@ public class ProviderDetailsOffice {
     public void setYearsExist(Integer yearsExist) {
         this.yearsExist = yearsExist;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.guid);
+        dest.writeString(this.id);
+        dest.writeString(this.legacyId);
+        dest.writeValue(this.providerCount);
+        dest.writeString(this.name);
+        dest.writeList(this.addresses);
+        dest.writeValue(this.isPDC);
+        dest.writeValue(this.yearsExist);
+    }
+
+    public ProviderDetailsOffice() {
+    }
+
+    protected ProviderDetailsOffice(Parcel in) {
+        this.guid = in.readString();
+        this.id = in.readString();
+        this.legacyId = in.readString();
+        this.providerCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.addresses = new ArrayList<ProviderDetailsAddress>();
+        in.readList(this.addresses, ProviderDetailsAddress.class.getClassLoader());
+        this.isPDC = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.yearsExist = (Integer) in.readValue(Integer.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<ProviderDetailsOffice> CREATOR = new Parcelable.Creator<ProviderDetailsOffice>() {
+        @Override
+        public ProviderDetailsOffice createFromParcel(Parcel source) {
+            return new ProviderDetailsOffice(source);
+        }
+
+        @Override
+        public ProviderDetailsOffice[] newArray(int size) {
+            return new ProviderDetailsOffice[size];
+        }
+    };
 }

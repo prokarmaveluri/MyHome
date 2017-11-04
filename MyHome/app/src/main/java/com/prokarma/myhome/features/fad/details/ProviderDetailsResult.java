@@ -4,12 +4,16 @@ package com.prokarma.myhome.features.fad.details;
  * Created by kwelsh on 10/31/17.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProviderDetailsResult {
+public class ProviderDetailsResult implements Parcelable {
 
     @SerializedName("Gender")
     @Expose
@@ -352,4 +356,96 @@ public class ProviderDetailsResult {
     public void setProviderDetailsUrl(String providerDetailsUrl) {
         this.providerDetailsUrl = providerDetailsUrl;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.gender);
+        dest.writeValue(this.yearsOfExperience);
+        dest.writeValue(this.acceptsNewPatients);
+        dest.writeString(this.inMyOwnWords);
+        dest.writeStringList(this.languages);
+        dest.writeString(this.degree);
+        dest.writeStringList(this.medicalSchools);
+        dest.writeStringList(this.residencies);
+        dest.writeStringList(this.fellowships);
+        dest.writeStringList(this.internships);
+        dest.writeStringList(this.practicums);
+        dest.writeStringList(this.memberships);
+        dest.writeStringList(this.certifications);
+        dest.writeStringList(this.awards);
+        dest.writeString(this.id);
+        dest.writeString(this.npi);
+        dest.writeString(this.displayName);
+        dest.writeString(this.displayLastName);
+        dest.writeString(this.displayLastNamePlural);
+        dest.writeString(this.firstName);
+        dest.writeString(this.middleName);
+        dest.writeString(this.lastName);
+        dest.writeString(this.suffix);
+        dest.writeString(this.title);
+        dest.writeList(this.images);
+        dest.writeString(this.philosophy);
+        dest.writeList(this.offices);
+        dest.writeList(this.facilities);
+        dest.writeStringList(this.primarySpecialities);
+        dest.writeValue(this.supportsOnlineBooking);
+        dest.writeString(this.providerDetailsUrl);
+    }
+
+    public ProviderDetailsResult() {
+    }
+
+    protected ProviderDetailsResult(Parcel in) {
+        this.gender = in.readString();
+        this.yearsOfExperience = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.acceptsNewPatients = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.inMyOwnWords = in.readString();
+        this.languages = in.createStringArrayList();
+        this.degree = in.readString();
+        this.medicalSchools = in.createStringArrayList();
+        this.residencies = in.createStringArrayList();
+        this.fellowships = in.createStringArrayList();
+        this.internships = in.createStringArrayList();
+        this.practicums = in.createStringArrayList();
+        this.memberships = in.createStringArrayList();
+        this.certifications = in.createStringArrayList();
+        this.awards = in.createStringArrayList();
+        this.id = in.readString();
+        this.npi = in.readString();
+        this.displayName = in.readString();
+        this.displayLastName = in.readString();
+        this.displayLastNamePlural = in.readString();
+        this.firstName = in.readString();
+        this.middleName = in.readString();
+        this.lastName = in.readString();
+        this.suffix = in.readString();
+        this.title = in.readString();
+        this.images = new ArrayList<ProviderDetailsImage>();
+        in.readList(this.images, ProviderDetailsImage.class.getClassLoader());
+        this.philosophy = in.readString();
+        this.offices = new ArrayList<ProviderDetailsOffice>();
+        in.readList(this.offices, ProviderDetailsOffice.class.getClassLoader());
+        this.facilities = new ArrayList<ProviderDetailsFacility>();
+        in.readList(this.facilities, ProviderDetailsFacility.class.getClassLoader());
+        this.primarySpecialities = in.createStringArrayList();
+        this.supportsOnlineBooking = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.providerDetailsUrl = in.readString();
+    }
+
+    public static final Parcelable.Creator<ProviderDetailsResult> CREATOR = new Parcelable.Creator<ProviderDetailsResult>() {
+        @Override
+        public ProviderDetailsResult createFromParcel(Parcel source) {
+            return new ProviderDetailsResult(source);
+        }
+
+        @Override
+        public ProviderDetailsResult[] newArray(int size) {
+            return new ProviderDetailsResult[size];
+        }
+    };
 }

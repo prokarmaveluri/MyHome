@@ -4,12 +4,15 @@ package com.prokarma.myhome.features.fad.details;
  * Created by kwelsh on 11/4/17.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ProviderDetailsFacility {
+public class ProviderDetailsFacility implements Parcelable {
 
     @SerializedName("Name")
     @Expose
@@ -55,4 +58,39 @@ public class ProviderDetailsFacility {
     public void setAddresses(List<ProviderDetailsAddress> addresses) {
         this.addresses = addresses;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.phone);
+        dest.writeString(this.url);
+        dest.writeTypedList(this.addresses);
+    }
+
+    public ProviderDetailsFacility() {
+    }
+
+    protected ProviderDetailsFacility(Parcel in) {
+        this.name = in.readString();
+        this.phone = in.readString();
+        this.url = in.readString();
+        this.addresses = in.createTypedArrayList(ProviderDetailsAddress.CREATOR);
+    }
+
+    public static final Parcelable.Creator<ProviderDetailsFacility> CREATOR = new Parcelable.Creator<ProviderDetailsFacility>() {
+        @Override
+        public ProviderDetailsFacility createFromParcel(Parcel source) {
+            return new ProviderDetailsFacility(source);
+        }
+
+        @Override
+        public ProviderDetailsFacility[] newArray(int size) {
+            return new ProviderDetailsFacility[size];
+        }
+    };
 }
