@@ -613,4 +613,16 @@ public class DateUtil {
             return false;
         }
     }
+
+    public static String getTodayDate(){
+        return SIMPLE_DATE_SLASH_FORMAT.format(new Date());
+    }
+
+    public static String getEndOfTheMonthDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
+    }
 }
