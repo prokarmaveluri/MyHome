@@ -34,13 +34,13 @@ public class ProviderDetailsAddress {
     private List<String> faxes = null;
     @SerializedName("Name")
     @Expose
-    private Object name;
+    private String name;
     @SerializedName("PracticeUrl")
     @Expose
     private String practiceUrl;
     @SerializedName("LegacyId")
     @Expose
-    private Object legacyId;
+    private String legacyId;
     @SerializedName("Address")
     @Expose
     private String address;
@@ -125,11 +125,11 @@ public class ProviderDetailsAddress {
         this.faxes = faxes;
     }
 
-    public Object getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Object name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -141,11 +141,11 @@ public class ProviderDetailsAddress {
         this.practiceUrl = practiceUrl;
     }
 
-    public Object getLegacyId() {
+    public String getLegacyId() {
         return legacyId;
     }
 
-    public void setLegacyId(Object legacyId) {
+    public void setLegacyId(String legacyId) {
         this.legacyId = legacyId;
     }
 

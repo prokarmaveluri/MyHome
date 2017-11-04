@@ -255,10 +255,10 @@ public class BookingDoneFragment extends Fragment {
         CommonUtil.shareAppointment(
                 getActivity(),
                 BookingManager.getBookingAppointment().Time,
-                BookingManager.getBookingProvider().getDisplayFullName(),
+                BookingManager.getBookingProvider().getDisplayName(),
                 BookingManager.getBookingOffice().getName(),
-                new Address(BookingManager.getBookingOffice().getAddress1(), BookingManager.getBookingOffice().getAddress2(), BookingManager.getBookingOffice().getCity(), BookingManager.getBookingOffice().getState(), BookingManager.getBookingOffice().getZipCode(), null),
-                BookingManager.getBookingOffice().getPhone(),
+                new Address(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), "", BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip(), null),
+                BookingManager.getBookingOffice().getAddresses().get(0).getPhones().get(0),
                 BookingManager.getBookingProfile().reasonForVisit
         );
     }
@@ -267,9 +267,9 @@ public class BookingDoneFragment extends Fragment {
         CommonUtil.addCalendarEvent(
                 getActivity(),
                 BookingManager.getBookingAppointment().Time,
-                BookingManager.getBookingProvider().getDisplayFullName(),
-                new Address(BookingManager.getBookingOffice().getAddress1(), BookingManager.getBookingOffice().getAddress2(), BookingManager.getBookingOffice().getCity(), BookingManager.getBookingOffice().getState(), BookingManager.getBookingOffice().getZipCode(), null),
-                BookingManager.getBookingOffice().getPhone(),
+                BookingManager.getBookingProvider().getDisplayName(),
+                new Address(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), "", BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip(), null),
+                BookingManager.getBookingOffice().getAddresses().get(0).getPhones().get(0),
                 BookingManager.getBookingProfile().reasonForVisit
         );
     }

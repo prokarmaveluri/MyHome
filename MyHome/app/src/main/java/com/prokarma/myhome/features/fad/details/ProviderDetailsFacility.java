@@ -16,7 +16,7 @@ public class ProviderDetailsFacility {
     private String name;
     @SerializedName("Phone")
     @Expose
-    private Object phone;
+    private String phone;
     @SerializedName("Url")
     @Expose
     private String url;
@@ -32,11 +32,11 @@ public class ProviderDetailsFacility {
         this.name = name;
     }
 
-    public Object getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Object phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

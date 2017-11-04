@@ -22,7 +22,7 @@ public class ProviderDetailsResult {
     private Boolean acceptsNewPatients;
     @SerializedName("InMyOwnWords")
     @Expose
-    private Object inMyOwnWords;
+    private String inMyOwnWords;
     @SerializedName("Languages")
     @Expose
     private List<String> languages = null;
@@ -34,22 +34,22 @@ public class ProviderDetailsResult {
     private List<String> medicalSchools = null;
     @SerializedName("Residencies")
     @Expose
-    private List<Object> residencies = null;
+    private List<String> residencies = null;
     @SerializedName("Fellowships")
     @Expose
-    private List<Object> fellowships = null;
+    private List<String> fellowships = null;
     @SerializedName("Internships")
     @Expose
     private List<String> internships = null;
     @SerializedName("Practicums")
     @Expose
-    private List<Object> practicums = null;
+    private List<String> practicums = null;
     @SerializedName("Memberships")
     @Expose
-    private List<Object> memberships = null;
+    private List<String> memberships = null;
     @SerializedName("Certifications")
     @Expose
-    private List<Object> certifications = null;
+    private List<String> certifications = null;
     @SerializedName("Awards")
     @Expose
     private List<String> awards = null;
@@ -79,16 +79,16 @@ public class ProviderDetailsResult {
     private String lastName;
     @SerializedName("Suffix")
     @Expose
-    private Object suffix;
+    private String suffix;
     @SerializedName("Title")
     @Expose
     private String title;
     @SerializedName("Images")
     @Expose
-    private List<Image> images = null;
+    private List<ProviderDetailsImage> images = null;
     @SerializedName("Philosophy")
     @Expose
-    private Object philosophy;
+    private String philosophy;
     @SerializedName("Offices")
     @Expose
     private List<ProviderDetailsOffice> offices = null;
@@ -129,11 +129,11 @@ public class ProviderDetailsResult {
         this.acceptsNewPatients = acceptsNewPatients;
     }
 
-    public Object getInMyOwnWords() {
+    public String getInMyOwnWords() {
         return inMyOwnWords;
     }
 
-    public void setInMyOwnWords(Object inMyOwnWords) {
+    public void setInMyOwnWords(String inMyOwnWords) {
         this.inMyOwnWords = inMyOwnWords;
     }
 
@@ -161,19 +161,19 @@ public class ProviderDetailsResult {
         this.medicalSchools = medicalSchools;
     }
 
-    public List<Object> getResidencies() {
+    public List<String> getResidencies() {
         return residencies;
     }
 
-    public void setResidencies(List<Object> residencies) {
+    public void setResidencies(List<String> residencies) {
         this.residencies = residencies;
     }
 
-    public List<Object> getFellowships() {
+    public List<String> getFellowships() {
         return fellowships;
     }
 
-    public void setFellowships(List<Object> fellowships) {
+    public void setFellowships(List<String> fellowships) {
         this.fellowships = fellowships;
     }
 
@@ -185,27 +185,27 @@ public class ProviderDetailsResult {
         this.internships = internships;
     }
 
-    public List<Object> getPracticums() {
+    public List<String> getPracticums() {
         return practicums;
     }
 
-    public void setPracticums(List<Object> practicums) {
+    public void setPracticums(List<String> practicums) {
         this.practicums = practicums;
     }
 
-    public List<Object> getMemberships() {
+    public List<String> getMemberships() {
         return memberships;
     }
 
-    public void setMemberships(List<Object> memberships) {
+    public void setMemberships(List<String> memberships) {
         this.memberships = memberships;
     }
 
-    public List<Object> getCertifications() {
+    public List<String> getCertifications() {
         return certifications;
     }
 
-    public void setCertifications(List<Object> certifications) {
+    public void setCertifications(List<String> certifications) {
         this.certifications = certifications;
     }
 
@@ -281,11 +281,11 @@ public class ProviderDetailsResult {
         this.lastName = lastName;
     }
 
-    public Object getSuffix() {
+    public String getSuffix() {
         return suffix;
     }
 
-    public void setSuffix(Object suffix) {
+    public void setSuffix(String suffix) {
         this.suffix = suffix;
     }
 
@@ -297,19 +297,19 @@ public class ProviderDetailsResult {
         this.title = title;
     }
 
-    public List<Image> getImages() {
+    public List<ProviderDetailsImage> getImages() {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(List<ProviderDetailsImage> images) {
         this.images = images;
     }
 
-    public Object getPhilosophy() {
+    public String getPhilosophy() {
         return philosophy;
     }
 
-    public void setPhilosophy(Object philosophy) {
+    public void setPhilosophy(String philosophy) {
         this.philosophy = philosophy;
     }
 

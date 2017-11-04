@@ -117,7 +117,7 @@ public class ProviderDetailsResponse implements Parcelable {
         return ImageUrl;
     }
 
-    public Object getQuote() {
+    public String getQuote() {
         return Quote;
     }
 

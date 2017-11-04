@@ -18,11 +18,12 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.features.fad.Office;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -64,14 +65,14 @@ public class MapUtil {
      * @param listener         the clickListener of the map markers
      * @return an ArrayList of all the markers that were added
      */
-    public static ArrayList<Marker> addMapMarkers(Context context, @NonNull GoogleMap googleMap, @NonNull ArrayList<Office> offices, @NonNull BitmapDescriptor bitmapDescriptor, GoogleMap.OnMarkerClickListener listener) {
+    public static ArrayList<Marker> addMapMarkers(Context context, @NonNull GoogleMap googleMap, @NonNull List<ProviderDetailsOffice> offices, @NonNull BitmapDescriptor bitmapDescriptor, GoogleMap.OnMarkerClickListener listener) {
         ArrayList<Marker> markers = new ArrayList<>();
         if (googleMap != null && offices != null) {
-            for (Office office : offices) {
+            for (ProviderDetailsOffice office : offices) {
                 markers.add(googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.parseDouble(office.getLat()), Double.parseDouble(office.getLong())))
-                        .title(office.getName() != null ? office.getName() : office.getAddress1())
-                        .snippet(office.getAddress1() != null ? office.getAddress1() + "\n" + office.getAddress() : context.getString(R.string.address_unknown))
+                        .position(new LatLng(office.getAddresses().get(0).getLatitude(), office.getAddresses().get(0).getLongitude()))
+                        .title(office.getName() != null ? office.getName() : office.getAddresses().get(0).getAddress())
+                        .snippet(office.getAddresses().get(0).getAddress() != null ? office.getAddresses().get(0).getAddress() : context.getString(R.string.address_unknown))
                         .icon(bitmapDescriptor)));
 
                 if (listener != null) {
@@ -92,8 +93,8 @@ public class MapUtil {
      * @param marker
      * @return if the office has the same address as the marker, return true. Otherwise, return false.
      */
-    public static boolean isOfficeSelected(Office office, Marker marker) {
-        if ((office.getAddress1() + "\n" + office.getAddress()).equalsIgnoreCase(marker.getSnippet())) {
+    public static boolean isOfficeSelected(ProviderDetailsOffice office, Marker marker) {
+        if ((office.getAddresses().get(0).getAddress()).equalsIgnoreCase(marker.getSnippet())) {
             return true;
         } else {
             return false;
@@ -109,7 +110,7 @@ public class MapUtil {
      */
     @Nullable
     public static CameraUpdate calculateZoom(Context context, ArrayList<Marker> markers) {
-        if(markers == null || markers.size() == 0){
+        if (markers == null || markers.size() == 0) {
             return null;
         }
 

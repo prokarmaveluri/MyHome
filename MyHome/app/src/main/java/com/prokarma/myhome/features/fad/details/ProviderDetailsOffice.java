@@ -19,7 +19,7 @@ public class ProviderDetailsOffice {
     private String id;
     @SerializedName("LegacyId")
     @Expose
-    private Object legacyId;
+    private String legacyId;
     @SerializedName("ProviderCount")
     @Expose
     private Integer providerCount;
@@ -52,11 +52,11 @@ public class ProviderDetailsOffice {
         this.id = id;
     }
 
-    public Object getLegacyId() {
+    public String getLegacyId() {
         return legacyId;
     }
 
-    public void setLegacyId(Object legacyId) {
+    public void setLegacyId(String legacyId) {
         this.legacyId = legacyId;
     }
 

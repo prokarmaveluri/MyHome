@@ -19,10 +19,10 @@ public class ProviderDetails {
     private Boolean isValid;
     @SerializedName("Errors")
     @Expose
-    private List<Object> errors = null;
+    private List<String> errors = null;
     @SerializedName("Warnings")
     @Expose
-    private List<Object> warnings = null;
+    private List<String> warnings = null;
 
     public List<ProviderDetailsResult> getResult() {
         return result;
@@ -40,19 +40,19 @@ public class ProviderDetails {
         this.isValid = isValid;
     }
 
-    public List<Object> getErrors() {
+    public List<String> getErrors() {
         return errors;
     }
 
-    public void setErrors(List<Object> errors) {
+    public void setErrors(List<String> errors) {
         this.errors = errors;
     }
 
-    public List<Object> getWarnings() {
+    public List<String> getWarnings() {
         return warnings;
     }
 
-    public void setWarnings(List<Object> warnings) {
+    public void setWarnings(List<String> warnings) {
         this.warnings = warnings;
     }
 
