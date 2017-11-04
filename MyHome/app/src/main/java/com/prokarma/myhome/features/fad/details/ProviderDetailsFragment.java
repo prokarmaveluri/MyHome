@@ -51,8 +51,11 @@ import com.prokarma.myhome.features.fad.details.booking.BookingRefreshInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectCalendarFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectPersonFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectPersonInterface;
+import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectTimeFragment;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.preferences.ImagesResponse;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
@@ -64,6 +67,7 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.utils.MapUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
@@ -268,6 +272,28 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
     }
 
+    private void getAppointmentDetails(String providerNpi, String fromDate, String toDate, String addressHash) {
+        NetworkManager.getInstance().getProviderAppointments(providerNpi, fromDate, toDate, addressHash).enqueue(new Callback<AppointmentTimeSlots>() {
+            @Override
+            public void onResponse(Call<AppointmentTimeSlots> call, Response<AppointmentTimeSlots> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                    BookingManager.setBookingOfficeAppointmentDetails(response.body());
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                    BookingManager.setBookingOfficeAppointmentDetails(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppointmentTimeSlots> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+                BookingManager.setBookingOfficeAppointmentDetails(null);
+            }
+        });
+    }
+
     private void getProviderDetails() {
         showStatsLoading();
         detailsProgressBar.setVisibility(View.VISIBLE);
@@ -314,6 +340,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                 @Override
                                 public void onClick(View v) {
                                     bookAppointment.setVisibility(View.GONE);
+
+                                    getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(), currentOffice.getAddresses().get(0).getAddressHash());
 
                                     BookingManager.setBookingProfile(null);
                                     BookingManager.setBookingProvider(provider);
@@ -375,19 +403,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         });
     }
-
-//    private void changeAptAddress() {
-//        if (provider == null)
-//            return;
-//        for (ProviderDetailsOffice office : provider.getOffices()) {
-//            for (Appointment apt : office.getAppointments()) {
-//                apt.FacilityAddress = office.getAddressLine();
-//                apt.FacilityCity = office.getCity();
-//                apt.FacilityState = office.getState();
-//                apt.FacilityZip = office.getZipCode();
-//            }
-//        }
-//    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -638,7 +653,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             BookingManager.setBookingProfile(ProfileManager.getProfile());
             bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, false);
         } else {
-            //BookingManager.setBookingProfile(new Profile());
             bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
         }
 
@@ -651,26 +665,25 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onPersonSelected(boolean isBookingForMe) {
         //If user selects different option, clear booking profile
         if (isBookingForMe != BookingManager.isBookingForMe()) {
-            //BookingManager.setBookingProfile(null);
             BookingManager.clearBookingData(true);
         }
 
         //TODO: getAppointments needs to be converted to new Appointment Time Slots API
-//        BookingManager.setIsBookingForMe(isBookingForMe);
-//        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
-//        bookingFragment.setSelectStatusInterface(this);
-//        bookingFragment.setRefreshInterface(this);
-//        getChildFragmentManager()
-//                .beginTransaction()
-//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-//                .replace(R.id.booking_frame, bookingFragment)
-//                .addToBackStack(null)
-//                .commit();
-//        getChildFragmentManager().executePendingTransactions();
+        BookingManager.setIsBookingForMe(isBookingForMe);
+        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(BookingManager.getBookingOfficeAppointmentDetails().getData().get(0).getAttributes().getAppointmentTypes());
+        bookingFragment.setSelectStatusInterface(this);
+        bookingFragment.setRefreshInterface(this);
+        getChildFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                .replace(R.id.booking_frame, bookingFragment)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
     }
 
     @Override
-    public void onStatusSelected(boolean isUserNew) {
+    public void onTypeSelected(AppointmentType appointmentType) {
         //TODO: getAppointments needs to be converted to new Appointment Time Slots API
 //        BookingManager.setIsNewPatient(isUserNew);
 //        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));

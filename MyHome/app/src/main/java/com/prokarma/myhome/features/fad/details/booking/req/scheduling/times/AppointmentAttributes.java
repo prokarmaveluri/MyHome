@@ -35,7 +35,7 @@ public class AppointmentAttributes implements Parcelable {
     private List<AppointmentAvailableTime> availableTimes = null;
     @SerializedName("appointment-types")
     @Expose
-    private List<AppointmentType> appointmentTypes = null;
+    private ArrayList<AppointmentType> appointmentTypes = null;
     @SerializedName("has-availability")
     @Expose
     private Boolean hasAvailability;
@@ -91,11 +91,11 @@ public class AppointmentAttributes implements Parcelable {
         this.availableTimes = availableTimes;
     }
 
-    public List<AppointmentType> getAppointmentTypes() {
+    public ArrayList<AppointmentType> getAppointmentTypes() {
         return appointmentTypes;
     }
 
-    public void setAppointmentTypes(List<AppointmentType> appointmentTypes) {
+    public void setAppointmentTypes(ArrayList<AppointmentType> appointmentTypes) {
         this.appointmentTypes = appointmentTypes;
     }
 
