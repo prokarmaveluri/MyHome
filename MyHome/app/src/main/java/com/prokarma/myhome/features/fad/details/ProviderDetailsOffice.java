@@ -4,38 +4,35 @@ package com.prokarma.myhome.features.fad.details;
  * Created by kwelsh on 10/31/17.
  */
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ProviderDetailsOffice implements Parcelable {
+public class ProviderDetailsOffice {
 
-    @SerializedName("guid")
+    @SerializedName("Guid")
     @Expose
     private String guid;
-    @SerializedName("id")
+    @SerializedName("Id")
     @Expose
     private String id;
-    @SerializedName("legacyId")
+    @SerializedName("LegacyId")
     @Expose
-    private String legacyId;
-    @SerializedName("providerCount")
+    private Object legacyId;
+    @SerializedName("ProviderCount")
     @Expose
     private Integer providerCount;
-    @SerializedName("name")
+    @SerializedName("Name")
     @Expose
     private String name;
-    @SerializedName("addresses")
+    @SerializedName("Addresses")
     @Expose
     private List<ProviderDetailsAddress> addresses = null;
-    @SerializedName("isPdc")
+    @SerializedName("IsPDC")
     @Expose
-    private Boolean isPdc;
-    @SerializedName("yearsExist")
+    private Boolean isPDC;
+    @SerializedName("YearsExist")
     @Expose
     private Integer yearsExist;
 
@@ -55,11 +52,11 @@ public class ProviderDetailsOffice implements Parcelable {
         this.id = id;
     }
 
-    public String getLegacyId() {
+    public Object getLegacyId() {
         return legacyId;
     }
 
-    public void setLegacyId(String legacyId) {
+    public void setLegacyId(Object legacyId) {
         this.legacyId = legacyId;
     }
 
@@ -87,12 +84,12 @@ public class ProviderDetailsOffice implements Parcelable {
         this.addresses = addresses;
     }
 
-    public Boolean getIsPdc() {
-        return isPdc;
+    public Boolean getIsPDC() {
+        return isPDC;
     }
 
-    public void setIsPdc(Boolean isPdc) {
-        this.isPdc = isPdc;
+    public void setIsPDC(Boolean isPDC) {
+        this.isPDC = isPDC;
     }
 
     public Integer getYearsExist() {
@@ -102,47 +99,4 @@ public class ProviderDetailsOffice implements Parcelable {
     public void setYearsExist(Integer yearsExist) {
         this.yearsExist = yearsExist;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.guid);
-        dest.writeString(this.id);
-        dest.writeString(this.legacyId);
-        dest.writeValue(this.providerCount);
-        dest.writeString(this.name);
-        dest.writeTypedList(this.addresses);
-        dest.writeValue(this.isPdc);
-        dest.writeValue(this.yearsExist);
-    }
-
-    public ProviderDetailsOffice() {
-    }
-
-    protected ProviderDetailsOffice(Parcel in) {
-        this.guid = in.readString();
-        this.id = in.readString();
-        this.legacyId = in.readString();
-        this.providerCount = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.name = in.readString();
-        this.addresses = in.createTypedArrayList(ProviderDetailsAddress.CREATOR);
-        this.isPdc = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.yearsExist = (Integer) in.readValue(Integer.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<ProviderDetailsOffice> CREATOR = new Parcelable.Creator<ProviderDetailsOffice>() {
-        @Override
-        public ProviderDetailsOffice createFromParcel(Parcel source) {
-            return new ProviderDetailsOffice(source);
-        }
-
-        @Override
-        public ProviderDetailsOffice[] newArray(int size) {
-            return new ProviderDetailsOffice[size];
-        }
-    };
 }

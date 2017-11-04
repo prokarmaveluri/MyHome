@@ -4,64 +4,218 @@ package com.prokarma.myhome.features.fad.details;
  * Created by kwelsh on 10/31/17.
  */
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ProviderDetailsResult implements Parcelable {
+public class ProviderDetailsResult {
 
-    @SerializedName("id")
+    @SerializedName("Gender")
+    @Expose
+    private String gender;
+    @SerializedName("YearsOfExperience")
+    @Expose
+    private Integer yearsOfExperience;
+    @SerializedName("AcceptsNewPatients")
+    @Expose
+    private Boolean acceptsNewPatients;
+    @SerializedName("InMyOwnWords")
+    @Expose
+    private Object inMyOwnWords;
+    @SerializedName("Languages")
+    @Expose
+    private List<String> languages = null;
+    @SerializedName("Degree")
+    @Expose
+    private String degree;
+    @SerializedName("MedicalSchools")
+    @Expose
+    private List<String> medicalSchools = null;
+    @SerializedName("Residencies")
+    @Expose
+    private List<Object> residencies = null;
+    @SerializedName("Fellowships")
+    @Expose
+    private List<Object> fellowships = null;
+    @SerializedName("Internships")
+    @Expose
+    private List<String> internships = null;
+    @SerializedName("Practicums")
+    @Expose
+    private List<Object> practicums = null;
+    @SerializedName("Memberships")
+    @Expose
+    private List<Object> memberships = null;
+    @SerializedName("Certifications")
+    @Expose
+    private List<Object> certifications = null;
+    @SerializedName("Awards")
+    @Expose
+    private List<String> awards = null;
+    @SerializedName("Id")
     @Expose
     private String id;
-    @SerializedName("npi")
+    @SerializedName("Npi")
     @Expose
     private String npi;
-    @SerializedName("displayName")
+    @SerializedName("DisplayName")
     @Expose
     private String displayName;
-    @SerializedName("displayLastName")
+    @SerializedName("DisplayLastName")
     @Expose
     private String displayLastName;
-    @SerializedName("displayLastNamePlural")
+    @SerializedName("DisplayLastNamePlural")
     @Expose
     private String displayLastNamePlural;
-    @SerializedName("firstName")
+    @SerializedName("FirstName")
     @Expose
     private String firstName;
-    @SerializedName("middleName")
+    @SerializedName("MiddleName")
     @Expose
     private String middleName;
-    @SerializedName("lastName")
+    @SerializedName("LastName")
     @Expose
     private String lastName;
-    @SerializedName("suffix")
+    @SerializedName("Suffix")
     @Expose
-    private String suffix;
-    @SerializedName("title")
+    private Object suffix;
+    @SerializedName("Title")
     @Expose
     private String title;
-    @SerializedName("images")
+    @SerializedName("Images")
     @Expose
-    private List<ProviderDetailsImage> images = null;
-    @SerializedName("philosophy")
+    private List<Image> images = null;
+    @SerializedName("Philosophy")
     @Expose
-    private String philosophy;
-    @SerializedName("offices")
+    private Object philosophy;
+    @SerializedName("Offices")
     @Expose
     private List<ProviderDetailsOffice> offices = null;
-    @SerializedName("primarySpecialities")
+    @SerializedName("Facilities")
+    @Expose
+    private List<ProviderDetailsFacility> facilities = null;
+    @SerializedName("PrimarySpecialities")
     @Expose
     private List<String> primarySpecialities = null;
-    @SerializedName("supportsOnlineBooking")
+    @SerializedName("SupportsOnlineBooking")
     @Expose
     private Boolean supportsOnlineBooking;
-    @SerializedName("providerDetailsUrl")
+    @SerializedName("ProviderDetailsUrl")
     @Expose
     private String providerDetailsUrl;
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    public Boolean getAcceptsNewPatients() {
+        return acceptsNewPatients;
+    }
+
+    public void setAcceptsNewPatients(Boolean acceptsNewPatients) {
+        this.acceptsNewPatients = acceptsNewPatients;
+    }
+
+    public Object getInMyOwnWords() {
+        return inMyOwnWords;
+    }
+
+    public void setInMyOwnWords(Object inMyOwnWords) {
+        this.inMyOwnWords = inMyOwnWords;
+    }
+
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public List<String> getMedicalSchools() {
+        return medicalSchools;
+    }
+
+    public void setMedicalSchools(List<String> medicalSchools) {
+        this.medicalSchools = medicalSchools;
+    }
+
+    public List<Object> getResidencies() {
+        return residencies;
+    }
+
+    public void setResidencies(List<Object> residencies) {
+        this.residencies = residencies;
+    }
+
+    public List<Object> getFellowships() {
+        return fellowships;
+    }
+
+    public void setFellowships(List<Object> fellowships) {
+        this.fellowships = fellowships;
+    }
+
+    public List<String> getInternships() {
+        return internships;
+    }
+
+    public void setInternships(List<String> internships) {
+        this.internships = internships;
+    }
+
+    public List<Object> getPracticums() {
+        return practicums;
+    }
+
+    public void setPracticums(List<Object> practicums) {
+        this.practicums = practicums;
+    }
+
+    public List<Object> getMemberships() {
+        return memberships;
+    }
+
+    public void setMemberships(List<Object> memberships) {
+        this.memberships = memberships;
+    }
+
+    public List<Object> getCertifications() {
+        return certifications;
+    }
+
+    public void setCertifications(List<Object> certifications) {
+        this.certifications = certifications;
+    }
+
+    public List<String> getAwards() {
+        return awards;
+    }
+
+    public void setAwards(List<String> awards) {
+        this.awards = awards;
+    }
 
     public String getId() {
         return id;
@@ -127,11 +281,11 @@ public class ProviderDetailsResult implements Parcelable {
         this.lastName = lastName;
     }
 
-    public String getSuffix() {
+    public Object getSuffix() {
         return suffix;
     }
 
-    public void setSuffix(String suffix) {
+    public void setSuffix(Object suffix) {
         this.suffix = suffix;
     }
 
@@ -143,19 +297,19 @@ public class ProviderDetailsResult implements Parcelable {
         this.title = title;
     }
 
-    public List<ProviderDetailsImage> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(List<ProviderDetailsImage> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
-    public String getPhilosophy() {
+    public Object getPhilosophy() {
         return philosophy;
     }
 
-    public void setPhilosophy(String philosophy) {
+    public void setPhilosophy(Object philosophy) {
         this.philosophy = philosophy;
     }
 
@@ -165,6 +319,14 @@ public class ProviderDetailsResult implements Parcelable {
 
     public void setOffices(List<ProviderDetailsOffice> offices) {
         this.offices = offices;
+    }
+
+    public List<ProviderDetailsFacility> getFacilities() {
+        return facilities;
+    }
+
+    public void setFacilities(List<ProviderDetailsFacility> facilities) {
+        this.facilities = facilities;
     }
 
     public List<String> getPrimarySpecialities() {
@@ -190,63 +352,4 @@ public class ProviderDetailsResult implements Parcelable {
     public void setProviderDetailsUrl(String providerDetailsUrl) {
         this.providerDetailsUrl = providerDetailsUrl;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.npi);
-        dest.writeString(this.displayName);
-        dest.writeString(this.displayLastName);
-        dest.writeString(this.displayLastNamePlural);
-        dest.writeString(this.firstName);
-        dest.writeString(this.middleName);
-        dest.writeString(this.lastName);
-        dest.writeString(this.suffix);
-        dest.writeString(this.title);
-        dest.writeTypedList(this.images);
-        dest.writeString(this.philosophy);
-        dest.writeTypedList(this.offices);
-        dest.writeStringList(this.primarySpecialities);
-        dest.writeValue(this.supportsOnlineBooking);
-        dest.writeString(this.providerDetailsUrl);
-    }
-
-    public ProviderDetailsResult() {
-    }
-
-    protected ProviderDetailsResult(Parcel in) {
-        this.id = in.readString();
-        this.npi = in.readString();
-        this.displayName = in.readString();
-        this.displayLastName = in.readString();
-        this.displayLastNamePlural = in.readString();
-        this.firstName = in.readString();
-        this.middleName = in.readString();
-        this.lastName = in.readString();
-        this.suffix = in.readString();
-        this.title = in.readString();
-        this.images = in.createTypedArrayList(ProviderDetailsImage.CREATOR);
-        this.philosophy = in.readString();
-        this.offices = in.createTypedArrayList(ProviderDetailsOffice.CREATOR);
-        this.primarySpecialities = in.createStringArrayList();
-        this.supportsOnlineBooking = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.providerDetailsUrl = in.readString();
-    }
-
-    public static final Parcelable.Creator<ProviderDetailsResult> CREATOR = new Parcelable.Creator<ProviderDetailsResult>() {
-        @Override
-        public ProviderDetailsResult createFromParcel(Parcel source) {
-            return new ProviderDetailsResult(source);
-        }
-
-        @Override
-        public ProviderDetailsResult[] newArray(int size) {
-            return new ProviderDetailsResult[size];
-        }
-    };
 }

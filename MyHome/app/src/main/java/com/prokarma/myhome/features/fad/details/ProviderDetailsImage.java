@@ -4,24 +4,21 @@ package com.prokarma.myhome.features.fad.details;
  * Created by kwelsh on 10/31/17.
  */
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProviderDetailsImage implements Parcelable {
+public class ProviderDetailsImage {
 
-    @SerializedName("imageType")
+    @SerializedName("ImageType")
     @Expose
     private String imageType;
-    @SerializedName("url")
+    @SerializedName("Url")
     @Expose
     private String url;
-    @SerializedName("width")
+    @SerializedName("Width")
     @Expose
     private Integer width;
-    @SerializedName("height")
+    @SerializedName("Height")
     @Expose
     private Integer height;
 
@@ -56,39 +53,4 @@ public class ProviderDetailsImage implements Parcelable {
     public void setHeight(Integer height) {
         this.height = height;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.imageType);
-        dest.writeString(this.url);
-        dest.writeValue(this.width);
-        dest.writeValue(this.height);
-    }
-
-    public ProviderDetailsImage() {
-    }
-
-    protected ProviderDetailsImage(Parcel in) {
-        this.imageType = in.readString();
-        this.url = in.readString();
-        this.width = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.height = (Integer) in.readValue(Integer.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<ProviderDetailsImage> CREATOR = new Parcelable.Creator<ProviderDetailsImage>() {
-        @Override
-        public ProviderDetailsImage createFromParcel(Parcel source) {
-            return new ProviderDetailsImage(source);
-        }
-
-        @Override
-        public ProviderDetailsImage[] newArray(int size) {
-            return new ProviderDetailsImage[size];
-        }
-    };
 }
