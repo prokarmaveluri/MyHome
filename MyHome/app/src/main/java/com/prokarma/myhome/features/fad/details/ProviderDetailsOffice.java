@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +103,15 @@ public class ProviderDetailsOffice implements Parcelable {
 
     public void setYearsExist(Integer yearsExist) {
         this.yearsExist = yearsExist;
+    }
+
+    @Override
+    public String toString() {
+        String officeString = "";
+        officeString = officeString +
+                (name != null && !name.isEmpty() ? name + "\n" : "") +
+                CommonUtil.constructAddress(addresses.get(0).getAddress(), "", addresses.get(0).getCity(), addresses.get(0).getState(), addresses.get(0).getZip());
+        return officeString;
     }
 
     @Override

@@ -25,6 +25,13 @@ public class ProviderDetailsImage implements Parcelable {
     @Expose
     private Integer height;
 
+    public ProviderDetailsImage(String imageType, String url, Integer width, Integer height) {
+        this.imageType = imageType;
+        this.url = url;
+        this.width = width;
+        this.height = height;
+    }
+
     public String getImageType() {
         return imageType;
     }

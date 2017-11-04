@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.prokarma.myhome.features.fad.Facility;
 import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.ServiceError;
+import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,6 @@ import java.util.List;
 /**
  * Created by cmajji on 5/15/17.
  */
-
 
 public class ProviderDetailsResponse implements Parcelable {
 
@@ -236,6 +236,24 @@ public class ProviderDetailsResponse implements Parcelable {
                 ", HasAppointments=" + HasAppointments +
                 ", ServiceErrors=" + ServiceErrors +
                 '}';
+    }
+
+    public ProviderDetailsResult convertToNewProviderDetails(){
+        ProviderDetailsResult providerDetailsResult = new ProviderDetailsResult();
+        providerDetailsResult.setId(this.getProviderId());
+        providerDetailsResult.setNpi(this.getNpi());
+        providerDetailsResult.setDisplayName(this.getDisplayFullName());
+        providerDetailsResult.setDisplayLastName(this.getDisplayLastName());
+        providerDetailsResult.setDisplayLastNamePlural(this.getDisplayLastNamePlural());
+        providerDetailsResult.setFirstName(this.getFirstName());
+        providerDetailsResult.setMiddleName(this.getMiddleName());
+        providerDetailsResult.setLastName(this.getLastName());
+        providerDetailsResult.setTitle(this.getTitle());
+        providerDetailsResult.setGender(this.getGender());
+        providerDetailsResult.setImages(CommonUtil.convertImagesToProviderImages(this.getImageUrls()));
+        providerDetailsResult.setPhilosophy(this.getPhilosophy());
+        providerDetailsResult.setOffices(CommonUtil.convertOfficeToProviderOffice(this.getOffices()));
+        return providerDetailsResult;
     }
 
     @Override

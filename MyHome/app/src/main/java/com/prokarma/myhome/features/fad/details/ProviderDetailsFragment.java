@@ -91,7 +91,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
     public static final String TIME_TAG = "TIME_TAG"; //Allows us to go back to 'pop' all the 'time' fragments with one back (so you don't have to back multiple times through SelectTime/SelectCalendar pages)
 
-    private String providerId;
+    private String providerNpi;
 
     private ProviderDetailsResult provider;
 
@@ -165,7 +165,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             provider = getArguments().getParcelable(PROVIDER_KEY);
-            providerId = getArguments().getString(PROVIDER_ID_KEY);
+            providerNpi = getArguments().getString(PROVIDER_ID_KEY);
         }
     }
 
@@ -176,7 +176,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             RecentlyViewedDataSourceDB.getInstance().createEntry(provider);
 
         Map<String, Object> tealiumData = new HashMap<>();
-        tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerId);
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
         TealiumUtil.trackView(Constants.PROVIDER_DETAILS_SCREEN, tealiumData);
     }
 
@@ -226,11 +226,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
 
-        if (null == providerId) {
+        if (null == providerNpi) {
             setupInitialView();
         }
         if (provider != null) {
-            providerId = provider.getId();
+            providerNpi = provider.getNpi();
         }
         getProviderDetails();
         return providerDetailsView;
@@ -271,7 +271,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private void getProviderDetails() {
         showStatsLoading();
         detailsProgressBar.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().getNewProviderDetails(providerId).enqueue(new Callback<ProviderDetails>() {
+        NetworkManager.getInstance().getNewProviderDetails(providerNpi).enqueue(new Callback<ProviderDetails>() {
             @Override
             public void onResponse(Call<ProviderDetails> call, Response<ProviderDetails> response) {
                 if (isAdded()) {
@@ -330,7 +330,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                     getChildFragmentManager().executePendingTransactions();
 
                                     Map<String, Object> tealiumData = new HashMap<>();
-                                    tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerId);
+                                    tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
                                     TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
                                 }
                             });
@@ -771,14 +771,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onBookingSuccess() {
         //Booking Successful!
         Map<String, Object> tealiumData = new HashMap<>();
-        tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerId);
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
         TealiumUtil.trackEvent(Constants.SCHEDULING_ENDED_EVENT, tealiumData);
     }
 
     @Override
     public void onBookingFailed(String errorMessage) {
         Map<String, Object> tealiumData = new HashMap<>();
-        tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerId);
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
         TealiumUtil.trackEvent(Constants.SCHEDULING_FAILED_EVENT, tealiumData);
 
         if (isAdded()) {
