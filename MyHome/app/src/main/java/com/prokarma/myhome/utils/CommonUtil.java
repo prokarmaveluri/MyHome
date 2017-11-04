@@ -25,7 +25,11 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
+import com.prokarma.myhome.features.fad.Office;
+import com.prokarma.myhome.features.fad.details.Image;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsAddress;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsImage;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 
@@ -780,6 +784,54 @@ public class CommonUtil {
         }
 
         return bestImage;
+    }
+
+    public static List<ProviderDetailsImage> convertImagesToProviderImages(List<Image> images) {
+        List<ProviderDetailsImage> providerImages = new ArrayList<>();
+        ProviderDetailsImage providerImage = new ProviderDetailsImage();
+        for (Image image : images) {
+            providerImage = new ProviderDetailsImage("imageType", image.getUrl(), 120, 160);
+            providerImages.add(providerImage);
+        }
+
+        return providerImages;
+    }
+
+    public static List<ProviderDetailsOffice> convertOfficeToProviderOffice(List<Office> offices){
+        List<ProviderDetailsOffice> providerOffices = new ArrayList<>();
+        ProviderDetailsOffice providerOffice = new ProviderDetailsOffice();
+
+        List<ProviderDetailsAddress> providerOfficeAddresses = new ArrayList<>();
+        ProviderDetailsAddress providerOfficeAddress = new ProviderDetailsAddress();
+
+        List<String> providerOfficePhones = new ArrayList<>();
+        String providerOfficePhone = new String();
+
+        for (Office office : offices) {
+            providerOffice = new ProviderDetailsOffice();
+
+            providerOfficeAddress = new ProviderDetailsAddress();
+            providerOfficeAddress.setName(office.getName());
+            providerOfficeAddress.setAddress(office.getAddress());
+            providerOfficeAddress.setCity(office.getCity());
+            providerOfficeAddress.setState(office.getState());
+            providerOfficeAddress.setZip(office.getZipCode());
+            providerOfficeAddress.setLatitude(Double.parseDouble(office.getLat()));
+            providerOfficeAddress.setLongitude(Double.parseDouble(office.getLong()));
+
+            providerOfficePhone = office.getPhone();
+            providerOfficePhones.add(providerOfficePhone);
+
+            providerOfficeAddress.setPhones(providerOfficePhones);
+
+            providerOfficeAddresses.add(providerOfficeAddress);
+
+            providerOffice.setAddresses(providerOfficeAddresses);
+
+            providerOffices.add(providerOffice);
+        }
+
+        return providerOffices;
     }
 
     public static void exitApp(Context context, Activity activity) {
