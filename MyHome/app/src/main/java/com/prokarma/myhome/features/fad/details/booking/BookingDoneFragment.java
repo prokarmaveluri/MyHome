@@ -186,7 +186,7 @@ public class BookingDoneFragment extends Fragment {
     }
 
     private void scheduleAppointment() {
-        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, providerNpi, officeName, officePhone, BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.isNewPatient(), BookingManager.isBookingForMe());
+        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, providerNpi, officeName, officePhone, BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.getBookingAppointmentType(), BookingManager.isBookingForMe());
 
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Timber.i("Request = " + request);
@@ -202,9 +202,9 @@ public class BookingDoneFragment extends Fragment {
                         ((NavigationActivity) getActivity()).setActionBarTitle("Appointment Confirmed");
 
                         updateVisibility(false);
-                        date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().Time));
-                        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().Time) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingAppointment()));
-                        address.setText(CommonUtil.constructAddress(BookingManager.getBookingAppointment().FacilityAddress, null, BookingManager.getBookingAppointment().FacilityCity, BookingManager.getBookingAppointment().FacilityState, BookingManager.getBookingAppointment().FacilityZip));
+                        date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().getTime()));
+                        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().getTime()) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingAppointment().getTime()));
+                        address.setText(CommonUtil.constructAddress(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), null, BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip()));
 
                         if (doneInterface != null) {
                             doneInterface.onBookingSuccess();
@@ -247,14 +247,14 @@ public class BookingDoneFragment extends Fragment {
     public void onClickDirections() {
         CommonUtil.getDirections(
                 getActivity(),
-                new Address(BookingManager.getBookingAppointment().FacilityAddress, null, BookingManager.getBookingAppointment().FacilityCity, BookingManager.getBookingAppointment().FacilityState, BookingManager.getBookingAppointment().FacilityZip, null)
+                new Address(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), null, BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip(), null)
         );
     }
 
     public void onClickShare() {
         CommonUtil.shareAppointment(
                 getActivity(),
-                BookingManager.getBookingAppointment().Time,
+                BookingManager.getBookingAppointment().getTime(),
                 BookingManager.getBookingProvider().getDisplayName(),
                 BookingManager.getBookingOffice().getName(),
                 new Address(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), "", BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip(), null),
@@ -266,7 +266,7 @@ public class BookingDoneFragment extends Fragment {
     public void onClickAddToCalendar() {
         CommonUtil.addCalendarEvent(
                 getActivity(),
-                BookingManager.getBookingAppointment().Time,
+                BookingManager.getBookingAppointment().getTime(),
                 BookingManager.getBookingProvider().getDisplayName(),
                 new Address(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), "", BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip(), null),
                 BookingManager.getBookingOffice().getAddresses().get(0).getPhones().get(0),

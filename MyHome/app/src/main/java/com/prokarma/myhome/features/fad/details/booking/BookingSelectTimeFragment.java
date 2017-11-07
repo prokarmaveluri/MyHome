@@ -1,6 +1,5 @@
 package com.prokarma.myhome.features.fad.details.booking;
 
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,8 +21,10 @@ import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
-import com.prokarma.myhome.features.fad.Appointment;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 import com.prokarma.myhome.utils.AppPreferences;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
@@ -43,14 +44,12 @@ import timber.log.Timber;
 
 public class BookingSelectTimeFragment extends Fragment {
     public static final String BOOKING_SELECT_TIME_TAG = "booking_select_time_tag";
-    public static final String APPOINTMENTS_KEY = "appointments";
     public static final String DATE_KEY = "date";
 
-    public ArrayList<Appointment> allAppointments;
-    public ArrayList<Appointment> todaysAppointments = new ArrayList<>();
+    public ArrayList<AppointmentAvailableTime> allAppointments;
+    public ArrayList<AppointmentTime> todaysAppointments = new ArrayList<>();
     public Date bookingDate;
     public Date firstAppointmentDate;
-    public Date lastAppointmentDate;
     public BookingDateHeaderInterface selectTimeInterface;
     public BookingRefreshInterface refreshInterface;
 
@@ -63,24 +62,15 @@ public class BookingSelectTimeFragment extends Fragment {
     Button noAppointments;
     Button callForAppointments;
 
-    Appointment nextAppointment;
+    AppointmentAvailableTime nextAppointment;
 
     public static BookingSelectTimeFragment newInstance() {
         return new BookingSelectTimeFragment();
     }
 
-    public static BookingSelectTimeFragment newInstance(ArrayList<Appointment> appointments) {
+    public static BookingSelectTimeFragment newInstance(Date date) {
         BookingSelectTimeFragment bookingFragment = new BookingSelectTimeFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(APPOINTMENTS_KEY, appointments);
-        bookingFragment.setArguments(args);
-        return bookingFragment;
-    }
-
-    public static BookingSelectTimeFragment newInstance(ArrayList<Appointment> appointments, Date date) {
-        BookingSelectTimeFragment bookingFragment = new BookingSelectTimeFragment();
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(APPOINTMENTS_KEY, appointments);
         args.putSerializable(DATE_KEY, date);
         bookingFragment.setArguments(args);
         return bookingFragment;
@@ -90,7 +80,8 @@ public class BookingSelectTimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
-        allAppointments = args.getParcelableArrayList(APPOINTMENTS_KEY);
+
+        allAppointments = CommonUtil.filterAppointmentsToType(BookingManager.getBookingOfficeAppointmentDetails(), BookingManager.getBookingAppointmentType());
 
         Collections.sort(allAppointments);
 
@@ -138,12 +129,9 @@ public class BookingSelectTimeFragment extends Fragment {
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Adjust right arrow color and register click if in range
-                if (!DateUtil.isOnSameDay(bookingDate, lastAppointmentDate) && !DateUtil.isAfter(bookingDate, lastAppointmentDate)) {
-                    bookingDate = DateUtil.moveDate(bookingDate, 1);
-                    setMonthHeader(bookingDate);
-                    setupView();
-                }
+                bookingDate = DateUtil.moveDate(bookingDate, 1);
+                setMonthHeader(bookingDate);
+                setupView();
 
                 adjustArrowColors();
 
@@ -179,8 +167,11 @@ public class BookingSelectTimeFragment extends Fragment {
     private void setupView() {
         todaysAppointments.clear();
         todaysAppointments = getTodaysAppointments(bookingDate, allAppointments);
-        firstAppointmentDate = DateUtil.findFirstAppointmentDate(allAppointments);
-        lastAppointmentDate = DateUtil.findLastAppointmentDate(allAppointments);
+
+        if(!allAppointments.isEmpty()){
+            firstAppointmentDate = DateUtil.findFirstAppointmentDate(allAppointments);
+        }
+
         adjustArrowColors();
 
         if (todaysAppointments != null && !todaysAppointments.isEmpty() && !DateUtil.isToday(bookingDate)) {
@@ -189,7 +180,7 @@ public class BookingSelectTimeFragment extends Fragment {
             callForAppointments.setVisibility(View.GONE);
             timeZoneWarning.setVisibility(View.VISIBLE);
             timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
-                    DateUtil.getReadableTimeZone(todaysAppointments.get(0))));
+                    DateUtil.getReadableTimeZone(BookingManager.getBookingOfficeAppointmentDetails())));
 
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
@@ -205,21 +196,21 @@ public class BookingSelectTimeFragment extends Fragment {
             if (nextAppointment != null) {
                 timeZoneWarning.setVisibility(View.VISIBLE);
                 timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
-                        DateUtil.getReadableTimeZone(nextAppointment)));
+                        DateUtil.getReadableTimeZone(BookingManager.getBookingOfficeAppointmentDetails())));
 
                 //Bold just the Date part
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>", Html.FROM_HTML_MODE_COMPACT));
+                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + nextAppointment.getDate() + "</b>", Html.FROM_HTML_MODE_COMPACT));
                 } else {
                     //noinspection deprecation
-                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + DateUtil.getDateWordsFromUTC(nextAppointment.Time) + "</b>"));
+                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + nextAppointment.getDate() + "</b>"));
                 }
 
                 noAppointments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         try {
-                            bookingDate = DateUtil.getDateNoTimeZone(nextAppointment.Time);
+                            bookingDate = DateUtil.getDateFromHyphens(nextAppointment.getDate());
                             setMonthHeader(bookingDate);
                             setupView();
 
@@ -260,7 +251,7 @@ public class BookingSelectTimeFragment extends Fragment {
      * @param appointments the appointments being added to the Flow Layout
      */
     @SuppressWarnings("ObjectAllocationInLoop")
-    private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<Appointment> appointments) {
+    private void setAppointmentTimes(final FlowLayout timeGroup, final ArrayList<AppointmentTime> appointments) {
         timeGroup.removeAllViews();
         FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(DeviceDisplayManager.dpToPx(getContext(), 110), DeviceDisplayManager.dpToPx(getContext(), 40));
         layoutParams.setMargins(DeviceDisplayManager.dpToPx(getContext(), 5), DeviceDisplayManager.dpToPx(getContext(), 5), DeviceDisplayManager.dpToPx(getContext(), 5), DeviceDisplayManager.dpToPx(getContext(), 5));
@@ -269,7 +260,7 @@ public class BookingSelectTimeFragment extends Fragment {
         View.OnClickListener timeClickedListener;
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.selectableButtonStyle);
 
-        for (final Appointment appointment : appointments) {
+        for (final AppointmentTime appointment : appointments) {
             final Button timeButton = new Button(contextThemeWrapper, null, R.style.selectableButtonStyle);
 //            timeButton.setPadding(DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 4), DeviceDisplayManager.dpToPx(getContext(), 10), DeviceDisplayManager.dpToPx(getContext(), 4));
             timeButton.setGravity(Gravity.CENTER);
@@ -278,7 +269,7 @@ public class BookingSelectTimeFragment extends Fragment {
             timeButton.setTypeface(boldTypeface);
 //            timeButton.setMinimumWidth(DeviceDisplayManager.dpToPx(getContext(), 100)); //Make sure it's at least 100dp, though it's allowed to stretch to wrap_content
             timeButton.setLayoutParams(layoutParams);
-            timeButton.setText(DateUtil.getTime(appointment.Time));
+            timeButton.setText(DateUtil.getTime(appointment.getTime()));
 
             timeClickedListener = new View.OnClickListener() {
                 @Override
@@ -294,20 +285,22 @@ public class BookingSelectTimeFragment extends Fragment {
         }
     }
 
-    private ArrayList<Appointment> getTodaysAppointments(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
-        ArrayList<Appointment> todaysAppointments = new ArrayList<>();
+    private ArrayList<AppointmentTime> getTodaysAppointments(final Date todaysDate, final ArrayList<AppointmentAvailableTime> allAppointments) {
+        ArrayList<AppointmentTime> todaysAppointments = new ArrayList<>();
 
         Date appointmentDate = new Date();
-        for (Appointment appointment : allAppointments) {
+        for (AppointmentAvailableTime appointmentDetails : allAppointments) {
             try {
-                appointmentDate = DateUtil.getDateNoTimeZone(appointment.Time);
+                appointmentDate = DateUtil.getDateFromHyphens(appointmentDetails.getDate());
             } catch (ParseException e) {
                 Timber.e(e);
                 e.printStackTrace();
             }
 
             if (DateUtil.isOnSameDay(todaysDate, appointmentDate)) {
-                todaysAppointments.add(appointment);
+                for (AppointmentTime appointmentTime : appointmentDetails.getTimes()) {
+                    todaysAppointments.add(appointmentTime);
+                }
             }
         }
 
@@ -315,20 +308,20 @@ public class BookingSelectTimeFragment extends Fragment {
     }
 
     @Nullable
-    private Appointment findNextAppointment(final Date todaysDate, final ArrayList<Appointment> allAppointments) {
-        Appointment nextAppointment = null;
+    private AppointmentAvailableTime findNextAppointment(final Date todaysDate, final ArrayList<AppointmentAvailableTime> allAppointments) {
+        AppointmentAvailableTime nextAppointment = null;
 
         Date appointmentDate = new Date();
-        for (Appointment appointment : allAppointments) {
+        for (AppointmentAvailableTime appointmentDetails : allAppointments) {
             try {
-                appointmentDate = DateUtil.getDateNoTimeZone(appointment.Time);
+                appointmentDate = DateUtil.getDateFromHyphens(appointmentDetails.getDate());
             } catch (ParseException e) {
                 Timber.e(e);
                 e.printStackTrace();
             }
 
             if (DateUtil.isOnSameDay(appointmentDate, todaysDate) || appointmentDate.after(todaysDate)) {
-                nextAppointment = appointment;
+                nextAppointment = appointmentDetails;
                 break;
             }
         }
@@ -369,12 +362,7 @@ public class BookingSelectTimeFragment extends Fragment {
             leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
         }
 
-        //Adjust right arrow color
-        if (DateUtil.isOnSameDay(bookingDate, lastAppointmentDate) || DateUtil.isAfter(bookingDate, lastAppointmentDate)) {
-            rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker), PorterDuff.Mode.MULTIPLY);
-        } else {
-            rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
-        }
+        rightArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
     }
 
     public void setMonthHeader(Date date) {

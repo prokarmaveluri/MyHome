@@ -30,6 +30,10 @@ import com.prokarma.myhome.features.fad.details.Image;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsAddress;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsImage;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 
@@ -832,6 +836,22 @@ public class CommonUtil {
         }
 
         return providerOffices;
+    }
+
+    public static ArrayList<AppointmentAvailableTime> filterAppointmentsToType(AppointmentTimeSlots appointmentTimeSlots, AppointmentType appointmentType){
+        ArrayList<AppointmentAvailableTime> appointmentTimes = new ArrayList<>();
+
+        for (AppointmentAvailableTime availableTime : appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes()) {
+            for (AppointmentTime appointmentTime : availableTime.getTimes()) {
+                for (AppointmentType type : appointmentTime.getAppointmentTypes()) {
+                    if(type.getId().equals(appointmentType.getId())){
+                        appointmentTimes.add(availableTime);
+                    }
+                }
+            }
+        }
+
+        return appointmentTimes;
     }
 
     public static void exitApp(Context context, Activity activity) {

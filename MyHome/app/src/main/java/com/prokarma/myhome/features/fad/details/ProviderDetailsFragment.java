@@ -36,7 +36,6 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
-import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.booking.BookingBackButton;
 import com.prokarma.myhome.features.fad.details.booking.BookingConfirmationFragment;
@@ -54,6 +53,7 @@ import com.prokarma.myhome.features.fad.details.booking.BookingSelectPersonInter
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectTimeFragment;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
@@ -613,20 +613,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     }
 
-    private ArrayList<Appointment> filterAppointments(boolean isNewPatient, ArrayList<Appointment> appointments) {
-        ArrayList<Appointment> filteredAppointments = new ArrayList<>();
-
-        for (Appointment appointment : appointments) {
-            if (!isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_EXISTING)) {
-                filteredAppointments.add(appointment);
-            } else if (isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_NEW)) {
-                filteredAppointments.add(appointment);
-            }
-        }
-
-        return filteredAppointments;
-    }
-
     //Simply clear the back stack and set the visibility back to 'normal'
     private void restartSchedulingFlow() {
         if (isAdded()) {
@@ -647,18 +633,18 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return;
         }
 
-        if (BookingManager.getBookingProfile() != null) {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
-        } else if (BookingManager.isBookingForMe()) {
-            BookingManager.setBookingProfile(ProfileManager.getProfile());
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, false);
-        } else {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
-        }
-
-        bookingRegistrationDialog.setBookingDialogInterface(this);
-        bookingRegistrationDialog.setCancelable(false);
-        bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+//        if (BookingManager.getBookingProfile() != null) {
+//            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
+//        } else if (BookingManager.isBookingForMe()) {
+//            BookingManager.setBookingProfile(ProfileManager.getProfile());
+//            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, false);
+//        } else {
+//            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
+//        }
+//
+//        bookingRegistrationDialog.setBookingDialogInterface(this);
+//        bookingRegistrationDialog.setCancelable(false);
+//        bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
     }
 
     @Override
@@ -668,7 +654,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             BookingManager.clearBookingData(true);
         }
 
-        //TODO: getAppointments needs to be converted to new Appointment Time Slots API
         BookingManager.setIsBookingForMe(isBookingForMe);
         BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(BookingManager.getBookingOfficeAppointmentDetails().getData().get(0).getAttributes().getAppointmentTypes());
         bookingFragment.setSelectStatusInterface(this);
@@ -684,22 +669,21 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onTypeSelected(AppointmentType appointmentType) {
-        //TODO: getAppointments needs to be converted to new Appointment Time Slots API
-//        BookingManager.setIsNewPatient(isUserNew);
-//        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
-//        bookingFragment.setSelectTimeInterface(this);
-//        bookingFragment.setRefreshInterface(this);
-//        getChildFragmentManager()
-//                .beginTransaction()
-//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-//                .replace(R.id.booking_frame, bookingFragment)
-//                .addToBackStack(TIME_TAG)
-//                .commit();
-//        getChildFragmentManager().executePendingTransactions();
+        BookingManager.setBookingAppointmentType(appointmentType);
+        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance();
+        bookingFragment.setSelectTimeInterface(this);
+        bookingFragment.setRefreshInterface(this);
+        getChildFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                .replace(R.id.booking_frame, bookingFragment)
+                .addToBackStack(TIME_TAG)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
     }
 
     @Override
-    public void onTimeSelected(Appointment appointment) {
+    public void onTimeSelected(AppointmentTime appointment) {
         BookingManager.setBookingAppointment(appointment);
 
         Fragment fragment = getChildFragmentManager().findFragmentByTag(BookingDialogFragment.BOOKING_DIALOG_TAG);

@@ -6,13 +6,14 @@ package com.prokarma.myhome.features.fad.details.booking.req.scheduling.times;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class AppointmentTime implements Parcelable {
+public class AppointmentTime implements Parcelable, Comparable {
 
     @SerializedName("time")
     @Expose
@@ -67,4 +68,10 @@ public class AppointmentTime implements Parcelable {
             return new AppointmentTime[size];
         }
     };
+
+    @Override
+    public int compareTo(@NonNull Object anotherAppointment) {
+        String compareDate = ((AppointmentTime) anotherAppointment).time;
+        return this.time.compareTo(compareDate);
+    }
 }

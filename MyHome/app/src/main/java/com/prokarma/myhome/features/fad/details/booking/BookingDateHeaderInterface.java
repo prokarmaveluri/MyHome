@@ -1,6 +1,6 @@
 package com.prokarma.myhome.features.fad.details.booking;
 
-import com.prokarma.myhome.features.fad.Appointment;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 
 import java.util.Date;
 
@@ -9,7 +9,7 @@ import java.util.Date;
  */
 
 public interface BookingDateHeaderInterface {
-    void onTimeSelected(Appointment appointment);
+    void onTimeSelected(AppointmentTime appointment);
     void onBackArrowClicked();
     void onFrontArrowClicked();
     void onMonthHeaderClicked();
