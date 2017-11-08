@@ -81,7 +81,8 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
     public class SuggestionsClick {
         public void onClickSuggestion(View view) {
             Timber.i("Click " + view.getTag());
-            listener.suggestionClick((String) view.getTag(), (int)view.getId());
+            if (listener != null)
+                listener.suggestionClick((String) view.getTag(), (int) view.getId());
         }
     }
 

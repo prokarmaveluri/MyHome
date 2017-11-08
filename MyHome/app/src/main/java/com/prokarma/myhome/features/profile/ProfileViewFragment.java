@@ -18,7 +18,6 @@ import com.americanwell.sdksample.SampleApplication;
 import com.americanwell.sdksample.login.LoginActivity;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
-import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
@@ -75,7 +74,9 @@ public class ProfileViewFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.profile_view, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.profile));
+//        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.profile));
+
+        getActivity().setTitle(getString(R.string.profile));
 
         name = (TextView) profileView.findViewById(R.id.name);
         preferredName = (TextView) profileView.findViewById(R.id.preferred_name);
@@ -137,8 +138,8 @@ public class ProfileViewFragment extends BaseFragment {
                 break;
 
             case R.id.edit_profile:
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_EDIT,
-                        null);
+//                ((SDKOptionsActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_EDIT,
+//                        null);
                 break;
         }
 

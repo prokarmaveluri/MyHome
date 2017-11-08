@@ -904,4 +904,23 @@
     <string name="all_set">You\'re all set!</string>
     <string name="ready_for_appointment">Your Tech Check is complete. You are now ready for your visit.</string>
     <string name="tech_check_request_error">Error updating server. Please try again later.</string>
+    <string name="welcome">Welcome!</string>
+    <string name="mycare_desc">Review and complete all of your information below to enter the waiting room</string>
+    <string name="enter_waiting_room">Enter Waiting Room</string>
+    <string name="my_personal_information">My Personal Information</string>
+    <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
+    <string name="my_medical_history">My Medical History</string>
+    <string name="complete_your_medical_history">Complete your medical history.</string>
+    <string name="my_medications">My Medications</string>
+    <string name="what_medications_are_you_taking">What medications are you taking?</string>
+    <string name="my_pharmacy">My Pharmacy</string>
+    <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
+    <string name="mycare_now">My Care Now</string>
+    <string name="med_history">My Medical History</string>
+    <string name="pharmacy_search_hint">Search by Location/Zip</string>
+
+    <string name="history_desc">Tell me a little more about yourself so I can help you get proper care.\n\nWhat is your medical history?\nCheck all that you apply.</string>
+    <string name="medication_desc">What medication are you on, So I can make sure your doctor can prescribe the correct medicine?</string>
+    <string name="medication_search_hint">Search</string>
+
 </resources>

@@ -27,6 +27,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
+import com.televisit.history.HistoryExpandableList;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -591,6 +592,31 @@ public class CommonUtil {
         int height = totalHeight + 5;
         if (height < 325)
             height = 325;
+        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    public static void setExpandedListViewHeight(Context context, ExpandableListView listView) {
+        int totalHeight = 0;
+        HistoryExpandableList listAdapter = (HistoryExpandableList) listView.getExpandableListAdapter();
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
+
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += 64;
+            for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                View listItem = listAdapter.getChildView(i, j, false, null, listView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                totalHeight += 64;
+            }
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight + 5;
+        if (height < 133)
+            height = 133;
         params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
         listView.setLayoutParams(params);
         listView.requestLayout();

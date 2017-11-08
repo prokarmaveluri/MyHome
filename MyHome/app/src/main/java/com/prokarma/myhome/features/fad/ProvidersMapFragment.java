@@ -44,7 +44,7 @@ public class ProvidersMapFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_providers_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = MapViewFragment.newInstance();

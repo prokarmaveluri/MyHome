@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.americanwell.sdksample.SampleApplication;
+import com.televisit.login.SDKLoginFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -39,6 +41,7 @@ import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.home.HomeFragment;
 import com.prokarma.myhome.features.login.LoginActivity;
+import com.prokarma.myhome.features.mycare.MyCareNowFragment;
 import com.prokarma.myhome.features.profile.ProfileEditFragment;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.profile.ProfileViewFragment;
@@ -131,7 +134,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                                 break;
 
                             case R.id.profile:
-                                loadFragment(ActivityTag.PROFILE_VIEW, null);
+                                loadFragment(ActivityTag.MY_CARE_NOW_SDK_LOGIN, null);
                                 break;
                         }
 
@@ -382,6 +385,36 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commit();
 
                     setActivityTag(ActivityTag.CONTACT_US);
+                }
+                break;
+            case MY_CARE_NOW_SDK_LOGIN:
+                if (getActivityTag() != ActivityTag.MY_CARE_NOW_SDK_LOGIN &&
+                        getActivityTag() != ActivityTag.MY_CARE_NOW) {
+
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    SampleApplication.getInstance().initVisit(getApplicationContext());
+                    SDKLoginFragment fragment = SDKLoginFragment.newInstance();
+
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fragment, ProfileViewFragment.PROFILE_VIEW_TAG)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_NOW_SDK_LOGIN);
+                }
+                break;
+            case MY_CARE_NOW:
+                if (getActivityTag() != ActivityTag.MY_CARE_NOW) {
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    MyCareNowFragment fragment = MyCareNowFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fragment, ProfileViewFragment.PROFILE_VIEW_TAG)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_NOW);
                 }
                 break;
         }

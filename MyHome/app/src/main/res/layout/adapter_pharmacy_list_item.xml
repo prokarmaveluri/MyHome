@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.televisit.pharmacy.PharmacyListAdapter.PharmacyClick" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <RelativeLayout
+            android:id="@+id/itemLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{handlers::onClickPharmacy}"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/pharmacyDisplayName"
+                style="@style/tradeGothicLTStdLight_20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Richard paul, MD"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/pharmacyAddress"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pharmacyDisplayName"
+                android:text="Denver, CO" />
+
+            <TextView
+                android:id="@+id/distance"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pharmacyAddress"
+                android:layout_marginBottom="16dp"
+                android:lines="1"
+                android:text="10.4 miles" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:background="@color/db_white" />
+    </RelativeLayout>
+</layout>
