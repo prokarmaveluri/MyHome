@@ -783,18 +783,17 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
             //Go to Time Fragment, then open up the Registration Forms Again
 
-            //TODO: getAppointments needs to be converted to new Appointment Time Slots API
-//            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
-//            bookingFragment.setSelectTimeInterface(this);
-//            bookingFragment.setRefreshInterface(this);
-//            getChildFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.booking_frame, bookingFragment)
-//                    .addToBackStack(null)
-//                    .commit();
-//            getChildFragmentManager().executePendingTransactions();
-//
-//            launchRegistrationForms();
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance();
+            bookingFragment.setSelectTimeInterface(this);
+            bookingFragment.setRefreshInterface(this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.booking_frame, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
+
+            launchRegistrationForms();
         }
     }
 
@@ -855,32 +854,28 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                     if (fragment instanceof BookingSelectCalendarFragment) {
                         //You're on the calendar
-                        //TODO: getAppointments needs to be converted to new Appointment Time Slots API
-//                        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(),
-//                                currentOffice.getAppointments()), BookingManager.getBookingDate());
-//                        bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
-//                        bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
-//                        getChildFragmentManager()
-//                                .beginTransaction()
-//                                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
-//                                .replace(R.id.booking_frame, bookingFragment)
-//                                .addToBackStack(null)
-//                                .commit();
-//                        getChildFragmentManager().executePendingTransactions();
+                        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(BookingManager.getBookingDate());
+                        bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
+                        bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                        getChildFragmentManager()
+                                .beginTransaction()
+                                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
+                                .replace(R.id.booking_frame, bookingFragment)
+                                .addToBackStack(null)
+                                .commit();
+                        getChildFragmentManager().executePendingTransactions();
                     } else if (fragment instanceof BookingSelectTimeFragment) {
                         //You were on the times
-                        //TODO: getAppointments needs to be converted to new Appointment Time Slots API
-//                        BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(BookingManager.getBookingDate(),
-//                                filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
-//                        bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
-//                        bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
-//                        getChildFragmentManager()
-//                                .beginTransaction()
-//                                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
-//                                .replace(R.id.booking_frame, bookingFragment)
-//                                .addToBackStack(null)
-//                                .commit();
-//                        getChildFragmentManager().executePendingTransactions();
+                        BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(BookingManager.getBookingDate());
+                        bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
+                        bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                        getChildFragmentManager()
+                                .beginTransaction()
+                                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down)
+                                .replace(R.id.booking_frame, bookingFragment)
+                                .addToBackStack(null)
+                                .commit();
+                        getChildFragmentManager().executePendingTransactions();
                     }
                     break;
                 case 1:

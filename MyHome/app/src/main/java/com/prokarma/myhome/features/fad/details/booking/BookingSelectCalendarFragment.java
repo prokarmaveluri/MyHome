@@ -13,13 +13,11 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
-import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,11 +27,9 @@ import java.util.Date;
 
 public class BookingSelectCalendarFragment extends Fragment {
     public static final String BOOKING_SELECT_CALENDAR_TAG = "booking_select_calendar_tag";
-    public static final String APPOINTMENTS_KEY = "appointments";
     public static final String DATE_KEY = "date";
 
     private Date bookingDate;
-    private ArrayList<Appointment> appointments;
     private BookingDateHeaderInterface selectTimeInterface;
     private BookingRefreshInterface refreshInterface;
 
@@ -45,11 +41,10 @@ public class BookingSelectCalendarFragment extends Fragment {
         return new BookingSelectCalendarFragment();
     }
 
-    public static BookingSelectCalendarFragment newInstance(Date date, ArrayList<Appointment> appointments) {
+    public static BookingSelectCalendarFragment newInstance(Date date) {
         BookingSelectCalendarFragment bookingFragment = new BookingSelectCalendarFragment();
         Bundle args = new Bundle();
         args.putSerializable(DATE_KEY, date);
-        args.putParcelableArrayList(APPOINTMENTS_KEY, appointments);
         bookingFragment.setArguments(args);
         return bookingFragment;
     }
@@ -62,7 +57,6 @@ public class BookingSelectCalendarFragment extends Fragment {
         ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
         final Calendar cal = Calendar.getInstance();
-        //cal.add(Calendar.DATE, 1);
 
         calendar = (MaterialCalendarView) bookingView.findViewById(R.id.calendar);
         calendar.setTopbarVisible(false);
@@ -70,11 +64,10 @@ public class BookingSelectCalendarFragment extends Fragment {
 
         if (args != null && args.getSerializable(DATE_KEY) != null) {
             bookingDate = (Date) args.getSerializable(DATE_KEY);
-            appointments = args.getParcelableArrayList(APPOINTMENTS_KEY);
             calendar.setSelectedDate(bookingDate);
             calendar.setDateSelected(bookingDate, true);
             calendar.setCurrentDate(CalendarDay.from(bookingDate), true);
-            calendar.state().edit().setMinimumDate(cal).setMaximumDate(DateUtil.findLastAppointmentDate(appointments)).commit();
+            calendar.state().edit().setMinimumDate(cal).commit();
         } else {
             calendar.setSelectedDate(cal);
             calendar.setDateSelected(cal, true);
@@ -135,7 +128,7 @@ public class BookingSelectCalendarFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if(refreshInterface != null){
+        if (refreshInterface != null) {
             refreshInterface.onRefreshView(true);
         }
     }
