@@ -39,6 +39,7 @@ import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.databinding.FragmentFadBinding;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResult;
 import com.prokarma.myhome.features.fad.filter.FilterDialog;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.fad.suggestions.FadSuggesstions;
@@ -791,7 +792,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
      */
     private void providerDetails(ProviderDetailsResponse provider, String providerId) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider.convertToNewProviderDetails());
+
+        if (provider != null) {
+            bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider.convertToNewProviderDetails());
+        } else {
+            bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, new ProviderDetailsResult());
+        }
+
         bundle.putString(ProviderDetailsFragment.PROVIDER_ID_KEY, providerId);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
