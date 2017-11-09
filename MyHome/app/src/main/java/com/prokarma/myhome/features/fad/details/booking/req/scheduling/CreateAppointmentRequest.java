@@ -22,15 +22,14 @@ public class CreateAppointmentRequest {
         this.data = data;
     }
 
-    public CreateAppointmentRequest(String doctorName, String providerNpi, String officeName, String officePhone, Profile bookingProfile, AppointmentTime bookingAppointment, AppointmentType appointmentType, boolean isBookingForMe){
+    public CreateAppointmentRequest(String doctorName, String providerNpi, String scheduleId, String officeName, String officePhone, Profile bookingProfile, AppointmentTime bookingAppointment, AppointmentType appointmentType, boolean isBookingForMe){
         setJsonapi(new Jsonapi("1.0"));
 
-        //TODO Kevin, uncomment this out once you figure out the ScheduleId for the new Appointment Time API
-//        AppointmentDetails appointmentDetails = new AppointmentDetails(bookingAppointment.ScheduleId, "schedules");
-//        Schedule schedule = new Schedule(appointmentDetails);
-//        Relationships relationships = new Relationships(schedule);
-//
-//        setData(new Data("visits", new Attributes(doctorName, providerNpi, officeName, officePhone, bookingProfile, bookingAppointment, appointmentType, isBookingForMe), relationships));
+        AppointmentDetails appointmentDetails = new AppointmentDetails(scheduleId, "schedules");
+        Schedule schedule = new Schedule(appointmentDetails);
+        Relationships relationships = new Relationships(schedule);
+
+        setData(new Data("visits", new Attributes(doctorName, providerNpi, officeName, officePhone, bookingProfile, bookingAppointment, appointmentType, isBookingForMe), relationships));
     }
 
     public Jsonapi getJsonapi() {

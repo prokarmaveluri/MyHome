@@ -33,7 +33,6 @@ import timber.log.Timber;
 
 public class BookingDialogFragment extends DialogFragment implements BookingDialogToolbarInterface, BookingSaveProfileInterface, DialogInterface {
     public static final String BOOKING_DIALOG_TAG = "booking_dialog_tag";
-    public static final String SCHEDULE_ID_KEY = "schedule_id";
     public static final String AUTOPOPULATE_INSURANCE_PLAN_KEY = "autopopulate_insurance_plan";
     public static final String IS_BOOKING_FOR_ME_KEY = "is_booking_for_me";
     public static final String BOOKING_PROFILE = "booking_profile";
@@ -44,17 +43,15 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     WrappingViewPager bookingViewPager;
     Toolbar toolbar;
 
-    private String scheduleId;
     private boolean autoPopulateInsurancePlan;
 
     public static BookingDialogFragment newInstance() {
         return new BookingDialogFragment();
     }
 
-    public static BookingDialogFragment newInstance(String scheduleId, boolean autoPopulateInsurancePlan) {
+    public static BookingDialogFragment newInstance(boolean autoPopulateInsurancePlan) {
         BookingDialogFragment bookingFragment = new BookingDialogFragment();
         Bundle args = new Bundle();
-        args.putString(SCHEDULE_ID_KEY, scheduleId);
         args.putBoolean(AUTOPOPULATE_INSURANCE_PLAN_KEY, autoPopulateInsurancePlan);
         bookingFragment.setArguments(args);
         return bookingFragment;
@@ -72,7 +69,6 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         Bundle args = getArguments();
 
         if (args != null) {
-            scheduleId = args.getString(SCHEDULE_ID_KEY);
             autoPopulateInsurancePlan = args.getBoolean(AUTOPOPULATE_INSURANCE_PLAN_KEY);
         }
 
@@ -167,7 +163,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     }
 
     private void getValidationRules() {
-        NetworkManager.getInstance().getValidationRules(scheduleId, "insurance,schedule-properties").enqueue(new Callback<RegValidationResponse>() {
+        NetworkManager.getInstance().getValidationRules(BookingManager.getScheduleId(), "insurance,schedule-properties").enqueue(new Callback<RegValidationResponse>() {
             @Override
             public void onResponse(Call<RegValidationResponse> call, Response<RegValidationResponse> response) {
                 if (response.isSuccessful()) {

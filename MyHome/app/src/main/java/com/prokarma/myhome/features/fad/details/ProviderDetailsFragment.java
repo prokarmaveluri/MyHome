@@ -276,12 +276,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         NetworkManager.getInstance().getProviderAppointments(providerNpi, fromDate, toDate, addressHash).enqueue(new Callback<AppointmentTimeSlots>() {
             @Override
             public void onResponse(Call<AppointmentTimeSlots> call, Response<AppointmentTimeSlots> response) {
-                if (response.isSuccessful()) {
+                if (response != null && response.isSuccessful() && response.body() != null) {
                     Timber.d("Successful Response\n" + response);
                     BookingManager.setBookingOfficeAppointmentDetails(response.body());
+                    BookingManager.setScheduleId(response.body().getData().get(0).getId());
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                     BookingManager.setBookingOfficeAppointmentDetails(null);
+                    BookingManager.setScheduleId(null);
                 }
             }
 
@@ -290,6 +292,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
                 BookingManager.setBookingOfficeAppointmentDetails(null);
+                BookingManager.setScheduleId(null);
             }
         });
     }
@@ -633,18 +636,18 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             return;
         }
 
-//        if (BookingManager.getBookingProfile() != null) {
-//            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
-//        } else if (BookingManager.isBookingForMe()) {
-//            BookingManager.setBookingProfile(ProfileManager.getProfile());
-//            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, false);
-//        } else {
-//            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
-//        }
-//
-//        bookingRegistrationDialog.setBookingDialogInterface(this);
-//        bookingRegistrationDialog.setCancelable(false);
-//        bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
+        if (BookingManager.getBookingProfile() != null) {
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(true);
+        } else if (BookingManager.isBookingForMe()) {
+            BookingManager.setBookingProfile(ProfileManager.getProfile());
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(false);
+        } else {
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(true);
+        }
+
+        bookingRegistrationDialog.setBookingDialogInterface(this);
+        bookingRegistrationDialog.setCancelable(false);
+        bookingRegistrationDialog.show(getChildFragmentManager(), BookingDialogFragment.BOOKING_DIALOG_TAG);
     }
 
     @Override

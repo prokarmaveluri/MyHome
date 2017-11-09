@@ -22,6 +22,7 @@ public class BookingManager {
     private static AppointmentTime bookingAppointment;
     private static Date bookingDate;
     private static boolean isBookingForMe;
+    private static String scheduleId;
 
     public static ProviderDetailsResult getBookingProvider() {
         return bookingProvider;
@@ -87,9 +88,18 @@ public class BookingManager {
         BookingManager.bookingAppointmentType = bookingAppointmentType;
     }
 
+    public static String getScheduleId() {
+        return scheduleId;
+    }
+
+    public static void setScheduleId(String scheduleId) {
+        BookingManager.scheduleId = scheduleId;
+    }
+
     public static void clearBookingData(boolean keepProvider) {
         if (!keepProvider) {
             bookingProvider = null;
+            scheduleId = null;
             bookingOffice = null;
             bookingOfficeAppointmentDetails = null;
         }
