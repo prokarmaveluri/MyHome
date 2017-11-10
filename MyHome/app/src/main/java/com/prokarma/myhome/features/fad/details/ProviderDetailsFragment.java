@@ -293,13 +293,17 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
+                    ApiErrorUtil.getInstance().getProviderAppointmentsError(getContext(), providerDetailsView, response);
+
+                    waitingForAppointmentTypes = false;
+
                     BookingManager.setBookingOfficeAppointmentDetails(null);
                     BookingManager.setScheduleId(null);
 
-                    if (waitingForAppointmentTypes) {
-                        //TODO Kevin, do ApiErrorUtil stuff for Appointment Time API (close out booking flow?)
-                        waitingForAppointmentTypes = false;
-                    }
+                    BookingManager.clearBookingData(true);
+                    restartSchedulingFlow();
+                    expandableLinearLayout.collapse();
+                    expandableLinearLayout.initLayout();
                 }
             }
 
@@ -307,13 +311,17 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             public void onFailure(Call<AppointmentTimeSlots> call, Throwable t) {
                 Timber.e("Something failed! :/");
                 Timber.e("Throwable = " + t);
+                ApiErrorUtil.getInstance().getProviderAppointmentsFailed(getContext(), providerDetailsView, t);
+
+                waitingForAppointmentTypes = false;
+
                 BookingManager.setBookingOfficeAppointmentDetails(null);
                 BookingManager.setScheduleId(null);
 
-                if (waitingForAppointmentTypes) {
-                    //TODO Kevin, do ApiErrorUtil stuff for Appointment Time API (close out booking flow?)
-                    waitingForAppointmentTypes = false;
-                }
+                BookingManager.clearBookingData(true);
+                restartSchedulingFlow();
+                expandableLinearLayout.collapse();
+                //expandableLinearLayout.initLayout();
             }
         });
     }
@@ -329,7 +337,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         detailsProgressBar.setVisibility(View.GONE);
                         Timber.d("Successful Response\n" + response);
                         provider = response.body().getResult().get(0);
-                        //changeAptAddress();
+
                         setupInitialView();
                         if (provider == null) {
                             showStatsUnavailable();
@@ -638,6 +646,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             FragmentManager fragmentManager = getChildFragmentManager();
             if (fragmentManager != null) {
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentManager.beginTransaction().remove(fragmentManager.findFragmentById(R.id.booking_frame)).commit();
             }
 
             bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
