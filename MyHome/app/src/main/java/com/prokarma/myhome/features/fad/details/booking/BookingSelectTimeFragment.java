@@ -200,10 +200,10 @@ public class BookingSelectTimeFragment extends Fragment {
 
                 //Bold just the Date part
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + nextAppointment.getDate() + "</b>", Html.FROM_HTML_MODE_COMPACT));
+                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + DateUtil.getDateWordsFromDateHyphen(nextAppointment.getDate()) + "</b>", Html.FROM_HTML_MODE_COMPACT));
                 } else {
                     //noinspection deprecation
-                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + nextAppointment.getDate() + "</b>"));
+                    noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + DateUtil.getDateWordsFromDateHyphen(nextAppointment.getDate()) + "</b>"));
                 }
 
                 noAppointments.setOnClickListener(new View.OnClickListener() {

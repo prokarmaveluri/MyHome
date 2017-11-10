@@ -138,7 +138,7 @@ public class DateUtil {
         return getReadableTimeZone(appointment.FacilityState, appointment.Time);
     }
 
-    public static String getReadableTimeZone(AppointmentTimeSlots appointmentTimeSlots){
+    public static String getReadableTimeZone(AppointmentTimeSlots appointmentTimeSlots) {
         return getReadableTimeZone(
                 appointmentTimeSlots.getData().get(0).getAttributes().getLocation().getState(),
                 appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes().get(0).getTimes().get(0).getTime());
@@ -343,6 +343,24 @@ public class DateUtil {
         }
 
         return utcDate;
+    }
+
+    /**
+     * Gets a string of the date.
+     * Formatted as such: "Tue Jun 06"
+     *
+     * @param hyphenDate the date in hyphen format (formatted like such: "11/7/2017")
+     * @return a string representation of the date similar to this format "Tue Jun 06"
+     */
+    public static String getDateWordsFromDateHyphen(String hyphenDate) {
+        try {
+            return SIMPLE_DATE_SHORT_WORDS_FORMAT.format(getDateFromHyphens(hyphenDate));
+        } catch (ParseException e) {
+            Timber.e("Could not format hyphen date " + hyphenDate + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+
+        return hyphenDate;
     }
 
     /**
