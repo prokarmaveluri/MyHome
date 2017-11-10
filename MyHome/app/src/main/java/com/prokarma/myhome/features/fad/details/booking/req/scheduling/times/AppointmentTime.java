@@ -22,6 +22,11 @@ public class AppointmentTime implements Parcelable, Comparable {
     @Expose
     private List<AppointmentType> appointmentTypes = null;
 
+    public AppointmentTime(String time, List<AppointmentType> appointmentTypes) {
+        this.time = time;
+        this.appointmentTypes = appointmentTypes;
+    }
+
     public String getTime() {
         return time;
     }

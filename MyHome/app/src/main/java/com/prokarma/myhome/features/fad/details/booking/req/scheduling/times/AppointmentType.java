@@ -22,6 +22,12 @@ public class AppointmentType implements Parcelable {
     @Expose
     private String id;
 
+    public AppointmentType(String name, String remoteId, String id) {
+        this.name = name;
+        this.remoteId = remoteId;
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
