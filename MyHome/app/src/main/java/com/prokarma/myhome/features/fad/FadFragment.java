@@ -39,7 +39,6 @@ import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.databinding.FragmentFadBinding;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
-import com.prokarma.myhome.features.fad.details.ProviderDetailsResult;
 import com.prokarma.myhome.features.fad.filter.FilterDialog;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.fad.suggestions.FadSuggesstions;
@@ -506,11 +505,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     if (null != resp.Category && resp.Category.equals("Provider") &&
                             null != resp.getTitle() && resp.getTitle().contains("Healthcare Providers")) {
                         FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), "Healthcare Providers",
-                                resp.getId());
+                                resp.getNpi());
                         sug.add(sugObj);
                     } else {
                         FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), resp.getTitle(),
-                                resp.getId());
+                                resp.getNpi());
                         sug.add(sugObj);
                     }
                 }
@@ -796,7 +795,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         if (provider != null) {
             bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider.convertToNewProviderDetails());
         } else {
-            bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, new ProviderDetailsResult());
+            bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, null);
         }
 
         bundle.putString(ProviderDetailsFragment.PROVIDER_ID_KEY, providerId);

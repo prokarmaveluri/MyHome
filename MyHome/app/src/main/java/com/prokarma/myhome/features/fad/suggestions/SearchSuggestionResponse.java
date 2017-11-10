@@ -11,9 +11,9 @@ public class SearchSuggestionResponse {
     public String Title;
     public String TitleHighlight;
     public String Id;
-    public Object Npi;
-    public Object FirstName;
-    public Object LastName;
+    public String Npi;
+    public String FirstName;
+    public String LastName;
     public Object Content;
     public String ContentUrl;
 
@@ -42,15 +42,15 @@ public class SearchSuggestionResponse {
         return Id;
     }
 
-    public Object getNpi() {
+    public String getNpi() {
         return Npi;
     }
 
-    public Object getFirstName() {
+    public String getFirstName() {
         return FirstName;
     }
 
-    public Object getLastName() {
+    public String getLastName() {
         return LastName;
     }
 

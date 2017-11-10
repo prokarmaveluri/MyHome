@@ -231,12 +231,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
 
-        if (null == providerNpi) {
+        if (providerNpi == null) {
             setupInitialView();
         }
+
         if (provider != null) {
             providerNpi = provider.getNpi();
         }
+
         getProviderDetails();
         return providerDetailsView;
     }
