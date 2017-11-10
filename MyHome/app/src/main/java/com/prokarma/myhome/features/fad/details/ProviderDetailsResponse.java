@@ -253,6 +253,8 @@ public class ProviderDetailsResponse implements Parcelable {
         providerDetailsResult.setImages(CommonUtil.convertImagesToProviderImages(this.getImageUrls()));
         providerDetailsResult.setPhilosophy(this.getPhilosophy());
         providerDetailsResult.setOffices(CommonUtil.convertOfficeToProviderOffice(this.getOffices()));
+        providerDetailsResult.setAcceptsNewPatients(this.AcceptsNewPatients);
+        providerDetailsResult.setLanguages(this.getLanguages());
         return providerDetailsResult;
     }
 

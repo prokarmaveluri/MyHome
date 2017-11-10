@@ -318,66 +318,61 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         if (null != provider)
                             RecentlyViewedDataSourceDB.getInstance().createEntry(provider);
 
-                        try {
-                            showStatsView();
-                            updateStatsView(provider);
+                        showStatsView();
+                        updateStatsView(provider);
 
-                            providerDetailsLayout.smoothScrollTo(0, 0);
-                            MapUtil.clearMarkers(getContext(), providerMap);
-                            markers = MapUtil.addMapMarkers(getActivity(), providerMap, provider.getOffices(),
-                                    BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
-                                        @Override
-                                        public boolean onMarkerClick(Marker marker) {
-                                            handleMarkerClick(marker);
-                                            //marker.showInfoWindow(); Won't fit with the zoom if states apart
-                                            return true;
-                                        }
-                                    });
-
-                            MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
-
-                            //Setup Booking
-                            currentOffice = provider.getOffices().get(0);
-                            bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
-                            bookAppointment.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    bookAppointment.setVisibility(View.GONE);
-
-                                    getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(), currentOffice.getAddresses().get(0).getAddressHash());
-
-                                    BookingManager.setBookingProfile(null);
-                                    BookingManager.setBookingProvider(provider);
-                                    BookingManager.setBookingOffice(currentOffice);
-
-                                    BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
-                                    bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
-                                    bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
-                                    getChildFragmentManager()
-                                            .beginTransaction()
-                                            .replace(R.id.booking_frame, bookingFragment)
-                                            .addToBackStack(null)
-                                            .commit();
-                                    getChildFragmentManager().executePendingTransactions();
-
-                                    Map<String, Object> tealiumData = new HashMap<>();
-                                    tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
-                                    TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
-                                }
-                            });
-
-                            if (ProfileManager.getFavoriteProviders() != null) {
-                                for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
-                                    if (ProviderDetailsFragment.this.provider.getNpi().contains(provider.getNpi())) {
-                                        fav = true;
-                                        CommonUtil.updateFavView(true, favProvider);
-                                        break;
+                        providerDetailsLayout.smoothScrollTo(0, 0);
+                        MapUtil.clearMarkers(getContext(), providerMap);
+                        markers = MapUtil.addMapMarkers(getActivity(), providerMap, provider.getOffices(),
+                                BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+                                    @Override
+                                    public boolean onMarkerClick(Marker marker) {
+                                        handleMarkerClick(marker);
+                                        //marker.showInfoWindow(); Won't fit with the zoom if states apart
+                                        return true;
                                     }
+                                });
+
+                        MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
+
+                        //Setup Booking
+                        currentOffice = provider.getOffices().get(0);
+                        bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
+                        bookAppointment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                bookAppointment.setVisibility(View.GONE);
+
+                                getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(), currentOffice.getAddresses().get(0).getAddressHash());
+
+                                BookingManager.setBookingProfile(null);
+                                BookingManager.setBookingProvider(provider);
+                                BookingManager.setBookingOffice(currentOffice);
+
+                                BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+                                bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+                                bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                                getChildFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.booking_frame, bookingFragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                                getChildFragmentManager().executePendingTransactions();
+
+                                Map<String, Object> tealiumData = new HashMap<>();
+                                tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
+                                TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
+                            }
+                        });
+
+                        if (ProfileManager.getFavoriteProviders() != null) {
+                            for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
+                                if (ProviderDetailsFragment.this.provider.getNpi().contains(provider.getNpi())) {
+                                    fav = true;
+                                    CommonUtil.updateFavView(true, favProvider);
+                                    break;
                                 }
                             }
-                        } catch (NullPointerException ex) {
-                            Timber.e("ProviderDetailsFragment: NullPointerException\n" + ex.toString());
-                            ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
                         }
                     } else {
                         ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
@@ -488,7 +483,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         locations = (RecyclerView) statsProfileView.findViewById(R.id.locations_list);
         locationsLabel = (TextView) statsProfileView.findViewById(R.id.label_locations);
 
-        acceptingNewPatients.setText(providerDetailsResult.getAcceptsNewPatients() ? getString(R.string.yes) : getString(R.string.no));
+        acceptingNewPatients.setText(providerDetailsResult.getAcceptsNewPatients() != null && providerDetailsResult.getAcceptsNewPatients() ? getString(R.string.yes) : getString(R.string.no));
         languages.setText(providerDetailsResult.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResult.getLanguages()) : getString(R.string.unknown));
 
         if (providerDetailsResult.getGender() != null && !providerDetailsResult.getGender().isEmpty()) {
@@ -889,34 +884,31 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     };
 
     private ProviderResponse getSavedDoctor(ProviderDetailsResult providerDetailsResult) {
-        try {
-            ProviderResponse provider = new ProviderResponse();
-            if (providerDetailsResult == null)
-                return null;
-
-            provider.setDisplayLastName(providerDetailsResult.getDisplayLastName());
-            provider.setDisplayName(providerDetailsResult.getDisplayName());
-            provider.setDisplayLastNamePlural(providerDetailsResult.getDisplayLastNamePlural());
-            provider.setFirstName(providerDetailsResult.getFirstName());
-            provider.setLastName(providerDetailsResult.getLastName());
-            provider.setNpi(providerDetailsResult.getNpi());
-            provider.setMiddleName(providerDetailsResult.getMiddleName());
-            provider.setPhilosophy(providerDetailsResult.getPhilosophy());
-            provider.setPrimarySpecialities(providerDetailsResult.getPrimarySpecialities());
-            provider.setTitle(providerDetailsResult.getTitle());
-
-            List<ImagesResponse> imageUrls = new ArrayList<>();
-            for (ProviderDetailsImage image : providerDetailsResult.getImages()) {
-                ImagesResponse response = new ImagesResponse();
-                response.setUrl(image.getUrl());
-                imageUrls.add(response);
-            }
-            provider.setImages(imageUrls);
-
-            return provider;
-        } catch (NullPointerException ex) {
+        ProviderResponse provider = new ProviderResponse();
+        if (providerDetailsResult == null)
             return null;
+
+        provider.setDisplayLastName(providerDetailsResult.getDisplayLastName());
+        provider.setDisplayName(providerDetailsResult.getDisplayName());
+        provider.setDisplayLastNamePlural(providerDetailsResult.getDisplayLastNamePlural());
+        provider.setFirstName(providerDetailsResult.getFirstName());
+        provider.setLastName(providerDetailsResult.getLastName());
+        provider.setNpi(providerDetailsResult.getNpi());
+        provider.setMiddleName(providerDetailsResult.getMiddleName());
+        provider.setPhilosophy(providerDetailsResult.getPhilosophy());
+        provider.setPrimarySpecialities(providerDetailsResult.getPrimarySpecialities());
+        provider.setTitle(providerDetailsResult.getTitle());
+
+        List<ImagesResponse> imageUrls = new ArrayList<>();
+        for (ProviderDetailsImage image : providerDetailsResult.getImages()) {
+            ImagesResponse response = new ImagesResponse();
+            response.setUrl(image.getUrl());
+            imageUrls.add(response);
         }
+
+        provider.setImages(imageUrls);
+
+        return provider;
     }
 
     private void coachmarkBooking() {
