@@ -21,7 +21,7 @@ android {
     def PROD_VERSIONING_URL = "\"https://web-usw1-versioningservices-prd.azurewebsites.net/\""
     def PROD_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
     def PROD_CIAM_BASE_URL = "\"https://prod.ciam.dignityhealth.org/\""
-    def PROD_S2_BASE_URL = "\"https://e3findadocapp.azurewebsites.net/\""
+    def PROD_S2_BASE_URL = "\"https://web-usw1-fad-prd.azurewebsites.net/\""
     def PROD_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-prd.azurewebsites.net/\""
 
     def STAGE_VERSIONING_URL = "\"https://web-usw1-versioningservices-stg.azurewebsites.net/\""
