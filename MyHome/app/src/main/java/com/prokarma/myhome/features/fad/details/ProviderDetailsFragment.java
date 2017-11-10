@@ -321,7 +321,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 BookingManager.clearBookingData(true);
                 restartSchedulingFlow();
                 expandableLinearLayout.collapse();
-                //expandableLinearLayout.initLayout();
+                expandableLinearLayout.initLayout();
             }
         });
     }
