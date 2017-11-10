@@ -49,8 +49,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 104001
-        versionName "1.4.1"
+        versionCode 104002
+        versionName "1.4.2"
         setProperty("archivesBaseName", "DignityHealth-MyHome-$versionName")
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
