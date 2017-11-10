@@ -143,6 +143,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
 
+    private boolean waitingForAppointmentTypes = false;
 
     boolean fav = false;
 
@@ -280,10 +281,20 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     Timber.d("Successful Response\n" + response);
                     BookingManager.setBookingOfficeAppointmentDetails(response.body());
                     BookingManager.setScheduleId(response.body().getData().get(0).getId());
+
+                    if (waitingForAppointmentTypes) {
+                        onPersonSelected(BookingManager.isBookingForMe());
+                    }
+
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
                     BookingManager.setBookingOfficeAppointmentDetails(null);
                     BookingManager.setScheduleId(null);
+
+                    if (waitingForAppointmentTypes) {
+                        //TODO Kevin, do ApiErrorUtil stuff for Appointment Time API (close out booking flow?)
+                        waitingForAppointmentTypes = false;
+                    }
                 }
             }
 
@@ -293,6 +304,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 Timber.e("Throwable = " + t);
                 BookingManager.setBookingOfficeAppointmentDetails(null);
                 BookingManager.setScheduleId(null);
+
+                if (waitingForAppointmentTypes) {
+                    //TODO Kevin, do ApiErrorUtil stuff for Appointment Time API (close out booking flow?)
+                    waitingForAppointmentTypes = false;
+                }
             }
         });
     }
@@ -653,16 +669,23 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         BookingManager.setIsBookingForMe(isBookingForMe);
-        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(BookingManager.getBookingOfficeAppointmentDetails().getData().get(0).getAttributes().getAppointmentTypes());
-        bookingFragment.setSelectStatusInterface(this);
-        bookingFragment.setRefreshInterface(this);
-        getChildFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                .replace(R.id.booking_frame, bookingFragment)
-                .addToBackStack(null)
-                .commit();
-        getChildFragmentManager().executePendingTransactions();
+
+        if (BookingManager.getBookingOfficeAppointmentDetails() != null) {
+            waitingForAppointmentTypes = false;
+            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(BookingManager.getBookingOfficeAppointmentDetails().getData().get(0).getAttributes().getAppointmentTypes());
+            bookingFragment.setSelectStatusInterface(this);
+            bookingFragment.setRefreshInterface(this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                    .replace(R.id.booking_frame, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
+        } else {
+            waitingForAppointmentTypes = true;
+            //TODO Kevin, possibly add loading screen here???
+        }
     }
 
     @Override
