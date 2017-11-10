@@ -259,7 +259,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         name.setText(provider.getDisplayName() != null ? provider.getDisplayName() : getString(R.string.name_unknown));
         speciality.setText(provider.getPrimarySpecialities() != null ? provider.getPrimarySpecialities().get(0) : getString(R.string.specialities_unknown));
-        address.setText(provider.getOffices() != null ? provider.getOffices().get(0).getAddresses().get(0).getAddress() : getString(R.string.address_unknown));
+        address.setText(provider.getOffices() != null ?
+                provider.getOffices().get(0).getAddresses().get(0).getAddress() + "\n" +
+                        provider.getOffices().get(0).getAddresses().get(0).getCity() + ", " +
+                        provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
+                        provider.getOffices().get(0).getAddresses().get(0).getZip()
+                : getString(R.string.address_unknown));
         phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumber(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
 
