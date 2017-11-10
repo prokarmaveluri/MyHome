@@ -653,9 +653,9 @@ public class NetworkManager {
     //TODO: Kevin, make sure this is the correct FINAL URL for new Provider Details
     public Call<ProviderDetails> getNewProviderDetails(String id) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
-            return service.getNewProviderDetails("http://web-usw1-fad-predev.azurewebsites.net/".concat("messUpUrl123") + "api/providers/full", id);
+            return service.getNewProviderDetails("https://web-usw1-fad-dev.azurewebsites.net/".concat("messUpUrl123") + "api/providers/full", id);
         } else {
-            return service.getNewProviderDetails("http://web-usw1-fad-predev.azurewebsites.net/" + "api/providers/full", id);
+            return service.getNewProviderDetails("https://web-usw1-fad-dev.azurewebsites.net/" + "api/providers/full", id);
         }
     }
 
