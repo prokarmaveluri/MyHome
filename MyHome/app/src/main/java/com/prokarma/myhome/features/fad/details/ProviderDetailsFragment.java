@@ -178,7 +178,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onResume() {
         super.onResume();
         if (null != provider)
-            RecentlyViewedDataSourceDB.getInstance().createEntry(provider);
+            RecentlyViewedDataSourceDB.getInstance().createEntry(provider.convertToOldProviderDetails());
 
         Map<String, Object> tealiumData = new HashMap<>();
         tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
@@ -347,7 +347,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             return;
                         }
                         if (null != provider)
-                            RecentlyViewedDataSourceDB.getInstance().createEntry(provider);
+                            RecentlyViewedDataSourceDB.getInstance().createEntry(provider.convertToOldProviderDetails());
 
                         showStatsView();
                         updateStatsView(provider);

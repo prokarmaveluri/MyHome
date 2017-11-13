@@ -801,7 +801,18 @@ public class CommonUtil {
         return providerImages;
     }
 
-    public static List<ProviderDetailsOffice> convertOfficeToProviderOffice(List<Office> offices){
+    public static ArrayList<Image> convertProviderImagesToImages(List<ProviderDetailsImage> providerImages) {
+        ArrayList<Image> images = new ArrayList<>();
+        Image image = new Image();
+        for (ProviderDetailsImage providerImage : providerImages) {
+            image = new Image(providerImage.getUrl(), providerImage.getImageType());
+            images.add(image);
+        }
+
+        return images;
+    }
+
+    public static List<ProviderDetailsOffice> convertOfficeToProviderOffice(List<Office> offices) {
         List<ProviderDetailsOffice> providerOffices = new ArrayList<>();
         ProviderDetailsOffice providerOffice = new ProviderDetailsOffice();
 
@@ -838,13 +849,34 @@ public class CommonUtil {
         return providerOffices;
     }
 
-    public static ArrayList<AppointmentAvailableTime> filterAppointmentsToType(AppointmentTimeSlots appointmentTimeSlots, AppointmentType appointmentType){
+    public static ArrayList<Office> convertProviderOfficeToOffice(List<ProviderDetailsOffice> providerOffices) {
+        ArrayList<Office> offices = new ArrayList<>();
+        Office office = new Office();
+
+        for (ProviderDetailsOffice providerOffice : providerOffices) {
+            office.setName(providerOffice.getAddresses().get(0).getName());
+            office.setAddress1(providerOffice.getAddresses().get(0).getAddress());
+            office.setCity(providerOffice.getAddresses().get(0).getCity());
+            office.setState(providerOffice.getAddresses().get(0).getState());
+            office.setZipCode(providerOffice.getAddresses().get(0).getZip());
+            office.setLat(providerOffice.getAddresses().get(0).getLatitude().toString());
+            office.setLon(providerOffice.getAddresses().get(0).getLongitude().toString());
+            office.setLatLongHash(providerOffice.getAddresses().get(0).getLatLongHash());
+            office.setPhone(providerOffice.getAddresses().get(0).getPhones().get(0));
+
+            offices.add(office);
+        }
+
+        return offices;
+    }
+
+    public static ArrayList<AppointmentAvailableTime> filterAppointmentsToType(AppointmentTimeSlots appointmentTimeSlots, AppointmentType appointmentType) {
         ArrayList<AppointmentAvailableTime> appointmentTimes = new ArrayList<>();
 
         for (AppointmentAvailableTime availableTime : appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes()) {
             for (AppointmentTime appointmentTime : availableTime.getTimes()) {
                 for (AppointmentType type : appointmentTime.getAppointmentTypes()) {
-                    if(type.getId().equals(appointmentType.getId())){
+                    if (type.getId().equals(appointmentType.getId())) {
                         appointmentTimes.add(availableTime);
                     }
                 }

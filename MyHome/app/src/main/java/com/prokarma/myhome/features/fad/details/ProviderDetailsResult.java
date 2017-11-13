@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ProviderDetailsResult implements Parcelable {
     private String inMyOwnWords;
     @SerializedName("Languages")
     @Expose
-    private List<String> languages = null;
+    private ArrayList<String> languages = null;
     @SerializedName("Degree")
     @Expose
     private String degree;
@@ -101,7 +102,7 @@ public class ProviderDetailsResult implements Parcelable {
     private List<ProviderDetailsFacility> facilities = null;
     @SerializedName("PrimarySpecialities")
     @Expose
-    private List<String> primarySpecialities = null;
+    private ArrayList<String> primarySpecialities = null;
     @SerializedName("SupportsOnlineBooking")
     @Expose
     private Boolean supportsOnlineBooking;
@@ -141,11 +142,11 @@ public class ProviderDetailsResult implements Parcelable {
         this.inMyOwnWords = inMyOwnWords;
     }
 
-    public List<String> getLanguages() {
+    public ArrayList<String> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<String> languages) {
+    public void setLanguages(ArrayList<String> languages) {
         this.languages = languages;
     }
 
@@ -333,11 +334,11 @@ public class ProviderDetailsResult implements Parcelable {
         this.facilities = facilities;
     }
 
-    public List<String> getPrimarySpecialities() {
+    public ArrayList<String> getPrimarySpecialities() {
         return primarySpecialities;
     }
 
-    public void setPrimarySpecialities(List<String> primarySpecialities) {
+    public void setPrimarySpecialities(ArrayList<String> primarySpecialities) {
         this.primarySpecialities = primarySpecialities;
     }
 
@@ -355,6 +356,33 @@ public class ProviderDetailsResult implements Parcelable {
 
     public void setProviderDetailsUrl(String providerDetailsUrl) {
         this.providerDetailsUrl = providerDetailsUrl;
+    }
+
+    public ProviderDetailsResponse convertToOldProviderDetails() {
+        ProviderDetailsResponse providerDetailsResponse = new ProviderDetailsResponse();
+
+        providerDetailsResponse.setProviderId(this.getId());
+        providerDetailsResponse.setNpi(this.getNpi());
+        providerDetailsResponse.setDisplayFullName(this.getDisplayName());
+        providerDetailsResponse.setDisplayLastName(this.getDisplayLastName());
+        providerDetailsResponse.setDisplayLastNamePlural(this.getDisplayLastNamePlural());
+        providerDetailsResponse.setFirstName(this.getFirstName());
+        providerDetailsResponse.setMiddleName(this.getMiddleName());
+        providerDetailsResponse.setLastName(this.getLastName());
+        providerDetailsResponse.setTitle(this.getTitle());
+        providerDetailsResponse.setGender(this.getGender());
+
+        ArrayList<Image> images = CommonUtil.convertProviderImagesToImages(this.getImages());
+        providerDetailsResponse.setImageUrls(images);
+        providerDetailsResponse.setImageUrl(images != null && images.get(0) != null ? images.get(0).getUrl() : null);
+
+        providerDetailsResponse.setPhilosophy(this.getPhilosophy());
+        providerDetailsResponse.setOffices(CommonUtil.convertProviderOfficeToOffice(this.getOffices()));
+        providerDetailsResponse.setAcceptsNewPatients(this.getAcceptsNewPatients());
+        providerDetailsResponse.setLanguages(this.getLanguages());
+        providerDetailsResponse.setSpecialties(this.getPrimarySpecialities());
+        providerDetailsResponse.setHasAppointments(this.getSupportsOnlineBooking());
+        return providerDetailsResponse;
     }
 
     @Override

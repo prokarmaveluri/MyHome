@@ -11,6 +11,11 @@ public class Image implements Parcelable {
     public String Url;
     public String Size;
 
+    public Image(String url, String size) {
+        Url = url;
+        Size = size;
+    }
+
     public String getUrl() {
         return Url;
     }

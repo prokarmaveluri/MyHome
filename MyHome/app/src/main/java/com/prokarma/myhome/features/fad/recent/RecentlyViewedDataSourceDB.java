@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.prokarma.myhome.features.fad.details.ProviderDetailsResult;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 
 import java.util.ArrayList;
 
@@ -83,8 +83,8 @@ public class RecentlyViewedDataSourceDB {
         return entryList;
     }
 
-    public void createEntry(ProviderDetailsResult provider) {
-        String providerId = provider.getId();
+    public void createEntry(ProviderDetailsResponse provider) {
+        String providerId = provider.getNpi();
         Gson gson = new Gson();
         String jsonString = gson.toJson(provider);
         String dbPin = getMyEntry(providerId);
