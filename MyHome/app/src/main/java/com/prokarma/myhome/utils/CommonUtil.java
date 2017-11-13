@@ -870,16 +870,26 @@ public class CommonUtil {
         return offices;
     }
 
-    public static ArrayList<AppointmentAvailableTime> filterAppointmentsToType(AppointmentTimeSlots appointmentTimeSlots, AppointmentType appointmentType) {
+    public static ArrayList<AppointmentAvailableTime> filterAppointmentsToType(AppointmentTimeSlots appointmentTimeSlots, final AppointmentType appointmentType) {
         ArrayList<AppointmentAvailableTime> appointmentTimes = new ArrayList<>();
+        AppointmentAvailableTime appointmentAvailableTime = new AppointmentAvailableTime();
 
         for (AppointmentAvailableTime availableTime : appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes()) {
+            appointmentAvailableTime = new AppointmentAvailableTime();
+            appointmentAvailableTime.setDate(availableTime.getDate());
+            appointmentAvailableTime.setTimes(new ArrayList<AppointmentTime>());
+
             for (AppointmentTime appointmentTime : availableTime.getTimes()) {
                 for (AppointmentType type : appointmentTime.getAppointmentTypes()) {
                     if (type.getId().equals(appointmentType.getId())) {
-                        appointmentTimes.add(availableTime);
+                        appointmentAvailableTime.getTimes().add(appointmentTime);
+                        break;
                     }
                 }
+            }
+
+            if(!appointmentAvailableTime.getTimes().isEmpty()){
+                appointmentTimes.add(appointmentAvailableTime);
             }
         }
 
