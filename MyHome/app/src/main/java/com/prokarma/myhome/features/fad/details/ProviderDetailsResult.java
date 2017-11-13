@@ -57,7 +57,7 @@ public class ProviderDetailsResult implements Parcelable {
     private List<String> certifications = null;
     @SerializedName("Awards")
     @Expose
-    private List<String> awards = null;
+    private ArrayList<String> awards = null;
     @SerializedName("Id")
     @Expose
     private String id;
@@ -214,11 +214,11 @@ public class ProviderDetailsResult implements Parcelable {
         this.certifications = certifications;
     }
 
-    public List<String> getAwards() {
+    public ArrayList<String> getAwards() {
         return awards;
     }
 
-    public void setAwards(List<String> awards) {
+    public void setAwards(ArrayList<String> awards) {
         this.awards = awards;
     }
 
@@ -382,6 +382,9 @@ public class ProviderDetailsResult implements Parcelable {
         providerDetailsResponse.setLanguages(this.getLanguages());
         providerDetailsResponse.setSpecialties(this.getPrimarySpecialities());
         providerDetailsResponse.setHasAppointments(this.getSupportsOnlineBooking());
+        providerDetailsResponse.setAwards(this.getAwards());
+        providerDetailsResponse.setDegree(this.getDegree());
+        providerDetailsResponse.setYearsOfExperience(this.getYearsOfExperience() != null ? this.getYearsOfExperience().toString() : "0");
         return providerDetailsResponse;
     }
 
