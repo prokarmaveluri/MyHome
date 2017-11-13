@@ -186,7 +186,7 @@ public class BookingDoneFragment extends Fragment {
     }
 
     private void scheduleAppointment() {
-        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, providerNpi, BookingManager.getScheduleId(), officeName, officePhone, BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.getBookingAppointmentType(), BookingManager.isBookingForMe());
+        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, providerNpi, BookingManager.getScheduleId(), BookingManager.getBookingOffice(), BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.getBookingAppointmentType(), BookingManager.isBookingForMe());
 
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Timber.i("Request = " + request);

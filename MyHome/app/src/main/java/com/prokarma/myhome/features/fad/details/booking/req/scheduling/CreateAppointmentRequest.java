@@ -1,5 +1,6 @@
 package com.prokarma.myhome.features.fad.details.booking.req.scheduling;
 
+import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.profile.Profile;
@@ -22,14 +23,14 @@ public class CreateAppointmentRequest {
         this.data = data;
     }
 
-    public CreateAppointmentRequest(String doctorName, String providerNpi, String scheduleId, String officeName, String officePhone, Profile bookingProfile, AppointmentTime bookingAppointment, AppointmentType appointmentType, boolean isBookingForMe){
+    public CreateAppointmentRequest(String doctorName, String providerNpi, String scheduleId, ProviderDetailsOffice office, Profile bookingProfile, AppointmentTime bookingAppointment, AppointmentType appointmentType, boolean isBookingForMe){
         setJsonapi(new Jsonapi("1.0"));
 
         AppointmentDetails appointmentDetails = new AppointmentDetails(scheduleId, "schedules");
         Schedule schedule = new Schedule(appointmentDetails);
         Relationships relationships = new Relationships(schedule);
 
-        setData(new Data("visits", new Attributes(doctorName, providerNpi, officeName, officePhone, bookingProfile, bookingAppointment, appointmentType, isBookingForMe), relationships));
+        setData(new Data("visits", new Attributes(doctorName, providerNpi, office, bookingProfile, bookingAppointment, appointmentType, isBookingForMe), relationships));
     }
 
     public Jsonapi getJsonapi() {

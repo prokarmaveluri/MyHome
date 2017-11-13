@@ -1,6 +1,7 @@
 package com.prokarma.myhome.features.fad.details.booking.req.scheduling;
 
 import com.google.gson.annotations.SerializedName;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.profile.Profile;
@@ -170,7 +171,7 @@ public class Attributes {
         this.isCreatedByCaregiver = isCreatedByCaregiver;
     }
 
-    public Attributes(String doctorName, String providerNpi, String officeName, String officePhone, Profile profile, AppointmentTime appointment, AppointmentType appointmentType, boolean isBookingForMe) {
+    public Attributes(String doctorName, String providerNpi, ProviderDetailsOffice office, Profile profile, AppointmentTime appointment, AppointmentType appointmentType, boolean isBookingForMe) {
         this.address = profile.address.line1;
         this.address2 = profile.address.line2;
         this.appointmentAt = appointment.getTime();
@@ -199,13 +200,12 @@ public class Attributes {
         this.zip = profile.address.zipCode;
         this.doctorName = doctorName;
         this.doctorNpi = providerNpi;
-        this.facilityName = officeName;
-        this.facilityPhoneNumber = officePhone;
-        //TODO Kevin, you need to figure out a way to deal with the offices...
-//        this.facilityAddressLine1 = appointment.FacilityAddress;
-//        this.facilityCity = appointment.FacilityCity;
-//        this.facilityState = appointment.FacilityState;
-//        this.facilityZip = appointment.FacilityZip;
+        this.facilityName = office.getName();
+        this.facilityPhoneNumber = office != null && office.getAddresses() != null && office.getAddresses().get(0).getPhones() != null ? office.getAddresses().get(0).getPhones().get(0) : "";
+        this.facilityAddressLine1 = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getAddress() : "";
+        this.facilityCity = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getCity() : "";
+        this.facilityState = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getState() : "";
+        this.facilityZip = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getZip() : "";
         this.isCreatedByCaregiver = !isBookingForMe;
     }
 
