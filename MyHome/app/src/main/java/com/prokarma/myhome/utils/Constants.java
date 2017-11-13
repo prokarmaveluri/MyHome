@@ -37,7 +37,12 @@ public class Constants {
         MY_CARE_NOW,
         MY_MED_HISTORY,
         MY_MEDICATIONS,
-        MY_PHARMACY
+        MY_PHARMACY,
+        MY_CARE_SERVICES,
+        MY_CARE_PROVIDERS,
+        MY_CARE_REASON,
+        MY_CARE_COST,
+        MY_CARE_WAITING_ROOM
     }
 
     public enum INPUT_TYPE {

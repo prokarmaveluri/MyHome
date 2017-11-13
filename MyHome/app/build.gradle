@@ -45,6 +45,7 @@ android {
     def DEV_S2_BASE_URL = "\"https://web-usw1-fad-dev.azurewebsites.net/\""
     def DEV_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-dev.azurewebsites.net/\""
 
+    //AWSDK
     def AWSDK_ENABLE_DEBUG_LOGGING = "awsdk_enable_debug_logging"
     def SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN = "sdksample_show_server_fields_on_login"
     // Note: if you set this, you should also set awsdk_video_force_portrait to the same value
@@ -58,8 +59,8 @@ android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
     defaultConfig {
-//        applicationId "org.dignityhealth.appdev.myhome"
-        applicationId "com.americanwell.sdk.consumer.android.dignity"
+        applicationId "org.dignityhealth.appdev.myhome"
+//        applicationId "com.americanwell.sdk.consumer.android.dignity"
         minSdkVersion 21
         targetSdkVersion 25
         multiDexEnabled true

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.televisit.providers.ProvidersListAdapter.ProviderClick" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{handlers::onClickProvider}">
+
+        <ImageView
+            android:id="@+id/providerImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/displayName"
+            style="@style/tradeGothicLTStdLight_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/providerImage"
+            android:textColor="@color/accent"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/displaySpeciality"
+            style="@style/tradeGothicLTStd_Dynamic16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/displayName"
+            android:layout_toRightOf="@+id/providerImage"
+            android:textColor="@color/accent" />
+
+        <TextView
+            android:id="@+id/waitingCount"
+            style="@style/tradeGothicLTStd_Dynamic16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/displaySpeciality"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/providerImage"
+            android:textColor="@color/accent" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_carrot_blue" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/waitingCount"
+            android:layout_marginTop="8dp"
+            android:background="@color/db_white" />
+    </RelativeLayout>
+</layout>

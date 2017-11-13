@@ -923,4 +923,15 @@
     <string name="medication_desc">What medication are you on, So I can make sure your doctor can prescribe the correct medicine?</string>
     <string name="medication_search_hint">Search</string>
 
+    <string name="my_care_services_desc">Pick a practice we\'ll make sure you see the right doctor</string>
+    <string name="my_care_providers_desc">Choose a doctor below and we\'ll get you into the waiting room.</string>
+    <string name="choose_practice">Choose Practice</string>
+    <string name="choose_doctor">Choose Doctor</string>
+    <string name="my_care_reason_guest_sug">Would you like to invite a guest to your visit?</string>
+    <string name="my_care_reason_phone_sug">What is your phone number in case the video visit dropped?</string>
+    <string name="my_care_reason_sug">What is the for you visit today?</string>
+    <string name="intake">Intake</string>
+    <string name="reason">Reason</string>
+    <string name="visit_cost_desc">Your total today is $</string>
+
 </resources>

@@ -7,6 +7,8 @@ import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.visit.Visit;
+import com.americanwell.sdk.entity.visit.VisitContext;
 
 import java.util.List;
 
@@ -24,6 +26,8 @@ public class SDKUtils {
     private List<Medication> medications;
     private Pharmacy consumerPharmacy;
     private Authentication authentication;
+    private VisitContext visitContext;
+    private Visit visit;
     private Consumer consumer;
 
     public static SDKUtils getInstance() {
@@ -96,5 +100,21 @@ public class SDKUtils {
 
     public void setMedications(List<Medication> medications) {
         this.medications = medications;
+    }
+
+    public VisitContext getVisitContext() {
+        return visitContext;
+    }
+
+    public void setVisitContext(VisitContext visitContext) {
+        this.visitContext = visitContext;
+    }
+
+    public Visit getVisit() {
+        return visit;
+    }
+
+    public void setVisit(Visit visit) {
+        this.visit = visit;
     }
 }

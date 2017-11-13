@@ -17,7 +17,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdksample.SampleApplication;
-import com.americanwell.sdksample.login.LoginActivity;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -80,9 +79,14 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         waitingRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SampleApplication.getInstance().initVisit(getActivity().getApplicationContext());
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
+                //TODO: Enable for sample app Demo
+//                SampleApplication.getInstance().initVisit(getActivity().getApplicationContext());
+//                Intent intent = new Intent(getActivity(), LoginActivity.class);
+//                startActivity(intent);
+
+                //TODO: Enable video visit in application
+                ((NavigationActivity) getActivity()).loadFragment(
+                        Constants.ActivityTag.MY_CARE_SERVICES, null);
             }
         });
 

@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.americanwell.sdksample.SampleApplication;
+import com.televisit.cost.MyCareVisitCostFragment;
 import com.televisit.login.SDKLoginFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -55,6 +56,10 @@ import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
+import com.televisit.providers.MyCareProvidersFragment;
+import com.televisit.reason.MyCareReasonForVisitFragment;
+import com.televisit.services.MyCareServicesFragment;
+import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
 import java.util.TimeZone;
 
@@ -415,6 +420,76 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commit();
 
                     setActivityTag(ActivityTag.MY_CARE_NOW);
+                }
+                break;
+            case MY_CARE_SERVICES:
+                if (getActivityTag() != ActivityTag.MY_CARE_SERVICES) {
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    MyCareServicesFragment fragment = MyCareServicesFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fragment, MyCareServicesFragment.MY_CARE_SERVICES_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_SERVICES);
+                }
+                break;
+            case MY_CARE_PROVIDERS:
+                if (getActivityTag() != ActivityTag.MY_CARE_PROVIDERS) {
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    MyCareProvidersFragment fragment = MyCareProvidersFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fragment, MyCareProvidersFragment.MY_CARE_PROVIDERS_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_PROVIDERS);
+                }
+                break;
+            case MY_CARE_REASON:
+                if (getActivityTag() != ActivityTag.MY_CARE_REASON) {
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    MyCareReasonForVisitFragment fragment = MyCareReasonForVisitFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fragment, MyCareReasonForVisitFragment.MY_CARE_REASON_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_REASON);
+                }
+                break;
+            case MY_CARE_COST:
+                if (getActivityTag() != ActivityTag.MY_CARE_COST) {
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    MyCareVisitCostFragment fragment = MyCareVisitCostFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fragment, MyCareVisitCostFragment.MY_CARE_COST_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_COST);
+                }
+                break;
+            case MY_CARE_WAITING_ROOM:
+                if (getActivityTag() != ActivityTag.MY_CARE_WAITING_ROOM) {
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    MyCareWaitingRoomFragment fragment = MyCareWaitingRoomFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fragment, MyCareWaitingRoomFragment.MY_CARE_WAITING_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_WAITING_ROOM);
                 }
                 break;
         }
