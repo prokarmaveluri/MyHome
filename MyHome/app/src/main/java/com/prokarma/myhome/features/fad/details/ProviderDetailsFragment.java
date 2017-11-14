@@ -1,6 +1,7 @@
 package com.prokarma.myhome.features.fad.details;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -520,9 +522,18 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 }
 
                 @Override
-                public void onPinClick(Object model, int position) {
-                    Office office = (Office) model;
-                    CommonUtil.getDirections(getActivity(), office.getAddress1(), office.getCity(), office.getState());
+                public void onPinClick(final Object model, int position) {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                    alertDialog.setMessage(getString(R.string.map_alert));
+                    alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Office office = (Office) model;
+                            CommonUtil.getDirections(getActivity(), office.getAddress1(), office.getCity(), office.getState());
+                        }
+                    }).setNeutralButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
                 }
             }));
         } else {

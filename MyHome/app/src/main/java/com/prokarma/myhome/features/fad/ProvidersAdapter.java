@@ -1,11 +1,12 @@
 package com.prokarma.myhome.features.fad;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterProvidersListItemBinding;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
@@ -13,11 +14,9 @@ import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import timber.log.Timber;
 
 /**
@@ -94,6 +93,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                 binding.directions.setTag(position);
                 binding.docDisplayName.setText(provider.getDisplayFullName());
                 binding.docSpeciality.setText(provider.getSpecialties().get(0));
+                binding.directions.setContentDescription(provider.getDisplayFullName() + ", " + mContext.getString(R.string.show_in_map));
 
                 if (!recent) {
                     if (null != provider.getOffices().get(0).getDistanceMilesFromSearch() &&
@@ -135,7 +135,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
     }
 
     public class ProviderClick {
-        public void onClickProvider(View view) {
+        public void onClickProvider(final View view) {
             int id = view.getId();
             switch (id) {
                 case R.id.itemLayout:
@@ -144,14 +144,23 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                     break;
                 case R.id.directions:
                     try {
-                        Timber.i("Directions " + view.getTag());
-                        ProviderDetailsResponse provider = providerList.get((int) view.getTag());
-                        Address address = new Address(provider.getOffices().get(0).getAddress1(),
-                                provider.getOffices().get(0).getAddress2(),
-                                provider.getOffices().get(0).getCity(),
-                                provider.getOffices().get(0).getState(),
-                                provider.getOffices().get(0).getZipCode(), "");
-                        CommonUtil.getDirections(mContext, address);
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+                        alertDialog.setMessage(mContext.getString(R.string.map_alert));
+                        alertDialog.setPositiveButton(mContext.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Timber.i("Directions " + view.getTag());
+                                ProviderDetailsResponse provider = providerList.get((int) view.getTag());
+                                Address address = new Address(provider.getOffices().get(0).getAddress1(),
+                                        provider.getOffices().get(0).getAddress2(),
+                                        provider.getOffices().get(0).getCity(),
+                                        provider.getOffices().get(0).getState(),
+                                        provider.getOffices().get(0).getZipCode(), "");
+                                CommonUtil.getDirections(mContext, address);
+                            }
+                        }).setNeutralButton(mContext.getString(R.string.no), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
                     } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
                     }
                     break;

@@ -119,6 +119,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                     gender, languages, hospitals, practices, this));
 
             binding.sortByGroup.setOnCheckedChangeListener(this);
+            binding.sortByGroup.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
             binding.filterLocation.getBackground().mutate().setColorFilter(getResources().getColor(R.color.accent),
                     PorterDuff.Mode.SRC_ATOP);
 
@@ -361,6 +362,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         if (isChecked) {
             view.setBackgroundResource(R.drawable.button_enabled);
             view.setTextColor(Color.WHITE);
+            view.setChecked(true);
         } else {
             view.setBackgroundResource(R.drawable.button_boarder_acent);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
