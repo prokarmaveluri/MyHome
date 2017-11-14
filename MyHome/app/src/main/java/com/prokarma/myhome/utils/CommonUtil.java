@@ -25,6 +25,15 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
+import com.prokarma.myhome.features.fad.Office;
+import com.prokarma.myhome.features.fad.details.Image;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsAddress;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsImage;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 
@@ -47,6 +56,26 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 @SuppressWarnings("HardCodedStringLiteral")
 public class CommonUtil {
     private static final String TYPE_PLAIN = "text/plain";
+
+    public static final String GOOD_IRI_CHAR =
+            "a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF";
+
+    /**
+     * Regular expression for a domain label, as per RFC 3490.
+     * Its total length must not exceed 63 octets, according to RFC 5890.
+     */
+    private static final String LABEL_REGEXP =
+            "([" + GOOD_IRI_CHAR + "\\-]{2,61})?";
+
+    /**
+     * Expression that matches a domain name, including international domain names in Punycode or
+     * Unicode.
+     */
+    private static final String DOMAIN_REGEXP =
+            "(" + LABEL_REGEXP + "\\.)+"                 // Subdomains and domain
+                    // Top-level domain must be at least 2 chars
+                    + "[" + GOOD_IRI_CHAR + "\\-]{2,61}";
+
 
     public static boolean isValidPassword(String password) {
 
@@ -81,6 +110,11 @@ public class CommonUtil {
             return false;
 
         if (tokens[0].length() > 49 || tokens[1].length() > 50)
+            return false;
+
+        Pattern domainRegEx = Pattern.compile(DOMAIN_REGEXP);
+
+        if (!domainRegEx.matcher(tokens[1]).matches())
             return false;
 
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
@@ -731,6 +765,135 @@ public class CommonUtil {
         }
 
         return pastAppointments;
+    }
+
+    /**
+     * Find the highest resolution image available (for a Provider)
+     *
+     * @param images the list of provider images
+     * @return the image with the largest width & largest height
+     */
+    @Nullable
+    public static ProviderDetailsImage getBestImage(List<ProviderDetailsImage> images) {
+        int width = 0;
+        int height = 0;
+        ProviderDetailsImage bestImage = null;
+
+        for (ProviderDetailsImage image : images) {
+            if (image.getHeight() > height && image.getWidth() > width) {
+                bestImage = image;
+                width = image.getWidth();
+                height = image.getHeight();
+            }
+        }
+
+        return bestImage;
+    }
+
+    public static List<ProviderDetailsImage> convertImagesToProviderImages(List<Image> images) {
+        List<ProviderDetailsImage> providerImages = new ArrayList<>();
+        ProviderDetailsImage providerImage = new ProviderDetailsImage();
+        for (Image image : images) {
+            providerImage = new ProviderDetailsImage("imageType", image.getUrl(), 120, 160);
+            providerImages.add(providerImage);
+        }
+
+        return providerImages;
+    }
+
+    public static ArrayList<Image> convertProviderImagesToImages(List<ProviderDetailsImage> providerImages) {
+        ArrayList<Image> images = new ArrayList<>();
+        Image image = new Image();
+        for (ProviderDetailsImage providerImage : providerImages) {
+            image = new Image(providerImage.getUrl(), providerImage.getImageType());
+            images.add(image);
+        }
+
+        return images;
+    }
+
+    public static List<ProviderDetailsOffice> convertOfficeToProviderOffice(List<Office> offices) {
+        List<ProviderDetailsOffice> providerOffices = new ArrayList<>();
+        ProviderDetailsOffice providerOffice = new ProviderDetailsOffice();
+
+        List<ProviderDetailsAddress> providerOfficeAddresses = new ArrayList<>();
+        ProviderDetailsAddress providerOfficeAddress = new ProviderDetailsAddress();
+
+        List<String> providerOfficePhones = new ArrayList<>();
+        String providerOfficePhone = new String();
+
+        for (Office office : offices) {
+            providerOffice = new ProviderDetailsOffice();
+
+            providerOfficeAddress = new ProviderDetailsAddress();
+            providerOfficeAddress.setName(office.getName());
+            providerOfficeAddress.setAddress(office.getAddress());
+            providerOfficeAddress.setCity(office.getCity());
+            providerOfficeAddress.setState(office.getState());
+            providerOfficeAddress.setZip(office.getZipCode());
+            providerOfficeAddress.setLatitude(Double.parseDouble(office.getLat()));
+            providerOfficeAddress.setLongitude(Double.parseDouble(office.getLong()));
+
+            providerOfficePhone = office.getPhone();
+            providerOfficePhones.add(providerOfficePhone);
+
+            providerOfficeAddress.setPhones(providerOfficePhones);
+
+            providerOfficeAddresses.add(providerOfficeAddress);
+
+            providerOffice.setAddresses(providerOfficeAddresses);
+
+            providerOffices.add(providerOffice);
+        }
+
+        return providerOffices;
+    }
+
+    public static ArrayList<Office> convertProviderOfficeToOffice(List<ProviderDetailsOffice> providerOffices) {
+        ArrayList<Office> offices = new ArrayList<>();
+        Office office = new Office();
+
+        for (ProviderDetailsOffice providerOffice : providerOffices) {
+            office.setName(providerOffice.getAddresses().get(0).getName());
+            office.setAddress1(providerOffice.getAddresses().get(0).getAddress());
+            office.setCity(providerOffice.getAddresses().get(0).getCity());
+            office.setState(providerOffice.getAddresses().get(0).getState());
+            office.setZipCode(providerOffice.getAddresses().get(0).getZip());
+            office.setLat(providerOffice.getAddresses().get(0).getLatitude().toString());
+            office.setLon(providerOffice.getAddresses().get(0).getLongitude().toString());
+            office.setLatLongHash(providerOffice.getAddresses().get(0).getLatLongHash());
+            office.setPhone(providerOffice.getAddresses().get(0).getPhones().get(0));
+
+            offices.add(office);
+        }
+
+        return offices;
+    }
+
+    public static ArrayList<AppointmentAvailableTime> filterAppointmentsToType(AppointmentTimeSlots appointmentTimeSlots, final AppointmentType appointmentType) {
+        ArrayList<AppointmentAvailableTime> appointmentTimes = new ArrayList<>();
+        AppointmentAvailableTime appointmentAvailableTime = new AppointmentAvailableTime();
+
+        for (AppointmentAvailableTime availableTime : appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes()) {
+            appointmentAvailableTime = new AppointmentAvailableTime();
+            appointmentAvailableTime.setDate(availableTime.getDate());
+            appointmentAvailableTime.setTimes(new ArrayList<AppointmentTime>());
+
+            for (AppointmentTime appointmentTime : availableTime.getTimes()) {
+                for (AppointmentType type : appointmentTime.getAppointmentTypes()) {
+                    if (type.getId().equals(appointmentType.getId())) {
+                        appointmentAvailableTime.getTimes().add(appointmentTime);
+                        break;
+                    }
+                }
+            }
+
+            if(!appointmentAvailableTime.getTimes().isEmpty()){
+                appointmentTimes.add(appointmentAvailableTime);
+            }
+        }
+
+        return appointmentTimes;
     }
 
     public static void exitApp(Context context, Activity activity) {

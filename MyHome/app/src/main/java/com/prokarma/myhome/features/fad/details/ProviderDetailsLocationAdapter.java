@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
-import com.prokarma.myhome.features.fad.Office;
 
 import java.util.List;
 
@@ -24,10 +23,10 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
     private final int VIEW_TYPE_NORMAL = 1;
 
     public final Context context;
-    public List<Office> locations;
+    public List<ProviderDetailsOffice> locations;
     private final RecyclerViewListener onItemClickListener;
 
-    public ProviderDetailsLocationAdapter(Context context, @Nullable List<Office> locations, @Nullable RecyclerViewListener onItemClickListener) {
+    public ProviderDetailsLocationAdapter(Context context, @Nullable List<ProviderDetailsOffice> locations, @Nullable RecyclerViewListener onItemClickListener) {
         this.context = context;
         this.locations = locations;
         this.onItemClickListener = onItemClickListener;
@@ -49,7 +48,7 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
         switch (genericHolder.getItemViewType()) {
             case VIEW_TYPE_NORMAL:
                 ViewHolder holder = (ViewHolder) genericHolder;
-                Office office = locations.get(position);
+                ProviderDetailsOffice office = locations.get(position);
                 holder.locationText.setText(locations.get(position).toString());
                 holder.pinImage.setContentDescription(locations.get(position).getName().toString()+ ", " + context.getString(R.string.show_in_map));
                 holder.setOnPinClickListener(office, onItemClickListener);
@@ -80,7 +79,7 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
         }
     }
 
-    public void setLocations(List<Office> locations) {
+    public void setLocations(List<ProviderDetailsOffice> locations) {
         this.locations = locations;
         notifyDataSetChanged();
     }
@@ -99,7 +98,7 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
             pinImage = (ImageView) view.findViewById(R.id.pin_icon);
         }
 
-        public void setOnPinClickListener(final Office office, final RecyclerViewListener onItemClickListener) {
+        public void setOnPinClickListener(final ProviderDetailsOffice office, final RecyclerViewListener onItemClickListener) {
             pinImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

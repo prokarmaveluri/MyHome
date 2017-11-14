@@ -113,6 +113,14 @@ public class ApiErrorUtil {
         genericError(context, view, true);
     }
 
+    public <T> void getProviderAppointmentsError(final Context context, final View view, final Response<T> response) {
+        genericError(context, view, true);
+    }
+
+    public void getProviderAppointmentsFailed(final Context context, final View view, final Throwable throwable) {
+        genericError(context, view, true);
+    }
+
     //Login
     public <T> void signInError(final Context context, final View view, final Response<SignInResponse> response) {
         genericError(context, view, true);

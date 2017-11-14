@@ -60,9 +60,9 @@ public class BookingConfirmationFragment extends Fragment {
         TextView address = (TextView) bookingView.findViewById(R.id.address);
         TextView reason = (TextView) bookingView.findViewById(R.id.reason);
 
-        date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().Time));
-        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().Time) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingAppointment()));
-        address.setText(CommonUtil.constructAddress(BookingManager.getBookingAppointment().FacilityAddress, null, BookingManager.getBookingAppointment().FacilityCity, BookingManager.getBookingAppointment().FacilityState, BookingManager.getBookingAppointment().FacilityZip));
+        date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().getTime()));
+        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().getTime()) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingAppointment().getTime()));
+        address.setText(CommonUtil.constructAddress(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), null, BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip()));
         reason.setText(BookingManager.getBookingProfile().reasonForVisit);
 
         return bookingView;

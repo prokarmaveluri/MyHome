@@ -51,7 +51,6 @@ import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.login.fingerprint.FingerprintSignIn;
 import com.prokarma.myhome.features.login.verify.EmailVerifyActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -725,9 +724,12 @@ public class SplashActivity extends AppCompatActivity implements
     }
 
     private void startTermsOfServiceActivity() {
-        Intent intent = new Intent(this, TosActivity.class);
-//        intent.putExtra(Constants.ENROLLMENT_REQUEST, enrollmentRequest);
-        startActivity(intent);
+        final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this,
+                R.anim.slide_in_right, R.anim.slide_out_left);
+
+        NavigationActivity.setActivityTag(Constants.ActivityTag.TERMS_OF_SERVICE);
+        Intent intentTos = new Intent(this, OptionsActivity.class);
+        ActivityCompat.startActivity(this, intentTos, options.toBundle());
     }
 
     private void startVerify() {

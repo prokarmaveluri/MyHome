@@ -38,7 +38,6 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
-import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.booking.BookingBackButton;
 import com.prokarma.myhome.features.fad.details.booking.BookingConfirmationFragment;
@@ -56,6 +55,9 @@ import com.prokarma.myhome.features.fad.details.booking.BookingSelectPersonInter
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectStatusInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectTimeFragment;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.preferences.ImagesResponse;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
@@ -67,6 +69,7 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.utils.MapUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
@@ -94,10 +97,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public static final String PROVIDER_DETAILS_TAG = "provider_details_tag";
     public static final String TIME_TAG = "TIME_TAG"; //Allows us to go back to 'pop' all the 'time' fragments with one back (so you don't have to back multiple times through SelectTime/SelectCalendar pages)
 
-    private String providerId;
-    private ProviderDetailsResponse providerDetailsResponse;
+    private String providerNpi;
 
-    private Office currentOffice;
+    private ProviderDetailsResult provider;
+
+    private ProviderDetailsOffice currentOffice;
 
     private SupportMapFragment myMap;
     private View providerDetailsView;
@@ -141,6 +145,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private GoogleMap providerMap;
     private ArrayList<Marker> markers = new ArrayList<>();
 
+    private boolean waitingForAppointmentTypes = false;
 
     boolean fav = false;
 
@@ -166,19 +171,19 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            providerDetailsResponse = getArguments().getParcelable(PROVIDER_KEY);
-            providerId = getArguments().getString(PROVIDER_ID_KEY);
+            provider = getArguments().getParcelable(PROVIDER_KEY);
+            providerNpi = getArguments().getString(PROVIDER_ID_KEY);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (null != providerDetailsResponse)
-            RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
+        if (null != provider)
+            RecentlyViewedDataSourceDB.getInstance().createEntry(provider.convertToOldProviderDetails());
 
         Map<String, Object> tealiumData = new HashMap<>();
-        tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
         TealiumUtil.trackView(Constants.PROVIDER_DETAILS_SCREEN, tealiumData);
     }
 
@@ -208,9 +213,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             @Override
             public void onClick(View v) {
                 fav = !fav;
-                if (null != providerDetailsResponse && null != providerDetailsResponse.getNpi()) {
-                    NetworkManager.getInstance().updateFavDoctor(fav, providerDetailsResponse.getNpi(),
-                            favProvider, getSavedDocotor(providerDetailsResponse), false, getActivity(), providerDetailsView);
+                if (null != provider && null != provider.getNpi()) {
+                    NetworkManager.getInstance().updateFavDoctor(fav, provider.getNpi(),
+                            favProvider, getSavedDoctor(provider), false, getActivity(), providerDetailsView);
                 }
             }
         });
@@ -228,12 +233,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         expandableLinearLayout = (ExpandableLinearLayout) providerDetailsView.findViewById(R.id.expandable_layout);
         bookAppointment = (Button) providerDetailsView.findViewById(R.id.book_appointment);
 
-        if (null == providerId) {
+        if (providerNpi == null) {
             setupInitialView();
         }
-        if (providerDetailsResponse != null) {
-            providerId = providerDetailsResponse.getProviderId();
+
+        if (provider != null) {
+            providerNpi = provider.getNpi();
         }
+
         getProviderDetails();
         return providerDetailsView;
     }
@@ -244,20 +251,26 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void setupInitialView() {
-        if (providerDetailsView == null || providerDetailsResponse == null) {
+        if (providerDetailsView == null || provider == null) {
             return;
         }
 
-        String url = providerDetailsResponse.getImageUrl() != null ? providerDetailsResponse.getImageUrl().replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160) : null;
-        Picasso.with(getActivity())
-                .load(url)
-                .into(doctorImage);
+        if (provider != null && provider.getImages() != null) {
+            Picasso.with(getActivity())
+                    .load(CommonUtil.getBestImage(provider.getImages()).getUrl())
+                    .into(doctorImage);
+        }
 
-        name.setText(providerDetailsResponse.getDisplayFullName() != null ? providerDetailsResponse.getDisplayFullName() : getString(R.string.name_unknown));
-        speciality.setText(providerDetailsResponse.getSpecialties() != null ? providerDetailsResponse.getSpecialties().get(0) : getString(R.string.specialities_unknown));
-        address.setText(providerDetailsResponse.getOffices() != null ? providerDetailsResponse.getOffices().get(0).getAddress1() + "\n" + providerDetailsResponse.getOffices().get(0).getAddress() : getString(R.string.address_unknown));
-        phone.setText(providerDetailsResponse.getOffices() != null ? CommonUtil.constructPhoneNumber(providerDetailsResponse.getOffices().get(0).getPhone()) : getString(R.string.phone_number_unknown));
-        currentOffice = providerDetailsResponse.getOffices() != null ? providerDetailsResponse.getOffices().get(0) : null;
+        name.setText(provider.getDisplayName() != null ? provider.getDisplayName() : getString(R.string.name_unknown));
+        speciality.setText(provider.getPrimarySpecialities() != null ? provider.getPrimarySpecialities().get(0) : getString(R.string.specialities_unknown));
+        address.setText(provider.getOffices() != null ?
+                provider.getOffices().get(0).getAddresses().get(0).getAddress() + "\n" +
+                        provider.getOffices().get(0).getAddresses().get(0).getCity() + ", " +
+                        provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
+                        provider.getOffices().get(0).getAddresses().get(0).getZip()
+                : getString(R.string.address_unknown));
+        phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumber(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
+        currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
 
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,85 +282,130 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
     }
 
+    private void getAppointmentDetails(String providerNpi, String fromDate, String toDate, String addressHash) {
+        NetworkManager.getInstance().getProviderAppointments(providerNpi, fromDate, toDate, addressHash).enqueue(new Callback<AppointmentTimeSlots>() {
+            @Override
+            public void onResponse(Call<AppointmentTimeSlots> call, Response<AppointmentTimeSlots> response) {
+                if (response != null && response.isSuccessful() && response.body() != null) {
+                    Timber.d("Successful Response\n" + response);
+                    BookingManager.setBookingOfficeAppointmentDetails(response.body());
+                    BookingManager.setScheduleId(response.body().getData().get(0).getId());
+
+                    if (waitingForAppointmentTypes) {
+                        onPersonSelected(BookingManager.isBookingForMe());
+                    }
+
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                    ApiErrorUtil.getInstance().getProviderAppointmentsError(getContext(), providerDetailsView, response);
+
+                    waitingForAppointmentTypes = false;
+
+                    BookingManager.setBookingOfficeAppointmentDetails(null);
+                    BookingManager.setScheduleId(null);
+
+                    BookingManager.clearBookingData(true);
+                    restartSchedulingFlow();
+                    expandableLinearLayout.collapse();
+                    expandableLinearLayout.initLayout();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppointmentTimeSlots> call, Throwable t) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
+                ApiErrorUtil.getInstance().getProviderAppointmentsFailed(getContext(), providerDetailsView, t);
+
+                waitingForAppointmentTypes = false;
+
+                BookingManager.setBookingOfficeAppointmentDetails(null);
+                BookingManager.setScheduleId(null);
+
+                BookingManager.clearBookingData(true);
+                restartSchedulingFlow();
+                expandableLinearLayout.collapse();
+                expandableLinearLayout.initLayout();
+            }
+        });
+    }
+
     private void getProviderDetails() {
         showStatsLoading();
         detailsProgressBar.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().getProviderDetails(providerId).enqueue(new Callback<ProviderDetailsResponse>() {
+        NetworkManager.getInstance().getNewProviderDetails(providerNpi).enqueue(new Callback<ProviderDetails>() {
             @Override
-            public void onResponse(Call<ProviderDetailsResponse> call, Response<ProviderDetailsResponse> response) {
+            public void onResponse(Call<ProviderDetails> call, Response<ProviderDetails> response) {
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         detailsProgressBar.setVisibility(View.GONE);
                         Timber.d("Successful Response\n" + response);
-                        providerDetailsResponse = response.body();
-                        changeAptAddress();
+                        provider = response.body().getResult().get(0);
+
                         setupInitialView();
-                        if (providerDetailsResponse == null) {
+                        if (provider == null) {
                             showStatsUnavailable();
                             ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
                             return;
                         }
-                        if (null != providerDetailsResponse)
-                            RecentlyViewedDataSourceDB.getInstance().createEntry(providerDetailsResponse);
+                        if (null != provider)
+                            RecentlyViewedDataSourceDB.getInstance().createEntry(provider.convertToOldProviderDetails());
 
-                        try {
-                            showStatsView();
-                            updateStatsView(providerDetailsResponse);
+                        showStatsView();
+                        updateStatsView(provider);
 
-                            providerDetailsLayout.smoothScrollTo(0, 0);
-                            MapUtil.clearMarkers(getContext(), providerMap);
-                            markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(),
-                                    BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
-                                        @Override
-                                        public boolean onMarkerClick(Marker marker) {
-                                            handleMarkerClick(marker);
-                                            //marker.showInfoWindow(); Won't fit with the zoom if states apart
-                                            return true;
-                                        }
-                                    });
-
-                            MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
-
-                            //Setup Booking
-                            currentOffice = providerDetailsResponse.getOffices().get(0);
-                            bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.GONE);
-                            bookAppointment.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    bookAppointment.setVisibility(View.GONE);
-
-                                    BookingManager.setBookingProfile(null);
-                                    BookingManager.setBookingProvider(providerDetailsResponse);
-                                    BookingManager.setBookingOffice(currentOffice);
-
-                                    BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
-                                    bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
-                                    bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
-                                    getChildFragmentManager()
-                                            .beginTransaction()
-                                            .replace(R.id.booking_frame, bookingFragment)
-                                            .addToBackStack(null)
-                                            .commit();
-                                    getChildFragmentManager().executePendingTransactions();
-
-                                    Map<String, Object> tealiumData = new HashMap<>();
-                                    tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
-                                    TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
-                                }
-                            });
-
-                            if (ProfileManager.getFavoriteProviders() != null) {
-                                for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
-                                    if (providerDetailsResponse.getNpi().contains(provider.getNpi())) {
-                                        fav = true;
-                                        CommonUtil.updateFavView(true, favProvider);
-                                        break;
+                        providerDetailsLayout.smoothScrollTo(0, 0);
+                        MapUtil.clearMarkers(getContext(), providerMap);
+                        markers = MapUtil.addMapMarkers(getActivity(), providerMap, provider.getOffices(),
+                                BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
+                                    @Override
+                                    public boolean onMarkerClick(Marker marker) {
+                                        handleMarkerClick(marker);
+                                        //marker.showInfoWindow(); Won't fit with the zoom if states apart
+                                        return true;
                                     }
+                                });
+
+                        MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
+
+                        //Setup Booking
+                        currentOffice = provider.getOffices().get(0);
+                        bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
+                        bookAppointment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                bookAppointment.setVisibility(View.GONE);
+
+                                getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(), currentOffice.getAddresses().get(0).getAddressHash());
+
+                                BookingManager.setBookingProfile(null);
+                                BookingManager.setBookingProvider(provider);
+                                BookingManager.setBookingOffice(currentOffice);
+
+                                BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+                                bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+                                bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                                getChildFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.booking_frame, bookingFragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                                getChildFragmentManager().executePendingTransactions();
+
+                                Map<String, Object> tealiumData = new HashMap<>();
+                                tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
+                                TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
+                            }
+                        });
+
+                        if (ProfileManager.getFavoriteProviders() != null) {
+                            for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
+                                if (ProviderDetailsFragment.this.provider.getNpi().contains(provider.getNpi())) {
+                                    fav = true;
+                                    CommonUtil.updateFavView(true, favProvider);
+                                    break;
                                 }
                             }
-                        } catch (NullPointerException ex) {
-                            Timber.e("ProviderDetailsFragment: NullPointerException\n" + ex.toString());
-                            ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
                         }
                     } else {
                         ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
@@ -363,7 +421,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
 
             @Override
-            public void onFailure(Call<ProviderDetailsResponse> call, Throwable t) {
+            public void onFailure(Call<ProviderDetails> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e("Something failed! :/");
                     Timber.e("Throwable = " + t);
@@ -377,28 +435,15 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
     }
 
-    private void changeAptAddress() {
-        if (providerDetailsResponse == null)
-            return;
-        for (Office office : providerDetailsResponse.getOffices()) {
-            for (Appointment apt : office.getAppointments()) {
-                apt.FacilityAddress = office.getAddressLine();
-                apt.FacilityCity = office.getCity();
-                apt.FacilityState = office.getState();
-                apt.FacilityZip = office.getZipCode();
-            }
-        }
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Timber.v("Map is ready\n" + googleMap);
         providerMap = googleMap;
 
-        if (null == providerDetailsResponse)
+        if (null == provider)
             return;
         //Add markers
-        markers = MapUtil.addMapMarkers(getActivity(), providerMap, providerDetailsResponse.getOffices(),
+        markers = MapUtil.addMapMarkers(getActivity(), providerMap, provider.getOffices(),
                 BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_blue), new GoogleMap.OnMarkerClickListener() {
                     public boolean onMarkerClick(Marker marker) {
                         handleMarkerClick(marker);
@@ -414,8 +459,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     //Set address text, then make sure to change selected icon
     private void handleMarkerClick(Marker marker) {
         //set the current office
-        if (providerDetailsResponse != null && providerDetailsResponse.getOffices() != null) {
-            for (Office office : providerDetailsResponse.getOffices()) {
+        if (provider != null && provider.getOffices() != null) {
+            for (ProviderDetailsOffice office : provider.getOffices()) {
                 if (MapUtil.isOfficeSelected(office, marker)) {
                     currentOffice = office;
                     break;
@@ -423,7 +468,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         }
 
-        bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.GONE);
+        bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
 
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
         if (fragment != null) {
@@ -434,7 +479,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         address.setText(marker.getSnippet());
-        phone.setText(CommonUtil.constructPhoneNumber(currentOffice.getPhone()));
+        phone.setText(CommonUtil.constructPhoneNumber(currentOffice.getAddresses().get(0).getPhones().get(0)));
         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
     }
 
@@ -456,13 +501,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         statsView.setVisibility(View.GONE);
     }
 
-    private void updateStatsView(final ProviderDetailsResponse providerDetailsResponse) {
+    private void updateStatsView(final ProviderDetailsResult providerDetailsResponse) {
         updateStatsViewProfile(providerDetailsResponse);
         updateStatsViewEducation(providerDetailsResponse);
         updateStatsViewExperience(providerDetailsResponse);
     }
 
-    private void updateStatsViewProfile(final ProviderDetailsResponse providerDetailsResponse) {
+    private void updateStatsViewProfile(final ProviderDetailsResult providerDetailsResult) {
         acceptingNewPatients = (TextView) statsProfileView.findViewById(R.id.accepting_new_patients);
         languages = (TextView) statsProfileView.findViewById(R.id.languages);
         gender = (TextView) statsProfileView.findViewById(R.id.gender);
@@ -471,30 +516,30 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         locations = (RecyclerView) statsProfileView.findViewById(R.id.locations_list);
         locationsLabel = (TextView) statsProfileView.findViewById(R.id.label_locations);
 
-        acceptingNewPatients.setText(providerDetailsResponse.getAcceptsNewPatients() ? getString(R.string.yes) : getString(R.string.no));
-        languages.setText(providerDetailsResponse.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResponse.getLanguages()) : getString(R.string.unknown));
+        acceptingNewPatients.setText(providerDetailsResult.getAcceptsNewPatients() != null && providerDetailsResult.getAcceptsNewPatients() ? getString(R.string.yes) : getString(R.string.no));
+        languages.setText(providerDetailsResult.getLanguages() != null ? CommonUtil.prettyPrint(providerDetailsResult.getLanguages()) : getString(R.string.unknown));
 
-        if (providerDetailsResponse.getGender() != null && !providerDetailsResponse.getGender().isEmpty()) {
-            if (providerDetailsResponse.getGender().equalsIgnoreCase("M") || providerDetailsResponse.getGender().equalsIgnoreCase(getString(R.string.male))) {
+        if (providerDetailsResult.getGender() != null && !providerDetailsResult.getGender().isEmpty()) {
+            if (providerDetailsResult.getGender().equalsIgnoreCase("M") || providerDetailsResult.getGender().equalsIgnoreCase(getString(R.string.male))) {
                 gender.setText(getString(R.string.male));
-            } else if (providerDetailsResponse.getGender().equalsIgnoreCase("F") || providerDetailsResponse.getGender().equalsIgnoreCase(getString(R.string.female))) {
+            } else if (providerDetailsResult.getGender().equalsIgnoreCase("F") || providerDetailsResult.getGender().equalsIgnoreCase(getString(R.string.female))) {
                 gender.setText(getString(R.string.female));
             } else {
                 gender.setText(getString(R.string.unknown));
             }
         }
 
-        experience.setText(providerDetailsResponse.getYearsOfExperience() != null ? providerDetailsResponse.getYearsOfExperience() + " " + getString(R.string.years) : getString(R.string.unknown));
+        experience.setText(providerDetailsResult.getYearsOfExperience() != null ? providerDetailsResult.getYearsOfExperience() + " " + getString(R.string.years) : getString(R.string.unknown));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy(), Html.FROM_HTML_MODE_COMPACT) : getString(R.string.unknown));
+            philosophy.setText(providerDetailsResult.getPhilosophy() != null && !providerDetailsResult.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResult.getPhilosophy(), Html.FROM_HTML_MODE_COMPACT) : getString(R.string.unknown));
         } else {
             //noinspection deprecation
-            philosophy.setText(providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResponse.getPhilosophy()) : getString(R.string.unknown));
+            philosophy.setText(providerDetailsResult.getPhilosophy() != null && !providerDetailsResult.getPhilosophy().isEmpty() ? Html.fromHtml(providerDetailsResult.getPhilosophy()) : getString(R.string.unknown));
         }
 
         //Adjust Margin to account for HTML paragraph break
-        if (providerDetailsResponse.getPhilosophy() != null && !providerDetailsResponse.getPhilosophy().isEmpty()) {
+        if (providerDetailsResult.getPhilosophy() != null && !providerDetailsResult.getPhilosophy().isEmpty()) {
             philosophy.setVisibility(View.VISIBLE);
             statsProfileView.findViewById(R.id.label_philosophy).setVisibility(View.VISIBLE);
         } else {
@@ -514,8 +559,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         });
 
-        if (providerDetailsResponse != null && providerDetailsResponse.getOffices() != null) {
-            locations.setAdapter(new ProviderDetailsLocationAdapter(getActivity(), providerDetailsResponse.getOffices(), new RecyclerViewListener() {
+        if (providerDetailsResult != null && providerDetailsResult.getOffices() != null) {
+            locations.setAdapter(new ProviderDetailsLocationAdapter(getActivity(), providerDetailsResult.getOffices(), new RecyclerViewListener() {
                 @Override
                 public void onItemClick(Object model, int position) {
                     //Do nothing on location item click...
@@ -541,11 +586,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     }
 
-    private void updateStatsViewEducation(final ProviderDetailsResponse providerDetailsResponse) {
-        if ((providerDetailsResponse.getMedicalSchools() == null || providerDetailsResponse.getMedicalSchools().isEmpty()) &&
-                (providerDetailsResponse.getResidencies() == null || providerDetailsResponse.getResidencies().isEmpty()) &&
-                (providerDetailsResponse.getFellowships() == null || providerDetailsResponse.getFellowships().isEmpty()) &&
-                (providerDetailsResponse.getInternships() == null || providerDetailsResponse.getInternships().isEmpty())) {
+    private void updateStatsViewEducation(final ProviderDetailsResult providerDetailsResult) {
+        if ((providerDetailsResult.getMedicalSchools() == null || providerDetailsResult.getMedicalSchools().isEmpty()) &&
+                (providerDetailsResult.getResidencies() == null || providerDetailsResult.getResidencies().isEmpty()) &&
+                (providerDetailsResult.getFellowships() == null || providerDetailsResult.getFellowships().isEmpty()) &&
+                (providerDetailsResult.getInternships() == null || providerDetailsResult.getInternships().isEmpty())) {
             statsEducationView.setVisibility(View.GONE);
         } else {
             statsEducationView.setVisibility(View.VISIBLE);
@@ -557,12 +602,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 }
             });
 
-            if (providerDetailsResponse != null) {
+            if (providerDetailsResult != null) {
                 List<String> curriculum = new ArrayList<String>() {{
-                    addAll(providerDetailsResponse.getMedicalSchools());
-                    addAll(providerDetailsResponse.getResidencies());
-                    addAll(providerDetailsResponse.getFellowships());
-                    addAll(providerDetailsResponse.getInternships());
+                    addAll(providerDetailsResult.getMedicalSchools());
+                    addAll(providerDetailsResult.getResidencies());
+                    addAll(providerDetailsResult.getFellowships());
+                    addAll(providerDetailsResult.getInternships());
                 }};
 
                 educationList.setAdapter(new ProviderDetailsEducationAdapter(getActivity(), curriculum));
@@ -572,9 +617,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     }
 
-    private void updateStatsViewExperience(ProviderDetailsResponse providerDetailsResponse) {
-        if ((providerDetailsResponse.getAwards() == null || providerDetailsResponse.getAwards().isEmpty()) &&
-                (providerDetailsResponse.getCertifications() == null || providerDetailsResponse.getCertifications().isEmpty())) {
+    private void updateStatsViewExperience(ProviderDetailsResult providerDetailsResult) {
+        if ((providerDetailsResult.getAwards() == null || providerDetailsResult.getAwards().isEmpty()) &&
+                (providerDetailsResult.getCertifications() == null || providerDetailsResult.getCertifications().isEmpty())) {
             statsExperienceView.setVisibility(View.GONE);
         } else {
             statsExperienceView.setVisibility(View.VISIBLE);
@@ -583,10 +628,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             awardsLabel = (TextView) statsExperienceView.findViewById(R.id.awards_label);
             awards = (TextView) statsExperienceView.findViewById(R.id.awards);
 
-            if (providerDetailsResponse.getCertifications() != null && !providerDetailsResponse.getCertifications().isEmpty()) {
+            if (providerDetailsResult.getCertifications() != null && !providerDetailsResult.getCertifications().isEmpty()) {
                 certificationsLabel.setVisibility(View.VISIBLE);
                 certifications.setVisibility(View.VISIBLE);
-                CommonUtil.prettyPrint(providerDetailsResponse.getCertifications());
+                CommonUtil.prettyPrint(providerDetailsResult.getCertifications());
             } else {
                 certificationsLabel.setVisibility(View.GONE);
                 certifications.setVisibility(View.GONE);
@@ -597,29 +642,15 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 awardsLabel.setLayoutParams(params);
             }
 
-            if (providerDetailsResponse.getAwards() != null && !providerDetailsResponse.getAwards().isEmpty()) {
+            if (providerDetailsResult.getAwards() != null && !providerDetailsResult.getAwards().isEmpty()) {
                 awardsLabel.setVisibility(View.VISIBLE);
                 awards.setVisibility(View.VISIBLE);
-                CommonUtil.prettyPrint(providerDetailsResponse.getAwards());
+                CommonUtil.prettyPrint(providerDetailsResult.getAwards());
             } else {
                 awardsLabel.setVisibility(View.GONE);
                 awards.setVisibility(View.GONE);
             }
         }
-    }
-
-    private ArrayList<Appointment> filterAppointments(boolean isNewPatient, ArrayList<Appointment> appointments) {
-        ArrayList<Appointment> filteredAppointments = new ArrayList<>();
-
-        for (Appointment appointment : appointments) {
-            if (!isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_EXISTING)) {
-                filteredAppointments.add(appointment);
-            } else if (isNewPatient && appointment.AppointmentTypes.get(0).WellKnown.equalsIgnoreCase(Appointment.TYPE_NEW)) {
-                filteredAppointments.add(appointment);
-            }
-        }
-
-        return filteredAppointments;
     }
 
     //Simply clear the back stack and set the visibility back to 'normal'
@@ -628,9 +659,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             FragmentManager fragmentManager = getChildFragmentManager();
             if (fragmentManager != null) {
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentManager.beginTransaction().remove(fragmentManager.findFragmentById(R.id.booking_frame)).commit();
             }
 
-            bookAppointment.setVisibility(currentOffice.getAppointments() != null && !currentOffice.getAppointments().isEmpty() ? View.VISIBLE : View.GONE);
+            bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -643,13 +675,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         if (BookingManager.getBookingProfile() != null) {
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(true);
         } else if (BookingManager.isBookingForMe()) {
             BookingManager.setBookingProfile(ProfileManager.getProfile());
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, false);
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(false);
         } else {
-            //BookingManager.setBookingProfile(new Profile());
-            bookingRegistrationDialog = BookingDialogFragment.newInstance(BookingManager.getBookingAppointment().ScheduleId, true);
+            bookingRegistrationDialog = BookingDialogFragment.newInstance(true);
         }
 
         bookingRegistrationDialog.setBookingDialogInterface(this);
@@ -661,27 +692,33 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onPersonSelected(boolean isBookingForMe) {
         //If user selects different option, clear booking profile
         if (isBookingForMe != BookingManager.isBookingForMe()) {
-            //BookingManager.setBookingProfile(null);
             BookingManager.clearBookingData(true);
         }
 
         BookingManager.setIsBookingForMe(isBookingForMe);
-        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(!filterAppointments(true, currentOffice.getAppointments()).isEmpty(), !filterAppointments(false, currentOffice.getAppointments()).isEmpty());
-        bookingFragment.setSelectStatusInterface(this);
-        bookingFragment.setRefreshInterface(this);
-        getChildFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                .replace(R.id.booking_frame, bookingFragment)
-                .addToBackStack(null)
-                .commit();
-        getChildFragmentManager().executePendingTransactions();
+
+        if (BookingManager.getBookingOfficeAppointmentDetails() != null) {
+            waitingForAppointmentTypes = false;
+            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(BookingManager.getBookingOfficeAppointmentDetails().getData().get(0).getAttributes().getAppointmentTypes());
+            bookingFragment.setSelectStatusInterface(this);
+            bookingFragment.setRefreshInterface(this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                    .replace(R.id.booking_frame, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
+        } else {
+            waitingForAppointmentTypes = true;
+            //TODO Kevin, possibly add loading screen here???
+        }
     }
 
     @Override
-    public void onStatusSelected(boolean isUserNew) {
-        BookingManager.setIsNewPatient(isUserNew);
-        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
+    public void onTypeSelected(AppointmentType appointmentType) {
+        BookingManager.setBookingAppointmentType(appointmentType);
+        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance();
         bookingFragment.setSelectTimeInterface(this);
         bookingFragment.setRefreshInterface(this);
         getChildFragmentManager()
@@ -694,7 +731,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     @Override
-    public void onTimeSelected(Appointment appointment) {
+    public void onTimeSelected(AppointmentTime appointment) {
         BookingManager.setBookingAppointment(appointment);
 
         Fragment fragment = getChildFragmentManager().findFragmentByTag(BookingDialogFragment.BOOKING_DIALOG_TAG);
@@ -730,7 +767,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onPhoneNumberClicked() {
-        Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + currentOffice.getPhone()));
+        Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + currentOffice.getAddresses().get(0).getPhones().get(0)));
         intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intentPhone);
     }
@@ -762,8 +799,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onClickBook() {
-        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(providerDetailsResponse.getDisplayFullName(),
-                providerDetailsResponse.getNpi(), currentOffice.getName(), currentOffice.getPhone());
+        BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(provider.getDisplayName(),
+                provider.getNpi(), currentOffice.getName(), currentOffice.getAddresses().get(0).getPhones().get(0));
         bookingFragment.setDoneInterface(ProviderDetailsFragment.this);
         bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
         getChildFragmentManager()
@@ -779,21 +816,22 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onBookingSuccess() {
         //Booking Successful!
         Map<String, Object> tealiumData = new HashMap<>();
-        tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
         TealiumUtil.trackEvent(Constants.SCHEDULING_ENDED_EVENT, tealiumData);
     }
 
     @Override
     public void onBookingFailed(String errorMessage) {
         Map<String, Object> tealiumData = new HashMap<>();
-        tealiumData.put(Constants.FAD_PROVIDER_NPI, providerDetailsResponse != null ? providerDetailsResponse.Npi : providerId);
+        tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
         TealiumUtil.trackEvent(Constants.SCHEDULING_FAILED_EVENT, tealiumData);
 
         if (isAdded()) {
             Toast.makeText(getActivity(), getString(R.string.booking_failed), Toast.LENGTH_LONG).show();
 
             //Go to Time Fragment, then open up the Registration Forms Again
-            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
+
+            BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance();
             bookingFragment.setSelectTimeInterface(this);
             bookingFragment.setRefreshInterface(this);
             getChildFragmentManager()
@@ -864,8 +902,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                     if (fragment instanceof BookingSelectCalendarFragment) {
                         //You're on the calendar
-                        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(filterAppointments(BookingManager.isNewPatient(),
-                                currentOffice.getAppointments()), BookingManager.getBookingDate());
+                        BookingSelectTimeFragment bookingFragment = BookingSelectTimeFragment.newInstance(BookingManager.getBookingDate());
                         bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
                         bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
@@ -877,8 +914,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         getChildFragmentManager().executePendingTransactions();
                     } else if (fragment instanceof BookingSelectTimeFragment) {
                         //You were on the times
-                        BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(BookingManager.getBookingDate(),
-                                filterAppointments(BookingManager.isNewPatient(), currentOffice.getAppointments()));
+                        BookingSelectCalendarFragment bookingFragment = BookingSelectCalendarFragment.newInstance(BookingManager.getBookingDate());
                         bookingFragment.setSelectTimeInterface(ProviderDetailsFragment.this);
                         bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
                         getChildFragmentManager()
@@ -897,35 +933,32 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
     };
 
-    private ProviderResponse getSavedDocotor(ProviderDetailsResponse providerDetailsResponse) {
-        try {
-            ProviderResponse provider = new ProviderResponse();
-            if (providerDetailsResponse == null)
-                return null;
-
-            provider.setDisplayLastName(providerDetailsResponse.getDisplayLastName());
-            provider.setDisplayName(providerDetailsResponse.getDisplayFullName());
-            provider.setDisplayLastNamePlural(providerDetailsResponse.getDisplayLastNamePlural());
-            provider.setFirstName(providerDetailsResponse.getFirstName());
-            provider.setLastName(providerDetailsResponse.getLastName());
-            provider.setNpi(providerDetailsResponse.getNpi());
-            provider.setMiddleName(providerDetailsResponse.getMiddleName());
-            provider.setPhilosophy(providerDetailsResponse.getPhilosophy());
-            provider.setPrimarySpecialities(providerDetailsResponse.getSpecialties());
-            provider.setTitle(providerDetailsResponse.getTitle());
-
-            List<ImagesResponse> imageUrls = new ArrayList<>();
-            for (Image image : providerDetailsResponse.getImageUrls()) {
-                ImagesResponse response = new ImagesResponse();
-                response.setUrl(image.getUrl());
-                imageUrls.add(response);
-            }
-            provider.setImages(imageUrls);
-
-            return provider;
-        } catch (NullPointerException ex) {
+    private ProviderResponse getSavedDoctor(ProviderDetailsResult providerDetailsResult) {
+        ProviderResponse provider = new ProviderResponse();
+        if (providerDetailsResult == null)
             return null;
+
+        provider.setDisplayLastName(providerDetailsResult.getDisplayLastName());
+        provider.setDisplayName(providerDetailsResult.getDisplayName());
+        provider.setDisplayLastNamePlural(providerDetailsResult.getDisplayLastNamePlural());
+        provider.setFirstName(providerDetailsResult.getFirstName());
+        provider.setLastName(providerDetailsResult.getLastName());
+        provider.setNpi(providerDetailsResult.getNpi());
+        provider.setMiddleName(providerDetailsResult.getMiddleName());
+        provider.setPhilosophy(providerDetailsResult.getPhilosophy());
+        provider.setPrimarySpecialities(providerDetailsResult.getPrimarySpecialities());
+        provider.setTitle(providerDetailsResult.getTitle());
+
+        List<ImagesResponse> imageUrls = new ArrayList<>();
+        for (ProviderDetailsImage image : providerDetailsResult.getImages()) {
+            ImagesResponse response = new ImagesResponse();
+            response.setUrl(image.getUrl());
+            imageUrls.add(response);
         }
+
+        provider.setImages(imageUrls);
+
+        return provider;
     }
 
     private void coachmarkBooking() {

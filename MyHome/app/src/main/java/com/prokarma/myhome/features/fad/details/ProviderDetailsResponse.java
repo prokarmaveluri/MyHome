@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.prokarma.myhome.features.fad.Facility;
 import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.ServiceError;
+import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,6 @@ import java.util.List;
 /**
  * Created by cmajji on 5/15/17.
  */
-
 
 public class ProviderDetailsResponse implements Parcelable {
 
@@ -117,7 +117,7 @@ public class ProviderDetailsResponse implements Parcelable {
         return ImageUrl;
     }
 
-    public Object getQuote() {
+    public String getQuote() {
         return Quote;
     }
 
@@ -133,7 +133,7 @@ public class ProviderDetailsResponse implements Parcelable {
         return Specialties;
     }
 
-    public List<String> getLanguages() {
+    public ArrayList<String> getLanguages() {
         return Languages;
     }
 
@@ -197,6 +197,142 @@ public class ProviderDetailsResponse implements Parcelable {
         ImageUrls = imageUrls;
     }
 
+    public void setRecordNumber(Integer recordNumber) {
+        RecordNumber = recordNumber;
+    }
+
+    public void setProviderId(String providerId) {
+        ProviderId = providerId;
+    }
+
+    public void setNpi(String npi) {
+        Npi = npi;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
+    }
+
+    public void setMiddleName(String middleName) {
+        MiddleName = middleName;
+    }
+
+    public void setMiddleInitialDot(String middleInitialDot) {
+        MiddleInitialDot = middleInitialDot;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
+    }
+
+    public void setDisplayFullName(String displayFullName) {
+        DisplayFullName = displayFullName;
+    }
+
+    public void setDisplayLastName(String displayLastName) {
+        DisplayLastName = displayLastName;
+    }
+
+    public void setDisplayLastNamePlural(String displayLastNamePlural) {
+        DisplayLastNamePlural = displayLastNamePlural;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        DateOfBirth = dateOfBirth;
+    }
+
+    public void setGender(String gender) {
+        Gender = gender;
+    }
+
+    public void setYearsOfExperience(String yearsOfExperience) {
+        YearsOfExperience = yearsOfExperience;
+    }
+
+    public void setAcceptsNewPatients(Boolean acceptsNewPatients) {
+        AcceptsNewPatients = acceptsNewPatients;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        ImageUrl = imageUrl;
+    }
+
+    public void setQuote(String quote) {
+        Quote = quote;
+    }
+
+    public void setPhilosophy(String philosophy) {
+        Philosophy = philosophy;
+    }
+
+    public void setInMyOwnWords(String inMyOwnWords) {
+        InMyOwnWords = inMyOwnWords;
+    }
+
+    public void setSpecialties(ArrayList<String> specialties) {
+        Specialties = specialties;
+    }
+
+    public void setLanguages(ArrayList<String> languages) {
+        Languages = languages;
+    }
+
+    public void setDegree(String degree) {
+        Degree = degree;
+    }
+
+    public void setMedicalSchools(ArrayList<String> medicalSchools) {
+        MedicalSchools = medicalSchools;
+    }
+
+    public void setResidencies(ArrayList<String> residencies) {
+        Residencies = residencies;
+    }
+
+    public void setFellowships(ArrayList<String> fellowships) {
+        Fellowships = fellowships;
+    }
+
+    public void setInternships(ArrayList<String> internships) {
+        Internships = internships;
+    }
+
+    public void setPracticums(ArrayList<String> practicums) {
+        Practicums = practicums;
+    }
+
+    public void setFacilities(ArrayList<Facility> facilities) {
+        Facilities = facilities;
+    }
+
+    public void setOffices(ArrayList<Office> offices) {
+        Offices = offices;
+    }
+
+    public void setMemberships(ArrayList<String> memberships) {
+        Memberships = memberships;
+    }
+
+    public void setCertifications(ArrayList<String> certifications) {
+        Certifications = certifications;
+    }
+
+    public void setAwards(ArrayList<String> awards) {
+        Awards = awards;
+    }
+
+    public void setHasAppointments(Boolean hasAppointments) {
+        HasAppointments = hasAppointments;
+    }
+
+    public void setServiceErrors(ArrayList<ServiceError> serviceErrors) {
+        ServiceErrors = serviceErrors;
+    }
+
     @Override
     public String toString() {
         return "ProviderDetailsResponse{" +
@@ -236,6 +372,26 @@ public class ProviderDetailsResponse implements Parcelable {
                 ", HasAppointments=" + HasAppointments +
                 ", ServiceErrors=" + ServiceErrors +
                 '}';
+    }
+
+    public ProviderDetailsResult convertToNewProviderDetails(){
+        ProviderDetailsResult providerDetailsResult = new ProviderDetailsResult();
+        providerDetailsResult.setId(this.getProviderId());
+        providerDetailsResult.setNpi(this.getNpi());
+        providerDetailsResult.setDisplayName(this.getDisplayFullName());
+        providerDetailsResult.setDisplayLastName(this.getDisplayLastName());
+        providerDetailsResult.setDisplayLastNamePlural(this.getDisplayLastNamePlural());
+        providerDetailsResult.setFirstName(this.getFirstName());
+        providerDetailsResult.setMiddleName(this.getMiddleName());
+        providerDetailsResult.setLastName(this.getLastName());
+        providerDetailsResult.setTitle(this.getTitle());
+        providerDetailsResult.setGender(this.getGender());
+        providerDetailsResult.setImages(CommonUtil.convertImagesToProviderImages(this.getImageUrls()));
+        providerDetailsResult.setPhilosophy(this.getPhilosophy());
+        providerDetailsResult.setOffices(CommonUtil.convertOfficeToProviderOffice(this.getOffices()));
+        providerDetailsResult.setAcceptsNewPatients(this.AcceptsNewPatients);
+        providerDetailsResult.setLanguages(this.getLanguages());
+        return providerDetailsResult;
     }
 
     @Override

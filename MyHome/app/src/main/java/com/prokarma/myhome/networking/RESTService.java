@@ -6,9 +6,11 @@ import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.ProvidersResponse;
+import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
@@ -104,6 +106,9 @@ public interface RESTService {
     //    @GET(EnviHandler.CIAM_BASE_URL + "api/terms-and-conditions")
     @GET
     Call<Tos> getTos(@Url String url, @Header("Authorization") String bearer);
+
+    @POST
+    Call<Tos> acceptTos(@Url String url, @Header("Authorization") String bearer);
 
     //    @GET(EnviHandler.S2_BASE_URL + "api/locationsuggestion")
     @GET
@@ -230,4 +235,20 @@ public interface RESTService {
     //1.3 APIs
     @POST
     Call<CommonResponse> resendEmail(@Url String url, @Header("Authorization") String bearer);
+
+    //1.4 APIs
+    @GET
+    Call<ProviderDetails> getNewProviderDetails(@Url String url,
+                                                @Query("npis") String id);
+
+    @GET
+    Call<AppointmentTimeSlots> getProviderAppointments(@Url String url,
+                                                       @Query("from") String fromDate,
+                                                       @Query("to") String toDate);
+
+    @GET
+    Call<AppointmentTimeSlots> getProviderAppointments(@Url String url,
+                                                       @Query("from") String fromDate,
+                                                       @Query("to") String toDate,
+                                                       @Query("addresses") String addressHash);
 }

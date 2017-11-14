@@ -1,7 +1,9 @@
 package com.prokarma.myhome.features.fad.details.booking.req.scheduling;
 
 import com.google.gson.annotations.SerializedName;
-import com.prokarma.myhome.features.fad.Appointment;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.utils.DateUtil;
 
@@ -124,7 +126,7 @@ public class Attributes {
     @SerializedName("is-created-by-caregiver")
     private boolean isCreatedByCaregiver;
 
-    public Attributes(){
+    public Attributes() {
 
     }
 
@@ -169,18 +171,17 @@ public class Attributes {
         this.isCreatedByCaregiver = isCreatedByCaregiver;
     }
 
-    public Attributes(String doctorName, String providerNpi, String officeName, String officePhone, Profile profile, Appointment appointment, boolean isNewPatient, boolean isBookingForMe){
+    public Attributes(String doctorName, String providerNpi, ProviderDetailsOffice office, Profile profile, AppointmentTime appointment, AppointmentType appointmentType, boolean isBookingForMe) {
         this.address = profile.address.line1;
         this.address2 = profile.address.line2;
-        this.appointmentAt = appointment.Time;
-        this.appointmentType = appointment.AppointmentTypes.get(0).Id;
+        this.appointmentAt = appointment.getTime();
+        this.appointmentType = appointmentType.getId();
         this.birthdate = DateUtil.convertUTCtoHyphen(profile.dateOfBirth);
         this.caregiverName = profile.primaryCaregiverName;
         this.city = profile.address.city;
         this.email = profile.email;
         this.firstName = profile.firstName;
         this.gender = profile.gender;
-        this.hasPhysician = false;  //TODO This comes from where???
         this.insuranceGroupNumber = profile.insuranceProvider.groupNumber;
         this.insuranceMemberNumber = profile.insuranceProvider.memberNumber;
         this.insurancePlanName = profile.insuranceProvider.insurancePlan;
@@ -188,25 +189,23 @@ public class Attributes {
         this.insurancePlanPhoneNumber = profile.insuranceProvider.insurancePhoneNumber;
         this.lastName = profile.lastName;
         this.middleInitial = profile.middleInitial;
-        this.newPatient = isNewPatient;
         this.patientComplaint = profile.reasonForVisit;
         this.phoneNumber = profile.phoneNumber;
         this.pregnant = profile.isPregnant;
         this.requiresStandingAssistance = profile.assistanceNeeded;
         this.requiresTranslator = profile.translationNeeded;
         this.state = profile.address.stateOrProvince;
-        this.termsTos = termsTos;   //TODO This comes from where???
         this.translatorLanguage = profile.translatorLanguage;
         this.weeksPregnant = profile.weeksPregnant;
         this.zip = profile.address.zipCode;
         this.doctorName = doctorName;
         this.doctorNpi = providerNpi;
-        this.facilityName = officeName;
-        this.facilityPhoneNumber = officePhone;
-        this.facilityAddressLine1 = appointment.FacilityAddress;
-        this.facilityCity = appointment.FacilityCity;
-        this.facilityState = appointment.FacilityState;
-        this.facilityZip = appointment.FacilityZip;
+        this.facilityName = office.getName();
+        this.facilityPhoneNumber = office != null && office.getAddresses() != null && office.getAddresses().get(0).getPhones() != null ? office.getAddresses().get(0).getPhones().get(0) : "";
+        this.facilityAddressLine1 = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getAddress() : "";
+        this.facilityCity = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getCity() : "";
+        this.facilityState = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getState() : "";
+        this.facilityZip = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getZip() : "";
         this.isCreatedByCaregiver = !isBookingForMe;
     }
 

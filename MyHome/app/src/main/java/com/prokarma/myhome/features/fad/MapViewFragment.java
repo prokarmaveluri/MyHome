@@ -302,7 +302,7 @@ public class MapViewFragment extends Fragment implements
 
     private void providerDetails(ProviderDetailsResponse provider) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
+        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider.convertToNewProviderDetails());
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 

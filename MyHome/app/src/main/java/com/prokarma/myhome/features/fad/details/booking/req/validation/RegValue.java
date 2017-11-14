@@ -1,5 +1,7 @@
 package com.prokarma.myhome.features.fad.details.booking.req.validation;
 
+import com.prokarma.myhome.networking.Jsonapi;
+
 import java.util.List;
 
 /**

@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.databinding.FragmentLoginBinding;
 import com.prokarma.myhome.features.contact.ContactUsActivity;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
@@ -181,13 +182,18 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     }
 
     private void startTermsOfServiceActivity() {
-        Intent intent = new Intent(getActivity(), TosActivity.class);
-        startActivity(intent);
+        final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
+                R.anim.slide_in_right, R.anim.slide_out_left);
+
+        NavigationActivity.setActivityTag(Constants.ActivityTag.TERMS_OF_SERVICE);
+        Intent intentTos = new Intent(getActivity(), OptionsActivity.class);
+        ActivityCompat.startActivity(getActivity(), intentTos, options.toBundle());
     }
 
     private void startVerify() {
         Intent intentVerify = EmailVerifyActivity.getEmailVerifyIntent(getActivity());
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
+                R.anim.slide_in_right, R.anim.slide_out_left);
         ActivityCompat.startActivityForResult(getActivity(), intentVerify, VERIFY_EMAIL, options.toBundle());
         getActivity().finish();
     }

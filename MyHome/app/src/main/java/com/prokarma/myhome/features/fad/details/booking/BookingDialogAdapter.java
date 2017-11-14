@@ -355,7 +355,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             areYouPregnantGroup.check(R.id.radio_pregnant);
         }
 
-        if (formsProfile.weeksPregnant != null) {
+        if (formsProfile.weeksPregnant != null && Integer.parseInt(formsProfile.weeksPregnant) != 0) {
             weeksPregnantLayout.setVisibility(View.VISIBLE);
             weeksPregnant.setVisibility(View.VISIBLE);
             weeksPregnant.setText(formsProfile.weeksPregnant);

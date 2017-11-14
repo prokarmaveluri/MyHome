@@ -1,6 +1,7 @@
 package com.prokarma.myhome.networking;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,9 +17,11 @@ import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.ProvidersResponse;
+import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
@@ -199,6 +202,17 @@ public class NetworkManager {
      */
     public Call<Tos> getTos(String bearer) {
         return service.getTos(EnviHandler.CIAM_BASE_URL + "api/terms-and-conditions", BEARER + bearer);
+    }
+
+    /**
+     * Accept Terms of Service.
+     * This API is still heavily under construction, but not used currently in MVP
+     *
+     * @param bearer the bearer token of the user
+     * @return a ToS object. Currently not very helpful
+     */
+    public Call<Tos> acceptTos(String bearer) {
+        return service.acceptTos(EnviHandler.CIAM_BASE_URL + "api/terms-and-conditions", BEARER + bearer);
     }
 
     /**
@@ -630,6 +644,56 @@ public class NetworkManager {
         }
     }
 
+    /**
+     * Get a detailed profile of a provider
+     *
+     * @param id the Provider ID
+     * @return a More in-depth look of the provider
+     */
+    //TODO: Kevin, make sure this is the correct FINAL URL for new Provider Details
+    public Call<ProviderDetails> getNewProviderDetails(String id) {
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
+            return service.getNewProviderDetails("https://web-usw1-fad-dev.azurewebsites.net/".concat("messUpUrl123") + "api/providers/full", id);
+        } else {
+            return service.getNewProviderDetails("https://web-usw1-fad-dev.azurewebsites.net/" + "api/providers/full", id);
+        }
+    }
+
+    /**
+     * Get time slots for all office locations
+     *
+     * @param npi
+     * @param fromDate
+     * @param toDate
+     * @return
+     */
+    public Call<AppointmentTimeSlots> getProviderAppointments(@NonNull String npi, String fromDate, String toDate) {
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_APPOINTMENT_TIMES_FORCE_ERROR)) {
+            //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+            return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+        } else {
+            //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+            return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+        }
+    }
+
+    /**
+     * Get time slots for a specific address
+     *
+     * @param npi
+     * @param fromDate
+     * @param toDate
+     * @return
+     */
+    public Call<AppointmentTimeSlots> getProviderAppointments(@NonNull String npi, String fromDate, String toDate, String addressHash) {
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_APPOINTMENT_TIMES_FORCE_ERROR)) {
+            //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+            return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE.concat("messUpUrl123") + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate, addressHash);
+        } else {
+            //return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate);
+            return service.getProviderAppointments(EnviHandler.SCHEDULING_BASE + "api/v1/provider/npi/" + npi + "/schedule", fromDate, toDate, addressHash);
+        }
+    }
 
     //1.1
 

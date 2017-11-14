@@ -87,47 +87,42 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
         }
 
         public void bind(ProviderDetailsResponse provider, int position) {
+            binding.itemLayout.setTag(position);
+            binding.directions.setTag(position);
+            binding.docDisplayName.setText(provider.getDisplayFullName());
+            binding.docSpeciality.setText(provider.getSpecialties().get(0));
+            binding.directions.setContentDescription(provider.getDisplayFullName() + ", " + mContext.getString(R.string.show_in_map));
 
-            try {
-                binding.itemLayout.setTag(position);
-                binding.directions.setTag(position);
-                binding.docDisplayName.setText(provider.getDisplayFullName());
-                binding.docSpeciality.setText(provider.getSpecialties().get(0));
-                binding.directions.setContentDescription(provider.getDisplayFullName() + ", " + mContext.getString(R.string.show_in_map));
+            if (!recent) {
+                if (null != provider.getOffices().get(0).getDistanceMilesFromSearch() &&
+                        !provider.getOffices().get(0).getDistanceMilesFromSearch().isEmpty()) {
 
-                if (!recent) {
-                    if (null != provider.getOffices().get(0).getDistanceMilesFromSearch() &&
-                            !provider.getOffices().get(0).getDistanceMilesFromSearch().isEmpty()) {
-
-                        //round distance to one decimal
-                        Double distance = Double.valueOf(provider.getOffices().get(0).getDistanceMilesFromSearch());
-                        String format = String.format(Locale.getDefault(), "%.1f", distance);
-                        binding.distance.setText(format + " " + mContext.getString(R.string.miles_concat));
-                    } else {
-                        binding.distance.setText("");
-                    }
-                    binding.distance.setVisibility(View.VISIBLE);
+                    //round distance to one decimal
+                    Double distance = Double.valueOf(provider.getOffices().get(0).getDistanceMilesFromSearch());
+                    String format = String.format(Locale.getDefault(), "%.1f", distance);
+                    binding.distance.setText(format + " " + mContext.getString(R.string.miles_concat));
                 } else {
-                    binding.distance.setVisibility(View.INVISIBLE);
+                    binding.distance.setText("");
                 }
-                binding.docAddress.setText(provider.getOffices().get(0).getAddress());
+                binding.distance.setVisibility(View.VISIBLE);
+            } else {
+                binding.distance.setVisibility(View.INVISIBLE);
+            }
+            binding.docAddress.setText(provider.getOffices().get(0).getAddress());
 
-                String url = provider.getImageUrl();
-                url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
+            String url = provider.getImageUrl();
+            url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
 
-                Picasso.with(mContext)
-                        .load(url)
-                        .into(binding.docImage);
-                binding.recentlyViewed.setVisibility(View.GONE);
-                if (recentProviders.contains(provider.getProviderId()))
-                    binding.recentlyViewed.setVisibility(View.VISIBLE);
+            Picasso.with(mContext)
+                    .load(url)
+                    .into(binding.docImage);
+            binding.recentlyViewed.setVisibility(View.GONE);
+            if (recentProviders.contains(provider.getProviderId()))
+                binding.recentlyViewed.setVisibility(View.VISIBLE);
 
-                binding.bookOnline.setVisibility(View.GONE);
-                if (provider.getHasAppointments()) {
-                    binding.bookOnline.setVisibility(View.VISIBLE);
-                }
-            } catch (NullPointerException ex) {
-
+            binding.bookOnline.setVisibility(View.GONE);
+            if (provider.getHasAppointments()) {
+                binding.bookOnline.setVisibility(View.VISIBLE);
             }
 
             binding.executePendingBindings();

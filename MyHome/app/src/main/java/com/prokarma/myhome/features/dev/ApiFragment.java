@@ -34,6 +34,7 @@ public class ApiFragment extends BaseFragment {
     SwitchCompat createAppointmentSwitch;
     SwitchCompat getValidationRulesSwitch;
     SwitchCompat getProviderDetailsSwitch;
+    SwitchCompat getAppointmentTimesSwitch;
     SwitchCompat registerSwitch;
     SwitchCompat changePasswordSwitch;
     SwitchCompat changeSecurityQuestionSwitch;
@@ -68,6 +69,7 @@ public class ApiFragment extends BaseFragment {
         createAppointmentSwitch = (SwitchCompat) apiView.findViewById(R.id.create_appointments_switch);
         getValidationRulesSwitch = (SwitchCompat) apiView.findViewById(R.id.get_validation_rules_switch);
         getProviderDetailsSwitch = (SwitchCompat) apiView.findViewById(R.id.get_provider_details_switch);
+        getAppointmentTimesSwitch = (SwitchCompat) apiView.findViewById(R.id.get_appointment_times_switch);
         registerSwitch = (SwitchCompat) apiView.findViewById(R.id.register_switch);
         changePasswordSwitch = (SwitchCompat) apiView.findViewById(R.id.change_password_switch);
         changeSecurityQuestionSwitch = (SwitchCompat) apiView.findViewById(R.id.change_security_question_switch);
@@ -145,6 +147,13 @@ public class ApiFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 AppPreferences.getInstance().setBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR, !isChecked);
+            }
+        });
+
+        getAppointmentTimesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_GET_APPOINTMENT_TIMES_FORCE_ERROR, !isChecked);
             }
         });
 
@@ -271,6 +280,7 @@ public class ApiFragment extends BaseFragment {
         createAppointmentSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_CREATE_APPOINTMENT_FORCE_ERROR));
         getValidationRulesSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_VALIDATION_RULES_FORCE_ERROR));
         getProviderDetailsSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR));
+        getAppointmentTimesSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_APPOINTMENT_TIMES_FORCE_ERROR));
         registerSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_REGISTER_FORCE_ERROR));
         changePasswordSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_PASSWORD_FORCE_ERROR));
         changeSecurityQuestionSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_SECURITY_QUESTION_FORCE_ERROR));
