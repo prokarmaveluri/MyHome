@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdksample.SampleApplication;
@@ -119,10 +121,14 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     @Override
     public void providerClick(int position) {
 
-        if (providerInfo != null && providerInfo.size() > position) {
+        if (providerInfo != null && providerInfo.size() > position
+                && providerInfo.get(position).getVisibility() != ProviderVisibility.OFFLINE) {
             progressBar.setVisibility(View.VISIBLE);
             getProvider(providerInfo.get(position));
             getVisitContext(providerInfo.get(position));
+        } else if (providerInfo != null && providerInfo.size() > position
+                && providerInfo.get(position).getVisibility() == ProviderVisibility.OFFLINE) {
+            Toast.makeText(getActivity(), "Doctor not available", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -162,6 +168,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                                         Constants.ActivityTag.MY_CARE_REASON, null);
                             }
                             setLegalTextsAccepted(true, visitContext);
+                            setShareHealthSummary(visitContext);
                         }
                         progressBar.setVisibility(View.GONE);
                     }
@@ -177,5 +184,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         for (LegalText legalText : visitContext.getLegalTexts()) {
             legalText.setAccepted(accepted);
         }
+    }
+    public void setShareHealthSummary(VisitContext visitContext) {
+        visitContext.setShareHealthSummary(true);
     }
 }

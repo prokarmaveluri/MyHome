@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -73,7 +75,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_my_care_waiting_room, container, false);
 
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.intake));
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.waiting_room_title));
 
         startVisit(SDKUtils.getInstance().getConsumer().getAddress(), null);
         return view;
@@ -186,8 +188,23 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
                 .setContentIntent(pendingIntent);
         notificationManager.notify(ONGOING_NOTIFICATION_ID, builder.build());
 
+        mHandler.sendEmptyMessageDelayed(0, 2000);
         // start activity
         startActivity(intent);
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    if (getActivity() != null) {
+                        ((NavigationActivity) getActivity()).onBackPressed();
+                    }
+                    break;
+            }
+        }
+    };
 
 }

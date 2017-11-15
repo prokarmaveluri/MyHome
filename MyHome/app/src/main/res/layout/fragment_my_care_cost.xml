@@ -8,6 +8,7 @@
     tools:context="com.televisit.services.MyCareServicesFragment">
 
     <TextView
+        android:id="@+id/costInfo"
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,5 +57,5 @@
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:indeterminate="true"
-        android:visibility="visible" />
+        android:visibility="gone" />
 </LinearLayout>

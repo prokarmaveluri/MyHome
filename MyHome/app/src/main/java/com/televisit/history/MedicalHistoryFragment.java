@@ -103,7 +103,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
                 expandableList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                     @Override
                     public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                        return  expandableList.isGroupExpanded(groupPosition) ? expandableList.collapseGroup(groupPosition) :
+                        return expandableList.isGroupExpanded(groupPosition) ? expandableList.collapseGroup(groupPosition) :
                                 expandableList.expandGroup(groupPosition);
                     }
                 });
@@ -176,43 +176,54 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
     }
 
     private void updateConditions() {
+        progressBar.setVisibility(View.VISIBLE);
         SampleApplication.getInstance().getAWSDK().getConsumerManager().updateConditions(
                 SDKUtils.getInstance().getConsumer(),
                 SDKUtils.getInstance().getConditions(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
-
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
         );
     }
 
     private void updateAllergies() {
+        progressBar.setVisibility(View.VISIBLE);
         SampleApplication.getInstance().getAWSDK().getConsumerManager().updateAllergies(
                 SDKUtils.getInstance().getConsumer(),
                 SDKUtils.getInstance().getAllergies(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
-
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
         );
     }
 
     @Override
-    public void selectedGroup(int position) {
+    public void selectedGroup(int groupPosition, int childPosition) {
         CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
+        if (groupPosition == 0) {
+            SDKUtils.getInstance().getConditions().get(childPosition).setCurrent(
+                    !SDKUtils.getInstance().getConditions().get(childPosition).isCurrent());
+            updateConditions();
+        } else {
+            SDKUtils.getInstance().getAllergies().get(childPosition).setCurrent(
+                    !SDKUtils.getInstance().getAllergies().get(childPosition).isCurrent());
+            updateAllergies();
+        }
     }
 }

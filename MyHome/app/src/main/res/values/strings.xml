@@ -933,5 +933,6 @@
     <string name="intake">Intake</string>
     <string name="reason">Reason</string>
     <string name="visit_cost_desc">Your total today is $</string>
+    <string name="waiting_room_title">Waiting Room</string>
 
 </resources>

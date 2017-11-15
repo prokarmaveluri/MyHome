@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.features.fad.CommonModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,8 +125,17 @@ public class HistoryExpandableList extends BaseExpandableListAdapter {
 
             view.setText(allergies.get(childPosition).getName());
             view.setChecked(allergies.get(childPosition).isCurrent());
-
         }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (groupPosition == GROUP.CONDITIONS.getValue()) {
+                    listener.selectedGroup(groupPosition, childPosition);
+                } else if (groupPosition == GROUP.ALLERGIES.getValue()) {
+                    listener.selectedGroup(groupPosition, childPosition);
+                }
+            }
+        });
         return convertView;
     }
 
@@ -143,21 +151,7 @@ public class HistoryExpandableList extends BaseExpandableListAdapter {
         return groups;
     }
 
-    private void clearSelection(List<CommonModel> list) {
-        for (CommonModel gen : list) {
-            gen.setSelected(false);
-        }
-    }
-
-    private void updateSelection(List<CommonModel> filter, ArrayList<CommonModel> selects) {
-        selects.clear();
-        for (CommonModel model : filter) {
-            if (model.getSelected())
-                selects.add(model);
-        }
-    }
-
     interface GroupSelectionListener {
-        void selectedGroup(int position);
+        void selectedGroup(int groupPosition, int childPosition);
     }
 }

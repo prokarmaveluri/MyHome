@@ -240,7 +240,8 @@ android {
             //AWSDK
 
             def localHost = InetAddress.getLocalHost().getCanonicalHostName()
-            resValue SDKSTRING, AWSDKURL, "https://sdk.myonlinecare.com"  //TODO: working url
+//            resValue SDKSTRING, AWSDKURL, "https://stagingoc201.mytelehealth.com"
+            resValue SDKSTRING, AWSDKURL, "https://sdk.myonlinecare.com"  //TODO: Dev working url
             resValue SDKSTRING, AWSDKKEY, "8ff96c2a"
             resValue SDKBOOLEAN, ENABLEAUTH, "false"
             resValue SDKSTRING, AUTHTOKEN, "at1001"

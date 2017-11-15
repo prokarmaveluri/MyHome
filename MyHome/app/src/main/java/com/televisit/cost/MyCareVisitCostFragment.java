@@ -9,22 +9,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.manager.SDKCallback;
-import com.americanwell.sdk.manager.SDKValidatedCallback;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.SDKUtils;
-
-import java.util.Map;
-
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +32,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private Button applyButton;
     private EditText couponText;
     private ProgressBar progressBar;
+    private TextView costInfo;
 
     public MyCareVisitCostFragment() {
         // Required empty public constructor
@@ -68,10 +63,10 @@ public class MyCareVisitCostFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_my_care_cost, container, false);
 
         applyButton = (Button) view.findViewById(R.id.apply_button);
+        costInfo = (TextView) view.findViewById(R.id.costInfo);
         couponText = (EditText) view.findViewById(R.id.coupon_code_edit_text);
         progressBar = (ProgressBar) view.findViewById(R.id.cost_progress);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.intake));
-        createVisit();
+        ((NavigationActivity) getActivity()).setActionBarTitle("Payment");
 
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +76,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     applyCoupon(couponText.getText().toString());
             }
         });
-
+        costInfo.setText(getString(R.string.visit_cost_desc) +
+                SDKUtils.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
         return view;
     }
 
@@ -96,6 +92,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
     }
 
     private void applyCoupon(String couponCode) {
+        if (SDKUtils.getInstance().getVisit() == null)
+            return;
         try {
             progressBar.setVisibility(View.VISIBLE);
             SampleApplication.getInstance().getAWSDK().getVisitManager().applyCouponCode(
@@ -105,8 +103,12 @@ public class MyCareVisitCostFragment extends BaseFragment {
                         @Override
                         public void onResponse(Void aVoid, SDKError sdkError) {
                             if (sdkError == null && isAdded() && getActivity() != null) {
-                                ((NavigationActivity) getActivity()).loadFragment(
-                                        Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+                                if (getActivity() != null) {
+                                    ((NavigationActivity) getActivity()).onBackPressed();
+
+                                    ((NavigationActivity) getActivity()).loadFragment(
+                                            Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+                                }
                             }
                             progressBar.setVisibility(View.GONE);
                         }
@@ -119,32 +121,5 @@ public class MyCareVisitCostFragment extends BaseFragment {
             );
         } catch (IllegalArgumentException ex) {
         }
-    }
-
-    private void createVisit() {
-        progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
-                SDKUtils.getInstance().getVisitContext(),
-                new SDKValidatedCallback<Visit, SDKError>() {
-                    @Override
-                    public void onValidationFailure(Map<String, ValidationReason> map) {
-                        Timber.i("Failure " + map.toString());
-                        progressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onResponse(Visit visit, SDKError sdkError) {
-                        if (sdkError == null) {
-                            SDKUtils.getInstance().setVisit(visit);
-                        }
-                        progressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        progressBar.setVisibility(View.GONE);
-                    }
-                }
-        );
     }
 }

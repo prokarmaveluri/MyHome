@@ -9,11 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
+import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.visit.Visit;
+import com.americanwell.sdk.manager.SDKValidatedCallback;
+import com.americanwell.sdk.manager.ValidationReason;
+import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
+import com.televisit.SDKUtils;
+
+import java.util.Map;
+
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +33,7 @@ import com.prokarma.myhome.utils.Constants;
  */
 public class MyCareReasonForVisitFragment extends BaseFragment {
 
+    private ProgressBar progressBar;
     public static final String MY_CARE_REASON_TAG = "my_care_reason_tag";
 
     public MyCareReasonForVisitFragment() {
@@ -60,17 +72,30 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
         final TextInputLayout reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
         final TextInputLayout emailLayout = (TextInputLayout) view.findViewById(R.id.email_layout);
         final TextInputLayout phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
-
+        progressBar = (ProgressBar) view.findViewById(R.id.services_progress);
 
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.intake));
 
+        createVisit();
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SDKUtils.getInstance().getVisit() == null)
+                    return;
+
                 if (reasonPhone.getText().toString().length() == 10 &&
                         reasonForVisit.getText().toString().length() > 0) {
-                    ((NavigationActivity) getActivity()).loadFragment(
-                            Constants.ActivityTag.MY_CARE_COST, null);
+
+                    if (getActivity() != null) {
+                        ((NavigationActivity) getActivity()).onBackPressed();
+                    }
+                    if (!SDKUtils.getInstance().getVisit().getVisitCost().isFree()) {
+                        ((NavigationActivity) getActivity()).loadFragment(
+                                Constants.ActivityTag.MY_CARE_COST, null);
+                    } else {
+                        ((NavigationActivity) getActivity()).loadFragment(
+                                Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+                    }
                 } else if (reasonPhone.getText().toString().length() != 10) {
                     phoneLayout.setError("Enter valid phone number");
                 } else if (reasonForVisit.getText().toString().length() <= 0) {
@@ -89,5 +114,32 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.MY_CARE_REASON;
+    }
+
+    private void createVisit() {
+        progressBar.setVisibility(View.VISIBLE);
+        SampleApplication.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
+                SDKUtils.getInstance().getVisitContext(),
+                new SDKValidatedCallback<Visit, SDKError>() {
+                    @Override
+                    public void onValidationFailure(Map<String, ValidationReason> map) {
+                        Timber.i("Failure " + map.toString());
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onResponse(Visit visit, SDKError sdkError) {
+                        if (sdkError == null) {
+                            SDKUtils.getInstance().setVisit(visit);
+                        }
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+        );
     }
 }
