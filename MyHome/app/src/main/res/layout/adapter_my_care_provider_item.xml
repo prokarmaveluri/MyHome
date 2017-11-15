@@ -40,15 +40,31 @@
             android:layout_toRightOf="@+id/providerImage"
             android:textColor="@color/accent" />
 
-        <TextView
-            android:id="@+id/waitingCount"
-            style="@style/tradeGothicLTStd_Dynamic16"
+        <RelativeLayout
+            android:id="@+id/visibilityLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/displaySpeciality"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@+id/providerImage"
-            android:textColor="@color/accent" />
+            android:layout_toRightOf="@+id/providerImage">
+
+            <TextView
+                android:id="@+id/waitingCount"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/visibility"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Offline"
+                android:textColor="@color/accent" />
+        </RelativeLayout>
 
         <ImageView
             android:layout_width="12dp"
@@ -60,7 +76,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/waitingCount"
+            android:layout_below="@+id/visibilityLayout"
             android:layout_marginTop="8dp"
             android:background="@color/db_white" />
     </RelativeLayout>

@@ -934,5 +934,10 @@
     <string name="reason">Reason</string>
     <string name="visit_cost_desc">Your total today is $</string>
     <string name="waiting_room_title">Waiting Room</string>
+    <string name="title_activity_summary">SummaryActivity</string>
+    <string name="your_visit_has_ended">Your visit has ended.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

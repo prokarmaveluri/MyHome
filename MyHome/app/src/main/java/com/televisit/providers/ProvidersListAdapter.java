@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterMyCareProviderItemBinding;
 
@@ -66,10 +67,17 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
             binding.itemLayout.setTag(position);
             binding.displayName.setText(providerInfo.getFullName());
             binding.displaySpeciality.setText(providerInfo.getSpecialty().getName());
-            if (providerInfo.getWaitingRoomCount() > 0) {
-                binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
-            } else {
-                binding.waitingCount.setText("You are the Next Patient");
+            if (providerInfo.getVisibility() != ProviderVisibility.OFFLINE) {
+                if (providerInfo.getWaitingRoomCount() > 0) {
+                    binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
+                } else {
+                    binding.waitingCount.setText("You are the Next Patient");
+                }
+                binding.visibility.setVisibility(View.GONE);
+                binding.waitingCount.setVisibility(View.VISIBLE);
+            }else {
+                binding.visibility.setVisibility(View.VISIBLE);
+                binding.waitingCount.setVisibility(View.GONE);
             }
             binding.executePendingBindings();
         }

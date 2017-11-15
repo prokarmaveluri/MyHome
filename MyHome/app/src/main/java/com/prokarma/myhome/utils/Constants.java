@@ -42,7 +42,9 @@ public class Constants {
         MY_CARE_PROVIDERS,
         MY_CARE_REASON,
         MY_CARE_COST,
-        MY_CARE_WAITING_ROOM
+        MY_CARE_WAITING_ROOM,
+        VISIT_SUMMARY,
+        VISIT_FEEDBACK
     }
 
     public enum INPUT_TYPE {

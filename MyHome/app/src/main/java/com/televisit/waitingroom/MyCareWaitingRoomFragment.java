@@ -29,6 +29,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.SDKUtils;
+import com.televisit.summary.SummaryActivity;
 
 import java.util.Map;
 
@@ -77,7 +78,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.waiting_room_title));
 
-        startVisit(SDKUtils.getInstance().getConsumer().getAddress(), null);
+        startVisit(SDKUtils.getInstance().getConsumer().getAddress(),
+                SummaryActivity.getSummaryIntent(getActivity()));
         return view;
     }
 

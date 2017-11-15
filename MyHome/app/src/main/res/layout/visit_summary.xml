@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/docLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.prokarma.myhome.views.CircularImageView
+            android:id="@+id/docImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/docDisplayName"
+            style="@style/tradeGothicLTStdLight_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/docImage"
+            android:text="Richard paul, MD"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/endDesc"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/docLayout"
+        android:layout_marginLeft="24dp"
+        android:text="@string/your_visit_has_ended"
+        android:textColor="@color/grey" />
+
+    <TextView
+        android:id="@+id/costDesc"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/endDesc"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/grey" />
+
+    <Button
+        android:id="@+id/viewPDF"
+        style="@style/grayButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/costDesc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="View PDF"
+        android:textAllCaps="false" />
+
+
+    <ProgressBar
+        android:id="@+id/summary_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        android:visibility="gone" />
+</RelativeLayout>
