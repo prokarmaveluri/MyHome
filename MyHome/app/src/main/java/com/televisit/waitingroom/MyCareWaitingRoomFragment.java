@@ -6,8 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,6 +42,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
     public static final String MY_CARE_WAITING_TAG = "my_care_waiting_tag";
     private NotificationManager notificationManager;
     public static final int ONGOING_NOTIFICATION_ID = 12345;
+    private boolean isVisitEnd = false;
 
 
     public MyCareWaitingRoomFragment() {
@@ -74,6 +73,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_care_waiting_room, container, false);
 
+        isVisitEnd = false;
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.waiting_room_title));
 
@@ -88,6 +88,14 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (isVisitEnd){
+            try {
+                if (getActivity() != null) {
+                    ((NavigationActivity) getActivity()).onBackPressed();
+                }
+            } catch (IllegalStateException ex) {
+            }
+        }
     }
 
     @Override
@@ -192,23 +200,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
                 .setContentIntent(pendingIntent);
         notificationManager.notify(ONGOING_NOTIFICATION_ID, builder.build());
 
-        mHandler.sendEmptyMessageDelayed(0, 2000);
+        isVisitEnd = true;
         // start activity
         startActivity(intent);
     }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    if (getActivity() != null) {
-                        ((NavigationActivity) getActivity()).onBackPressed();
-                    }
-                    break;
-            }
-        }
-    };
 
 }
