@@ -3,84 +3,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center_horizontal"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingLeft="18dp"
-    android:paddingRight="18dp"
-    tools:ignore="HardcodedText">
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/date_header"
-        layout="@layout/book_date_header" />
+    <LinearLayout
+        android:id="@+id/normal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        tools:ignore="HardcodedText">
 
-    <TextView
-        android:id="@+id/timezone_warning"
-        style="@style/tradeGothicLTStd_Dynamic18"
+        <include
+            android:id="@+id/date_header"
+            layout="@layout/book_date_header" />
+
+        <TextView
+            android:id="@+id/timezone_warning"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="7sp"
+            android:text="All appointments are in PST time"
+            android:textColor="@color/secondary_text" />
+
+        <com.prokarma.myhome.views.FlowLayout
+            android:id="@+id/time_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal" />
+
+        <Button
+            android:id="@+id/empty_appointments"
+            style="@style/selectableButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/no_appointments_available"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/call_for_appointment"
+            style="@style/selectableButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/call_for_todays_appointmentss"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loading_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="7sp"
-        android:text="All appointments are in PST time"
-        android:textColor="@color/secondary_text" />
-
-    <com.prokarma.myhome.views.FlowLayout
-        android:id="@+id/time_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal">
-
-        <!--We add buttons dynamically-->
-        <!--<ToggleButton-->
-        <!--android:id="@+id/book_me"-->
-        <!--style="@style/selectableButtonStyle"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="18dp"-->
-        <!--android:gravity="center"-->
-        <!--android:padding="12dp"-->
-        <!--android:layout_margin="64dp"-->
-        <!--android:textOff="9:15am"-->
-        <!--android:textOn="9:15am" />-->
-
-        <!--<ToggleButton-->
-        <!--android:id="@+id/book_other"-->
-        <!--style="@style/selectableButtonStyle"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="18dp"-->
-        <!--android:gravity="center"-->
-        <!--android:padding="12dp"-->
-        <!--android:textOff="10:30am"-->
-        <!--android:textOn="10:30am" />-->
-
-    </com.prokarma.myhome.views.FlowLayout>
-
-    <Button
-        android:id="@+id/empty_appointments"
-        style="@style/selectableButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="@string/no_appointments_available"
+        android:gravity="center_horizontal"
+        android:indeterminate="true"
         android:visibility="gone" />
-
-    <Button
-        android:id="@+id/call_for_appointment"
-        style="@style/selectableButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="@string/call_for_todays_appointmentss"
-        android:visibility="gone" />
-
 </LinearLayout>

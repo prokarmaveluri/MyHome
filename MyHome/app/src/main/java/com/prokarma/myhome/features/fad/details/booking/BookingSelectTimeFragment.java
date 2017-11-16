@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -54,6 +56,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public BookingRefreshInterface refreshInterface;
 
     View bookingView;
+    LinearLayout normalLayout;
     TextView monthLabel;
     TextView timeZoneWarning;
     ImageView rightArrow;
@@ -61,6 +64,7 @@ public class BookingSelectTimeFragment extends Fragment {
     FlowLayout timeLayout;
     Button noAppointments;
     Button callForAppointments;
+    ProgressBar progressBar;
 
     AppointmentAvailableTime nextAppointment;
 
@@ -81,9 +85,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
 
-        allAppointments = CommonUtil.filterAppointmentsToType(AppointmentManager.getInstance().getAppointmentTimeSlots(), BookingManager.getBookingAppointmentType());
-
-        Collections.sort(allAppointments);
+        getAllAppointments();
 
         if (args != null && args.getSerializable(DATE_KEY) != null) {
             bookingDate = (Date) args.getSerializable(DATE_KEY);
@@ -96,11 +98,13 @@ public class BookingSelectTimeFragment extends Fragment {
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
+        normalLayout = (LinearLayout) bookingView.findViewById(R.id.normal_layout);
         timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
         timeLayout.setGravity(Gravity.CENTER);
         noAppointments = (Button) bookingView.findViewById(R.id.empty_appointments);
         callForAppointments = (Button) bookingView.findViewById(R.id.call_for_appointment);
         timeZoneWarning = (TextView) bookingView.findViewById(R.id.timezone_warning);
+        progressBar = (ProgressBar) bookingView.findViewById(R.id.loading_layout);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -162,6 +166,11 @@ public class BookingSelectTimeFragment extends Fragment {
         if (refreshInterface != null) {
             refreshInterface.onRefreshView(true);
         }
+    }
+
+    private void getAllAppointments() {
+        allAppointments = CommonUtil.filterAppointmentsToType(AppointmentManager.getInstance().getAppointmentTimeSlots(), BookingManager.getBookingAppointmentType());
+        Collections.sort(allAppointments);
     }
 
     private void setupView() {
@@ -371,6 +380,28 @@ public class BookingSelectTimeFragment extends Fragment {
 
         if (selectTimeInterface != null) {
             selectTimeInterface.onDateChanged(bookingDate);
+        }
+    }
+
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        normalLayout.setVisibility(View.GONE);
+
+        if (refreshInterface != null) {
+            refreshInterface.onRefreshView(true);
+        }
+    }
+
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+        normalLayout.setVisibility(View.VISIBLE);
+
+        //Refresh view with the latest appointment info
+        getAllAppointments();
+        setupView();
+
+        if (refreshInterface != null) {
+            refreshInterface.onRefreshView(true);
         }
     }
 
