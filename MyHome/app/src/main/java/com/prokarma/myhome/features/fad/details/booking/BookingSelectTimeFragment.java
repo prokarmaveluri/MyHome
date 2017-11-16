@@ -81,7 +81,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
 
-        allAppointments = CommonUtil.filterAppointmentsToType(AppointmentManager.getAppointmentTimeSlots(), BookingManager.getBookingAppointmentType());
+        allAppointments = CommonUtil.filterAppointmentsToType(AppointmentManager.getInstance().getAppointmentTimeSlots(), BookingManager.getBookingAppointmentType());
 
         Collections.sort(allAppointments);
 
@@ -180,7 +180,7 @@ public class BookingSelectTimeFragment extends Fragment {
             callForAppointments.setVisibility(View.GONE);
             timeZoneWarning.setVisibility(View.VISIBLE);
             timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
-                    DateUtil.getReadableTimeZone(AppointmentManager.getAppointmentTimeSlots())));
+                    DateUtil.getReadableTimeZone(AppointmentManager.getInstance().getAppointmentTimeSlots())));
 
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
@@ -196,7 +196,7 @@ public class BookingSelectTimeFragment extends Fragment {
             if (nextAppointment != null) {
                 timeZoneWarning.setVisibility(View.VISIBLE);
                 timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
-                        DateUtil.getReadableTimeZone(AppointmentManager.getAppointmentTimeSlots())));
+                        DateUtil.getReadableTimeZone(AppointmentManager.getInstance().getAppointmentTimeSlots())));
 
                 //Bold just the Date part
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
