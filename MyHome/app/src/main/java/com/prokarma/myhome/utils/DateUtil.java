@@ -91,6 +91,10 @@ public class DateUtil {
         return SIMPLE_DATE_HYPHEN_FORMAT.parse(hyphenDate);
     }
 
+    public static Date getDateFromSlashes(String slashesDate) throws ParseException {
+        return SIMPLE_DATE_SLASH_FORMAT.parse(slashesDate);
+    }
+
     /**
      * Gets the Timezone of a utc date.
      * This assumes that the timezone is the last six digits of the date (we can simply append "GMT" for setting the timezone)
@@ -188,7 +192,7 @@ public class DateUtil {
      */
     public static String convertUTCtoReadable(String utcDate) {
         try {
-            return SIMPLE_DATE_SLASH_FORMAT.format(getDateNoTimeZone(utcDate));
+            return SIMPLE_DATE_HYPHEN_FORMAT.format(getDateNoTimeZone(utcDate));
         } catch (ParseException e) {
             Timber.e("Could not format UTC date " + utcDate + " correctly!\n" + e);
             e.printStackTrace();
@@ -205,7 +209,7 @@ public class DateUtil {
      */
     public static String convertReadableToUTC(String readableDate) {
         try {
-            Date date = SIMPLE_DATE_SLASH_FORMAT.parse(readableDate);
+            Date date = SIMPLE_DATE_HYPHEN_FORMAT.parse(readableDate);
             return SIMPLE_DATE_FORMAT_UTC.format(date);
         } catch (ParseException e) {
             Timber.e("Could not format readable date " + readableDate + " correctly!\n" + e);
@@ -236,8 +240,8 @@ public class DateUtil {
             return false;
         }
         try {
-            SIMPLE_DATE_SLASH_FORMAT.setLenient(false);
-            Date date = SIMPLE_DATE_SLASH_FORMAT.parse(readableDate);
+            SIMPLE_DATE_HYPHEN_FORMAT.setLenient(false);
+            Date date = SIMPLE_DATE_HYPHEN_FORMAT.parse(readableDate);
 
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
@@ -644,13 +648,37 @@ public class DateUtil {
         }
     }
 
+    public static boolean isDateBeforeOrEqual(Date date1, Date date2) {
+        return isBefore(date1, date2) || isOnSameDay(date1, date2);
+    }
+
+    public static boolean isDateAfterOrEqual(Date date1, Date date2) {
+        return isAfter(date1, date2) || isOnSameDay(date1, date2);
+    }
+
     public static String getTodayDate() {
         return SIMPLE_DATE_SLASH_FORMAT.format(new Date());
     }
 
-    public static String getEndOfTheMonthDate() {
+    public static Date addOneMonthToDate(Date date){
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, 1);
+
+        return calendar.getTime();
+    }
+
+    public static String getFirstOfTheMonthDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+        return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
+    }
+
+    public static String getEndOfTheMonthDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());

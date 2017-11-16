@@ -81,7 +81,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
 
-        allAppointments = CommonUtil.filterAppointmentsToType(BookingManager.getBookingOfficeAppointmentDetails(), BookingManager.getBookingAppointmentType());
+        allAppointments = CommonUtil.filterAppointmentsToType(AppointmentManager.getAppointmentTimeSlots(), BookingManager.getBookingAppointmentType());
 
         Collections.sort(allAppointments);
 
@@ -168,7 +168,7 @@ public class BookingSelectTimeFragment extends Fragment {
         todaysAppointments.clear();
         todaysAppointments = getTodaysAppointments(bookingDate, allAppointments);
 
-        if(!allAppointments.isEmpty()){
+        if (!allAppointments.isEmpty()) {
             firstAppointmentDate = DateUtil.findFirstAppointmentDate(allAppointments);
         }
 
@@ -180,7 +180,7 @@ public class BookingSelectTimeFragment extends Fragment {
             callForAppointments.setVisibility(View.GONE);
             timeZoneWarning.setVisibility(View.VISIBLE);
             timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
-                    DateUtil.getReadableTimeZone(BookingManager.getBookingOfficeAppointmentDetails())));
+                    DateUtil.getReadableTimeZone(AppointmentManager.getAppointmentTimeSlots())));
 
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
@@ -196,7 +196,7 @@ public class BookingSelectTimeFragment extends Fragment {
             if (nextAppointment != null) {
                 timeZoneWarning.setVisibility(View.VISIBLE);
                 timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
-                        DateUtil.getReadableTimeZone(BookingManager.getBookingOfficeAppointmentDetails())));
+                        DateUtil.getReadableTimeZone(AppointmentManager.getAppointmentTimeSlots())));
 
                 //Bold just the Date part
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -219,6 +219,7 @@ public class BookingSelectTimeFragment extends Fragment {
                                 selectTimeInterface.onFrontArrowClicked();
                             }
                         } catch (ParseException e) {
+                            Timber.e(e);
                             e.printStackTrace();
                         }
                     }

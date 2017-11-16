@@ -37,6 +37,8 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.features.fad.Office;
+import com.prokarma.myhome.features.fad.details.booking.AppointmentManager;
+import com.prokarma.myhome.features.fad.details.booking.AppointmentMonthDetails;
 import com.prokarma.myhome.features.fad.details.booking.BookingBackButton;
 import com.prokarma.myhome.features.fad.details.booking.BookingConfirmationFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingConfirmationInterface;
@@ -74,6 +76,7 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -189,6 +192,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onDestroy() {
         super.onDestroy();
         BookingManager.clearBookingData(false);
+        AppointmentManager.getInstance().clearAppointmentDetails();
     }
 
     @Override
@@ -280,18 +284,34 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
     }
 
-    private void getAppointmentDetails(String providerNpi, String fromDate, String toDate, String addressHash) {
+    private void getAppointmentDetails(String providerNpi, final String fromDate, final String toDate, String addressHash) {
         NetworkManager.getInstance().getProviderAppointments(providerNpi, fromDate, toDate, addressHash).enqueue(new Callback<AppointmentTimeSlots>() {
             @Override
             public void onResponse(Call<AppointmentTimeSlots> call, Response<AppointmentTimeSlots> response) {
                 if (response != null && response.isSuccessful() && response.body() != null) {
                     Timber.d("Successful Response\n" + response);
-                    BookingManager.setBookingOfficeAppointmentDetails(response.body());
-                    BookingManager.setScheduleId(response.body().getData().get(0).getId());
 
-                    if (waitingForAppointmentTypes) {
-                        onPersonSelected(BookingManager.isBookingForMe());
+                    try {
+                        AppointmentManager.getInstance().addMonthsAppointmentDetails(new AppointmentMonthDetails(DateUtil.getDateFromSlashes(fromDate), DateUtil.getDateFromSlashes(toDate), response.body()));
+                        BookingManager.setScheduleId(response.body().getData().get(0).getId());
+
+                        if (waitingForAppointmentTypes) {
+                            onPersonSelected(BookingManager.isBookingForMe());
+                        }
+                    } catch (ParseException parseException) {
+                        Timber.e(parseException);
+                        Timber.e("Is the date being parsed correctly???");
+
+                        waitingForAppointmentTypes = false;
+
+                        BookingManager.setScheduleId(null);
+
+                        BookingManager.clearBookingData(true);
+                        restartSchedulingFlow();
+                        expandableLinearLayout.collapse();
+                        expandableLinearLayout.initLayout();
                     }
+
 
                 } else {
                     Timber.e("Response, but not successful?\n" + response);
@@ -299,7 +319,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                     waitingForAppointmentTypes = false;
 
-                    BookingManager.setBookingOfficeAppointmentDetails(null);
                     BookingManager.setScheduleId(null);
 
                     BookingManager.clearBookingData(true);
@@ -317,7 +336,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                 waitingForAppointmentTypes = false;
 
-                BookingManager.setBookingOfficeAppointmentDetails(null);
+                AppointmentManager.getInstance().addMonthsAppointmentDetails(null);
                 BookingManager.setScheduleId(null);
 
                 BookingManager.clearBookingData(true);
@@ -368,14 +387,19 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                         //Setup Booking
                         currentOffice = provider.getOffices().get(0);
+
+                        if (provider.getSupportsOnlineBooking()) {
+                            AppointmentManager.getInstance().initializeAppointmentDetailsList(false);
+                            getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentOffice.getAddresses().get(0).getAddressHash());
+                        }
+
                         bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
                         bookAppointment.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentOffice.getAddresses().get(0).getAddressHash());
+
                                 bookAppointment.setVisibility(View.GONE);
-
-                                getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(), currentOffice.getAddresses().get(0).getAddressHash());
-
                                 BookingManager.setBookingProfile(null);
                                 BookingManager.setBookingProvider(provider);
                                 BookingManager.setBookingOffice(currentOffice);
@@ -686,9 +710,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         BookingManager.setIsBookingForMe(isBookingForMe);
 
-        if (BookingManager.getBookingOfficeAppointmentDetails() != null) {
+        if (AppointmentManager.getInstance().getNumberOfMonths() > 0) {
             waitingForAppointmentTypes = false;
-            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(BookingManager.getBookingOfficeAppointmentDetails().getData().get(0).getAttributes().getAppointmentTypes());
+            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(AppointmentManager.getInstance().getAppointmentTypes());
             bookingFragment.setSelectStatusInterface(this);
             bookingFragment.setRefreshInterface(this);
             getChildFragmentManager()

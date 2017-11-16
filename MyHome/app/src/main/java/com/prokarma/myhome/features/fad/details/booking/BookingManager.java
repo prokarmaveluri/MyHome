@@ -3,7 +3,6 @@ package com.prokarma.myhome.features.fad.details.booking;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResult;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
-import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.profile.Profile;
 
@@ -16,7 +15,6 @@ import java.util.Date;
 public class BookingManager {
     private static ProviderDetailsResult bookingProvider;
     private static ProviderDetailsOffice bookingOffice;
-    private static AppointmentTimeSlots bookingOfficeAppointmentDetails;
     private static AppointmentType bookingAppointmentType;
     private static Profile bookingProfile;
     private static AppointmentTime bookingAppointment;
@@ -72,14 +70,6 @@ public class BookingManager {
         BookingManager.isBookingForMe = isBookingForMe;
     }
 
-    public static AppointmentTimeSlots getBookingOfficeAppointmentDetails() {
-        return bookingOfficeAppointmentDetails;
-    }
-
-    public static void setBookingOfficeAppointmentDetails(AppointmentTimeSlots bookingOfficeAppointmentDetails) {
-        BookingManager.bookingOfficeAppointmentDetails = bookingOfficeAppointmentDetails;
-    }
-
     public static AppointmentType getBookingAppointmentType() {
         return bookingAppointmentType;
     }
@@ -101,7 +91,6 @@ public class BookingManager {
             bookingProvider = null;
             scheduleId = null;
             bookingOffice = null;
-            bookingOfficeAppointmentDetails = null;
         }
 
         bookingProfile = null;
