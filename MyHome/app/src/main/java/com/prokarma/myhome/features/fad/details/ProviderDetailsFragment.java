@@ -300,7 +300,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             AppointmentManager.getInstance().addMonthsAppointmentDetails(new AppointmentMonthDetails(DateUtil.getDateFromSlashes(fromDate), DateUtil.getDateFromSlashes(toDate), response.body()));
                             BookingManager.setScheduleId(response.body().getData().get(0).getId());
 
-                            onDateChanged(DateUtil.getDateFromSlashes(fromDate));
+                            checkCache(DateUtil.getDateFromSlashes(fromDate));
 
                             if (waitingForAppointmentTypes) {
                                 onPersonSelected(BookingManager.isBookingForMe());
@@ -798,7 +798,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onDateChanged(Date date) {
         BookingManager.setBookingDate(date);
+        checkCache(date);
+    }
 
+    public void checkCache(Date date) {
         //Oh crap, we don't have this month's appointments cached. Show loading and go retrieve them
         if (!AppointmentManager.getInstance().isDateCached(date)) {
             Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
