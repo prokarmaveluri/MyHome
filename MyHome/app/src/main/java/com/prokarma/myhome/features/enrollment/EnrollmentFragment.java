@@ -60,16 +60,20 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
         binding.firstName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.firstName, binding.firstNameLayout,
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.FIRST_NAME));
+        binding.firstName.setContentDescription(getString(R.string.prompt_first_name)+ getString(R.string.mandatory));
         binding.lastName.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.lastName, binding.lastNameLayout,
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.LAST_NAME));
-
+        binding.lastName.setContentDescription(getString(R.string.prompt_last_name)+ getString(R.string.mandatory));
         binding.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.email, binding.emailLayout,
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.EMAIL_ENROLL));
+        binding.email.setContentDescription(getString(R.string.prompt_email)+ getString(R.string.mandatory));
+        binding.password.setContentDescription(getString(R.string.prompt_password)+ getString(R.string.mandatory));
 //        binding.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binding.password,
 //                Constants.INPUT_TYPE.PASSWORD));
         binding.reEnterPassword.setOnFocusChangeListener(
                 new ValidateInputsOnFocusChange(binding.reEnterPassword, binding.reEnterPasswordLayout,
                         getActivity().getApplicationContext(), Constants.INPUT_TYPE.PASSWORD));
+        binding.reEnterPassword.setContentDescription(getString(R.string.prompt_re_enter_password)+ getString(R.string.mandatory));
 
         binding.firstName.addTextChangedListener(new EnrollTextWatcher(null, null));
         binding.lastName.addTextChangedListener(new EnrollTextWatcher(null, null));
