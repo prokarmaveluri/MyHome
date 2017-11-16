@@ -292,33 +292,49 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         NetworkManager.getInstance().getProviderAppointments(providerNpi, fromDate, toDate, addressHash).enqueue(new Callback<AppointmentTimeSlots>() {
             @Override
             public void onResponse(Call<AppointmentTimeSlots> call, Response<AppointmentTimeSlots> response) {
-                if (response != null && response.isSuccessful() && response.body() != null) {
-                    Timber.d("Successful Response\n" + response);
+                if (isAdded()) {
+                    if (response != null && response.isSuccessful() && response.body() != null) {
+                        Timber.d("Successful Response\n" + response);
 
-                    try {
-                        AppointmentManager.getInstance().addMonthsAppointmentDetails(new AppointmentMonthDetails(DateUtil.getDateFromSlashes(fromDate), DateUtil.getDateFromSlashes(toDate), response.body()));
-                        BookingManager.setScheduleId(response.body().getData().get(0).getId());
+                        try {
+                            AppointmentManager.getInstance().addMonthsAppointmentDetails(new AppointmentMonthDetails(DateUtil.getDateFromSlashes(fromDate), DateUtil.getDateFromSlashes(toDate), response.body()));
+                            BookingManager.setScheduleId(response.body().getData().get(0).getId());
 
-                        onDateChanged(DateUtil.getDateFromSlashes(fromDate));
+                            onDateChanged(DateUtil.getDateFromSlashes(fromDate));
 
-                        if (waitingForAppointmentTypes) {
-                            onPersonSelected(BookingManager.isBookingForMe());
+                            if (waitingForAppointmentTypes) {
+                                onPersonSelected(BookingManager.isBookingForMe());
+                            }
+
+                            if (isTimeSlotsLoading && bookingSelectTimeFragment != null) {
+                                bookingSelectTimeFragment.hideLoading();
+                            }
+
+                            isTimeSlotsLoading = false;
+
+                            if (isCalendarLoading && bookingSelectCalendarFragment != null) {
+                                bookingSelectCalendarFragment.hideLoading();
+                            }
+
+                            isCalendarLoading = false;
+                        } catch (ParseException parseException) {
+                            Timber.e(parseException);
+                            Timber.e("Is the date being parsed correctly???");
+
+                            waitingForAppointmentTypes = false;
+
+                            BookingManager.setScheduleId(null);
+
+                            BookingManager.clearBookingData(true);
+                            restartSchedulingFlow();
+                            expandableLinearLayout.collapse();
+                            expandableLinearLayout.initLayout();
                         }
 
-                        if (isTimeSlotsLoading && bookingSelectTimeFragment != null) {
-                            bookingSelectTimeFragment.hideLoading();
-                        }
 
-                        isTimeSlotsLoading = false;
-
-                        if (isCalendarLoading && bookingSelectCalendarFragment != null) {
-                            bookingSelectCalendarFragment.hideLoading();
-                        }
-
-                        isCalendarLoading = false;
-                    } catch (ParseException parseException) {
-                        Timber.e(parseException);
-                        Timber.e("Is the date being parsed correctly???");
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
+                        ApiErrorUtil.getInstance().getProviderAppointmentsError(getContext(), providerDetailsView, response);
 
                         waitingForAppointmentTypes = false;
 
@@ -329,14 +345,19 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         expandableLinearLayout.collapse();
                         expandableLinearLayout.initLayout();
                     }
+                }
+            }
 
-
-                } else {
-                    Timber.e("Response, but not successful?\n" + response);
-                    ApiErrorUtil.getInstance().getProviderAppointmentsError(getContext(), providerDetailsView, response);
+            @Override
+            public void onFailure(Call<AppointmentTimeSlots> call, Throwable t) {
+                if (isAdded()) {
+                    Timber.e("Something failed! :/");
+                    Timber.e("Throwable = " + t);
+                    ApiErrorUtil.getInstance().getProviderAppointmentsFailed(getContext(), providerDetailsView, t);
 
                     waitingForAppointmentTypes = false;
 
+                    AppointmentManager.getInstance().addMonthsAppointmentDetails(null);
                     BookingManager.setScheduleId(null);
 
                     BookingManager.clearBookingData(true);
@@ -344,23 +365,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     expandableLinearLayout.collapse();
                     expandableLinearLayout.initLayout();
                 }
-            }
-
-            @Override
-            public void onFailure(Call<AppointmentTimeSlots> call, Throwable t) {
-                Timber.e("Something failed! :/");
-                Timber.e("Throwable = " + t);
-                ApiErrorUtil.getInstance().getProviderAppointmentsFailed(getContext(), providerDetailsView, t);
-
-                waitingForAppointmentTypes = false;
-
-                AppointmentManager.getInstance().addMonthsAppointmentDetails(null);
-                BookingManager.setScheduleId(null);
-
-                BookingManager.clearBookingData(true);
-                restartSchedulingFlow();
-                expandableLinearLayout.collapse();
-                expandableLinearLayout.initLayout();
             }
         });
     }
@@ -795,8 +799,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     public void onDateChanged(Date date) {
         BookingManager.setBookingDate(date);
 
+        //Oh crap, we don't have this month's appointments cached. Show loading and go retrieve them
         if (!AppointmentManager.getInstance().isDateCached(date)) {
-
             Fragment fragment = getChildFragmentManager().findFragmentById(R.id.booking_frame);
             if (bookingSelectTimeFragment != null && fragment instanceof BookingSelectTimeFragment) {
                 bookingSelectTimeFragment.showLoading();
@@ -807,6 +811,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             }
 
             getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(date), DateUtil.getEndOfTheMonthDate(date), currentOffice.getAddresses().get(0).getAddressHash());
+        }
+
+        //We don't have next month's appointments. We should try to cache that...
+        if (!AppointmentManager.getInstance().isDateCached(DateUtil.addOneMonthToDate(date))) {
+            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(date)), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(date)), currentOffice.getAddresses().get(0).getAddressHash());
         }
     }
 
