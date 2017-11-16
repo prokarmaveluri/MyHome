@@ -235,6 +235,7 @@ public class BookingSelectTimeFragment extends Fragment {
                 });
             } else {
                 noAppointments.setText(getString(R.string.no_appointments_available));
+                noAppointments.setOnClickListener(null);
                 timeZoneWarning.setVisibility(View.GONE);
             }
 
