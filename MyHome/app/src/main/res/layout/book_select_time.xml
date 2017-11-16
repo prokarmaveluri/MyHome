@@ -43,11 +43,12 @@
             android:id="@+id/empty_appointments"
             style="@style/selectableButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
+            android:minHeight="35dp"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:text="@string/no_appointments_available"
             android:visibility="gone" />
 
@@ -58,8 +59,8 @@
             android:layout_height="35dp"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:text="@string/call_for_todays_appointmentss"
             android:visibility="gone" />
     </LinearLayout>
