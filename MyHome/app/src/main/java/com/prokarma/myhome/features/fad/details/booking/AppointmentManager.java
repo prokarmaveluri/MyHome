@@ -1,5 +1,7 @@
 package com.prokarma.myhome.features.fad.details.booking;
 
+import android.support.annotation.Nullable;
+
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
@@ -83,6 +85,23 @@ public class AppointmentManager {
         } else {
             return false;
         }
+    }
+
+    public boolean hasAvailabilityForMonth(Date date){
+        AppointmentTimeSlots appointmentTimeSlots = getAppointmentTimeSlotsForMonth(date);
+
+        return appointmentTimeSlots != null && !appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes().isEmpty();
+    }
+
+    @Nullable
+    public AppointmentTimeSlots getAppointmentTimeSlotsForMonth(Date date){
+        for (AppointmentMonthDetails monthDetails : appointmentDetailsList) {
+            if(DateUtil.isDateAfterOrEqual(date, monthDetails.getFromDate()) && DateUtil.isDateBeforeOrEqual(date, monthDetails.getToDate())){
+                return monthDetails.getAppointmentTimeSlots();
+            }
+        }
+
+        return null;
     }
 
     private ArrayList<AppointmentAvailableTime> combinedTimeSlots() {
