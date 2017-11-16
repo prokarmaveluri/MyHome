@@ -7,17 +7,30 @@ import com.prokarma.myhome.utils.DateUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by kwelsh on 11/14/17.
  */
 
 public class AppointmentManager {
-    private static final AppointmentManager ourInstance = new AppointmentManager();
-    private static ArrayList<AppointmentMonthDetails> appointmentDetailsList = new ArrayList<>();
+    private static AppointmentManager ourInstance;
+    private static ArrayList<AppointmentMonthDetails> appointmentDetailsList;
 
     public static AppointmentManager getInstance() {
+        if(ourInstance == null){
+            ourInstance = new AppointmentManager();
+        }
         return ourInstance;
+    }
+
+    public static ArrayList<AppointmentMonthDetails> getAppointmentDetailsList() {
+        return appointmentDetailsList;
+    }
+
+    public static void setAppointmentDetailsList(ArrayList<AppointmentMonthDetails> appointmentDetailsList) {
+        AppointmentManager.appointmentDetailsList = appointmentDetailsList;
     }
 
     public void initializeAppointmentDetailsList(boolean forceInitialization) {
@@ -31,7 +44,7 @@ public class AppointmentManager {
     }
 
     public void addMonthsAppointmentDetails(AppointmentMonthDetails monthDetails) {
-        if(monthDetails != null && isDateCached(monthDetails.getFromDate())){
+        if(monthDetails != null && !isDateCached(monthDetails.getFromDate())){
             appointmentDetailsList.add(monthDetails);
         }
     }
@@ -73,7 +86,7 @@ public class AppointmentManager {
     }
 
     private ArrayList<AppointmentAvailableTime> combinedTimeSlots() {
-        ArrayList<AppointmentAvailableTime> totalAvailableTimes = new ArrayList<>();
+        Set<AppointmentAvailableTime> totalAvailableTimes = new HashSet<>();
 
         for (AppointmentMonthDetails monthDetails : appointmentDetailsList) {
             if (monthDetails != null && monthDetails.getAppointmentTimeSlots() != null && monthDetails.getAppointmentTimeSlots().getData().get(0).getAttributes() != null) {
@@ -81,6 +94,6 @@ public class AppointmentManager {
             }
         }
 
-        return totalAvailableTimes;
+        return new ArrayList<>(totalAvailableTimes);
     }
 }
