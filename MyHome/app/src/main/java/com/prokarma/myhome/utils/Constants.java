@@ -122,6 +122,7 @@ public class Constants {
     public static final String APT_DETAILS_UPCOMING_SKIP_COACH_MARKS = "APT_DETAILS_UPCOMING_SKIP_COACH_MARKS";
 
     //Preference Keys for API Error Toggling
+    public static final String API_SHOW_API_ERROR_INFO = "API_SHOW_API_ERROR_INFO";
     public static final String API_SIGN_IN_FORCE_ERROR = "API_SIGN_IN_FORCE_ERROR";
     public static final String API_SIGN_IN_REFRESH_FORCE_ERROR = "API_SIGN_IN_REFRESH_FORCE_ERROR";
     public static final String API_SIGN_OUT_FORCE_ERROR = "API_SIGN_OUT_FORCE_ERROR";
