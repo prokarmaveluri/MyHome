@@ -241,6 +241,18 @@ public class BookingSelectTimeFragment extends Fragment {
 
             if (DateUtil.isToday(bookingDate)) {
                 callForAppointments.setVisibility(View.VISIBLE);
+                callForAppointments.setText(getString(R.string.call_for_todays_appointmentss));
+                callForAppointments.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (selectTimeInterface != null) {
+                            selectTimeInterface.onPhoneNumberClicked();
+                        }
+                    }
+                });
+            } else if (nextAppointment == null) {
+                callForAppointments.setVisibility(View.VISIBLE);
+                callForAppointments.setText(getString(R.string.call_for_more_appointments));
                 callForAppointments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -251,6 +263,7 @@ public class BookingSelectTimeFragment extends Fragment {
                 });
             } else {
                 callForAppointments.setVisibility(View.GONE);
+                callForAppointments.setOnClickListener(null);
             }
         }
     }
