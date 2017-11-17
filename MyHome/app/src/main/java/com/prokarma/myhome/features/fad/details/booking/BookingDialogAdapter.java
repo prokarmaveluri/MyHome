@@ -390,7 +390,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (formsProfile.address != null && formsProfile.address.zipCode != null && formsProfile.address.zipCode.trim().length() > 0) {
-            zip.setText(formsProfile.address.zipCode);
+            zip.setText(formsProfile.address.zipCode.trim());
         }
 
         if (formsProfile.phoneNumber != null) {
