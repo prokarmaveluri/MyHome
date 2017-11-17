@@ -275,6 +275,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
+            android:text="Get Appointment Times API"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/tradeGothicLTStdLight_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="The Get Appointment Times API is used to get the provider's times he's available for an appointment. It's called when the user clicks on 'Book Appointment' button on the Provider's Page. In the near future, it will also be called when a user selects a date in a different month" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/get_appointment_times_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/secondary_text" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
             android:text="Register API"
             android:textStyle="bold" />
 

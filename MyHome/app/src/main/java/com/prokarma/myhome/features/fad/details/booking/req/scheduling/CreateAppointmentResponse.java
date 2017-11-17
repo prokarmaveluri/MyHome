@@ -1,6 +1,7 @@
 package com.prokarma.myhome.features.fad.details.booking.req.scheduling;
 
 import com.google.gson.annotations.SerializedName;
+import com.prokarma.myhome.networking.Jsonapi;
 
 import java.util.List;
 
@@ -61,15 +62,6 @@ public class CreateAppointmentResponse {
         public Attributes getAttributes() {
             return attributes;
         }
-    }
-
-    public class Jsonapi {
-
-        public String getVersion() {
-            return version;
-        }
-
-        public String version;
     }
 
     public class Value {

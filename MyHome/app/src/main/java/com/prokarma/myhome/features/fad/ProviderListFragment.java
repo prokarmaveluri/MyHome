@@ -136,7 +136,7 @@ public class ProviderListFragment extends Fragment implements
     @Override
     public void providerClick(int position) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, providerList.get(position));
+        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, providerList.get(position).convertToNewProviderDetails());
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }
 

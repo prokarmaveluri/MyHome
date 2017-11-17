@@ -18,7 +18,7 @@ public class RecentlyViewedSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TIMESTAMP = "timestamp";
 
     private static final String DATABASE_NAME = "recently.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database creation sql statement
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "

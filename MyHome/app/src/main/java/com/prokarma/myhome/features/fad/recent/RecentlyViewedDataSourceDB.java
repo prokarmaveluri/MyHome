@@ -84,7 +84,7 @@ public class RecentlyViewedDataSourceDB {
     }
 
     public void createEntry(ProviderDetailsResponse provider) {
-        String providerId = provider.getProviderId();
+        String providerId = provider.getNpi();
         Gson gson = new Gson();
         String jsonString = gson.toJson(provider);
         String dbPin = getMyEntry(providerId);

@@ -10,7 +10,7 @@ import com.prokarma.myhome.networking.auth.AuthManager;
  */
 public class AppPreferences {
 
-    private final static String APP_PREFERENCES = "APP_PREFERENCES";
+    public final static String APP_PREFERENCES = "APP_PREFERENCES";
     private static AppPreferences instance;
     private SharedPreferences mSharedPreferences;
 

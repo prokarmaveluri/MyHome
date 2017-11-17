@@ -1,8 +1,9 @@
 package com.prokarma.myhome.features.fad.details.booking;
 
-import com.prokarma.myhome.features.fad.Appointment;
-import com.prokarma.myhome.features.fad.Office;
-import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsResult;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.profile.Profile;
 
 import java.util.Date;
@@ -12,27 +13,28 @@ import java.util.Date;
  */
 
 public class BookingManager {
-    private static ProviderDetailsResponse bookingProvider;
-    private static Office bookingOffice;
+    private static ProviderDetailsResult bookingProvider;
+    private static ProviderDetailsOffice bookingOffice;
+    private static AppointmentType bookingAppointmentType;
     private static Profile bookingProfile;
-    private static Appointment bookingAppointment;
+    private static AppointmentTime bookingAppointment;
     private static Date bookingDate;
     private static boolean isBookingForMe;
-    private static boolean isNewPatient;
+    private static String scheduleId;
 
-    public static ProviderDetailsResponse getBookingProvider() {
+    public static ProviderDetailsResult getBookingProvider() {
         return bookingProvider;
     }
 
-    public static void setBookingProvider(ProviderDetailsResponse bookingProvider) {
+    public static void setBookingProvider(ProviderDetailsResult bookingProvider) {
         BookingManager.bookingProvider = bookingProvider;
     }
 
-    public static Office getBookingOffice() {
+    public static ProviderDetailsOffice getBookingOffice() {
         return bookingOffice;
     }
 
-    public static void setBookingOffice(Office bookingOffice) {
+    public static void setBookingOffice(ProviderDetailsOffice bookingOffice) {
         BookingManager.bookingOffice = bookingOffice;
     }
 
@@ -44,11 +46,11 @@ public class BookingManager {
         BookingManager.bookingProfile = bookingProfile;
     }
 
-    public static Appointment getBookingAppointment() {
+    public static AppointmentTime getBookingAppointment() {
         return bookingAppointment;
     }
 
-    public static void setBookingAppointment(Appointment bookingAppointment) {
+    public static void setBookingAppointment(AppointmentTime bookingAppointment) {
         BookingManager.bookingAppointment = bookingAppointment;
     }
 
@@ -68,17 +70,26 @@ public class BookingManager {
         BookingManager.isBookingForMe = isBookingForMe;
     }
 
-    public static boolean isNewPatient() {
-        return isNewPatient;
+    public static AppointmentType getBookingAppointmentType() {
+        return bookingAppointmentType;
     }
 
-    public static void setIsNewPatient(boolean isNewPatient) {
-        BookingManager.isNewPatient = isNewPatient;
+    public static void setBookingAppointmentType(AppointmentType bookingAppointmentType) {
+        BookingManager.bookingAppointmentType = bookingAppointmentType;
+    }
+
+    public static String getScheduleId() {
+        return scheduleId;
+    }
+
+    public static void setScheduleId(String scheduleId) {
+        BookingManager.scheduleId = scheduleId;
     }
 
     public static void clearBookingData(boolean keepProvider) {
         if (!keepProvider) {
             bookingProvider = null;
+            scheduleId = null;
             bookingOffice = null;
         }
 
@@ -86,6 +97,6 @@ public class BookingManager {
         bookingAppointment = null;
         bookingDate = null;
         isBookingForMe = true;
-        isNewPatient = false;
+        bookingAppointmentType = null;
     }
 }

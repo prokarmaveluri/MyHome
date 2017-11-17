@@ -505,11 +505,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     if (null != resp.Category && resp.Category.equals("Provider") &&
                             null != resp.getTitle() && resp.getTitle().contains("Healthcare Providers")) {
                         FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), "Healthcare Providers",
-                                resp.getId());
+                                resp.getNpi());
                         sug.add(sugObj);
                     } else {
                         FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), resp.getTitle(),
-                                resp.getId());
+                                resp.getNpi());
                         sug.add(sugObj);
                     }
                 }
@@ -791,7 +791,13 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
      */
     private void providerDetails(ProviderDetailsResponse provider, String providerId) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider);
+
+        if (provider != null) {
+            bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, provider.convertToNewProviderDetails());
+        } else {
+            bundle.putParcelable(ProviderDetailsFragment.PROVIDER_KEY, null);
+        }
+
         bundle.putString(ProviderDetailsFragment.PROVIDER_ID_KEY, providerId);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROVIDER_DETAILS, bundle);
     }

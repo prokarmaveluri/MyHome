@@ -126,6 +126,78 @@ public class Office implements Parcelable {
         return fullAddress.toString();
     }
 
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setAddress1(String address1) {
+        Address1 = address1;
+    }
+
+    public void setAddress2(String address2) {
+        Address2 = address2;
+    }
+
+    public void setCity(String city) {
+        City = city;
+    }
+
+    public void setState(String state) {
+        State = state;
+    }
+
+    public void setZipCode(String zipCode) {
+        ZipCode = zipCode;
+    }
+
+    public void setPhone(String phone) {
+        Phone = phone;
+    }
+
+    public void setFax(String fax) {
+        Fax = fax;
+    }
+
+    public void setUrl(String url) {
+        Url = url;
+    }
+
+    public void setLat(String lat) {
+        Lat = lat;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
+    public void setSortRank(Integer sortRank) {
+        SortRank = sortRank;
+    }
+
+    public void setDistanceMilesFromSearch(String distanceMilesFromSearch) {
+        DistanceMilesFromSearch = distanceMilesFromSearch;
+    }
+
+    public void setDirectionsLink(String directionsLink) {
+        DirectionsLink = directionsLink;
+    }
+
+    public void setHash(String hash) {
+        Hash = hash;
+    }
+
+    public void setLatLongHash(String latLongHash) {
+        LatLongHash = latLongHash;
+    }
+
+    public void setAppointments(ArrayList<Appointment> appointments) {
+        Appointments = appointments;
+    }
+
+    public void setLocationMatch(Boolean locationMatch) {
+        LocationMatch = locationMatch;
+    }
+
     @Override
     public String toString() {
         String officeString = "";

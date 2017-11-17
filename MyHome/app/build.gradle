@@ -24,7 +24,7 @@ android {
     def PROD_VERSIONING_URL = "\"https://web-usw1-versioningservices-prd.azurewebsites.net/\""
     def PROD_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
     def PROD_CIAM_BASE_URL = "\"https://prod.ciam.dignityhealth.org/\""
-    def PROD_S2_BASE_URL = "\"https://e3findadocapp.azurewebsites.net/\""
+    def PROD_S2_BASE_URL = "\"https://web-usw1-fad-prd.azurewebsites.net/\""
     def PROD_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-prd.azurewebsites.net/\""
 
     def STAGE_VERSIONING_URL = "\"https://web-usw1-versioningservices-stg.azurewebsites.net/\""
@@ -64,8 +64,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 103015
-        versionName "1.3.12"
+        versionCode 105000
+        versionName "1.5.0"
         setProperty("archivesBaseName", "DignityHealth-MyHome-$versionName")
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
@@ -337,6 +337,8 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.5'
     compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+
     implementation project(':sdk')
 
     //AWSDK

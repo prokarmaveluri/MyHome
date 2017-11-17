@@ -3,6 +3,8 @@ package com.prokarma.myhome.utils;
 import android.support.annotation.Nullable;
 
 import com.prokarma.myhome.features.fad.Appointment;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -85,6 +87,14 @@ public class DateUtil {
         return sdf.parse(utcDate);
     }
 
+    public static Date getDateFromHyphens(String hyphenDate) throws ParseException {
+        return SIMPLE_DATE_HYPHEN_FORMAT.parse(hyphenDate);
+    }
+
+    public static Date getDateFromSlashes(String slashesDate) throws ParseException {
+        return SIMPLE_DATE_SLASH_FORMAT.parse(slashesDate);
+    }
+
     /**
      * Gets the Timezone of a utc date.
      * This assumes that the timezone is the last six digits of the date (we can simply append "GMT" for setting the timezone)
@@ -130,6 +140,12 @@ public class DateUtil {
      */
     public static String getReadableTimeZone(Appointment appointment) {
         return getReadableTimeZone(appointment.FacilityState, appointment.Time);
+    }
+
+    public static String getReadableTimeZone(AppointmentTimeSlots appointmentTimeSlots) {
+        return getReadableTimeZone(
+                appointmentTimeSlots.getData().get(0).getAttributes().getLocation().getState(),
+                appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes().get(0).getTimes().get(0).getTime());
     }
 
     public static String getReadableTimeZone(String state, String time) {
@@ -331,6 +347,24 @@ public class DateUtil {
         }
 
         return utcDate;
+    }
+
+    /**
+     * Gets a string of the date.
+     * Formatted as such: "Tue Jun 06"
+     *
+     * @param hyphenDate the date in hyphen format (formatted like such: "11/7/2017")
+     * @return a string representation of the date similar to this format "Tue Jun 06"
+     */
+    public static String getDateWordsFromDateHyphen(String hyphenDate) {
+        try {
+            return SIMPLE_DATE_SHORT_WORDS_FORMAT.format(getDateFromHyphens(hyphenDate));
+        } catch (ParseException e) {
+            Timber.e("Could not format hyphen date " + hyphenDate + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+
+        return hyphenDate;
     }
 
     /**
@@ -549,13 +583,13 @@ public class DateUtil {
      * Gets the first appointment's date from a list.
      * Assumes that the list is sorted.
      *
-     * @param appointments
+     * @param appointmentDetails
      * @return the date of the first appointment in the list
      */
     @Nullable
-    public static Date findFirstAppointmentDate(ArrayList<Appointment> appointments) {
+    public static Date findFirstAppointmentDate(ArrayList<AppointmentAvailableTime> appointmentDetails) {
         try {
-            return DateUtil.getDateNoTimeZone(appointments.get(0).Time);
+            return DateUtil.getDateFromHyphens(appointmentDetails.get(0).getTimes().get(0).getTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -612,5 +646,41 @@ public class DateUtil {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean isDateBeforeOrEqual(Date date1, Date date2) {
+        return isBefore(date1, date2) || isOnSameDay(date1, date2);
+    }
+
+    public static boolean isDateAfterOrEqual(Date date1, Date date2) {
+        return isAfter(date1, date2) || isOnSameDay(date1, date2);
+    }
+
+    public static String getTodayDate() {
+        return SIMPLE_DATE_SLASH_FORMAT.format(new Date());
+    }
+
+    public static Date addOneMonthToDate(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, 1);
+
+        return calendar.getTime();
+    }
+
+    public static String getFirstOfTheMonthDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+        return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
+    }
+
+    public static String getEndOfTheMonthDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
     }
 }
