@@ -25,6 +25,7 @@ public class ApiFragment extends BaseFragment {
     public static final String API_TAG = "api_tag";
 
     View apiView;
+    SwitchCompat showApiErrorInfo;
     SwitchCompat signInSwitch;
     SwitchCompat signInRefreshSwitch;
     SwitchCompat signOutSwitch;
@@ -60,6 +61,7 @@ public class ApiFragment extends BaseFragment {
         apiView = inflater.inflate(R.layout.api, container, false);
         getActivity().setTitle(getString(R.string.api_settings));
 
+        showApiErrorInfo = (SwitchCompat) apiView.findViewById(R.id.show_api_error_info_switch);
         signInSwitch = (SwitchCompat) apiView.findViewById(R.id.sign_in_switch);
         signInRefreshSwitch = (SwitchCompat) apiView.findViewById(R.id.sign_in_refresh_switch);
         signOutSwitch = (SwitchCompat) apiView.findViewById(R.id.sign_out_switch);
@@ -86,6 +88,13 @@ public class ApiFragment extends BaseFragment {
         resendEmailSwitch = (SwitchCompat) apiView.findViewById(R.id.resend_email_switch);
 
         setupSwitches();
+
+        showApiErrorInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.API_SHOW_API_ERROR_INFO, isChecked);
+            }
+        });
 
         signInSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -271,6 +280,7 @@ public class ApiFragment extends BaseFragment {
     }
 
     public void setupSwitches() {
+        showApiErrorInfo.setChecked(AppPreferences.getInstance().getBooleanPreference(Constants.API_SHOW_API_ERROR_INFO));
         signInSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_IN_FORCE_ERROR));
         signInRefreshSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_IN_REFRESH_FORCE_ERROR));
         signOutSwitch.setChecked(!AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_OUT_FORCE_ERROR));
