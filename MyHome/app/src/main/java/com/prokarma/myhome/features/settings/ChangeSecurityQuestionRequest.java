@@ -4,15 +4,15 @@ package com.prokarma.myhome.features.settings;
  * Created by cmajji on 8/24/17.
  */
 
-public class ChangeSesurityQuestionRequest {
+public class ChangeSecurityQuestionRequest {
 
     private String password;
     private Question question;
 
-    public ChangeSesurityQuestionRequest() {
+    public ChangeSecurityQuestionRequest() {
     }
 
-    public ChangeSesurityQuestionRequest(String password, Question question){
+    public ChangeSecurityQuestionRequest(String password, Question question){
         this.password = password;
         this.question = question;
     }

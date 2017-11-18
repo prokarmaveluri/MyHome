@@ -630,7 +630,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     protected void onResume() {
         super.onResume();
         // session expiry
-        if (AuthManager.getInstance().isExpiried()) {
+        if (AuthManager.getInstance().isExpired()) {
             buildSessionAlert(getString(R.string.session_expiry_message));
         }
 
@@ -687,7 +687,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     public void onUserInteraction() {
         super.onUserInteraction();
 
-        if (AuthManager.getInstance().isExpiried()) {
+        if (AuthManager.getInstance().isExpired()) {
             buildSessionAlert(getString(R.string.session_expiry_message));
         }
         mHandler.removeCallbacks(runnable);

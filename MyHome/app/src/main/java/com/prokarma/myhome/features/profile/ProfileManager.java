@@ -63,6 +63,7 @@ public class ProfileManager {
     /**
      * Simply makes the network call for getting the Profile of the currently logged in user and loads it into Singleton
      */
+    @SuppressWarnings("unused")
     public static void getProfileInfo() {
         String bearerToken = AuthManager.getInstance().getBearerToken();
         NetworkManager.getInstance().getProfile(bearerToken).enqueue(new Callback<ProfileGraphqlResponse>() {

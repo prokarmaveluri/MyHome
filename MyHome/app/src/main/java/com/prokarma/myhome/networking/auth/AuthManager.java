@@ -14,6 +14,8 @@ import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.AppPreferences;
 
+import java.lang.ref.WeakReference;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,6 +25,7 @@ import timber.log.Timber;
  * Created by cmajji on 5/1/17.
  */
 
+@SuppressWarnings("unused")
 public class AuthManager {
 
     private static String expiresAt;
@@ -40,7 +43,8 @@ public class AuthManager {
     private static long prevTimestamp = 0;
     private static long MINITUES_5 = 5 * 60 * 1000;
     public static long SESSION_EXPIRY_TIME = 10 * 24 * 60 * 60 * 1000;
-//    public static long SESSION_EXPIRY_TIME = 10 * 60 * 1000;
+
+    private static final int MAX_RETRIES_BEFORE_LOCKING_USER = 3;
 
     private static final AuthManager ourInstance = new AuthManager();
 
@@ -160,7 +164,7 @@ public class AuthManager {
      * @return
      */
     public boolean isMaxFailureAttemptsReached() {
-        return count >= 3 && !BuildConfig.BUILD_TYPE.equalsIgnoreCase(DeveloperFragment.DEVELOPER);
+        return count >= MAX_RETRIES_BEFORE_LOCKING_USER && !BuildConfig.BUILD_TYPE.equalsIgnoreCase(DeveloperFragment.DEVELOPER);
     }
 
     public void storeLockoutInfo() {
@@ -174,28 +178,20 @@ public class AuthManager {
         prevTimestamp = AppPreferences.getInstance().getLongPreference(LoginActivity.FAILURE_TIME_STAMP);
     }
 
-    public boolean isExpiried() {
+    public boolean isExpired() {
         try {
             long fetchTime = AppPreferences.getInstance().getLongPreference("FETCH_TIME");
             long current = System.currentTimeMillis();
 
             // already expired
             if ((current - fetchTime) > (AuthManager.getInstance().getExpiresIn() * 1000)) {
-                mHandler.sendEmptyMessage(0);
+                getHandler().sendEmptyMessage(0);
             }
             return false;
         } catch (NullPointerException ex) {
             return false;
         }
     }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            refreshToken();
-        }
-    };
 
     public void refreshToken() {
         NetworkManager.getInstance().signInRefresh(new RefreshRequest(
@@ -204,7 +200,6 @@ public class AuthManager {
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.isSuccessful() && response.body().getValid()) {
                     try {
-//                        Timber.i("Session refresh " + response.body().getExpiresIn());
                         AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
 //                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
@@ -222,5 +217,24 @@ public class AuthManager {
                 Timber.i("onFailure : ");
             }
         });
+    }
+
+    private static class AuthHandler extends Handler {
+        private final WeakReference<AuthManager> mAuthManager;
+
+        private AuthHandler(AuthManager authManager) {
+            mAuthManager = new WeakReference<AuthManager>(authManager);
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            AuthManager authManager = mAuthManager.get();
+            if (authManager != null) {
+                authManager.refreshToken();
+            }
+        }
+    }
+
+    private Handler getHandler() {
+        return new AuthHandler(this);
     }
 }

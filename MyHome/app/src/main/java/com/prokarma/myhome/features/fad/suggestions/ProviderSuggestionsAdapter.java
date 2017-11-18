@@ -22,11 +22,11 @@ import timber.log.Timber;
 
 public class ProviderSuggestionsAdapter extends RecyclerView.Adapter<ProviderSuggestionsAdapter.SuggestionsVH> {
 
-    private List<FadSuggesstions> list;
+    private List<FadSuggestions> list;
     private IProviderSuggestionClick listener;
     private Context mContext;
 
-    public ProviderSuggestionsAdapter(List<FadSuggesstions> list,
+    public ProviderSuggestionsAdapter(List<FadSuggestions> list,
                                       Context context, IProviderSuggestionClick listener) {
         this.list = list;
         mContext = context;
@@ -62,7 +62,7 @@ public class ProviderSuggestionsAdapter extends RecyclerView.Adapter<ProviderSug
 
     @Override
     public void onBindViewHolder(SuggestionsVH holder, int position) {
-        FadSuggesstions sug = list.get(position);
+        FadSuggestions sug = list.get(position);
         holder.bind(sug.getTitle(), position);
     }
 

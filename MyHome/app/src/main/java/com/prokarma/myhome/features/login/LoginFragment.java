@@ -35,7 +35,6 @@ import com.prokarma.myhome.features.contact.ContactUsActivity;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordActivity;
 import com.prokarma.myhome.features.login.verify.EmailVerifyActivity;
-import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
@@ -44,6 +43,8 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
+
+import java.lang.ref.WeakReference;
 
 import timber.log.Timber;
 
@@ -167,7 +168,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     @Override
     public void SignInSuccess() {
-        mHandler.sendEmptyMessage(ACTION_FINISH);
+        getHandler().sendEmptyMessage(ACTION_FINISH);
     }
 
     @Override
@@ -258,38 +259,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
         return request;
     }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case ACTION_FINISH:
-                    //received token and stored it in AuthManager. start nav activity
-                    if (isAdded()) {
-                        //  Pre- load profile and appointment
-                        //ProfileManager.getProfileInfo();
-                        NetworkManager.getInstance().getMyAppointments();
-                        AuthManager.getInstance().setCount(0);
-                        Intent intentHome = new Intent(getActivity(), NavigationActivity.class);
-                        intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
-                        ActivityCompat.startActivity(getActivity(), intentHome, options.toBundle());
-                        getActivity().finish();
-                    }
-
-                    break;
-                case TOKEN_ERROR:
-                    if (isAdded()) {
-                        showProgress(false);
-                        AuthManager.getInstance().setBearerToken(null);
-                        Toast.makeText(getActivity(), getString(R.string.failure_msg),
-                                Toast.LENGTH_LONG).show();
-                    }
-                    break;
-            }
-        }
-    };
 
     private void startForgotPasswordActivity() {
         Intent intent = ForgotPasswordActivity.getForgotPasswordIntent(getActivity());
@@ -424,5 +393,50 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             }
         }
     }
+
+    private static class LoginHandler extends Handler {
+        private final WeakReference<LoginFragment> mLoginFragment;
+
+        private LoginHandler(LoginFragment loginFragment) {
+            mLoginFragment = new WeakReference<LoginFragment>(loginFragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            LoginFragment loginFragment = mLoginFragment.get();
+            if (loginFragment != null) {
+                switch (msg.what) {
+                    case ACTION_FINISH:
+                        //received token and stored it in AuthManager. start nav activity
+                        if (loginFragment.isAdded()) {
+                            //  Pre- load profile and appointment
+                            //ProfileManager.getProfileInfo();
+                            NetworkManager.getInstance().getMyAppointments();
+                            AuthManager.getInstance().setCount(0);
+                            Intent intentHome = new Intent(loginFragment.getActivity(), NavigationActivity.class);
+                            intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(loginFragment.getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
+                            ActivityCompat.startActivity(loginFragment.getActivity(), intentHome, options.toBundle());
+                            loginFragment.getActivity().finish();
+                        }
+
+                        break;
+                    case TOKEN_ERROR:
+                        if (loginFragment.isAdded()) {
+                            loginFragment.showProgress(false);
+                            AuthManager.getInstance().setBearerToken(null);
+                            Toast.makeText(loginFragment.getActivity(), loginFragment.getString(R.string.failure_msg),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    private Handler getHandler() {
+        return new LoginHandler(this);
+    }
+
 }
 
