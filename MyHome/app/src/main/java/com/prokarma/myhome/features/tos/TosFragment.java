@@ -96,6 +96,7 @@ public class TosFragment extends BaseFragment {
                         ApiErrorUtil.getInstance().getTosError(getContext(), tosView, response);
                     }
                 } catch (NullPointerException ex) {
+                    Timber.w(ex);
                 }
             }
 

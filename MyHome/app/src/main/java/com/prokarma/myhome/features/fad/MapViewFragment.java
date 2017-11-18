@@ -153,7 +153,7 @@ public class MapViewFragment extends Fragment implements
             map.setOnCameraMoveListener(this);
             addMarkers();
         } catch (NullPointerException | IllegalStateException ex) {
-
+            Timber.w(ex);
         }
     }
 
@@ -192,6 +192,7 @@ public class MapViewFragment extends Fragment implements
             map.setOnInfoWindowClickListener(this);
             map.setOnCameraMoveCanceledListener(this);
         } catch (NullPointerException | NumberFormatException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -370,6 +371,7 @@ public class MapViewFragment extends Fragment implements
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawable.getBitmap()));
                 }
             } catch (NullPointerException ex) {
+                Timber.w(ex);
             }
         }
     }
@@ -382,6 +384,7 @@ public class MapViewFragment extends Fragment implements
             this.providerList.addAll(pageData.getList());
             updateMap();
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 

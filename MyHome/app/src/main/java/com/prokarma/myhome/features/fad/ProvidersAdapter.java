@@ -148,6 +148,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                                 provider.getOffices().get(0).getZipCode(), "");
                         CommonUtil.getDirections(mContext, address);
                     } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+                        Timber.w(ex);
                     }
                     break;
             }

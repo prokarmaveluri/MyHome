@@ -188,9 +188,10 @@ public class EmailVerifyActivity extends AppCompatActivity {
 
                             startTermsOfServiceActivity();
                         } else {
-                            //TODO: if it is not verified keep the user in the same screen
+                            Timber.w("User not verified. Staying on same screen");
                         }
                     } catch (NullPointerException ex) {
+                        Timber.w(ex);
                     }
                 } else {
                     Timber.e("Response, but not successful?\n" + response);

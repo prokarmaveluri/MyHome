@@ -645,6 +645,7 @@ public class CommonUtil {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -659,6 +660,7 @@ public class CommonUtil {
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -674,6 +676,7 @@ public class CommonUtil {
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -688,6 +691,7 @@ public class CommonUtil {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(currentFocusView.getWindowToken(), 0);
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 

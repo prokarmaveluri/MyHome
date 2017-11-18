@@ -476,6 +476,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             binding.suggestionList.setAdapter(suggestionAdapter);
             suggestionAdapter.notifyDataSetChanged();
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -516,6 +517,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 }
             }
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
         return sug;
     }
@@ -558,6 +560,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     getParam(practices),
                     getParam(newPatients));
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -590,6 +593,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             hospitals.addAll(response.getHospitals());
             practices.addAll(response.getPractices());
         } catch (IllegalStateException | NullPointerException ex) {
+            Timber.w(ex);
         }
         getHandler().removeMessages(0);
         getHandler().sendEmptyMessageDelayed(0, 300);

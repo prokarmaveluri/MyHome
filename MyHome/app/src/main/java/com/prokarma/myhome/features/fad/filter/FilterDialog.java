@@ -140,6 +140,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             binding.distanceRange.setOnSeekBarChangeListener(this);
             drawableClickEvent();
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
         binding.setHandlers(new DialogClick());
         return binding.getRoot();
@@ -195,6 +196,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             intent.putExtras(bundle);
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 

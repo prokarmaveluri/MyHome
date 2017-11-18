@@ -215,6 +215,7 @@ public class ProviderListFragment extends Fragment implements
             this.providerList.addAll(pageData.getList());
             adapter.notifyDataSetChanged();
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 }

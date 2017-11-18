@@ -690,6 +690,7 @@ public class SplashActivity extends AppCompatActivity implements
                             onRefreshSuccess();
                         }
                     } catch (NullPointerException ex) {
+                        Timber.w(ex);
                     }
                 } else {
                     onRefreshFailed();

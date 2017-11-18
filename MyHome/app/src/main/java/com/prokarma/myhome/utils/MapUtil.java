@@ -153,7 +153,7 @@ public class MapUtil {
 //        googleMap.animateCamera(MapUtil.calculateZoom(context, markers));
             googleMap.moveCamera(MapUtil.calculateZoom(context, markers));
         } catch (NullPointerException ex) {
-
+            Timber.w(ex);
         }
     }
 
@@ -167,7 +167,7 @@ public class MapUtil {
                 }
             }
         } catch (NullPointerException ex) {
-
+            Timber.w(ex);
         }
     }
 

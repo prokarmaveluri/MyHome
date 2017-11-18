@@ -87,7 +87,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
                 binding.itemLayout.setId(position);
                 binding.suggestionText.setText(suggestion);
             } catch (NullPointerException ex) {
-
+                Timber.w(ex);
             }
             binding.executePendingBindings();
         }
@@ -107,6 +107,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
                     }
                 }
             } catch (NullPointerException ex) {
+                Timber.w(ex);
             }
         }
     }
