@@ -389,8 +389,8 @@ public class BookingDialogAdapter extends PagerAdapter {
             state.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (formsProfile.address != null && formsProfile.address.zipCode != null) {
-            zip.setText(formsProfile.address.zipCode);
+        if (formsProfile.address != null && formsProfile.address.zipCode != null && formsProfile.address.zipCode.trim().length() > 0) {
+            zip.setText(formsProfile.address.zipCode.trim());
         }
 
         if (formsProfile.phoneNumber != null) {

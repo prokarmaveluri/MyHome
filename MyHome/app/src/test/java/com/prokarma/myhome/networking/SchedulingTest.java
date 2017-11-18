@@ -2,8 +2,6 @@ package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
-import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
-import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
@@ -17,8 +15,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
 
 /**
  * Created by kwelsh on 10/3/17.
@@ -90,17 +86,17 @@ public class SchedulingTest {
         //Appointment bookingAppointment = new Appointment("2017-10-04T14:00:00-07:00", appointmentTypes, false, "test-location-1", "1755 Court St", "Redding", "CA", "96001", "40.5805", "-122.394", "https://gecb-test.inquickerstaging.com/schedule/2185?at=201710041400&schedule_id=2185", "f868a670-108c-4357-8e82-d57a5bd99989", "1755 Court Street Redding CA");
         AppointmentTime bookingAppointment = new AppointmentTime("2017-10-04T14:00:00-07:00", appointmentTypes);
 
-        Call<CreateAppointmentResponse> call = NetworkManager.getInstance().createAppointment(bearerToken,
-                new CreateAppointmentRequest(
-                        "doctorName",
-                        "providerNpi",
-                        "scheduleId",
-                        "officeName",
-                        "officePhone",
-                        bookingProfile,
-                        bookingAppointment,
-                        appointmentType,
-                        true));
+//        Call<CreateAppointmentResponse> call = NetworkManager.getInstance().createAppointment(bearerToken,
+//                new CreateAppointmentRequest(
+//                        "doctorName",
+//                        "providerNpi",
+//                        "scheduleId",
+//                        "officeName",
+//                        "officePhone",
+//                        bookingProfile,
+//                        bookingAppointment,
+//                        appointmentType,
+//                        true));
     }
 
     public static ProviderDetailsResponse getOnlineProvider(List<ProviderDetailsResponse> providers) {

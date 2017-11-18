@@ -297,8 +297,8 @@ public class ProfileEditFragment extends BaseFragment {
             state.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (profile.address != null && profile.address.zipCode != null) {
-            zip.setText(profile.address.zipCode);
+        if (profile.address != null && profile.address.zipCode != null && profile.address.zipCode.trim().length() > 0) {
+            zip.setText(profile.address.zipCode.trim());
         }
 
         if (profile.phoneNumber != null) {
