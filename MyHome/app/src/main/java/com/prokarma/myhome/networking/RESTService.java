@@ -50,72 +50,36 @@ import retrofit2.http.Url;
 
 public interface RESTService {
 
-    String PROVIDER_QUERY = "{queryString}&latitude={lat}&longitude={lon}" +
-            "&displayName={displayName}&zipCode={zipCode}&page=1&pageSize=20";
+    @POST
+    Call<SignInResponse> signIn(@Url String url, @Body SignInRequest request);
 
-    //    @POST(EnviHandler.CIAM_BASE_URL + "api/users/enrollment")
+    @POST
+    Call<SignInResponse> signInRefresh(@Url String url, @Body RefreshRequest request);
+
+    @POST
+    Call<CommonResponse> signOut(@Url String url, @Header("Authorization") String bearer,
+                                 @Body SignOutRequest request);
+
     @POST
     Call<Void> register(@Url String url, @Body EnrollmentRequest request);
 
-//    @GET(EnviHandler.CIAM_BASE_URL + "api/users/me")
-//    Call<ProfileResponse> getProfile(@Header("Authorization") String bearer);
-
-    //    @PATCH(EnviHandler.CIAM_BASE_URL + "api/users/me")
     @PATCH
     Call<Void> updateProfile(@Url String url, @Header("Authorization") String bearer,
                              @Body Profile updatedProfileData);
 
-    //    @POST(EnviHandler.OKTA_BASE_URL + "api/v1/authn")
-//    @POST
-//    Call<SignInResponse> login(@Url String url, @Body LoginRequest request);
-
-//    @FormUrlEncoded
-//    @POST(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token")
-//    @POST
-//    Call<AccessTokenResponse> fetchAccessToken(@Url String url,
-//                                               @Field("grant_type") String grantType,
-//                                               @Field("code") String code,
-//                                               @Field("client_id") String clientId,
-//                                               @Field("scope") String scope,
-//                                               @Field("redirect_uri") String redirectUri,
-//                                               @Field("code_verifier") String codeUerifier
-//    );
-
-//    @FormUrlEncoded
-//    @POST(EnviHandler.OKTA_BASE_URL + "oauth2/" + EnviHandler.AUTH_CLIENT_ID + "/v1/token")
-//    @POST
-//    Call<RefreshAccessTokenResponse> refreshAccessToken(@Url String url,
-//                                                        @Field("grant_type") String grantType,
-//                                                        @Field("refresh_token") String refreshToken,
-//                                                        @Field("client_id") String clientId,
-//                                                        @Field("redirect_uri") String redirectUri
-//    );
-
-    //    @POST(EnviHandler.OKTA_BASE_URL + "api/v1/authn/recovery/password")
     @POST
     Call<ForgotPasswordResponse> forgotPassword(@Url String url, @Body ForgotPasswordRequest request);
 
-    //    @GET(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me")
-//    @GET
-//    Call<CreateSessionResponse> createSession(@Url String url, @Header("Cookie") String sid);
-
-    //    @DELETE(EnviHandler.OKTA_BASE_URL + "api/v1/sessions/me")
-//    @DELETE
-//    Call<Void> logout(@Url String url, @Header("Cookie") String sid);
-
-    //    @GET(EnviHandler.CIAM_BASE_URL + "api/terms-and-conditions")
     @GET
     Call<Tos> getTos(@Url String url, @Header("Authorization") String bearer);
 
     @POST
     Call<Tos> acceptTos(@Url String url, @Header("Authorization") String bearer);
 
-    //    @GET(EnviHandler.S2_BASE_URL + "api/locationsuggestion")
     @GET
     Call<List<LocationResponse>> getLocationSuggestions(@Url String url,
                                                         @Query("query") String queryString);
 
-    //    @GET(EnviHandler.S2_BASE_URL + "api/suggestion")
     @GET
     Call<List<SearchSuggestionResponse>> getSearchSuggestions(@Url String url,
                                                               @Query("query") String queryString,
@@ -124,11 +88,9 @@ public interface RESTService {
                                                               @Query("displayName") String displayName,
                                                               @Query("zipCode") String zipCode);
 
-    //    @GET(EnviHandler.S2_BASE_URL + "api/location/")
     @GET
     Call<LocationResponse> getUserLocation(@Url String url);
 
-    //    @GET(EnviHandler.S2_BASE_URL + "api/providers")
     @GET
     Call<ProvidersResponse> getProviders(@Url String url,
                                          @Query("query") String queryString,
@@ -147,96 +109,64 @@ public interface RESTService {
                                          @Query("practices") String practices,
                                          @Query("patients") String patients);
 
-    //    @GET(EnviHandler.S2_BASE_URL + "api/providerdetails")
     @GET
     Call<ProviderDetailsResponse> getProviderDetails(@Url String url,
                                                      @Query("providerid") String id);
 
-    //    @POST(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VISIT)
     @POST
     Call<CreateAppointmentResponse> createAppointment(@Url String url,
                                                       @Header("Authorization") String bearer,
                                                       @Body CreateAppointmentRequest appointment);
 
-    // include = insurance,schedule-properties
-//    @GET(EnviHandler.SCHEDULING_BASE + RESTConstants.SCHEDULING_VALIDATION)
     @GET
     Call<RegValidationResponse> getValidationRules(@Url String url,
                                                    @Query("include") String include);
 
-    //    @GET(EnviHandler.CIAM_BASE_URL + "api/users")
     @GET
     Call<ValidateEmailResponse> findEmail(@Url String url,
                                           @Query("email") String email);
 
-    //    @GET(EnviHandler.VERSIONING_URL + "api/versioning/dependencies")
     @GET
     Call<UpdateResponse> versionCheck(@Url String url);
 
-
-    //1.1 APIs
-
-    //    @POST(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers")
     @POST
     Call<SaveDoctorResponse> saveDoctor(@Url String url,
                                         @Header("Authorization") String bearer,
                                         @Body SaveDoctorRequest resuest);
 
-    //    @DELETE(EnviHandler.CIAM_BASE_URL + "api/users/me/favorite-providers/{npi}")
     @DELETE
     Call<SaveDoctorResponse> deleteSavedDoctor(@Url String url,
                                                @Header("Authorization") String bearer);
 
-    //    @POST(EnviHandler.CIAM_BASE_URL + "api/users/query")
     @POST
     Call<MySavedDoctorsResponse> getSavedDocctors(@Url String url,
                                                   @Header("Authorization") String bearer,
                                                   @Body MySavedDoctorsRequest request);
 
-    //    @POST(EnviHandler.CIAM_BASE_URL + "api/users/query")
     @POST
     Call<MyAppointmentsResponse> getMyAppointments(@Url String url,
                                                    @Header("Authorization") String bearer,
                                                    @Body MyAppointmentsRequest request);
 
-    //1.2 APIs
-
-    //    @POST(EnviHandler.CIAM_BASE_URL + "api/users/me/password")
     @POST
     Call<CommonResponse> changePassword(@Url String url,
                                         @Header("Authorization") String bearer,
                                         @Body ChangePasswordRequest request);
 
-    //    @PATCH(EnviHandler.CIAM_BASE_URL + "api/users/me/recovery/question")
     @PATCH
     Call<CommonResponse> changeSecurityQuestion(
             @Url String url,
             @Header("Authorization") String bearer,
             @Body ChangeSesurityQuestionRequest request);
 
-    //    @POST(EnviHandler.CIAM_BASE_URL + "api/users/query")
     @POST
     Call<ProfileGraphqlResponse> getUserProfile(@Url String url,
                                                 @Header("Authorization") String bearer,
                                                 @Body MyProfileRequest request);
 
-    /************ New Auth with ClientID **************************************/
-
-    @POST
-    Call<SignInResponse> signIn(@Url String url, @Body SignInRequest request);
-
-    @POST
-    Call<SignInResponse> signInRefresh(@Url String url, @Body RefreshRequest request);
-
-    @POST
-    Call<CommonResponse> signOut(@Url String url, @Header("Authorization") String bearer,
-                                 @Body SignOutRequest request);
-
-    //1.3 APIs
     @POST
     Call<CommonResponse> resendEmail(@Url String url, @Header("Authorization") String bearer);
 
-    //1.4 APIs
     @GET
     Call<ProviderDetails> getNewProviderDetails(@Url String url,
                                                 @Query("npis") String id);
