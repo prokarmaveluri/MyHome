@@ -98,13 +98,13 @@ public class CommonUtil {
 
     public static boolean isValidEmail(String email) {
 
-        if (null == email)
+        if (email == null)
             return false;
         if (email.isEmpty() || !email.contains("@"))
             return false;
         String[] tokens = email.split("\\@");
 
-        if (null == tokens)
+        if (tokens == null)
             return false;
         if (tokens.length != 2)
             return false;
@@ -284,7 +284,7 @@ public class CommonUtil {
     public static String constructPhoneNumber(@NonNull String number) {
         String phoneNumber = "";
 
-        if (null == number || number.trim().isEmpty())
+        if (number == null || number.trim().isEmpty())
             return "";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

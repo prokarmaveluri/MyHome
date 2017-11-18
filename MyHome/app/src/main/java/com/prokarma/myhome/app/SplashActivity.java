@@ -661,7 +661,6 @@ public class SplashActivity extends AppCompatActivity implements
         NetworkManager.getInstance().signIn(request).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-
                 progress.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body().getValid()) {
                     try {
