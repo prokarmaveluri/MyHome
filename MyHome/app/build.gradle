@@ -230,15 +230,7 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_AUTH", "\"authorization_code\""
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
-            //minifyEnabled true
-            //shrinkResources true
-            debuggable true
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            signingConfig signingConfigs.config
-
             //AWSDK
-
             def localHost = InetAddress.getLocalHost().getCanonicalHostName()
 //            resValue SDKSTRING, AWSDKURL, "https://stagingoc201.mytelehealth.com"
             resValue SDKSTRING, AWSDKURL, "https://sdk.myonlinecare.com"  //TODO: Dev working url
@@ -249,6 +241,13 @@ android {
             resValue SDKBOOLEAN, SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN, TRUE
             resValue SDKBOOLEAN, SDKSAMPLE_FORCE_PORTRAIT, FALSE
             resValue SDKBOOLEAN, AWSDK_ENABLE_DEBUG_LOGGING, TRUE
+
+            //minifyEnabled true
+            //shrinkResources true
+            debuggable true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.config
         }
         developer {
 
@@ -302,6 +301,17 @@ android {
             buildConfigField STRING, "P_AUTH_REDIRECT_URI", "\"http://localhost:8080\""
             buildConfigField STRING, "P_GRANT_TYPE_AUTH", "\"authorization_code\""
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
+
+            //AWSDK
+            //TODO These are just Debug's values. Need to get values for Stage/Prod (IoT?)
+            resValue SDKSTRING, AWSDKURL, "https://sdk.myonlinecare.com"
+            resValue SDKSTRING, AWSDKKEY, "8ff96c2a"
+            resValue SDKBOOLEAN, ENABLEAUTH, "false"
+            resValue SDKSTRING, AUTHTOKEN, "at1001"
+            resValue SDKSTRING, AUTHURL, "api.samsungosp.com"
+            resValue SDKBOOLEAN, SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN, TRUE
+            resValue SDKBOOLEAN, SDKSAMPLE_FORCE_PORTRAIT, FALSE
+            resValue SDKBOOLEAN, AWSDK_ENABLE_DEBUG_LOGGING, TRUE
 
             signingConfig signingConfigs.config
             debuggable true
