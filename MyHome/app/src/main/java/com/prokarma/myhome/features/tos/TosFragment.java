@@ -115,7 +115,6 @@ public class TosFragment extends BaseFragment {
             Toast.makeText(getActivity(),
                     R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
-            return;
         } else {
             progress.setVisibility(View.VISIBLE);
             NetworkManager.getInstance().acceptTos(bearer).enqueue(new Callback<Tos>() {
@@ -139,7 +138,6 @@ public class TosFragment extends BaseFragment {
                     ApiErrorUtil.getInstance().getTosFailed(getContext(), tosView, t);
                 }
             });
-
         }
     }
 

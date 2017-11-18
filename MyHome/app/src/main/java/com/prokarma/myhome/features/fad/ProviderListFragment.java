@@ -191,7 +191,6 @@ public class ProviderListFragment extends Fragment implements
             PageData data = new PageData();
             data.setPageNo(page);
             NavigationActivity.eventBus.post(data);
-        } else {
         }
     }
 

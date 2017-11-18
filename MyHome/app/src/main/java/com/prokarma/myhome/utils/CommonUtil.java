@@ -824,7 +824,7 @@ public class CommonUtil {
         ProviderDetailsAddress providerOfficeAddress = new ProviderDetailsAddress();
 
         List<String> providerOfficePhones = new ArrayList<>();
-        String providerOfficePhone = new String();
+        String providerOfficePhone = "";
 
         for (Office office : offices) {
             providerOffice = new ProviderDetailsOffice();

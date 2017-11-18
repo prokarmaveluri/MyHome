@@ -200,21 +200,25 @@ public class AuthManager {
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.isSuccessful() && response.body().getValid()) {
                     try {
+                        Timber.d("Successful Response\n" + response);
                         AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
 //                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                         CryptoManager.getInstance().saveToken();
                     } catch (NullPointerException ex) {
+                        Timber.e(ex);
                         ex.printStackTrace();
                     }
                 } else {
+                    Timber.e("Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<SignInResponse> call, Throwable t) {
-                Timber.i("onFailure : ");
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + t);
             }
         });
     }
@@ -225,6 +229,7 @@ public class AuthManager {
         private AuthHandler(AuthManager authManager) {
             mAuthManager = new WeakReference<AuthManager>(authManager);
         }
+
         @Override
         public void handleMessage(Message msg) {
             AuthManager authManager = mAuthManager.get();

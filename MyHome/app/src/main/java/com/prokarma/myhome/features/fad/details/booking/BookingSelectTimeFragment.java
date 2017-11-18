@@ -322,9 +322,7 @@ public class BookingSelectTimeFragment extends Fragment {
             }
 
             if (DateUtil.isOnSameDay(todaysDate, appointmentDate)) {
-                for (AppointmentTime appointmentTime : appointmentDetails.getTimes()) {
-                    todaysAppointments.add(appointmentTime);
-                }
+                todaysAppointments.addAll(appointmentDetails.getTimes());
             }
         }
 

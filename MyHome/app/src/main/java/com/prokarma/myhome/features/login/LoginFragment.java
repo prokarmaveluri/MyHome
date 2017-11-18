@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
@@ -83,11 +82,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
-
-        //Automatically populate developer builds with a test account
-        if (BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")) {
-            // add your debugging credentials
-        }
 
         binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email, binder.emailLayout,
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.EMAIL_LOGIN));

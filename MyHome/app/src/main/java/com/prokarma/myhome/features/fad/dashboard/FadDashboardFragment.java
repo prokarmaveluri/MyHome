@@ -43,15 +43,7 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
     }
 
     public static FadDashboardFragment newInstance() {
-        FadDashboardFragment fragment = new FadDashboardFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+        return new FadDashboardFragment();
     }
 
     @Override

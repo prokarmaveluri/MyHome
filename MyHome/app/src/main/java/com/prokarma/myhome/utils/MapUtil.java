@@ -48,9 +48,7 @@ public class MapUtil {
                 Timber.v("KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
 
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }

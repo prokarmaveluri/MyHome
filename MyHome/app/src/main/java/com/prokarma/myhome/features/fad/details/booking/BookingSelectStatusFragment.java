@@ -99,7 +99,7 @@ public class BookingSelectStatusFragment extends Fragment {
         appointmentTypeLayout.removeAllViews();
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DeviceDisplayManager.dpToPx(getContext(), 45));
-        layoutParams.setMargins(DeviceDisplayManager.getInstance().dpToPx(getContext(), 0), DeviceDisplayManager.dpToPx(getContext(), 18), DeviceDisplayManager.dpToPx(getContext(), 0), DeviceDisplayManager.dpToPx(getContext(), 0));
+        layoutParams.setMargins(DeviceDisplayManager.dpToPx(getContext(), 0), DeviceDisplayManager.dpToPx(getContext(), 18), DeviceDisplayManager.dpToPx(getContext(), 0), DeviceDisplayManager.dpToPx(getContext(), 0));
         Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
 
         View.OnClickListener typeClickedListener;
