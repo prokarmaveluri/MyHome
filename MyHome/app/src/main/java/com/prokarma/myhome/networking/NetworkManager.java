@@ -624,26 +624,6 @@ public class NetworkManager {
         void expired();
     }
 
-    private boolean refreshToken() {
-        try {
-            retrofit2.Response<SignInResponse> syncResp = NetworkManager.getInstance()
-                    .signInRefresh(new RefreshRequest(AuthManager.getInstance().getRefreshToken())).execute();
-            if (syncResp.isSuccessful() && syncResp.body().getValid()) {
-                System.out.println("REQ: syncResp" + syncResp.body().toString());
-                AuthManager.getInstance().setBearerToken(syncResp.body().getResult().getAccessToken());
-                AuthManager.getInstance().setRefreshToken(syncResp.body().getResult().getRefreshToken());
-                return true;
-            } else {
-                //TODO:Chandra Login on refresh fail
-                    /*need handler to post to main thread as it will be updating mybag count*/
-                return false;
-            }
-        } catch (IOException | NullPointerException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
     /**
      * Get a detailed profile of a provider
      *
@@ -780,7 +760,7 @@ public class NetworkManager {
                         tealiumData.put(Constants.FAVORITE_PROVIDER_NPI, npi);
                         TealiumUtil.trackEvent(Constants.UNFAVORITE_PROVIDER_EVENT, tealiumData);
 
-                        deleteSavedDocotor(npi);
+                        deleteSavedDoctor(npi);
                     } else {
                         CommonUtil.updateFavView(!isSave, favProvider);
                         ApiErrorUtil.getInstance().deleteSavedDoctorError(context, parentView, response);
@@ -796,7 +776,7 @@ public class NetworkManager {
         }
     }
 
-    public void deleteSavedDocotor(String npi) {
+    public void deleteSavedDoctor(String npi) {
         try {
             List<ProviderResponse> providerList = ProfileManager.getFavoriteProviders();
             for (int index = 0; index < providerList.size(); index++) {
