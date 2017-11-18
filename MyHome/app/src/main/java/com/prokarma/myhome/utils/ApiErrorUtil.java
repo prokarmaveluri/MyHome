@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 
@@ -46,7 +47,7 @@ public class ApiErrorUtil {
             });
         }
 
-        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SHOW_API_ERROR_INFO)) {
+        if (!AppPreferences.getInstance().getBooleanPreference(Constants.API_HIDE_API_ERROR_INFO) || BuildConfig.FLAVOR.equals("developer")) {
             snackbar.setAction("Details", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
