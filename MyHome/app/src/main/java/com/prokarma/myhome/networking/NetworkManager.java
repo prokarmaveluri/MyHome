@@ -40,7 +40,7 @@ import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.settings.ChangePasswordRequest;
-import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.ChangeSecurityQuestionRequest;
 import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
@@ -413,10 +413,10 @@ public class NetworkManager {
     public Call<MySavedDoctorsResponse> getSavedDoctors(String bearerToken,
                                                         MySavedDoctorsRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_SAVED_DOCTORS_FORCE_ERROR)) {
-            return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/query",
+            return service.getSavedDoctors(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/query",
                     BEARER + bearerToken, request);
         } else {
-            return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
+            return service.getSavedDoctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
                     BEARER + bearerToken, request);
         }
     }
@@ -446,7 +446,7 @@ public class NetworkManager {
     }
 
     public Call<CommonResponse> changeSecurityQuestion(String bearerToken,
-                                                       ChangeSesurityQuestionRequest request) {
+                                                       ChangeSecurityQuestionRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_SECURITY_QUESTION_FORCE_ERROR)) {
             return service.changeSecurityQuestion(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/me/recovery/question",
                     BEARER + bearerToken, request);

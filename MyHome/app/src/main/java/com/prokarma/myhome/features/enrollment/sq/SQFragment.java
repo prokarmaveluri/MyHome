@@ -21,7 +21,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentSecqBinding;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.ChangeSecurityQuestionRequest;
 import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -247,12 +247,12 @@ public class SQFragment extends Fragment {
         }
         if (!isAllInputsValid())
             return;
-        ChangeSesurityQuestionRequest.Question question =
-                new ChangeSesurityQuestionRequest.Question(selectedQuestionId,
+        ChangeSecurityQuestionRequest.Question question =
+                new ChangeSecurityQuestionRequest.Question(selectedQuestionId,
                         binding.answer.getText().toString());
 
         binding.changeSecProgress.setVisibility(View.VISIBLE);
-        ChangeSesurityQuestionRequest request = new ChangeSesurityQuestionRequest(password, question);
+        ChangeSecurityQuestionRequest request = new ChangeSecurityQuestionRequest(password, question);
         NetworkManager.getInstance().changeSecurityQuestion(AuthManager.getInstance().getBearerToken(),
                 request).enqueue(new Callback<CommonResponse>() {
             @Override
