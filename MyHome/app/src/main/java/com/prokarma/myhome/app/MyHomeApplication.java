@@ -9,6 +9,7 @@ import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.TealiumUtil;
 
 import net.hockeyapp.android.CrashManager;
@@ -44,11 +45,21 @@ public class MyHomeApplication extends MultiDexApplication {
                 public boolean shouldAutoUploadCrashes() {
                     return true;
                 }
+
+                @Override
+                public String getUserID() {
+                    if (!BuildConfig.FLAVOR.equals("release")) {
+                        String email = AppPreferences.getInstance().getPreference("EMAIL_PREF");
+                        return email != null && !email.isEmpty() ? email : "User Unknown";
+                    }
+
+                    return "User Unknown";
+                }
             });
         }
 
         //init Analytics
-        if(BuildConfig.REPORT_ANALYTICS){
+        if (BuildConfig.REPORT_ANALYTICS) {
             TealiumUtil.initialize(this);
         }
 
