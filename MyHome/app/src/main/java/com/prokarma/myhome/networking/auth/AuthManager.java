@@ -14,6 +14,8 @@ import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.AppPreferences;
 
+import java.lang.ref.WeakReference;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +45,7 @@ public class AuthManager {
     public static long SESSION_EXPIRY_TIME = 10 * 24 * 60 * 60 * 1000;
 
     private static final int MAX_RETRIES_BEFORE_LOCKING_USER = 3;
-    
+
     private static final AuthManager ourInstance = new AuthManager();
 
     public static AuthManager getInstance() {
@@ -183,21 +185,13 @@ public class AuthManager {
 
             // already expired
             if ((current - fetchTime) > (AuthManager.getInstance().getExpiresIn() * 1000)) {
-                mHandler.sendEmptyMessage(0);
+                getHandler().sendEmptyMessage(0);
             }
             return false;
         } catch (NullPointerException ex) {
             return false;
         }
     }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            refreshToken();
-        }
-    };
 
     public void refreshToken() {
         NetworkManager.getInstance().signInRefresh(new RefreshRequest(
@@ -223,5 +217,24 @@ public class AuthManager {
                 Timber.i("onFailure : ");
             }
         });
+    }
+
+    private static class AuthHandler extends Handler {
+        private final WeakReference<AuthManager> mAuthManager;
+
+        private AuthHandler(AuthManager authManager) {
+            mAuthManager = new WeakReference<AuthManager>(authManager);
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            AuthManager authManager = mAuthManager.get();
+            if (authManager != null) {
+                authManager.refreshToken();
+            }
+        }
+    }
+
+    private Handler getHandler() {
+        return new AuthHandler(this);
     }
 }

@@ -32,6 +32,7 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -296,14 +297,6 @@ public class SQFragment extends Fragment {
         });
     }
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            CommonUtil.hideSoftKeyboard(getActivity());
-        }
-    };
-
     private void drawableClickEvent() {
         binding.answer.setOnTouchListener(
                 new View.OnTouchListener() {
@@ -321,7 +314,7 @@ public class SQFragment extends Fragment {
                                         touchXCoordinate <= (binding.answer.getRight() - binding.answer.getPaddingRight())) {
                                     CommonUtil.displayPopupWindow(getActivity(), binding.answer,
                                             CommonUtil.getBulletPoints(CommonUtil.getSecurityAnswerCriteria(getActivity())));
-                                    mHandler.sendEmptyMessageDelayed(0, 500);
+                                    getHandler().sendEmptyMessageDelayed(0, 500);
                                 } else {
                                     CommonUtil.showSoftKeyboard(binding.answer, getActivity());
                                 }
@@ -332,5 +325,25 @@ public class SQFragment extends Fragment {
                         return false;
                     }
                 });
+    }
+
+    private static class SQHandler extends Handler {
+        private final WeakReference<SQFragment> mSQFragment;
+
+        private SQHandler(SQFragment sqFragment) {
+            mSQFragment = new WeakReference<SQFragment>(sqFragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            SQFragment sqFragment = mSQFragment.get();
+            if (sqFragment != null) {
+                CommonUtil.hideSoftKeyboard(sqFragment.getActivity());
+            }
+        }
+    }
+
+    private Handler getHandler() {
+        return new SQHandler(this);
     }
 }

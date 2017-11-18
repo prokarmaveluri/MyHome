@@ -55,6 +55,7 @@ import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.squareup.otto.Subscribe;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -590,8 +591,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             practices.addAll(response.getPractices());
         } catch (IllegalStateException | NullPointerException ex) {
         }
-        mHandler.removeMessages(0);
-        mHandler.sendEmptyMessageDelayed(0, 300);
+        getHandler().removeMessages(0);
+        getHandler().sendEmptyMessageDelayed(0, 300);
     }
 
     private String getParam(List<CommonModel> listModel) {
@@ -722,8 +723,8 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public void onPageSelected(int position) {
         currentPageSelection = position;
         if (position == 0) {
-            mHandler.removeMessages(0);
-            mHandler.sendEmptyMessageDelayed(0, 300);
+            getHandler().removeMessages(0);
+            getHandler().sendEmptyMessageDelayed(0, 300);
             TealiumUtil.trackView(Constants.FAD_LIST_SCREEN, null);
         } else {
             TealiumUtil.trackView(Constants.FAD_MAP_SCREEN, null);
@@ -916,11 +917,24 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         );
     }
 
-    private Handler mHandler = new Handler() {
+    private static class FadHandler extends Handler {
+        private final WeakReference<FadFragment> mFadFragment;
+
+        private FadHandler(FadFragment fadFragment) {
+            mFadFragment = new WeakReference<FadFragment>(fadFragment);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            coachmarkFilter();
+            FadFragment fadFragment = mFadFragment.get();
+            if (fadFragment != null) {
+                fadFragment.coachmarkFilter();
+            }
         }
-    };
+    }
+
+    private Handler getHandler() {
+        return new FadHandler(this);
+    }
+
 }
