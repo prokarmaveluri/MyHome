@@ -23,6 +23,7 @@ import timber.log.Timber;
  * Created by cmajji on 5/1/17.
  */
 
+@SuppressWarnings("unused")
 public class AuthManager {
 
     private static String expiresAt;
@@ -40,8 +41,9 @@ public class AuthManager {
     private static long prevTimestamp = 0;
     private static long MINITUES_5 = 5 * 60 * 1000;
     public static long SESSION_EXPIRY_TIME = 10 * 24 * 60 * 60 * 1000;
-//    public static long SESSION_EXPIRY_TIME = 10 * 60 * 1000;
 
+    private static final int MAX_RETRIES_BEFORE_LOCKING_USER = 3;
+    
     private static final AuthManager ourInstance = new AuthManager();
 
     public static AuthManager getInstance() {
@@ -160,7 +162,7 @@ public class AuthManager {
      * @return
      */
     public boolean isMaxFailureAttemptsReached() {
-        return count >= 3 && !BuildConfig.BUILD_TYPE.equalsIgnoreCase(DeveloperFragment.DEVELOPER);
+        return count >= MAX_RETRIES_BEFORE_LOCKING_USER && !BuildConfig.BUILD_TYPE.equalsIgnoreCase(DeveloperFragment.DEVELOPER);
     }
 
     public void storeLockoutInfo() {
@@ -174,7 +176,7 @@ public class AuthManager {
         prevTimestamp = AppPreferences.getInstance().getLongPreference(LoginActivity.FAILURE_TIME_STAMP);
     }
 
-    public boolean isExpiried() {
+    public boolean isExpired() {
         try {
             long fetchTime = AppPreferences.getInstance().getLongPreference("FETCH_TIME");
             long current = System.currentTimeMillis();
@@ -204,7 +206,6 @@ public class AuthManager {
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.isSuccessful() && response.body().getValid()) {
                     try {
-//                        Timber.i("Session refresh " + response.body().getExpiresIn());
                         AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
 //                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
