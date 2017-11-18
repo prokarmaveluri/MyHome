@@ -198,7 +198,7 @@ public class AuthManager {
                 AuthManager.getInstance().getRefreshToken())).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-                if (response.isSuccessful() && response.body().getValid()) {
+                if (response.isSuccessful() && response.body() != null && response.body().getValid()) {
                     try {
                         Timber.d("Successful Response\n" + response);
                         AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());

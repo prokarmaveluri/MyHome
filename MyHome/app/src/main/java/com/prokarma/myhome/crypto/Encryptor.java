@@ -65,8 +65,8 @@ public class Encryptor {
                     .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                     .build());
-        }else {
-            if (null != context) {
+        } else {
+            if (context != null) {
                 KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(context)
                         .setAlias(alias)
                         .setSubject(new X500Principal("CN=Sample Name, O=Android Authority"))

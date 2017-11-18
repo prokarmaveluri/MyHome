@@ -110,7 +110,7 @@ public class AppointmentsFragment extends BaseFragment {
                         MyAppointmentsResponse myAppointmentsResponse = response.body();
                         Timber.d("My Appointments Response: " + myAppointmentsResponse);
 
-                        if (myAppointmentsResponse.getData() != null && myAppointmentsResponse.getData().getUser() != null) {
+                        if (myAppointmentsResponse != null && myAppointmentsResponse.getData() != null && myAppointmentsResponse.getData().getUser() != null) {
                             ArrayList<Appointment> appointments = (ArrayList<Appointment>) myAppointmentsResponse.getData().getUser().getAppointments();
                             Timber.i("Appointments: " + Arrays.deepToString(appointments.toArray()));
 

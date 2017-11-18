@@ -16,11 +16,12 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/enroll_now">
+            android:layout_above="@+id/enroll_now"
+            android:fillViewport="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:theme="@style/textInputLayoutStyle"
