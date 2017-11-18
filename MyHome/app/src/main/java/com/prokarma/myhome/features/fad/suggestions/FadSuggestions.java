@@ -4,13 +4,13 @@ package com.prokarma.myhome.features.fad.suggestions;
  * Created by cmajji on 7/3/17.
  */
 
-public class FadSuggesstions {
+public class FadSuggestions {
 
     private String type;
     private String title;
     private String Id;
 
-    public FadSuggesstions(String type, String title, String id) {
+    public FadSuggestions(String type, String title, String id) {
         this.type = type;
         this.title = title;
         this.Id = id;

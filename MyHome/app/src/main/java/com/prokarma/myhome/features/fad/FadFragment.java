@@ -41,7 +41,7 @@ import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.filter.FilterDialog;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
-import com.prokarma.myhome.features.fad.suggestions.FadSuggesstions;
+import com.prokarma.myhome.features.fad.suggestions.FadSuggestions;
 import com.prokarma.myhome.features.fad.suggestions.ProviderSuggestionsAdapter;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -497,19 +497,19 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         }
     }
 
-    private List<FadSuggesstions> getSuggestions(List<SearchSuggestionResponse> list) {
-        List<FadSuggesstions> sug = new ArrayList<>();
+    private List<FadSuggestions> getSuggestions(List<SearchSuggestionResponse> list) {
+        List<FadSuggestions> sug = new ArrayList<>();
         try {
             for (SearchSuggestionResponse resp : list) {
                 if (resp.getType().contains("Search") || resp.getType().contains("Provider") ||
                         resp.getType().contains("SectionHeader")) {
                     if (null != resp.Category && resp.Category.equals("Provider") &&
                             null != resp.getTitle() && resp.getTitle().contains("Healthcare Providers")) {
-                        FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), "Healthcare Providers",
+                        FadSuggestions sugObj = new FadSuggestions(resp.getType(), "Healthcare Providers",
                                 resp.getNpi());
                         sug.add(sugObj);
                     } else {
-                        FadSuggesstions sugObj = new FadSuggesstions(resp.getType(), resp.getTitle(),
+                        FadSuggestions sugObj = new FadSuggestions(resp.getType(), resp.getTitle(),
                                 resp.getNpi());
                         sug.add(sugObj);
                     }
