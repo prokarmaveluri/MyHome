@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.americanwell.sdksample.SampleApplication;
 import com.americanwell.sdksample.login.LoginActivity;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -26,6 +25,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
+import com.televisit.AwsManager;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -116,7 +116,7 @@ public class ProfileViewFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                SampleApplication.getInstance().initVisit(getActivity().getApplicationContext());
+                AwsManager.getInstance().init(getActivity().getApplicationContext());
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
             }

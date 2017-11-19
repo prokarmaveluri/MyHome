@@ -15,11 +15,11 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
-import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
+import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.Map;
@@ -118,7 +118,7 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
 
     private void createVisit() {
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
+        AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
                 SDKUtils.getInstance().getVisitContext(),
                 new SDKValidatedCallback<Visit, SDKError>() {
                     @Override

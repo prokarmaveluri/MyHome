@@ -16,11 +16,11 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.manager.SDKCallback;
-import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
+import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.HashMap;
@@ -61,7 +61,7 @@ public class SDKLoginFragment extends BaseFragment {
         if (getArguments() != null) {
         }
 
-        awsdk = SampleApplication.getInstance().getAWSDK();
+        awsdk = AwsManager.getInstance().getAWSDK();
     }
 
     @Override

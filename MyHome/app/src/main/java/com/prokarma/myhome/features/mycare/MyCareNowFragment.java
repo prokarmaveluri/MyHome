@@ -16,11 +16,11 @@ import android.widget.TextView;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.manager.SDKCallback;
-import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
+import com.televisit.AwsManager;
 import com.televisit.SDKOptionsActivity;
 import com.televisit.SDKUtils;
 
@@ -124,7 +124,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerPharmacy() {
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
                 SDKUtils.getInstance().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
                     @Override
                     public void onResponse(Pharmacy pharmacy, SDKError sdkError) {

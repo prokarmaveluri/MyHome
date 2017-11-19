@@ -18,10 +18,10 @@ import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
-import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
     }
 
     private void getMedications() {
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().getMedications(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
                 SDKUtils.getInstance().getConsumer(),
                 new SDKCallback<List<Medication>, SDKError>() {
                     @Override
@@ -131,7 +131,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
     private void updateMedications() {
         progressBar.setVisibility(View.GONE);
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().updateMedications(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateMedications(
                 SDKUtils.getInstance().getConsumer(),
                 SDKUtils.getInstance().getMedications(),
                 new SDKCallback<Void, SDKError>() {
@@ -151,7 +151,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
     private void searchMedications(String searchText) {
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().searchMedications(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().searchMedications(
                 SDKUtils.getInstance().getConsumer(),
                 searchText,
                 new SDKValidatedCallback<List<Medication>, SDKError>() {

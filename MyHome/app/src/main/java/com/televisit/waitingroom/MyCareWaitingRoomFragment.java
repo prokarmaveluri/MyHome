@@ -21,11 +21,11 @@ import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
 import com.americanwell.sdk.manager.ValidationReason;
-import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
+import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.Map;
@@ -88,7 +88,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (isVisitEnd){
+        if (isVisitEnd) {
             try {
                 if (getActivity() != null) {
                     ((NavigationActivity) getActivity()).onBackPressed();
@@ -108,7 +108,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
 
         abandonVisit();
 
-        SampleApplication.getInstance().getAWSDK().getVisitManager().startVisit(
+        AwsManager.getInstance().getAWSDK().getVisitManager().startVisit(
                 SDKUtils.getInstance().getVisit(),
                 location,
                 visitFinishedIntent,
@@ -163,7 +163,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
     }
 
     private void cancelVisit() {
-        SampleApplication.getInstance().getAWSDK().getVisitManager().cancelVisit(
+        AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
                 SDKUtils.getInstance().getVisit(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
@@ -182,7 +182,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
     public void abandonVisit() {
         // called by onDestroy()
         // this is to ensure we don't have any polling hanging out when it shouldn't be
-        SampleApplication.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
+        AwsManager.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
     }
 
     public void setVisitIntent(final Intent intent) {

@@ -13,9 +13,9 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.manager.SDKCallback;
-import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.views.CircularImageView;
+import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 public class SummaryActivity extends AppCompatActivity {
@@ -60,7 +60,7 @@ public class SummaryActivity extends AppCompatActivity {
 
     private void getVisitSummary() {
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK()
+        AwsManager.getInstance().getAWSDK()
                 .getVisitManager().getVisitSummary(SDKUtils.getInstance().getVisit(),
                 new SDKCallback<VisitSummary, SDKError>() {
                     @Override
@@ -82,7 +82,7 @@ public class SummaryActivity extends AppCompatActivity {
     private void updateDocImage() {
         if (summary.getAssignedProviderInfo().hasImage()) {
             // preferred method for loading image
-            SampleApplication.getInstance().getAWSDK().getPracticeProvidersManager()
+            AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(summary.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
                     .build()
                     .load();

@@ -19,11 +19,11 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.manager.SDKCallback;
-import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
+import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.List;
@@ -80,7 +80,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
     private void getProviders() {
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
+        AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
                 SDKUtils.getInstance().getConsumer(),
                 practiceInfo,
                 null,
@@ -138,7 +138,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     private void getProvider(ProviderInfo info) {
-        SampleApplication.getInstance().getAWSDK()
+        AwsManager.getInstance().getAWSDK()
                 .getPracticeProvidersManager().getProvider(info, SDKUtils.getInstance().getConsumer(),
                 new SDKCallback<Provider, SDKError>() {
                     @Override
@@ -156,7 +156,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     private void getVisitContext(ProviderInfo info) {
-        SampleApplication.getInstance().getAWSDK()
+        AwsManager.getInstance().getAWSDK()
                 .getVisitManager().getVisitContext(SDKUtils.getInstance().getConsumer(),
                 info, new SDKCallback<VisitContext, SDKError>() {
                     @Override

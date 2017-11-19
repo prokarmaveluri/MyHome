@@ -13,11 +13,11 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.manager.SDKCallback;
-import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.List;
@@ -116,7 +116,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
 
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().getConditions(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
                 SDKUtils.getInstance().getConsumer(),
                 new SDKCallback<List<Condition>, SDKError>() {
                     @Override
@@ -148,7 +148,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
 
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().getAllergies(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
                 SDKUtils.getInstance().getConsumer(),
                 new SDKCallback<List<Allergy>, SDKError>() {
                     @Override
@@ -177,7 +177,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
 
     private void updateConditions() {
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().updateConditions(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateConditions(
                 SDKUtils.getInstance().getConsumer(),
                 SDKUtils.getInstance().getConditions(),
                 new SDKCallback<Void, SDKError>() {
@@ -196,7 +196,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
 
     private void updateAllergies() {
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().updateAllergies(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateAllergies(
                 SDKUtils.getInstance().getConsumer(),
                 SDKUtils.getInstance().getAllergies(),
                 new SDKCallback<Void, SDKError>() {

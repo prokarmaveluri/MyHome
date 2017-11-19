@@ -18,10 +18,10 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
-import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.List;
@@ -88,7 +88,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     private void getPharmaciesByZip(String zipCode) {
 
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().getPharmacies(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 SDKUtils.getInstance().getConsumer(),
                 null,
                 null,
@@ -126,7 +126,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                                @NonNull final int radius,
                                @NonNull final boolean excludeMailOrder) {
         progressBar.setVisibility(View.VISIBLE);
-        SampleApplication.getInstance().getAWSDK().getConsumerManager().getPharmacies(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 SDKUtils.getInstance().getConsumer(),
                 latitude,
                 longitude,

@@ -24,9 +24,6 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.americanwell.sdksample.SampleApplication;
-import com.televisit.cost.MyCareVisitCostFragment;
-import com.televisit.login.SDKLoginFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -56,6 +53,9 @@ import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
+import com.televisit.AwsManager;
+import com.televisit.cost.MyCareVisitCostFragment;
+import com.televisit.login.SDKLoginFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.reason.MyCareReasonForVisitFragment;
 import com.televisit.services.MyCareServicesFragment;
@@ -398,7 +398,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
                     getSupportFragmentManager().executePendingTransactions();
 
-                    SampleApplication.getInstance().initVisit(getApplicationContext());
+                    AwsManager.getInstance().init(getApplicationContext());
                     SDKLoginFragment fragment = SDKLoginFragment.newInstance();
 
                     getSupportFragmentManager()
