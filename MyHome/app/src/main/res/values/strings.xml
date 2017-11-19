@@ -934,7 +934,7 @@
     <string name="my_care_reason_sug">What is the for you visit today?</string>
     <string name="intake">Intake</string>
     <string name="reason">Reason</string>
-    <string name="visit_cost_desc">Your total today is $</string>
+    <string name="visit_cost_desc">Your total is $</string>
     <string name="waiting_room_title">Waiting Room</string>
     <string name="title_activity_summary">SummaryActivity</string>
     <string name="your_visit_has_ended">Your visit has ended.</string>
