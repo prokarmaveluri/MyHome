@@ -264,6 +264,8 @@ public class SplashActivity extends AppCompatActivity implements
                                 } else {
                                     onRefreshSuccess();
                                 }
+
+                                AuthManager.getInstance().getUsersAmWellToken();
                             } catch (NullPointerException ex) {
                                 ex.printStackTrace();
                             }
@@ -397,7 +399,7 @@ public class SplashActivity extends AppCompatActivity implements
                             }
                         } else {
                             if (null != task)
-                                Timber.w("getLastLocation:exception", task.getException());
+                                Timber.w(task.getException());
                             NetworkManager.getInstance().getUserLocation();
                         }
                         isGPSVerified = true;
@@ -620,7 +622,7 @@ public class SplashActivity extends AppCompatActivity implements
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
                     }
-                }else {
+                } else {
                     ApiErrorUtil.getInstance().versionCheckError(getApplicationContext(), progress, response);
                 }
             }
@@ -688,6 +690,8 @@ public class SplashActivity extends AppCompatActivity implements
                         } else {
                             onRefreshSuccess();
                         }
+
+                        AuthManager.getInstance().getUsersAmWellToken();
                     } catch (NullPointerException ex) {
                         Timber.w(ex);
                     }

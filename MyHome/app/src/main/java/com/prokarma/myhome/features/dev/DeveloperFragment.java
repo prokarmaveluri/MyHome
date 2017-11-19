@@ -44,8 +44,8 @@ public class DeveloperFragment extends BaseFragment {
 
         TextView bearer = (TextView) developerView.findViewById(R.id.bearer);
         bearer.setText(AuthManager.getInstance().getBearerToken() != null ? AuthManager.getInstance().getBearerToken() : "Couldn't find Bearer Token");
-        TextView session = (TextView) developerView.findViewById(R.id.session);
-        session.setText(AuthManager.getInstance().getSessionToken() != null ? AuthManager.getInstance().getSessionToken() : "Session Token couldn't be found");
+        TextView session = (TextView) developerView.findViewById(R.id.amwell);
+        session.setText(AuthManager.getInstance().getAmWellToken() != null ? AuthManager.getInstance().getAmWellToken() : "Session Token couldn't be found");
         TextView profile = (TextView) developerView.findViewById(R.id.profile);
         profile.setText(ProfileManager.getProfile() != null ? ProfileManager.getProfile().toString() : "Profile Not Retrieved Yet");
         TextView location = (TextView) developerView.findViewById(R.id.location);

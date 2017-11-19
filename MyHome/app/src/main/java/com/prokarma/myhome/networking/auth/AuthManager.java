@@ -9,6 +9,7 @@ import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.login.LoginActivity;
+import com.prokarma.myhome.features.login.endpoint.AmWellResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -35,13 +36,14 @@ public class AuthManager {
     private static String sessionToken;
     private static String sessionId;
     private static String sid;
+    private static String amWellToken;
 
     private static long idleTime;
     private static int count = 0;
     private static Context context;
 
     private static long prevTimestamp = 0;
-    private static long MINITUES_5 = 5 * 60 * 1000;
+    private static long MINUTES_5 = 5 * 60 * 1000;
     public static long SESSION_EXPIRY_TIME = 10 * 24 * 60 * 60 * 1000;
 
     private static final int MAX_RETRIES_BEFORE_LOCKING_USER = 3;
@@ -127,6 +129,14 @@ public class AuthManager {
         AuthManager.bearerToken = bearerToken;
     }
 
+    public static void setAmWellToken(String amWellToken) {
+        AuthManager.amWellToken = amWellToken;
+    }
+
+    public static String getAmWellToken() {
+        return amWellToken;
+    }
+
     public String getSessionToken() {
         return sessionToken;
     }
@@ -144,7 +154,7 @@ public class AuthManager {
     }
 
     public void setFailureAttempt() {
-        if (System.currentTimeMillis() - prevTimestamp >= MINITUES_5) {
+        if (System.currentTimeMillis() - prevTimestamp >= MINUTES_5) {
             prevTimestamp = System.currentTimeMillis();
             count = 1;
         } else {
@@ -154,7 +164,7 @@ public class AuthManager {
     }
 
     public boolean isTimeStampGreaterThan5Mins() {
-        return (System.currentTimeMillis() - prevTimestamp >= MINITUES_5);
+        return (System.currentTimeMillis() - prevTimestamp >= MINUTES_5);
     }
 
     /**
@@ -206,6 +216,8 @@ public class AuthManager {
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                         CryptoManager.getInstance().saveToken();
+
+                        getUsersAmWellToken();
                     } catch (NullPointerException ex) {
                         Timber.e(ex);
                         ex.printStackTrace();
@@ -221,6 +233,30 @@ public class AuthManager {
                 Timber.e("Throwable = " + t);
             }
         });
+    }
+
+    public void getUsersAmWellToken() {
+        if (bearerToken != null) {
+            NetworkManager.getInstance().getAmWellToken(bearerToken).enqueue(new Callback<AmWellResponse>() {
+                @Override
+                public void onResponse(Call<AmWellResponse> call, Response<AmWellResponse> response) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getValid()) {
+                        Timber.d("Successful Response\n" + response);
+                        AuthManager.getInstance().setAmWellToken(response.body().result);
+                    } else {
+                        Timber.e("Response, but not successful?\n" + response);
+                        AuthManager.getInstance().setAmWellToken(null);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AmWellResponse> call, Throwable t) {
+                    Timber.e("Something failed! :/");
+                    Timber.e("Throwable = " + t);
+                    AuthManager.getInstance().setAmWellToken(null);
+                }
+            });
+        }
     }
 
     private static class AuthHandler extends Handler {

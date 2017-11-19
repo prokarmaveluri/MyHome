@@ -24,6 +24,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateApp
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
+import com.prokarma.myhome.features.login.endpoint.AmWellResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
@@ -472,8 +473,6 @@ public class NetworkManager {
         }
     }
 
-    /************** New Auth *************************************/
-
     /**
      * endpoint for signIn
      *
@@ -527,6 +526,17 @@ public class NetworkManager {
         }
     }
 
+    public Call<AmWellResponse> getAmWellToken(String bearerToken) {
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_SIGN_OUT_FORCE_ERROR)) {
+            return service.getAmWellToken(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") +
+                            "api/users/me/security-token",
+                    BEARER + bearerToken);
+        } else {
+            return service.getAmWellToken(EnviHandler.CIAM_BASE_URL +
+                            "api/users/me/security-token",
+                    BEARER + bearerToken);
+        }
+    }
 
     /**
      * resend email to the user.
