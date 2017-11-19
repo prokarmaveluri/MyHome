@@ -14,56 +14,57 @@
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="18dp"
         android:onClick="@{handlers::onClickProvider}">
 
-        <ImageView
+        <com.prokarma.myhome.views.CircularImageView
             android:id="@+id/providerImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" />
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/displayName"
             style="@style/tradeGothicLTStdLight_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_toRightOf="@+id/providerImage"
-            android:textColor="@color/accent"
+            android:text="Richard Paguia, MD"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/displaySpeciality"
-            style="@style/tradeGothicLTStd_Dynamic16"
+            style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/displayName"
             android:layout_below="@+id/displayName"
+            android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/providerImage"
-            android:textColor="@color/accent" />
+            android:text="Internal Medicine" />
 
         <RelativeLayout
             android:id="@+id/visibilityLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/displayName"
             android:layout_below="@+id/displaySpeciality"
+            android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/providerImage">
 
             <TextView
                 android:id="@+id/waitingCount"
-                style="@style/tradeGothicLTStd_Dynamic16"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/accent"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/visibility"
-                style="@style/tradeGothicLTStd_Dynamic16"
+                style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Offline"
-                android:textColor="@color/accent" />
+                android:text="Offline" />
         </RelativeLayout>
 
         <ImageView
@@ -71,6 +72,7 @@
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
             android:src="@drawable/ic_carrot_blue" />
 
         <View

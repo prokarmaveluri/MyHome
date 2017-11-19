@@ -111,7 +111,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         if (null != getActivity() && isAdded() && providers != null) {
             providerList.setVisibility(View.VISIBLE);
             providerList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            providerList.setAdapter(new ProvidersListAdapter(providers, this));
+            providerList.setAdapter(new ProvidersListAdapter(getContext(), providers, this));
         } else {
             providerList.setVisibility(View.GONE);
         }
