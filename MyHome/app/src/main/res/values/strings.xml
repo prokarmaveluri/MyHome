@@ -921,7 +921,7 @@
     <string name="pharmacy_search_hint">Search by Location/Zip</string>
 
     <string name="history_desc">Tell me a little more about yourself so I can help you get proper care.\n\nWhat is your medical history?\nCheck all that you apply.</string>
-    <string name="medication_desc">What medication are you on, So I can make sure your doctor can prescribe the correct medicine?</string>
+    <string name="medication_desc">To make sure you\'re correctly prescribed, are you taking any medications?</string>
     <string name="medication_search_hint">Search</string>
 
     <string name="my_care_services_desc">Pick a practice we\'ll make sure you see the right doctor</string>

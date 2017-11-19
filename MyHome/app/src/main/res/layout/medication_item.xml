@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/medication_text"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:text="Show More API Error Info" />
+
+    <TextView
+        android:id="@+id/delete"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="6dp"
+        android:text="Delete"
+        android:textColor="@color/accent"
+        android:textStyle="bold" />
+</RelativeLayout>

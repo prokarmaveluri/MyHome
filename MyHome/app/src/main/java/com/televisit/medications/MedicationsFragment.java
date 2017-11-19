@@ -2,6 +2,7 @@ package com.televisit.medications;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.MedicationRecyclerViewListener;
 import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.televisit.AwsManager;
@@ -99,9 +101,22 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
         adapter.notifyDataSetChanged();
     }
 
-    private void setMedicationsAdapter(List<String> list) {
-        SuggestionsAdapter adapter = new SuggestionsAdapter(list, getActivity(), null);
+    private void setMedicationsAdapter(List<Medication> list) {
+        MedicationsAdapter adapter = new MedicationsAdapter(list, new MedicationRecyclerViewListener() {
+            @Override
+            public void onItemClick(Object model, int position) {
+
+            }
+
+            @Override
+            public void onDeleteClick(Object model, int position) {
+
+            }
+        });
+
         medicationsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        medicationsList.addItemDecoration(itemDecoration);
         medicationsList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -117,7 +132,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
                         }
                         searchLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
-                        setMedicationsAdapter(getSuggestions(medications));
+                        setMedicationsAdapter(medications);
                     }
 
                     @Override
