@@ -912,9 +912,9 @@
     <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
     <string name="medical_history">Medical History</string>
     <string name="complete_your_medical_history">Complete your medical history.</string>
-    <string name="my_medications">My Medications</string>
+    <string name="medications">Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
-    <string name="my_pharmacy">My Pharmacy</string>
+    <string name="pharmacy">Pharmacy</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
     <string name="mycare_now">My Care Now</string>
     <string name="med_history">My Medical History</string>

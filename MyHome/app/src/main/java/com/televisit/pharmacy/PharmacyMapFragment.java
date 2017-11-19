@@ -76,7 +76,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle(getString(R.string.my_pharmacy));
+        getActivity().setTitle(getString(R.string.pharmacy));
         View view = inflater.inflate(R.layout.fragment_map_view, container, false);
 
         NavigationActivity.eventBus.register(this);

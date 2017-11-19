@@ -49,7 +49,7 @@ public class PharmaciesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle(getString(R.string.my_pharmacy));
+        getActivity().setTitle(getString(R.string.pharmacy));
         View view = inflater.inflate(R.layout.fragment_pharmacies, container, false);
 
         pharmacyTabs = (TabLayout) view.findViewById(R.id.pharmacyTabs);

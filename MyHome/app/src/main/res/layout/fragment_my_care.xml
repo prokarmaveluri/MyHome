@@ -67,9 +67,11 @@
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignBottom="@id/personal_info_image"
+                android:layout_alignTop="@id/personal_info_image"
                 android:layout_marginLeft="14dp"
                 android:layout_toRightOf="@id/personal_info_image"
+                android:gravity="center"
                 android:text="@string/personal_information"
                 android:textStyle="bold" />
 
@@ -78,23 +80,24 @@
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/personal_info_image"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@id/personal_info_image"
+                android:gravity="center"
                 android:text="@string/edit"
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/personal_info_desc"
-            style="@style/tradeGothicLTStd_Dynamic16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/personal_info_layout"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/your_profile_is_almost_complete" />
+            <TextView
+                android:id="@+id/personal_info_desc"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/personal_info_image"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/your_profile_is_almost_complete" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/medical_history_layout"
@@ -102,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/personal_info_layout"
             android:layout_alignRight="@id/personal_info_layout"
-            android:layout_below="@+id/personal_info_desc"
+            android:layout_below="@+id/personal_info_layout"
             android:layout_marginTop="16dp">
 
             <ImageView
@@ -116,9 +119,11 @@
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignBottom="@id/medical_history_image"
+                android:layout_alignTop="@id/medical_history_image"
                 android:layout_marginLeft="14dp"
                 android:layout_toRightOf="@id/medical_history_image"
+                android:gravity="center"
                 android:text="@string/medical_history"
                 android:textStyle="bold" />
 
@@ -127,23 +132,24 @@
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/medical_history_image"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@id/medical_history_image"
+                android:gravity="center"
                 android:text="@string/edit"
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/medical_history_desc"
-            style="@style/tradeGothicLTStd_Dynamic16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/medical_history_layout"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/complete_your_medical_history" />
+            <TextView
+                android:id="@+id/medical_history_desc"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medical_history_image"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/complete_your_medical_history" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/medications_layout"
@@ -151,7 +157,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/personal_info_layout"
             android:layout_alignRight="@id/personal_info_layout"
-            android:layout_below="@+id/medical_history_desc"
+            android:layout_below="@+id/medical_history_layout"
             android:layout_marginTop="16dp">
 
             <ImageView
@@ -165,10 +171,12 @@
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignBottom="@id/medications_image"
+                android:layout_alignTop="@id/medications_image"
                 android:layout_marginLeft="14dp"
                 android:layout_toRightOf="@id/medications_image"
-                android:text="@string/my_medications"
+                android:gravity="center"
+                android:text="@string/medications"
                 android:textStyle="bold" />
 
             <TextView
@@ -176,31 +184,32 @@
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/medications_image"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@id/medications_image"
+                android:gravity="center"
                 android:text="@string/edit"
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/medications_desc"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medications_image"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/what_medications_are_you_taking" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/medications_desc"
-            style="@style/tradeGothicLTStd_Dynamic16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/medications_layout"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/what_medications_are_you_taking" />
-
         <RelativeLayout
-            android:id="@+id/pharmacyLayout"
+            android:id="@+id/pharmacy_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/personal_info_layout"
             android:layout_alignRight="@id/personal_info_layout"
-            android:layout_below="@+id/medications_desc"
+            android:layout_below="@+id/medications_layout"
             android:layout_marginTop="16dp">
 
             <ImageView
@@ -214,10 +223,12 @@
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignBottom="@id/pharmacy_image"
+                android:layout_alignTop="@id/pharmacy_image"
                 android:layout_marginLeft="14dp"
                 android:layout_toRightOf="@id/pharmacy_image"
-                android:text="@string/my_pharmacy"
+                android:gravity="center"
+                android:text="@string/pharmacy"
                 android:textStyle="bold" />
 
             <TextView
@@ -225,22 +236,23 @@
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/pharmacy_image"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@id/pharmacy_image"
+                android:gravity="center"
                 android:text="@string/edit"
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/pharmacy_desc"
-            style="@style/tradeGothicLTStd_Dynamic16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/pharmacyLayout"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/choose_your_preferred_pharmacy" />
+            <TextView
+                android:id="@+id/pharmacy_desc"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pharmacy_image"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/choose_your_preferred_pharmacy" />
+        </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

@@ -72,7 +72,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle(getString(R.string.my_medications));
+        getActivity().setTitle(getString(R.string.medications));
         View view = inflater.inflate(R.layout.fragment_medications, container, false);
 
         searchQuery = (EditText) view.findViewById(R.id.searchQuery);
