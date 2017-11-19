@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/myCareDesc"
+            android:id="@+id/mcn_desc"
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:id="@+id/lineTop"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/myCareDesc"
+            android:layout_below="@+id/mcn_desc"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="30dp"

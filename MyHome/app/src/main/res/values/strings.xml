@@ -908,9 +908,9 @@
     <string name="welcome">Welcome!</string>
     <string name="mycare_desc">Video visits are a convenient way to get immediate care and questions answered.</string>
     <string name="enter_waiting_room">Enter Waiting Room</string>
-    <string name="my_personal_information">My Personal Information</string>
+    <string name="personal_information">Personal Information</string>
     <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
-    <string name="my_medical_history">My Medical History</string>
+    <string name="medical_history">Medical History</string>
     <string name="complete_your_medical_history">Complete your medical history.</string>
     <string name="my_medications">My Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>

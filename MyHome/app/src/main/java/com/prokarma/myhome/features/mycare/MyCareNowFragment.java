@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.SDKError;
@@ -65,12 +64,11 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.mycare_now));
         View view = inflater.inflate(R.layout.fragment_my_care, container, false);
 
-        infoEdit = (TextView) view.findViewById(R.id.infoEdit);
-        historyEdit = (TextView) view.findViewById(R.id.historyEdit);
-        medicationsEdit = (TextView) view.findViewById(R.id.medicationsEdit);
-        pharmacyEdit = (TextView) view.findViewById(R.id.pharmacyEdit);
-        LinearLayout layout = (LinearLayout) view.findViewById(R.id.personalInfoLayout);
-        Button waitingRoom = (Button) view.findViewById(R.id.waitingRoomButton);
+        infoEdit = (TextView) view.findViewById(R.id.personal_info_edit);
+        historyEdit = (TextView) view.findViewById(R.id.medical_history_edit);
+        medicationsEdit = (TextView) view.findViewById(R.id.medications_edit);
+        pharmacyEdit = (TextView) view.findViewById(R.id.pharmacy_edit);
+        Button waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
 
         infoEdit.setOnClickListener(this);
         historyEdit.setOnClickListener(this);
@@ -107,16 +105,16 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         Intent intent = new Intent(getActivity(), SDKOptionsActivity.class);
 
         switch (Id) {
-            case R.id.infoEdit:
+            case R.id.personal_info_edit:
                 NavigationActivity.setActivityTag(Constants.ActivityTag.PROFILE_VIEW);
                 break;
-            case R.id.historyEdit:
+            case R.id.medical_history_edit:
                 NavigationActivity.setActivityTag(Constants.ActivityTag.MY_MED_HISTORY);
                 break;
-            case R.id.medicationsEdit:
+            case R.id.medications_edit:
                 NavigationActivity.setActivityTag(Constants.ActivityTag.MY_MEDICATIONS);
                 break;
-            case R.id.pharmacyEdit:
+            case R.id.pharmacy_edit:
                 NavigationActivity.setActivityTag(Constants.ActivityTag.MY_PHARMACY);
                 break;
         }
