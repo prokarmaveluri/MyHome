@@ -11,7 +11,7 @@ import java.util.List;
 public class SignInResponse {
 
     public Result result;
-    public Boolean isValid;
+    public boolean isValid;
     public List<Object> errors = null;
     public List<Object> warnings = null;
 
@@ -19,7 +19,7 @@ public class SignInResponse {
         return result;
     }
 
-    public Boolean getValid() {
+    public boolean getValid() {
         return isValid;
     }
 

@@ -110,6 +110,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                         mView.showView(true);
                     }
                 } catch (NullPointerException ex) {
+                    Timber.w(ex);
                 }
             }
 

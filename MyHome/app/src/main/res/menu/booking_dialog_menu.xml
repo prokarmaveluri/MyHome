@@ -6,11 +6,11 @@
         android:id="@+id/next_page"
         android:title="@string/next"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/finish_dialog"
         android:title="@string/done"
         android:visible="false"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

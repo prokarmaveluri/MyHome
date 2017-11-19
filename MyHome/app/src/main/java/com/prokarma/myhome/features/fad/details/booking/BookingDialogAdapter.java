@@ -435,7 +435,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 populateInsuranceLayout();
             }
         } else {
-            Timber.e("Wasn't able to setup insurances!\nregValidationResponse = " + regValidationResponse);
+            Timber.e("Wasn't able to setup insurances!");
         }
     }
 

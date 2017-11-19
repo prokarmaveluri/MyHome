@@ -87,6 +87,6 @@ public class EnrollmentSuccessDialog extends DialogFragment {
     }
 
     public interface EnrollDialogAction {
-        public void onEnrollDialogUserAction();
+        void onEnrollDialogUserAction();
     }
 }

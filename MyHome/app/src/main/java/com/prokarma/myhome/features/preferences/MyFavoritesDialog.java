@@ -72,6 +72,7 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
             getTargetFragment().onActivityResult(getTargetRequestCode(), PROVIDER_CLICK, intent);
             dismiss();
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -83,6 +84,7 @@ public class MyFavoritesDialog extends DialogFragment implements FavProvidersAda
             getTargetFragment().onActivityResult(getTargetRequestCode(), DIALOG_CLOSE, intent);
             dismiss();
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 

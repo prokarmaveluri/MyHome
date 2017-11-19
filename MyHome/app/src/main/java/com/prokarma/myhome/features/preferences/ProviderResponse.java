@@ -3,7 +3,6 @@ package com.prokarma.myhome.features.preferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -139,6 +138,9 @@ public class ProviderResponse implements Parcelable {
         this.images = images;
     }
 
+    public ProviderResponse() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -159,10 +161,7 @@ public class ProviderResponse implements Parcelable {
         dest.writeValue(this.supportsOnlineBooking);
         dest.writeString(this.providerDetailsUrl);
         dest.writeStringList(this.primarySpecialities);
-        dest.writeList(this.images);
-    }
-
-    public ProviderResponse() {
+        dest.writeTypedList(this.images);
     }
 
     protected ProviderResponse(Parcel in) {
@@ -173,17 +172,16 @@ public class ProviderResponse implements Parcelable {
         this.displayLastName = in.readString();
         this.displayLastNamePlural = in.readString();
         this.middleName = in.readString();
-        this.suffix = in.readParcelable(Object.class.getClassLoader());
+        this.suffix = in.readString();
         this.title = in.readString();
-        this.philosophy = in.readParcelable(Object.class.getClassLoader());
+        this.philosophy = in.readString();
         this.supportsOnlineBooking = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.providerDetailsUrl = in.readString();
         this.primarySpecialities = in.createStringArrayList();
-        this.images = new ArrayList<ImagesResponse>();
-        in.readList(this.images, ImagesResponse.class.getClassLoader());
+        this.images = in.createTypedArrayList(ImagesResponse.CREATOR);
     }
 
-    public static final Parcelable.Creator<ProviderResponse> CREATOR = new Parcelable.Creator<ProviderResponse>() {
+    public static final Creator<ProviderResponse> CREATOR = new Creator<ProviderResponse>() {
         @Override
         public ProviderResponse createFromParcel(Parcel source) {
             return new ProviderResponse(source);

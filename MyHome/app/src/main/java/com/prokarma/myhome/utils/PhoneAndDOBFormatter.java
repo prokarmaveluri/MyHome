@@ -80,11 +80,11 @@ public class PhoneAndDOBFormatter implements TextWatcher {
             Pattern pattern = Pattern.compile(formatterType.getRegex());
             Matcher matcher = pattern.matcher(unformatted);
             int index = 0;
-            StringBuffer sbFormatted = new StringBuffer("");
+            StringBuilder sbFormatted = new StringBuilder("");
             int loopCount = 0;
             while (matcher.find(index)) {
                 ++loopCount;
-                sbFormatted.append(unformatted.substring(matcher.start(), matcher.end()) + formatterType.getSeparator());
+                sbFormatted.append(unformatted.substring(matcher.start(), matcher.end())).append(formatterType.getSeparator());
                 ++selectionIndex;
                 index = matcher.end();
                 if (loopCount == formatterType.getSeparatorCount()) {

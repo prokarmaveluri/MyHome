@@ -56,7 +56,7 @@ android {
     def AUTHTOKEN = "third_party_auth_token"
     def AUTHURL = "third_party_auth_url"
 
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "org.dignityhealth.appdev.myhome"
@@ -325,21 +325,21 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.2'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
-    compile 'com.google.android.gms:play-services-location:11.0.4'
+    compile 'com.google.android.gms:play-services-maps:11.6.0'
+    compile 'com.google.android.gms:play-services-location:11.6.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'net.hockeyapp.android:HockeySDK:4.1.5'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:multidex:1.0.2'
+    compile 'net.hockeyapp.android:HockeySDK:5.0.3'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.jakewharton.timber:timber:4.5.1'
-    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.jakewharton.timber:timber:4.6.0'
+    compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support:support-v4:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
     compile 'com.tealium:library:5.2.0'
@@ -347,7 +347,7 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.5'
     compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.mockito:mockito-core:2.12.0'
 
     implementation project(':sdk')
 

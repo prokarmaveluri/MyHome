@@ -99,13 +99,13 @@ public class CommonUtil {
 
     public static boolean isValidEmail(String email) {
 
-        if (null == email)
+        if (email == null)
             return false;
         if (email.isEmpty() || !email.contains("@"))
             return false;
         String[] tokens = email.split("\\@");
 
-        if (null == tokens)
+        if (tokens == null)
             return false;
         if (tokens.length != 2)
             return false;
@@ -285,7 +285,7 @@ public class CommonUtil {
     public static String constructPhoneNumber(@NonNull String number) {
         String phoneNumber = "";
 
-        if (null == number || number.trim().isEmpty())
+        if (number == null || number.trim().isEmpty())
             return "";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -671,6 +671,7 @@ public class CommonUtil {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -685,6 +686,7 @@ public class CommonUtil {
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -700,6 +702,7 @@ public class CommonUtil {
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -714,6 +717,7 @@ public class CommonUtil {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(currentFocusView.getWindowToken(), 0);
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -846,7 +850,7 @@ public class CommonUtil {
         ProviderDetailsAddress providerOfficeAddress = new ProviderDetailsAddress();
 
         List<String> providerOfficePhones = new ArrayList<>();
-        String providerOfficePhone = new String();
+        String providerOfficePhone = "";
 
         for (Office office : offices) {
             providerOffice = new ProviderDetailsOffice();

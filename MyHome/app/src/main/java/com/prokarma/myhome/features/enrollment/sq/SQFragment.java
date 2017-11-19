@@ -226,6 +226,7 @@ public class SQFragment extends Fragment {
                 }
             }
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
         return true;
     }

@@ -41,15 +41,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     private static boolean showPassword = false;
 
     public static EnrollmentFragment newInstance() {
-        EnrollmentFragment fragment = new EnrollmentFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+        return new EnrollmentFragment();
     }
 
     @Override

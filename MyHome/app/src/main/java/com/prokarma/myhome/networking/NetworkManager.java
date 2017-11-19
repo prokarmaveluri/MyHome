@@ -787,6 +787,7 @@ public class NetworkManager {
             }
             ProfileManager.setFavoriteProviders(providerList);
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -824,6 +825,7 @@ public class NetworkManager {
                             ProfileManager.setAppointments(appointments);
                         }
                     } catch (Exception e) {
+                        Timber.w(e);
                     }
                 } else {
                     Timber.e("Response, but not successful?\n" + response);

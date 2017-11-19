@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -149,7 +150,7 @@ public class DateUtil {
     }
 
     public static String getReadableTimeZone(String state, String time) {
-        if (state.toLowerCase() == "AZ".toLowerCase()) {
+        if (Objects.equals(state.toLowerCase(), "AZ".toLowerCase())) {
             return "MST";
         } else {
             TimeZone pstTimeZone = TimeZone.getTimeZone("America/Los_Angeles");

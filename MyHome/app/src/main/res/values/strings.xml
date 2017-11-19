@@ -263,10 +263,10 @@
     <string name="click_to_refresh">Retry</string>
 
     <string name="sign_out_fail">We\'re sorry, let\’s try that again.</string>
-    <string name="failure_msg">We\'re sorry, we\’ve hit a snag. Please try again or contact support at 844-274-8497.</string>
+    <string name="failure_msg">We\'re sorry, we\’ve hit a snag. Please try again or contact support at 844–274–8497.</string>
     <string name="ask_a_question">Ask A Question</string>
     <string name="contact_us_email_body">Hello, \n\nI was using the My Home App and I had some questions. Can someone please contact me? \n\nThank You</string>
-    <string name="contact_us_email_intent_header">Send mail...</string>
+    <string name="contact_us_email_intent_header">Send mail…</string>
     <string name="upcoming">Upcoming</string>
     <string name="past">Past</string>
     <string name="no_favorite_doctors">You have no saved doctors</string>

@@ -100,7 +100,7 @@ public class ProviderSuggestionsAdapter extends RecyclerView.Adapter<ProviderSug
                 binding.itemLayout.setId(position);
                 binding.suggestionText.setText(suggestion);
             } catch (NullPointerException ex) {
-
+                Timber.w(ex);
             }
             binding.executePendingBindings();
         }

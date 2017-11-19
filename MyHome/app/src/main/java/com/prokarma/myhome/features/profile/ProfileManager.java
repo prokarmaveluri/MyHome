@@ -74,6 +74,7 @@ public class ProfileManager {
                         Timber.d("Successful Response\n" + response);
                         ProfileManager.setProfile(response.body().getData().getUser());
                     } catch (NullPointerException ex) {
+                        Timber.w(ex);
                     }
                 } else {
                     Timber.e("Response, but not successful?\n" + response);

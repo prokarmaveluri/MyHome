@@ -246,6 +246,7 @@ public class HomeFragment extends BaseFragment {
                             ProfileManager.setProfile(response.body().getData().getUser());
                             updateProfileViews();
                         } catch (NullPointerException ex) {
+                            Timber.w(ex);
                         }
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
@@ -304,6 +305,7 @@ public class HomeFragment extends BaseFragment {
                             ProfileManager.setAppointments(appointments);
                             updateAppointViews();
                         } catch (Exception e) {
+                            Timber.w(e);
                         }
                     }
                 } else {

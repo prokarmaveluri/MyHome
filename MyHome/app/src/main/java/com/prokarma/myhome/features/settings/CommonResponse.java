@@ -9,11 +9,11 @@ import java.util.List;
 
 public class CommonResponse {
 
-    private Boolean isValid;
+    private boolean isValid;
     private List<Error> errors = null;
     private List<Object> warnings = null;
 
-    public Boolean getIsValid() {
+    public boolean getIsValid() {
         return isValid;
     }
 

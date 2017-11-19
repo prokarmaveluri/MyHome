@@ -191,7 +191,6 @@ public class ProviderListFragment extends Fragment implements
             PageData data = new PageData();
             data.setPageNo(page);
             NavigationActivity.eventBus.post(data);
-        } else {
         }
     }
 
@@ -215,6 +214,7 @@ public class ProviderListFragment extends Fragment implements
             this.providerList.addAll(pageData.getList());
             adapter.notifyDataSetChanged();
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 }

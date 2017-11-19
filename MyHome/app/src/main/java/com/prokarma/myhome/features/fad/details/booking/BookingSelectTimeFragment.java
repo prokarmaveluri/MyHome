@@ -3,6 +3,7 @@ package com.prokarma.myhome.features.fad.details.booking;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -322,9 +323,7 @@ public class BookingSelectTimeFragment extends Fragment {
             }
 
             if (DateUtil.isOnSameDay(todaysDate, appointmentDate)) {
-                for (AppointmentTime appointmentTime : appointmentDetails.getTimes()) {
-                    todaysAppointments.add(appointmentTime);
-                }
+                todaysAppointments.addAll(appointmentDetails.getTimes());
             }
         }
 
@@ -427,7 +426,7 @@ public class BookingSelectTimeFragment extends Fragment {
         this.refreshInterface = refreshInterface;
     }
 
-    private void coachmarkTimeSlots(View view) {
+    private void coachmarkTimeSlots(@NonNull View view) {
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.BOOKING_DATE_SKIP_COACH_MARKS);
         if (skip)
             return;

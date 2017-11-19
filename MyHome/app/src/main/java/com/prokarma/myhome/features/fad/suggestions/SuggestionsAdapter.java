@@ -72,7 +72,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
                 binding.itemLayout.setId(position);
                 binding.suggestionText.setText(suggestion);
             } catch (NullPointerException ex) {
-
+                Timber.w(ex);
             }
             binding.executePendingBindings();
         }

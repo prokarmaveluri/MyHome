@@ -153,7 +153,7 @@ public class MapViewFragment extends Fragment implements
             map.setOnCameraMoveListener(this);
             addMarkers();
         } catch (NullPointerException | IllegalStateException ex) {
-
+            Timber.w(ex);
         }
     }
 
@@ -192,6 +192,7 @@ public class MapViewFragment extends Fragment implements
             map.setOnInfoWindowClickListener(this);
             map.setOnCameraMoveCanceledListener(this);
         } catch (NullPointerException | NumberFormatException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -257,12 +258,12 @@ public class MapViewFragment extends Fragment implements
         for (MapClusterItem item : cluster) {
             if (null == locCurr) {
                 locCurr = new Location("curLocation");
-                locCurr.setLatitude(Double.valueOf(item.getPosition().latitude));
-                locCurr.setLongitude(Double.valueOf(item.getPosition().longitude));
+                locCurr.setLatitude(item.getPosition().latitude);
+                locCurr.setLongitude(item.getPosition().longitude);
             } else {
                 Location loc = new Location("newLocation");
-                loc.setLatitude(Double.valueOf(item.getPosition().latitude));
-                loc.setLongitude(Double.valueOf(item.getPosition().longitude));
+                loc.setLatitude(item.getPosition().latitude);
+                loc.setLongitude(item.getPosition().longitude);
                 float distance = locCurr.distanceTo(loc);
                 if (distance > 0.0) {
                     return false;
@@ -333,8 +334,8 @@ public class MapViewFragment extends Fragment implements
             locCurr.setLongitude(Double.valueOf(location.getLong()));
 
             Location newLoc = new Location("newLocation");
-            newLoc.setLatitude(Double.valueOf(map.getCameraPosition().target.latitude));
-            newLoc.setLongitude(Double.valueOf(map.getCameraPosition().target.longitude));
+            newLoc.setLatitude(map.getCameraPosition().target.latitude);
+            newLoc.setLongitude(map.getCameraPosition().target.longitude);
             float distance = locCurr.distanceTo(newLoc); // distance in meters
             Timber.i("Search Map Location " + location);
 
@@ -370,6 +371,7 @@ public class MapViewFragment extends Fragment implements
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawable.getBitmap()));
                 }
             } catch (NullPointerException ex) {
+                Timber.w(ex);
             }
         }
     }
@@ -382,6 +384,7 @@ public class MapViewFragment extends Fragment implements
             this.providerList.addAll(pageData.getList());
             updateMap();
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 

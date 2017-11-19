@@ -201,11 +201,11 @@ public class Attributes {
         this.doctorName = doctorName;
         this.doctorNpi = providerNpi;
         this.facilityName = office.getName();
-        this.facilityPhoneNumber = office != null && office.getAddresses() != null && office.getAddresses().get(0).getPhones() != null ? office.getAddresses().get(0).getPhones().get(0) : "";
-        this.facilityAddressLine1 = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getAddress() : "";
-        this.facilityCity = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getCity() : "";
-        this.facilityState = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getState() : "";
-        this.facilityZip = office != null && office.getAddresses() != null ? office.getAddresses().get(0).getZip() : "";
+        this.facilityPhoneNumber = office.getAddresses() != null && office.getAddresses().get(0).getPhones() != null ? office.getAddresses().get(0).getPhones().get(0) : "";
+        this.facilityAddressLine1 = office.getAddresses() != null ? office.getAddresses().get(0).getAddress() : "";
+        this.facilityCity = office.getAddresses() != null ? office.getAddresses().get(0).getCity() : "";
+        this.facilityState = office.getAddresses() != null ? office.getAddresses().get(0).getState() : "";
+        this.facilityZip = office.getAddresses() != null ? office.getAddresses().get(0).getZip() : "";
         this.isCreatedByCaregiver = !isBookingForMe;
     }
 

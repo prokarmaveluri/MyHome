@@ -104,7 +104,7 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                         .load(url)
                         .into(binding.docImage);
             } catch (NullPointerException | IndexOutOfBoundsException ex) {
-
+                Timber.w(ex);
             }
             binding.executePendingBindings();
         }
@@ -139,6 +139,7 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                         listener.favProviderListUpdate(position);
                         notifyDataSetChanged();
                     } catch (NullPointerException | IndexOutOfBoundsException ex) {
+                        Timber.w(ex);
                     }
                     break;
             }
