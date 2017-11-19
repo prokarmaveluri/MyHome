@@ -110,7 +110,13 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
             @Override
             public void onDeleteClick(Object model, int position) {
-
+                List<Medication> medications = SDKUtils.getInstance().getMedications();
+                if (medications == null)
+                    medications = new ArrayList<>();
+                if (model != null) {
+                    medications.remove((Medication) model);
+                    updateMedications();
+                }
             }
         });
 
