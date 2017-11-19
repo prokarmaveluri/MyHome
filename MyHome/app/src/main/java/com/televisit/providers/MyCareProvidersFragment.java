@@ -3,6 +3,7 @@ package com.televisit.providers;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -73,6 +74,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.choose_doctor));
         progressBar = (ProgressBar) view.findViewById(R.id.providers_progress);
         providerList = (RecyclerView) view.findViewById(R.id.providerList);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        providerList.addItemDecoration(itemDecoration);
 
         getProviders();
         return view;

@@ -74,12 +74,5 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
             android:src="@drawable/ic_carrot_blue" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/visibilityLayout"
-            android:layout_marginTop="8dp"
-            android:background="@color/db_white" />
     </RelativeLayout>
 </layout>
