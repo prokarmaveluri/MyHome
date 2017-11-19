@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import timber.log.Timber;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,6 +94,16 @@ public class SDKLoginFragment extends BaseFragment {
                         public void onResponse(Void aVoid, SDKError sdkError) {
                             if (sdkError == null && isAdded()) {
                                 consumerAuth("cmajji@mailinator.com", "Pass123*");
+
+//                                if (AuthManager.getInstance().getAmWellToken() != null) {
+//                                    consumerMutualAuth(AuthManager.getAmWellToken());
+//                                } else {
+//                                    Toast.makeText(getContext(), "Don't have AmWell Token yet.\nPlease try again later", Toast.LENGTH_LONG).show();
+//                                    AuthManager.getInstance().getUsersAmWellToken();
+//
+//                                    if (isAdded())
+//                                        progressBar.setVisibility(View.GONE);
+//                                }
                             } else {
                                 if (isAdded())
                                     progressBar.setVisibility(View.GONE);
@@ -105,7 +117,7 @@ public class SDKLoginFragment extends BaseFragment {
                         }
                     });
         } catch (AWSDKInitializationException e) {
-
+            Timber.w(e);
         }
     }
 
@@ -128,6 +140,31 @@ public class SDKLoginFragment extends BaseFragment {
 
                     @Override
                     public void onFailure(Throwable throwable) {
+                        if (isAdded())
+                            progressBar.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void consumerMutualAuth(String amWellToken) {
+        awsdk.authenticateMutual(
+                amWellToken,
+                new SDKCallback<Authentication, SDKError>() {
+                    @Override
+                    public void onResponse(Authentication authentication, SDKError sdkError) {
+                        if (sdkError == null && isAdded()) {
+                            SDKUtils.getInstance().setAuthentication(authentication);
+                            getConsumer(authentication);
+                        } else {
+                            Toast.makeText(getContext(), "Error: " + sdkError.getHttpResponseCode() + "\n" + sdkError.getMessage(), Toast.LENGTH_LONG).show();
+                            if (isAdded())
+                                progressBar.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Toast.makeText(getContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
                         if (isAdded())
                             progressBar.setVisibility(View.GONE);
                     }
