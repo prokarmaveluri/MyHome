@@ -1,211 +1,214 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
     tools:context="com.prokarma.myhome.features.mycare.MyCareNowFragment">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/mcn_dashboard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="180dp"
+            android:background="@mipmap/mcn_dashboard"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/mycareWelcome"
+            style="@style/tradeGothicLTStd_Dynamic32"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mcn_dashboard"
+            android:layout_marginTop="16dp"
+            android:text="@string/welcome"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/myCareDesc"
+            style="@style/tradeGothicLTStd_Dynamic20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mycareWelcome"
+            android:layout_margin="18dp"
+            android:text="@string/mycare_desc"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/waitingRoomButton"
+            style="@style/grayButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myCareDesc"
+            android:layout_centerHorizontal="true"
+            android:padding="16dp"
+            android:text="@string/enter_waiting_room"
+            android:textAllCaps="false" />
+
+        <LinearLayout
+            android:id="@+id/personalInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/waitingRoomButton"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/mycareWelcome"
-                style="@style/tradeGothicLTStd_Dynamic34"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/welcome"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/myCareDesc"
-                style="@style/tradeGothicLTStd_Dynamic18"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/mycareWelcome"
-                android:layout_margin="32dp"
-                android:text="@string/mycare_desc"
-                android:textAlignment="center"
-                android:textColor="@color/grey" />
-
-            <Button
-                android:id="@+id/waitingRoomButton"
-                style="@style/grayButtonStyle"
+                style="@style/tradeGothicLTStd_Dynamic22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/myCareDesc"
-                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:padding="16dp"
-                android:text="@string/enter_waiting_room"
-                android:textAllCaps="false" />
-
-            <LinearLayout
-                android:id="@+id/personalInfoLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/waitingRoomButton"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/tradeGothicLTStd_Dynamic22"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="16dp"
-                    android:text="@string/my_personal_information"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/infoEdit"
-                    style="@style/tradeGothicLTStd_Dynamic22"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:padding="16dp"
-                    android:text="@string/edit"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:text="@string/my_personal_information"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/personalInfoDesc"
-                style="@style/tradeGothicLTStd_Dynamic18"
+                android:id="@+id/infoEdit"
+                style="@style/tradeGothicLTStd_Dynamic22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/personalInfoLayout"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/your_profile_is_almost_complete"
-                android:textColor="@color/grey" />
+                android:gravity="right"
+                android:padding="16dp"
+                android:text="@string/edit"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/medicalHistoryLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/personalInfoDesc"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+        <TextView
+            android:id="@+id/personalInfoDesc"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalInfoLayout"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/your_profile_is_almost_complete"
+            android:textColor="@color/grey" />
 
-                <TextView
-                    style="@style/tradeGothicLTStd_Dynamic22"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="16dp"
-                    android:text="@string/my_medical_history"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/historyEdit"
-                    style="@style/tradeGothicLTStd_Dynamic22"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:padding="16dp"
-                    android:text="@string/edit"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/medicalHistoryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalInfoDesc"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/medHistoryDesc"
-                style="@style/tradeGothicLTStd_Dynamic18"
-                android:layout_width="match_parent"
+                style="@style/tradeGothicLTStd_Dynamic22"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/medicalHistoryLayout"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/complete_your_medical_history"
-                android:textColor="@color/grey" />
-
-            <LinearLayout
-                android:id="@+id/medicationsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/medHistoryDesc"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/tradeGothicLTStd_Dynamic22"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="16dp"
-                    android:text="@string/my_medications"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/medicationsEdit"
-                    style="@style/tradeGothicLTStd_Dynamic22"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:padding="16dp"
-                    android:text="@string/edit"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:text="@string/my_medical_history"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/medicationsDesc"
-                style="@style/tradeGothicLTStd_Dynamic18"
+                android:id="@+id/historyEdit"
+                style="@style/tradeGothicLTStd_Dynamic22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/medicationsLayout"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/what_medications_are_you_taking"
-                android:textColor="@color/grey" />
+                android:gravity="right"
+                android:padding="16dp"
+                android:text="@string/edit"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/pharmacyLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/medicationsDesc"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+        <TextView
+            android:id="@+id/medHistoryDesc"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/medicalHistoryLayout"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/complete_your_medical_history"
+            android:textColor="@color/grey" />
 
-                <TextView
-                    style="@style/tradeGothicLTStd_Dynamic22"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="16dp"
-                    android:text="@string/my_pharmacy"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/pharmacyEdit"
-                    style="@style/tradeGothicLTStd_Dynamic22"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:padding="16dp"
-                    android:text="@string/edit"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/medicationsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/medHistoryDesc"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/pharmacyDesc"
-                style="@style/tradeGothicLTStd_Dynamic18"
+                style="@style/tradeGothicLTStd_Dynamic22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:text="@string/my_medications"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/medicationsEdit"
+                style="@style/tradeGothicLTStd_Dynamic22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pharmacyLayout"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/choose_your_preferred_pharmacy"
-                android:textColor="@color/grey" />
-        </RelativeLayout>
-    </ScrollView>
-</FrameLayout>
+                android:gravity="right"
+                android:padding="16dp"
+                android:text="@string/edit"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/medicationsDesc"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/medicationsLayout"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/what_medications_are_you_taking"
+            android:textColor="@color/grey" />
+
+        <LinearLayout
+            android:id="@+id/pharmacyLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/medicationsDesc"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/tradeGothicLTStd_Dynamic22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:text="@string/my_pharmacy"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/pharmacyEdit"
+                style="@style/tradeGothicLTStd_Dynamic22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="16dp"
+                android:text="@string/edit"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/pharmacyDesc"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pharmacyLayout"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/choose_your_preferred_pharmacy"
+            android:textColor="@color/grey" />
+    </RelativeLayout>
+</ScrollView>

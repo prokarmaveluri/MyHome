@@ -906,7 +906,7 @@
     <string name="ready_for_appointment">Your Tech Check is complete. You are now ready for your visit.</string>
     <string name="tech_check_request_error">Error updating server. Please try again later.</string>
     <string name="welcome">Welcome!</string>
-    <string name="mycare_desc">Review and complete all of your information below to enter the waiting room</string>
+    <string name="mycare_desc">Video visits are a convenient way to get immediate care and questions answered.</string>
     <string name="enter_waiting_room">Enter Waiting Room</string>
     <string name="my_personal_information">My Personal Information</string>
     <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>

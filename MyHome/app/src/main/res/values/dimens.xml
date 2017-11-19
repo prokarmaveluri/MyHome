@@ -23,6 +23,7 @@
     <dimen name="scalable_18">16sp</dimen>
     <dimen name="scalable_20">18sp</dimen>
     <dimen name="scalable_22">20sp</dimen>
+    <dimen name="scalable_32">30sp</dimen>
     <dimen name="scalable_34">32sp</dimen>
     <dimen name="scalable_64">62sp</dimen>
     <dimen name="scalable_74">72sp</dimen>
