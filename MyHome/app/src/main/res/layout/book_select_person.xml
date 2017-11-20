@@ -22,7 +22,8 @@
         android:layout_marginTop="18dp"
         android:gravity="center"
         android:text="@string/me"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:contentDescription="@string/appointment_me"/>
 
     <Button
         android:id="@+id/book_other"
@@ -32,6 +33,7 @@
         android:layout_marginTop="18dp"
         android:gravity="center"
         android:text="@string/family_member"
+        android:contentDescription="@string/appointment_family_member"
         android:textStyle="bold" />
 
 </LinearLayout>
