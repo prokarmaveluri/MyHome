@@ -16,6 +16,8 @@ import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 
 import java.util.ArrayList;
 
+import timber.log.Timber;
+
 /*
  * Fragment dialog to display providers list for the cluster.
  *
@@ -99,6 +101,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             dismiss();
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -125,6 +128,7 @@ public class ProviderListDialog extends DialogFragment implements ProvidersAdapt
         try {
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_FIRST_USER, null);
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 }

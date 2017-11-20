@@ -104,7 +104,7 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                         .load(url)
                         .into(binding.docImage);
             } catch (NullPointerException | IndexOutOfBoundsException ex) {
-
+                Timber.w(ex);
             }
             binding.executePendingBindings();
         }
@@ -134,11 +134,12 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                         NetworkManager.getInstance().updateFavDoctor(false,
                                 providerList.get(position).getNpi(), (ImageView) view,
                                 providerList.get(position), true, mContext, parentView);
-                        NetworkManager.getInstance().deleteSavedDocotor(providerList.get(position).getNpi());
+                        NetworkManager.getInstance().deleteSavedDoctor(providerList.get(position).getNpi());
                         providerList.remove(position);
                         listener.favProviderListUpdate(position);
                         notifyDataSetChanged();
                     } catch (NullPointerException | IndexOutOfBoundsException ex) {
+                        Timber.w(ex);
                     }
                     break;
             }

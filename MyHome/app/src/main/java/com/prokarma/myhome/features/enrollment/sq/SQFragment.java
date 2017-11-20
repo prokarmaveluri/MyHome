@@ -21,7 +21,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentSecqBinding;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.ChangeSecurityQuestionRequest;
 import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -32,6 +32,7 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -225,6 +226,7 @@ public class SQFragment extends Fragment {
                 }
             }
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
         return true;
     }
@@ -247,12 +249,12 @@ public class SQFragment extends Fragment {
         }
         if (!isAllInputsValid())
             return;
-        ChangeSesurityQuestionRequest.Question question =
-                new ChangeSesurityQuestionRequest.Question(selectedQuestionId,
+        ChangeSecurityQuestionRequest.Question question =
+                new ChangeSecurityQuestionRequest.Question(selectedQuestionId,
                         binding.answer.getText().toString());
 
         binding.changeSecProgress.setVisibility(View.VISIBLE);
-        ChangeSesurityQuestionRequest request = new ChangeSesurityQuestionRequest(password, question);
+        ChangeSecurityQuestionRequest request = new ChangeSecurityQuestionRequest(password, question);
         NetworkManager.getInstance().changeSecurityQuestion(AuthManager.getInstance().getBearerToken(),
                 request).enqueue(new Callback<CommonResponse>() {
             @Override
@@ -296,14 +298,6 @@ public class SQFragment extends Fragment {
         });
     }
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            CommonUtil.hideSoftKeyboard(getActivity());
-        }
-    };
-
     private void drawableClickEvent() {
         binding.answer.setOnTouchListener(
                 new View.OnTouchListener() {
@@ -321,7 +315,7 @@ public class SQFragment extends Fragment {
                                         touchXCoordinate <= (binding.answer.getRight() - binding.answer.getPaddingRight())) {
                                     CommonUtil.displayPopupWindow(getActivity(), binding.answer,
                                             CommonUtil.getBulletPoints(CommonUtil.getSecurityAnswerCriteria(getActivity())));
-                                    mHandler.sendEmptyMessageDelayed(0, 500);
+                                    getHandler().sendEmptyMessageDelayed(0, 500);
                                 } else {
                                     CommonUtil.showSoftKeyboard(binding.answer, getActivity());
                                 }
@@ -332,5 +326,25 @@ public class SQFragment extends Fragment {
                         return false;
                     }
                 });
+    }
+
+    private static class SQHandler extends Handler {
+        private final WeakReference<SQFragment> mSQFragment;
+
+        private SQHandler(SQFragment sqFragment) {
+            mSQFragment = new WeakReference<SQFragment>(sqFragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            SQFragment sqFragment = mSQFragment.get();
+            if (sqFragment != null) {
+                CommonUtil.hideSoftKeyboard(sqFragment.getActivity());
+            }
+        }
+    }
+
+    private Handler getHandler() {
+        return new SQHandler(this);
     }
 }

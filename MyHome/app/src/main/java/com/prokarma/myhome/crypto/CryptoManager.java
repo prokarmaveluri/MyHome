@@ -20,6 +20,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import timber.log.Timber;
+
 /**
  * Created by cmajji on 7/17/17.
  */
@@ -100,6 +102,7 @@ public class CryptoManager {
             encryptor.encryptText(text, context);
         } catch (UnrecoverableEntryException | NoSuchAlgorithmException | NoSuchProviderException |
                 KeyStoreException | IOException | NoSuchPaddingException | InvalidKeyException e) {
+            Timber.w(e);
         } catch (InvalidAlgorithmParameterException | SignatureException |
                 IllegalBlockSizeException | BadPaddingException e) {
             e.printStackTrace();

@@ -108,7 +108,7 @@ public class TosActivity extends BaseActivity {
             Toast.makeText(getApplicationContext(),
                     R.string.no_network_msg,
                     Toast.LENGTH_LONG).show();
-        } else {
+        } else if (enrollmentRequest != null) {
             enrollmentRequest.setHasAcceptedTerms(true);
             enrollmentRequest.setSkipVerification(true); // need to discuss about the skip.
             registerUser(enrollmentRequest);

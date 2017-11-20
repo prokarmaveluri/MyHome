@@ -20,6 +20,8 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by kwelsh on 4/26/17.
  */
@@ -72,6 +74,7 @@ public class SettingsFragment extends BaseFragment implements SettingsAdapter.IS
             settingList.setAdapter(listAdapter);
             listAdapter.notifyDataSetChanged();
         } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
         }
     }
 

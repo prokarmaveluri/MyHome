@@ -78,7 +78,7 @@ public final class TealiumUtil {
 
         // (OPTIONAL) Use tealium.getDataSources().getPersistentDataSources() to set/modify lifetime values
         SharedPreferences sp = instance.getDataSources().getPersistentDataSources();
-        sp.edit().putInt(KEY_TEALIUM_INIT_COUNT, sp.getInt(KEY_TEALIUM_INIT_COUNT, 0) + 1).commit();
+        sp.edit().putInt(KEY_TEALIUM_INIT_COUNT, sp.getInt(KEY_TEALIUM_INIT_COUNT, 0) + 1).apply();
 
         // (OPTIONAL) Use tealium.getDataSources().getVolatileDataSources() to set/modify runtime only values
         instance.getDataSources().getVolatileDataSources()

@@ -40,7 +40,7 @@ import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.settings.ChangePasswordRequest;
-import com.prokarma.myhome.features.settings.ChangeSesurityQuestionRequest;
+import com.prokarma.myhome.features.settings.ChangeSecurityQuestionRequest;
 import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
@@ -413,10 +413,10 @@ public class NetworkManager {
     public Call<MySavedDoctorsResponse> getSavedDoctors(String bearerToken,
                                                         MySavedDoctorsRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_SAVED_DOCTORS_FORCE_ERROR)) {
-            return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/query",
+            return service.getSavedDoctors(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/query",
                     BEARER + bearerToken, request);
         } else {
-            return service.getSavedDocctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
+            return service.getSavedDoctors(EnviHandler.CIAM_BASE_URL + "api/users/query",
                     BEARER + bearerToken, request);
         }
     }
@@ -446,7 +446,7 @@ public class NetworkManager {
     }
 
     public Call<CommonResponse> changeSecurityQuestion(String bearerToken,
-                                                       ChangeSesurityQuestionRequest request) {
+                                                       ChangeSecurityQuestionRequest request) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_CHANGE_SECURITY_QUESTION_FORCE_ERROR)) {
             return service.changeSecurityQuestion(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/me/recovery/question",
                     BEARER + bearerToken, request);
@@ -624,26 +624,6 @@ public class NetworkManager {
         void expired();
     }
 
-    private boolean refreshToken() {
-        try {
-            retrofit2.Response<SignInResponse> syncResp = NetworkManager.getInstance()
-                    .signInRefresh(new RefreshRequest(AuthManager.getInstance().getRefreshToken())).execute();
-            if (syncResp.isSuccessful() && syncResp.body().getValid()) {
-                System.out.println("REQ: syncResp" + syncResp.body().toString());
-                AuthManager.getInstance().setBearerToken(syncResp.body().getResult().getAccessToken());
-                AuthManager.getInstance().setRefreshToken(syncResp.body().getResult().getRefreshToken());
-                return true;
-            } else {
-                //TODO:Chandra Login on refresh fail
-                    /*need handler to post to main thread as it will be updating mybag count*/
-                return false;
-            }
-        } catch (IOException | NullPointerException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
     /**
      * Get a detailed profile of a provider
      *
@@ -780,7 +760,7 @@ public class NetworkManager {
                         tealiumData.put(Constants.FAVORITE_PROVIDER_NPI, npi);
                         TealiumUtil.trackEvent(Constants.UNFAVORITE_PROVIDER_EVENT, tealiumData);
 
-                        deleteSavedDocotor(npi);
+                        deleteSavedDoctor(npi);
                     } else {
                         CommonUtil.updateFavView(!isSave, favProvider);
                         ApiErrorUtil.getInstance().deleteSavedDoctorError(context, parentView, response);
@@ -796,7 +776,7 @@ public class NetworkManager {
         }
     }
 
-    public void deleteSavedDocotor(String npi) {
+    public void deleteSavedDoctor(String npi) {
         try {
             List<ProviderResponse> providerList = ProfileManager.getFavoriteProviders();
             for (int index = 0; index < providerList.size(); index++) {
@@ -807,6 +787,7 @@ public class NetworkManager {
             }
             ProfileManager.setFavoriteProviders(providerList);
         } catch (NullPointerException ex) {
+            Timber.w(ex);
         }
     }
 
@@ -844,6 +825,7 @@ public class NetworkManager {
                             ProfileManager.setAppointments(appointments);
                         }
                     } catch (Exception e) {
+                        Timber.w(e);
                     }
                 } else {
                     Timber.e("Response, but not successful?\n" + response);

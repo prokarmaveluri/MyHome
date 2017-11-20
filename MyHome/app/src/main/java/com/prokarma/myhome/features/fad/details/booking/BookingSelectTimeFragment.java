@@ -3,6 +3,7 @@ package com.prokarma.myhome.features.fad.details.booking;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -54,6 +57,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public BookingRefreshInterface refreshInterface;
 
     View bookingView;
+    LinearLayout normalLayout;
     TextView monthLabel;
     TextView timeZoneWarning;
     ImageView rightArrow;
@@ -61,6 +65,7 @@ public class BookingSelectTimeFragment extends Fragment {
     FlowLayout timeLayout;
     Button noAppointments;
     Button callForAppointments;
+    ProgressBar progressBar;
 
     AppointmentAvailableTime nextAppointment;
 
@@ -81,9 +86,7 @@ public class BookingSelectTimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
 
-        allAppointments = CommonUtil.filterAppointmentsToType(BookingManager.getBookingOfficeAppointmentDetails(), BookingManager.getBookingAppointmentType());
-
-        Collections.sort(allAppointments);
+        getAllAppointments();
 
         if (args != null && args.getSerializable(DATE_KEY) != null) {
             bookingDate = (Date) args.getSerializable(DATE_KEY);
@@ -96,11 +99,13 @@ public class BookingSelectTimeFragment extends Fragment {
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
+        normalLayout = (LinearLayout) bookingView.findViewById(R.id.normal_layout);
         timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
         timeLayout.setGravity(Gravity.CENTER);
         noAppointments = (Button) bookingView.findViewById(R.id.empty_appointments);
         callForAppointments = (Button) bookingView.findViewById(R.id.call_for_appointment);
         timeZoneWarning = (TextView) bookingView.findViewById(R.id.timezone_warning);
+        progressBar = (ProgressBar) bookingView.findViewById(R.id.loading_layout);
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -164,11 +169,16 @@ public class BookingSelectTimeFragment extends Fragment {
         }
     }
 
+    private void getAllAppointments() {
+        allAppointments = CommonUtil.filterAppointmentsToType(AppointmentManager.getInstance().getAppointmentTimeSlots(), BookingManager.getBookingAppointmentType());
+        Collections.sort(allAppointments);
+    }
+
     private void setupView() {
         todaysAppointments.clear();
         todaysAppointments = getTodaysAppointments(bookingDate, allAppointments);
 
-        if(!allAppointments.isEmpty()){
+        if (!allAppointments.isEmpty()) {
             firstAppointmentDate = DateUtil.findFirstAppointmentDate(allAppointments);
         }
 
@@ -180,7 +190,7 @@ public class BookingSelectTimeFragment extends Fragment {
             callForAppointments.setVisibility(View.GONE);
             timeZoneWarning.setVisibility(View.VISIBLE);
             timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
-                    DateUtil.getReadableTimeZone(BookingManager.getBookingOfficeAppointmentDetails())));
+                    DateUtil.getReadableTimeZone(AppointmentManager.getInstance().getAppointmentTimeSlots())));
 
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
@@ -196,7 +206,7 @@ public class BookingSelectTimeFragment extends Fragment {
             if (nextAppointment != null) {
                 timeZoneWarning.setVisibility(View.VISIBLE);
                 timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
-                        DateUtil.getReadableTimeZone(BookingManager.getBookingOfficeAppointmentDetails())));
+                        DateUtil.getReadableTimeZone(AppointmentManager.getInstance().getAppointmentTimeSlots())));
 
                 //Bold just the Date part
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -219,17 +229,31 @@ public class BookingSelectTimeFragment extends Fragment {
                                 selectTimeInterface.onFrontArrowClicked();
                             }
                         } catch (ParseException e) {
+                            Timber.e(e);
                             e.printStackTrace();
                         }
                     }
                 });
             } else {
                 noAppointments.setText(getString(R.string.no_appointments_available));
+                noAppointments.setOnClickListener(null);
                 timeZoneWarning.setVisibility(View.GONE);
             }
 
             if (DateUtil.isToday(bookingDate)) {
                 callForAppointments.setVisibility(View.VISIBLE);
+                callForAppointments.setText(getString(R.string.call_for_todays_appointmentss));
+                callForAppointments.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (selectTimeInterface != null) {
+                            selectTimeInterface.onPhoneNumberClicked();
+                        }
+                    }
+                });
+            } else if (nextAppointment == null) {
+                callForAppointments.setVisibility(View.VISIBLE);
+                callForAppointments.setText(getString(R.string.call_for_more_appointments));
                 callForAppointments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -240,6 +264,7 @@ public class BookingSelectTimeFragment extends Fragment {
                 });
             } else {
                 callForAppointments.setVisibility(View.GONE);
+                callForAppointments.setOnClickListener(null);
             }
         }
     }
@@ -298,9 +323,7 @@ public class BookingSelectTimeFragment extends Fragment {
             }
 
             if (DateUtil.isOnSameDay(todaysDate, appointmentDate)) {
-                for (AppointmentTime appointmentTime : appointmentDetails.getTimes()) {
-                    todaysAppointments.add(appointmentTime);
-                }
+                todaysAppointments.addAll(appointmentDetails.getTimes());
             }
         }
 
@@ -373,6 +396,28 @@ public class BookingSelectTimeFragment extends Fragment {
         }
     }
 
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        normalLayout.setVisibility(View.GONE);
+
+        if (refreshInterface != null) {
+            refreshInterface.onRefreshView(true);
+        }
+    }
+
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+        normalLayout.setVisibility(View.VISIBLE);
+
+        //Refresh view with the latest appointment info
+        getAllAppointments();
+        setupView();
+
+        if (refreshInterface != null) {
+            refreshInterface.onRefreshView(true);
+        }
+    }
+
     public void setSelectTimeInterface(BookingDateHeaderInterface selectTimeInterface) {
         this.selectTimeInterface = selectTimeInterface;
     }
@@ -381,7 +426,7 @@ public class BookingSelectTimeFragment extends Fragment {
         this.refreshInterface = refreshInterface;
     }
 
-    private void coachmarkTimeSlots(View view) {
+    private void coachmarkTimeSlots(@NonNull View view) {
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.BOOKING_DATE_SKIP_COACH_MARKS);
         if (skip)
             return;

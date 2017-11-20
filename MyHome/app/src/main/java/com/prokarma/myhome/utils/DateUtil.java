@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -91,6 +92,10 @@ public class DateUtil {
         return SIMPLE_DATE_HYPHEN_FORMAT.parse(hyphenDate);
     }
 
+    public static Date getDateFromSlashes(String slashesDate) throws ParseException {
+        return SIMPLE_DATE_SLASH_FORMAT.parse(slashesDate);
+    }
+
     /**
      * Gets the Timezone of a utc date.
      * This assumes that the timezone is the last six digits of the date (we can simply append "GMT" for setting the timezone)
@@ -145,7 +150,7 @@ public class DateUtil {
     }
 
     public static String getReadableTimeZone(String state, String time) {
-        if (state.toLowerCase() == "AZ".toLowerCase()) {
+        if (Objects.equals(state.toLowerCase(), "AZ".toLowerCase())) {
             return "MST";
         } else {
             TimeZone pstTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
@@ -644,13 +649,37 @@ public class DateUtil {
         }
     }
 
+    public static boolean isDateBeforeOrEqual(Date date1, Date date2) {
+        return isBefore(date1, date2) || isOnSameDay(date1, date2);
+    }
+
+    public static boolean isDateAfterOrEqual(Date date1, Date date2) {
+        return isAfter(date1, date2) || isOnSameDay(date1, date2);
+    }
+
     public static String getTodayDate() {
         return SIMPLE_DATE_SLASH_FORMAT.format(new Date());
     }
 
-    public static String getEndOfTheMonthDate() {
+    public static Date addOneMonthToDate(Date date){
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, 1);
+
+        return calendar.getTime();
+    }
+
+    public static String getFirstOfTheMonthDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+        return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
+    }
+
+    public static String getEndOfTheMonthDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());

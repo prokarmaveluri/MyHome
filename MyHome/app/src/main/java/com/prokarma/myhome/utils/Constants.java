@@ -45,7 +45,13 @@ public class Constants {
     }
 
     //Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character !@#$%^&*
-    public static final String REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!#^%*&])[A-Za-z\\d$@$!#^%*&]{8,}";
+    //public static final String REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!#^%*&])[A-Za-z\\d$@$!#^%*&]{8,}";
+
+//    //Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character (ie non-word)
+//    public static final String REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*\\W)[A-Za-z\\d\\W]{8,}";
+
+    //Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character (ie non-word, underscore counts as special)
+    public static final String REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9])[A-Za-z\\d[^a-zA-Z0-9]]{8,}";
 
     //data Keys
     public static final String ENROLLMENT_QUESTION_ID = "ENROLLMENT_QUESTION_ID";
@@ -122,6 +128,7 @@ public class Constants {
     public static final String APT_DETAILS_UPCOMING_SKIP_COACH_MARKS = "APT_DETAILS_UPCOMING_SKIP_COACH_MARKS";
 
     //Preference Keys for API Error Toggling
+    public static final String API_HIDE_API_ERROR_INFO = "API_HIDE_API_ERROR_INFO";
     public static final String API_SIGN_IN_FORCE_ERROR = "API_SIGN_IN_FORCE_ERROR";
     public static final String API_SIGN_IN_REFRESH_FORCE_ERROR = "API_SIGN_IN_REFRESH_FORCE_ERROR";
     public static final String API_SIGN_OUT_FORCE_ERROR = "API_SIGN_OUT_FORCE_ERROR";

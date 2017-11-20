@@ -201,6 +201,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                         .into(docImage);
             }
         } catch (NullPointerException | IndexOutOfBoundsException ex) {
+            Timber.w(ex);
         }
 
         return appointmentsView;

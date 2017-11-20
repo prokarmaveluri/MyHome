@@ -48,9 +48,7 @@ public class MapUtil {
                 Timber.v("KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
 
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
@@ -153,7 +151,7 @@ public class MapUtil {
 //        googleMap.animateCamera(MapUtil.calculateZoom(context, markers));
             googleMap.moveCamera(MapUtil.calculateZoom(context, markers));
         } catch (NullPointerException ex) {
-
+            Timber.w(ex);
         }
     }
 
@@ -167,7 +165,7 @@ public class MapUtil {
                 }
             }
         } catch (NullPointerException ex) {
-
+            Timber.w(ex);
         }
     }
 

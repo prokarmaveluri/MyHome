@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,8 +36,10 @@ public class BookingSelectCalendarFragment extends Fragment {
     private BookingRefreshInterface refreshInterface;
 
     View bookingView;
+    LinearLayout normalLayout;
     MaterialCalendarView calendar;
     TextView monthLabel;
+    ProgressBar progressBar;
 
     public static BookingSelectCalendarFragment newInstance() {
         return new BookingSelectCalendarFragment();
@@ -55,6 +59,9 @@ public class BookingSelectCalendarFragment extends Fragment {
         Bundle args = getArguments();
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
+
+        normalLayout = (LinearLayout) bookingView.findViewById(R.id.normal_layout);
+        progressBar = (ProgressBar) bookingView.findViewById(R.id.loading_layout);
 
         final Calendar cal = Calendar.getInstance();
 
@@ -152,6 +159,24 @@ public class BookingSelectCalendarFragment extends Fragment {
             calendar.setDateSelected(calendarDay, true);
             calendar.setCurrentDate(calendarDay, true);
             setMonthHeader(calendarDay);
+        }
+    }
+
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        normalLayout.setVisibility(View.GONE);
+
+        if (refreshInterface != null) {
+            refreshInterface.onRefreshView(true);
+        }
+    }
+
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+        normalLayout.setVisibility(View.VISIBLE);
+
+        if (refreshInterface != null) {
+            refreshInterface.onRefreshView(true);
         }
     }
 

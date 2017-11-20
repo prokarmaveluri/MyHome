@@ -117,7 +117,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                     .load(url)
                     .into(binding.docImage);
             binding.recentlyViewed.setVisibility(View.GONE);
-            if (recentProviders.contains(provider.getProviderId()))
+            if (recentProviders.contains(provider.getNpi()))
                 binding.recentlyViewed.setVisibility(View.VISIBLE);
 
             binding.bookOnline.setVisibility(View.GONE);
@@ -157,6 +157,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                             }
                         }).show();
                     } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+                        Timber.w(ex);
                     }
                     break;
             }

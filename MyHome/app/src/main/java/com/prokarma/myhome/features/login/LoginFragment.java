@@ -27,6 +27,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import com.prokarma.myhome.BuildConfig;
+import android.widget.Toast;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
@@ -43,6 +45,9 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
+
+import java.lang.ref.WeakReference;
+
 import timber.log.Timber;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
@@ -80,11 +85,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
-
-        //Automatically populate developer builds with a test account
-        if (BuildConfig.BUILD_TYPE.equalsIgnoreCase("developer")) {
-            // add your debugging credentials
-        }
 
         binder.email.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.email, binder.emailLayout,
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.EMAIL_LOGIN));
@@ -165,7 +165,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
     @Override
     public void SignInSuccess() {
-        mHandler.sendEmptyMessage(ACTION_FINISH);
+        getHandler().sendEmptyMessage(ACTION_FINISH);
     }
 
     @Override
@@ -437,5 +437,50 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
             }
         }
     }
+
+    private static class LoginHandler extends Handler {
+        private final WeakReference<LoginFragment> mLoginFragment;
+
+        private LoginHandler(LoginFragment loginFragment) {
+            mLoginFragment = new WeakReference<LoginFragment>(loginFragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            LoginFragment loginFragment = mLoginFragment.get();
+            if (loginFragment != null) {
+                switch (msg.what) {
+                    case ACTION_FINISH:
+                        //received token and stored it in AuthManager. start nav activity
+                        if (loginFragment.isAdded()) {
+                            //  Pre- load profile and appointment
+                            //ProfileManager.getProfileInfo();
+                            NetworkManager.getInstance().getMyAppointments();
+                            AuthManager.getInstance().setCount(0);
+                            Intent intentHome = new Intent(loginFragment.getActivity(), NavigationActivity.class);
+                            intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(loginFragment.getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
+                            ActivityCompat.startActivity(loginFragment.getActivity(), intentHome, options.toBundle());
+                            loginFragment.getActivity().finish();
+                        }
+
+                        break;
+                    case TOKEN_ERROR:
+                        if (loginFragment.isAdded()) {
+                            loginFragment.showProgress(false);
+                            AuthManager.getInstance().setBearerToken(null);
+                            Toast.makeText(loginFragment.getActivity(), loginFragment.getString(R.string.failure_msg),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    private Handler getHandler() {
+        return new LoginHandler(this);
+    }
+
 }
 
