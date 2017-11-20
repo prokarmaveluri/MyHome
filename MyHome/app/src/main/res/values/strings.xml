@@ -340,4 +340,6 @@
     <string name="show_in_map">Show in the map</string>
     <string name="map_alert">Do you want to open in map view ?</string>
     <string name="mandatory"> , is a mandatory field</string>
+    <string name="appointment_me">this appointment for me</string>
+    <string name="appointment_family_member">this appointment for family member</string>
 </resources>
