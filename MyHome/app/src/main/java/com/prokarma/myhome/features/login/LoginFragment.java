@@ -3,6 +3,7 @@ package com.prokarma.myhome.features.login;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -24,8 +26,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -35,7 +35,6 @@ import com.prokarma.myhome.features.contact.ContactUsActivity;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordActivity;
 import com.prokarma.myhome.features.login.verify.EmailVerifyActivity;
-import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
@@ -44,7 +43,6 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
-
 import timber.log.Timber;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
@@ -162,7 +160,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         checkNotNull(status);
 
         if (null != getActivity())
-            Toast.makeText(getActivity(), status, Toast.LENGTH_LONG).show();
+            showAlert(getActivity(),status);
     }
 
     @Override
@@ -198,6 +196,22 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         getActivity().finish();
     }
 
+    void showAlert(Context context, String message) {
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(context);
+
+        dlgAlert.setMessage(message);
+        dlgAlert.setPositiveButton(context.getString(R.string.ok), null);
+        dlgAlert.setCancelable(true);
+        dlgAlert.create().show();
+
+        dlgAlert.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+    }
+
     public class LoginViewClickEvent {
 
         public void onClickEvent(View view) {
@@ -216,8 +230,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
                         }
                     } else {
-                        Toast.makeText(getActivity(), R.string.no_network_msg,
-                                Toast.LENGTH_LONG).show();
+                        showAlert(getActivity(), getActivity().getString(R.string.no_network_msg));
                     }
                     break;
                 case R.id.forgot_password:
@@ -243,15 +256,14 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
 
         if (!CommonUtil.isValidPassword(binder.password.getText().toString())) {
-            Toast.makeText(getActivity(), getString(R.string.valid_password), Toast.LENGTH_LONG).show();
+            showAlert(getActivity(),getString(R.string.valid_password));
             binder.password.requestFocus();
             return null;
         }
 
         if (AuthManager.getInstance().isMaxFailureAttemptsReached() &&
                 !AuthManager.getInstance().isTimeStampGreaterThan5Mins()) {
-            Toast.makeText(getActivity(), getString(R.string.max_login_tries_reached),
-                    Toast.LENGTH_LONG).show();
+            showAlert(getActivity(),getString(R.string.max_login_tries_reached));
             return null;
         }
         LoginRequest.Options options = new LoginRequest.Options(true, true);
@@ -285,8 +297,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     if (isAdded()) {
                         showProgress(false);
                         AuthManager.getInstance().setBearerToken(null);
-                        Toast.makeText(getActivity(), getString(R.string.failure_msg),
-                                Toast.LENGTH_LONG).show();
+                        showAlert(getActivity(), getString(R.string.failure_msg));
                     }
                     break;
             }
