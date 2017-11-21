@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -45,19 +44,41 @@
 
     <TextView
         android:id="@+id/medicationDesc"
-        style="@style/tradeGothicLTStd_Dynamic18"
+        style="@style/tradeGothicLTStd_Dynamic20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchLayout"
         android:layout_margin="32dp"
-        android:text="@string/medication_desc"
-        android:textColor="@color/grey" />
+        android:text="@string/medication_desc" />
+
+    <LinearLayout
+        android:id="@+id/no_medications_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/medicationDesc"
+        android:layout_alignRight="@id/medicationDesc"
+        android:layout_below="@id/medicationDesc">
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/no_medications_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false" />
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/not_on_any_medications" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/medicationsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/medicationDesc" />
+        android:layout_below="@+id/medicationDesc"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/searchSuggestions"

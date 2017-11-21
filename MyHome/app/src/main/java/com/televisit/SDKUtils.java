@@ -29,6 +29,7 @@ public class SDKUtils {
     private VisitContext visitContext;
     private Visit visit;
     private Consumer consumer;
+    private boolean hasMedicationsFilledOut;
 
     public static SDKUtils getInstance() {
         return ourInstance;
@@ -116,5 +117,13 @@ public class SDKUtils {
 
     public void setVisit(Visit visit) {
         this.visit = visit;
+    }
+
+    public boolean isHasMedicationsFilledOut() {
+        return hasMedicationsFilledOut;
+    }
+
+    public void setHasMedicationsFilledOut(boolean hasMedicationsFilledOut) {
+        this.hasMedicationsFilledOut = hasMedicationsFilledOut;
     }
 }

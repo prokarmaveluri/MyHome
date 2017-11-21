@@ -2,6 +2,7 @@ package com.televisit.medications;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -30,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import timber.log.Timber;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,9 +46,12 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
     private RecyclerView searchSuggestions;
     private RecyclerView medicationsList;
+    private LinearLayout noMedicationsLayout;
+    private AppCompatCheckBox noMedicationsCheckbox;
     private EditText searchQuery;
     private RelativeLayout searchLayout;
     private ProgressBar progressBar;
+
     private List<Medication> searchList;
 
     public static final String MEDICATIONS_TAG = "medications_tag";
@@ -80,10 +88,20 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
         searchQuery = (EditText) view.findViewById(R.id.searchQuery);
         searchSuggestions = (RecyclerView) view.findViewById(R.id.searchSuggestions);
         medicationsList = (RecyclerView) view.findViewById(R.id.medicationsList);
+        noMedicationsLayout = (LinearLayout) view.findViewById(R.id.no_medications_layout);
+        noMedicationsCheckbox = (AppCompatCheckBox) view.findViewById(R.id.no_medications_checkbox);
         searchLayout = (RelativeLayout) view.findViewById(R.id.searchLayout);
         progressBar = (ProgressBar) view.findViewById(R.id.medications_progress);
 
+        noMedicationsCheckbox.setChecked(SDKUtils.getInstance().isHasMedicationsFilledOut());
+
         searchQuery.addTextChangedListener(this);
+        noMedicationsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setMedicationsAdapter(null);
+            }
+        });
 
         getMedications();
         return view;
@@ -102,29 +120,44 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
     }
 
     private void setMedicationsAdapter(List<Medication> list) {
-        MedicationsAdapter adapter = new MedicationsAdapter(list, new MedicationRecyclerViewListener() {
-            @Override
-            public void onItemClick(Object model, int position) {
+        if (list != null && list.size() > 0) {
+            noMedicationsLayout.setVisibility(View.GONE);
+            medicationsList.setVisibility(View.VISIBLE);
+            noMedicationsCheckbox.setChecked(false);
 
-            }
+            MedicationsAdapter adapter = new MedicationsAdapter(list, new MedicationRecyclerViewListener() {
+                @Override
+                public void onItemClick(Object model, int position) {
 
-            @Override
-            public void onDeleteClick(Object model, int position) {
-                List<Medication> medications = SDKUtils.getInstance().getMedications();
-                if (medications == null)
-                    medications = new ArrayList<>();
-                if (model != null) {
-                    medications.remove((Medication) model);
-                    updateMedications();
                 }
-            }
-        });
 
-        medicationsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-        medicationsList.addItemDecoration(itemDecoration);
-        medicationsList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+                @Override
+                public void onDeleteClick(Object model, int position) {
+                    List<Medication> medications = SDKUtils.getInstance().getMedications();
+                    if (medications == null)
+                        medications = new ArrayList<>();
+                    if (model != null) {
+                        medications.remove((Medication) model);
+                        updateMedications();
+                    }
+                }
+            });
+
+            medicationsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+            medicationsList.addItemDecoration(itemDecoration);
+            medicationsList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        } else {
+            noMedicationsLayout.setVisibility(View.VISIBLE);
+            medicationsList.setVisibility(View.GONE);
+        }
+
+        if ((list != null && list.size() > 0) || noMedicationsCheckbox.isChecked()) {
+            SDKUtils.getInstance().setHasMedicationsFilledOut(true);
+        } else {
+            SDKUtils.getInstance().setHasMedicationsFilledOut(false);
+        }
     }
 
     private void getMedications() {
@@ -164,6 +197,8 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
                     @Override
                     public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
                         progressBar.setVisibility(View.GONE);
                     }
                 }
