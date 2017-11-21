@@ -19,6 +19,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.SDKOptionsActivity;
@@ -37,6 +38,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private TextView historyEdit;
     private TextView medicationsDesc;
     private TextView medicationsEdit;
+    private TextView pharmacyDesc;
     private TextView pharmacyEdit;
 
     public MyCareNowFragment() {
@@ -72,6 +74,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         historyEdit = (TextView) view.findViewById(R.id.medical_history_edit);
         medicationsDesc = (TextView) view.findViewById(R.id.medications_desc);
         medicationsEdit = (TextView) view.findViewById(R.id.medications_edit);
+        pharmacyDesc = (TextView) view.findViewById(R.id.pharmacy_desc);
         pharmacyEdit = (TextView) view.findViewById(R.id.pharmacy_edit);
         Button waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
 
@@ -87,7 +90,6 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 //                Intent intent = new Intent(getActivity(), LoginActivity.class);
 //                startActivity(intent);
 
-                //TODO: Enable video visit in application
                 ((NavigationActivity) getActivity()).loadFragment(
                         Constants.ActivityTag.MY_CARE_SERVICES, null);
             }
@@ -100,6 +102,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
         setConsumerMedications();
+        setConsumerPharmacy();
     }
 
     @Override
@@ -166,6 +169,16 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             medicationsDesc.setText(medications.toString());
         } else {
             medicationsDesc.setText(getString(R.string.no_medications_listed));
+        }
+    }
+
+    private void setConsumerPharmacy() {
+        Pharmacy pharmacy = SDKUtils.getInstance().getConsumerPharmacy();
+
+        if (pharmacy != null) {
+            pharmacyDesc.setText(pharmacy.getName() + "\n" + CommonUtil.getPharmacyAddress(pharmacy));
+        } else {
+            pharmacyDesc.setText(getString(R.string.choose_your_preferred_pharmacy));
         }
     }
 }

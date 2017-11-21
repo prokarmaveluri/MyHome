@@ -3,6 +3,7 @@ package com.televisit.pharmacy;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
+import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
@@ -26,6 +28,8 @@ import com.televisit.SDKUtils;
 
 import java.util.List;
 import java.util.Map;
+
+import timber.log.Timber;
 
 
 /**
@@ -163,7 +167,39 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         if (null != getActivity() && isAdded() && pharmacies != null) {
             pharmacyList.setVisibility(View.VISIBLE);
             pharmacyList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            pharmacyList.setAdapter(new PharmacyListAdapter(pharmacies, getActivity()));
+            RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+            pharmacyList.addItemDecoration(itemDecoration);
+            pharmacyList.setAdapter(new PharmacyListAdapter(getContext(), pharmacies, new PharmacyListAdapter.IPharmacyClick() {
+                @Override
+                public void providerClick(Pharmacy pharmacy) {
+                    SDKUtils.getInstance().setConsumerPharmacy(pharmacy);
+                    AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
+                            SDKUtils.getInstance().getConsumer(),
+                            SDKUtils.getInstance().getConsumerPharmacy(),
+                            new SDKCallback<Void, SDKError>() {
+                                @Override
+                                public void onResponse(Void aVoid, SDKError sdkError) {
+                                    if (sdkError == null) {
+                                        if (isAdded()) {
+                                            getActivity().onBackPressed();
+                                        }
+                                    } else {
+                                        Timber.e("Something failed! :/");
+                                        Timber.e("SDK Error: " + sdkError);
+                                        SDKUtils.getInstance().setConsumerPharmacy(null);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    Timber.e("Something failed! :/");
+                                    Timber.e("Throwable = " + throwable);
+                                    SDKUtils.getInstance().setConsumerPharmacy(null);
+                                }
+                            }
+                    );
+                }
+            }));
         } else {
             pharmacyList.setVisibility(View.GONE);
         }

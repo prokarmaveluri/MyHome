@@ -23,6 +23,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.fad.Office;
@@ -918,7 +919,7 @@ public class CommonUtil {
                 }
             }
 
-            if(!appointmentAvailableTime.getTimes().isEmpty()){
+            if (!appointmentAvailableTime.getTimes().isEmpty()) {
                 appointmentTimes.add(appointmentAvailableTime);
             }
         }
@@ -932,4 +933,10 @@ public class CommonUtil {
         context.startActivity(i);
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+
+    public static String getPharmacyAddress(Pharmacy pharmacy) {
+        return pharmacy.getAddress().getAddress1() + "\n" + pharmacy.getAddress().getCity() + ", "
+                + pharmacy.getAddress().getState().getCode() + " " + pharmacy.getAddress().getZipCode();
+    }
+
 }

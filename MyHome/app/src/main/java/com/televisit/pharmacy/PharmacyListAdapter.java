@@ -1,6 +1,6 @@
 package com.televisit.pharmacy;
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterPharmacyListItemBinding;
+import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by cmajji on 5/12/17.
@@ -21,12 +24,14 @@ import java.util.List;
 public class PharmacyListAdapter extends RecyclerView.Adapter<PharmacyListAdapter.ProvidersVH> {
 
     private List<Pharmacy> pharmacyList;
-    private Activity mContext;
+    private Context mContext;
+    private IPharmacyClick clickListener;
 
-    public PharmacyListAdapter(List<Pharmacy> pharmacies,
-                               Activity context) {
-        pharmacyList = pharmacies;
+    public PharmacyListAdapter(Context context, List<Pharmacy> pharmacies,
+                               IPharmacyClick listener) {
         mContext = context;
+        pharmacyList = pharmacies;
+        clickListener = listener;
     }
 
     @Override
@@ -54,20 +59,17 @@ public class PharmacyListAdapter extends RecyclerView.Adapter<PharmacyListAdapte
     }
 
     public class ProvidersVH extends RecyclerView.ViewHolder {
-
         private AdapterPharmacyListItemBinding binding;
 
         public ProvidersVH(AdapterPharmacyListItemBinding itemView) {
             super(itemView.getRoot());
-
             binding = itemView;
         }
 
         public void bind(Pharmacy pharmacy, int position) {
-
             binding.itemLayout.setTag(position);
             binding.pharmacyDisplayName.setText(pharmacy.getName());
-            binding.pharmacyAddress.setText(getPharmacyAddress(pharmacy));
+            binding.pharmacyAddress.setText(CommonUtil.getPharmacyAddress(pharmacy));
             binding.distance.setText(String.valueOf(pharmacy.getDistance()));
 
             binding.executePendingBindings();
@@ -79,19 +81,18 @@ public class PharmacyListAdapter extends RecyclerView.Adapter<PharmacyListAdapte
             int id = view.getId();
             switch (id) {
                 case R.id.itemLayout:
+                    Timber.d("itemLayout");
+                    Pharmacy pharmacy = pharmacyList.get((int) view.getTag());
+                    clickListener.providerClick(pharmacy);
                     break;
                 case R.id.directions:
+                    Timber.d("directions");
                     break;
             }
         }
     }
 
     public interface IPharmacyClick {
-        void providerClick(int position);
-    }
-
-    private String getPharmacyAddress(Pharmacy pharmacy) {
-        return pharmacy.getAddress().getAddress1() + "\n" + pharmacy.getAddress().getCity() + ", "
-                + pharmacy.getAddress().getState().getCode() + " " + pharmacy.getAddress().getZipCode();
+        void providerClick(Pharmacy pharmacy);
     }
 }
