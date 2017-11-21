@@ -914,6 +914,7 @@
     <string name="complete_your_medical_history">Complete your medical history.</string>
     <string name="medications">Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
+    <string name="no_medications_listed">You have no medications</string>
     <string name="pharmacy">Pharmacy</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
     <string name="mycare_now">My Care Now</string>

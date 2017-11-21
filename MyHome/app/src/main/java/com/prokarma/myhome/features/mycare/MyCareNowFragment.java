@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
@@ -23,6 +24,8 @@ import com.televisit.AwsManager;
 import com.televisit.SDKOptionsActivity;
 import com.televisit.SDKUtils;
 
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MyCareNowFragment#newInstance} factory method to
@@ -32,6 +35,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     private TextView infoEdit;
     private TextView historyEdit;
+    private TextView medicationsDesc;
     private TextView medicationsEdit;
     private TextView pharmacyEdit;
 
@@ -66,6 +70,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
         infoEdit = (TextView) view.findViewById(R.id.personal_info_edit);
         historyEdit = (TextView) view.findViewById(R.id.medical_history_edit);
+        medicationsDesc = (TextView) view.findViewById(R.id.medications_desc);
         medicationsEdit = (TextView) view.findViewById(R.id.medications_edit);
         pharmacyEdit = (TextView) view.findViewById(R.id.pharmacy_edit);
         Button waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
@@ -89,6 +94,12 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setConsumerMedications();
     }
 
     @Override
@@ -134,5 +145,27 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
                     }
                 });
+    }
+
+    private void setConsumerMedications() {
+        List<Medication> medicationsList = SDKUtils.getInstance().getMedications();
+
+        if (!SDKUtils.getInstance().isHasMedicationsFilledOut()) {
+            medicationsDesc.setText(getString(R.string.what_medications_are_you_taking));
+        } else if (medicationsList != null && medicationsList.size() > 0) {
+            StringBuilder medications = new StringBuilder();
+
+            for (int i = 0; i < medicationsList.size(); i++) {
+                medications.append(medicationsList.get(i).getName());
+
+                if (i < medicationsList.size() - 1) {
+                    medications.append(", ");
+                }
+            }
+
+            medicationsDesc.setText(medications.toString());
+        } else {
+            medicationsDesc.setText(getString(R.string.no_medications_listed));
+        }
     }
 }

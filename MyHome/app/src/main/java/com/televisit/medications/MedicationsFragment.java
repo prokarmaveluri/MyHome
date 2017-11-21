@@ -99,7 +99,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
         noMedicationsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setMedicationsAdapter(null);
+                setMedicationsAdapter(SDKUtils.getInstance().getMedications());
             }
         });
 
@@ -184,7 +184,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
     }
 
     private void updateMedications() {
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateMedications(
                 SDKUtils.getInstance().getConsumer(),
                 SDKUtils.getInstance().getMedications(),
