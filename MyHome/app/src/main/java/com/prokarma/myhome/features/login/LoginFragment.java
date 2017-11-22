@@ -99,6 +99,15 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         content.setSpan(new UnderlineSpan(), text.length() + 1, content.length(), 0);
         binder.enrollNow.setText(content);
 
+        SpannableString fpContent = new SpannableString(getResources().getString(R.string.forgot_password));
+        fpContent.setSpan(new UnderlineSpan(), 0, fpContent.length(), 0);
+        binder.forgotPassword.setText(fpContent);
+
+        SpannableString helpContent = new SpannableString(getResources().getString(R.string.login_help));
+        helpContent.setSpan(new UnderlineSpan(), 0, helpContent.length(), 0);
+        binder.loginHelp.setText(helpContent);
+
+
         String email = AppPreferences.getInstance().getPreference("EMAIL_PREF");
         if (email != null && !email.trim().isEmpty())
             binder.email.setText(email);
