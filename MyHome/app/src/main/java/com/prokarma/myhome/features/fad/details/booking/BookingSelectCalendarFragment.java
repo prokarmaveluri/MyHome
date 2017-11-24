@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.views.EventDecorator;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -81,6 +82,8 @@ public class BookingSelectCalendarFragment extends Fragment {
             calendar.setCurrentDate(CalendarDay.from(cal), true);
             calendar.state().edit().setMinimumDate(cal).commit();
         }
+
+        //calendar.addDecorator(new EventDecorator(R.drawable.circle_calendar_day_event, yourDay));
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
