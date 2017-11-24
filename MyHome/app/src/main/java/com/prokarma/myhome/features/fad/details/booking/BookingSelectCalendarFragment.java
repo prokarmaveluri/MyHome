@@ -15,14 +15,22 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.views.EventDecorator;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 5/25/17.
@@ -35,6 +43,7 @@ public class BookingSelectCalendarFragment extends Fragment {
     private Date bookingDate;
     private BookingDateHeaderInterface selectTimeInterface;
     private BookingRefreshInterface refreshInterface;
+    public ArrayList<AppointmentAvailableTime> allAppointments;
 
     View bookingView;
     LinearLayout normalLayout;
@@ -58,6 +67,9 @@ public class BookingSelectCalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
+
+        getAllAppointments();
+
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
@@ -82,8 +94,6 @@ public class BookingSelectCalendarFragment extends Fragment {
             calendar.setCurrentDate(CalendarDay.from(cal), true);
             calendar.state().edit().setMinimumDate(cal).commit();
         }
-
-        //calendar.addDecorator(new EventDecorator(R.drawable.circle_calendar_day_event, yourDay));
 
         RelativeLayout dateHeader = (RelativeLayout) bookingView.findViewById(R.id.date_header);
         ImageView leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
@@ -127,10 +137,11 @@ public class BookingSelectCalendarFragment extends Fragment {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 if (selected) {
                     setMonthHeader(date);
+                    monthLabel.callOnClick();
                 }
             }
         });
-
+        setCalendarEvents();
         return bookingView;
     }
 
@@ -189,5 +200,25 @@ public class BookingSelectCalendarFragment extends Fragment {
 
     public void setRefreshInterface(BookingRefreshInterface refreshInterface) {
         this.refreshInterface = refreshInterface;
+    }
+
+    private void getAllAppointments() {
+        allAppointments = CommonUtil.filterAppointmentsToType(AppointmentManager.getInstance().getAppointmentTimeSlots(), BookingManager.getBookingAppointmentType());
+        Collections.sort(allAppointments);
+    }
+
+    private void setCalendarEvents() {
+        List<CalendarDay> eventDays = new ArrayList<>();
+        Date appointmentDate = new Date();
+        for (AppointmentAvailableTime appointmentAvailableTime : allAppointments) {
+            try {
+                appointmentDate = DateUtil.getDateFromHyphens(appointmentAvailableTime.getDate());
+            } catch (ParseException e) {
+                Timber.e(e);
+                e.printStackTrace();
+            }
+            eventDays.add(CalendarDay.from(appointmentDate));
+        }
+        calendar.addDecorator(new EventDecorator(this.getContext(), R.drawable.circle_calendar_day_event, eventDays));
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 
-import com.prokarma.myhome.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -28,18 +27,11 @@ public class EventDecorator implements DayViewDecorator {
 
     @Override
     public boolean shouldDecorate(CalendarDay day) {
-        //Log.d(TAG, "shouldDecorate: day:"+day.toString()+" calendarDayList.contains(day):"+calendarDayList.contains(day));
         return calendarDayList.contains(day);
     }
 
     @Override
     public void decorate(DayViewFacade view) {
-        if (drawableId == R.drawable.circle_calendar_day_event){
-            view.setDaysDisabled(true);
-        }else{
-            view.setDaysDisabled(false);
-        }
         view.setBackgroundDrawable(ContextCompat.getDrawable(context, drawableId));
-
     }
 }
