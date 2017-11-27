@@ -4,5 +4,6 @@
     <dimen name="scalable_18">18sp</dimen>
     <dimen name="scalable_20">20sp</dimen>
     <dimen name="scalable_22">22sp</dimen>
+    <dimen name="scalable_24">24sp</dimen>
     <dimen name="scalable_32">32sp</dimen>
 </resources>

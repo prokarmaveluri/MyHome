@@ -14,9 +14,8 @@
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{handlers::onClickPharmacy}"
-        android:orientation="vertical"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:onClick="@{handlers::onClickPharmacy}">
 
         <TextView
             android:id="@+id/pharmacyDisplayName"

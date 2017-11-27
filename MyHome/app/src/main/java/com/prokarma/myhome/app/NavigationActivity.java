@@ -59,6 +59,7 @@ import com.televisit.history.MedicalHistoryFragment;
 import com.televisit.login.SDKLoginFragment;
 import com.televisit.medications.MedicationsFragment;
 import com.televisit.pharmacy.PharmaciesFragment;
+import com.televisit.pharmacy.PharmacyDetailsFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.reason.MyCareReasonForVisitFragment;
 import com.televisit.services.MyCareServicesFragment;
@@ -540,11 +541,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
             case MY_PHARMACY_DETAILS:
                 if (getActivityTag() != ActivityTag.MY_PHARMACY_DETAILS) {
-                    PharmaciesFragment pharmacyDetailsFragment = PharmaciesFragment.newInstance();
+                    PharmacyDetailsFragment pharmacyDetailsFragment = PharmacyDetailsFragment.newInstance();
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, pharmacyDetailsFragment, PharmaciesFragment.PHARMACIES_TAG)
+                            .replace(R.id.frame, pharmacyDetailsFragment, PharmacyDetailsFragment.PHARMACY_DETAILS_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
