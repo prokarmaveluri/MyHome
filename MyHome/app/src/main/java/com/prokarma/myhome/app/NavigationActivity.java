@@ -499,6 +499,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
             case MY_MED_HISTORY:
                 if (getActivityTag() != ActivityTag.MY_MED_HISTORY) {
+                    getSupportFragmentManager().executePendingTransactions();
                     MedicalHistoryFragment historyFragment = MedicalHistoryFragment.newInstance();
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -513,6 +514,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
             case MY_MEDICATIONS:
                 if (getActivityTag() != ActivityTag.MY_MEDICATIONS) {
+                    getSupportFragmentManager().executePendingTransactions();
                     MedicationsFragment medicationsFragment = MedicationsFragment.newInstance();
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -527,6 +529,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
             case MY_PHARMACY:
                 if (getActivityTag() != ActivityTag.MY_PHARMACY) {
+                    getSupportFragmentManager().executePendingTransactions();
                     PharmaciesFragment pharmaciesFragment = PharmaciesFragment.newInstance();
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -541,7 +544,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
             case MY_PHARMACY_DETAILS:
                 if (getActivityTag() != ActivityTag.MY_PHARMACY_DETAILS) {
+                    getSupportFragmentManager().executePendingTransactions();
                     PharmacyDetailsFragment pharmacyDetailsFragment = PharmacyDetailsFragment.newInstance();
+                    pharmacyDetailsFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)

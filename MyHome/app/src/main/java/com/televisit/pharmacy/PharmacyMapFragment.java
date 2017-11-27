@@ -79,7 +79,6 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
         getActivity().setTitle(getString(R.string.pharmacy));
         View view = inflater.inflate(R.layout.fragment_map_view, container, false);
 
-        NavigationActivity.eventBus.register(this);
         final SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.fragmentMapView);
         map.getMapAsync(this);
@@ -89,6 +88,13 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onResume() {
         super.onResume();
+        NavigationActivity.eventBus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        NavigationActivity.eventBus.unregister(this);
     }
 
     @Override

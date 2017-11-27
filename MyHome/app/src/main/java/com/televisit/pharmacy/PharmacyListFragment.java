@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
@@ -29,8 +28,6 @@ import com.televisit.SDKUtils;
 
 import java.util.List;
 import java.util.Map;
-
-import timber.log.Timber;
 
 
 /**
@@ -172,34 +169,43 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
             pharmacyList.addItemDecoration(itemDecoration);
             pharmacyList.setAdapter(new PharmacyListAdapter(getContext(), pharmacies, new PharmacyListAdapter.IPharmacyClick() {
                 @Override
-                public void pharmacyClick(Pharmacy pharmacy) {
-                    SDKUtils.getInstance().setConsumerPharmacy(pharmacy);
-                    AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
-                            SDKUtils.getInstance().getConsumer(),
-                            SDKUtils.getInstance().getConsumerPharmacy(),
-                            new SDKCallback<Void, SDKError>() {
-                                @Override
-                                public void onResponse(Void aVoid, SDKError sdkError) {
-                                    if (sdkError == null) {
-                                        if (isAdded() && getActivity() != null) {
-                                            ((NavigationActivity) getActivity()).loadFragment(
-                                                    Constants.ActivityTag.MY_PHARMACY_DETAILS, null);
-                                        }
-                                    } else {
-                                        Timber.e("Something failed! :/");
-                                        Timber.e("SDK Error: " + sdkError);
-                                        //SDKUtils.getInstance().setConsumerPharmacy(null);
-                                    }
-                                }
+                public void pharmacyClick(final Pharmacy pharmacy) {
+                    if (isAdded() && getActivity() != null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(PharmacyDetailsFragment.PHARMACY_KEY, pharmacy);
+                        ((NavigationActivity) getActivity()).loadFragment(
+                                Constants.ActivityTag.MY_PHARMACY_DETAILS, bundle);
+                    }
 
-                                @Override
-                                public void onFailure(Throwable throwable) {
-                                    Timber.e("Something failed! :/");
-                                    Timber.e("Throwable = " + throwable);
-                                    //SDKUtils.getInstance().setConsumerPharmacy(null);
-                                }
-                            }
-                    );
+//                    SDKUtils.getInstance().setConsumerPharmacy(pharmacy);
+//                    AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
+//                            SDKUtils.getInstance().getConsumer(),
+//                            SDKUtils.getInstance().getConsumerPharmacy(),
+//                            new SDKCallback<Void, SDKError>() {
+//                                @Override
+//                                public void onResponse(Void aVoid, SDKError sdkError) {
+//                                    if (sdkError == null) {
+//                                        if (isAdded() && getActivity() != null) {
+//                                            Bundle bundle = new Bundle();
+//                                            bundle.putParcelable(pharmacy);
+//                                            ((NavigationActivity) getActivity()).loadFragment(
+//                                                    Constants.ActivityTag.MY_PHARMACY_DETAILS, null);
+//                                        }
+//                                    } else {
+//                                        Timber.e("Something failed! :/");
+//                                        Timber.e("SDK Error: " + sdkError);
+//                                        //SDKUtils.getInstance().setConsumerPharmacy(null);
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Throwable throwable) {
+//                                    Timber.e("Something failed! :/");
+//                                    Timber.e("Throwable = " + throwable);
+//                                    //SDKUtils.getInstance().setConsumerPharmacy(null);
+//                                }
+//                            }
+//                    );
                 }
             }));
         } else {

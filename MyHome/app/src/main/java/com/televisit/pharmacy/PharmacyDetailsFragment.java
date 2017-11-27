@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.prokarma.myhome.R;
 
 
@@ -16,8 +18,10 @@ import com.prokarma.myhome.R;
  * create an instance of this fragment.
  */
 public class PharmacyDetailsFragment extends Fragment {
-
     public static final String PHARMACY_DETAILS_TAG = "pharmacy_details_tag";
+    public static final String PHARMACY_KEY = "pharmacy_key";
+
+    private Pharmacy pharmacy;
 
     public PharmacyDetailsFragment() {
         // Required empty public constructor
@@ -38,15 +42,18 @@ public class PharmacyDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            pharmacy = getArguments().getParcelable(PHARMACY_KEY);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         getActivity().setTitle(getString(R.string.pharmacy));
         View view = inflater.inflate(R.layout.fragment_pharmacy_details, container, false);
+
+        TextView name = view.findViewById(R.id.pharmacy_name);
+        name.setText(pharmacy.getName());
 
         return view;
     }
