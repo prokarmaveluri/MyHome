@@ -142,6 +142,7 @@ public class BookingSelectCalendarFragment extends Fragment {
 
     public void setMonthHeader(CalendarDay calendarDay) {
         monthLabel.setText(DateUtil.convertDateToReadableShortWords(calendarDay.getDate()));
+        monthLabel.setContentDescription(DateUtil.convertDateToReadableLongWords(calendarDay.getDate()) + ", " + "Calendar expanded");
 
         if (selectTimeInterface != null) {
             selectTimeInterface.onDateChanged(calendarDay.getDate());

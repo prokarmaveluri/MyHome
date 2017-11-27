@@ -390,6 +390,7 @@ public class BookingSelectTimeFragment extends Fragment {
 
     public void setMonthHeader(Date date) {
         monthLabel.setText(DateUtil.convertDateToReadableShortWords(date));
+        monthLabel.setContentDescription(DateUtil.convertDateToReadableLongWords(date) + ", " + "Calendar collapsed");
 
         if (selectTimeInterface != null) {
             selectTimeInterface.onDateChanged(bookingDate);
