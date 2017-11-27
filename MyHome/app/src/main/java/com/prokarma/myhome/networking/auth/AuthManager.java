@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
@@ -16,6 +19,7 @@ import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.AppPreferences;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +41,7 @@ public class AuthManager {
     private static String sessionId;
     private static String sid;
     private static String amWellToken;
+    private static boolean hasMyCare = false;
 
     private static long idleTime;
     private static int count = 0;
@@ -135,6 +140,14 @@ public class AuthManager {
 
     public static String getAmWellToken() {
         return amWellToken;
+    }
+
+    public static boolean hasMyCare() {
+        return hasMyCare;
+    }
+
+    public static void setHasMyCare(boolean hasMyCare) {
+        AuthManager.hasMyCare = hasMyCare;
     }
 
     public String getSessionToken() {
@@ -237,6 +250,7 @@ public class AuthManager {
 
     public void getUsersAmWellToken() {
         if (bearerToken != null) {
+            checkMyCareEligibility();
             NetworkManager.getInstance().getAmWellToken(bearerToken).enqueue(new Callback<AmWellResponse>() {
                 @Override
                 public void onResponse(Call<AmWellResponse> call, Response<AmWellResponse> response) {
@@ -256,6 +270,28 @@ public class AuthManager {
                     AuthManager.getInstance().setAmWellToken(null);
                 }
             });
+        }
+    }
+
+    private void checkMyCareEligibility() {
+        try {
+            Log.d(this.getClass().getSimpleName(), "JWT bearerToken " + bearerToken);
+
+            JWT jwt = new JWT(bearerToken);
+
+            Log.d(this.getClass().getSimpleName(), "JWT subject = " + jwt.getSubject());
+
+            Claim claim = jwt.getClaim("groups");
+            List<String> groups = claim.asList(String.class);
+            if (groups != null && groups.contains("Telehealth Users")) {
+                setHasMyCare(true);
+            }
+            Log.d(this.getClass().getSimpleName(), "JWT groups = " + groups.toString());
+            Log.d(this.getClass().getSimpleName(), "JWT hasMyCare = " + hasMyCare());
+
+        } catch (Exception e) {
+            Timber.e(e);
+            e.printStackTrace();
         }
     }
 
