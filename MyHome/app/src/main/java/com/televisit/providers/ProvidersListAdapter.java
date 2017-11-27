@@ -100,7 +100,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
             int id = view.getId();
             switch (id) {
                 case R.id.itemLayout:
-                    clickListener.providerClick((Integer) view.getTag());
+                    clickListener.providerClick(providerList.get((int) view.getTag()));
                     break;
                 case R.id.directions:
                     break;
@@ -109,6 +109,6 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
     }
 
     public interface IProviderClick {
-        void providerClick(int position);
+        void providerClick(ProviderInfo provider);
     }
 }

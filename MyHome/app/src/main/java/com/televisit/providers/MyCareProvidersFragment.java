@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.practice.PracticeInfo;
-import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.entity.visit.VisitContext;
@@ -122,40 +121,19 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     @Override
-    public void providerClick(int position) {
+    public void providerClick(ProviderInfo provider) {
 
-        if (providerInfo != null && providerInfo.size() > position
-                && providerInfo.get(position).getVisibility() != ProviderVisibility.OFFLINE) {
+        if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
             progressBar.setVisibility(View.VISIBLE);
-            getProvider(providerInfo.get(position));
-            getVisitContext(providerInfo.get(position));
-        } else if (providerInfo != null && providerInfo.size() > position
-                && providerInfo.get(position).getVisibility() == ProviderVisibility.OFFLINE) {
-            Toast.makeText(getActivity(), "Doctor not available", Toast.LENGTH_SHORT).show();
+            getVisitContext(provider);
+        } else if (providerInfo != null && provider.getVisibility() == ProviderVisibility.OFFLINE) {
+            Toast.makeText(getActivity(), provider.getFullName() + " is not available", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.MY_CARE_PROVIDERS;
-    }
-
-    private void getProvider(ProviderInfo info) {
-        AwsManager.getInstance().getAWSDK()
-                .getPracticeProvidersManager().getProvider(info, SDKUtils.getInstance().getConsumer(),
-                new SDKCallback<Provider, SDKError>() {
-                    @Override
-                    public void onResponse(Provider provider, SDKError sdkError) {
-                        if (sdkError == null) {
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-
-                    }
-                });
     }
 
     private void getVisitContext(ProviderInfo info) {
@@ -188,6 +166,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
             legalText.setAccepted(accepted);
         }
     }
+
     public void setShareHealthSummary(VisitContext visitContext) {
         visitContext.setShareHealthSummary(true);
     }
