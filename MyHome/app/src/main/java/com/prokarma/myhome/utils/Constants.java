@@ -38,6 +38,7 @@ public class Constants {
         MY_MED_HISTORY,
         MY_MEDICATIONS,
         MY_PHARMACY,
+        MY_PHARMACY_DETAILS,
         MY_CARE_SERVICES,
         MY_CARE_PROVIDERS,
         MY_CARE_REASON,

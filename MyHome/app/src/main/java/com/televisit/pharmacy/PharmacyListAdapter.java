@@ -83,7 +83,7 @@ public class PharmacyListAdapter extends RecyclerView.Adapter<PharmacyListAdapte
                 case R.id.itemLayout:
                     Timber.d("itemLayout");
                     Pharmacy pharmacy = pharmacyList.get((int) view.getTag());
-                    clickListener.providerClick(pharmacy);
+                    clickListener.pharmacyClick(pharmacy);
                     break;
                 case R.id.directions:
                     Timber.d("directions");
@@ -93,6 +93,6 @@ public class PharmacyListAdapter extends RecyclerView.Adapter<PharmacyListAdapte
     }
 
     public interface IPharmacyClick {
-        void providerClick(Pharmacy pharmacy);
+        void pharmacyClick(Pharmacy pharmacy);
     }
 }

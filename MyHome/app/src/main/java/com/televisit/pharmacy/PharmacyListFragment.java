@@ -23,6 +23,7 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
@@ -171,7 +172,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
             pharmacyList.addItemDecoration(itemDecoration);
             pharmacyList.setAdapter(new PharmacyListAdapter(getContext(), pharmacies, new PharmacyListAdapter.IPharmacyClick() {
                 @Override
-                public void providerClick(Pharmacy pharmacy) {
+                public void pharmacyClick(Pharmacy pharmacy) {
                     SDKUtils.getInstance().setConsumerPharmacy(pharmacy);
                     AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
                             SDKUtils.getInstance().getConsumer(),
@@ -180,13 +181,14 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                                 @Override
                                 public void onResponse(Void aVoid, SDKError sdkError) {
                                     if (sdkError == null) {
-                                        if (isAdded()) {
-                                            getActivity().onBackPressed();
+                                        if (isAdded() && getActivity() != null) {
+                                            ((NavigationActivity) getActivity()).loadFragment(
+                                                    Constants.ActivityTag.MY_PHARMACY_DETAILS, null);
                                         }
                                     } else {
                                         Timber.e("Something failed! :/");
                                         Timber.e("SDK Error: " + sdkError);
-                                        SDKUtils.getInstance().setConsumerPharmacy(null);
+                                        //SDKUtils.getInstance().setConsumerPharmacy(null);
                                     }
                                 }
 
@@ -194,7 +196,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                                 public void onFailure(Throwable throwable) {
                                     Timber.e("Something failed! :/");
                                     Timber.e("Throwable = " + throwable);
-                                    SDKUtils.getInstance().setConsumerPharmacy(null);
+                                    //SDKUtils.getInstance().setConsumerPharmacy(null);
                                 }
                             }
                     );

@@ -1,9 +1,7 @@
 package com.prokarma.myhome.features.mycare;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,7 +20,6 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-import com.televisit.SDKOptionsActivity;
 import com.televisit.SDKUtils;
 
 import java.util.List;
@@ -116,23 +113,21 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
         final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
                 R.anim.slide_in_right, R.anim.slide_out_left);
-        Intent intent = new Intent(getActivity(), SDKOptionsActivity.class);
 
         switch (Id) {
             case R.id.personal_info_edit:
-                NavigationActivity.setActivityTag(Constants.ActivityTag.PROFILE_VIEW);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_VIEW, null);
                 break;
             case R.id.medical_history_edit:
-                NavigationActivity.setActivityTag(Constants.ActivityTag.MY_MED_HISTORY);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_MED_HISTORY, null);
                 break;
             case R.id.medications_edit:
-                NavigationActivity.setActivityTag(Constants.ActivityTag.MY_MEDICATIONS);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_MEDICATIONS, null);
                 break;
             case R.id.pharmacy_edit:
-                NavigationActivity.setActivityTag(Constants.ActivityTag.MY_PHARMACY);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_PHARMACY, null);
                 break;
         }
-        ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
     }
 
     private void getConsumerPharmacy() {

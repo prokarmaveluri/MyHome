@@ -55,7 +55,10 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.televisit.AwsManager;
 import com.televisit.cost.MyCareVisitCostFragment;
+import com.televisit.history.MedicalHistoryFragment;
 import com.televisit.login.SDKLoginFragment;
+import com.televisit.medications.MedicationsFragment;
+import com.televisit.pharmacy.PharmaciesFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.reason.MyCareReasonForVisitFragment;
 import com.televisit.services.MyCareServicesFragment;
@@ -330,6 +333,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, profileViewFragment, ProfileViewFragment.PROFILE_VIEW_TAG)
+                            .addToBackStack(null)
                             .commit();
 
                     setActivityTag(ActivityTag.PROFILE_VIEW);
@@ -490,6 +494,62 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commit();
 
                     setActivityTag(ActivityTag.MY_CARE_WAITING_ROOM);
+                }
+                break;
+            case MY_MED_HISTORY:
+                if (getActivityTag() != ActivityTag.MY_MED_HISTORY) {
+                    MedicalHistoryFragment historyFragment = MedicalHistoryFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, historyFragment, MedicalHistoryFragment.MED_HISTORY_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.MY_MED_HISTORY);
+                }
+                break;
+            case MY_MEDICATIONS:
+                if (getActivityTag() != ActivityTag.MY_MEDICATIONS) {
+                    MedicationsFragment medicationsFragment = MedicationsFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, medicationsFragment, MedicationsFragment.MEDICATIONS_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.MY_MEDICATIONS);
+                }
+                break;
+            case MY_PHARMACY:
+                if (getActivityTag() != ActivityTag.MY_PHARMACY) {
+                    PharmaciesFragment pharmaciesFragment = PharmaciesFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, pharmaciesFragment, PharmaciesFragment.PHARMACIES_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.MY_PHARMACY);
+                }
+                break;
+            case MY_PHARMACY_DETAILS:
+                if (getActivityTag() != ActivityTag.MY_PHARMACY_DETAILS) {
+                    PharmaciesFragment pharmacyDetailsFragment = PharmaciesFragment.newInstance();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, pharmacyDetailsFragment, PharmaciesFragment.PHARMACIES_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.MY_PHARMACY_DETAILS);
                 }
                 break;
         }

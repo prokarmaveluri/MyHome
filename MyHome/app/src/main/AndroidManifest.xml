@@ -393,10 +393,6 @@
             android:label="@string/title_activity_tech_check"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.televisit.SDKOptionsActivity"
-            android:label="@string/mycare_now"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="com.televisit.summary.SummaryActivity"
             android:label="@string/title_activity_summary"
             android:theme="@style/AppTheme" />
