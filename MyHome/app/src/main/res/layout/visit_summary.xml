@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/docImage"
-            android:text="Richard paul, MD"
+            android:text="Richard Paul, MD"
             android:textStyle="bold" />
     </RelativeLayout>
 
@@ -47,6 +47,7 @@
         android:layout_below="@+id/endDesc"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="16dp"
+        android:text="Your total cost for today's visit was $0.00"
         android:textColor="@color/grey" />
 
     <Button
@@ -59,7 +60,7 @@
         android:layout_marginTop="16dp"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
-        android:text="View PDF"
+        android:text="View Visit Report"
         android:textAllCaps="false" />
 
 
