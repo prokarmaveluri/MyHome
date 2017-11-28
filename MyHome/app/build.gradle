@@ -380,6 +380,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-base:10.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'frankiesardo:icepick:3.2.0'
+    compile 'com.auth0.android:jwtdecode:1.1.1'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
     provided 'frankiesardo:icepick-processor:3.2.0'
 }
