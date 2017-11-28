@@ -41,7 +41,6 @@ public class Constants {
         MY_PHARMACY_DETAILS,
         MY_CARE_SERVICES,
         MY_CARE_PROVIDERS,
-        MY_CARE_REASON,
         MY_CARE_COST,
         MY_CARE_WAITING_ROOM,
         VISIT_SUMMARY,

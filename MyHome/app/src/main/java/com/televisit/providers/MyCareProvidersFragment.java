@@ -168,7 +168,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                             SDKUtils.getInstance().setVisitContext(visitContext);
                             if (isAdded() && getActivity() != null) {
                                 ((NavigationActivity) getActivity()).loadFragment(
-                                        Constants.ActivityTag.MY_CARE_REASON, null);
+                                        Constants.ActivityTag.MY_CARE_COST, null);
                             }
                             setLegalTextsAccepted(true, visitContext);
                             setShareHealthSummary(visitContext);

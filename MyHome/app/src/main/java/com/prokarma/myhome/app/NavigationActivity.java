@@ -63,7 +63,6 @@ import com.televisit.medications.MedicationsFragment;
 import com.televisit.pharmacy.PharmaciesFragment;
 import com.televisit.pharmacy.PharmacyDetailsFragment;
 import com.televisit.providers.MyCareProvidersFragment;
-import com.televisit.reason.MyCareReasonForVisitFragment;
 import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.SummaryFragment;
 import com.televisit.waitingroom.MyCareWaitingRoomFragment;
@@ -484,20 +483,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commit();
 
                     setActivityTag(ActivityTag.MY_CARE_PROVIDERS);
-                }
-                break;
-            case MY_CARE_REASON:
-                if (getActivityTag() != ActivityTag.MY_CARE_REASON) {
-                    getSupportFragmentManager().executePendingTransactions();
-                    MyCareReasonForVisitFragment myCareReasonForVisitFragment = MyCareReasonForVisitFragment.newInstance();
-                    myCareReasonForVisitFragment.setArguments(bundle);
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame, myCareReasonForVisitFragment, MyCareReasonForVisitFragment.MY_CARE_REASON_TAG)
-                            .addToBackStack(null)
-                            .commit();
-
-                    setActivityTag(ActivityTag.MY_CARE_REASON);
                 }
                 break;
             case MY_CARE_COST:

@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:hint="@string/reason"
-            android:inputType="textEmailAddress"
+            android:inputType="textCapSentences"
             android:maxLines="1"
             android:singleLine="true"
             android:text="I bumped my head" />

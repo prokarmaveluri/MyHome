@@ -113,7 +113,8 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.MY_CARE_REASON;
+        //return Constants.ActivityTag.MY_CARE_REASON;
+        return null;
     }
 
     private void createVisit() {

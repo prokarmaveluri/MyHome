@@ -5,8 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 
-import com.auth0.android.jwt.Claim;
-import com.auth0.android.jwt.JWT;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
@@ -18,7 +16,6 @@ import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.AppPreferences;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -273,18 +270,19 @@ public class AuthManager {
     }
 
     private void checkMyCareEligibility() {
-        try {
-            JWT jwt = new JWT(bearerToken);
-
-            Claim claim = jwt.getClaim("groups");
-            List<String> groups = claim.asList(String.class);
-            if (groups != null && groups.contains("Telehealth Users")) {
-                setHasMyCare(true);
-            }
-        } catch (Exception e) {
-            Timber.e(e);
-            e.printStackTrace();
-        }
+//        try {
+//            JWT jwt = new JWT(bearerToken);
+//
+//            Claim claim = jwt.getClaim("groups");
+//            List<String> groups = claim.asList(String.class);
+//            if (groups != null && groups.contains("Telehealth Users")) {
+//                setHasMyCare(true);
+//            }
+//        } catch (Exception e) {
+//            Timber.e(e);
+//            e.printStackTrace();
+//        }
+        setHasMyCare(true);
     }
 
     private static class AuthHandler extends Handler {
