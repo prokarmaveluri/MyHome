@@ -22,12 +22,14 @@ import com.televisit.SDKUtils;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MyCareServicesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyCareServicesFragment extends BaseFragment implements ServicesListAdapter.IServiceClick{
+public class MyCareServicesFragment extends BaseFragment implements ServicesListAdapter.IServiceClick {
 
     private RecyclerView servicesList;
     private ProgressBar progressBar;
@@ -113,7 +115,8 @@ public class MyCareServicesFragment extends BaseFragment implements ServicesList
 
             ((NavigationActivity) getActivity()).loadFragment(
                     Constants.ActivityTag.MY_CARE_PROVIDERS, null);
-        }catch (NullPointerException | ArrayIndexOutOfBoundsException ex){
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+            Timber.e(ex);
         }
     }
 

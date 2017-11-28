@@ -1,22 +1,10 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="nav_header_vertical_spacing">16dp</dimen>
-    <dimen name="nav_header_height">160dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
 
     <!--Profile dimensions-->
-    <dimen name="profile_header_padding">12dp</dimen>
     <dimen name="profile_label_marginTop">12dp</dimen>
     <dimen name="profile_label_marginBottom">50dp</dimen>
-    <dimen name="profile_insuranceheader_marginTop">24dp</dimen>
     <dimen name="profile_firstname_indent">36dp</dimen>
-    <dimen name="profile_lastname_indent">160dp</dimen>
-    <dimen name="profile_firstname_maxwidth">140dp</dimen>
-    <dimen name="profile_lastname_maxwidth">140dp</dimen>
-    <dimen name="profile_city_maxwidth">140dp</dimen>
-    <dimen name="profile_address_maxwidth">140dp</dimen>
 
     <dimen name="scalable_8">8sp</dimen>
     <dimen name="scalable_16">14sp</dimen>
@@ -34,37 +22,13 @@
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
       https://developer.android.com/design/patterns/navigation-drawer.html -->
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="appbar_padding_top">8dp</dimen>
-
-    <dimen name="textSizeMicro">12sp</dimen>
-    <dimen name="textSizeMedium">16sp</dimen>
-    <dimen name="textSizeMediumLarge">20sp</dimen>
-    <dimen name="textSizeExtraSmall">13sp</dimen>
 
     <!-- Secure messages -->
-    <dimen name="msg_padding_small">5dp</dimen>
-    <dimen name="msg_margin_column">15dp</dimen>
-    <dimen name="msg_attachment_icon">25dp</dimen>
-
-    <dimen name="provider_details_image_width">175dp</dimen>
-    <dimen name="provider_details_image_height">175dp</dimen>
-
-    <dimen name="home_icon_size">70dp</dimen>
-    <dimen name="home_icon_margin">16dp</dimen>
-    <dimen name="home_end_margin">40dp</dimen>
-    <dimen name="home_title_bottom">8sp</dimen>
-    <dimen name="home_top_margin">21dp</dimen>
 
     <!--Visit Report Detail-->
-    <dimen name="subtitle_padding">10dp</dimen>
-    <dimen name="chat_view_padding">8dp</dimen>
 
     <!--Update Insurance-->
-    <dimen name="update_insurance_margin_top">12dp</dimen>
 
     <!--Spinner labels-->
-    <dimen name="input_label_vertical_spacing">8dp</dimen>
-    <dimen name="input_label_horizontal_spacing">4dp</dimen>
 
 </resources>
