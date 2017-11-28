@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,8 +19,8 @@
         style="@style/primaryButtonStyle"
         android:layout_width="285dp"
         android:layout_height="45dp"
-        android:layout_below="@id/desc"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="12dp"
         android:enabled="false"
@@ -29,15 +29,13 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/providerList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/btn_next_avail_provider" />
+        android:layout_height="match_parent" />
 
     <ProgressBar
         android:id="@+id/providers_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_marginBottom="8dp"
         android:indeterminate="true"
         android:visibility="visible" />
-</RelativeLayout>
+</LinearLayout>
