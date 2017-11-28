@@ -170,42 +170,11 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
             pharmacyList.setAdapter(new PharmacyListAdapter(getContext(), pharmacies, new PharmacyListAdapter.IPharmacyClick() {
                 @Override
                 public void pharmacyClick(final Pharmacy pharmacy) {
-                    if (isAdded() && getActivity() != null) {
+                    if (isAdded()) {
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(PharmacyDetailsFragment.PHARMACY_KEY, pharmacy);
-                        ((NavigationActivity) getActivity()).loadFragment(
-                                Constants.ActivityTag.MY_PHARMACY_DETAILS, bundle);
+                        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_PHARMACY_DETAILS, bundle);
                     }
-
-//                    SDKUtils.getInstance().setConsumerPharmacy(pharmacy);
-//                    AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
-//                            SDKUtils.getInstance().getConsumer(),
-//                            SDKUtils.getInstance().getConsumerPharmacy(),
-//                            new SDKCallback<Void, SDKError>() {
-//                                @Override
-//                                public void onResponse(Void aVoid, SDKError sdkError) {
-//                                    if (sdkError == null) {
-//                                        if (isAdded() && getActivity() != null) {
-//                                            Bundle bundle = new Bundle();
-//                                            bundle.putParcelable(pharmacy);
-//                                            ((NavigationActivity) getActivity()).loadFragment(
-//                                                    Constants.ActivityTag.MY_PHARMACY_DETAILS, null);
-//                                        }
-//                                    } else {
-//                                        Timber.e("Something failed! :/");
-//                                        Timber.e("SDK Error: " + sdkError);
-//                                        //SDKUtils.getInstance().setConsumerPharmacy(null);
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onFailure(Throwable throwable) {
-//                                    Timber.e("Something failed! :/");
-//                                    Timber.e("Throwable = " + throwable);
-//                                    //SDKUtils.getInstance().setConsumerPharmacy(null);
-//                                }
-//                            }
-//                    );
                 }
             }));
         } else {

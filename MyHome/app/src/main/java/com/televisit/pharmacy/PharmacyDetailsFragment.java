@@ -5,12 +5,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
+import com.americanwell.sdk.manager.SDKCallback;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -20,8 +25,12 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
+import com.televisit.AwsManager;
+import com.televisit.SDKUtils;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 
 /**
@@ -94,7 +103,55 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
             }
         });
 
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.pharmacy_details_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                break;
+
+            case R.id.save_pharmacy:
+                AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
+                        SDKUtils.getInstance().getConsumer(),
+                        pharmacy,
+                        new SDKCallback<Void, SDKError>() {
+                            @Override
+                            public void onResponse(Void aVoid, SDKError sdkError) {
+                                if (sdkError == null) {
+                                    SDKUtils.getInstance().setConsumerPharmacy(pharmacy);
+                                    if (isAdded()) {
+                                        getActivity().onBackPressed();
+                                    }
+                                } else {
+                                    Timber.e("Something failed! :/");
+                                    Timber.e("SDK Error: " + sdkError);
+                                    //SDKUtils.getInstance().setConsumerPharmacy(null);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                Timber.e("Something failed! :/");
+                                Timber.e("Throwable = " + throwable);
+                                //SDKUtils.getInstance().setConsumerPharmacy(null);
+                            }
+                        }
+                );
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
