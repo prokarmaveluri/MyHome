@@ -20,7 +20,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -582,8 +581,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
-
-        Log.d(this.getClass().getSimpleName(), "JWT hasMyCare = " + AuthManager.getInstance().hasMyCare());
 
         //users with no access to MyCareNow can see PROFILE right on the bottom tab navigation, hence hiding it here in the Options to avoid duplicates.
         if (!AuthManager.getInstance().hasMyCare()) {
