@@ -294,23 +294,22 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             if (providers.size() <= 0)
                 return;
 
-            Fragment fragment = getChildFragmentManager().findFragmentByTag(getString(R.string.db_list_dilaog));
+            Fragment fragment = this.getActivity().getSupportFragmentManager().findFragmentByTag(ProviderListDialog.PROVIDER_LIST_DIALOG_TAG);
             if (fragment == null || !fragment.isVisible()) {
                 bundle.putParcelableArrayList("PROVIDER_LIST", providers);
                 bundle.putBoolean("PROVIDER_RECENT", true);
                 dialog.setArguments(bundle);
                 dialog.setTargetFragment(this, RECENT_PROVIDERS);
-                dialog.show(getChildFragmentManager(), "List Dialog");
+                dialog.show(this.getActivity().getSupportFragmentManager(), ProviderListDialog.PROVIDER_LIST_DIALOG_TAG);
             }
         } else {
             Toast.makeText(getActivity(), getString(R.string.no_recent_providers),
                     Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void startFilterDialog() {
-        Fragment fragment = getChildFragmentManager().findFragmentByTag("Filter Dialog");
+        Fragment fragment = this.getActivity().getSupportFragmentManager().findFragmentByTag("Filter Dialog");
         if (fragment == null || !fragment.isVisible()) {
             FilterDialog dialog = new FilterDialog();
             Bundle bundle = new Bundle();
@@ -326,7 +325,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
             dialog.setArguments(bundle);
             dialog.setTargetFragment(this, FILTER_REQUEST);
-            dialog.show(getChildFragmentManager(), "Filter Dialog");
+            dialog.show(this.getActivity().getSupportFragmentManager(), "Filter Dialog");
         }
     }
 
@@ -411,7 +410,6 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 ((NavigationActivity) getActivity()).onBackPressed();
                 break;
         }
-
     }
 
     @Override

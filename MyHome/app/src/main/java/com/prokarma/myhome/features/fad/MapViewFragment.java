@@ -250,7 +250,7 @@ public class MapViewFragment extends Fragment implements
         bundle.putBoolean("IS_MAP_CLUSTER", true);
         dialog.setArguments(bundle);
         dialog.setTargetFragment(this, MAP_CLUSTER_LIST);
-        dialog.show(getChildFragmentManager(), "List Dialog");
+        dialog.show(this.getActivity().getSupportFragmentManager(), ProviderListDialog.PROVIDER_LIST_DIALOG_TAG);
     }
 
     private boolean isClusterSameLocation(Collection<MapClusterItem> cluster) {

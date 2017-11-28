@@ -25,6 +25,7 @@ import timber.log.Timber;
  */
 public class ProviderListDialog extends DialogFragment implements ProvidersAdapter.IProviderClick {
 
+    public static final String PROVIDER_LIST_DIALOG_TAG = "provider_list_dilaog";
     private boolean recent = false;
     private boolean fromHome = false;
     private boolean isMapCluster = false;

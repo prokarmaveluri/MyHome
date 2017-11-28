@@ -211,14 +211,14 @@ public class HomeFragment extends BaseFragment {
             if (providers.size() <= 0)
                 return;
 
-            Fragment fragment = getChildFragmentManager().findFragmentByTag(getString(R.string.db_list_dilaog));
+            Fragment fragment = this.getActivity().getSupportFragmentManager().findFragmentByTag(ProviderListDialog.PROVIDER_LIST_DIALOG_TAG);
             if (fragment == null || !fragment.isVisible()) {
                 bundle.putParcelableArrayList("PROVIDER_LIST", providers);
                 bundle.putBoolean("PROVIDER_RECENT", true);
                 bundle.putBoolean("PROVIDER_RECENT_HOME", true);
                 dialog.setArguments(bundle);
                 dialog.setTargetFragment(this, RECENT_PROVIDERS);
-                dialog.show(getChildFragmentManager(), getString(R.string.db_list_dilaog));
+                dialog.show(this.getActivity().getSupportFragmentManager(), ProviderListDialog.PROVIDER_LIST_DIALOG_TAG);
             }
         } else {
             ((NavigationActivity) getActivity()).goToPage(Constants.ActivityTag.FAD);
