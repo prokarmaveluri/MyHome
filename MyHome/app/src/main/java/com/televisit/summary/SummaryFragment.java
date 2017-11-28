@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
@@ -21,6 +22,8 @@ import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 public class SummaryFragment extends Fragment {
+    public static final String SUMMARY_TAG = "summary_tag";
+    public static final String VISIT_END_REASON_KEY = "visit_end_reason_key";
 
     private ProgressBar progressBar;
     private TextView costDesc;
@@ -28,11 +31,12 @@ public class SummaryFragment extends Fragment {
     private CircularImageView docImage;
 
     private VisitSummary summary;
+    private VisitEndReason endReason;
 
     public SummaryFragment() {
     }
 
-    public static SummaryFragment newInstance(){
+    public static SummaryFragment newInstance() {
         SummaryFragment fragment = new SummaryFragment();
         return fragment;
     }
@@ -41,6 +45,7 @@ public class SummaryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            endReason = (VisitEndReason) getArguments().getSerializable(VISIT_END_REASON_KEY);
         }
     }
 

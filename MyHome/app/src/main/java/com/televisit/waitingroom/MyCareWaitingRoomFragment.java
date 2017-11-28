@@ -13,12 +13,12 @@ import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.ChatReport;
 import com.americanwell.sdk.entity.visit.VisitEndReason;
-import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
@@ -27,6 +27,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
+import com.televisit.summary.SummaryFragment;
 
 import java.util.Map;
 
@@ -94,6 +95,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
                     ((NavigationActivity) getActivity()).onBackPressed();
                 }
             } catch (IllegalStateException ex) {
+                Timber.e(ex);
             }
         }
     }
@@ -108,6 +110,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
 
         abandonVisit();
 
+        Timber.e("Starting visit....");
+
         AwsManager.getInstance().getAWSDK().getVisitManager().startVisit(
                 SDKUtils.getInstance().getVisit(),
                 location,
@@ -115,69 +119,80 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
                 new StartVisitCallback() {
                     @Override
                     public void onProviderEntered(@NonNull Intent intent) {
-                        if (intent != null)
+                        Timber.d("onProviderEntered " + intent);
+
+                        if (intent != null) {
                             setVisitIntent(intent);
+                        }
                     }
 
                     @Override
                     public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
-                        Timber.i("Failure ");
+                        Timber.d("onStartVisitEnded " + visitEndReason);
+
+                        Toast.makeText(getContext(), "visit ended\n" + visitEndReason, Toast.LENGTH_LONG).show();
+
+                        if (isAdded()) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(SummaryFragment.VISIT_END_REASON_KEY, visitEndReason);
+                            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VISIT_SUMMARY, bundle);
+                        }
                     }
 
                     @Override
                     public void onPatientsAheadOfYouCountChanged(int i) {
-                        Timber.i("Failure ");
+                        Timber.d("onPatientsAheadOfYouCountChanged " + i);
                     }
 
                     @Override
                     public void onSuggestedTransfer() {
-                        Timber.i("Failure ");
+                        Timber.d("onSuggestedTransfer ");
                     }
 
                     @Override
                     public void onChat(@NonNull ChatReport chatReport) {
-                        Timber.i("Failure ");
+                        Timber.d("onChat " + chatReport);
                     }
 
                     @Override
                     public void onPollFailure(@NonNull Throwable throwable) {
-                        Timber.i("Failure ");
+                        Timber.w("onPollFailure " + throwable);
                     }
 
                     @Override
                     public void onValidationFailure(Map<String, ValidationReason> map) {
-                        Timber.i("Failure ");
+                        Timber.w("onValidationFailure " + map);
                     }
 
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
-                        Timber.i("Failure ");
+                        Timber.d("onResponse " + aVoid + " " + sdkError);
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.i("Failure ");
+                        Timber.w("onFailure " + throwable);
                     }
                 }
         );
     }
 
-    private void cancelVisit() {
-        AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
-                SDKUtils.getInstance().getVisit(),
-                new SDKCallback<Void, SDKError>() {
-                    @Override
-                    public void onResponse(Void aVoid, SDKError sdkError) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-
-                    }
-                }
-        );
-    }
+//    private void cancelVisit() {
+//        AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
+//                SDKUtils.getInstance().getVisit(),
+//                new SDKCallback<Void, SDKError>() {
+//                    @Override
+//                    public void onResponse(Void aVoid, SDKError sdkError) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Throwable throwable) {
+//
+//                    }
+//                }
+//        );
+//    }
 
     public void abandonVisit() {
         // called by onDestroy()
