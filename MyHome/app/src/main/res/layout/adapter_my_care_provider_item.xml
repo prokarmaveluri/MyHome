@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.televisit.providers.ProvidersListAdapter.ProviderClick" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:onClick="@{handlers::onClickProvider}">
+
+        <com.prokarma.myhome.views.CircularImageView
+            android:id="@+id/providerImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/displayName"
+            style="@style/tradeGothicLTStdLight_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/providerImage"
+            android:text="Richard Paguia, MD"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/displaySpeciality"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/displayName"
+            android:layout_below="@+id/displayName"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/providerImage"
+            android:text="Internal Medicine" />
+
+        <RelativeLayout
+            android:id="@+id/visibilityLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/displayName"
+            android:layout_below="@+id/displaySpeciality"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/providerImage">
+
+            <TextView
+                android:id="@+id/waitingCount"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/visibility"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Offline" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:src="@drawable/ic_carrot_blue" />
+    </RelativeLayout>
+</layout>

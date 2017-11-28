@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2016 American Well Systems
+  ~ All rights reserved.
+  ~ <p/>
+  ~ It is illegal to use, reproduce or distribute
+  ~ any part of this Intellectual Property without
+  ~ prior written authorization from American Well.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/cv_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:gravity="top"
+        android:textSize="14sp"
+        tools:text="J45.22"/>
+
+    <TextView
+        android:id="@+id/cv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="6dp"
+        android:textSize="14sp"
+        tools:text="Mild intermittent asthma with status asthmaticus a;lkdjf;alksdjf;laksjdf;laksjdf;laksjd;flkajsd;lfkajsd;lfkjasd;"/>
+
+
+    <ImageView
+        android:id="@+id/cv_div"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/cv_description"
+        android:src="@color/awsdk_color_black"/>
+</RelativeLayout>

@@ -23,9 +23,48 @@
     <dimen name="scalable_18">16sp</dimen>
     <dimen name="scalable_20">18sp</dimen>
     <dimen name="scalable_22">20sp</dimen>
+    <dimen name="scalable_24">22sp</dimen>
+    <dimen name="scalable_32">30sp</dimen>
     <dimen name="scalable_34">32sp</dimen>
     <dimen name="scalable_64">62sp</dimen>
     <dimen name="scalable_74">72sp</dimen>
 
+
+    <!--AWSDK-->
+
+    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+      https://developer.android.com/design/patterns/navigation-drawer.html -->
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+
+    <dimen name="textSizeMicro">12sp</dimen>
+    <dimen name="textSizeMedium">16sp</dimen>
+    <dimen name="textSizeMediumLarge">20sp</dimen>
+    <dimen name="textSizeExtraSmall">13sp</dimen>
+
+    <!-- Secure messages -->
+    <dimen name="msg_padding_small">5dp</dimen>
+    <dimen name="msg_margin_column">15dp</dimen>
+    <dimen name="msg_attachment_icon">25dp</dimen>
+
+    <dimen name="provider_details_image_width">175dp</dimen>
+    <dimen name="provider_details_image_height">175dp</dimen>
+
+    <dimen name="home_icon_size">70dp</dimen>
+    <dimen name="home_icon_margin">16dp</dimen>
+    <dimen name="home_end_margin">40dp</dimen>
+    <dimen name="home_title_bottom">8sp</dimen>
+    <dimen name="home_top_margin">21dp</dimen>
+
+    <!--Visit Report Detail-->
+    <dimen name="subtitle_padding">10dp</dimen>
+    <dimen name="chat_view_padding">8dp</dimen>
+
+    <!--Update Insurance-->
+    <dimen name="update_insurance_margin_top">12dp</dimen>
+
+    <!--Spinner labels-->
+    <dimen name="input_label_vertical_spacing">8dp</dimen>
+    <dimen name="input_label_horizontal_spacing">4dp</dimen>
 
 </resources>

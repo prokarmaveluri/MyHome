@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright 2016 American Well Systems
+* All rights reserved.
+* <p/>
+* It is illegal to use, reproduce or distribute
+* any part of this Intellectual Property without
+* prior written authorization from American Well.
+-->
+<!--Do not use this file directly, use com.americanwell.sdksample.widget.SDKSpinner instead-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/sdk_spinner_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/sdkspinner_background"
+        android:src="@drawable/sdk_spinner_bg"/>
+
+    <ImageView
+        android:id="@+id/sdk_spinner_ring"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/sdkspinner_ring"
+        android:src="@drawable/sdk_spinner_circle"/>
+
+</merge>

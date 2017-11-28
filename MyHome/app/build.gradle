@@ -14,6 +14,9 @@ android {
         enabled = true
     }
 
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
     //Old App ID? Get's redefined anyways...
     def HOCKEYAPP_APP_ID = "\"130889d29f5c440fb043c5e2def8ff86\""
 
@@ -42,10 +45,22 @@ android {
     def DEV_S2_BASE_URL = "\"https://web-usw1-fad-dev.azurewebsites.net/\""
     def DEV_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-dev.azurewebsites.net/\""
 
+    //AWSDK
+    def AWSDK_ENABLE_DEBUG_LOGGING = "awsdk_enable_debug_logging"
+    def SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN = "sdksample_show_server_fields_on_login"
+    // Note: if you set this, you should also set awsdk_video_force_portrait to the same value
+    def SDKSAMPLE_FORCE_PORTRAIT = "sdksample_force_portrait"
+    def AWSDKURL = "awsdkurl"
+    def AWSDKKEY = "awsdkkey"
+    def ENABLEAUTH = "use_third_party_auth"
+    def AUTHTOKEN = "third_party_auth_token"
+    def AUTHURL = "third_party_auth_url"
+
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "org.dignityhealth.appdev.myhome"
+//        applicationId "com.americanwell.sdk.consumer.android.dignity"
         minSdkVersion 21
         targetSdkVersion 25
         multiDexEnabled true
@@ -57,7 +72,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'BUILD_TIME', 'new java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.US).format(new java.util.Date(' + System.currentTimeMillis() + 'L))'
     }
+
     buildTypes {
+        def SDKSTRING = "string"
+        def SDKBOOLEAN = "bool"
         def STRING = "String"
         def BOOLEAN = "boolean"
         def TRUE = "true"
@@ -212,6 +230,18 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_AUTH", "\"authorization_code\""
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
+            //AWSDK
+            def localHost = InetAddress.getLocalHost().getCanonicalHostName()
+//            resValue SDKSTRING, AWSDKURL, "https://stagingoc201.mytelehealth.com"
+            resValue SDKSTRING, AWSDKURL, "https://sdk.myonlinecare.com"  //TODO: Dev working url
+            resValue SDKSTRING, AWSDKKEY, "8ff96c2a"
+            resValue SDKBOOLEAN, ENABLEAUTH, "false"
+            resValue SDKSTRING, AUTHTOKEN, "at1001"
+            resValue SDKSTRING, AUTHURL, "api.samsungosp.com"
+            resValue SDKBOOLEAN, SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN, TRUE
+            resValue SDKBOOLEAN, SDKSAMPLE_FORCE_PORTRAIT, FALSE
+            resValue SDKBOOLEAN, AWSDK_ENABLE_DEBUG_LOGGING, TRUE
+
             //minifyEnabled true
             //shrinkResources true
             debuggable true
@@ -272,6 +302,17 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_AUTH", "\"authorization_code\""
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
+            //AWSDK
+            //TODO These are just Debug's values. Need to get values for Stage/Prod (IoT?)
+            resValue SDKSTRING, AWSDKURL, "https://sdk.myonlinecare.com"
+            resValue SDKSTRING, AWSDKKEY, "8ff96c2a"
+            resValue SDKBOOLEAN, ENABLEAUTH, "false"
+            resValue SDKSTRING, AUTHTOKEN, "at1001"
+            resValue SDKSTRING, AUTHURL, "api.samsungosp.com"
+            resValue SDKBOOLEAN, SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN, TRUE
+            resValue SDKBOOLEAN, SDKSAMPLE_FORCE_PORTRAIT, FALSE
+            resValue SDKBOOLEAN, AWSDK_ENABLE_DEBUG_LOGGING, TRUE
+
             signingConfig signingConfigs.config
             debuggable true
         }
@@ -283,7 +324,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.2'
     compile 'com.google.android.gms:play-services-maps:11.6.0'
     compile 'com.google.android.gms:play-services-location:11.6.0'
@@ -308,4 +348,39 @@ dependencies {
     compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.12.0'
+
+    implementation project(':sdk')
+
+    //AWSDK
+    compile 'info.android15.nucleus:nucleus:4.0.0'
+    compile 'info.android15.nucleus:nucleus-support-v4:4.0.0'
+    compile 'info.android15.nucleus:nucleus-support-v7:4.0.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.google.dagger:dagger:2.5'
+    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.7'
+    compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.github.livefront:bridge:v1.0.0'
+    testCompile 'junit:junit:4.12'
+    compile 'com.jakewharton:butterknife-compiler:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.google.dagger:dagger-compiler:2.5'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.5'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.1'
+    compile 'com.android.support:support-annotations:25.3.1'
+    compile 'com.google.android.gms:play-services-base:10.2.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'frankiesardo:icepick:3.2.0'
+    compile 'com.auth0.android:jwtdecode:1.1.1'
+    annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
+    provided 'frankiesardo:icepick-processor:3.2.0'
 }

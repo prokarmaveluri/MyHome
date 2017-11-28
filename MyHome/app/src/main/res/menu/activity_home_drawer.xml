@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * Copyright 2016 American Well Systems
+    * All rights reserved.
+    * <p/>
+    * It is illegal to use, reproduce or distribute
+    * any part of this Intellectual Property without
+    * prior written authorization from American Well.
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/main"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_inbox"
+            android:icon="@drawable/ic_inbox_black_24dp"
+            android:title="@string/menu_action_inbox"/>
+        <item
+            android:id="@+id/nav_sent"
+            android:icon="@drawable/ic_mail_black_24dp"
+            android:title="@string/menu_action_sent_messages"/>
+        <item
+            android:id="@+id/nav_appointments"
+            android:icon="@drawable/ic_event_black_24dp"
+            android:title="@string/menu_action_appointments"/>
+        <item
+            android:id="@+id/nav_visit_reports"
+            android:icon="@drawable/ic_folder_black_24dp"
+            android:title="@string/menu_action_visit_reports"/>
+    </group>
+
+    <item android:title="@string/home_menu_group_health">
+        <menu>
+            <item
+                android:id="@+id/health_conditions"
+                android:icon="@drawable/ic_bubble_chart_black_24dp"
+                android:title="@string/home_menu_health_conditions"/>
+            <item
+                android:id="@+id/health_allergies"
+                android:icon="@drawable/ic_pets_black_24dp"
+                android:title="@string/home_menu_health_allergies"/>
+            <item
+                android:id="@+id/health_medications"
+                android:icon="@drawable/ic_local_hospital_black_24dp"
+                android:title="@string/home_menu_health_medications"/>
+            <item
+                android:id="@+id/health_vitals"
+                android:icon="@drawable/ic_favorite_black_24dp"
+                android:title="@string/home_menu_health_vitals"/>
+            <item
+                android:id="@+id/health_documents"
+                android:icon="@drawable/ic_local_library_black_24dp"
+                android:title="@string/title_activity_health_documents"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/home_menu_group_profile">
+        <menu>
+            <item
+                android:id="@+id/profile_insurance"
+                android:icon="@drawable/ic_account_box_black_24dp"
+                android:title="@string/home_menu_profile_insurance"/>
+            <item
+                android:id="@+id/profile_pharmacy"
+                android:icon="@drawable/ic_local_pharmacy_black_24dp"
+                android:title="@string/home_menu_profile_pharmacy"/>
+            <item
+                android:id="@+id/profile_payment"
+                android:icon="@drawable/ic_payment_black_24dp"
+                android:title="@string/home_menu_profile_payment"/>
+            <item
+                android:id="@+id/profile_update_consumer"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="@string/home_menu_profile_update_consumer"/>
+            <item
+                android:id="@+id/profile_tech_check"
+                android:icon="@drawable/ic_assignment_turned_in_black_24dp"
+                android:title="@string/home_menu_profile_tech_check"
+                android:visible="false"/>
+            <item
+                android:id="@+id/profile_dependents"
+                android:icon="@drawable/ic_child_care_black_24dp"
+                android:title="@string/home_menu_profile_dependents"/>
+            <item
+                android:id="@+id/nav_add_service_key"
+                android:icon="@drawable/ic_lock_open_black_24dp"
+                android:title="@string/menu_action_add_service_key"/>
+            <item
+                android:id="@+id/nav_set_locale"
+                android:icon="@drawable/ic_bubble_chart_black_24dp"
+                android:title="@string/menu_action_set_locale"/>
+
+        </menu>
+    </item>
+
+    <group
+        android:id="@+id/system"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_log_out"
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
+            android:title="@string/menu_action_log_out"/>
+    </group>
+
+</menu>

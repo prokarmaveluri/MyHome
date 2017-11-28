@@ -15,6 +15,12 @@
     <!--app:showAsAction="never" />-->
 
     <item
+        android:id="@+id/profile"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="@string/profile"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/contact_us"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="@string/contact_us"

@@ -1,0 +1,264 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    tools:context="com.prokarma.myhome.features.mycare.MyCareNowFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/mcn_dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@mipmap/mcn_dashboard"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/mcn_welcome"
+            style="@style/tradeGothicLTStd_Dynamic32"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mcn_dashboard"
+            android:layout_marginTop="16dp"
+            android:text="@string/welcome"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/mcn_desc"
+            style="@style/tradeGothicLTStd_Dynamic20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mcn_welcome"
+            android:layout_margin="18dp"
+            android:text="@string/mycare_desc"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/waiting_room_button"
+            style="@style/enableButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mcn_desc"
+            android:layout_centerHorizontal="true"
+            android:minWidth="285dp"
+            android:padding="16dp"
+            android:text="@string/get_started" />
+
+        <RelativeLayout
+            android:id="@+id/personal_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/waiting_room_button"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/personal_info_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/mcn_personal_info" />
+
+            <TextView
+                android:id="@+id/personal_info_text"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/personal_info_image"
+                android:layout_alignTop="@id/personal_info_image"
+                android:layout_marginLeft="14dp"
+
+                android:layout_toRightOf="@id/personal_info_image"
+                android:gravity="center"
+                android:text="@string/personal_information"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/personal_info_edit"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/personal_info_image"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/personal_info_image"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/edit"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/personal_info_desc"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/personal_info_image"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/your_profile_is_almost_complete" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/medical_history_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/personal_info_layout"
+            android:layout_alignRight="@id/personal_info_layout"
+            android:layout_below="@+id/personal_info_layout"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/medical_history_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/mcn_medical_history" />
+
+            <TextView
+                android:id="@+id/medical_history_text"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/medical_history_image"
+                android:layout_alignTop="@id/medical_history_image"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/medical_history_image"
+                android:gravity="center"
+                android:text="@string/medical_history"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/medical_history_edit"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/medical_history_image"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/medical_history_image"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/edit"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/medical_history_desc"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medical_history_image"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/complete_your_medical_history" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/medications_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/personal_info_layout"
+            android:layout_alignRight="@id/personal_info_layout"
+            android:layout_below="@+id/medical_history_layout"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/medications_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/mcn_medications" />
+
+            <TextView
+                android:id="@+id/medications_text"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/medications_image"
+                android:layout_alignTop="@id/medications_image"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/medications_image"
+                android:gravity="center"
+                android:text="@string/medications"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/medications_edit"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/medications_image"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/medications_image"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/edit"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/medications_desc"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medications_image"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/what_medications_are_you_taking" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/pharmacy_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/personal_info_layout"
+            android:layout_alignRight="@id/personal_info_layout"
+            android:layout_below="@+id/medications_layout"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/pharmacy_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/mcn_pharmacy" />
+
+            <TextView
+                android:id="@+id/pharmacy_text"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/pharmacy_image"
+                android:layout_alignTop="@id/pharmacy_image"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/pharmacy_image"
+                android:gravity="center"
+                android:text="@string/pharmacy"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/pharmacy_edit"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/pharmacy_image"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/pharmacy_image"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/edit"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/pharmacy_desc"
+                style="@style/tradeGothicLTStd_Dynamic16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pharmacy_image"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/choose_your_preferred_pharmacy" />
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

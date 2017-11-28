@@ -112,6 +112,7 @@ public class SessionUtil {
         AuthManager.getInstance().setSessionId(null);
         AuthManager.getInstance().setSid(null);
         AuthManager.getInstance().setBearerToken(null);
+        AuthManager.getInstance().setAmWellToken(null);
         AuthManager.getInstance().setRefreshToken(null);
         AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);

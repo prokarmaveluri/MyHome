@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2017 American Well Systems
+  ~ All rights reserved.
+  ~ <p/>
+  ~ It is illegal to use, reproduce or distribute
+  ~ any part of this Intellectual Property without
+  ~ prior written authorization from American Well.
+  -->
+
+<resources>
+    <!-- these are all in minutes -->
+    <integer name="remind_options_no_reminder">-1</integer>
+    <integer name="remind_options_fifteen_min">15</integer>
+    <integer name="remind_options_one_hour">60</integer>
+    <integer name="remind_options_four_hours">240</integer>
+    <integer name="remind_options_eight_hours">480</integer>
+    <integer name="remind_options_one_day">1440</integer>
+    <integer name="remind_options_one_week">10080</integer>
+</resources>

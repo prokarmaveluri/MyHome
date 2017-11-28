@@ -2,7 +2,6 @@ package com.prokarma.myhome.features.fad;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
-import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 
 /**
  * Created by cmajji on 5/24/17.
@@ -12,7 +11,7 @@ public class MapClusterItem implements ClusterItem {
     private final LatLng mPosition;
     private final String mTitle;
     private final String mSnippet;
-    private ProviderDetailsResponse provider;
+    private Object provider;
 
     public MapClusterItem(LatLng position) {
         mPosition = position;
@@ -21,7 +20,7 @@ public class MapClusterItem implements ClusterItem {
     }
 
     public MapClusterItem(LatLng position, String title, String snippet,
-                          ProviderDetailsResponse provider) {
+                          Object provider) {
         mPosition = position;
         mTitle = title;
         mSnippet = snippet;
@@ -43,7 +42,7 @@ public class MapClusterItem implements ClusterItem {
         return mSnippet;
     }
 
-    public ProviderDetailsResponse getProvider() {
+    public Object getProvider() {
         return provider;
     }
 }

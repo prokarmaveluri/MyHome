@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2016 American Well Systems
+  ~ All rights reserved.
+  ~ <p/>
+  ~ It is illegal to use, reproduce or distribute
+  ~ any part of this Intellectual Property without
+  ~ prior written authorization from American Well.
+  -->
+
+<LinearLayout
+    android:id="@+id/content_schedule_appointment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.americanwell.sdksample.services.ScheduleAppointmentActivity"
+    tools:showIn="@layout/activity_schedule_appointment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:background="@color/color_appointment_scheduled"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/appointment_datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AmericanWell.Medium.Inverse"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:paddingBottom="10dp"
+            tools:text="Fri, Nov 25, 2016 at 12:45 PM EST"/>
+
+        <TextView
+            android:id="@+id/appointment_provider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AmericanWell.Medium.Inverse"
+            android:gravity="center"
+            tools:text="Gregory Thompson, Family Physician"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/callback_number_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/callback_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions|phone"
+                tools:text="(617)-555-1212"
+                android:hint="@string/schedule_appointment_callback_number"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/InputLabel"
+            android:text="@string/schedule_appointment_email_reminder"/>
+
+        <Spinner
+            android:id="@+id/reminder_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

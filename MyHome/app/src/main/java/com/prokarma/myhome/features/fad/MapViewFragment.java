@@ -97,7 +97,7 @@ public class MapViewFragment extends Fragment implements
         searchThisArea = (Button) view.findViewById(R.id.searchThisArea);
 
         final SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.providersMap);
+                .findFragmentById(R.id.fragmentMapView);
         map.getMapAsync(this);
 
         searchThisArea.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +200,7 @@ public class MapViewFragment extends Fragment implements
     public void onDestroy() {
         super.onDestroy();
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.providersMap);
+                .findFragmentById(R.id.fragmentMapView);
         if (map != null) {
             getChildFragmentManager().beginTransaction().remove(map).commit();
         }
@@ -243,7 +243,7 @@ public class MapViewFragment extends Fragment implements
         ProviderListDialog dialog = new ProviderListDialog();
         Bundle bundle = new Bundle();
         for (MapClusterItem item : cluster) {
-            list.add(item.getProvider());
+            list.add((ProviderDetailsResponse) item.getProvider());
         }
 
         bundle.putParcelableArrayList("PROVIDER_LIST", list);

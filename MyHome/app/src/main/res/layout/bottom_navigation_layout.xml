@@ -15,7 +15,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:itemIconTint="@drawable/navigation_icon_colors"
-        app:itemTextColor="@drawable/navigation_icon_colors"
-        app:menu="@menu/navigation_menu" />
-
+        app:itemTextColor="@drawable/navigation_icon_colors" />
 </LinearLayout>

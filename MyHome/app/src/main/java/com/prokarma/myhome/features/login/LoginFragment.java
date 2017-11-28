@@ -478,6 +478,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                         if (loginFragment.isAdded()) {
                             loginFragment.showProgress(false);
                             AuthManager.getInstance().setBearerToken(null);
+                            AuthManager.getInstance().setAmWellToken(null);
                             Toast.makeText(loginFragment.getActivity(), loginFragment.getString(R.string.failure_msg),
                                     Toast.LENGTH_LONG).show();
                         }

@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.televisit.services.MyCareServicesFragment">
+
+    <TextView
+        android:id="@+id/desc"
+        style="@style/tradeGothicLTStd_Dynamic20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:lineSpacingExtra="3dp"
+        android:text="@string/my_care_providers_desc" />
+
+    <Button
+        android:id="@+id/btn_next_avail_provider"
+        style="@style/primaryButtonStyle"
+        android:layout_width="285dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="12dp"
+        android:enabled="false"
+        android:text="@string/next_available_provider" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/providerList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/providers_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        android:visibility="visible" />
+</LinearLayout>

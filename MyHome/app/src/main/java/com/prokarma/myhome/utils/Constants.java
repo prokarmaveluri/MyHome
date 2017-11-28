@@ -32,7 +32,19 @@ public class Constants {
         CHANGE_SEC_QUESTION,
         TOUCH_ID,
         HOME_DID_YOU_KNOW_SEC_1,
-        HOME_DID_YOU_KNOW_SEC_2
+        HOME_DID_YOU_KNOW_SEC_2,
+        MY_CARE_NOW_SDK_LOGIN,
+        MY_CARE_NOW,
+        MY_MED_HISTORY,
+        MY_MEDICATIONS,
+        MY_PHARMACY,
+        MY_PHARMACY_DETAILS,
+        MY_CARE_SERVICES,
+        MY_CARE_PROVIDERS,
+        MY_CARE_COST,
+        MY_CARE_WAITING_ROOM,
+        VISIT_SUMMARY,
+        VISIT_FEEDBACK
     }
 
     public enum INPUT_TYPE {

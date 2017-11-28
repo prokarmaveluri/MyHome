@@ -9,7 +9,6 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -28,6 +27,8 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+
+import timber.log.Timber;
 
 
 /**
@@ -193,9 +194,9 @@ public class FingerprintSignIn {
     private void tryEncrypt(Cipher cipher) {
         try {
             byte[] encrypted = cipher.doFinal(SECRET_MESSAGE.getBytes());
-            Log.d(getClass().getSimpleName(), Base64.encodeToString(encrypted, 0 /* flags */));
+            Timber.d(getClass().getSimpleName(), Base64.encodeToString(encrypted, 0 /* flags */));
         } catch (BadPaddingException | IllegalBlockSizeException e) {
-            Log.e(getClass().getSimpleName(), "Failed to encrypt the data with the generated key." + e.getMessage());
+            Timber.e(getClass().getSimpleName(), "Failed to encrypt the data with the generated key." + e.getMessage());
         }
     }
 

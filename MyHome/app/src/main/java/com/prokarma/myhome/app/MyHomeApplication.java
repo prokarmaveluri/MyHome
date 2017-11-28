@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 
+import com.americanwell.sdksample.SampleApplication;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.FadManager;
@@ -31,6 +32,7 @@ public class MyHomeApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
+        SampleApplication.setContext(getApplicationContext());
         //Set up logging
         if (BuildConfig.REPORT_LOGS) {
             Timber.plant(new Timber.DebugTree());

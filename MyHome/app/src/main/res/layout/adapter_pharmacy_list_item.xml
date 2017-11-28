@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.televisit.pharmacy.PharmacyListAdapter.PharmacyClick" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:onClick="@{handlers::onClickPharmacy}">
+
+        <TextView
+            android:id="@+id/pharmacyDisplayName"
+            style="@style/tradeGothicLTStdLight_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Richard Paul, MD"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/pharmacyAddress"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pharmacyDisplayName"
+            android:text="Denver, CO" />
+
+        <TextView
+            android:id="@+id/distance"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pharmacyAddress"
+            android:lines="1"
+            android:text="10.4 miles" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_carrot_blue" />
+    </RelativeLayout>
+</layout>

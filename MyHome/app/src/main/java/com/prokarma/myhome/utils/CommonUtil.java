@@ -23,6 +23,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.fad.Office;
@@ -36,6 +38,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
+import com.televisit.history.HistoryExpandableList;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -605,6 +608,31 @@ public class CommonUtil {
         listView.requestLayout();
     }
 
+    public static void setExpandedListViewHeight(Context context, ExpandableListView listView) {
+        int totalHeight = 0;
+        HistoryExpandableList listAdapter = (HistoryExpandableList) listView.getExpandableListAdapter();
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
+
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += 64;
+            for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                View listItem = listAdapter.getChildView(i, j, false, null, listView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                totalHeight += 64;
+            }
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight + 5;
+        if (height < 133)
+            height = 133;
+        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
     /**
      * Merely prints all the objects in a list using their toString methods.
      *
@@ -892,7 +920,7 @@ public class CommonUtil {
                 }
             }
 
-            if(!appointmentAvailableTime.getTimes().isEmpty()){
+            if (!appointmentAvailableTime.getTimes().isEmpty()) {
                 appointmentTimes.add(appointmentAvailableTime);
             }
         }
@@ -906,4 +934,21 @@ public class CommonUtil {
         context.startActivity(i);
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+
+    public static String getPharmacyAddress(@NonNull Pharmacy pharmacy) {
+        return pharmacy.getAddress().getAddress1() + "\n" + pharmacy.getAddress().getCity() + ", "
+                + pharmacy.getAddress().getState().getCode() + " " + pharmacy.getAddress().getZipCode();
+    }
+
+    @Nullable
+    public static ProviderInfo getNextAvailableProvider(List<ProviderInfo> providers) {
+        for (ProviderInfo provider : providers) {
+            if (provider.getWaitingRoomCount() == 0) {
+                return provider;
+            }
+        }
+
+        return null;
+    }
+
 }

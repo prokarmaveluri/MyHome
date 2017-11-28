@@ -325,9 +325,7 @@
     <string name="resend_email_message_spam">If you haven’t received the email in your inbox, check your spam folder. </string>
     <string name="almost_done">Almost done…</string>
     <string name="validate_email">Validate Email</string>
-    <string name="re_enroll">Re-enroll Account</string>
     <string name="create_new_account">Create New Account</string>
-
     <string name="email_content_description">E-mail address %s</string>
     <string name="phone_description">Phone number %s</string>
     <string name="requirements_for_a_safe_password">Requirements for a safe password</string>
@@ -343,4 +341,622 @@
     <string name="appointment_me">this appointment for me</string>
     <string name="appointment_family_member">this appointment for family member</string>
     <string name="enter_pass_for_sec_change">Enter Password for security question change</string>
+
+    <!--AWSDK-->
+
+    <string name="app_ok">OK</string>
+    <string name="app_yes">Yes</string>
+    <string name="app_no">No</string>
+    <string name="app_cancel">Cancel</string>
+    <string name="app_spinner_unselected_default"> - Select - </string>
+    <string name="app_spinner_unselected_state"> - Select a State - </string>
+    <string name="app_spinner_unselected_country"> - Select a Country - </string>
+    <string name="app_spinner_unselected_hp"> - Select a Health Plan - </string>
+    <string name="app_spinner_unselected_contact"> - Select a Contact - </string>
+    <string name="app_spinner_unselected_topic"> - Select a Topic - </string>
+    <string name="app_spinner_unselected_relationship"> - Select a Relationship - </string>
+    <string name="app_spinner_unselected_none"> - None - </string>
+    <string name="app_default_indeterminate">Please wait&#8230;</string>
+    <string name="app_warning">Warning</string>
+    <string name="app_add">Add</string>
+
+    <!-- Validation -->
+    <string name="validationreason_field_required">This field is required</string>
+    <string name="validationreason_field_invalid_format">This field is formatted incorrectly</string>
+    <string name="validationreason_field_too_short">This field is not long enough</string>
+    <string name="validationreason_field_invalid_selection">Invalid selection</string>
+    <string name="validationreason_field_out_of_range">Value out of range</string>
+    <string name="validationreason_field_invalid_value">Value not allowed</string>
+    <string name="validationreason_field_attachment_type_rejected">Attachment file type not allowed</string>
+    <string name="validationreason_field_attachment_too_big">Attachment is too big</string>
+    <string name="validationreason_field_part_of_set">This value is part of a set and must be included</string>
+    <string name="validation_generic_message">%1$s: %2$s\n\n</string>
+    <string name="validation_generic_title">Validation</string>
+
+    <!-- date format helpers -->
+    <!-- Compact past date formats. In all cases, param 0 is the date to format. -->
+    <string name="format_pastDate_today">{0,time,short}</string>
+    <!-- Literal string, but can be a formatted date -->
+    <string name="format_pastDate_yesterday">Yesterday</string>
+    <!-- Just the weekday -->
+    <string name="format_pastDate_thisWeek">{0,date,EEEE}</string>
+    <string name="format_pastDate_other">{0,date,short}</string>
+
+    <!-- Date/Time: Short, Medium, Long, Full -->
+    <string name="format_date_time_short">{0,date,short} {0,time,short}</string>
+    <string name="format_date_detail">{0,date,long}</string>
+    <string name="format_date_time_detail">{0,date,long} {0,time,long}</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_name">Your name</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register</string>
+
+    <string name="login_remember_me">Remember Me</string>
+    <string name="login_login_assistance">Need help logging in?</string>
+    <string name="login_email_address_warning">Please enter an email address</string>
+    <string name="login_email_password_warning">Please enter a password</string>
+    <string name="login_name_warning">Please enter your name</string>
+    <string name="login_server_url">Server Url</string>
+    <string name="login_sdk_key">SDK Key</string>
+
+    <string name="login_conference_ended">This conference has ended</string>
+    <string name="login_conference_canceled">This conference has been canceled</string>
+    <string name="login_conference_disabled">This conference has been disabled</string>
+    <string name="login_conference_exited">You have exited the conference</string>
+
+    <!-- third party login -->
+    <string name="prompt_auth_token">Auth Token</string>
+    <string name="login_auth_token_warning">Please enter an auth token</string>
+    <string name="login_auth_enrollment_not_supported">Sample App Does Not Support Feature</string>
+    <string name="login_auth_consumer_not_enrolled">Consumer has not completed enrollment</string>
+
+    <!-- Login Assistance -->
+    <string name="title_activity_login_assistance">Login assistance</string>
+    <string name="login_assistance_forgot_email">Forgot Email Address</string>
+    <string name="login_assistance_forgot_password">Forgot Password</string>
+    <string name="login_assistance_forgot_email_prompt">Please provide some information to help us find your account.</string>
+    <string name="login_assistance_forgot_password_prompt">Please provide some information to verify your account. We\'ll email you a link to change your password.</string>
+    <string name="login_assistance_last_name">Last Name</string>
+    <string name="login_assistance_dob">Date of Birth</string>
+    <string name="login_assistance_email_prompt">Enter the email address that you used to sign up.</string>
+    <string name="login_assistance_email">Email Address</string>
+    <string name="login_assistance_redacted_email">Your login email address is: %1$s</string>
+    <string name="login_assistance_check_email">Please check your email for further information. If you did not receive the email, please contact Customer Support.</string>
+
+    <!-- complete enrollment -->
+    <string name="complete_enrollment_greeting">Please update the following information to proceed:</string>
+    <string name="complete_enrollment_service_agreement">Please accept the service agreement.</string>
+
+    <!-- Registration -->
+    <string name="title_activity_registration">Sign Up</string>
+    <string name="registration_first_name">First Name</string>
+    <string name="registration_middle_initial">Middle Initial</string>
+    <string name="registration_last_name">Last Name</string>
+    <string name="registration_email_address">Email Address</string>
+    <string name="registration_email_confirm">Confirm Email Address</string>
+    <string name="registration_password">Password</string>
+    <string name="registration_state">State</string>
+    <string name="registration_country">Country</string>
+    <string name="registration_date_of_birth">Date of Birth</string>
+    <string name="registration_gender">Gender</string>
+    <string name="registration_male">Male</string>
+    <string name="registration_female">Female</string>
+    <string name="registration_service_agreement">I agree to the terms of service</string>
+    <string name="registration_address1">Address 1</string>
+    <string name="registration_address2">Address 2</string>
+    <string name="registration_city">City</string>
+    <string name="registration_zip_code">Zip Code</string>
+    <string name="registration_email_confirm_error">Email addresses must match</string>
+
+    <!-- services -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="menu_action_inbox">Inbox</string>
+    <string name="menu_action_sent_messages">Sent Messages</string>
+    <string name="menu_action_appointments">Appointments</string>
+    <string name="menu_action_visit_reports">Visit Summaries</string>
+    <string name="menu_action_log_out">Log out</string>
+
+    <string name="service_providers_available_now">Available Now</string>
+    <string name="service_providers_appointments">Appointments</string>
+    <string name="service_providers_prompt">Viewing providers with appointments on:</string>
+    <string name="service_providers_appointments_none">No appointments on this date</string>
+
+    <string name="service_provider_appointment_count_one">%1$d Appointment Available</string>
+    <string name="service_provider_appointment_count_other">%1$d Appointments Available</string>
+
+
+    <!-- Service Key -->
+    <string name="menu_action_add_service_key">Add Service Key</string>
+    <string name="add_service_key_hint">Service Key</string>
+    <string name="add_service_key_button_add">Add</string>
+    <string name="add_service_key_button_cancel">Cancel</string>
+    <string name="add_service_key_validate_blank">Please enter a Service Key</string>
+    <string name="add_service_key_added">Added Service Key</string>
+
+    <!-- Set Locale -->
+    <string name="menu_action_set_locale">Set Locale</string>
+    <string name="set_locale_button_cancel">Cancel</string>
+    <string name="set_locale_button_apply">Apply</string>
+    <string name="set_locale_system_locale">(system)</string>
+    <string name="set_locale_preferred_locale">Set your preferred Locale:</string>
+
+    <!-- secure messages -->
+    <string name="title_activity_inbox">Inbox %1$s</string>
+    <string name="img_desc_ic_email_attachment">Email attachment graphic</string>
+    <string name="msgs_mailbox_empty">No messages</string>
+    <string name="msg_removed">Message removed</string>
+    <string name="msg_sent_toast">Message sent</string>
+    <string name="msg_recipient_label">To</string>
+    <string name="msg_sender_label">From</string>
+    <string name="msg_type_label">Type</string>
+    <string name="msg_subject_prompt">Subject</string>
+    <string name="msg_compose_prompt">Compose message</string>
+    <string name="msg_no_subject">(No Subject)</string>
+    <string name="msg_attachment_prompt">Add photo</string>
+    <string name="msg_detail_action_delete">Delete</string>
+    <string name="msg_detail_action_reply">Reply</string>
+    <string name="msg_detail_action_forward">Forward</string>
+    <string name="msg_detail_share_history">Share my health history</string>
+    <string name="msg_error_no_contacts_title">No Contacts</string>
+    <string name="msg_error_no_contacts_message">You currently do not have any contacts to send a message to.</string>
+    <string name="title_activity_sent_messages">Sent Messages</string>
+    <string name="title_activity_message_detail">Message Detail</string>
+    <string name="title_activity_message_draft">Message Draft</string>
+
+    <!-- Appointments -->
+    <string name="title_activity_appointments">Appointments %1$s</string>
+    <string name="appts_list_empty">No appointments</string>
+    <string name="title_activity_appointment">Appointment</string>
+    <string name="appointments_list_for">For %1$s</string>
+    <string name="appointments_list_no_provider">No assigned provider of type %1$s available</string>
+    <string name="appointment_details_header_greeting">Hi %1$s,</string>
+    <string name="appointment_details_header_early_text">You are early for your appointment.</string>
+    <string name="img_desc_provider_photo">Photograph of the provider</string>
+    <string name="appointment_details_for">For {0}</string>
+    <string name="appointment_details_early_text">You can start this visit %1$s minutes ahead of time.</string>
+    <string name="appointment_details_header_cancelled">This appointment has been canceled.</string>
+    <string name="appointment_details_header_complete_text">Thank you for attending your appointment.</string>
+    <string name="appointment_details_header_in_progress_text">Your appointment is occurring now.</string>
+    <string name="appointment_details_header_late_text">It looks like you missed your appointment.</string>
+    <string name="appointment_details_header_no_providers">There are no providers available of type %1$s.</string>
+    <string name="appointment_details_header_begin_text">Your appointment is about to begin.</string>
+    <string name="appointment_msg_canceled">Appointment canceled</string>
+
+    <!-- Visit Reports -->
+    <string name="title_activity_visit_reports">Visit Summaries %1$s</string>
+    <string name="visit_reports_list_empty">No visit summaries</string>
+    <string name="visit_reports_pharmacy_sent_to">The prescriptions above were sent to the following pharmacy:</string>
+    <string name="visit_reports_pharmacy_phone">Phone:&#160;</string>
+    <string name="visit_reports_pharmacy_fax">Fax:&#160;</string>
+    <string name="visit_reports_pharmacy_region">%1$s, %2$s %3$s</string>
+
+    <!--Visit Report Detail-->
+    <string name="title_activity_visit_report_detail">Visit Report Detail</string>
+    <string name="visit_reports_provider_summary">Visit with %1$s, %2$s</string>
+    <string name="visit_reports_schedule_summary">%1$s | %2$s | %3$s</string>
+    <string name="visit_reports_schedule_summary_minutes_one">Visit lasted %d minute</string>
+    <string name="visit_reports_schedule_summary_minutes_other">Visit lasted %d minutes</string>
+    <string name="visit_reports_billing_summary_cost">Cost: %1$s</string>
+    <string name="visit_reports_billing_summary_coupon">&#160;(Coupon %1$s was applied)</string>
+    <string name="visit_reports_billing_summary_type">&#160;- Paid by %1$s</string>
+    <string name="visit_reports_diagnoses_code">Code</string>
+    <string name="visit_reports_diagnoses_description">Description</string>
+
+    <string name="visit_reports_title_topics">Visit Topics</string>
+    <string name="visit_reports_title_triage">Triage Questions</string>
+    <string name="visit_reports_title_triage_no_answer">No answer provided</string>
+    <string name="visit_reports_accepted_disclaimers">Accepted Disclaimers</string>
+    <string name="visit_reports_title_transcript">Visit Transcript</string>
+    <string name="visit_reports_title_notes">Visit Notes</string>
+    <string name="visit_reports_title_prescriptions">Prescriptions</string>
+    <string name="visit_reports_title_diagnoses">Diagnoses</string>
+    <string name="visit_reports_title_procedures">Procedures</string>
+    <string name="visit_reports_title_follow_up">Follow-Up Suggestions</string>
+    <string name="visit_reports_title_default">Missing Title</string>
+    <string name="visit_reports_title_additional_items">Additional Items</string>
+    <string name="visit_reports_title_hipaa_notice">HIPAA Notice</string>
+    <string name="visit_reports_title_hipaa_notice_additional">Additional HIPAA Notice</string>
+
+    <!-- Health Documents -->
+    <string name="title_activity_health_documents">Health Documents</string>
+    <string name="health_documents_list_empty">No health documents</string>
+    <string name="health_document_removed">Health Document Removed</string>
+    <string name="health_document_uploaded">Health Document Uploaded</string>
+    <string name="title_activity_service">Services</string>
+
+    <string name="first_available_prompt">See the first available provider</string>
+    <string name="first_available_button">Get Started</string>
+    <string name="other_providers">All Providers</string>
+    <string name="past_providers">Past Providers</string>
+
+    <!-- Provider Details -->
+    <string name="title_activity_provider">Provider Details</string>
+    <string name="provider_details_available_now">Available Now</string>
+    <string name="provider_details_busy">Talking with a Patient</string>
+    <string name="provider_details_on_call">On Call</string>
+    <string name="provider_details_offline">Offline</string>
+    <string name="provider_details_waiting_room_count_single">%1$d Patient Waiting.</string>
+    <string name="provider_details_waiting_room_count_other">%1$d Patients Waiting.</string>
+    <string name="provider_details_average_rating">Rating:</string>
+    <string name="provider_details_languages_spoken">Languages Spoken:</string>
+    <string name="provider_details_professional_education">Professional Education:</string>
+    <string name="provider_details_experience">Years of Experience:</string>
+    <string name="get_started_button">Get Started</string>
+    <string name="provider_details_appointment_date">Appointments on %1$s</string>
+    <string name="provider_details_appointments_show_all">Show all</string>
+
+    <!-- Patient Selection -->
+    <string name="patient_selection_privacy_policy">I have read and agree to the Privacy Policy</string>
+    <string name="patient_selection_privacy_policy_warning">Please accept the Privacy Policy.</string>
+
+    <!-- Add Dependent -->
+    <string name="title_activity_add_dependent">Add a Child</string>
+    <string name="add_dependent_first_name">First Name</string>
+    <string name="add_dependent_middle_initial">Middle Initial</string>
+    <string name="add_dependent_last_name">Last Name</string>
+    <string name="add_dependent_date_of_birth">Date of Birth</string>
+    <string name="add_dependent_gender">Gender</string>
+    <string name="add_dependent_male">Male</string>
+    <string name="add_dependent_female">Female</string>
+    <string name="add_dependent_success">Added %1$s</string>
+
+    <!-- invite guests -->
+    <string name="title_activity_invite_guests">Invite guests</string>
+    <string name="invite_guests_prompt">Please enter email addresses for any guests you would like to invite to the visit.</string>
+    <string name="invite_guest_item_hint">Guest email address</string>
+    <string name="invite_guests_max_reached">You cannot invite more than %1$d guests to this visit.</string>
+    <string name="invite_guests_add_validation">Did you mean to hit ADD?</string>
+
+    <!-- Triage Questions -->
+    <string name="title_activity_triage_questions">Your Visit</string>
+    <string name="triage_questions_topic_question">What would you like to discuss today?</string>
+    <string name="triage_other_topic_prompt">Other topic</string>
+    <string name="visit_dependent_info">Note: this visit is for child %1$s</string>
+    <string name="share_health_summary">Share my health summary</string>
+    <string name="triage_guest_email_exists">Guest already invited</string>
+
+    <!-- Insurance -->
+
+    <!-- Update Insurance -->
+    <string name="title_activity_update_insurance">Update Insurance</string>
+    <string name="update_insurance_insurance_provider">Insurance Provider</string>
+    <string name="update_insurance_no_insurance">I don\'t have insurance</string>
+    <string name="update_insurance_subscriber_id">Subscriber ID</string>
+    <string name="update_insurance_subscriber_suffix">Subscriber Suffix</string>
+    <string name="update_insurance_relationship_prompt">What is your relationship to the primary subscriber?</string>
+    <string name="update_insurance_first_name">First Name</string>
+    <string name="update_insurance_last_name">Last Name</string>
+    <string name="update_insurance_date_of_birth">Date of Birth</string>
+    <string name="update_insurance_feedhp_error_title">Invalid Selection</string>
+    <string name="update_insurance_feedhp_error_message">You must be pre-enrolled for health plan %1$s</string>
+    <string name="update_insurance_clear_info">This will clear your insurance information. Are you sure you want to continue?</string>
+    <string name="update_insurance_updated">Updated insurance</string>
+    <string name="update_insurance_button_save">Save anyway</string>
+
+    <!-- Vitals -->
+    <string name="title_activity_vitals">Vitals</string>
+    <string name="vitals_prompt">Enter your current vitals.</string>
+    <string name="vitals_systolic">Systolic blood pressure</string>
+    <string name="vitals_diastolic">Diastolic blood pressure</string>
+    <string name="vitals_millimeters_of_mercury">mmHg</string>
+    <string name="vitals_body_temperature">Body temperature</string>
+    <string name="vitals_degrees_fahrenheit">°F</string>
+    <string name="vitals_weight">Weight</string>
+    <string name="vitals_pounds">lbs</string>
+    <string name="vitals_updated">Updated vitals</string>
+
+    <!-- Medical History -->
+    <string name="title_activity_medical_history">Medical History</string>
+    <string name="medical_history_prompt">Have you ever been diagnosed with any of the following conditions?</string>
+    <string name="medical_history_updated">Medical history updated</string>
+
+    <!-- Medications -->
+    <string name="title_activity_medications">Medications</string>
+    <string name="medications_prompt">Current medications:</string>
+    <string name="medications_footer">Deselecting a medication will remove it from your profile.</string>
+    <string name="medications_add_medication">Add a Medication</string>
+    <string name="medications_updated">Medications updated</string>
+    <string name="medications_empty">None</string>
+
+    <!-- Add Medication -->
+    <string name="title_activity_add_medication">Add Medication</string>
+    <string name="add_medication_prompt">Enter the name of a medication</string>
+    <string name="add_medication_empty">No medications found for %1$s.</string>
+
+
+    <!-- Allergies -->
+    <string name="title_activity_allergies">Allergies</string>
+    <string name="allergies_prompt">Select your allergies.</string>
+    <string name="allergies_updated">Allergies updated</string>
+
+    <!-- Preferred Pharmacy -->
+    <string name="title_activity_pharmacy">Pharmacy</string>
+    <string name="pharmacy_find_pharmacy">Find a Pharmacy</string>
+    <string name="pharmacy_no_preferred_pharmacy">You currently don\'t have a preferred pharmacy</string>
+    <string name="pharmacy_updated">Pharmacy updated</string>
+    <string name="shipping_address">Shipping Address</string>
+    <string name="shipping_address1">Address 1</string>
+    <string name="shipping_address2">Address 2</string>
+    <string name="shipping_city">City</string>
+    <string name="shipping_zip_code">Zip Code</string>
+    <string name="pharmacy_distance">Distance:&#160;</string>
+
+    <!-- Pharmacy Search -->
+    <string name="title_activity_find_pharmacy">Find a Pharmacy</string>
+    <string name="pharmacy_search_prompt">Enter a zip code</string>
+    <string name="pharmacy_list_empty">No pharmacies found for %1$s.</string>
+    <string name="pharmacy_menu_near_me">Search Near Me</string>
+    <string name="pharmacy_search_results_near">Results Near: %1$s</string>
+    <string name="pharmacy_search_current_location">Current Location</string>
+    <string name="pharmacy_search_no_location">Unable to determine location.</string>
+
+    <!-- Visit Cost -->
+    <string name="title_activity_visit_cost">Visit Cost</string>
+    <string name="visit_cost_placeholder" translatable="false">-</string>
+    <string name="visit_cost_label">Your visit cost</string>
+    <string name="visit_cost_coupon_code">Coupon Code</string>
+    <string name="visit_cost_apply">Apply</string>
+    <string name="visit_cost_coupon_applied">Coupon code applied</string>
+    <string name="visit_cost_coupon_validation">Please apply or clear out coupon code</string>
+    <string name="visit_cost_no_coupon_entered">No coupon code entered</string>
+
+    <!-- Payment Information -->
+    <string name="title_activity_payment">Payment Information</string>
+    <string name="payment_information_prompt">How would you like to pay for this visit?</string>
+    <string name="payment_information_payment_method">%1$s ending in %2$s</string>
+    <string name="payment_information_payment_method_expired"> has expired. Please update your payment
+    information.</string>
+    <string name="payment_information_cvv">CVV</string>
+    <string name="payment_information_cvv_warning">Please provide a valid CVV for this credit card.</string>
+    <string name="no_payment_method">No payment method on file. Please update your payment method.</string>
+    <string name="payment_method_no_cost">This visit has no cost.</string>
+    <string name="update_payment_method_button">Update payment method</string>
+
+    <!-- Add Credit Card -->
+    <string name="title_activity_add_credit_card">Payment Information</string>
+    <string name="add_credit_card_current_payment_method">Your current credit card ends with %1$s.\nTo update your card, fill out the form below.</string>
+    <string name="add_credit_card_current_card_expired">Your current credit card ending in %1$s has expired. Please update your payment information.</string>
+    <string name="add_credit_card_name_on_card">Name on Card</string>
+    <string name="add_credit_card_card_number">Card Number</string>
+    <string name="add_credit_card_expiration_month">Expiration Month</string>
+    <string name="add_credit_card_expiration_year">Expiration Year</string>
+    <string name="add_credit_card_cvv">CVV</string>
+    <string name="add_credit_card_billing_address">Billing Address</string>
+    <string name="add_credit_card_address1">Address 1</string>
+    <string name="add_credit_card_address2">Address 2</string>
+    <string name="add_credit_card_city">City</string>
+    <string name="add_credit_card_zip_code">Zip Code</string>
+    <string name="add_credit_card_month_error">Please enter a valid month</string>
+    <string name="add_credit_card_year_error">Please enter a valid year</string>
+    <string name="add_credit_card_added">Credit card added</string>
+
+    <!-- Waiting Room -->
+    <string name="title_activity_waiting_room">Waiting Room</string>
+    <string name="waiting_room_header">Your visit will begin shortly.</string>
+    <string name="waiting_room_ended_title">Visit</string>
+    <string name="waiting_room_ended_message">The visit could not be started, we\'re sorry.\n\n%1$s</string>
+    <string name="waiting_room_provider_gone">The provider is no longer available.</string>
+    <string name="waiting_room_canceled">Canceled</string>
+    <string name="waiting_room_timed_out">Timed out</string>
+    <string name="waiting_room_failed">Visit failed</string>
+    <string name="waiting_room_declined">Visit declined by provider or assistant</string>
+    <string name="waiting_room_failed_to_end">Unable to end visit</string>
+    <string name="waiting_room_permissions_not_granted">Video console permissions not granted</string>
+    <string name="waiting_room_confirm_cancel">Are you sure you want to cancel this visit?</string>
+    <string name="waiting_room_action_cancel">Cancel Visit</string>
+    <string name="waiting_room_contacting_provider">You are the next patient to see %1$s.</string>
+    <string name="waiting_room_contact_provider_waiting_one">There is %1$d patient ahead of you to see %2$s</string>
+    <string name="waiting_room_contact_provider_waiting_other">There are %1$d patients ahead of you to see %2$s</string>
+    <string name="waiting_room_manual_xfer">Now transferring you to %1$s, %2$s</string>
+    <string name="waiting_room_suggested_xfer">%1$s may have a shorter wait time. If you would like to speak to this provider instead, you will not be charged for the visit with %2$s.</string>
+    <string name="waiting_room_accept_xfer">Ok</string>
+    <string name="waiting_room_decline_xfer">No, thanks</string>
+    <string name="waiting_room_end_visit">End Visit</string>
+    <string name="waiting_room_xfer_failed">Unfortunately no other providers are currently available. You are still waiting for %1$s</string>
+    <string name="waiting_room_network_failure_app_server">Network failure in video console - application server</string>
+    <string name="waiting_room_network_failure_video">Network failure in video console - video\nProvider connected = %1$b</string>
+    <string name="waiting_room_failed_to_cancel">Unable to cancel visit</string>
+    <string name="waiting_room_network_failure_video_guest">Network failure in video console - video</string>
+
+
+    <!--IVR Activity-->
+    <string name="title_activity_ivr">Connecting&#8230;</string>
+    <string name="ivr_calling_at">We are calling you at %1$s</string>
+    <string name="ivr_sorry">We\'re Sorry</string>
+    <string name="ivr_cancel_message">Are you sure you want to cancel IVR callback?</string>
+    <string name="ivr_unable_to_reach">We were unable to reach you at %1$s</string>
+    <string name="ivr_try_again">TRY AGAIN</string>
+    <string name="ivr_end_visit">END VISIT</string>
+    <string name="ivr_cancel">Cancel IVR</string>
+    <!-- Wrap Up -->
+    <string name="title_activity_visit_summary">Visit Summary</string>
+    <string name="visit_summary_summary">This concludes your visit with %1$s.</string>
+    <string name="visit_summary_charge">Your credit card was charged %1$s for this visit.</string>
+    <string name="visit_summary_email_summary">Send a summary to the following emails:</string>
+    <string name="visit_summary_email_summary_sent">Summaries sent to the following emails:</string>
+    <string name="visit_summary_submitted">Summary submitted</string>
+    <string name="consumer_ratings_provider">Rate your provider</string>
+    <string name="consumer_ratings_visit">Rate your overall experience</string>
+    <string name="consumer_ratings_validation">Please provide ratings</string>
+    <string name="visit_summary_pharmacy">Pharmacy:</string>
+    <string name="visit_summary_provider_notes">Provider Notes:</string>
+    <string name="visit_summary_diagnoses">Diagnoses:</string>
+    <string name="visit_summary_prescriptions">Prescriptions:</string>
+    <string name="visit_summary_followup">Follow-up:</string>
+    <string name="visit_summary_topics">Topics:</string>
+    <string name="visit_summary_triage">Triage Questions:</string>
+    <string name="visit_summary_chat_report">Chat Report:</string>
+    <string name="visit_summary_disclaimers">Accepted Disclaimers:</string>
+    <string name="visit_summary_transfer">Transfer Information:</string>
+    <string name="visit_summary_transfer_provider">%1$s (%2$s)</string>
+    <string name="visit_summary_accept_hipaa_notice">I accept the HIPAA notice</string>
+    <string name="visit_summary_accept_hipaa_validation">You must accept the HIPAA notice if any emails are
+        selected</string>
+
+
+    <!-- First Available -->
+    <string name="title_activity_first_available">First Available Provider</string>
+    <string name="first_available_greeting">Finding first available provider</string>
+    <string name="first_available_matched">%1$s will see you</string>
+    <string name="first_available_error_title">Unable to make match</string>
+    <string name="first_available_error_provider_list_exhausted">No providers available</string>
+    <string name="first_available_error_request_gone">Request timed out</string>
+    <string name="first_available_action_cancel">Cancel Request</string>
+    <string name="first_available_confirm_cancel">Are you sure you want to cancel this request?</string>
+
+    <!-- Home -->
+    <string name="home_menu_group_profile">My Profile</string>
+    <string name="home_menu_group_health">My Health</string>
+    <string name="home_menu_profile_insurance">Insurance</string>
+    <string name="home_menu_profile_pharmacy">Pharmacy</string>
+    <string name="home_menu_profile_update_consumer">My Information</string>
+    <string name="home_menu_profile_tech_check">Tech Check</string>
+    <string name="home_menu_profile_payment">Payment Information</string>
+    <string name="home_menu_profile_dependents">Add Child</string>
+    <string name="home_menu_health_conditions">Medical History</string>
+    <string name="home_menu_health_allergies">Allergies</string>
+    <string name="home_menu_health_medications">Medications</string>
+    <string name="home_menu_health_vitals">Vitals</string>
+
+    <string name="home_dummy_patient">Patient Portal</string>
+    <string name="home_dummy_patient_desc">Access your appointments, health history, and more.</string>
+    <string name="home_dummy_daily">Health News Daily</string>
+    <string name="home_dummy_daily_desc">The latest health news at your fingertips.</string>
+    <string name="home_dummy_health_living">Healthy Living</string>
+    <string name="home_dummy_health_living_desc">Become a healthier you with guidance from our experts.</string>
+    <string name="home_dummy_community">Community</string>
+    <string name="home_dummy_community_desc">General Hospital has a vibrant online community.</string>
+    <string name="home_dummy_services">Our Services</string>
+    <string name="home_dummy_no_services">There are no services currently available.</string>
+
+    <string name="home_service_image">Service</string>
+    <string name="general_hospital_logo">General Hospital logo</string>
+    <string name="service_menu_language_filter">Filter by language spoken</string>
+    <string name="service_menu_past_providers">Filter by past providers</string>
+    <string name="service_menu_all_providers">Filter by all providers</string>
+    <!-- update consumer -->
+    <string name="update_consumer_warning">Note: Any fields left blank will not alter the existing information on the user\'s profile</string>
+    <string name="title_activity_update_consumer">My Information</string>
+    <string name="update_consumer_first_name">First Name</string>
+    <string name="update_consumer_middle_initial">Middle Initial</string>
+    <string name="update_consumer_last_name">Last Name</string>
+    <string name="update_consumer_email_address">Email Address</string>
+    <string name="update_consumer_email_confirm">Confirm Email Address</string>
+    <string name="update_consumer_date_of_birth">Date of Birth</string>
+    <string name="update_consumer_password">Change password</string>
+    <string name="update_consumer_phone">Phone</string>
+    <string name="update_consumer_address1">Address Line 1</string>
+    <string name="update_consumer_address2">Address Line 2</string>
+    <string name="update_consumer_city">City</string>
+    <string name="update_consumer_legal_residency">Legal Residency</string>
+    <string name="update_consumer_zip">Zip</string>
+    <string name="update_consumer_success">Updated %1$s</string>
+    <string name="update_consumer_email_confirm_error">Email addresses must match</string>
+    <string name="update_consumer_text_reminders">Allow text reminders before appointments.</string>
+
+    <!-- Error reason friendly translations -->
+    <string name="sdksuggestion_invalid_credentials">Your username or password is incorrect</string>
+    <string name="sdkerrorreason_auth_access_denied">Your username or password is incorrect</string>
+    <string name="sdkerrorreason_waiting_room_access_denied">This provider is not accepting conversation requests.</string>
+
+    <string name="sdkerrorreason_validation_bad_password">sdkerrorreason_validation_bad_password_holder</string>
+    <string name="sdksuggestion_invalid_password">sdksuggestion_invalid_password_holder</string>
+
+    <string name="sdkspinner_background">sdk spinner background</string>
+    <string name="sdkspinner_ring">sdk spinner ring</string>
+
+    <string name="chat_hint">Enter your message</string>
+    <string name="chat_send">Send</string>
+
+    <string name="video_conference_timed_out">Your visit has timed out.</string>
+
+    <string name="video_console_ongoing_notification">Visit with %1$s</string>
+    <string name="title_activity_update_dependent">Dependent Information</string>
+
+    <string name="title_activity_appointment_scheduled">Thank You</string>
+    <string name="appointment_scheduled_header">Check your mail!</string>
+    <string name="appointment_scheduled_details">Your appointment has been scheduled. We have sent a confirmation email to %1$s</string>
+
+    <string name="title_activity_schedule_appointment">Schedule Appointment</string>
+    <string name="schedule_appointment_callback_number">Enter a number for the provider to call you back if necessary</string>
+    <string name="schedule_appointment_email_reminder">Choose your preferred email reminder</string>
+    <string name="schedule_appointment_date">%1$s at %2$s</string>
+    <string name="schedule_appointment_provider">%1$s, %2$s</string>
+
+    <string name="remind_options_no_reminder">None</string>
+    <string name="remind_options_fifteen_min">15 min before visit</string>
+    <string name="remind_options_one_hour">1 hour before visit</string>
+    <string name="remind_options_four_hours">4 hours before visit</string>
+    <string name="remind_options_eight_hours">8 hours before visit</string>
+    <string name="remind_options_one_day">1 day before visit</string>
+    <string name="remind_options_one_week">1 week before visit</string>
+
+    <string name="title_activity_outstanding_disclaimer">Updated Terms of Use</string>
+    <string name="outstanding_disclaimer_prompt">Welcome Back! Our terms of use have changed since your last visit.
+        By clicking the checkbox, you certify that you have read and accept the new terms of use.</string>
+
+    <string name="title_activity_visit_finished">Visit Complete</string>
+    <string name="title_activity_guest_finished">Visit Complete</string>
+
+    <string name="guest_console_ongoing_notification">Visit in progress</string>
+
+    <!-- Datetime formats -->
+    <string name="dateFormat">MM-dd-yyyy</string>
+    <string name="appointmentDateFormat">EEE, MMM d, yyyy</string>
+    <string name="appointmentSlotFormat">h:mm a</string>
+    <string name="appointmentTimeFormat">h:mm a z</string>
+    <string name="visitSummaryDateFormat">MMM dd, yyyy</string>
+    <string name="visitSummaryTimeFormat">hh:mm a z</string>
+
+    <!--TechCheck-->
+    <string name="title_activity_tech_check">Tech Check</string>
+    <string name="access_required">Access Required</string>
+    <string name="needs_permission">Access to your camera, microphone, and phone is required to have a visit</string>
+    <string name="allow_access">ALLOW ACCESS</string>
+    <string name="all_set">You\'re all set!</string>
+    <string name="ready_for_appointment">Your Tech Check is complete. You are now ready for your visit.</string>
+    <string name="tech_check_request_error">Error updating server. Please try again later.</string>
+    <string name="welcome">Welcome!</string>
+    <string name="mycare_desc">Video visits are a convenient way to get immediate care and questions answered.</string>
+    <string name="enter_waiting_room">Enter Waiting Room</string>
+    <string name="get_started">Get Started</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
+    <string name="medical_history">Medical History</string>
+    <string name="complete_your_medical_history">Complete your medical history.</string>
+    <string name="medications">Medications</string>
+    <string name="what_medications_are_you_taking">What medications are you taking?</string>
+    <string name="no_medications_listed">You have no medications</string>
+    <string name="pharmacy">Pharmacy</string>
+    <string name="visit_summary">Visit Summary</string>
+    <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
+    <string name="mycare_now">My Care Now</string>
+    <string name="med_history">My Medical History</string>
+    <string name="pharmacy_search_hint">Search by Location/Zip</string>
+
+    <string name="history_desc">Tell me a little more about yourself so I can help you get proper care.\n\nWhat is your medical history?\nCheck all that you apply.</string>
+    <string name="medication_desc">To make sure you\'re correctly prescribed, are you taking any medications?</string>
+    <string name="medication_search_hint">Search</string>
+
+    <string name="my_care_services_desc">Pick a practice we\'ll make sure you see the right doctor</string>
+    <string name="my_care_providers_desc">Choose a doctor below and we\'ll get you into the waiting room.</string>
+    <string name="choose_practice">Choose Practice</string>
+    <string name="choose_doctor">Choose Doctor</string>
+    <string name="not_on_any_medications">I\'m not on any medications</string>
+    <string name="next_available_provider">Next Available Provider</string>
+    <string name="my_care_reason_guest_sug">Would you like to invite a guest to your visit?</string>
+    <string name="my_care_reason_phone_sug">What is your phone number in case the video visit dropped?</string>
+    <string name="my_care_reason_sug">What is the for you visit today?</string>
+    <string name="intake">Intake</string>
+    <string name="reason">Reason</string>
+    <string name="visit_cost_desc">Your total is $</string>
+    <string name="waiting_room_title">Waiting Room</string>
+    <string name="title_activity_summary">SummaryActivity</string>
+    <string name="your_visit_has_ended">Your visit has ended.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -13,6 +13,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateApp
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
+import com.prokarma.myhome.features.login.endpoint.AmWellResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
@@ -82,6 +83,9 @@ public interface RESTService {
     @POST
     Call<CommonResponse> signOut(@Url String url, @Header(HEADER_AUTHORIZATION) String bearer,
                                  @Body SignOutRequest request);
+
+    @GET
+    Call<AmWellResponse> getAmWellToken(@Url String url, @Header(HEADER_AUTHORIZATION) String bearer);
 
     @POST
     Call<Void> register(@Url String url, @Body EnrollmentRequest request);

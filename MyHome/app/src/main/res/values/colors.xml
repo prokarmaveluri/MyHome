@@ -361,7 +361,6 @@
     <color name="md_black_1000">#000000</color>
     <color name="md_white_1000">#ffffff</color>
 
-    1px solid #484B4D
     <!--blue grey-->
     <color name="md_blue_grey_50">#ECEFF1</color>
     <color name="md_blue_grey_80">#D9D9D9</color>
@@ -392,4 +391,47 @@
     <color name="success_color">#009688</color>
 
     <color name="almost_done_color">#ed7420</color>
+
+    <!--AWSDK-->
+    <color name="colorPrimary">@color/teal</color>
+    <color name="colorPrimaryDark">#0096a6</color>
+    <color name="colorAccent">@color/color_sea_buckthorn</color>
+    <color name="color_link">#fd8f25</color>
+
+    <color name="color_msg_time_blue">#1177CC</color>
+    <color name="color_msg_text_secondary">#777777</color>
+    <color name="color_msg_divider_gray">#CFCFCF</color>
+    <color name="color_msg_list_stripe_1">#FFFFFF</color>
+    <color name="color_mailbox_item_slider">@color/color_sea_buckthorn</color>
+    <color name="color_text_gray">#8a000000</color>
+
+    <color name="color_sea_buckthorn">#fdaa29</color>
+
+    <color name="color_appointment_scheduled">#fec32d</color>
+    <color name="color_appointment_early">#fec32d</color>
+    <color name="color_appointment_ontime">#25abfd</color>
+    <color name="color_appointment_canceled">#fc4040</color>
+
+    <color name="color_chat_other_bg">#D8F1BC</color>
+    <color name="color_chat__other_header">#009C00</color>
+    <color name="color_chat_self_bg">#DEF1FF</color>
+    <color name="color_chat__self_header">#2566A8</color>
+    <color name="color_chat_system_bg">#cccccc</color>
+    <color name="color_chat__system_header">#333333</color>
+
+    <color name="color_summary_div">#007BC1</color>
+
+    <color name="color_grey">#3d3d3d</color>
+    <color name="color_white">#ffffff</color>
+
+    <color name="waiting_room_progress_left">#12aefc</color>
+    <color name="waiting_room_progress_center">#228edc</color>
+    <color name="waiting_room_progress_right">#0469bd</color>
+
+    <color name="tab_selected_text">#FFFFFF</color>
+    <color name="tab_text">#b3ffffff</color>
+
+    <color name="color_text_light_gray">#40000000</color>
+
+    <color name="triage_divider_color">#1f000000</color>
 </resources>

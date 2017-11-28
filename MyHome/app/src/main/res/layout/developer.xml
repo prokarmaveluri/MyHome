@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="HardcodedText">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,30 +29,30 @@
             android:text="bearer token here..." />
 
         <TextView
-            android:id="@+id/session_label"
+            android:id="@+id/amwell_label"
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bearer"
             android:layout_margin="6dp"
-            android:text="Session Token"
+            android:text="AmWell Token"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/session"
+            android:id="@+id/amwell"
             style="@style/tradeGothicLTStdLight_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/session_label"
+            android:layout_below="@id/amwell_label"
             android:layout_margin="6dp"
-            android:text="session token here..." />
+            android:text="amwell token here..." />
 
         <TextView
             android:id="@+id/profile_label"
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/session"
+            android:layout_below="@id/amwell"
             android:layout_margin="6dp"
             android:text="Profile"
             android:textStyle="bold" />

@@ -1,5 +1,6 @@
 package com.prokarma.myhome.app;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
@@ -39,6 +41,7 @@ import com.prokarma.myhome.features.fad.details.ProviderDetailsFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.home.HomeFragment;
 import com.prokarma.myhome.features.login.LoginActivity;
+import com.prokarma.myhome.features.mycare.MyCareNowFragment;
 import com.prokarma.myhome.features.profile.ProfileEditFragment;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.profile.ProfileViewFragment;
@@ -52,6 +55,17 @@ import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
+import com.televisit.AwsManager;
+import com.televisit.cost.MyCareVisitCostFragment;
+import com.televisit.history.MedicalHistoryFragment;
+import com.televisit.login.SDKLoginFragment;
+import com.televisit.medications.MedicationsFragment;
+import com.televisit.pharmacy.PharmaciesFragment;
+import com.televisit.pharmacy.PharmacyDetailsFragment;
+import com.televisit.providers.MyCareProvidersFragment;
+import com.televisit.services.MyCareServicesFragment;
+import com.televisit.summary.SummaryFragment;
+import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
 import java.util.TimeZone;
 
@@ -98,6 +112,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         MapsInitializer.initialize(getApplicationContext());
         LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
         bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
+        if (AuthManager.getInstance().hasMyCare()) {
+            bottomNavigationView.inflateMenu(R.menu.navigation_menu);
+        } else {
+            bottomNavigationView.inflateMenu(R.menu.navigation_menu_profile);
+        }
         bottomNavigationView.enableAnimation(false);
         bottomNavigationView.enableShiftingMode(false);
         bottomNavigationView.enableItemShiftingMode(false);
@@ -131,7 +150,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                                 break;
 
                             case R.id.profile:
-                                loadFragment(ActivityTag.PROFILE_VIEW, null);
+                                if (AuthManager.getInstance().hasMyCare()) {
+                                    loadFragment(ActivityTag.MY_CARE_NOW_SDK_LOGIN, null);
+                                } else {
+                                    loadFragment(ActivityTag.PROFILE_VIEW, null);
+                                }
                                 break;
                         }
 
@@ -207,6 +230,16 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         }
     }
 
+    @SuppressLint("RestrictedApi")
+    public void setMyCareVisibility() {
+        BottomNavigationItemView view = bottomNavigationView.getBottomNavigationItemView(3);
+        if (AuthManager.getInstance().hasMyCare()) {
+            view.setTitle(getApplicationContext().getString(R.string.mycare_now));
+        } else {
+            view.setTitle(getApplicationContext().getString(R.string.profile));
+        }
+    }
+
     /**
      * Method that handles loading the fragments for the proper page.
      * This method differs from goToPage in that it only loads the fragment and pays no attention to the bottom navigation bar.
@@ -219,6 +252,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.HOME) {
                     getSupportFragmentManager().executePendingTransactions();
                     HomeFragment homeFragment = HomeFragment.newInstance();
+                    homeFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, homeFragment, HomeFragment.HOME_TAG)
@@ -232,6 +266,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.FAD) {
                     getSupportFragmentManager().executePendingTransactions();
                     FadFragment fadFragment = FadFragment.newInstance();
+                    fadFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
@@ -246,10 +281,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case FAD_DASH_BOARD:
                 if (getActivityTag() != ActivityTag.FAD_DASH_BOARD) {
                     getSupportFragmentManager().executePendingTransactions();
-                    FadDashboardFragment fadFragment = FadDashboardFragment.newInstance();
+                    FadDashboardFragment fadDashboardFragment = FadDashboardFragment.newInstance();
+                    fadDashboardFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.frame, fadFragment, FadDashboardFragment.FAD_DASHBOARD_TAG)
+                            .replace(R.id.frame, fadDashboardFragment, FadDashboardFragment.FAD_DASHBOARD_TAG)
                             .commitAllowingStateLoss();
 
                     setActivityTag(ActivityTag.FAD_DASH_BOARD);
@@ -277,6 +313,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.PROVIDERS_FILTER) {
                     getSupportFragmentManager().executePendingTransactions();
                     FadFragment fadFragment = FadFragment.newInstance();
+                    fadFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, fadFragment, FadFragment.FAD_TAG)
@@ -290,6 +327,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.APPOINTMENTS) {
                     getSupportFragmentManager().executePendingTransactions();
                     AppointmentsFragment appointmentsFragment = AppointmentsFragment.newInstance();
+                    appointmentsFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, appointmentsFragment, AppointmentsFragment.APPOINTMENTS_TAG)
@@ -319,9 +357,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.PROFILE_VIEW) {
                     getSupportFragmentManager().executePendingTransactions();
                     ProfileViewFragment profileViewFragment = ProfileViewFragment.newInstance();
+                    profileViewFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, profileViewFragment, ProfileViewFragment.PROFILE_VIEW_TAG)
+                            .addToBackStack(null)
                             .commit();
 
                     setActivityTag(ActivityTag.PROFILE_VIEW);
@@ -332,6 +372,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.PROFILE_EDIT) {
                     getSupportFragmentManager().executePendingTransactions();
                     ProfileEditFragment profileEditFragment = ProfileEditFragment.newInstance();
+                    profileEditFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
@@ -347,6 +388,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.SETTINGS) {
                     getSupportFragmentManager().executePendingTransactions();
                     SettingsFragment settingsFragment = SettingsFragment.newInstance();
+                    settingsFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, settingsFragment, SettingsFragment.SETTINGS_TAG)
@@ -361,6 +403,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.DEVELOPER) {
                     getSupportFragmentManager().executePendingTransactions();
                     DeveloperFragment developerFragment = DeveloperFragment.newInstance();
+                    developerFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, developerFragment, DeveloperFragment.DEVELOPER_TAG)
@@ -375,6 +418,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.CONTACT_US) {
                     getSupportFragmentManager().executePendingTransactions();
                     ContactUsFragment contactUsFragment = ContactUsFragment.newInstance();
+                    contactUsFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, contactUsFragment, ContactUsFragment.CONTACT_TAG)
@@ -384,13 +428,189 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     setActivityTag(ActivityTag.CONTACT_US);
                 }
                 break;
+            case MY_CARE_NOW_SDK_LOGIN:
+                if (getActivityTag() != ActivityTag.MY_CARE_NOW_SDK_LOGIN &&
+                        getActivityTag() != ActivityTag.MY_CARE_NOW) {
+
+                    getSupportFragmentManager().executePendingTransactions();
+                    AwsManager.getInstance().init(getApplicationContext());
+                    SDKLoginFragment fragment = SDKLoginFragment.newInstance();
+                    fragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fragment, ProfileViewFragment.PROFILE_VIEW_TAG)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_NOW_SDK_LOGIN);
+                }
+                break;
+            case MY_CARE_NOW:
+                if (getActivityTag() != ActivityTag.MY_CARE_NOW) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MyCareNowFragment myCareNowFragment = MyCareNowFragment.newInstance();
+                    myCareNowFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, myCareNowFragment, ProfileViewFragment.PROFILE_VIEW_TAG)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_NOW);
+                }
+                break;
+            case MY_CARE_SERVICES:
+                if (getActivityTag() != ActivityTag.MY_CARE_SERVICES) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MyCareServicesFragment fragment = MyCareServicesFragment.newInstance();
+                    fragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, fragment, MyCareServicesFragment.MY_CARE_SERVICES_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_SERVICES);
+                }
+                break;
+            case MY_CARE_PROVIDERS:
+                if (getActivityTag() != ActivityTag.MY_CARE_PROVIDERS) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MyCareProvidersFragment myCareProvidersFragment = MyCareProvidersFragment.newInstance();
+                    myCareProvidersFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, myCareProvidersFragment, MyCareProvidersFragment.MY_CARE_PROVIDERS_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_PROVIDERS);
+                }
+                break;
+            case MY_CARE_COST:
+                if (getActivityTag() != ActivityTag.MY_CARE_COST) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MyCareVisitCostFragment myCareVisitCostFragment = MyCareVisitCostFragment.newInstance();
+                    myCareVisitCostFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, myCareVisitCostFragment, MyCareVisitCostFragment.MY_CARE_COST_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_COST);
+                }
+                break;
+            case MY_CARE_WAITING_ROOM:
+                if (getActivityTag() != ActivityTag.MY_CARE_WAITING_ROOM) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MyCareWaitingRoomFragment myCareWaitingRoomFragment = MyCareWaitingRoomFragment.newInstance();
+                    myCareWaitingRoomFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, myCareWaitingRoomFragment, MyCareWaitingRoomFragment.MY_CARE_WAITING_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_WAITING_ROOM);
+                }
+                break;
+            case MY_MED_HISTORY:
+                if (getActivityTag() != ActivityTag.MY_MED_HISTORY) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MedicalHistoryFragment historyFragment = MedicalHistoryFragment.newInstance();
+                    historyFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, historyFragment, MedicalHistoryFragment.MED_HISTORY_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.MY_MED_HISTORY);
+                }
+                break;
+            case MY_MEDICATIONS:
+                if (getActivityTag() != ActivityTag.MY_MEDICATIONS) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MedicationsFragment medicationsFragment = MedicationsFragment.newInstance();
+                    medicationsFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, medicationsFragment, MedicationsFragment.MEDICATIONS_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.MY_MEDICATIONS);
+                }
+                break;
+            case MY_PHARMACY:
+                if (getActivityTag() != ActivityTag.MY_PHARMACY) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    PharmaciesFragment pharmaciesFragment = PharmaciesFragment.newInstance();
+                    pharmaciesFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, pharmaciesFragment, PharmaciesFragment.PHARMACIES_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.MY_PHARMACY);
+                }
+                break;
+            case MY_PHARMACY_DETAILS:
+                if (getActivityTag() != ActivityTag.MY_PHARMACY_DETAILS) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    PharmacyDetailsFragment pharmacyDetailsFragment = PharmacyDetailsFragment.newInstance();
+                    pharmacyDetailsFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, pharmacyDetailsFragment, PharmacyDetailsFragment.PHARMACY_DETAILS_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.MY_PHARMACY_DETAILS);
+                }
+                break;
+            case VISIT_SUMMARY:
+                if (getActivityTag() != ActivityTag.VISIT_SUMMARY) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    SummaryFragment summaryFragment = SummaryFragment.newInstance();
+                    summaryFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, summaryFragment, SummaryFragment.SUMMARY_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.VISIT_SUMMARY);
+                }
+                break;
+            case VISIT_FEEDBACK:
+                if (getActivityTag() != ActivityTag.VISIT_FEEDBACK) {
+                    //TODO Visit feedback fragment here
+                }
+                break;
         }
+        setMyCareVisibility();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
+
+        //users with no access to MyCareNow can see PROFILE right on the bottom tab navigation, hence hiding it here in the Options to avoid duplicates.
+        if (!AuthManager.getInstance().hasMyCare()) {
+            menu.findItem(R.id.profile).setVisible(false);
+        }
 
         //Allow developer settings
         if (BuildConfig.SHOW_SETTINGS) {
@@ -421,6 +641,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 setActivityTag(ActivityTag.FAQ);
                 Intent intentFAQ = new Intent(this, OptionsActivity.class);
                 ActivityCompat.startActivity(this, intentFAQ, options.toBundle());
+                return true;
+            case R.id.profile:
+                setActivityTag(ActivityTag.PROFILE_VIEW);
+                Intent intentProfile = new Intent(this, OptionsActivity.class);
+                ActivityCompat.startActivity(this, intentProfile, options.toBundle());
                 return true;
             case R.id.contact_us:
                 setActivityTag(ActivityTag.CONTACT_US);
@@ -521,6 +746,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onResume() {
         super.onResume();
+
+        setMyCareVisibility();
+
         // session expiry
         if (AuthManager.getInstance().isExpired()) {
             buildSessionAlert(getString(R.string.session_expiry_message));
