@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
@@ -22,7 +23,7 @@ public class SummaryActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private TextView costDesc;
-    private Button viewPDF;
+    private Button viewReport;
     private CircularImageView docImage;
 
     private VisitSummary summary;
@@ -41,15 +42,16 @@ public class SummaryActivity extends AppCompatActivity {
         setContentView(R.layout.visit_summary);
 
         progressBar = (ProgressBar) findViewById(R.id.summary_progress);
-        costDesc = (TextView) findViewById(R.id.costDesc);
-        viewPDF = (Button) findViewById(R.id.viewPDF);
-        docImage = (CircularImageView) findViewById(R.id.docImage);
+        costDesc = (TextView) findViewById(R.id.cost_description);
+        viewReport = (Button) findViewById(R.id.view_report);
+        docImage = (CircularImageView) findViewById(R.id.doc_image);
         getVisitSummary();
 
-        viewPDF.setOnClickListener(new View.OnClickListener() {
+        viewReport.setEnabled(summary != null);
+        viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(getBaseContext(), "Summary = " + summary, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -66,9 +68,9 @@ public class SummaryActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(VisitSummary visitSummary, SDKError sdkError) {
                         progressBar.setVisibility(View.GONE);
-                        updateCost(getString(R.string.visit_cost_desc) +
-                                visitSummary.getVisitCost().getExpectedConsumerCopayCost());
+                        updateCost(getString(R.string.visit_cost_desc) + visitSummary.getVisitCost().getExpectedConsumerCopayCost());
                         summary = visitSummary;
+                        viewReport.setEnabled(summary != null);
                         updateDocImage();
                     }
 
