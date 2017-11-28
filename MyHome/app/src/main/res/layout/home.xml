@@ -304,6 +304,7 @@
                     android:text="@string/bill_pay_desc" />
 
                 <RelativeLayout
+                    android:id="@+id/myCareSegment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="11dp"
