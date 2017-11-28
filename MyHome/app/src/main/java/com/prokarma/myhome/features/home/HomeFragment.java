@@ -161,12 +161,6 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        if (!AuthManager.getInstance().hasMyCare()) {
-            binding.myCareSegment.setVisibility(View.GONE);
-            binding.imageView.setVisibility(View.GONE);
-            binding.textView.setVisibility(View.GONE);
-        }
-
         if (ConnectionUtil.isConnected(getActivity())) {
             // Get Name from profile
             if (ProfileManager.getProfile() == null) {
