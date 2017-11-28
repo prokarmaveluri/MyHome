@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Base64;
 
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -77,6 +78,35 @@ public class MapUtil {
                     googleMap.setOnMarkerClickListener(listener);
                 }
             }
+        } else {
+            Timber.e("GoogleMap object provided was null. Returning empty set of markers...");
+        }
+
+        return markers;
+    }
+
+    /**
+     * Adds Map Markers for Offices
+     *
+     * @param context
+     * @param googleMap        the google map object we're adding markers to
+     * @param offices          an ArrayList of Offices
+     * @param bitmapDescriptor the icon of the map markers
+     * @param listener         the clickListener of the map markers
+     * @return an ArrayList of all the markers that were added
+     */
+    public static ArrayList<Marker> addMapMarkers(Context context, @NonNull GoogleMap googleMap, @NonNull Pharmacy pharmacy, @NonNull BitmapDescriptor bitmapDescriptor, GoogleMap.OnMarkerClickListener listener) {
+        ArrayList<Marker> markers = new ArrayList<>();
+        if (googleMap != null && pharmacy != null) {
+                markers.add(googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(pharmacy.getLatitude(), pharmacy.getLongitude()))
+                        .title(pharmacy.getName() != null ? pharmacy.getName() : pharmacy.getAddress().getAddress1())
+                        .snippet(pharmacy.getAddress() != null ? CommonUtil.getPharmacyAddress(pharmacy) : context.getString(R.string.address_unknown))
+                        .icon(bitmapDescriptor)));
+
+                if (listener != null) {
+                    googleMap.setOnMarkerClickListener(listener);
+                }
         } else {
             Timber.e("GoogleMap object provided was null. Returning empty set of markers...");
         }
