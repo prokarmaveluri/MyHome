@@ -28,6 +28,8 @@ import com.televisit.SDKUtils;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MyCareProvidersFragment#newInstance} factory method to
@@ -156,7 +158,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        progressBar.setVisibility(View.GONE);
+                        if(isAdded()){
+                            Timber.e("Something failed! :/");
+                            Timber.e("Throwable = " + throwable);
+                            progressBar.setVisibility(View.GONE);
+                        }
                     }
                 });
     }

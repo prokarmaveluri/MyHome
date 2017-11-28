@@ -184,15 +184,16 @@ public class SDKLoginFragment extends BaseFragment {
                                     Constants.ActivityTag.MY_CARE_NOW, null);
 
                             getServices();
-                            Toast.makeText(getContext(), "SDK Auth & Consumer fetch Successful",
-                                    Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        if (isAdded())
+                        if (isAdded()) {
+                            Timber.e("Something failed! :/");
+                            Timber.e("Throwable = " + throwable);
                             progressBar.setVisibility(View.GONE);
+                        }
                     }
                 }
         );

@@ -45,7 +45,7 @@
             android:layout_below="@+id/mcn_desc"
             android:layout_centerHorizontal="true"
             android:padding="16dp"
-            android:text="@string/enter_waiting_room" />
+            android:text="@string/get_started" />
 
         <RelativeLayout
             android:id="@+id/personal_info_layout"

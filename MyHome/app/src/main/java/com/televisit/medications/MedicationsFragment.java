@@ -176,8 +176,12 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        searchLayout.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
+                        if(isAdded()){
+                            Timber.e("Something failed! :/");
+                            Timber.e("Throwable = " + throwable);
+                            searchLayout.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
+                        }
                     }
                 }
         );
@@ -228,8 +232,12 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        searchSuggestions.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.GONE);
+                        if(isAdded()){
+                            Timber.e("Something failed! :/");
+                            Timber.e("Throwable = " + throwable);
+                            searchSuggestions.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
+                        }
                     }
                 }
         );
