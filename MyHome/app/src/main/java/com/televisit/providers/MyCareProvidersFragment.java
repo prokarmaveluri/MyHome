@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
@@ -41,6 +43,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     private List<ProviderInfo> providerInfo;
     private ProgressBar progressBar;
     private RecyclerView providerList;
+    private Button nextAvailableProvider;
     public static final String MY_CARE_PROVIDERS_TAG = "my_care_providers_tag";
 
     public MyCareProvidersFragment() {
@@ -70,10 +73,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_care_providers, container, false);
-
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.choose_doctor));
+
+        View view = inflater.inflate(R.layout.fragment_my_care_providers, container, false);
         progressBar = (ProgressBar) view.findViewById(R.id.providers_progress);
+        nextAvailableProvider = (Button) view.findViewById(R.id.btn_next_avail_provider);
         providerList = (RecyclerView) view.findViewById(R.id.providerList);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         providerList.addItemDecoration(itemDecoration);
@@ -98,7 +102,9 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     @Override
                     public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
                         if (sdkError == null) {
-                            setListAdapter(providerInfos);
+                            providerInfo = providerInfos;
+                            setNextAvailableProviderButton();
+                            setListAdapter(providerInfo);
                         }
                         progressBar.setVisibility(View.GONE);
                     }
@@ -122,9 +128,23 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         this.providerInfo = providers;
     }
 
+    private void setNextAvailableProviderButton() {
+        nextAvailableProvider.setEnabled(providerInfo != null && !providerInfo.isEmpty());
+        nextAvailableProvider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProviderInfo provider = CommonUtil.getNextAvailableProvider(providerInfo);
+                if (provider != null) {
+                    getVisitContext(provider);
+                } else {
+                    Toast.makeText(getContext(), "No Provider is available.\nPlease Wait...", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
     @Override
     public void providerClick(ProviderInfo provider) {
-
         if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
             progressBar.setVisibility(View.VISIBLE);
             getVisitContext(provider);
@@ -158,7 +178,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        if(isAdded()){
+                        if (isAdded()) {
                             Timber.e("Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                             progressBar.setVisibility(View.GONE);
