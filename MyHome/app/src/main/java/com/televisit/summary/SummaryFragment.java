@@ -1,10 +1,11 @@
 package com.televisit.summary;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,7 +20,7 @@ import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
-public class SummaryActivity extends AppCompatActivity {
+public class SummaryFragment extends Fragment {
 
     private ProgressBar progressBar;
     private TextView costDesc;
@@ -28,32 +29,42 @@ public class SummaryActivity extends AppCompatActivity {
 
     private VisitSummary summary;
 
-    /*
-     * Get an intent for login activity.
-     */
-    public static Intent getSummaryIntent(Context context) {
+    public SummaryFragment() {
+    }
 
-        return new Intent(context, SummaryActivity.class);
+    public static SummaryFragment newInstance(){
+        SummaryFragment fragment = new SummaryFragment();
+        return fragment;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.visit_summary);
+        if (getArguments() != null) {
+        }
+    }
 
-        progressBar = (ProgressBar) findViewById(R.id.summary_progress);
-        costDesc = (TextView) findViewById(R.id.cost_description);
-        viewReport = (Button) findViewById(R.id.view_report);
-        docImage = (CircularImageView) findViewById(R.id.doc_image);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getActivity().setTitle(getString(R.string.visit_summary));
+        View view = inflater.inflate(R.layout.visit_summary, container, false);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.summary_progress);
+        costDesc = (TextView) view.findViewById(R.id.cost_description);
+        viewReport = (Button) view.findViewById(R.id.view_report);
+        docImage = (CircularImageView) view.findViewById(R.id.doc_image);
         getVisitSummary();
 
         viewReport.setEnabled(summary != null);
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Summary = " + summary, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Summary = " + summary, Toast.LENGTH_LONG).show();
             }
         });
+
+        return view;
     }
 
     private void updateCost(String costInfo) {
