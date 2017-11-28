@@ -14,6 +14,7 @@ import com.prokarma.myhome.features.dev.ApiFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.faq.FaqFragment;
 import com.prokarma.myhome.features.home.HomeDidYouKnowFragment;
+import com.prokarma.myhome.features.profile.ProfileViewFragment;
 import com.prokarma.myhome.features.settings.ChangePasswordFragment;
 import com.prokarma.myhome.features.settings.ChangeSecQuestionFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
@@ -67,6 +68,17 @@ public class OptionsActivity extends BaseActivity {
                 getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.CONTACT_US);
+                break;
+
+            case PROFILE_VIEW:
+                ProfileViewFragment profileViewFragment = ProfileViewFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, profileViewFragment, ProfileViewFragment.PROFILE_VIEW_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.PROFILE_VIEW);
                 break;
 
             case SETTINGS:

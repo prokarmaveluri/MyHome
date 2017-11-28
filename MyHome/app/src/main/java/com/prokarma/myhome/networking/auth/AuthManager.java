@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
@@ -277,16 +276,11 @@ public class AuthManager {
         try {
             JWT jwt = new JWT(bearerToken);
 
-            Log.d(this.getClass().getSimpleName(), "JWT subject = " + jwt.getSubject());
-
             Claim claim = jwt.getClaim("groups");
             List<String> groups = claim.asList(String.class);
             if (groups != null && groups.contains("Telehealth Users")) {
                 setHasMyCare(true);
             }
-            Log.d(this.getClass().getSimpleName(), "JWT groups = " + groups.toString());
-            Log.d(this.getClass().getSimpleName(), "JWT hasMyCare = " + hasMyCare());
-
         } catch (Exception e) {
             Timber.e(e);
             e.printStackTrace();

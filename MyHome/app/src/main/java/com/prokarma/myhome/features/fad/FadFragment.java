@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -45,6 +46,7 @@ import com.prokarma.myhome.features.fad.suggestions.FadSuggestions;
 import com.prokarma.myhome.features.fad.suggestions.ProviderSuggestionsAdapter;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -193,6 +195,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 NavigationActivity.setActivityTag(Constants.ActivityTag.FAQ);
                 Intent intentFAQ = new Intent(getActivity(), OptionsActivity.class);
                 ActivityCompat.startActivity(getActivity(), intentFAQ, options.toBundle());
+                return true;
+            case R.id.profile:
+                NavigationActivity.setActivityTag(Constants.ActivityTag.PROFILE_VIEW);
+                Intent intentProfile = new Intent(getActivity(), OptionsActivity.class);
+                ActivityCompat.startActivity(getActivity(), intentProfile, options.toBundle());
                 return true;
             case R.id.contact_us:
                 NavigationActivity.setActivityTag(Constants.ActivityTag.CONTACT_US);
@@ -372,6 +379,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     public boolean onCreateOptionsMenu(ImageView actionMore) {
         PopupMenu popup = new PopupMenu(getActivity(), actionMore);
         popup.getMenuInflater().inflate(R.menu.toolbar_menu, popup.getMenu());
+
+        //users with no access to MyCareNow can see PROFILE right on the bottom tab navigation, hence hiding it here in the Options to avoid duplicates.
+        if (!AuthManager.getInstance().hasMyCare()) {
+            popup.getMenu().findItem(R.id.profile).setVisible(false);
+        }
 
         popup.getMenu().findItem(R.id.version).setTitle("Version - v" + BuildConfig.VERSION_CODE);
         popup.getMenu().findItem(R.id.release_date).setTitle("Release Date - " + BuildConfig.BUILD_TIME);
