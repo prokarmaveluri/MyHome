@@ -142,11 +142,11 @@ public class AuthManager {
         return amWellToken;
     }
 
-    public static boolean hasMyCare() {
+    public boolean hasMyCare() {
         return hasMyCare;
     }
 
-    public static void setHasMyCare(boolean hasMyCare) {
+    public void setHasMyCare(boolean hasMyCare) {
         AuthManager.hasMyCare = hasMyCare;
     }
 
@@ -275,8 +275,6 @@ public class AuthManager {
 
     private void checkMyCareEligibility() {
         try {
-            Log.d(this.getClass().getSimpleName(), "JWT bearerToken " + bearerToken);
-
             JWT jwt = new JWT(bearerToken);
 
             Log.d(this.getClass().getSimpleName(), "JWT subject = " + jwt.getSubject());

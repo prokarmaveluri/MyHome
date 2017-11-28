@@ -1,5 +1,6 @@
 package com.prokarma.myhome.app;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
@@ -109,6 +111,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         MapsInitializer.initialize(getApplicationContext());
         LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
         bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
+        if (AuthManager.getInstance().hasMyCare()) {
+            bottomNavigationView.inflateMenu(R.menu.navigation_menu);
+        } else {
+            bottomNavigationView.inflateMenu(R.menu.navigation_menu_profile);
+        }
         bottomNavigationView.enableAnimation(false);
         bottomNavigationView.enableShiftingMode(false);
         bottomNavigationView.enableItemShiftingMode(false);
@@ -142,7 +149,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                                 break;
 
                             case R.id.profile:
-                                loadFragment(ActivityTag.MY_CARE_NOW_SDK_LOGIN, null);
+                                if (AuthManager.getInstance().hasMyCare()) {
+                                    loadFragment(ActivityTag.MY_CARE_NOW_SDK_LOGIN, null);
+                                } else {
+                                    loadFragment(ActivityTag.PROFILE_VIEW, null);
+                                }
                                 break;
                         }
 
@@ -215,6 +226,16 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case APPOINTMENTS:
                 bottomNavigationView.setSelectedItemId(R.id.appointments);
                 break;
+        }
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void setMyCareVisibility() {
+        BottomNavigationItemView view = bottomNavigationView.getBottomNavigationItemView(3);
+        if (AuthManager.getInstance().hasMyCare()) {
+            view.setTitle(getApplicationContext().getString(R.string.mycare_now));
+        } else {
+            view.setTitle(getApplicationContext().getString(R.string.profile));
         }
     }
 
@@ -553,6 +574,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 }
                 break;
         }
+        setMyCareVisibility();
     }
 
     @Override
@@ -689,6 +711,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onResume() {
         super.onResume();
+
+        setMyCareVisibility();
+
         // session expiry
         if (AuthManager.getInstance().isExpired()) {
             buildSessionAlert(getString(R.string.session_expiry_message));
