@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -15,6 +18,7 @@ import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.SDKUtils;
@@ -64,13 +68,51 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle(getString(R.string.med_history));
         View view = inflater.inflate(R.layout.fragment_medical_history, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.med_history));
 
-        adapter = new HistoryExpandableList(getActivity(), HistoryExpandableList.GROUP.CONDITIONS, SDKUtils.getInstance().getConditions(),
-                SDKUtils.getInstance().getAllergies(), this);
         expandableList = (IndexFastScrollRecyclerView) view.findViewById(R.id.expandableList);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
+
+        bindList(HistoryExpandableList.GROUP.CONDITIONS);
+
+        progressBar.setVisibility(View.VISIBLE);
+        expandableList.setVisibility(View.GONE);
+
+        //getConditions();
+        //getAllergies();
+
+        listListeners(expandableList);
+
+        setHasOptionsMenu(true);
+        return view;
+    }
+
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        return Constants.ActivityTag.MY_MED_HISTORY;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.intake_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.next:
+                bindList(HistoryExpandableList.GROUP.ALLERGIES);
+                adapter.notifyDataSetChanged();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void bindList(HistoryExpandableList.GROUP groupPosition) {
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -79,18 +121,11 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
         expandableList.setIndexBarTextColor("#" + Integer.toHexString(getResources().getColor(R.color.primary)));
         expandableList.setIndexBarColor("#" + Integer.toHexString(getResources().getColor(R.color.white)));
 
+        adapter = new HistoryExpandableList(getActivity(), groupPosition,
+                SDKUtils.getInstance().getConditions(),
+                SDKUtils.getInstance().getAllergies(), this);
         expandableList.setAdapter(adapter);
         CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
-
-        getConditions();
-        getAllergies();
-        listListeners(expandableList);
-        return view;
-    }
-
-    @Override
-    public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.MY_MED_HISTORY;
     }
 
     private void listListeners(final IndexFastScrollRecyclerView expandableList) {
@@ -108,7 +143,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
-//                CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
+                //CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
                 expandableList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                     @Override
                     public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -132,6 +167,8 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
                     public void onResponse(List<Condition> conditions, SDKError sdkError) {
                         if (sdkError == null) {
                             SDKUtils.getInstance().setConditions(conditions);
+
+                            bindList(HistoryExpandableList.GROUP.CONDITIONS);
                             adapter.notifyDataSetChanged();
                         }
                         reqCount--;
@@ -164,7 +201,10 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
                     public void onResponse(List<Allergy> allergies, SDKError sdkError) {
                         if (sdkError == null) {
                             SDKUtils.getInstance().setAllergies(allergies);
-                            adapter.notifyDataSetChanged();
+
+                            //Allergies will be shown when user taps on NEXT
+                            //bindList(HistoryExpandableList.GROUP.ALLERGIES);
+                            //adapter.notifyDataSetChanged();
                         }
                         reqCount--;
                         if (reqCount == 0) {
@@ -180,6 +220,47 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
                             progressBar.setVisibility(View.GONE);
                             expandableList.setVisibility(View.VISIBLE);
                         }
+                    }
+                });
+    }
+
+    private void getConditionsFetchOnly() {
+        reqCount++;
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().getConditions(
+                SDKUtils.getInstance().getConsumer(),
+                new SDKCallback<List<Condition>, SDKError>() {
+                    @Override
+                    public void onResponse(List<Condition> conditions, SDKError sdkError) {
+                        if (sdkError == null) {
+                            SDKUtils.getInstance().setConditions(conditions);
+                        }
+                        reqCount--;
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        reqCount--;
+                    }
+                }
+        );
+    }
+
+    private void getAllergiesFetchOnly() {
+        reqCount++;
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().getAllergies(
+                SDKUtils.getInstance().getConsumer(),
+                new SDKCallback<List<Allergy>, SDKError>() {
+                    @Override
+                    public void onResponse(List<Allergy> allergies, SDKError sdkError) {
+                        if (sdkError == null) {
+                            SDKUtils.getInstance().setAllergies(allergies);
+                        }
+                        reqCount--;
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        reqCount--;
                     }
                 });
     }
