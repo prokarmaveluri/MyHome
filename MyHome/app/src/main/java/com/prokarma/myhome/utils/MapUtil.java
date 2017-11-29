@@ -203,4 +203,19 @@ public class MapUtil {
         if (null != googleMap)
             googleMap.clear();
     }
+
+    @Nullable
+    public static Pharmacy getPharmacy(Marker marker, List<Pharmacy> pharmacies){
+        LatLng pharmacyPosition;
+
+        for (Pharmacy pharmacy : pharmacies) {
+            pharmacyPosition = new LatLng(Double.valueOf(pharmacy.getLatitude()),
+                    Double.valueOf(pharmacy.getLongitude()));
+            if(marker.getTitle().contains(pharmacy.getName()) && pharmacyPosition.equals(marker.getPosition())){
+                return pharmacy;
+            }
+        }
+
+        return null;
+    }
 }

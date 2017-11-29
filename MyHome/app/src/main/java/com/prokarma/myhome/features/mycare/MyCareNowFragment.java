@@ -83,13 +83,12 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         waitingRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Enable for sample app Demo
-//                SampleApplication.getInstance().initVisit(getActivity().getApplicationContext());
-//                Intent intent = new Intent(getActivity(), LoginActivity.class);
-//                startActivity(intent);
+                //Services is ignored
+//                ((NavigationActivity) getActivity()).loadFragment(
+//                        Constants.ActivityTag.MY_CARE_SERVICES, null);
 
                 ((NavigationActivity) getActivity()).loadFragment(
-                        Constants.ActivityTag.MY_CARE_SERVICES, null);
+                        Constants.ActivityTag.MY_CARE_PROVIDERS, null);
             }
         });
 

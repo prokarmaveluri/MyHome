@@ -50,7 +50,7 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
                 ViewHolder holder = (ViewHolder) genericHolder;
                 ProviderDetailsOffice office = locations.get(position);
                 holder.locationText.setText(locations.get(position).toString());
-                holder.pinImage.setContentDescription(locations.get(position).getName().toString()+ ", " + context.getString(R.string.show_in_map));
+                holder.pinImage.setContentDescription(locations.get(position).getName()+ ", " + context.getString(R.string.show_in_map));
                 holder.setOnPinClickListener(office, onItemClickListener);
                 break;
 

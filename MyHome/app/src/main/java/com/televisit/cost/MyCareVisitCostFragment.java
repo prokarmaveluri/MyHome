@@ -26,6 +26,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.SDKUtils;
 
 import java.util.Map;
@@ -88,6 +89,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
         reasonForVisit = (TextInputEditText) view.findViewById(R.id.reasonForVisit);
         reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
         phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
+
+        reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
 
         createVisit();
 
