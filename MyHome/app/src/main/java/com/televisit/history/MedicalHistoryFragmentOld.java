@@ -15,9 +15,7 @@ import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
-import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.List;
@@ -117,7 +115,7 @@ public class MedicalHistoryFragmentOld extends BaseFragment implements HistoryEx
 
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().getConditions(
                 SDKUtils.getInstance().getConsumer(),
                 new SDKCallback<List<Condition>, SDKError>() {
                     @Override
@@ -149,7 +147,7 @@ public class MedicalHistoryFragmentOld extends BaseFragment implements HistoryEx
 
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().getAllergies(
                 SDKUtils.getInstance().getConsumer(),
                 new SDKCallback<List<Allergy>, SDKError>() {
                     @Override
@@ -178,7 +176,7 @@ public class MedicalHistoryFragmentOld extends BaseFragment implements HistoryEx
 
     private void updateConditions() {
         progressBar.setVisibility(View.VISIBLE);
-        AwsManager.getInstance().getAWSDK().getConsumerManager().updateConditions(
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().updateConditions(
                 SDKUtils.getInstance().getConsumer(),
                 SDKUtils.getInstance().getConditions(),
                 new SDKCallback<Void, SDKError>() {
@@ -197,7 +195,7 @@ public class MedicalHistoryFragmentOld extends BaseFragment implements HistoryEx
 
     private void updateAllergies() {
         progressBar.setVisibility(View.VISIBLE);
-        AwsManager.getInstance().getAWSDK().getConsumerManager().updateAllergies(
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().updateAllergies(
                 SDKUtils.getInstance().getConsumer(),
                 SDKUtils.getInstance().getAllergies(),
                 new SDKCallback<Void, SDKError>() {
