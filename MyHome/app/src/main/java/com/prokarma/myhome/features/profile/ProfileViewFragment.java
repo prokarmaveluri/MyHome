@@ -1,7 +1,9 @@
 package com.prokarma.myhome.features.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
@@ -137,6 +141,16 @@ public class ProfileViewFragment extends BaseFragment {
             case R.id.edit_profile:
 //                ((SDKOptionsActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_EDIT,
 //                        null);
+
+                if(getActivity() instanceof NavigationActivity){
+                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_EDIT,
+                            null);
+                } else if(getActivity() instanceof OptionsActivity){
+                    NavigationActivity.setActivityTag(Constants.ActivityTag.PROFILE_EDIT);
+                    Intent intentChangePassword = new Intent(getActivity(), OptionsActivity.class);
+                    ActivityCompat.startActivity(getActivity(), intentChangePassword, null);
+                }
+
                 break;
         }
 

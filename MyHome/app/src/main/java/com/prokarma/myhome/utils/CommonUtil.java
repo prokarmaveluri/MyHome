@@ -38,7 +38,6 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
-import com.televisit.history.HistoryExpandableList;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import timber.log.Timber;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
@@ -608,9 +608,9 @@ public class CommonUtil {
         listView.requestLayout();
     }
 
-    public static void setExpandedListViewHeight(Context context, ExpandableListView listView) {
-        int totalHeight = 0;
-        HistoryExpandableList listAdapter = (HistoryExpandableList) listView.getExpandableListAdapter();
+    public static void setExpandedListViewHeight(Context context, IndexFastScrollRecyclerView listView) {
+        /*int totalHeight = 0;
+        HistoryListAdapter listAdapter = (HistoryListAdapter) listView.getExpandableListAdapter();
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
 
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {
@@ -630,7 +630,7 @@ public class CommonUtil {
             height = 133;
         params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
         listView.setLayoutParams(params);
-        listView.requestLayout();
+        listView.requestLayout();*/
     }
 
     /**

@@ -14,6 +14,7 @@ import com.prokarma.myhome.features.dev.ApiFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.faq.FaqFragment;
 import com.prokarma.myhome.features.home.HomeDidYouKnowFragment;
+import com.prokarma.myhome.features.profile.ProfileEditFragment;
 import com.prokarma.myhome.features.profile.ProfileViewFragment;
 import com.prokarma.myhome.features.settings.ChangePasswordFragment;
 import com.prokarma.myhome.features.settings.ChangeSecQuestionFragment;
@@ -203,6 +204,16 @@ public class OptionsActivity extends BaseActivity {
                 getSupportFragmentManager().executePendingTransactions();
 
                 NavigationActivity.setActivityTag(Constants.ActivityTag.HOME_DID_YOU_KNOW_SEC_2);
+                break;
+            case PROFILE_EDIT:
+                ProfileEditFragment profileEditFragment = ProfileEditFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, profileEditFragment, ProfileEditFragment.PROFILE_EDIT_TAG)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
+
+                NavigationActivity.setActivityTag(Constants.ActivityTag.PROFILE_EDIT);
                 break;
             default:
                 Timber.w("Options Activity found an activity tag that isn't being handled!");
