@@ -133,20 +133,20 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 break;
 
             case R.id.next:
-                if(SDKUtils.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() == 0){
-                   if(isAdded()){
-                       if (SDKUtils.getInstance().getVisit() == null)
-                           break;
+                if (SDKUtils.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() == 0) {
+                    if (isAdded()) {
+                        if (SDKUtils.getInstance().getVisit() == null)
+                            break;
 
-                       if (reasonPhone.getText().toString().length() == 10 && reasonForVisit.getText().toString().length() > 0) {
-                           ((NavigationActivity) getActivity()).loadFragment(
-                                   Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
-                       } else if (reasonPhone.getText().toString().length() != 10) {
-                           phoneLayout.setError("Enter valid phone number");
-                       } else if (reasonForVisit.getText().toString().length() <= 0) {
-                           reasonLayout.setError("Enter valid reason for visit");
-                       }
-                   }
+                        if (reasonPhone.getText().toString().length() == 10 && reasonForVisit.getText().toString().length() > 0) {
+                            ((NavigationActivity) getActivity()).loadFragment(
+                                    Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+                        } else if (reasonPhone.getText().toString().length() != 10) {
+                            phoneLayout.setError("Field must be completed");
+                        } else if (reasonForVisit.getText().toString().length() <= 0) {
+                            reasonLayout.setError("Field must be completed");
+                        }
+                    }
                 } else {
                     Toast.makeText(getContext(), "Your cost isn't free\nYou might want to apply a coupon...", Toast.LENGTH_LONG).show();
                 }
