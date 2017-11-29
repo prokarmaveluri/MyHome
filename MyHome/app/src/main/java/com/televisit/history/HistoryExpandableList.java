@@ -1,14 +1,12 @@
 package com.televisit.history;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.SectionIndexer;
-import android.widget.TextView;
 
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
@@ -21,7 +19,7 @@ import java.util.List;
  * Created by cmajji on 5/16/17.
  */
 
-public class HistoryExpandableList extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SectionIndexer {
+public class HistoryExpandableList extends RecyclerView.Adapter<HistoryExpandableList.MyViewHolder> implements SectionIndexer {
 
     public enum GROUP {
         CONDITIONS(0),
@@ -98,29 +96,69 @@ public class HistoryExpandableList extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(mContext).inflate(R.layout.med_history_child, parent, false);
+        return new MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
 
+        if (groupPosition.getValue() == HistoryExpandableList.GROUP.CONDITIONS.getValue()) {
+            if (position == 0) {
+                holder.view.setText("I don't have any conditions");
+                holder.view.setChecked(false);
+            } else {
+                holder.view.setText(conditions.get(position - 1).getName());
+                holder.view.setChecked(conditions.get(position - 1).isCurrent());
+            }
+
+        } else if (groupPosition.getValue() == HistoryExpandableList.GROUP.ALLERGIES.getValue()) {
+            if (position == 0) {
+                holder.view.setText("I don't have any allergies");
+                holder.view.setChecked(false);
+            } else {
+                holder.view.setText(allergies.get(position - 1).getName());
+                holder.view.setChecked(allergies.get(position - 1).isCurrent());
+            }
+        }
+
+        final int pos = position;
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (groupPosition.getValue() == HistoryExpandableList.GROUP.CONDITIONS.getValue()) {
+                    listener.selectedGroup(groupPosition.getValue(), pos);
+                } else if (groupPosition.getValue() == HistoryExpandableList.GROUP.ALLERGIES.getValue()) {
+                    listener.selectedGroup(groupPosition.getValue(), pos);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
+        //+1 added to account for the "I donot have any conditions/allergies"
         if (GROUP.CONDITIONS.getValue() == groupPosition.getValue()) {
             if (conditions != null) {
-                return conditions.size();
+                return conditions.size() + 1;
             }
         } else if (GROUP.ALLERGIES.getValue() == groupPosition.getValue()) {
             if (allergies != null) {
-                return allergies.size();
+                return allergies.size() + 1;
             }
         }
         return 0;
     }
 
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public CheckBox view;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            view = (CheckBox) itemView.findViewById(R.id.expChild);
+        }
+    }
 
     private static List<String> getGroupTitles() {
         List<String> groups = new ArrayList<>();

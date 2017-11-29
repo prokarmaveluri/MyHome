@@ -3,6 +3,7 @@ package com.televisit.history;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,9 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.SDKUtils;
 
-import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
-
 import java.util.List;
+
+import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +71,14 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
                 SDKUtils.getInstance().getAllergies(), this);
         expandableList = (IndexFastScrollRecyclerView) view.findViewById(R.id.expandableList);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
+
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        expandableList.setLayoutManager(llm);
+
+        expandableList.setIndexBarTextColor("#" + Integer.toHexString(getResources().getColor(R.color.primary)));
+        expandableList.setIndexBarColor("#" + Integer.toHexString(getResources().getColor(R.color.white)));
+
         expandableList.setAdapter(adapter);
         CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
 
