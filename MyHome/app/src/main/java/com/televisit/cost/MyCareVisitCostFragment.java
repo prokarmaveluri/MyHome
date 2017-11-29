@@ -115,8 +115,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStop() {
+        super.onStop();
+        CommonUtil.hideSoftKeyboard(getActivity());
     }
 
     @Override
@@ -144,7 +145,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                         if (AwsManager.getInstance().getVisit() == null)
                             break;
 
-                        if (reasonPhone.getText().toString().length() == 10 && reasonForVisit.getText().toString().length() > 0) {
+                        if (CommonUtil.isValidMobile(reasonPhone.getText().toString()) && reasonForVisit.getText().toString().length() > 0) {
                             ((NavigationActivity) getActivity()).loadFragment(
                                     Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
                         } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString())) {
