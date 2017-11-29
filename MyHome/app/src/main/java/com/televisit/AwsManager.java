@@ -15,6 +15,7 @@ import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.logging.AWSDKLogger;
+import com.prokarma.myhome.BuildConfig;
 
 import java.util.List;
 
@@ -58,7 +59,12 @@ public class AwsManager {
     public void init(Context context) {
         try {
             this.awsdk = AWSDKFactory.getAWSDK(context);
-            awsdk.getDefaultLogger().setPriority(3); // set log level to debug - Log.DEBUG
+
+            if(BuildConfig.REPORT_LOGS){
+                awsdk.getDefaultLogger().setPriority(3); // set log level to debug - Log.DEBUG
+            } else {
+                awsdk.getDefaultLogger().setPriority(6); // set log level to error - Log.ERROR
+            }
 
             // Set the categories for the logs you want displayed. Setting this to null will allow all categories to be displayed.
             @AWSDKLogger.AWSDKLogCategory
