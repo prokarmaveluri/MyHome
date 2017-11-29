@@ -14,103 +14,112 @@
         android:layout_gravity="center"
         android:src="@drawable/mcn_logo" />
 
-    <TextView
-        android:id="@+id/costInfo"
-        style="@style/tradeGothicLTStd_Dynamic20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
-        android:text="@string/visit_cost_desc"
-        android:textStyle="bold" />
-
     <LinearLayout
+        android:id="@+id/intake_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:visibility="visible">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/costInfo"
+            style="@style/tradeGothicLTStd_Dynamic20"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_marginTop="58dp"
+            android:text="@string/visit_cost_desc"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/coupon_code_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/visit_cost_coupon_code"
+                    android:inputType="textCapCharacters|textFilter|textNoSuggestions"
+                    android:text="FREE"
+                    android:textAllCaps="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/apply_button"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@string/visit_cost_apply" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/my_care_reason_phone_sug" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/phone_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/coupon_code_edit_text"
+                android:id="@+id/reasonPhone"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/visit_cost_coupon_code"
-                android:inputType="textCapCharacters|textFilter|textNoSuggestions"
-                android:text="FREE"
-                android:textAllCaps="true" />
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:ems="10"
+                android:hint="@string/phone_number"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="12"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="123-867-5309" />
+
         </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/apply_button"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
+        <TextView
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="@string/visit_cost_apply" />
+            android:text="@string/my_care_reason_sug" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/reason_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/reasonForVisit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="@string/reason"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="I bumped my head" />
+
+        </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
-
-    <TextView
-        style="@style/tradeGothicLTStd_Dynamic18"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/my_care_reason_phone_sug" />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/phone_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@style/error_appearance"
-        app:hintTextAppearance="@style/hint_appearance">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/reasonPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:ems="10"
-            android:hint="@string/phone_number"
-            android:imeOptions="actionNext"
-            android:inputType="phone"
-            android:maxLength="12"
-            android:maxLines="1"
-            android:text="123-867-5309"
-            android:singleLine="true" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <TextView
-        style="@style/tradeGothicLTStd_Dynamic18"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/my_care_reason_sug" />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/reason_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@style/error_appearance"
-        app:hintTextAppearance="@style/hint_appearance">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/reasonForVisit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:hint="@string/reason"
-            android:inputType="textCapSentences"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="I bumped my head" />
-
-    </android.support.design.widget.TextInputLayout>
 
     <ProgressBar
         android:id="@+id/cost_progress"
@@ -118,6 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="48dp"
         android:indeterminate="true"
         android:visibility="gone" />
 </LinearLayout>
