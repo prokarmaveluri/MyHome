@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Allergy;
@@ -89,6 +90,15 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
                 ((NavigationActivity) getActivity()).loadFragment(
                         Constants.ActivityTag.MY_CARE_PROVIDERS, null);
+            }
+        });
+
+        TextView previousVisit = (TextView) view.findViewById(R.id.previous_visits);
+        previousVisit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Vijaya, do your fragment stuff here. Also, look at visit_summary.xml && SummaryFragment.java
+                Toast.makeText(getContext(), "Coming soon to a theater near you!", Toast.LENGTH_LONG).show();
             }
         });
 
