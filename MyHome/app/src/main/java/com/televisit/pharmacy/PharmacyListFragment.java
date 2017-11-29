@@ -24,7 +24,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.List;
 import java.util.Map;
@@ -77,7 +77,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         pharmacyList = (RecyclerView) view.findViewById(R.id.pharmacyList);
         progressBar = (ProgressBar) view.findViewById(R.id.search_progress);
         pharmacySearch.setOnEditorActionListener(this);
-        setListAdapter(SDKUtils.getInstance().getPharmacies());
+        setListAdapter(AwsManager.getInstance().getPharmacies());
         return view;
     }
 
@@ -90,8 +90,8 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     private void getPharmaciesByZip(String zipCode) {
 
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getPharmacies(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
+                AwsManager.getInstance().getConsumer(),
                 null,
                 null,
                 null,
@@ -104,7 +104,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                     @Override
                     public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setPharmacies(pharmacies);
+                            AwsManager.getInstance().setPharmacies(pharmacies);
                             setListAdapter(pharmacies);
                             SearchPharmacies object = new SearchPharmacies();
                             object.setPharmacies(pharmacies);
@@ -128,8 +128,8 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                                @NonNull final int radius,
                                @NonNull final boolean excludeMailOrder) {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getPharmacies(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
+                AwsManager.getInstance().getConsumer(),
                 latitude,
                 longitude,
                 radius,
@@ -188,7 +188,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     @Override
     public void onDestroy() {
         super.onDestroy();
-        SDKUtils.getInstance().setPharmacies(null);
+        AwsManager.getInstance().setPharmacies(null);
     }
 
     public class SearchPharmacies {

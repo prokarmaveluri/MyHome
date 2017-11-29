@@ -19,7 +19,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.Map;
 
@@ -79,7 +79,7 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SDKUtils.getInstance().getVisit() == null)
+                if (AwsManager.getInstance().getVisit() == null)
                     return;
 
                 if (reasonPhone.getText().toString().length() == 10 &&
@@ -88,7 +88,7 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
                     if (getActivity() != null) {
                         ((NavigationActivity) getActivity()).onBackPressed();
                     }
-                    if (!SDKUtils.getInstance().getVisit().getVisitCost().isFree()) {
+                    if (!AwsManager.getInstance().getVisit().getVisitCost().isFree()) {
                         ((NavigationActivity) getActivity()).loadFragment(
                                 Constants.ActivityTag.MY_CARE_COST, null);
                     } else {
@@ -118,8 +118,8 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
 
     private void createVisit() {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
-                SDKUtils.getInstance().getVisitContext(),
+        AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
+                AwsManager.getInstance().getVisitContext(),
                 new SDKValidatedCallback<Visit, SDKError>() {
                     @Override
                     public void onValidationFailure(Map<String, ValidationReason> map) {
@@ -130,7 +130,7 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
                     @Override
                     public void onResponse(Visit visit, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setVisit(visit);
+                            AwsManager.getInstance().setVisit(visit);
                         }
                         progressBar.setVisibility(View.GONE);
                     }

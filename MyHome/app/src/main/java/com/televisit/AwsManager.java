@@ -32,8 +32,8 @@ import static com.americanwell.sdk.logging.AWSDKLogger.LOG_CATEGORY_VISIT;
  * Created by cmajji on 10/31/17.
  */
 
-public class SDKUtils {
-    private static final SDKUtils ourInstance = new SDKUtils();
+public class AwsManager {
+    private static final AwsManager ourInstance = new AwsManager();
     private static AWSDK awsdk = null;
 
     private List<Allergy> allergies;
@@ -48,11 +48,11 @@ public class SDKUtils {
     private Consumer consumer;
     private boolean hasMedicationsFilledOut;
 
-    public static SDKUtils getInstance() {
+    public static AwsManager getInstance() {
         return ourInstance;
     }
 
-    private SDKUtils() {
+    private AwsManager() {
     }
 
     public void init(Context context) {
