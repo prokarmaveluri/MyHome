@@ -435,7 +435,7 @@
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
     <string name="mycare_now">My Care Now</string>
     <string name="med_history">My Medical History</string>
-    <string name="pharmacy_search_hint">Search by Location/Zip</string>
+    <string name="pharmacy_search_hint">Search Zip Code</string>
 
     <string name="history_desc">Tell me a little more about yourself so I can help you get proper care.\n\nWhat is your medical history?\nCheck all that you apply.</string>
     <string name="medication_desc">To make sure you\'re correctly prescribed, are you taking any medications?</string>
@@ -458,6 +458,7 @@
     <string name="your_visit_has_ended">Your visit has ended.</string>
     <string name="previous_visit_summaries">Previous Visit Summaries</string>
     <string name="no_previous_visits">You have no previous visits.</string>
+    <string name="field_must_be_completed">Field must be completed</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

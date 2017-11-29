@@ -21,7 +21,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.List;
 
@@ -78,7 +78,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
         selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
         bindList();
 
-        if (SDKUtils.getInstance().getConditions() != null && SDKUtils.getInstance().getConditions().size() > 0) {
+        if (AwsManager.getInstance().getConditions() != null && AwsManager.getInstance().getConditions().size() > 0) {
             progressBar.setVisibility(View.GONE);
             expandableList.setVisibility(View.VISIBLE);
         } else {
@@ -153,8 +153,8 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
         expandableList.setIndexBarColor("#" + Integer.toHexString(getResources().getColor(R.color.white)));
 
         adapter = new HistoryListAdapter(getActivity(), selectedGroup,
-                SDKUtils.getInstance().getConditions(),
-                SDKUtils.getInstance().getAllergies(), this);
+                AwsManager.getInstance().getConditions(),
+                AwsManager.getInstance().getAllergies(), this);
         expandableList.setAdapter(adapter);
     }
 
@@ -162,13 +162,13 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
 
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getConditions(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
+                AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Condition>, SDKError>() {
                     @Override
                     public void onResponse(List<Condition> conditions, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setConditions(conditions);
+                            AwsManager.getInstance().setConditions(conditions);
 
                             selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
                             bindList();
@@ -197,13 +197,13 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
 
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getAllergies(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
+                AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Allergy>, SDKError>() {
                     @Override
                     public void onResponse(List<Allergy> allergies, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setAllergies(allergies);
+                            AwsManager.getInstance().setAllergies(allergies);
                         }
                         reqCount--;
                         if (reqCount == 0) {
@@ -225,9 +225,9 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
 
     private void updateConditions() {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().updateConditions(
-                SDKUtils.getInstance().getConsumer(),
-                SDKUtils.getInstance().getConditions(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateConditions(
+                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getConditions(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
@@ -245,9 +245,9 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
 
     private void updateAllergies() {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().updateAllergies(
-                SDKUtils.getInstance().getConsumer(),
-                SDKUtils.getInstance().getAllergies(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateAllergies(
+                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getAllergies(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
@@ -268,21 +268,21 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
 
         if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == groupSelected) {
             if (childPosition == 0) {
-                for (Condition condition : SDKUtils.getInstance().getConditions()) {
+                for (Condition condition : AwsManager.getInstance().getConditions()) {
                     condition.setCurrent(false);
                 }
             } else {
-                SDKUtils.getInstance().getConditions().get(childPosition - 1).setCurrent(
-                        !SDKUtils.getInstance().getConditions().get(childPosition - 1).isCurrent());
+                AwsManager.getInstance().getConditions().get(childPosition - 1).setCurrent(
+                        !AwsManager.getInstance().getConditions().get(childPosition - 1).isCurrent());
             }
         } else {
             if (childPosition == 0) {
-                for (Allergy allergy : SDKUtils.getInstance().getAllergies()) {
+                for (Allergy allergy : AwsManager.getInstance().getAllergies()) {
                     allergy.setCurrent(false);
                 }
             } else {
-                SDKUtils.getInstance().getAllergies().get(childPosition - 1).setCurrent(
-                        !SDKUtils.getInstance().getAllergies().get(childPosition - 1).isCurrent());
+                AwsManager.getInstance().getAllergies().get(childPosition - 1).setCurrent(
+                        !AwsManager.getInstance().getAllergies().get(childPosition - 1).isCurrent());
             }
         }
         adapter.notifyDataSetChanged();

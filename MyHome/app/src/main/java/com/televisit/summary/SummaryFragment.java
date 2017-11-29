@@ -18,7 +18,7 @@ import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.views.CircularImageView;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 public class SummaryFragment extends Fragment {
     public static final String SUMMARY_TAG = "summary_tag";
@@ -77,8 +77,8 @@ public class SummaryFragment extends Fragment {
 
     private void getVisitSummary() {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK()
-                .getVisitManager().getVisitSummary(SDKUtils.getInstance().getVisit(),
+        AwsManager.getInstance().getAWSDK()
+                .getVisitManager().getVisitSummary(AwsManager.getInstance().getVisit(),
                 new SDKCallback<VisitSummary, SDKError>() {
                     @Override
                     public void onResponse(VisitSummary visitSummary, SDKError sdkError) {
@@ -99,7 +99,7 @@ public class SummaryFragment extends Fragment {
     private void updateDocImage() {
         if (summary.getAssignedProviderInfo().hasImage()) {
             // preferred method for loading image
-            SDKUtils.getInstance().getAWSDK().getPracticeProvidersManager()
+            AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(summary.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
                     .build()
                     .load();

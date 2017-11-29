@@ -25,7 +25,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.List;
 
@@ -87,8 +87,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
     private void getProviders() {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
+                AwsManager.getInstance().getConsumer(),
                 practiceInfo,
                 null,
                 null,
@@ -158,13 +158,13 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     private void getVisitContext(ProviderInfo info) {
-        SDKUtils.getInstance().getAWSDK()
-                .getVisitManager().getVisitContext(SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK()
+                .getVisitManager().getVisitContext(AwsManager.getInstance().getConsumer(),
                 info, new SDKCallback<VisitContext, SDKError>() {
                     @Override
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setVisitContext(visitContext);
+                            AwsManager.getInstance().setVisitContext(visitContext);
                             if (isAdded() && getActivity() != null) {
                                 ((NavigationActivity) getActivity()).loadFragment(
                                         Constants.ActivityTag.MY_CARE_COST, null);

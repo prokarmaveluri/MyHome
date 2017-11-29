@@ -33,7 +33,7 @@ import com.prokarma.myhome.features.fad.MapClusterItem;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
 import com.squareup.otto.Subscribe;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.lang.ref.WeakReference;
 
@@ -207,7 +207,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
             map.clear();
             mClusterManager.clearItems();
 
-            if (SDKUtils.getInstance().getPharmacies() == null || SDKUtils.getInstance().getPharmacies().size() <= 0) {
+            if (AwsManager.getInstance().getPharmacies() == null || AwsManager.getInstance().getPharmacies().size() <= 0) {
                 Timber.i("No Pharmacies");
                 currClusterPosition = new LatLng(Double.valueOf(FadManager.getInstance().getLocation().getLat()),
                         Double.valueOf(FadManager.getInstance().getLocation().getLong()));
@@ -217,7 +217,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
             }
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-            for (Pharmacy pharmacy : SDKUtils.getInstance().getPharmacies()) {
+            for (Pharmacy pharmacy : AwsManager.getInstance().getPharmacies()) {
 
                 LatLng position = new LatLng(Double.valueOf(pharmacy.getLatitude()),
                         Double.valueOf(pharmacy.getLongitude()));
@@ -280,7 +280,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
                 switch (msg.what) {
                     case MAP_PROVIDER_DETAILS:
                         if (mapViewFragment.marker != null) {
-                            Pharmacy pharmacy = MapUtil.getPharmacy(mapViewFragment.marker, SDKUtils.getInstance().getPharmacies());
+                            Pharmacy pharmacy = MapUtil.getPharmacy(mapViewFragment.marker, AwsManager.getInstance().getPharmacies());
                             if(pharmacy != null){
                                 mapViewFragment.launchPharmacyDetails(pharmacy);
                             }

@@ -20,7 +20,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +60,7 @@ public class SDKLoginFragment extends BaseFragment {
         if (getArguments() != null) {
         }
 
-        awsdk = SDKUtils.getInstance().getAWSDK();
+        awsdk = AwsManager.getInstance().getAWSDK();
     }
 
     @Override
@@ -129,7 +129,7 @@ public class SDKLoginFragment extends BaseFragment {
                     @Override
                     public void onResponse(Authentication authentication, SDKError sdkError) {
                         if (sdkError == null && isAdded()) {
-                            SDKUtils.getInstance().setAuthentication(authentication);
+                            AwsManager.getInstance().setAuthentication(authentication);
                             getConsumer(authentication);
                         } else {
                             if (isAdded())
@@ -152,7 +152,7 @@ public class SDKLoginFragment extends BaseFragment {
                     @Override
                     public void onResponse(Authentication authentication, SDKError sdkError) {
                         if (sdkError == null && isAdded()) {
-                            SDKUtils.getInstance().setAuthentication(authentication);
+                            AwsManager.getInstance().setAuthentication(authentication);
                             getConsumer(authentication);
                         } else {
                             Toast.makeText(getContext(), "Error: " + sdkError.getHttpResponseCode() + "\n" + sdkError.getMessage(), Toast.LENGTH_LONG).show();
@@ -177,7 +177,7 @@ public class SDKLoginFragment extends BaseFragment {
                     @Override
                     public void onResponse(Consumer consumer, SDKError sdkError) {
                         if (sdkError == null && isAdded()) {
-                            SDKUtils.getInstance().setConsumer(consumer);
+                            AwsManager.getInstance().setConsumer(consumer);
                             progressBar.setVisibility(View.GONE);
                             ((NavigationActivity) getActivity()).loadFragment(
                                     Constants.ActivityTag.MY_CARE_NOW, null);
@@ -199,15 +199,15 @@ public class SDKLoginFragment extends BaseFragment {
     }
 
     private void getServices() {
-        if (SDKUtils.getInstance().getConsumer() == null)
+        if (AwsManager.getInstance().getConsumer() == null)
             return;
         awsdk.getPracticeProvidersManager().getPractices(
-                SDKUtils.getInstance().getConsumer(),
+                AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Practice>, SDKError>() {
                     @Override
                     public void onResponse(List<Practice> practices, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setPractices(practices);
+                            AwsManager.getInstance().setPractices(practices);
                         }
                     }
 

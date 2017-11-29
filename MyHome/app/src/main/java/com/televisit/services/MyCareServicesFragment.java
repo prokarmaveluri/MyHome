@@ -17,7 +17,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.List;
 
@@ -78,8 +78,8 @@ public class MyCareServicesFragment extends BaseFragment implements ServicesList
 
     private void getServices() {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK()
-                .getPracticeProvidersManager().getPractices(SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK()
+                .getPracticeProvidersManager().getPractices(AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Practice>, SDKError>() {
                     @Override
                     public void onResponse(List<Practice> practices, SDKError sdkError) {

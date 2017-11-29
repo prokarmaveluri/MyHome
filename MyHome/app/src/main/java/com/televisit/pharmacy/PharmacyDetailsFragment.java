@@ -25,7 +25,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.ArrayList;
 
@@ -121,21 +121,21 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
                 break;
 
             case R.id.save_pharmacy:
-                SDKUtils.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
-                        SDKUtils.getInstance().getConsumer(),
+                AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
+                        AwsManager.getInstance().getConsumer(),
                         pharmacy,
                         new SDKCallback<Void, SDKError>() {
                             @Override
                             public void onResponse(Void aVoid, SDKError sdkError) {
                                 if (sdkError == null) {
-                                    SDKUtils.getInstance().setConsumerPharmacy(pharmacy);
+                                    AwsManager.getInstance().setConsumerPharmacy(pharmacy);
                                     if (isAdded()) {
                                         getActivity().onBackPressed();
                                     }
                                 } else {
                                     Timber.e("Something failed! :/");
                                     Timber.e("SDK Error: " + sdkError);
-                                    //SDKUtils.getInstance().setConsumerPharmacy(null);
+                                    //AwsManager.getInstance().setConsumerPharmacy(null);
                                 }
                             }
 
@@ -143,7 +143,7 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
                             public void onFailure(Throwable throwable) {
                                 Timber.e("Something failed! :/");
                                 Timber.e("Throwable = " + throwable);
-                                //SDKUtils.getInstance().setConsumerPharmacy(null);
+                                //AwsManager.getInstance().setConsumerPharmacy(null);
                             }
                         }
                 );
