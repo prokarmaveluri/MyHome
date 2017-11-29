@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.health.Allergy;
+import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -91,6 +93,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             }
         });
 
+        getConditionsFetchOnly();
+        getAllergiesFetchOnly();
+
         return view;
     }
 
@@ -140,6 +145,41 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                     @Override
                     public void onFailure(Throwable throwable) {
 
+                    }
+                });
+    }
+
+    private void getConditionsFetchOnly() {
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().getConditions(
+                SDKUtils.getInstance().getConsumer(),
+                new SDKCallback<List<Condition>, SDKError>() {
+                    @Override
+                    public void onResponse(List<Condition> conditions, SDKError sdkError) {
+                        if (sdkError == null) {
+                            SDKUtils.getInstance().setConditions(conditions);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                    }
+                }
+        );
+    }
+
+    private void getAllergiesFetchOnly() {
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().getAllergies(
+                SDKUtils.getInstance().getConsumer(),
+                new SDKCallback<List<Allergy>, SDKError>() {
+                    @Override
+                    public void onResponse(List<Allergy> allergies, SDKError sdkError) {
+                        if (sdkError == null) {
+                            SDKUtils.getInstance().setAllergies(allergies);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
                     }
                 });
     }

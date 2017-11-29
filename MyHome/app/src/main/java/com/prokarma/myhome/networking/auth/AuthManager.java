@@ -139,7 +139,7 @@ public class AuthManager {
     }
 
     public boolean hasMyCare() {
-        return hasMyCare;
+        return true; //hasMyCare;
     }
 
     public void setHasMyCare(boolean hasMyCare) {
