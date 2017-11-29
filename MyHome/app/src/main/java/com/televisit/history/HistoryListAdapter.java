@@ -2,6 +2,7 @@ package com.televisit.history;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +126,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             holder.view.setTag(position);
         }
 
-        //final int pos = position;
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

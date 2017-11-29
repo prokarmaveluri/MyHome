@@ -4,6 +4,7 @@ package com.televisit.history;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +38,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
     private IndexFastScrollRecyclerView expandableList;
     private ProgressBar progressBar;
     private HistoryListAdapter adapter;
-    private int selectedGroup = -1;
+    private HistoryListAdapter.GROUP selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
     private int reqCount = 0;
 
     public static final String MED_HISTORY_TAG = "history_view_tag";
@@ -74,7 +75,8 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
         expandableList = (IndexFastScrollRecyclerView) view.findViewById(R.id.expandableList);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
 
-        bindList(HistoryListAdapter.GROUP.CONDITIONS);
+        selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
+        bindList();
 
         if (SDKUtils.getInstance().getConditions() != null && SDKUtils.getInstance().getConditions().size() > 0) {
             progressBar.setVisibility(View.GONE);
@@ -105,7 +107,8 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.next:
-                bindList(HistoryListAdapter.GROUP.ALLERGIES);
+                selectedGroup = HistoryListAdapter.GROUP.ALLERGIES;
+                bindList();
                 adapter.notifyDataSetChanged();
                 break;
         }
@@ -113,7 +116,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
         return super.onOptionsItemSelected(item);
     }
 
-    private void bindList(HistoryListAdapter.GROUP groupPosition) {
+    private void bindList() {
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -122,7 +125,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
         expandableList.setIndexBarTextColor("#" + Integer.toHexString(getResources().getColor(R.color.primary)));
         expandableList.setIndexBarColor("#" + Integer.toHexString(getResources().getColor(R.color.white)));
 
-        adapter = new HistoryListAdapter(getActivity(), groupPosition,
+        adapter = new HistoryListAdapter(getActivity(), selectedGroup,
                 SDKUtils.getInstance().getConditions(),
                 SDKUtils.getInstance().getAllergies(), this);
         expandableList.setAdapter(adapter);
@@ -141,7 +144,8 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
                         if (sdkError == null) {
                             SDKUtils.getInstance().setConditions(conditions);
 
-                            bindList(HistoryListAdapter.GROUP.CONDITIONS);
+                            selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
+                            bindList();
                             adapter.notifyDataSetChanged();
                         }
                         reqCount--;
@@ -174,10 +178,6 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
                     public void onResponse(List<Allergy> allergies, SDKError sdkError) {
                         if (sdkError == null) {
                             SDKUtils.getInstance().setAllergies(allergies);
-
-                            //Allergies will be shown when user taps on NEXT
-                            //bindList(HistoryListAdapter.GROUP.ALLERGIES);
-                            //adapter.notifyDataSetChanged();
                         }
                         reqCount--;
                         if (reqCount == 0) {
@@ -205,6 +205,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
+                        adapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
                     }
 
@@ -224,6 +225,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
+                        adapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
                     }
 
@@ -239,12 +241,28 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
     public void selectedGroup(int groupPosition, int childPosition) {
 
         if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == groupPosition) {
-            SDKUtils.getInstance().getConditions().get(childPosition).setCurrent(
-                    !SDKUtils.getInstance().getConditions().get(childPosition).isCurrent());
+            Log.d(this.getClass().getSimpleName(), "MH. conditions. selectedGroup childPosition = " + childPosition);
+
+            if (childPosition == 0) {
+                for (Condition condition : SDKUtils.getInstance().getConditions()) {
+                    condition.setCurrent(false);
+                }
+            } else {
+                SDKUtils.getInstance().getConditions().get(childPosition).setCurrent(
+                        !SDKUtils.getInstance().getConditions().get(childPosition - 1).isCurrent());
+            }
             updateConditions();
         } else {
-            SDKUtils.getInstance().getAllergies().get(childPosition).setCurrent(
-                    !SDKUtils.getInstance().getAllergies().get(childPosition).isCurrent());
+            Log.d(this.getClass().getSimpleName(), "MH. allergies. selectedGroup childPosition = " + childPosition);
+            if (childPosition == 0) {
+                SDKUtils.getInstance().getAllergies().get(childPosition).setCurrent(false);
+                for (Allergy allergy : SDKUtils.getInstance().getAllergies()) {
+                    allergy.setCurrent(false);
+                }
+            } else {
+                SDKUtils.getInstance().getAllergies().get(childPosition).setCurrent(
+                        !SDKUtils.getInstance().getAllergies().get(childPosition - 1).isCurrent());
+            }
             updateAllergies();
         }
     }
