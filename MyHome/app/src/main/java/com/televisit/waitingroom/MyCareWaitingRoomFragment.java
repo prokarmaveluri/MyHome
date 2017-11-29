@@ -25,7 +25,6 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 import com.televisit.summary.SummaryFragment;
 
@@ -112,7 +111,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
 
         Timber.e("Starting visit....");
 
-        AwsManager.getInstance().getAWSDK().getVisitManager().startVisit(
+        SDKUtils.getInstance().getAWSDK().getVisitManager().startVisit(
                 SDKUtils.getInstance().getVisit(),
                 location,
                 visitFinishedIntent,
@@ -197,7 +196,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
     public void abandonVisit() {
         // called by onDestroy()
         // this is to ensure we don't have any polling hanging out when it shouldn't be
-        AwsManager.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
+        SDKUtils.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
     }
 
     public void setVisitIntent(final Intent intent) {

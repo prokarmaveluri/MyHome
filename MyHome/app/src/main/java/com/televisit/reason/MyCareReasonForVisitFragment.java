@@ -19,7 +19,6 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.Map;
@@ -119,7 +118,7 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
 
     private void createVisit() {
         progressBar.setVisibility(View.VISIBLE);
-        AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
+        SDKUtils.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
                 SDKUtils.getInstance().getVisitContext(),
                 new SDKValidatedCallback<Visit, SDKError>() {
                     @Override

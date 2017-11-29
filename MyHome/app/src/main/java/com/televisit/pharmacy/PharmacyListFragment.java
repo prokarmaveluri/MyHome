@@ -23,7 +23,6 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.List;
@@ -90,7 +89,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     private void getPharmaciesByZip(String zipCode) {
 
         progressBar.setVisibility(View.VISIBLE);
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 SDKUtils.getInstance().getConsumer(),
                 null,
                 null,
@@ -128,7 +127,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                                @NonNull final int radius,
                                @NonNull final boolean excludeMailOrder) {
         progressBar.setVisibility(View.VISIBLE);
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 SDKUtils.getInstance().getConsumer(),
                 latitude,
                 longitude,

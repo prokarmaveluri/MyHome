@@ -151,7 +151,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
             map.setOnCameraMoveListener(this);
             addMarkers();
         } catch (NullPointerException | IllegalStateException ex) {
-
+            Timber.e(ex);
         }
     }
 
@@ -177,11 +177,12 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
         protected void onBeforeClusterItemRendered(MapClusterItem item, MarkerOptions markerOptions) {
             super.onBeforeClusterItemRendered(item, markerOptions);
             try {
-                if (null != getActivity() && isAdded()) {
+                if (isAdded()) {
                     BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(getActivity(), R.mipmap.one_pin);
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawable.getBitmap()));
                 }
             } catch (NullPointerException ex) {
+                Timber.e(ex);
             }
         }
     }
@@ -222,6 +223,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
             map.setOnInfoWindowClickListener(this);
             map.setOnCameraMoveCanceledListener(this);
         } catch (NullPointerException | NumberFormatException | IllegalStateException ex) {
+            Timber.e(ex);
         }
     }
 

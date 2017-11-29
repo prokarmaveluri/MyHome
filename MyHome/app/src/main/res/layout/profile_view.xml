@@ -93,7 +93,6 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/plan_label"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,7 +110,6 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/id_label"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,7 +127,6 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/group_label"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

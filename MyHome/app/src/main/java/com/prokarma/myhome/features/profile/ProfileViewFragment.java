@@ -1,6 +1,5 @@
 package com.prokarma.myhome.features.profile;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.americanwell.sdksample.login.LoginActivity;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -25,7 +23,6 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
-import com.televisit.AwsManager;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -115,10 +112,10 @@ public class ProfileViewFragment extends BaseFragment {
         videoVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                AwsManager.getInstance().init(getActivity().getApplicationContext());
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
+                //TODO Are we launching Video visit from profile???
+//                AwsManager.getInstance().init(getActivity().getApplicationContext());
+//                Intent intent = new Intent(getActivity(), LoginActivity.class);
+//                startActivity(intent);
             }
         });
         return profileView;

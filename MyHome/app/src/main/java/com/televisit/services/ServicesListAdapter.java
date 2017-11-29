@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterServicesListItemBinding;
-import com.televisit.AwsManager;
+import com.televisit.SDKUtils;
 
 import java.util.List;
 
@@ -69,7 +69,7 @@ public class ServicesListAdapter extends RecyclerView.Adapter<ServicesListAdapte
 
             if (practice.hasSmallLogo()) {
                 // preferred method for loading image
-                AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
+                SDKUtils.getInstance().getAWSDK().getPracticeProvidersManager()
                         .newImageLoader(practice, binding.serviceImage, false)
                         .build()
                         .load();

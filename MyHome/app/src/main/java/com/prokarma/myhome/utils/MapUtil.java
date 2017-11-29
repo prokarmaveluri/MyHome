@@ -86,11 +86,11 @@ public class MapUtil {
     }
 
     /**
-     * Adds Map Markers for Offices
+     * Adds Map Markers for a Pharmacy
      *
      * @param context
      * @param googleMap        the google map object we're adding markers to
-     * @param offices          an ArrayList of Offices
+     * @param pharmacy         the Pharmacy we're making a marker of
      * @param bitmapDescriptor the icon of the map markers
      * @param listener         the clickListener of the map markers
      * @return an ArrayList of all the markers that were added
@@ -98,15 +98,15 @@ public class MapUtil {
     public static ArrayList<Marker> addMapMarkers(Context context, @NonNull GoogleMap googleMap, @NonNull Pharmacy pharmacy, @NonNull BitmapDescriptor bitmapDescriptor, GoogleMap.OnMarkerClickListener listener) {
         ArrayList<Marker> markers = new ArrayList<>();
         if (googleMap != null && pharmacy != null) {
-                markers.add(googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(pharmacy.getLatitude(), pharmacy.getLongitude()))
-                        .title(pharmacy.getName() != null ? pharmacy.getName() : pharmacy.getAddress().getAddress1())
-                        .snippet(pharmacy.getAddress() != null ? CommonUtil.getPharmacyAddress(pharmacy) : context.getString(R.string.address_unknown))
-                        .icon(bitmapDescriptor)));
+            markers.add(googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(pharmacy.getLatitude(), pharmacy.getLongitude()))
+                    .title(pharmacy.getName() != null ? pharmacy.getName() : pharmacy.getAddress().getAddress1())
+                    .snippet(pharmacy.getAddress() != null ? CommonUtil.getPharmacyAddress(pharmacy) : context.getString(R.string.address_unknown))
+                    .icon(bitmapDescriptor)));
 
-                if (listener != null) {
-                    googleMap.setOnMarkerClickListener(listener);
-                }
+            if (listener != null) {
+                googleMap.setOnMarkerClickListener(listener);
+            }
         } else {
             Timber.e("GoogleMap object provided was null. Returning empty set of markers...");
         }

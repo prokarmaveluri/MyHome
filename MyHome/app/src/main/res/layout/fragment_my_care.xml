@@ -64,7 +64,6 @@
                 android:src="@drawable/mcn_personal_info" />
 
             <TextView
-                android:id="@+id/personal_info_text"
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,7 +91,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/personal_info_desc"
                 style="@style/tradeGothicLTStd_Dynamic16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,7 +116,6 @@
                 android:src="@drawable/mcn_medical_history" />
 
             <TextView
-                android:id="@+id/medical_history_text"
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,7 +142,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/medical_history_desc"
                 style="@style/tradeGothicLTStd_Dynamic16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -171,7 +167,6 @@
                 android:src="@drawable/mcn_medications" />
 
             <TextView
-                android:id="@+id/medications_text"
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -209,7 +204,6 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/pharmacy_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/personal_info_layout"
@@ -224,7 +218,6 @@
                 android:src="@drawable/mcn_pharmacy" />
 
             <TextView
-                android:id="@+id/pharmacy_text"
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

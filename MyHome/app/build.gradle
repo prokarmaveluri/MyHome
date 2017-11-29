@@ -1,3 +1,4 @@
+//noinspection UnusedResources
 apply plugin: 'com.android.application'
 
 android {

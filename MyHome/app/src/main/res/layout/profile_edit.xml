@@ -259,7 +259,6 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/email_label"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -276,7 +275,6 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/email_notice"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -286,7 +284,6 @@
                 android:textSize="13sp" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/plan_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"

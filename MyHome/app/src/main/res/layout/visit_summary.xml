@@ -19,7 +19,6 @@
             android:scaleType="centerInside" />
 
         <TextView
-            android:id="@+id/doc_name"
             style="@style/tradeGothicLTStdLight_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

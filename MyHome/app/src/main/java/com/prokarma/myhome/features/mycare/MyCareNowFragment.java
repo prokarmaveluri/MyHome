@@ -19,7 +19,6 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.List;
@@ -131,7 +130,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerPharmacy() {
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
+        SDKUtils.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
                 SDKUtils.getInstance().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
                     @Override
                     public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
