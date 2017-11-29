@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"

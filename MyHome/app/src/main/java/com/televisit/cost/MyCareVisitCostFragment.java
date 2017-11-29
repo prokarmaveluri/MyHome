@@ -208,6 +208,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     public void onResponse(Visit visit, SDKError sdkError) {
                         if (sdkError == null) {
                             SDKUtils.getInstance().setVisit(visit);
+                            applyCoupon("Free");
                             costInfo.setText(getString(R.string.visit_cost_desc) +
                                     SDKUtils.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
                         }
