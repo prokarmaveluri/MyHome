@@ -63,6 +63,7 @@ import com.televisit.login.SDKLoginFragment;
 import com.televisit.medications.MedicationsFragment;
 import com.televisit.pharmacy.PharmaciesFragment;
 import com.televisit.pharmacy.PharmacyDetailsFragment;
+import com.televisit.previousvisit.PreviousVisitsFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.SummaryFragment;
@@ -514,6 +515,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     setActivityTag(ActivityTag.MY_CARE_WAITING_ROOM);
                 }
                 break;
+
             case MY_MED_HISTORY:
                 if (getActivityTag() != ActivityTag.MY_MED_HISTORY) {
                     getSupportFragmentManager().executePendingTransactions();
@@ -578,6 +580,25 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     setActivityTag(Constants.ActivityTag.MY_PHARMACY_DETAILS);
                 }
                 break;
+
+
+            case PREVIOUS_VISITS_SUMMARY:
+                if (getActivityTag() != ActivityTag.PREVIOUS_VISITS_SUMMARY) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    PreviousVisitsFragment peviousVisitFragment = PreviousVisitsFragment.newInstance();
+                    peviousVisitFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, peviousVisitFragment, PreviousVisitsFragment.PREVIOUS_VISITS_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.PREVIOUS_VISITS_SUMMARY);
+                }
+                break;
+
             case VISIT_SUMMARY:
                 if (getActivityTag() != ActivityTag.VISIT_SUMMARY) {
                     getSupportFragmentManager().executePendingTransactions();

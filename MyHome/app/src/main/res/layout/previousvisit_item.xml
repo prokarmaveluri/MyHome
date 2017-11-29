@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/previousvisit_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:minHeight="48dp"
+    tools:ignore="HardcodedText">
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/tradeGothicLTStd_Dynamic22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@+id/time"
+        android:text="Mar 4, 2017"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/time"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/db_deep_aqua"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center"
+        android:maxWidth="285dp"
+        android:text="@string/view" />
+
+    <TextView
+        android:id="@+id/facility"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        android:maxWidth="285dp"
+        android:text="Sequoia Hospital" />
+
+    <TextView
+        android:id="@+id/doctor_name"
+        style="@style/tradeGothicLTStd_Dynamic16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/facility"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
+        android:maxWidth="285dp"
+        android:text="Dr. Steven M. Howard, MD" />
+
+</RelativeLayout>

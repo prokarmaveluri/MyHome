@@ -128,6 +128,7 @@
     <string name="password_criteria_special_char"><![CDATA[At least one special character: !@#$%^&*]]></string>
     <string name="education">Education</string>
     <string name="done">Done</string>
+    <string name="view">View</string>
     <string name="book_success">Your appointment is confirmed. We’ll see you then!</string>
     <string name="get_directions">Get Directions</string>
     <string name="save_profile_title">Save Changes</string>
@@ -455,6 +456,8 @@
     <string name="waiting_room_title">Waiting Room</string>
     <string name="view_previous_visits">View Previous Visits</string>
     <string name="your_visit_has_ended">Your visit has ended.</string>
+    <string name="previous_visit_summaries">Previous Visit Summaries</string>
+    <string name="no_previous_visits">You have no previous visits.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

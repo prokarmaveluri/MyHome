@@ -156,7 +156,6 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
                 SDKUtils.getInstance().getConditions(),
                 SDKUtils.getInstance().getAllergies(), this);
         expandableList.setAdapter(adapter);
-        CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
     }
 
     private void getConditions() {
