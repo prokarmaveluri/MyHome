@@ -375,6 +375,10 @@
     <!-- Vitals -->
 
     <!-- Medical History -->
+    <string name="conditions">Conditions</string>
+    <string name="allergies">Allergies</string>
+    <string name="no_conditions">I don\'t have any conditions</string>
+    <string name="no_allergies">I don\'t have any allergies</string>
 
     <!-- Medications -->
 

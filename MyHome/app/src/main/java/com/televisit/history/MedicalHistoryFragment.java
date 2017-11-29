@@ -4,7 +4,6 @@ package com.televisit.history;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +37,8 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
     private IndexFastScrollRecyclerView expandableList;
     private ProgressBar progressBar;
     private HistoryListAdapter adapter;
-    private HistoryListAdapter.GROUP selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
+    private Menu menu;
+    public HistoryListAdapter.GROUP selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
     private int reqCount = 0;
 
     public static final String MED_HISTORY_TAG = "history_view_tag";
@@ -101,19 +101,46 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.intake_menu, menu);
+        this.menu = menu;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.next:
-                selectedGroup = HistoryListAdapter.GROUP.ALLERGIES;
-                bindList();
-                adapter.notifyDataSetChanged();
+
+                if (selectedGroup == HistoryListAdapter.GROUP.CONDITIONS) {
+                    showAllergies();
+                } else {
+                    updateConditions();
+                    updateAllergies();
+
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showConditions() {
+        selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
+        bindList();
+        adapter.notifyDataSetChanged();
+
+        if (menu != null && menu.getItem(0) != null) {
+            menu.getItem(0).setTitle("Next");
+        }
+    }
+
+    private void showAllergies() {
+        selectedGroup = HistoryListAdapter.GROUP.ALLERGIES;
+        bindList();
+        adapter.notifyDataSetChanged();
+
+        if (menu != null && menu.getItem(0) != null) {
+            menu.getItem(0).setTitle("Done");
+        }
     }
 
     private void bindList() {
@@ -238,32 +265,27 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
     }
 
     @Override
-    public void selectedGroup(int groupPosition, int childPosition) {
+    public void selectedItem(int groupSelected, int childPosition) {
 
-        if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == groupPosition) {
-            Log.d(this.getClass().getSimpleName(), "MH. conditions. selectedGroup childPosition = " + childPosition);
-
+        if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == groupSelected) {
             if (childPosition == 0) {
                 for (Condition condition : SDKUtils.getInstance().getConditions()) {
                     condition.setCurrent(false);
                 }
             } else {
-                SDKUtils.getInstance().getConditions().get(childPosition).setCurrent(
+                SDKUtils.getInstance().getConditions().get(childPosition - 1).setCurrent(
                         !SDKUtils.getInstance().getConditions().get(childPosition - 1).isCurrent());
             }
-            updateConditions();
         } else {
-            Log.d(this.getClass().getSimpleName(), "MH. allergies. selectedGroup childPosition = " + childPosition);
             if (childPosition == 0) {
-                SDKUtils.getInstance().getAllergies().get(childPosition).setCurrent(false);
                 for (Allergy allergy : SDKUtils.getInstance().getAllergies()) {
                     allergy.setCurrent(false);
                 }
             } else {
-                SDKUtils.getInstance().getAllergies().get(childPosition).setCurrent(
+                SDKUtils.getInstance().getAllergies().get(childPosition - 1).setCurrent(
                         !SDKUtils.getInstance().getAllergies().get(childPosition - 1).isCurrent());
             }
-            updateAllergies();
         }
+        adapter.notifyDataSetChanged();
     }
 }

@@ -6,7 +6,7 @@
     android:layout_marginLeft="16dp"
     android:orientation="vertical">
 
-    <CheckBox
+    <!--<CheckBox
         android:id="@+id/expChild1"
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:text="Sample"
         android:textStyle="normal"
         android:visibility="gone"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText" />-->
 
     <CheckBox
         android:id="@+id/expChild"
