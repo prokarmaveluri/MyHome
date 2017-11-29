@@ -434,7 +434,7 @@
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
     <string name="mycare_now">My Care Now</string>
     <string name="med_history">My Medical History</string>
-    <string name="pharmacy_search_hint">Search by Location/Zip</string>
+    <string name="pharmacy_search_hint">Search Zip Code</string>
 
     <string name="history_desc">Tell me a little more about yourself so I can help you get proper care.\n\nWhat is your medical history?\nCheck all that you apply.</string>
     <string name="medication_desc">To make sure you\'re correctly prescribed, are you taking any medications?</string>

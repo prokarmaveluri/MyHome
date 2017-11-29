@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -81,10 +82,10 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onStop() {
+        super.onStop();
+        CommonUtil.hideSoftKeyboard(getActivity());
     }
-
 
     private void getPharmaciesByZip(String zipCode) {
 
@@ -153,8 +154,11 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            if (pharmacySearch.getText().toString().length() == 5)
+            if (pharmacySearch.getText().toString().length() == 5) {
                 getPharmaciesByZip(pharmacySearch.getText().toString());
+            } else {
+                Toast.makeText(getContext(), "Invalid zip code", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
         return false;
