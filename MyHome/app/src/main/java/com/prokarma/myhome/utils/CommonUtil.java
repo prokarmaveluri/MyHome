@@ -38,7 +38,6 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
-import com.televisit.history.HistoryExpandableList;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -611,7 +610,7 @@ public class CommonUtil {
 
     public static void setExpandedListViewHeight(Context context, IndexFastScrollRecyclerView listView) {
         /*int totalHeight = 0;
-        HistoryExpandableList listAdapter = (HistoryExpandableList) listView.getExpandableListAdapter();
+        HistoryListAdapter listAdapter = (HistoryListAdapter) listView.getExpandableListAdapter();
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
 
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {

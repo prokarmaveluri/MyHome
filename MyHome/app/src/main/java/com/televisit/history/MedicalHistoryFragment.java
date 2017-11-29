@@ -32,11 +32,11 @@ import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
  * Use the {@link MedicalHistoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MedicalHistoryFragment extends BaseFragment implements HistoryExpandableList.GroupSelectionListener {
+public class MedicalHistoryFragment extends BaseFragment implements HistoryListAdapter.GroupSelectionListener {
 
     private IndexFastScrollRecyclerView expandableList;
     private ProgressBar progressBar;
-    private HistoryExpandableList adapter;
+    private HistoryListAdapter adapter;
     private int selectedGroup = -1;
     private int reqCount = 0;
 
@@ -74,16 +74,17 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
         expandableList = (IndexFastScrollRecyclerView) view.findViewById(R.id.expandableList);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
 
-        bindList(HistoryExpandableList.GROUP.CONDITIONS);
+        bindList(HistoryListAdapter.GROUP.CONDITIONS);
 
-        progressBar.setVisibility(View.VISIBLE);
-        expandableList.setVisibility(View.GONE);
-
-        //getConditions();
-        //getAllergies();
-
-        listListeners(expandableList);
-
+        if (SDKUtils.getInstance().getConditions() != null && SDKUtils.getInstance().getConditions().size() > 0) {
+            progressBar.setVisibility(View.GONE);
+            expandableList.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
+            expandableList.setVisibility(View.GONE);
+            getConditions();
+            getAllergies();
+        }
         setHasOptionsMenu(true);
         return view;
     }
@@ -104,7 +105,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.next:
-                bindList(HistoryExpandableList.GROUP.ALLERGIES);
+                bindList(HistoryListAdapter.GROUP.ALLERGIES);
                 adapter.notifyDataSetChanged();
                 break;
         }
@@ -112,7 +113,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
         return super.onOptionsItemSelected(item);
     }
 
-    private void bindList(HistoryExpandableList.GROUP groupPosition) {
+    private void bindList(HistoryListAdapter.GROUP groupPosition) {
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -121,39 +122,11 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
         expandableList.setIndexBarTextColor("#" + Integer.toHexString(getResources().getColor(R.color.primary)));
         expandableList.setIndexBarColor("#" + Integer.toHexString(getResources().getColor(R.color.white)));
 
-        adapter = new HistoryExpandableList(getActivity(), groupPosition,
+        adapter = new HistoryListAdapter(getActivity(), groupPosition,
                 SDKUtils.getInstance().getConditions(),
                 SDKUtils.getInstance().getAllergies(), this);
         expandableList.setAdapter(adapter);
         CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
-    }
-
-    private void listListeners(final IndexFastScrollRecyclerView expandableList) {
-        /*expandableList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                if (selectedGroup != -1 && groupPosition != selectedGroup) {
-                }
-                CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
-                selectedGroup = groupPosition;
-            }
-        });
-
-        expandableList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v,
-                                        int groupPosition, long id) {
-                //CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
-                expandableList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                    @Override
-                    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                        return expandableList.isGroupExpanded(groupPosition) ? expandableList.collapseGroup(groupPosition) :
-                                expandableList.expandGroup(groupPosition);
-                    }
-                });
-                return false;
-            }
-        });*/
     }
 
     private void getConditions() {
@@ -168,7 +141,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
                         if (sdkError == null) {
                             SDKUtils.getInstance().setConditions(conditions);
 
-                            bindList(HistoryExpandableList.GROUP.CONDITIONS);
+                            bindList(HistoryListAdapter.GROUP.CONDITIONS);
                             adapter.notifyDataSetChanged();
                         }
                         reqCount--;
@@ -203,7 +176,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
                             SDKUtils.getInstance().setAllergies(allergies);
 
                             //Allergies will be shown when user taps on NEXT
-                            //bindList(HistoryExpandableList.GROUP.ALLERGIES);
+                            //bindList(HistoryListAdapter.GROUP.ALLERGIES);
                             //adapter.notifyDataSetChanged();
                         }
                         reqCount--;
@@ -220,47 +193,6 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
                             progressBar.setVisibility(View.GONE);
                             expandableList.setVisibility(View.VISIBLE);
                         }
-                    }
-                });
-    }
-
-    private void getConditionsFetchOnly() {
-        reqCount++;
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getConditions(
-                SDKUtils.getInstance().getConsumer(),
-                new SDKCallback<List<Condition>, SDKError>() {
-                    @Override
-                    public void onResponse(List<Condition> conditions, SDKError sdkError) {
-                        if (sdkError == null) {
-                            SDKUtils.getInstance().setConditions(conditions);
-                        }
-                        reqCount--;
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        reqCount--;
-                    }
-                }
-        );
-    }
-
-    private void getAllergiesFetchOnly() {
-        reqCount++;
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getAllergies(
-                SDKUtils.getInstance().getConsumer(),
-                new SDKCallback<List<Allergy>, SDKError>() {
-                    @Override
-                    public void onResponse(List<Allergy> allergies, SDKError sdkError) {
-                        if (sdkError == null) {
-                            SDKUtils.getInstance().setAllergies(allergies);
-                        }
-                        reqCount--;
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        reqCount--;
                     }
                 });
     }
@@ -305,9 +237,8 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
 
     @Override
     public void selectedGroup(int groupPosition, int childPosition) {
-        //todo-vj
-        //CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
-        if (groupPosition == 0) {
+
+        if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == groupPosition) {
             SDKUtils.getInstance().getConditions().get(childPosition).setCurrent(
                     !SDKUtils.getInstance().getConditions().get(childPosition).isCurrent());
             updateConditions();

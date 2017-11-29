@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by cmajji on 5/16/17.
+ * Created by veluri on 11/29/17.
  */
 
-public class HistoryExpandableList extends RecyclerView.Adapter<HistoryExpandableList.MyViewHolder> implements SectionIndexer {
+public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.MyViewHolder> implements SectionIndexer {
 
     public enum GROUP {
         CONDITIONS(0),
@@ -43,11 +43,11 @@ public class HistoryExpandableList extends RecyclerView.Adapter<HistoryExpandabl
     private ArrayList<Integer> mSectionPositions;
     private GROUP groupPosition = GROUP.CONDITIONS;
 
-    public HistoryExpandableList(Context context,
-                                 GROUP groupPosition,
-                                 List<Condition> conditions,
-                                 List<Allergy> allergies,
-                                 GroupSelectionListener listener) {
+    public HistoryListAdapter(Context context,
+                              GROUP groupPosition,
+                              List<Condition> conditions,
+                              List<Allergy> allergies,
+                              GroupSelectionListener listener) {
 
         mContext = context;
         this.groupPosition = groupPosition;
@@ -104,7 +104,7 @@ public class HistoryExpandableList extends RecyclerView.Adapter<HistoryExpandabl
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        if (groupPosition.getValue() == HistoryExpandableList.GROUP.CONDITIONS.getValue()) {
+        if (groupPosition.getValue() == HistoryListAdapter.GROUP.CONDITIONS.getValue()) {
             if (position == 0) {
                 holder.view.setText("I don't have any conditions");
                 holder.view.setChecked(false);
@@ -112,24 +112,27 @@ public class HistoryExpandableList extends RecyclerView.Adapter<HistoryExpandabl
                 holder.view.setText(conditions.get(position - 1).getName());
                 holder.view.setChecked(conditions.get(position - 1).isCurrent());
             }
+            holder.view.setTag(position);
 
-        } else if (groupPosition.getValue() == HistoryExpandableList.GROUP.ALLERGIES.getValue()) {
+        } else if (groupPosition.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
             if (position == 0) {
                 holder.view.setText("I don't have any allergies");
-                holder.view.setChecked(false);
+                holder.view.setTag(position);
             } else {
                 holder.view.setText(allergies.get(position - 1).getName());
                 holder.view.setChecked(allergies.get(position - 1).isCurrent());
             }
+            holder.view.setTag(position);
         }
 
-        final int pos = position;
+        //final int pos = position;
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (groupPosition.getValue() == HistoryExpandableList.GROUP.CONDITIONS.getValue()) {
+                int pos = (int) v.getTag();
+                if (groupPosition.getValue() == HistoryListAdapter.GROUP.CONDITIONS.getValue()) {
                     listener.selectedGroup(groupPosition.getValue(), pos);
-                } else if (groupPosition.getValue() == HistoryExpandableList.GROUP.ALLERGIES.getValue()) {
+                } else if (groupPosition.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
                     listener.selectedGroup(groupPosition.getValue(), pos);
                 }
             }
