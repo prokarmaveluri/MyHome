@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.app.SplashActivity;
@@ -22,6 +23,7 @@ import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

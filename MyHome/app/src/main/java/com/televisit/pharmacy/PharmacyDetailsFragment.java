@@ -25,7 +25,6 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
-import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.ArrayList;
@@ -122,7 +121,7 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
                 break;
 
             case R.id.save_pharmacy:
-                AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
+                SDKUtils.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
                         SDKUtils.getInstance().getConsumer(),
                         pharmacy,
                         new SDKCallback<Void, SDKError>() {

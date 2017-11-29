@@ -12,7 +12,7 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterMyCareProviderItemBinding;
-import com.televisit.AwsManager;
+import com.televisit.SDKUtils;
 
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
             binding.displayName.setText(providerInfo.getFullName());
             binding.displaySpeciality.setText(providerInfo.getSpecialty().getName());
 
-            AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
+            SDKUtils.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(providerInfo, binding.providerImage, ProviderImageSize.EXTRA_EXTRA_LARGE)
                     .placeholder(ContextCompat.getDrawable(context, R.drawable.img_provider_photo_placeholder))
                     .build()

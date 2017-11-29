@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterProvidersListItemBinding;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
@@ -14,9 +15,11 @@ import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 import timber.log.Timber;
 
 /**

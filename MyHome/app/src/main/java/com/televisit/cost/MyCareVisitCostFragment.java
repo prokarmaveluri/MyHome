@@ -26,7 +26,6 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.Map;
@@ -160,7 +159,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
             return;
         try {
             progressBar.setVisibility(View.VISIBLE);
-            AwsManager.getInstance().getAWSDK().getVisitManager().applyCouponCode(
+            SDKUtils.getInstance().getAWSDK().getVisitManager().applyCouponCode(
                     SDKUtils.getInstance().getVisit(),
                     couponCode,
                     new SDKCallback<Void, SDKError>() {
@@ -193,7 +192,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
     private void createVisit() {
         progressBar.setVisibility(View.VISIBLE);
-        AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
+        SDKUtils.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
                 SDKUtils.getInstance().getVisitContext(),
                 new SDKValidatedCallback<Visit, SDKError>() {
                     @Override

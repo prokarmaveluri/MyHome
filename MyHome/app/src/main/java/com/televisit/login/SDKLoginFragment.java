@@ -20,7 +20,6 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
 import java.util.HashMap;
@@ -61,7 +60,7 @@ public class SDKLoginFragment extends BaseFragment {
         if (getArguments() != null) {
         }
 
-        awsdk = AwsManager.getInstance().getAWSDK();
+        awsdk = SDKUtils.getInstance().getAWSDK();
     }
 
     @Override

@@ -55,7 +55,7 @@ import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
-import com.televisit.AwsManager;
+import com.televisit.SDKUtils;
 import com.televisit.cost.MyCareVisitCostFragment;
 import com.televisit.history.MedicalHistoryFragment;
 import com.televisit.login.SDKLoginFragment;
@@ -433,7 +433,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                         getActivityTag() != ActivityTag.MY_CARE_NOW) {
 
                     getSupportFragmentManager().executePendingTransactions();
-                    AwsManager.getInstance().init(getApplicationContext());
+                    SDKUtils.getInstance().init(getApplicationContext());
                     SDKLoginFragment fragment = SDKLoginFragment.newInstance();
                     fragment.setArguments(bundle);
                     getSupportFragmentManager()
