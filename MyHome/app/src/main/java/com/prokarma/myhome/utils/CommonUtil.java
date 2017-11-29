@@ -48,6 +48,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import timber.log.Timber;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
@@ -608,8 +609,8 @@ public class CommonUtil {
         listView.requestLayout();
     }
 
-    public static void setExpandedListViewHeight(Context context, ExpandableListView listView) {
-        int totalHeight = 0;
+    public static void setExpandedListViewHeight(Context context, IndexFastScrollRecyclerView listView) {
+        /*int totalHeight = 0;
         HistoryExpandableList listAdapter = (HistoryExpandableList) listView.getExpandableListAdapter();
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
 
@@ -630,7 +631,7 @@ public class CommonUtil {
             height = 133;
         params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
         listView.setLayoutParams(params);
-        listView.requestLayout();
+        listView.requestLayout();*/
     }
 
     /**

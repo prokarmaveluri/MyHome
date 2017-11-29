@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 
 import com.americanwell.sdk.entity.SDKError;
@@ -19,26 +20,24 @@ import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.SDKUtils;
 
-import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
-
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MedicalHistoryFragment#newInstance} factory method to
+ * Use the {@link MedicalHistoryFragmentOld#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MedicalHistoryFragment extends BaseFragment implements HistoryExpandableList.GroupSelectionListener {
+public class MedicalHistoryFragmentOld extends BaseFragment implements HistoryExpandableListOld.GroupSelectionListener {
 
-    private IndexFastScrollRecyclerView expandableList;
+    private ExpandableListView expandableList;
     private ProgressBar progressBar;
-    private HistoryExpandableList adapter;
+    private HistoryExpandableListOld adapter;
     private int selectedGroup = -1;
     private int reqCount = 0;
 
     public static final String MED_HISTORY_TAG = "history_view_tag";
 
-    public MedicalHistoryFragment() {
+    public MedicalHistoryFragmentOld() {
         // Required empty public constructor
     }
 
@@ -48,8 +47,8 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
      *
      * @return A new instance of fragment MyCareFragment.
      */
-    public static MedicalHistoryFragment newInstance() {
-        MedicalHistoryFragment fragment = new MedicalHistoryFragment();
+    public static MedicalHistoryFragmentOld newInstance() {
+        MedicalHistoryFragmentOld fragment = new MedicalHistoryFragmentOld();
         return fragment;
     }
 
@@ -67,12 +66,13 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
         getActivity().setTitle(getString(R.string.med_history));
         View view = inflater.inflate(R.layout.fragment_medical_history, container, false);
 
-        adapter = new HistoryExpandableList(getActivity(), HistoryExpandableList.GROUP.CONDITIONS, SDKUtils.getInstance().getConditions(),
+        /*removelater
+        adapter = new HistoryExpandableListOld(getActivity(), SDKUtils.getInstance().getConditions(),
                 SDKUtils.getInstance().getAllergies(), this);
-        expandableList = (IndexFastScrollRecyclerView) view.findViewById(R.id.expandableList);
+        expandableList = (ExpandableListView) view.findViewById(R.id.expandableList);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
         expandableList.setAdapter(adapter);
-        CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
+        CommonUtil.setExpandedListViewHeight(getContext(), expandableList);*/
 
         getConditions();
         getAllergies();
@@ -85,13 +85,13 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
         return Constants.ActivityTag.MY_MED_HISTORY;
     }
 
-    private void listListeners(final IndexFastScrollRecyclerView expandableList) {
-        /*expandableList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+    private void listListeners(final ExpandableListView expandableList) {
+        expandableList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
                 if (selectedGroup != -1 && groupPosition != selectedGroup) {
                 }
-                CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
+                //removelater CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
                 selectedGroup = groupPosition;
             }
         });
@@ -110,7 +110,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
                 });
                 return false;
             }
-        });*/
+        });
     }
 
     private void getConditions() {
@@ -216,8 +216,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryExpan
 
     @Override
     public void selectedGroup(int groupPosition, int childPosition) {
-        //todo-vj
-        //CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
+        //removelater CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
         if (groupPosition == 0) {
             SDKUtils.getInstance().getConditions().get(childPosition).setCurrent(
                     !SDKUtils.getInstance().getConditions().get(childPosition).isCurrent());
