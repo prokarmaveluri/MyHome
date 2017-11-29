@@ -455,6 +455,7 @@
     <string name="waiting_room_title">Waiting Room</string>
     <string name="view_previous_visits">View Previous Visits</string>
     <string name="your_visit_has_ended">Your visit has ended.</string>
+    <string name="field_must_be_completed">Field must be completed</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

@@ -26,6 +26,8 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
@@ -94,6 +96,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
         phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
 
         reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
+        reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
 
         createVisit();
 
@@ -144,10 +147,10 @@ public class MyCareVisitCostFragment extends BaseFragment {
                         if (reasonPhone.getText().toString().length() == 10 && reasonForVisit.getText().toString().length() > 0) {
                             ((NavigationActivity) getActivity()).loadFragment(
                                     Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
-                        } else if (reasonPhone.getText().toString().length() != 10) {
-                            phoneLayout.setError("Field must be completed");
+                        } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString())) {
+                            phoneLayout.setError(getString(R.string.field_must_be_completed));
                         } else if (reasonForVisit.getText().toString().length() <= 0) {
-                            reasonLayout.setError("Field must be completed");
+                            reasonLayout.setError(getString(R.string.field_must_be_completed));
                         }
                     }
                 } else {
