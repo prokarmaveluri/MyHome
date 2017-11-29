@@ -74,11 +74,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:ems="10"
             android:hint="@string/phone_number"
-            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:maxLength="12"
             android:maxLines="1"
-            android:singleLine="true"
-            android:text="8675309" />
+            android:text="123-867-5309"
+            android:singleLine="true" />
 
     </android.support.design.widget.TextInputLayout>
 
