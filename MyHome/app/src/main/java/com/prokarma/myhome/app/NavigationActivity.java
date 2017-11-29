@@ -57,6 +57,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.televisit.SDKUtils;
 import com.televisit.cost.MyCareVisitCostFragment;
+import com.televisit.history.HistoryListAdapter;
 import com.televisit.history.MedicalHistoryFragment;
 import com.televisit.login.SDKLoginFragment;
 import com.televisit.medications.MedicationsFragment;
@@ -695,10 +696,20 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                         super.onBackPressed();
                     }
                 }
+
+            } else if (activityTag == ActivityTag.MY_MED_HISTORY) {
+                MedicalHistoryFragment frag = ((MedicalHistoryFragment) fm.findFragmentByTag(MedicalHistoryFragment.MED_HISTORY_TAG));
+                if (frag.selectedGroup == HistoryListAdapter.GROUP.ALLERGIES) {
+                    frag.showConditions();
+                } else {
+                    fm.popBackStack();
+                }
+
             } else if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
             } else if (activityTag != ActivityTag.HOME) {
                 goToPage(ActivityTag.HOME);
+
             } else {
                 super.onBackPressed();
             }

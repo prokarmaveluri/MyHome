@@ -351,11 +351,6 @@ public class HomeFragment extends BaseFragment {
             binding.appointmentItemLayout.setVisibility(View.VISIBLE);
             binding.viewAppointDivider.setVisibility(View.VISIBLE);
 
-            //TO avoid following error adding the below line: java.lang.IllegalStateException: Fragment HomeFragment{7de2b94} not attached to Activity
-            if (!this.isAdded()) {
-                return;
-            }
-
             SpannableStringBuilder builder1 = new SpannableStringBuilder();
             SpannableString partOne = new SpannableString(getString(R.string.db_appoint_one) + " ");
             SpannableString partTwo = new SpannableString(String.valueOf(appointments.size()));
