@@ -136,7 +136,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                 if (provider != null) {
                     getVisitContext(provider);
                 } else {
-                    Toast.makeText(getContext(), "No Provider is available.\nPlease Wait...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "No Provider is available.\nPlease Try Again Later", Toast.LENGTH_LONG).show();
                 }
             }
         });
