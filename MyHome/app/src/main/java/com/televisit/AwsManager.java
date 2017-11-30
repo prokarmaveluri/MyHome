@@ -1,6 +1,8 @@
 package com.televisit;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
@@ -19,6 +21,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.logging.AWSDKLogger;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.BuildConfig;
+import com.televisit.interfaces.AwsUserAuthentication;
 
 import java.util.HashMap;
 import java.util.List;
@@ -252,7 +255,11 @@ public class AwsManager {
         );
     }
 
-    public void getUsersAuthentication(String username, String password) {
+    public void getUsersAuthentication(@NonNull String username, @NonNull String password) {
+        getUsersAuthentication(username, password, null);
+    }
+
+    public void getUsersAuthentication(@NonNull String username, @NonNull String password, @Nullable final AwsUserAuthentication awsUserAuthentication) {
         //techincally, the first parameter in this call is "legalResidence" https://sdk.americanwell.com/?page_id=7377
         awsdk.authenticate(
                 username,
@@ -264,9 +271,18 @@ public class AwsManager {
                         if (sdkError == null) {
                             Timber.i("Authentication : " + authentication);
                             AwsManager.getInstance().setAuthentication(authentication);
+
+                            if (awsUserAuthentication != null) {
+                                awsUserAuthentication.authenticationComplete(authentication);
+                            }
+
                         } else {
                             Timber.e("Error + " + sdkError);
                             AwsManager.getInstance().setAuthentication(null);
+
+                            if (awsUserAuthentication != null) {
+                                awsUserAuthentication.authentciationFailed(sdkError.getMessage());
+                            }
                         }
                     }
 
@@ -275,6 +291,10 @@ public class AwsManager {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setAuthentication(null);
+
+                        if (awsUserAuthentication != null) {
+                            awsUserAuthentication.authentciationFailed(throwable.getMessage());
+                        }
                     }
                 });
     }
