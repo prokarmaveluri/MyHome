@@ -33,7 +33,6 @@ public class Constants {
         TOUCH_ID,
         HOME_DID_YOU_KNOW_SEC_1,
         HOME_DID_YOU_KNOW_SEC_2,
-        MY_CARE_NOW_SDK_LOGIN,
         MY_CARE_NOW,
         MY_MED_HISTORY,
         MY_MEDICATIONS,

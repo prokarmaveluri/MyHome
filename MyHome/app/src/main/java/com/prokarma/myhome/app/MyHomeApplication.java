@@ -10,6 +10,7 @@ import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.TealiumUtil;
+import com.televisit.AwsManager;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -60,6 +61,8 @@ public class MyHomeApplication extends MultiDexApplication {
         if (BuildConfig.REPORT_ANALYTICS) {
             TealiumUtil.initialize(this);
         }
+
+        AwsManager.getInstance().init(this);
 
         //init retrofit service
 //        NetworkManager.getInstance().initService();

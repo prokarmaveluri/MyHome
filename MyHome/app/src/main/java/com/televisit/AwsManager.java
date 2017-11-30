@@ -61,6 +61,8 @@ public class AwsManager {
     private State hasAllergiesFilledOut = State.NOT_FILLED_OUT;
     private State hasConditionsFilledOut = State.NOT_FILLED_OUT;
     private boolean hasInitializedAwsdk;
+    private boolean hasAuthenticated;
+    private boolean hasConsumer;
 
     public static enum State {
         NOT_FILLED_OUT,
@@ -242,6 +244,22 @@ public class AwsManager {
         this.hasInitializedAwsdk = hasInitializedAwsdk;
     }
 
+    public boolean isHasAuthenticated() {
+        return hasAuthenticated;
+    }
+
+    public void setHasAuthenticated(boolean hasAuthenticated) {
+        this.hasAuthenticated = hasAuthenticated;
+    }
+
+    public boolean isHasConsumer() {
+        return hasConsumer;
+    }
+
+    public void setHasConsumer(boolean hasConsumer) {
+        this.hasConsumer = hasConsumer;
+    }
+
     public void authenticateUser(Authentication authentication) {
         this.awsdk.getConsumerManager().getConsumer(
                 authentication,
@@ -283,6 +301,7 @@ public class AwsManager {
                         if (sdkError == null) {
                             Timber.i("Authentication : " + authentication);
                             AwsManager.getInstance().setAuthentication(authentication);
+                            AwsManager.getInstance().setHasAuthenticated(true);
 
                             if (awsUserAuthentication != null) {
                                 awsUserAuthentication.authenticationComplete(authentication);
@@ -291,6 +310,7 @@ public class AwsManager {
                         } else {
                             Timber.e("Error + " + sdkError);
                             AwsManager.getInstance().setAuthentication(null);
+                            AwsManager.getInstance().setHasAuthenticated(false);
 
                             if (awsUserAuthentication != null) {
                                 awsUserAuthentication.authentciationFailed(sdkError.getMessage());
@@ -303,6 +323,7 @@ public class AwsManager {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setAuthentication(null);
+                        AwsManager.getInstance().setHasAuthenticated(false);
 
                         if (awsUserAuthentication != null) {
                             awsUserAuthentication.authentciationFailed(throwable.getMessage());
@@ -324,6 +345,7 @@ public class AwsManager {
                         if (sdkError == null) {
                             Timber.i("Authentication : " + authentication);
                             AwsManager.getInstance().setAuthentication(authentication);
+                            AwsManager.getInstance().setHasAuthenticated(false);
 
                             if (awsUserAuthentication != null) {
                                 awsUserAuthentication.authenticationComplete(authentication);
@@ -331,6 +353,7 @@ public class AwsManager {
                         } else {
                             Timber.e("Error + " + sdkError);
                             AwsManager.getInstance().setAuthentication(null);
+                            AwsManager.getInstance().setHasAuthenticated(false);
 
                             if (awsUserAuthentication != null) {
                                 awsUserAuthentication.authentciationFailed(sdkError.getMessage());
@@ -343,6 +366,7 @@ public class AwsManager {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setAuthentication(null);
+                        AwsManager.getInstance().setHasAuthenticated(false);
 
                         if (awsUserAuthentication != null) {
                             awsUserAuthentication.authentciationFailed(throwable.getMessage());
@@ -416,6 +440,7 @@ public class AwsManager {
                     public void onResponse(Consumer consumer, SDKError sdkError) {
                         if (sdkError == null) {
                             AwsManager.getInstance().setConsumer(consumer);
+                            AwsManager.getInstance().setHasConsumer(true);
 
                             if (awsConsumer != null) {
                                 awsConsumer.consumerComplete(consumer);
@@ -423,6 +448,7 @@ public class AwsManager {
                         } else {
                             Timber.e("Error + " + sdkError);
                             AwsManager.getInstance().setConsumer(null);
+                            AwsManager.getInstance().setHasConsumer(false);
 
                             if (awsConsumer != null) {
                                 awsConsumer.consumerFailed(sdkError.getMessage());
@@ -435,6 +461,7 @@ public class AwsManager {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setConsumer(null);
+                        AwsManager.getInstance().setHasConsumer(false);
 
                         if (awsConsumer != null) {
                             awsConsumer.consumerFailed(throwable.getMessage());
