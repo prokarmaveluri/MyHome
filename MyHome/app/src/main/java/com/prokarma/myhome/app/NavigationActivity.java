@@ -359,6 +359,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 if (getActivityTag() != ActivityTag.PROFILE_VIEW) {
                     getSupportFragmentManager().executePendingTransactions();
                     ProfileViewFragment profileViewFragment = ProfileViewFragment.newInstance();
+                    if (bundle == null) {
+                        bundle = new Bundle();
+                    }
+                    bundle.putString("from", "dashboard");
                     profileViewFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()

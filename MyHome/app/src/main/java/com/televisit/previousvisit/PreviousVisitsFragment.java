@@ -19,7 +19,6 @@ import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.summary.SummaryFragment;
 
 import static com.prokarma.myhome.features.profile.ProfileManager.appointments;
 
