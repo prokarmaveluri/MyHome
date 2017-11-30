@@ -89,7 +89,14 @@ public class SDKLoginFragment extends BaseFragment {
                         public void onResponse(Void aVoid, SDKError sdkError) {
                             if (sdkError == null && isAdded()) {
                                 AwsManager.getInstance().setHasInitializedAwsdk(true);
-                                consumerAuth("cmajji@mailinator.com", "Pass123*");
+
+                                if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
+                                    //Dev
+                                    consumerAuth("cmajji@mailinator.com", "Pass123*");
+                                } else {
+                                    //IoT
+                                    consumerAuth("julie.testing@mailinator.com", "Password1");
+                                }
 
 //                                if (AuthManager.getInstance().getAmWellToken() != null) {
 //                                    consumerMutualAuth(AuthManager.getAmWellToken());
