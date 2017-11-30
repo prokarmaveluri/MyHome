@@ -11,6 +11,7 @@ import android.widget.SectionIndexer;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.prokarma.myhome.R;
+import com.televisit.AwsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,8 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         this.conditions = conditions;
         this.allergies = allergies;
         this.listener = listener;
+
+
     }
 
     @Override
@@ -107,23 +110,33 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         if (groupSelected.getValue() == HistoryListAdapter.GROUP.CONDITIONS.getValue()) {
             if (position == 0) {
                 holder.view.setText(mContext.getResources().getString(R.string.no_conditions));
-                holder.view.setChecked(false);
+                holder.view.setTag(position);
+                if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_FEW) {
+                    holder.view.setChecked(false);
+                }
+                else {
+                    holder.view.setChecked(true);
+                }
             } else {
                 holder.view.setText(conditions.get(position - 1).getName());
                 holder.view.setChecked(conditions.get(position - 1).isCurrent());
             }
-            holder.view.setTag(position);
 
         } else if (groupSelected.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
             if (position == 0) {
                 holder.view.setText(mContext.getResources().getString(R.string.no_allergies));
-                holder.view.setTag(position);
+                if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_FEW) {
+                    holder.view.setChecked(false);
+                }
+                else {
+                    holder.view.setChecked(true);
+                }
             } else {
                 holder.view.setText(allergies.get(position - 1).getName());
                 holder.view.setChecked(allergies.get(position - 1).isCurrent());
             }
-            holder.view.setTag(position);
         }
+        holder.view.setTag(position);
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
