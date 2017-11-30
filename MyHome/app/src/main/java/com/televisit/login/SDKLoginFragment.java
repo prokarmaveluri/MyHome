@@ -21,6 +21,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+import com.televisit.interfaces.AwsUserAuthentication;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ import timber.log.Timber;
  * Use the {@link SDKLoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SDKLoginFragment extends BaseFragment {
+public class SDKLoginFragment extends BaseFragment implements AwsUserAuthentication {
 
     private ProgressBar progressBar;
 
@@ -92,10 +93,10 @@ public class SDKLoginFragment extends BaseFragment {
 
                                 if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
                                     //Dev
-                                    consumerAuth("cmajji@mailinator.com", "Pass123*");
+                                    AwsManager.getInstance().getUsersAuthentication("cmajji@mailinator.com", "Pass123*", SDKLoginFragment.this);
                                 } else {
                                     //IoT
-                                    consumerAuth("julie.testing@mailinator.com", "Password1");
+                                    AwsManager.getInstance().getUsersAuthentication("julie.testing@mailinator.com", "Password1", SDKLoginFragment.this);
                                 }
 
 //                                if (AuthManager.getInstance().getAmWellToken() != null) {
@@ -124,55 +125,31 @@ public class SDKLoginFragment extends BaseFragment {
         }
     }
 
-    private void consumerAuth(String email, String password) {
-        AwsManager.getInstance().getAWSDK().authenticate(
-                email,
-                password,
-                email,
-                new SDKCallback<Authentication, SDKError>() {
-                    @Override
-                    public void onResponse(Authentication authentication, SDKError sdkError) {
-                        if (sdkError == null && isAdded()) {
-                            AwsManager.getInstance().setAuthentication(authentication);
-                            getConsumer(authentication);
-                        } else {
-                            if (isAdded())
-                                progressBar.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        if (isAdded())
-                            progressBar.setVisibility(View.GONE);
-                    }
-                });
-    }
-
-    private void consumerMutualAuth(String amWellToken) {
-        AwsManager.getInstance().getAWSDK().authenticateMutual(
-                amWellToken,
-                new SDKCallback<Authentication, SDKError>() {
-                    @Override
-                    public void onResponse(Authentication authentication, SDKError sdkError) {
-                        if (sdkError == null && isAdded()) {
-                            AwsManager.getInstance().setAuthentication(authentication);
-                            getConsumer(authentication);
-                        } else {
-                            Toast.makeText(getContext(), "Error: " + sdkError.getHttpResponseCode() + "\n" + sdkError.getMessage(), Toast.LENGTH_LONG).show();
-                            if (isAdded())
-                                progressBar.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Toast.makeText(getContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
-                        if (isAdded())
-                            progressBar.setVisibility(View.GONE);
-                    }
-                });
-    }
+//    private void consumerMutualAuth(String amWellToken) {
+//        AwsManager.getInstance().getAWSDK().authenticateMutual(
+//                amWellToken,
+//                new SDKCallback<Authentication, SDKError>() {
+//                    @Override
+//                    public void onResponse(Authentication authentication, SDKError sdkError) {
+//                        if (sdkError == null && isAdded()) {
+//                            AwsManager.getInstance().setAuthentication(authentication);
+//                            getConsumer(authentication);
+//                        } else {
+//                            Toast.makeText(getContext(), "Error: " + sdkError.getHttpResponseCode() + "\n" + sdkError.getMessage(), Toast.LENGTH_LONG).show();
+//                            if (isAdded())
+//                                progressBar.setVisibility(View.GONE);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Throwable throwable) {
+//                        Toast.makeText(getContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+//                        if (isAdded())
+//                            progressBar.setVisibility(View.GONE);
+//                    }
+//                });
+//    }
+//
 
     private void getConsumer(Authentication authentication) {
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumer(
@@ -226,5 +203,18 @@ public class SDKLoginFragment extends BaseFragment {
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.MY_CARE_NOW_SDK_LOGIN;
+    }
+
+    @Override
+    public void authenticationComplete(Authentication authentication) {
+        getConsumer(authentication);
+    }
+
+    @Override
+    public void authentciationFailed(String errorMessage) {
+        Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+        if (isAdded()) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

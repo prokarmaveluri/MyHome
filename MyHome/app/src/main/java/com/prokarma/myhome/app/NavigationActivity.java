@@ -17,6 +17,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -89,6 +90,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     private BroadcastReceiver timezoneChangedReceiver;
     private static boolean didTimeZoneChange = false;
+    private MenuItem currentSelectedMenuItem;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,7 +139,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         clearBackstack();
-
+                        if (null != currentSelectedMenuItem)
+                            MenuItemCompat.setContentDescription(currentSelectedMenuItem,currentSelectedMenuItem.getTitle());
+                        currentSelectedMenuItem = item;
+                        MenuItemCompat.setContentDescription(currentSelectedMenuItem,currentSelectedMenuItem.getTitle() + ", selected");
                         switch (item.getItemId()) {
                             case R.id.home:
                                 loadFragment(ActivityTag.HOME, null);
