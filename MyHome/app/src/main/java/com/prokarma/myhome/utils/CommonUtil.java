@@ -23,6 +23,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.americanwell.sdk.entity.health.Allergy;
+import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
@@ -949,6 +951,34 @@ public class CommonUtil {
         }
 
         return null;
+    }
+
+    public static List<Allergy> getCurrentAllergies(List<Allergy> allergies) {
+        List<Allergy> currentAllergies = new ArrayList<>();
+
+        if (allergies != null) {
+            for (Allergy allergy : allergies) {
+                if (allergy.isCurrent()) {
+                    currentAllergies.add(allergy);
+                }
+            }
+        }
+
+        return currentAllergies;
+    }
+
+    public static List<Condition> getCurrentConditions(List<Condition> conditions) {
+        List<Condition> currentConditions = new ArrayList<>();
+
+        if (conditions != null) {
+            for (Condition condition : conditions) {
+                if (condition.isCurrent()) {
+                    currentConditions.add(condition);
+                }
+            }
+        }
+
+        return currentConditions;
     }
 
 }

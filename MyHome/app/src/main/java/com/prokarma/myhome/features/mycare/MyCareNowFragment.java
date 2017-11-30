@@ -229,8 +229,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setConsumerMedicalHistory() {
-        List<Allergy> allergies = AwsManager.getInstance().getAllergies();
-        List<Condition> conditions = AwsManager.getInstance().getConditions();
+        List<Allergy> allergies = CommonUtil.getCurrentAllergies(AwsManager.getInstance().getAllergies());
+        List<Condition> conditions = CommonUtil.getCurrentConditions(AwsManager.getInstance().getConditions());
 
         if (!AwsManager.getInstance().isHasConditionsFilledOut() || !AwsManager.getInstance().isHasAllergiesFilledOut()) {
             historyDesc.setText(getString(R.string.what_medications_are_you_taking));
@@ -238,12 +238,10 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             StringBuilder medicalHistory = new StringBuilder();
 
             for (int i = 0; i < conditions.size(); i++) {
-                if (conditions.get(i).isCurrent()) {
-                    medicalHistory.append(conditions.get(i).getName());
+                medicalHistory.append(conditions.get(i).getName());
 
-                    if (i < conditions.size() - 1) {
-                        medicalHistory.append(", ");
-                    }
+                if (i < conditions.size() - 1) {
+                    medicalHistory.append(", ");
                 }
             }
 
@@ -252,12 +250,10 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             }
 
             for (int i = 0; i < allergies.size(); i++) {
-                if (allergies.get(i).isCurrent()) {
-                    medicalHistory.append(allergies.get(i).getName());
+                medicalHistory.append(allergies.get(i).getName());
 
-                    if (i < allergies.size() - 1) {
-                        medicalHistory.append(", ");
-                    }
+                if (i < allergies.size() - 1) {
+                    medicalHistory.append(", ");
                 }
             }
 
