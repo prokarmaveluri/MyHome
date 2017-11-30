@@ -171,6 +171,12 @@ public class AwsManager {
 
     public void setMedications(List<Medication> medications) {
         this.medications = medications;
+
+        if (medications != null && !medications.isEmpty()) {
+            setHasMedicationsFilledOut(true);
+        } else {
+            setHasMedicationsFilledOut(false);
+        }
     }
 
     public VisitContext getVisitContext() {
