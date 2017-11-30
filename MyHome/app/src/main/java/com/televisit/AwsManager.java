@@ -308,8 +308,8 @@ public class AwsManager {
         initParams.put(AWSDK.InitParam.LaunchIntentData, launchUri);
 
         try {
-            awsdk.initialize(
-                    null,
+            this.awsdk.initialize(
+                    initParams,
                     new SDKCallback<Void, SDKError>() {
                         @Override
                         public void onResponse(Void aVoid, SDKError sdkError) {
