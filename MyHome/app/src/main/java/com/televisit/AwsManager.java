@@ -5,6 +5,7 @@ import android.content.Context;
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Authentication;
+import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
@@ -13,11 +14,15 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
+import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.logging.AWSDKLogger;
+import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.BuildConfig;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -50,6 +55,7 @@ public class AwsManager {
     private boolean hasMedicationsFilledOut;
     private boolean hasAllergiesFilledOut;
     private boolean hasConditionsFilledOut;
+    private boolean hasInitializedAwsdk;
 
     public static AwsManager getInstance() {
         return ourInstance;
@@ -205,5 +211,126 @@ public class AwsManager {
 
     public void setHasConditionsFilledOut(boolean hasConditionsFilledOut) {
         this.hasConditionsFilledOut = hasConditionsFilledOut;
+    }
+
+    public boolean isHasInitializedAwsdk() {
+        return hasInitializedAwsdk;
+    }
+
+    public void setHasInitializedAwsdk(boolean hasInitializedAwsdk) {
+        this.hasInitializedAwsdk = hasInitializedAwsdk;
+    }
+
+    public void authenticateUser(Authentication authentication) {
+        this.awsdk.getConsumerManager().getConsumer(
+                authentication,
+                new SDKCallback<Consumer, SDKError>() {
+                    @Override
+                    public void onResponse(Consumer consumer, SDKError sdkError) {
+                        if (sdkError == null) {
+                            Timber.i("Authneticated User : " + consumer.getFullName());
+                            AwsManager.getInstance().setConsumer(consumer);
+                        } else {
+                            Timber.e("Error + " + sdkError);
+                            AwsManager.getInstance().setConsumer(null);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        AwsManager.getInstance().setConsumer(null);
+                    }
+                }
+        );
+    }
+
+    public void getUsersAuthentication(String username, String password) {
+        //techincally, the first parameter in this call is "legalResidence" https://sdk.americanwell.com/?page_id=7377
+        awsdk.authenticate(
+                username,
+                password,
+                username,
+                new SDKCallback<Authentication, SDKError>() {
+                    @Override
+                    public void onResponse(Authentication authentication, SDKError sdkError) {
+                        if (sdkError == null) {
+                            Timber.i("Authentication : " + authentication);
+                            AwsManager.getInstance().setAuthentication(authentication);
+                        } else {
+                            Timber.e("Error + " + sdkError);
+                            AwsManager.getInstance().setAuthentication(null);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        AwsManager.getInstance().setAuthentication(null);
+                    }
+                });
+    }
+
+    public void getUsersMutualAuthneticaion(String amWellToken) {
+        awsdk.authenticateMutual(
+                amWellToken,
+                new SDKCallback<Authentication, SDKError>() {
+                    @Override
+                    public void onResponse(Authentication authentication, SDKError sdkError) {
+                        if (sdkError == null) {
+                            Timber.i("Authentication : " + authentication);
+                            AwsManager.getInstance().setAuthentication(authentication);
+                        } else {
+                            Timber.e("Error + " + sdkError);
+                            AwsManager.getInstance().setAuthentication(null);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        AwsManager.getInstance().setAuthentication(null);
+                    }
+                });
+    }
+
+    public void initializeAwsdk() {
+        String baseServiceUrl = BuildConfig.awsdkurl;
+        String clientKey = BuildConfig.awsdkkey;
+        String launchUri = null;
+
+        final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
+        initParams.put(AWSDK.InitParam.BaseServiceUrl, baseServiceUrl);
+        initParams.put(AWSDK.InitParam.ApiKey, clientKey);
+        initParams.put(AWSDK.InitParam.LaunchIntentData, launchUri);
+
+        try {
+            awsdk.initialize(
+                    null,
+                    new SDKCallback<Void, SDKError>() {
+                        @Override
+                        public void onResponse(Void aVoid, SDKError sdkError) {
+                            if (sdkError == null) {
+                                setHasInitializedAwsdk(true);
+                            } else {
+                                Timber.e("Error + " + sdkError);
+                                setHasInitializedAwsdk(false);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            Timber.e("Something failed! :/");
+                            Timber.e("Throwable = " + throwable);
+                            setHasInitializedAwsdk(false);
+                        }
+                    });
+        } catch (AWSDKInitializationException e) {
+            Timber.e(e);
+            setHasInitializedAwsdk(false);
+        }
     }
 }
