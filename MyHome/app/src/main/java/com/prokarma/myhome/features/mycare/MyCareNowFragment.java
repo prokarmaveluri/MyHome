@@ -33,6 +33,7 @@ import java.util.List;
 public class MyCareNowFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView infoEdit;
+    private TextView historyDesc;
     private TextView historyEdit;
     private TextView medicationsDesc;
     private TextView medicationsEdit;
@@ -69,6 +70,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.fragment_my_care, container, false);
 
         infoEdit = (TextView) view.findViewById(R.id.personal_info_edit);
+        historyDesc = (TextView) view.findViewById(R.id.medical_history_desc);
         historyEdit = (TextView) view.findViewById(R.id.medical_history_edit);
         medicationsDesc = (TextView) view.findViewById(R.id.medications_desc);
         medicationsEdit = (TextView) view.findViewById(R.id.medications_edit);
@@ -102,8 +104,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             }
         });
 
-        getConditionsFetchOnly();
-        getAllergiesFetchOnly();
+        getConsumerConditions();
+        getConsumerAllergies();
 
         return view;
     }
@@ -113,6 +115,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         super.onResume();
         setConsumerMedications();
         setConsumerPharmacy();
+        setConsumerMedicalHistory();
     }
 
     @Override
@@ -148,7 +151,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 AwsManager.getInstance().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
                     @Override
                     public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
-
+                        AwsManager.getInstance().setConsumerPharmacy(pharmacy);
                     }
 
                     @Override
@@ -158,7 +161,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 });
     }
 
-    private void getConditionsFetchOnly() {
+    private void getConsumerConditions() {
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
                 AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Condition>, SDKError>() {
@@ -176,7 +179,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         );
     }
 
-    private void getAllergiesFetchOnly() {
+    private void getConsumerAllergies() {
         AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
                 AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Allergy>, SDKError>() {
@@ -222,6 +225,41 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             pharmacyDesc.setText(pharmacy.getName() + "\n" + CommonUtil.getPharmacyAddress(pharmacy));
         } else {
             pharmacyDesc.setText(getString(R.string.choose_your_preferred_pharmacy));
+        }
+    }
+
+    private void setConsumerMedicalHistory() {
+        List<Allergy> allergies = AwsManager.getInstance().getAllergies();
+        List<Condition> conditions = AwsManager.getInstance().getConditions();
+
+        if (!AwsManager.getInstance().isHasAllergiesFilledOut() || !AwsManager.getInstance().isHasConditionsFilledOut()) {
+            historyDesc.setText(getString(R.string.what_medications_are_you_taking));
+        } else if ((allergies != null && !allergies.isEmpty()) || (conditions != null && !conditions.isEmpty())) {
+            StringBuilder medicalHistory = new StringBuilder();
+
+            for (int i = 0; i < allergies.size(); i++) {
+                medicalHistory.append(allergies.get(i).getName());
+
+                if (i < allergies.size() - 1) {
+                    medicalHistory.append(", ");
+                }
+            }
+
+            if (!conditions.isEmpty()) {
+                medicalHistory.append("\n");
+            }
+
+            for (int i = 0; i < conditions.size(); i++) {
+                medicalHistory.append(conditions.get(i).getName());
+
+                if (i < conditions.size() - 1) {
+                    medicalHistory.append(", ");
+                }
+            }
+
+            historyDesc.setText(medicalHistory.toString());
+        } else {
+            historyDesc.setText(getString(R.string.no_medical_complications_listed));
         }
     }
 }

@@ -48,6 +48,8 @@ public class AwsManager {
     private Visit visit;
     private Consumer consumer;
     private boolean hasMedicationsFilledOut;
+    private boolean hasAllergiesFilledOut;
+    private boolean hasConditionsFilledOut;
 
     public static AwsManager getInstance() {
         return ourInstance;
@@ -171,5 +173,21 @@ public class AwsManager {
 
     public void setHasMedicationsFilledOut(boolean hasMedicationsFilledOut) {
         this.hasMedicationsFilledOut = hasMedicationsFilledOut;
+    }
+
+    public boolean isHasAllergiesFilledOut() {
+        return hasAllergiesFilledOut;
+    }
+
+    public void setHasAllergiesFilledOut(boolean hasAllergiesFilledOut) {
+        this.hasAllergiesFilledOut = hasAllergiesFilledOut;
+    }
+
+    public boolean isHasConditionsFilledOut() {
+        return hasConditionsFilledOut;
+    }
+
+    public void setHasConditionsFilledOut(boolean hasConditionsFilledOut) {
+        this.hasConditionsFilledOut = hasConditionsFilledOut;
     }
 }

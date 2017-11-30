@@ -154,6 +154,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/medical_history_desc"
                 style="@style/tradeGothicLTStd_Dynamic16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

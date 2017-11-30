@@ -427,6 +427,7 @@
     <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
     <string name="medical_history">Medical History</string>
     <string name="complete_your_medical_history">Complete your medical history.</string>
+    <string name="no_medical_complications_listed">You have no medical complications</string>
     <string name="medications">Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
     <string name="no_medications_listed">You have no medications</string>
