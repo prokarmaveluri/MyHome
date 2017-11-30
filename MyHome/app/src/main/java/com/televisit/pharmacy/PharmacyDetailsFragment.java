@@ -84,7 +84,7 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
 
         final TextView phone = view.findViewById(R.id.phone);
         ImageView phoneIcon = view.findViewById(R.id.phone_icon);
-        phone.setText(CommonUtil.constructPhoneNumber(pharmacy.getPhone()));
+        phone.setText(CommonUtil.constructPhoneNumberDots(pharmacy.getPhone()));
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

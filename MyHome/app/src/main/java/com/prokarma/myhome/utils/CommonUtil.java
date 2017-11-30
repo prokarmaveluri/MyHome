@@ -48,7 +48,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import timber.log.Timber;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
@@ -279,13 +278,15 @@ public class CommonUtil {
     }
 
     /**
-     * Adds dashes and parentheses to a phone number
+     * Adds dashes to a phone number.
+     * Deprecated, as client wants to go with . instead of -
      *
      * @param number the number being formatted
-     * @return a String representation of the phone number, formatted with dashes and parentheses
+     * @return a String representation of the phone number, formatted with dashes
      */
     @SuppressWarnings("deprecation")
-    public static String constructPhoneNumber(@NonNull String number) {
+    @Deprecated
+    public static String constructPhoneNumberHyphens(@NonNull String number) {
         String phoneNumber = "";
 
         if (number == null || number.trim().isEmpty())
@@ -302,6 +303,29 @@ public class CommonUtil {
         phoneNumber = phoneNumber.replace(" ", "");
         if (!phoneNumber.contains("-") && phoneNumber.length() == 10)
             phoneNumber = phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6, 10);
+        return phoneNumber.trim();
+    }
+
+    /**
+     * Adds dots to a phone number
+     *
+     * @param number the number being formatted
+     * @return a String representation of the phone number, formatted with dots
+     */
+    public static String constructPhoneNumberDots(@NonNull String number) {
+        String phoneNumber = "";
+
+        if (number == null || number.trim().isEmpty())
+            return "";
+
+        phoneNumber = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+        phoneNumber = phoneNumber.replaceAll("\\(", "");
+        phoneNumber = phoneNumber.replaceAll("\\)", "");
+        phoneNumber = phoneNumber.replaceAll(" ", "");
+        phoneNumber = phoneNumber.replaceAll("-", "");
+
+        if (phoneNumber.length() == 10)
+            phoneNumber = phoneNumber.substring(0, 3) + "." + phoneNumber.substring(3, 6) + "." + phoneNumber.substring(6, 10);
         return phoneNumber.trim();
     }
 
@@ -335,7 +359,7 @@ public class CommonUtil {
             }
 
             if (appointment.facilityPhoneNumber != null || appointment.visitReason != null) {
-                intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumber(appointment.facilityPhoneNumber) + "\n" + appointment.visitReason);
+                intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumberDots(appointment.facilityPhoneNumber) + "\n" + appointment.visitReason);
             }
 
             if (appointment.facilityAddress != null) {
@@ -381,7 +405,7 @@ public class CommonUtil {
         }
 
         if (facilityPhoneNumber != null || visitReason != null) {
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumber(facilityPhoneNumber) + "\n" + visitReason);
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumberDots(facilityPhoneNumber) + "\n" + visitReason);
         }
 
         if (facilityAddress != null) {
@@ -475,7 +499,7 @@ public class CommonUtil {
         }
 
         if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
-            message = message + "\n" + constructPhoneNumber(appointment.facilityPhoneNumber);
+            message = message + "\n" + constructPhoneNumberDots(appointment.facilityPhoneNumber);
         }
 
         if (appointment.visitReason != null && !appointment.visitReason.isEmpty()) {
@@ -531,7 +555,7 @@ public class CommonUtil {
         }
 
         if (facilityPhoneNumber != null && !facilityPhoneNumber.isEmpty()) {
-            message = message + "\n" + constructPhoneNumber(facilityPhoneNumber);
+            message = message + "\n" + constructPhoneNumberDots(facilityPhoneNumber);
         }
 
         if (visitReason != null && !visitReason.isEmpty()) {
