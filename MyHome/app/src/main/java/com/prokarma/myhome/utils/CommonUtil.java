@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.fad.Office;
@@ -608,31 +609,6 @@ public class CommonUtil {
         listView.requestLayout();
     }
 
-    public static void setExpandedListViewHeight(Context context, IndexFastScrollRecyclerView listView) {
-        /*int totalHeight = 0;
-        HistoryListAdapter listAdapter = (HistoryListAdapter) listView.getExpandableListAdapter();
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
-
-        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-            View groupItem = listAdapter.getGroupView(i, false, null, listView);
-            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
-            totalHeight += 64;
-            for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
-                View listItem = listAdapter.getChildView(i, j, false, null, listView);
-                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-                totalHeight += 64;
-            }
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight + 5;
-        if (height < 133)
-            height = 133;
-        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
-        listView.setLayoutParams(params);
-        listView.requestLayout();*/
-    }
-
     /**
      * Merely prints all the objects in a list using their toString methods.
      *
@@ -943,7 +919,7 @@ public class CommonUtil {
     @Nullable
     public static ProviderInfo getNextAvailableProvider(List<ProviderInfo> providers) {
         for (ProviderInfo provider : providers) {
-            if (provider.getWaitingRoomCount() == 0) {
+            if (provider.getWaitingRoomCount() == 0 && provider.getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
                 return provider;
             }
         }

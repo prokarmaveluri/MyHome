@@ -21,7 +21,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.List;
 
@@ -83,13 +83,22 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         waitingRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Enable for sample app Demo
-//                SampleApplication.getInstance().initVisit(getActivity().getApplicationContext());
-//                Intent intent = new Intent(getActivity(), LoginActivity.class);
-//                startActivity(intent);
+                //Services is ignored
+//                ((NavigationActivity) getActivity()).loadFragment(
+//                        Constants.ActivityTag.MY_CARE_SERVICES, null);
 
                 ((NavigationActivity) getActivity()).loadFragment(
-                        Constants.ActivityTag.MY_CARE_SERVICES, null);
+                        Constants.ActivityTag.MY_CARE_PROVIDERS, null);
+            }
+        });
+
+        TextView previousVisit = (TextView) view.findViewById(R.id.previous_visits);
+        previousVisit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Vijaya, do your fragment stuff here. Also, look at visit_summary.xml && SummaryFragment.java
+                ((NavigationActivity) getActivity()).loadFragment(
+                        Constants.ActivityTag.PREVIOUS_VISITS_SUMMARY, null);
             }
         });
 
@@ -135,8 +144,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerPharmacy() {
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
-                SDKUtils.getInstance().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
+                AwsManager.getInstance().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
                     @Override
                     public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
 
@@ -150,13 +159,13 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConditionsFetchOnly() {
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getConditions(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
+                AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Condition>, SDKError>() {
                     @Override
                     public void onResponse(List<Condition> conditions, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setConditions(conditions);
+                            AwsManager.getInstance().setConditions(conditions);
                         }
                     }
 
@@ -168,13 +177,13 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getAllergiesFetchOnly() {
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getAllergies(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
+                AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Allergy>, SDKError>() {
                     @Override
                     public void onResponse(List<Allergy> allergies, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setAllergies(allergies);
+                            AwsManager.getInstance().setAllergies(allergies);
                         }
                     }
 
@@ -185,9 +194,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setConsumerMedications() {
-        List<Medication> medicationsList = SDKUtils.getInstance().getMedications();
+        List<Medication> medicationsList = AwsManager.getInstance().getMedications();
 
-        if (!SDKUtils.getInstance().isHasMedicationsFilledOut()) {
+        if (!AwsManager.getInstance().isHasMedicationsFilledOut()) {
             medicationsDesc.setText(getString(R.string.what_medications_are_you_taking));
         } else if (medicationsList != null && medicationsList.size() > 0) {
             StringBuilder medications = new StringBuilder();
@@ -207,7 +216,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setConsumerPharmacy() {
-        Pharmacy pharmacy = SDKUtils.getInstance().getConsumerPharmacy();
+        Pharmacy pharmacy = AwsManager.getInstance().getConsumerPharmacy();
 
         if (pharmacy != null) {
             pharmacyDesc.setText(pharmacy.getName() + "\n" + CommonUtil.getPharmacyAddress(pharmacy));

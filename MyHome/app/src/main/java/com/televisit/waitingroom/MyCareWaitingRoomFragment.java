@@ -25,7 +25,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 import com.televisit.summary.SummaryFragment;
 
 import java.util.Map;
@@ -78,10 +78,10 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.waiting_room_title));
 
         //TODO: visit summary and feedback
-//        startVisit(SDKUtils.getInstance().getConsumer().getAddress(),
+//        startVisit(AwsManager.getInstance().getConsumer().getAddress(),
 //                SummaryActivity.getSummaryIntent(getActivity()));
 
-        startVisit(SDKUtils.getInstance().getConsumer().getAddress(), null);
+        startVisit(AwsManager.getInstance().getConsumer().getAddress(), null);
         return view;
     }
 
@@ -111,8 +111,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
 
         Timber.e("Starting visit....");
 
-        SDKUtils.getInstance().getAWSDK().getVisitManager().startVisit(
-                SDKUtils.getInstance().getVisit(),
+        AwsManager.getInstance().getAWSDK().getVisitManager().startVisit(
+                AwsManager.getInstance().getVisit(),
                 location,
                 visitFinishedIntent,
                 new StartVisitCallback() {
@@ -178,7 +178,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
 
 //    private void cancelVisit() {
 //        AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
-//                SDKUtils.getInstance().getVisit(),
+//                AwsManager.getInstance().getVisit(),
 //                new SDKCallback<Void, SDKError>() {
 //                    @Override
 //                    public void onResponse(Void aVoid, SDKError sdkError) {
@@ -196,7 +196,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
     public void abandonVisit() {
         // called by onDestroy()
         // this is to ensure we don't have any polling hanging out when it shouldn't be
-        SDKUtils.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
+        AwsManager.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
     }
 
     public void setVisitIntent(final Intent intent) {
@@ -207,7 +207,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
         builder.setSmallIcon(R.drawable.ic_local_hospital_white_18dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.video_console_ongoing_notification,
-                        SDKUtils.getInstance().getVisit().getAssignedProvider().getFullName()))
+                        AwsManager.getInstance().getVisit().getAssignedProvider().getFullName()))
                 .setAutoCancel(false)
                 .setOngoing(true)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

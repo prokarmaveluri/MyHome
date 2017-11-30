@@ -26,7 +26,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.MedicationRecyclerViewListener;
 import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.utils.CommonUtil;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,13 +92,13 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
         searchLayout = (RelativeLayout) view.findViewById(R.id.searchLayout);
         progressBar = (ProgressBar) view.findViewById(R.id.medications_progress);
 
-        noMedicationsCheckbox.setChecked(SDKUtils.getInstance().isHasMedicationsFilledOut());
+        noMedicationsCheckbox.setChecked(AwsManager.getInstance().isHasMedicationsFilledOut());
 
         searchQuery.addTextChangedListener(this);
         noMedicationsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setMedicationsAdapter(SDKUtils.getInstance().getMedications());
+                setMedicationsAdapter(AwsManager.getInstance().getMedications());
             }
         });
 
@@ -132,7 +132,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
                 @Override
                 public void onDeleteClick(Object model, int position) {
-                    List<Medication> medications = SDKUtils.getInstance().getMedications();
+                    List<Medication> medications = AwsManager.getInstance().getMedications();
                     if (medications == null)
                         medications = new ArrayList<>();
                     if (model != null) {
@@ -153,20 +153,20 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
         }
 
         if ((list != null && list.size() > 0) || noMedicationsCheckbox.isChecked()) {
-            SDKUtils.getInstance().setHasMedicationsFilledOut(true);
+            AwsManager.getInstance().setHasMedicationsFilledOut(true);
         } else {
-            SDKUtils.getInstance().setHasMedicationsFilledOut(false);
+            AwsManager.getInstance().setHasMedicationsFilledOut(false);
         }
     }
 
     private void getMedications() {
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getMedications(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
+                AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Medication>, SDKError>() {
                     @Override
                     public void onResponse(List<Medication> medications, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setMedications(medications);
+                            AwsManager.getInstance().setMedications(medications);
                         }
                         searchLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
@@ -188,9 +188,9 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
     private void updateMedications() {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().updateMedications(
-                SDKUtils.getInstance().getConsumer(),
-                SDKUtils.getInstance().getMedications(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateMedications(
+                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getMedications(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
@@ -210,8 +210,8 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
     private void searchMedications(String searchText) {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().searchMedications(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().searchMedications(
+                AwsManager.getInstance().getConsumer(),
                 searchText,
                 new SDKValidatedCallback<List<Medication>, SDKError>() {
                     @Override
@@ -265,7 +265,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
         searchSuggestions.setVisibility(View.GONE);
         CommonUtil.hideSoftKeyboard(getActivity());
 
-        List<Medication> medications = SDKUtils.getInstance().getMedications();
+        List<Medication> medications = AwsManager.getInstance().getMedications();
         if (medications == null)
             medications = new ArrayList<>();
         if (searchList != null && searchList.size() > position) {

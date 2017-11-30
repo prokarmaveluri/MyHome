@@ -163,6 +163,11 @@
         <item name="android:textSize">@dimen/scalable_24</item>
     </style>
 
+    <style name="tradeGothicLTStd_Dynamic30" parent="tradeGothicLTStdBold">
+        <item name="android:textSize">@dimen/scalable_30</item>
+        <item name="android:textColor">@color/md_blue_grey_650</item>
+    </style>
+
     <style name="tradeGothicLTStd_Dynamic32" parent="tradeGothicLTStdBold">
         <item name="android:textSize">@dimen/scalable_32</item>
         <item name="android:textColor">@color/md_blue_grey_650</item>

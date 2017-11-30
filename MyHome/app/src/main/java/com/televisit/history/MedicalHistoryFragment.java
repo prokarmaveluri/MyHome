@@ -4,7 +4,6 @@ package com.televisit.history;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +21,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.List;
 
@@ -38,7 +37,8 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
     private IndexFastScrollRecyclerView expandableList;
     private ProgressBar progressBar;
     private HistoryListAdapter adapter;
-    private HistoryListAdapter.GROUP selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
+    private Menu menu;
+    public HistoryListAdapter.GROUP selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
     private int reqCount = 0;
 
     public static final String MED_HISTORY_TAG = "history_view_tag";
@@ -78,7 +78,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
         selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
         bindList();
 
-        if (SDKUtils.getInstance().getConditions() != null && SDKUtils.getInstance().getConditions().size() > 0) {
+        if (AwsManager.getInstance().getConditions() != null && AwsManager.getInstance().getConditions().size() > 0) {
             progressBar.setVisibility(View.GONE);
             expandableList.setVisibility(View.VISIBLE);
         } else {
@@ -101,19 +101,46 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.intake_menu, menu);
+        this.menu = menu;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.next:
-                selectedGroup = HistoryListAdapter.GROUP.ALLERGIES;
-                bindList();
-                adapter.notifyDataSetChanged();
+
+                if (selectedGroup == HistoryListAdapter.GROUP.CONDITIONS) {
+                    showAllergies();
+                } else {
+                    updateConditions();
+                    updateAllergies();
+
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showConditions() {
+        selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
+        bindList();
+        adapter.notifyDataSetChanged();
+
+        if (menu != null && menu.getItem(0) != null) {
+            menu.getItem(0).setTitle("Next");
+        }
+    }
+
+    private void showAllergies() {
+        selectedGroup = HistoryListAdapter.GROUP.ALLERGIES;
+        bindList();
+        adapter.notifyDataSetChanged();
+
+        if (menu != null && menu.getItem(0) != null) {
+            menu.getItem(0).setTitle("Done");
+        }
     }
 
     private void bindList() {
@@ -126,23 +153,22 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
         expandableList.setIndexBarColor("#" + Integer.toHexString(getResources().getColor(R.color.white)));
 
         adapter = new HistoryListAdapter(getActivity(), selectedGroup,
-                SDKUtils.getInstance().getConditions(),
-                SDKUtils.getInstance().getAllergies(), this);
+                AwsManager.getInstance().getConditions(),
+                AwsManager.getInstance().getAllergies(), this);
         expandableList.setAdapter(adapter);
-        CommonUtil.setExpandedListViewHeight(getContext(), expandableList);
     }
 
     private void getConditions() {
 
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getConditions(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
+                AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Condition>, SDKError>() {
                     @Override
                     public void onResponse(List<Condition> conditions, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setConditions(conditions);
+                            AwsManager.getInstance().setConditions(conditions);
 
                             selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
                             bindList();
@@ -171,13 +197,13 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
 
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().getAllergies(
-                SDKUtils.getInstance().getConsumer(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
+                AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Allergy>, SDKError>() {
                     @Override
                     public void onResponse(List<Allergy> allergies, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setAllergies(allergies);
+                            AwsManager.getInstance().setAllergies(allergies);
                         }
                         reqCount--;
                         if (reqCount == 0) {
@@ -199,9 +225,9 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
 
     private void updateConditions() {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().updateConditions(
-                SDKUtils.getInstance().getConsumer(),
-                SDKUtils.getInstance().getConditions(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateConditions(
+                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getConditions(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
@@ -219,9 +245,9 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
 
     private void updateAllergies() {
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getConsumerManager().updateAllergies(
-                SDKUtils.getInstance().getConsumer(),
-                SDKUtils.getInstance().getAllergies(),
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateAllergies(
+                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getAllergies(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
@@ -238,32 +264,27 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
     }
 
     @Override
-    public void selectedGroup(int groupPosition, int childPosition) {
+    public void selectedItem(int groupSelected, int childPosition) {
 
-        if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == groupPosition) {
-            Log.d(this.getClass().getSimpleName(), "MH. conditions. selectedGroup childPosition = " + childPosition);
-
+        if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == groupSelected) {
             if (childPosition == 0) {
-                for (Condition condition : SDKUtils.getInstance().getConditions()) {
+                for (Condition condition : AwsManager.getInstance().getConditions()) {
                     condition.setCurrent(false);
                 }
             } else {
-                SDKUtils.getInstance().getConditions().get(childPosition).setCurrent(
-                        !SDKUtils.getInstance().getConditions().get(childPosition - 1).isCurrent());
+                AwsManager.getInstance().getConditions().get(childPosition - 1).setCurrent(
+                        !AwsManager.getInstance().getConditions().get(childPosition - 1).isCurrent());
             }
-            updateConditions();
         } else {
-            Log.d(this.getClass().getSimpleName(), "MH. allergies. selectedGroup childPosition = " + childPosition);
             if (childPosition == 0) {
-                SDKUtils.getInstance().getAllergies().get(childPosition).setCurrent(false);
-                for (Allergy allergy : SDKUtils.getInstance().getAllergies()) {
+                for (Allergy allergy : AwsManager.getInstance().getAllergies()) {
                     allergy.setCurrent(false);
                 }
             } else {
-                SDKUtils.getInstance().getAllergies().get(childPosition).setCurrent(
-                        !SDKUtils.getInstance().getAllergies().get(childPosition - 1).isCurrent());
+                AwsManager.getInstance().getAllergies().get(childPosition - 1).setCurrent(
+                        !AwsManager.getInstance().getAllergies().get(childPosition - 1).isCurrent());
             }
-            updateAllergies();
         }
+        adapter.notifyDataSetChanged();
     }
 }

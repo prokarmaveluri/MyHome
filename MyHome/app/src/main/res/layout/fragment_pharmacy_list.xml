@@ -17,7 +17,8 @@
         android:drawableRight="@mipmap/xblue"
         android:hint="@string/pharmacy_search_hint"
         android:imeOptions="actionSearch"
-        android:inputType="textNoSuggestions"
+        android:inputType="number"
+        android:maxLength="5"
         android:maxLines="1"
         android:shadowColor="@color/accent" />
 

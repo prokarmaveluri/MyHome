@@ -2,7 +2,6 @@ package com.televisit.history;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,16 +41,16 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     private List<Allergy> allergies;
     private GroupSelectionListener listener;
     private ArrayList<Integer> mSectionPositions;
-    private GROUP groupPosition = GROUP.CONDITIONS;
+    private GROUP groupSelected = GROUP.CONDITIONS;
 
     public HistoryListAdapter(Context context,
-                              GROUP groupPosition,
+                              GROUP groupSelected,
                               List<Condition> conditions,
                               List<Allergy> allergies,
                               GroupSelectionListener listener) {
 
         mContext = context;
-        this.groupPosition = groupPosition;
+        this.groupSelected = groupSelected;
         this.conditions = conditions;
         this.allergies = allergies;
         this.listener = listener;
@@ -67,7 +66,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         List<String> sections = new ArrayList<>(26);
         mSectionPositions = new ArrayList<>(26);
 
-        if (GROUP.CONDITIONS.getValue() == groupPosition.getValue()) {
+        if (GROUP.CONDITIONS.getValue() == groupSelected.getValue()) {
             if (conditions != null) {
                 for (int i = 0, size = conditions.size(); i < size; i++) {
                     String section = String.valueOf(conditions.get(i).getName().charAt(0)).toUpperCase();
@@ -77,7 +76,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                     }
                 }
             }
-        } else if (GROUP.ALLERGIES.getValue() == groupPosition.getValue()) {
+        } else if (GROUP.ALLERGIES.getValue() == groupSelected.getValue()) {
             if (allergies != null) {
                 for (int i = 0, size = allergies.size(); i < size; i++) {
                     String section = String.valueOf(allergies.get(i).getName().charAt(0)).toUpperCase();
@@ -105,9 +104,9 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        if (groupPosition.getValue() == HistoryListAdapter.GROUP.CONDITIONS.getValue()) {
+        if (groupSelected.getValue() == HistoryListAdapter.GROUP.CONDITIONS.getValue()) {
             if (position == 0) {
-                holder.view.setText("I don't have any conditions");
+                holder.view.setText(mContext.getResources().getString(R.string.no_conditions));
                 holder.view.setChecked(false);
             } else {
                 holder.view.setText(conditions.get(position - 1).getName());
@@ -115,9 +114,9 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             }
             holder.view.setTag(position);
 
-        } else if (groupPosition.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
+        } else if (groupSelected.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
             if (position == 0) {
-                holder.view.setText("I don't have any allergies");
+                holder.view.setText(mContext.getResources().getString(R.string.no_allergies));
                 holder.view.setTag(position);
             } else {
                 holder.view.setText(allergies.get(position - 1).getName());
@@ -130,10 +129,10 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             @Override
             public void onClick(View v) {
                 int pos = (int) v.getTag();
-                if (groupPosition.getValue() == HistoryListAdapter.GROUP.CONDITIONS.getValue()) {
-                    listener.selectedGroup(groupPosition.getValue(), pos);
-                } else if (groupPosition.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
-                    listener.selectedGroup(groupPosition.getValue(), pos);
+                if (groupSelected.getValue() == HistoryListAdapter.GROUP.CONDITIONS.getValue()) {
+                    listener.selectedItem(groupSelected.getValue(), pos);
+                } else if (groupSelected.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
+                    listener.selectedItem(groupSelected.getValue(), pos);
                 }
             }
         });
@@ -142,11 +141,11 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     @Override
     public int getItemCount() {
         //+1 added to account for the "I donot have any conditions/allergies"
-        if (GROUP.CONDITIONS.getValue() == groupPosition.getValue()) {
+        if (GROUP.CONDITIONS.getValue() == groupSelected.getValue()) {
             if (conditions != null) {
                 return conditions.size() + 1;
             }
-        } else if (GROUP.ALLERGIES.getValue() == groupPosition.getValue()) {
+        } else if (GROUP.ALLERGIES.getValue() == groupSelected.getValue()) {
             if (allergies != null) {
                 return allergies.size() + 1;
             }
@@ -171,6 +170,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     }
 
     interface GroupSelectionListener {
-        void selectedGroup(int groupPosition, int childPosition);
+        void selectedItem(int groupSelected, int childPosition);
     }
 }

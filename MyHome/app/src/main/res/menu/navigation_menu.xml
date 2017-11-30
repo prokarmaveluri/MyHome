@@ -22,7 +22,7 @@
 
     <item
         android:id="@+id/profile"
-        android:icon="@drawable/profile"
+        android:icon="@drawable/mcn_icon"
         android:title="@string/mycare_now"
         app:showAsAction="ifRoom" />
 </menu>
