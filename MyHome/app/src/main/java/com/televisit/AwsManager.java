@@ -58,11 +58,17 @@ public class AwsManager {
     private Visit visit;
     private Consumer consumer;
     private boolean hasMedicationsFilledOut;
-    private boolean hasAllergiesFilledOut;
-    private boolean hasConditionsFilledOut;
+    private State hasAllergiesFilledOut = State.NOT_FILLED_OUT;
+    private State hasConditionsFilledOut = State.NOT_FILLED_OUT;
     private boolean hasInitializedAwsdk;
     private boolean hasAuthenticated;
     private boolean hasConsumer;
+
+    public static enum State {
+        NOT_FILLED_OUT,
+        FILLED_OUT_HAVE_NONE,
+        FILLED_OUT_HAVE_FEW
+    }
 
     public static AwsManager getInstance() {
         return ourInstance;
@@ -131,10 +137,12 @@ public class AwsManager {
     public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
 
-        setHasConditionsFilledOut(false);
+        if (isHasConditionsFilledOut() == State.FILLED_OUT_HAVE_FEW) {
+            setHasConditionsFilledOut(State.FILLED_OUT_HAVE_NONE);
+        }
         for (Condition condition : conditions) {
             if (condition.isCurrent()) {
-                setHasConditionsFilledOut(true);
+                setHasConditionsFilledOut(State.FILLED_OUT_HAVE_FEW);
                 break;
             }
         }
@@ -147,10 +155,12 @@ public class AwsManager {
     public void setAllergies(List<Allergy> allergies) {
         this.allergies = allergies;
 
-        setHasAllergiesFilledOut(false);
+        if (isHasAllergiesFilledOut() == State.FILLED_OUT_HAVE_FEW) {
+            setHasAllergiesFilledOut(State.FILLED_OUT_HAVE_NONE);
+        }
         for (Allergy allergy : allergies) {
             if (allergy.isCurrent()) {
-                setHasAllergiesFilledOut(true);
+                setHasAllergiesFilledOut(State.FILLED_OUT_HAVE_FEW);
                 break;
             }
         }
@@ -210,19 +220,19 @@ public class AwsManager {
         this.hasMedicationsFilledOut = hasMedicationsFilledOut;
     }
 
-    public boolean isHasAllergiesFilledOut() {
+    public State isHasAllergiesFilledOut() {
         return hasAllergiesFilledOut;
     }
 
-    public void setHasAllergiesFilledOut(boolean hasAllergiesFilledOut) {
+    public void setHasAllergiesFilledOut(State hasAllergiesFilledOut) {
         this.hasAllergiesFilledOut = hasAllergiesFilledOut;
     }
 
-    public boolean isHasConditionsFilledOut() {
+    public State isHasConditionsFilledOut() {
         return hasConditionsFilledOut;
     }
 
-    public void setHasConditionsFilledOut(boolean hasConditionsFilledOut) {
+    public void setHasConditionsFilledOut(State hasConditionsFilledOut) {
         this.hasConditionsFilledOut = hasConditionsFilledOut;
     }
 

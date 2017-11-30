@@ -304,9 +304,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         List<Condition> conditions = CommonUtil.getCurrentConditions(AwsManager.getInstance().getConditions());
 
         if (isAdded()) {
-            if (!AwsManager.getInstance().isHasConditionsFilledOut() || !AwsManager.getInstance().isHasAllergiesFilledOut()) {
-                historyDesc.setText(getString(R.string.what_medications_are_you_taking));
-            } else if ((conditions != null && !conditions.isEmpty()) || (allergies != null && !allergies.isEmpty())) {
+
+            if ((conditions != null && !conditions.isEmpty()) || (allergies != null && !allergies.isEmpty())) {
                 StringBuilder medicalHistory = new StringBuilder();
 
                 for (int i = 0; i < conditions.size(); i++) {
@@ -317,7 +316,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                     }
                 }
 
-                if (!allergies.isEmpty()) {
+                if (medicalHistory.length() > 0 && !allergies.isEmpty()) {
                     medicalHistory.append("\n");
                 }
 
@@ -330,6 +329,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 }
 
                 historyDesc.setText(medicalHistory.toString());
+            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT || AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+
+                historyDesc.setText(getString(R.string.complete_your_medical_history));
             } else {
                 historyDesc.setText(getString(R.string.no_medical_complications_listed));
             }
