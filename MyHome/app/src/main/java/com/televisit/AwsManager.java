@@ -62,7 +62,7 @@ public class AwsManager {
         try {
             this.awsdk = AWSDKFactory.getAWSDK(context);
 
-            if(BuildConfig.REPORT_LOGS){
+            if (BuildConfig.REPORT_LOGS) {
                 awsdk.getDefaultLogger().setPriority(3); // set log level to debug - Log.DEBUG
             } else {
                 awsdk.getDefaultLogger().setPriority(6); // set log level to error - Log.ERROR
@@ -117,6 +117,14 @@ public class AwsManager {
 
     public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
+
+        setHasConditionsFilledOut(false);
+        for (Condition condition : conditions) {
+            if (condition.isCurrent()) {
+                setHasConditionsFilledOut(true);
+                break;
+            }
+        }
     }
 
     public List<Allergy> getAllergies() {
@@ -125,6 +133,14 @@ public class AwsManager {
 
     public void setAllergies(List<Allergy> allergies) {
         this.allergies = allergies;
+
+        setHasAllergiesFilledOut(false);
+        for (Allergy allergy : allergies) {
+            if (allergy.isCurrent()) {
+                setHasAllergiesFilledOut(true);
+                break;
+            }
+        }
     }
 
     public List<Pharmacy> getPharmacies() {

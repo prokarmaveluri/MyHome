@@ -232,28 +232,32 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         List<Allergy> allergies = AwsManager.getInstance().getAllergies();
         List<Condition> conditions = AwsManager.getInstance().getConditions();
 
-        if (!AwsManager.getInstance().isHasAllergiesFilledOut() || !AwsManager.getInstance().isHasConditionsFilledOut()) {
+        if (!AwsManager.getInstance().isHasConditionsFilledOut() || !AwsManager.getInstance().isHasAllergiesFilledOut()) {
             historyDesc.setText(getString(R.string.what_medications_are_you_taking));
-        } else if ((allergies != null && !allergies.isEmpty()) || (conditions != null && !conditions.isEmpty())) {
+        } else if ((conditions != null && !conditions.isEmpty()) || (allergies != null && !allergies.isEmpty())) {
             StringBuilder medicalHistory = new StringBuilder();
 
-            for (int i = 0; i < allergies.size(); i++) {
-                medicalHistory.append(allergies.get(i).getName());
+            for (int i = 0; i < conditions.size(); i++) {
+                if (conditions.get(i).isCurrent()) {
+                    medicalHistory.append(conditions.get(i).getName());
 
-                if (i < allergies.size() - 1) {
-                    medicalHistory.append(", ");
+                    if (i < conditions.size() - 1) {
+                        medicalHistory.append(", ");
+                    }
                 }
             }
 
-            if (!conditions.isEmpty()) {
+            if (!allergies.isEmpty()) {
                 medicalHistory.append("\n");
             }
 
-            for (int i = 0; i < conditions.size(); i++) {
-                medicalHistory.append(conditions.get(i).getName());
+            for (int i = 0; i < allergies.size(); i++) {
+                if (allergies.get(i).isCurrent()) {
+                    medicalHistory.append(allergies.get(i).getName());
 
-                if (i < conditions.size() - 1) {
-                    medicalHistory.append(", ");
+                    if (i < allergies.size() - 1) {
+                        medicalHistory.append(", ");
+                    }
                 }
             }
 
