@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.fad.Office;
@@ -943,7 +944,7 @@ public class CommonUtil {
     @Nullable
     public static ProviderInfo getNextAvailableProvider(List<ProviderInfo> providers) {
         for (ProviderInfo provider : providers) {
-            if (provider.getWaitingRoomCount() == 0) {
+            if (provider.getWaitingRoomCount() == 0 && provider.getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
                 return provider;
             }
         }
