@@ -197,6 +197,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerMedications() {
+        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
                 AwsManager.getInstance().getConsumer(), new SDKCallback<List<Medication>, SDKError>() {
                     @Override
@@ -213,6 +216,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerPharmacy() {
+        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
                 AwsManager.getInstance().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
                     @Override
@@ -229,6 +235,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerConditions() {
+        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
                 AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Condition>, SDKError>() {
@@ -248,6 +257,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerAllergies() {
+        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
                 AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Allergy>, SDKError>() {
@@ -331,11 +343,11 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 }
 
                 historyDesc.setText(medicalHistory.toString());
-            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT || AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
 
+            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT || AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
                 historyDesc.setText(getString(R.string.complete_your_medical_history));
             } else {
-                historyDesc.setText(getString(R.string.no_medical_complications_listed));
+                historyDesc.setText(getString(R.string.complete_your_medical_history));  //no_medical_complications_listed));
             }
         }
     }

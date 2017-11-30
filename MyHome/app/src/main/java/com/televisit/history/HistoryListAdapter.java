@@ -43,6 +43,8 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     private GroupSelectionListener listener;
     private ArrayList<Integer> mSectionPositions;
     private GROUP groupSelected = GROUP.CONDITIONS;
+    private String donotHaveConditionsState;
+    private String donotHaveAllergiesState;
 
     public HistoryListAdapter(Context context,
                               GROUP groupSelected,
@@ -55,8 +57,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         this.conditions = conditions;
         this.allergies = allergies;
         this.listener = listener;
-
-
     }
 
     @Override
@@ -110,12 +110,19 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         if (groupSelected.getValue() == HistoryListAdapter.GROUP.CONDITIONS.getValue()) {
             if (position == 0) {
                 holder.view.setText(mContext.getResources().getString(R.string.no_conditions));
-                holder.view.setTag(position);
-                if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_FEW) {
-                    holder.view.setChecked(false);
-                }
-                else {
-                    holder.view.setChecked(true);
+
+                if (donotHaveConditionsState != null) {
+                    if (donotHaveConditionsState.equalsIgnoreCase("true")) {
+                        holder.view.setChecked(true);
+                    } else {
+                        holder.view.setChecked(false);
+                    }
+                } else {
+                    if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_FEW) {
+                        holder.view.setChecked(false);
+                    } else {
+                        holder.view.setChecked(true);
+                    }
                 }
             } else {
                 holder.view.setText(conditions.get(position - 1).getName());
@@ -125,11 +132,19 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         } else if (groupSelected.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
             if (position == 0) {
                 holder.view.setText(mContext.getResources().getString(R.string.no_allergies));
-                if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_FEW) {
-                    holder.view.setChecked(false);
-                }
-                else {
-                    holder.view.setChecked(true);
+
+                if (donotHaveAllergiesState != null) {
+                    if (donotHaveAllergiesState.equalsIgnoreCase("true")) {
+                        holder.view.setChecked(true);
+                    } else {
+                        holder.view.setChecked(false);
+                    }
+                } else {
+                    if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_FEW) {
+                        holder.view.setChecked(false);
+                    } else {
+                        holder.view.setChecked(true);
+                    }
                 }
             } else {
                 holder.view.setText(allergies.get(position - 1).getName());
@@ -144,8 +159,27 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                 int pos = (int) v.getTag();
                 if (groupSelected.getValue() == HistoryListAdapter.GROUP.CONDITIONS.getValue()) {
                     listener.selectedItem(groupSelected.getValue(), pos);
+
+                    if (pos == 0) {
+                        CheckBox checkBox = (CheckBox) v;
+                        if (checkBox.isChecked()) {
+                            donotHaveConditionsState = "true";
+                        } else {
+                            donotHaveConditionsState = "false";
+                        }
+                    }
+
                 } else if (groupSelected.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
                     listener.selectedItem(groupSelected.getValue(), pos);
+
+                    if (pos == 0) {
+                        CheckBox checkBox = (CheckBox) v;
+                        if (checkBox.isChecked()) {
+                            donotHaveAllergiesState = "true";
+                        } else {
+                            donotHaveAllergiesState = "false";
+                        }
+                    }
                 }
             }
         });

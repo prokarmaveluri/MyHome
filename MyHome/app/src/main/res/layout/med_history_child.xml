@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:layout_marginLeft="16dp"
+    android:paddingRight="16dp"
     android:orientation="vertical">
 
     <CheckBox
@@ -11,7 +12,6 @@
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
         android:gravity="center_vertical"
         android:text="Sample"
         android:textStyle="normal"
