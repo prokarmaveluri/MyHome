@@ -87,7 +87,8 @@ public class SDKLoginFragment extends BaseFragment implements AwsUserAuthenticat
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.MY_CARE_NOW_SDK_LOGIN;
+        //return Constants.ActivityTag.MY_CARE_NOW_SDK_LOGIN;
+        return null;
     }
 
     @Override

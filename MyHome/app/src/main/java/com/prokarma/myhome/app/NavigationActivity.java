@@ -56,11 +56,9 @@ import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
-import com.televisit.AwsManager;
 import com.televisit.cost.MyCareVisitCostFragment;
 import com.televisit.history.HistoryListAdapter;
 import com.televisit.history.MedicalHistoryFragment;
-import com.televisit.login.SDKLoginFragment;
 import com.televisit.medications.MedicationsFragment;
 import com.televisit.pharmacy.PharmaciesFragment;
 import com.televisit.pharmacy.PharmacyDetailsFragment;
@@ -158,7 +156,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
                             case R.id.profile:
                                 if (AuthManager.getInstance().hasMyCare()) {
-                                    loadFragment(ActivityTag.MY_CARE_NOW_SDK_LOGIN, null);
+                                    loadFragment(ActivityTag.MY_CARE_NOW, null);
                                 } else {
                                     loadFragment(ActivityTag.PROFILE_VIEW, null);
                                 }
@@ -437,22 +435,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commit();
 
                     setActivityTag(ActivityTag.CONTACT_US);
-                }
-                break;
-            case MY_CARE_NOW_SDK_LOGIN:
-                if (getActivityTag() != ActivityTag.MY_CARE_NOW_SDK_LOGIN &&
-                        getActivityTag() != ActivityTag.MY_CARE_NOW) {
-
-                    getSupportFragmentManager().executePendingTransactions();
-                    AwsManager.getInstance().init(getApplicationContext());
-                    SDKLoginFragment fragment = SDKLoginFragment.newInstance();
-                    fragment.setArguments(bundle);
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame, fragment, ProfileViewFragment.PROFILE_VIEW_TAG)
-                            .commit();
-
-                    setActivityTag(ActivityTag.MY_CARE_NOW_SDK_LOGIN);
                 }
                 break;
             case MY_CARE_NOW:

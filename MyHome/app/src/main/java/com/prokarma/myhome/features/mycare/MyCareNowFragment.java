@@ -8,20 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+import com.televisit.interfaces.AwsConsumer;
+import com.televisit.interfaces.AwsInitialization;
+import com.televisit.interfaces.AwsUserAuthentication;
 
 import java.util.List;
 
@@ -30,7 +39,7 @@ import java.util.List;
  * Use the {@link MyCareNowFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyCareNowFragment extends BaseFragment implements View.OnClickListener {
+public class MyCareNowFragment extends BaseFragment implements View.OnClickListener, AwsUserAuthentication, AwsInitialization, AwsConsumer {
 
     private TextView infoEdit;
     private TextView historyDesc;
@@ -39,6 +48,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private TextView medicationsEdit;
     private TextView pharmacyDesc;
     private TextView pharmacyEdit;
+    private ProgressBar progressBar;
+    private RelativeLayout userLayout;
 
     public MyCareNowFragment() {
         // Required empty public constructor
@@ -76,6 +87,22 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         medicationsEdit = (TextView) view.findViewById(R.id.medications_edit);
         pharmacyDesc = (TextView) view.findViewById(R.id.pharmacy_desc);
         pharmacyEdit = (TextView) view.findViewById(R.id.pharmacy_edit);
+        progressBar = (ProgressBar) view.findViewById(R.id.mcn_progressbar);
+        userLayout = (RelativeLayout) view.findViewById(R.id.mcn_user_info);
+
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            showLoading();
+            AwsManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, this);
+        } else if (!AwsManager.getInstance().isHasAuthenticated()) {
+            this.initializationComplete();
+        } else if (!AwsManager.getInstance().isHasConsumer()) {
+            this.authenticationComplete(AwsManager.getInstance().getAuthentication());
+        } else {
+            setConsumerMedications();
+            setConsumerPharmacy();
+            setConsumerMedicalHistory();
+        }
+
         Button waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
 
         infoEdit.setOnClickListener(this);
@@ -104,19 +131,18 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             }
         });
 
-        getConsumerMedications();
-        getConsumerPharmacy();
-        getConsumerConditions();
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setConsumerMedications();
-        setConsumerPharmacy();
-        setConsumerMedicalHistory();
+
+        if (AwsManager.getInstance().isHasConsumer()) {
+            setConsumerMedications();
+            setConsumerPharmacy();
+            setConsumerMedicalHistory();
+        }
     }
 
     @Override
@@ -144,6 +170,27 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             case R.id.pharmacy_edit:
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_PHARMACY, null);
                 break;
+        }
+    }
+
+    private void showLoading() {
+        if (isAdded()) {
+            progressBar.setVisibility(View.VISIBLE);
+            userLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void finishLoading() {
+        if (isAdded()) {
+            progressBar.setVisibility(View.GONE);
+            userLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void errorLoading() {
+        if (isAdded()) {
+            progressBar.setVisibility(View.GONE);
+            userLayout.setVisibility(View.GONE);
         }
     }
 
@@ -288,4 +335,49 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             }
         }
     }
+
+    @Override
+    public void initializationComplete() {
+        if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
+            //Dev
+            AwsManager.getInstance().getUsersAuthentication("cmajji@mailinator.com", "Pass123*", this);
+        } else {
+            //IoT
+            AwsManager.getInstance().getUsersAuthentication("julie.testing@mailinator.com", "Password1", this);
+        }
+    }
+
+    @Override
+    public void initializationFailed(String errorMessage) {
+        Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+        errorLoading();
+    }
+
+    @Override
+    public void authenticationComplete(Authentication authentication) {
+        AwsManager.getInstance().getConsumer(authentication, this);
+    }
+
+    @Override
+    public void authentciationFailed(String errorMessage) {
+        Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+        errorLoading();
+    }
+
+    @Override
+    public void consumerComplete(Consumer consumer) {
+        getConsumerMedications();
+        getConsumerPharmacy();
+        getConsumerConditions();
+
+        if (isAdded()) {
+            finishLoading();
+        }
+    }
+
+    @Override
+    public void consumerFailed(String errorMessage) {
+        errorLoading();
+    }
+
 }
