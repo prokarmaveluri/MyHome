@@ -270,8 +270,8 @@ public class AuthManager {
 //                    }
 //                });
 
-                if(!AwsManager.getInstance().isHasInitializedAwsdk()){
-                    AwsManager.getInstance().initializeAwsdk();
+                if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+                    AwsManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, null);
                 }
 
             }
