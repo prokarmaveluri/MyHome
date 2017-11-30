@@ -140,6 +140,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 break;
 
             case R.id.next:
+                phoneLayout.setError(null);
+                reasonLayout.setError(null);
+
                 if (AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() == 0) {
                     if (isAdded()) {
                         if (AwsManager.getInstance().getVisit() == null)
