@@ -21,6 +21,8 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.logging.AWSDKLogger;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.BuildConfig;
+import com.televisit.interfaces.AwsConsumer;
+import com.televisit.interfaces.AwsInitialization;
 import com.televisit.interfaces.AwsUserAuthentication;
 
 import java.util.HashMap;
@@ -265,11 +267,11 @@ public class AwsManager {
         );
     }
 
-    public void getUsersAuthentication(@NonNull String username, @NonNull String password) {
+    public void getUsersAuthentication(@NonNull final String username, @NonNull final String password) {
         getUsersAuthentication(username, password, null);
     }
 
-    public void getUsersAuthentication(@NonNull String username, @NonNull String password, @Nullable final AwsUserAuthentication awsUserAuthentication) {
+    public void getUsersAuthentication(@NonNull final String username, @NonNull final String password, @Nullable final AwsUserAuthentication awsUserAuthentication) {
         //techincally, the first parameter in this call is "legalResidence" https://sdk.americanwell.com/?page_id=7377
         awsdk.authenticate(
                 username,
@@ -309,7 +311,11 @@ public class AwsManager {
                 });
     }
 
-    public void getUsersMutualAuthneticaion(String amWellToken) {
+    public void getUsersMutualAuthneticaion(@NonNull final String amWellToken) {
+        getUsersMutualAuthneticaion(amWellToken, null);
+    }
+
+    public void getUsersMutualAuthneticaion(@NonNull final String amWellToken, @Nullable final AwsUserAuthentication awsUserAuthentication) {
         awsdk.authenticateMutual(
                 amWellToken,
                 new SDKCallback<Authentication, SDKError>() {
@@ -318,9 +324,17 @@ public class AwsManager {
                         if (sdkError == null) {
                             Timber.i("Authentication : " + authentication);
                             AwsManager.getInstance().setAuthentication(authentication);
+
+                            if (awsUserAuthentication != null) {
+                                awsUserAuthentication.authenticationComplete(authentication);
+                            }
                         } else {
                             Timber.e("Error + " + sdkError);
                             AwsManager.getInstance().setAuthentication(null);
+
+                            if (awsUserAuthentication != null) {
+                                awsUserAuthentication.authentciationFailed(sdkError.getMessage());
+                            }
                         }
                     }
 
@@ -329,15 +343,19 @@ public class AwsManager {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setAuthentication(null);
+
+                        if (awsUserAuthentication != null) {
+                            awsUserAuthentication.authentciationFailed(throwable.getMessage());
+                        }
                     }
                 });
     }
 
-    public void initializeAwsdk() {
-        String baseServiceUrl = BuildConfig.awsdkurl;
-        String clientKey = BuildConfig.awsdkkey;
-        String launchUri = null;
+    public void initializeAwsdk(@NonNull final String baseServiceUrl, @NonNull final String clientKey, @Nullable final String launchUri) {
+        initializeAwsdk(baseServiceUrl, clientKey, launchUri, null);
+    }
 
+    public void initializeAwsdk(@NonNull final String baseServiceUrl, @NonNull final String clientKey, @Nullable final String launchUri, @Nullable final AwsInitialization awsInitialization) {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
         initParams.put(AWSDK.InitParam.BaseServiceUrl, baseServiceUrl);
         initParams.put(AWSDK.InitParam.ApiKey, clientKey);
@@ -351,9 +369,17 @@ public class AwsManager {
                         public void onResponse(Void aVoid, SDKError sdkError) {
                             if (sdkError == null) {
                                 setHasInitializedAwsdk(true);
+
+                                if (awsInitialization != null) {
+                                    awsInitialization.initializationComplete();
+                                }
                             } else {
                                 Timber.e("Error + " + sdkError);
                                 setHasInitializedAwsdk(false);
+
+                                if (awsInitialization != null) {
+                                    awsInitialization.initializationFailed(sdkError.getMessage());
+                                }
                             }
                         }
 
@@ -362,11 +388,60 @@ public class AwsManager {
                             Timber.e("Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                             setHasInitializedAwsdk(false);
+
+                            if (awsInitialization != null) {
+                                awsInitialization.initializationFailed(throwable.getMessage());
+                            }
                         }
                     });
         } catch (AWSDKInitializationException e) {
             Timber.e(e);
             setHasInitializedAwsdk(false);
+
+            if (awsInitialization != null) {
+                awsInitialization.initializationFailed(e.getMessage());
+            }
         }
     }
+
+    public void getConsumer(@NonNull final Authentication authentication) {
+        getConsumer(authentication, null);
+    }
+
+    public void getConsumer(@NonNull final Authentication authentication, @Nullable final AwsConsumer awsConsumer) {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumer(
+                authentication,
+                new SDKCallback<Consumer, SDKError>() {
+                    @Override
+                    public void onResponse(Consumer consumer, SDKError sdkError) {
+                        if (sdkError == null) {
+                            AwsManager.getInstance().setConsumer(consumer);
+
+                            if (awsConsumer != null) {
+                                awsConsumer.consumerComplete(consumer);
+                            }
+                        } else {
+                            Timber.e("Error + " + sdkError);
+                            AwsManager.getInstance().setConsumer(null);
+
+                            if (awsConsumer != null) {
+                                awsConsumer.consumerFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        AwsManager.getInstance().setConsumer(null);
+
+                        if (awsConsumer != null) {
+                            awsConsumer.consumerFailed(throwable.getMessage());
+                        }
+                    }
+                }
+        );
+    }
+
 }
