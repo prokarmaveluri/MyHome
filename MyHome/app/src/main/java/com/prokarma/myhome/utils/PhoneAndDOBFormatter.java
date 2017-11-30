@@ -25,7 +25,11 @@ public class PhoneAndDOBFormatter implements TextWatcher {
         /**
          * FormatterType to format Phone Number xxx-xxx-xxxx.
          */
-        PHONE_NUMBER("-", "\\d{3}", 2);
+        PHONE_NUMBER_HYPHENS("-", "\\d{3}", 2),
+        /**
+         * FormatterType to format Phone Number xxx.xxx.xxxx.
+         */
+        PHONE_NUMBER_DOTS("\\.", "\\d{3}", 2);
 
         /**
          * string to user as separator.
@@ -68,7 +72,8 @@ public class PhoneAndDOBFormatter implements TextWatcher {
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -92,15 +97,23 @@ public class PhoneAndDOBFormatter implements TextWatcher {
                 }
             }
             sbFormatted.append(unformatted.substring(index, unformatted.length()));
+            String finalString = sbFormatted.toString();
+
+            if (formatterType.equals(FormatterType.PHONE_NUMBER_DOTS)) {
+                finalString = finalString.replaceAll("\\\\", "");
+            }
+
             editText.removeTextChangedListener(this);
-            editText.setText(sbFormatted.toString());
-            if(selectionIndex < 0) selectionIndex = 0;
-            if(selectionIndex > sbFormatted.toString().length()) selectionIndex = sbFormatted.toString().length();
+            editText.setText(finalString);
+            if (selectionIndex < 0) selectionIndex = 0;
+            if (selectionIndex > sbFormatted.toString().length())
+                selectionIndex = sbFormatted.toString().length();
             editText.setSelection(selectionIndex);
             editText.addTextChangedListener(this);
         }
     }
 
     @Override
-    public void afterTextChanged(Editable s) {}
+    public void afterTextChanged(Editable s) {
+    }
 }

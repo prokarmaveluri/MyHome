@@ -38,7 +38,7 @@ public class ContactUsFragment extends BaseFragment {
         String emailViewContentDescription = String.format(getString(R.string.email_content_description), getString(R.string.contact_us_email));
         emailView.setContentDescription(emailViewContentDescription);
         TextView phoneView = (TextView) contactUsView.findViewById(R.id.phone);
-        String phoneViewContentDescription =  String.format(getString(R.string.phone_description), CommonUtil.constructPhoneNumber(getString(R.string.contact_us_phone)));
+        String phoneViewContentDescription =  String.format(getString(R.string.phone_description), CommonUtil.constructPhoneNumberDots(getString(R.string.contact_us_phone)));
         phoneView.setContentDescription(phoneViewContentDescription);
         emailView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +53,7 @@ public class ContactUsFragment extends BaseFragment {
             }
         });
 
-        phoneView.setText(CommonUtil.constructPhoneNumber(getString(R.string.contact_us_phone)));
+        phoneView.setText(CommonUtil.constructPhoneNumberDots(getString(R.string.contact_us_phone)));
         return contactUsView;
     }
 
@@ -76,7 +76,7 @@ public class ContactUsFragment extends BaseFragment {
             Timber.i("Have Profile information. Crafting Support email...");
             emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.contact_us_email_body) + ",\n" +
                     ProfileManager.getProfile().firstName + " " + ProfileManager.getProfile().lastName + "\n" +
-                    (ProfileManager.getProfile().phoneNumber != null ? CommonUtil.constructPhoneNumber(ProfileManager.getProfile().phoneNumber) : "") + "\n");
+                    (ProfileManager.getProfile().phoneNumber != null ? CommonUtil.constructPhoneNumberDots(ProfileManager.getProfile().phoneNumber) : "") + "\n");
             startActivity(Intent.createChooser(emailIntent, getString(R.string.contact_us_email_intent_header)));
         } else {
             Timber.i("Don't have any Profile information. Showing placeholder...");
@@ -91,7 +91,7 @@ public class ContactUsFragment extends BaseFragment {
      */
     private void dailPhone() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse(Constants.TEL + CommonUtil.constructPhoneNumber(getString(R.string.contact_us_phone))));
+        intent.setData(Uri.parse(Constants.TEL + CommonUtil.constructPhoneNumberDots(getString(R.string.contact_us_phone))));
         getActivity().startActivity(intent);
     }
 }

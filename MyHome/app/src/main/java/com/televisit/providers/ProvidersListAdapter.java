@@ -12,7 +12,7 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterMyCareProviderItemBinding;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.List;
 
@@ -73,13 +73,13 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
             binding.displayName.setText(providerInfo.getFullName());
             binding.displaySpeciality.setText(providerInfo.getSpecialty().getName());
 
-            SDKUtils.getInstance().getAWSDK().getPracticeProvidersManager()
+            AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(providerInfo, binding.providerImage, ProviderImageSize.EXTRA_EXTRA_LARGE)
                     .placeholder(ContextCompat.getDrawable(context, R.drawable.img_provider_photo_placeholder))
                     .build()
                     .load();
 
-            if (providerInfo.getVisibility() != ProviderVisibility.OFFLINE) {
+            if (providerInfo.getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
                 if (providerInfo.getWaitingRoomCount() > 0) {
                     binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
                 } else {

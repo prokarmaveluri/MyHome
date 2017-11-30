@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -28,8 +30,12 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.MapClusterItem;
+import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.MapUtil;
 import com.squareup.otto.Subscribe;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
+
+import java.lang.ref.WeakReference;
 
 import timber.log.Timber;
 
@@ -49,6 +55,13 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
     private ClusterManager<MapClusterItem> mClusterManager;
 
     public static final String PHARMACIES_TAG = "pharmacies_tag";
+
+    private final static int MAP_CLUSTER_LIST = 100;
+    private final static int MAP_UPDATE_LOCATION = 200;
+    private final static int MAP_PROVIDER_DETAILS = 300;
+    private final static int MAP_ZOOM = 400;
+
+    private Marker marker;
 
     public PharmacyMapFragment() {
         // Required empty public constructor
@@ -98,11 +111,6 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
     public void onCameraMoveCanceled() {
 
     }
@@ -114,7 +122,12 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+        Timber.i("onInfoWindowClick " + marker.getTitle());
+        this.marker = marker;
 
+        if (null != marker) {
+            getHandler().sendEmptyMessage(MAP_PROVIDER_DETAILS);
+        }
     }
 
     @Override
@@ -194,7 +207,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
             map.clear();
             mClusterManager.clearItems();
 
-            if (SDKUtils.getInstance().getPharmacies() == null || SDKUtils.getInstance().getPharmacies().size() <= 0) {
+            if (AwsManager.getInstance().getPharmacies() == null || AwsManager.getInstance().getPharmacies().size() <= 0) {
                 Timber.i("No Pharmacies");
                 currClusterPosition = new LatLng(Double.valueOf(FadManager.getInstance().getLocation().getLat()),
                         Double.valueOf(FadManager.getInstance().getLocation().getLong()));
@@ -204,7 +217,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
             }
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-            for (Pharmacy pharmacy : SDKUtils.getInstance().getPharmacies()) {
+            for (Pharmacy pharmacy : AwsManager.getInstance().getPharmacies()) {
 
                 LatLng position = new LatLng(Double.valueOf(pharmacy.getLatitude()),
                         Double.valueOf(pharmacy.getLongitude()));
@@ -246,4 +259,40 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
         return pharmacy.getAddress().getAddress1() + ", " + pharmacy.getAddress().getCity() + ", "
                 + pharmacy.getAddress().getState().getCode() + " " + pharmacy.getAddress().getZipCode();
     }
+
+    private void launchPharmacyDetails(Pharmacy pharmacy){
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(PharmacyDetailsFragment.PHARMACY_KEY, pharmacy);
+        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_PHARMACY_DETAILS, bundle);
+    }
+
+    private static class MapViewHandler extends Handler {
+        private final WeakReference<PharmacyMapFragment> mMapViewFragment;
+
+        private MapViewHandler(PharmacyMapFragment mapViewFragment) {
+            mMapViewFragment = new WeakReference<PharmacyMapFragment>(mapViewFragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            PharmacyMapFragment mapViewFragment = mMapViewFragment.get();
+            if (mapViewFragment != null) {
+                switch (msg.what) {
+                    case MAP_PROVIDER_DETAILS:
+                        if (mapViewFragment.marker != null) {
+                            Pharmacy pharmacy = MapUtil.getPharmacy(mapViewFragment.marker, AwsManager.getInstance().getPharmacies());
+                            if(pharmacy != null){
+                                mapViewFragment.launchPharmacyDetails(pharmacy);
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    private Handler getHandler() {
+        return new PharmacyMapFragment.MapViewHandler(this);
+    }
+
 }

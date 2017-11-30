@@ -23,8 +23,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.americanwell.sdk.entity.health.Allergy;
+import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.fad.Office;
@@ -38,7 +41,6 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
-import com.televisit.history.HistoryExpandableList;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -278,13 +280,15 @@ public class CommonUtil {
     }
 
     /**
-     * Adds dashes and parentheses to a phone number
+     * Adds dashes to a phone number.
+     * Deprecated, as client wants to go with . instead of -
      *
      * @param number the number being formatted
-     * @return a String representation of the phone number, formatted with dashes and parentheses
+     * @return a String representation of the phone number, formatted with dashes
      */
     @SuppressWarnings("deprecation")
-    public static String constructPhoneNumber(@NonNull String number) {
+    @Deprecated
+    public static String constructPhoneNumberHyphens(@NonNull String number) {
         String phoneNumber = "";
 
         if (number == null || number.trim().isEmpty())
@@ -301,6 +305,29 @@ public class CommonUtil {
         phoneNumber = phoneNumber.replace(" ", "");
         if (!phoneNumber.contains("-") && phoneNumber.length() == 10)
             phoneNumber = phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6, 10);
+        return phoneNumber.trim();
+    }
+
+    /**
+     * Adds dots to a phone number
+     *
+     * @param number the number being formatted
+     * @return a String representation of the phone number, formatted with dots
+     */
+    public static String constructPhoneNumberDots(@NonNull String number) {
+        String phoneNumber = "";
+
+        if (number == null || number.trim().isEmpty())
+            return "";
+
+        phoneNumber = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+        phoneNumber = phoneNumber.replaceAll("\\(", "");
+        phoneNumber = phoneNumber.replaceAll("\\)", "");
+        phoneNumber = phoneNumber.replaceAll(" ", "");
+        phoneNumber = phoneNumber.replaceAll("-", "");
+
+        if (phoneNumber.length() == 10)
+            phoneNumber = phoneNumber.substring(0, 3) + "." + phoneNumber.substring(3, 6) + "." + phoneNumber.substring(6, 10);
         return phoneNumber.trim();
     }
 
@@ -334,7 +361,7 @@ public class CommonUtil {
             }
 
             if (appointment.facilityPhoneNumber != null || appointment.visitReason != null) {
-                intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumber(appointment.facilityPhoneNumber) + "\n" + appointment.visitReason);
+                intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumberDots(appointment.facilityPhoneNumber) + "\n" + appointment.visitReason);
             }
 
             if (appointment.facilityAddress != null) {
@@ -380,7 +407,7 @@ public class CommonUtil {
         }
 
         if (facilityPhoneNumber != null || visitReason != null) {
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumber(facilityPhoneNumber) + "\n" + visitReason);
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumberDots(facilityPhoneNumber) + "\n" + visitReason);
         }
 
         if (facilityAddress != null) {
@@ -474,7 +501,7 @@ public class CommonUtil {
         }
 
         if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
-            message = message + "\n" + constructPhoneNumber(appointment.facilityPhoneNumber);
+            message = message + "\n" + constructPhoneNumberDots(appointment.facilityPhoneNumber);
         }
 
         if (appointment.visitReason != null && !appointment.visitReason.isEmpty()) {
@@ -530,7 +557,7 @@ public class CommonUtil {
         }
 
         if (facilityPhoneNumber != null && !facilityPhoneNumber.isEmpty()) {
-            message = message + "\n" + constructPhoneNumber(facilityPhoneNumber);
+            message = message + "\n" + constructPhoneNumberDots(facilityPhoneNumber);
         }
 
         if (visitReason != null && !visitReason.isEmpty()) {
@@ -603,31 +630,6 @@ public class CommonUtil {
         int height = totalHeight + 5;
         if (height < 325)
             height = 325;
-        params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
-
-    public static void setExpandedListViewHeight(Context context, ExpandableListView listView) {
-        int totalHeight = 0;
-        HistoryExpandableList listAdapter = (HistoryExpandableList) listView.getExpandableListAdapter();
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
-
-        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-            View groupItem = listAdapter.getGroupView(i, false, null, listView);
-            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
-            totalHeight += 64;
-            for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
-                View listItem = listAdapter.getChildView(i, j, false, null, listView);
-                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-                totalHeight += 64;
-            }
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight + 5;
-        if (height < 133)
-            height = 133;
         params.height = (int) (height * DeviceDisplayManager.getInstance().getDeviceDensity(context));
         listView.setLayoutParams(params);
         listView.requestLayout();
@@ -943,12 +945,40 @@ public class CommonUtil {
     @Nullable
     public static ProviderInfo getNextAvailableProvider(List<ProviderInfo> providers) {
         for (ProviderInfo provider : providers) {
-            if (provider.getWaitingRoomCount() == 0) {
+            if (provider.getWaitingRoomCount() == 0 && provider.getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
                 return provider;
             }
         }
 
         return null;
+    }
+
+    public static List<Allergy> getCurrentAllergies(List<Allergy> allergies) {
+        List<Allergy> currentAllergies = new ArrayList<>();
+
+        if (allergies != null) {
+            for (Allergy allergy : allergies) {
+                if (allergy.isCurrent()) {
+                    currentAllergies.add(allergy);
+                }
+            }
+        }
+
+        return currentAllergies;
+    }
+
+    public static List<Condition> getCurrentConditions(List<Condition> conditions) {
+        List<Condition> currentConditions = new ArrayList<>();
+
+        if (conditions != null) {
+            for (Condition condition : conditions) {
+                if (condition.isCurrent()) {
+                    currentConditions.add(condition);
+                }
+            }
+        }
+
+        return currentConditions;
     }
 
 }

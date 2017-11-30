@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +26,11 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
+import com.televisit.AwsManager;
 
 import java.util.Map;
 
@@ -41,6 +45,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
     public static final String MY_CARE_COST_TAG = "my_care_cost_tag";
 
+    private LinearLayout intakeLayout;
     private Button applyButton;
     private EditText couponText;
     private ProgressBar progressBar;
@@ -80,6 +85,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.fragment_my_care_cost, container, false);
 
+        intakeLayout = (LinearLayout) view.findViewById(R.id.intake_layout);
         applyButton = (Button) view.findViewById(R.id.apply_button);
         costInfo = (TextView) view.findViewById(R.id.costInfo);
         couponText = (EditText) view.findViewById(R.id.coupon_code_edit_text);
@@ -89,13 +95,16 @@ public class MyCareVisitCostFragment extends BaseFragment {
         reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
         phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
 
+        reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
+        reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
+
         createVisit();
 
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (couponText.getText().toString().length() > 0
-                        && SDKUtils.getInstance().getVisit() != null)
+                        && AwsManager.getInstance().getVisit() != null)
                     applyCoupon(couponText.getText().toString());
             }
         });
@@ -106,8 +115,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStop() {
+        super.onStop();
+        CommonUtil.hideSoftKeyboard(getActivity());
     }
 
     @Override
@@ -130,20 +140,23 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 break;
 
             case R.id.next:
-                if(SDKUtils.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() == 0){
-                   if(isAdded()){
-                       if (SDKUtils.getInstance().getVisit() == null)
-                           break;
+                phoneLayout.setError(null);
+                reasonLayout.setError(null);
 
-                       if (reasonPhone.getText().toString().length() == 10 && reasonForVisit.getText().toString().length() > 0) {
-                           ((NavigationActivity) getActivity()).loadFragment(
-                                   Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
-                       } else if (reasonPhone.getText().toString().length() != 10) {
-                           phoneLayout.setError("Enter valid phone number");
-                       } else if (reasonForVisit.getText().toString().length() <= 0) {
-                           reasonLayout.setError("Enter valid reason for visit");
-                       }
-                   }
+                if (AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() == 0) {
+                    if (isAdded()) {
+                        if (AwsManager.getInstance().getVisit() == null)
+                            break;
+
+                        if (CommonUtil.isValidMobile(reasonPhone.getText().toString()) && reasonForVisit.getText().toString().length() > 0) {
+                            ((NavigationActivity) getActivity()).loadFragment(
+                                    Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+                        } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString())) {
+                            phoneLayout.setError(getString(R.string.field_must_be_completed));
+                        } else if (reasonForVisit.getText().toString().length() <= 0) {
+                            reasonLayout.setError(getString(R.string.field_must_be_completed));
+                        }
+                    }
                 } else {
                     Toast.makeText(getContext(), "Your cost isn't free\nYou might want to apply a coupon...", Toast.LENGTH_LONG).show();
                 }
@@ -155,24 +168,26 @@ public class MyCareVisitCostFragment extends BaseFragment {
     }
 
     private void applyCoupon(String couponCode) {
-        if (SDKUtils.getInstance().getVisit() == null)
+        if (AwsManager.getInstance().getVisit() == null)
             return;
         try {
+            intakeLayout.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-            SDKUtils.getInstance().getAWSDK().getVisitManager().applyCouponCode(
-                    SDKUtils.getInstance().getVisit(),
+            AwsManager.getInstance().getAWSDK().getVisitManager().applyCouponCode(
+                    AwsManager.getInstance().getVisit(),
                     couponCode,
                     new SDKCallback<Void, SDKError>() {
                         @Override
                         public void onResponse(Void aVoid, SDKError sdkError) {
                             if (sdkError == null && isAdded()) {
                                 costInfo.setText(getString(R.string.visit_cost_desc) +
-                                        SDKUtils.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
+                                        AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
                             } else {
                                 Timber.e("Something failed! :/");
                                 Timber.e("SDK Error: " + sdkError);
                             }
 
+                            intakeLayout.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
                         }
 
@@ -180,39 +195,46 @@ public class MyCareVisitCostFragment extends BaseFragment {
                         public void onFailure(Throwable throwable) {
                             Timber.e("Something failed! :/");
                             Timber.e("Throwable = " + throwable);
+                            intakeLayout.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
                         }
                     }
             );
         } catch (IllegalArgumentException ex) {
             Timber.e(ex);
+            intakeLayout.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
         }
     }
 
     private void createVisit() {
+        intakeLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-        SDKUtils.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
-                SDKUtils.getInstance().getVisitContext(),
+        AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
+                AwsManager.getInstance().getVisitContext(),
                 new SDKValidatedCallback<Visit, SDKError>() {
                     @Override
                     public void onValidationFailure(Map<String, ValidationReason> map) {
                         Timber.i("Failure " + map.toString());
+                        intakeLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onResponse(Visit visit, SDKError sdkError) {
                         if (sdkError == null) {
-                            SDKUtils.getInstance().setVisit(visit);
+                            AwsManager.getInstance().setVisit(visit);
+                            applyCoupon("Free");
                             costInfo.setText(getString(R.string.visit_cost_desc) +
-                                    SDKUtils.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
+                                    AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
                         }
+                        intakeLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
+                        intakeLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     }
                 }

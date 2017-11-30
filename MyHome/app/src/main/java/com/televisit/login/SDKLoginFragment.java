@@ -13,17 +13,16 @@ import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.SDKUtils;
+import com.televisit.AwsManager;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -36,7 +35,6 @@ import timber.log.Timber;
  */
 public class SDKLoginFragment extends BaseFragment {
 
-    protected AWSDK awsdk;
     private ProgressBar progressBar;
 
     public SDKLoginFragment() {
@@ -59,8 +57,6 @@ public class SDKLoginFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-
-        awsdk = SDKUtils.getInstance().getAWSDK();
     }
 
     @Override
@@ -76,8 +72,8 @@ public class SDKLoginFragment extends BaseFragment {
 
     private void initSDK() {
 
-        String baseServiceUrl = getString(R.string.awsdkurl);
-        String clientKey = getString(R.string.awsdkkey);
+        String baseServiceUrl = BuildConfig.awsdkurl;
+        String clientKey = BuildConfig.awsdkkey;
         String launchUri = null;
 
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
@@ -86,12 +82,13 @@ public class SDKLoginFragment extends BaseFragment {
         initParams.put(AWSDK.InitParam.LaunchIntentData, launchUri);
         progressBar.setVisibility(View.VISIBLE);
         try {
-            awsdk.initialize(
+            AwsManager.getInstance().getAWSDK().initialize(
                     initParams,
                     new SDKCallback<Void, SDKError>() {
                         @Override
                         public void onResponse(Void aVoid, SDKError sdkError) {
                             if (sdkError == null && isAdded()) {
+                                AwsManager.getInstance().setHasInitializedAwsdk(true);
                                 consumerAuth("cmajji@mailinator.com", "Pass123*");
 
 //                                if (AuthManager.getInstance().getAmWellToken() != null) {
@@ -121,7 +118,7 @@ public class SDKLoginFragment extends BaseFragment {
     }
 
     private void consumerAuth(String email, String password) {
-        awsdk.authenticate(
+        AwsManager.getInstance().getAWSDK().authenticate(
                 email,
                 password,
                 email,
@@ -129,7 +126,7 @@ public class SDKLoginFragment extends BaseFragment {
                     @Override
                     public void onResponse(Authentication authentication, SDKError sdkError) {
                         if (sdkError == null && isAdded()) {
-                            SDKUtils.getInstance().setAuthentication(authentication);
+                            AwsManager.getInstance().setAuthentication(authentication);
                             getConsumer(authentication);
                         } else {
                             if (isAdded())
@@ -146,13 +143,13 @@ public class SDKLoginFragment extends BaseFragment {
     }
 
     private void consumerMutualAuth(String amWellToken) {
-        awsdk.authenticateMutual(
+        AwsManager.getInstance().getAWSDK().authenticateMutual(
                 amWellToken,
                 new SDKCallback<Authentication, SDKError>() {
                     @Override
                     public void onResponse(Authentication authentication, SDKError sdkError) {
                         if (sdkError == null && isAdded()) {
-                            SDKUtils.getInstance().setAuthentication(authentication);
+                            AwsManager.getInstance().setAuthentication(authentication);
                             getConsumer(authentication);
                         } else {
                             Toast.makeText(getContext(), "Error: " + sdkError.getHttpResponseCode() + "\n" + sdkError.getMessage(), Toast.LENGTH_LONG).show();
@@ -171,18 +168,19 @@ public class SDKLoginFragment extends BaseFragment {
     }
 
     private void getConsumer(Authentication authentication) {
-        awsdk.getConsumerManager().getConsumer(
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumer(
                 authentication,
                 new SDKCallback<Consumer, SDKError>() {
                     @Override
                     public void onResponse(Consumer consumer, SDKError sdkError) {
                         if (sdkError == null && isAdded()) {
-                            SDKUtils.getInstance().setConsumer(consumer);
+                            AwsManager.getInstance().setConsumer(consumer);
                             progressBar.setVisibility(View.GONE);
+
                             ((NavigationActivity) getActivity()).loadFragment(
                                     Constants.ActivityTag.MY_CARE_NOW, null);
 
-                            getServices();
+                            //getServices();
                         }
                     }
 
@@ -198,25 +196,25 @@ public class SDKLoginFragment extends BaseFragment {
         );
     }
 
-    private void getServices() {
-        if (SDKUtils.getInstance().getConsumer() == null)
-            return;
-        awsdk.getPracticeProvidersManager().getPractices(
-                SDKUtils.getInstance().getConsumer(),
-                new SDKCallback<List<Practice>, SDKError>() {
-                    @Override
-                    public void onResponse(List<Practice> practices, SDKError sdkError) {
-                        if (sdkError == null) {
-                            SDKUtils.getInstance().setPractices(practices);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-
-                    }
-                });
-    }
+//    private void getServices() {
+//        if (AwsManager.getInstance().getConsumer() == null)
+//            return;
+//        AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().getPractices(
+//                AwsManager.getInstance().getConsumer(),
+//                new SDKCallback<List<Practice>, SDKError>() {
+//                    @Override
+//                    public void onResponse(List<Practice> practices, SDKError sdkError) {
+//                        if (sdkError == null) {
+//                            AwsManager.getInstance().setPractices(practices);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Throwable throwable) {
+//
+//                    }
+//                });
+//    }
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
