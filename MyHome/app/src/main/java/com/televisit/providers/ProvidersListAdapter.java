@@ -79,7 +79,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                     .build()
                     .load();
 
-            if (providerInfo.getVisibility() != ProviderVisibility.OFFLINE) {
+            if (providerInfo.getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
                 if (providerInfo.getWaitingRoomCount() > 0) {
                     binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
                 } else {

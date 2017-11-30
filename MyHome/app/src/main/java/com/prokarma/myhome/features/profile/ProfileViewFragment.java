@@ -271,7 +271,8 @@ public class ProfileViewFragment extends BaseFragment {
         }
 
         if (!CommonUtil.isEmptyString(profile.phoneNumber)) {
-            phone.setText(CommonUtil.constructPhoneNumber(profile.phoneNumber).replaceAll("\\.", "-"));
+            //phone.setText(CommonUtil.constructPhoneNumberHyphens(profile.phoneNumber).replaceAll("\\.", "-"));
+            phone.setText(CommonUtil.constructPhoneNumberDots(profile.phoneNumber));
         } else {
             phone.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.phone_number_profile)));
         }

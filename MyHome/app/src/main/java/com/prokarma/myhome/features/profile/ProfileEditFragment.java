@@ -112,7 +112,7 @@ public class ProfileEditFragment extends BaseFragment {
 
         dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
-        phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
+        phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -309,7 +309,8 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (profile.phoneNumber != null) {
-            phone.setText(profile.phoneNumber.replaceAll("\\.", "-"));
+            //phone.setText(profile.phoneNumber.replaceAll("\\.", "-"));
+            phone.setText(CommonUtil.constructPhoneNumberDots(profile.phoneNumber));
         }
 
         if (profile.email != null) {

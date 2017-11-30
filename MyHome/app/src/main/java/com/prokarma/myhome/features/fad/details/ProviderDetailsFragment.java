@@ -278,7 +278,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
                         provider.getOffices().get(0).getAddresses().get(0).getZip()
                 : getString(R.string.address_unknown));
-        phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumber(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
+        phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumberDots(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
 
         phone.setOnClickListener(new View.OnClickListener() {
@@ -526,7 +526,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         address.setText(marker.getSnippet());
-        phone.setText(CommonUtil.constructPhoneNumber(currentOffice.getAddresses().get(0).getPhones().get(0)));
+        phone.setText(CommonUtil.constructPhoneNumberDots(currentOffice.getAddresses().get(0).getPhones().get(0)));
         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
     }
 

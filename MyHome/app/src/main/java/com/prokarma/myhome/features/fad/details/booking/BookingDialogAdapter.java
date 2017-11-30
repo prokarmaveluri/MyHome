@@ -194,7 +194,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         updateVisibility(true);
 
-        insurancePhone.addTextChangedListener(new PhoneAndDOBFormatter(insurancePhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
+        insurancePhone.addTextChangedListener(new PhoneAndDOBFormatter(insurancePhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
     }
 
     private void setupPersonal() {
@@ -241,7 +241,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
-        phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
+        phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override

@@ -95,7 +95,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
         reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
         phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
 
-        reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER));
+        reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
         reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
 
         createVisit();
@@ -140,6 +140,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 break;
 
             case R.id.next:
+                phoneLayout.setError(null);
+                reasonLayout.setError(null);
+
                 if (AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() == 0) {
                     if (isAdded()) {
                         if (AwsManager.getInstance().getVisit() == null)
