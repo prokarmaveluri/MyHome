@@ -2,24 +2,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="24dp"
+    android:layout_margin="10dp"
     android:orientation="vertical"
     android:scrollbars="none"
     tools:context="com.televisit.services.MyCareServicesFragment">
 
     <TextView
-        style="@style/tradeGothicLTStd_Dynamic18"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Waiting room ..."
-        android:textAlignment="center"
-        android:textColor="@color/grey" />
-
-    <ProgressBar
+        style="@style/tradeGothicLTStd_Dynamic30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:indeterminate="true" />
+        android:textColor="@color/dh_orange"
+        tools:text="Hello and welcome!" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/waiting_room" />
+
+    <TextView
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="8sp"
+        android:text="Thank you for your patience, your care provider is currently reviewing your health history for your virtual visit. Take a few moments to think about the questions you would like to ask. Once your doctor appears on the screen, you will be able to have a confidential conversation, just as you would at the office or clinic.
+
+Thanks for calling in today! We look forward to connecting with you soon." />
+
 </LinearLayout>
