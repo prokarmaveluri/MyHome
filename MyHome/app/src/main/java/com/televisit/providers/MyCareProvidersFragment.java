@@ -86,7 +86,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     private void getProviders() {
-        progressBar.setVisibility(View.VISIBLE);
+        showLoading();
         AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
                 AwsManager.getInstance().getConsumer(),
                 practiceInfo,
@@ -105,24 +105,21 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                             setNextAvailableProviderButton();
                             setListAdapter(providerInfo);
                         }
-                        progressBar.setVisibility(View.GONE);
+                        showList();
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        progressBar.setVisibility(View.GONE);
+                        showList();
                     }
                 }
         );
     }
 
     private void setListAdapter(List<ProviderInfo> providers) {
-        if (null != getActivity() && isAdded() && providers != null) {
-            providerList.setVisibility(View.VISIBLE);
+        if (isAdded() && providers != null) {
             providerList.setLayoutManager(new LinearLayoutManager(getActivity()));
             providerList.setAdapter(new ProvidersListAdapter(getContext(), providers, this));
-        } else {
-            providerList.setVisibility(View.GONE);
         }
         this.providerInfo = providers;
     }
@@ -145,7 +142,6 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     @Override
     public void providerClick(ProviderInfo provider) {
         if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
-            progressBar.setVisibility(View.VISIBLE);
             getVisitContext(provider);
         } else if (providerInfo != null && provider.getVisibility() == ProviderVisibility.OFFLINE) {
             Toast.makeText(getActivity(), provider.getFullName() + " is not available", Toast.LENGTH_SHORT).show();
@@ -155,6 +151,16 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.MY_CARE_PROVIDERS;
+    }
+
+    private void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        providerList.setVisibility(View.GONE);
+    }
+
+    private void showList() {
+        progressBar.setVisibility(View.GONE);
+        providerList.setVisibility(View.VISIBLE);
     }
 
     private void getVisitContext(ProviderInfo info) {
@@ -171,8 +177,9 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                             }
                             setLegalTextsAccepted(true, visitContext);
                             setShareHealthSummary(visitContext);
+                        } else {
+                            Timber.e("Error + " + sdkError);
                         }
-                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -180,7 +187,6 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                         if (isAdded()) {
                             Timber.e("Something failed! :/");
                             Timber.e("Throwable = " + throwable);
-                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
