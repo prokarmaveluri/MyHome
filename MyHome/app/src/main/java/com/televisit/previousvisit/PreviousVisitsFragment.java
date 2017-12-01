@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.visit.VisitReport;
+import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -23,6 +24,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -132,6 +134,10 @@ public class PreviousVisitsFragment extends BaseFragment {
                         if (sdkError == null) {
                             AwsManager.getInstance().setVisitReports(visitReports);
 
+                            for (VisitReport visitReport: visitReports) {
+                                getVisitReportDetails(visitReport);
+                            }
+
                             bindList();
                             adapter.notifyDataSetChanged();
                         }
@@ -149,6 +155,34 @@ public class PreviousVisitsFragment extends BaseFragment {
                             progressBar.setVisibility(View.GONE);
                             list.setVisibility(View.VISIBLE);
                         }
+                    }
+                }
+        );
+    }
+
+    private void getVisitReportDetails(final VisitReport visitReport) {
+
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            return;
+        }
+
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReportDetail(
+                AwsManager.getInstance().getConsumer(),
+                visitReport,
+                new SDKCallback<VisitReportDetail, SDKError>() {
+                    @Override
+                    public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
+                        if (sdkError == null) {
+
+                            HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
+                            map.put(visitReport, visitReportDetail);
+                            AwsManager.getInstance().setVisitReportDetailHashMap(map);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+
                     }
                 }
         );

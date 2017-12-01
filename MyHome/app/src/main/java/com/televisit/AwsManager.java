@@ -17,6 +17,7 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.entity.visit.VisitReport;
+import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.logging.AWSDKLogger;
@@ -48,6 +49,7 @@ public class AwsManager {
     private static final AwsManager ourInstance = new AwsManager();
     private static AWSDK awsdk = null;
 
+    private HashMap<VisitReport, VisitReportDetail> visitReportDetailHashMap;
     private List<VisitReport> visitReports;
     private List<Allergy> allergies;
     private List<Condition> conditions;
@@ -138,6 +140,17 @@ public class AwsManager {
 
     public void setVisitReports(List<VisitReport> visitReports) {
         this.visitReports = visitReports;
+    }
+
+    public HashMap<VisitReport, VisitReportDetail> getVisitReportDetailHashMap() {
+        if (visitReportDetailHashMap == null) {
+            visitReportDetailHashMap = new HashMap<>();
+        }
+        return visitReportDetailHashMap;
+    }
+
+    public void setVisitReportDetailHashMap(HashMap<VisitReport, VisitReportDetail> visitReportDetailHashMap) {
+        this.visitReportDetailHashMap = visitReportDetailHashMap;
     }
 
     public List<Condition> getConditions() {

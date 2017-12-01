@@ -9,13 +9,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.visit.VisitReport;
+import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.DateUtil;
+import com.televisit.AwsManager;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
@@ -31,11 +35,13 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public final Context context;
     public List<VisitReport> visitReports;
     private final RecyclerViewListener onItemClickListener;
+    private final DecimalFormat amountFormat;
 
     public PreviousVisitsAdapter(Context context, @Nullable List<VisitReport> visitReports, RecyclerViewListener onItemClickListener) {
         this.context = context;
         this.visitReports = visitReports;
         this.onItemClickListener = onItemClickListener;
+        amountFormat = new DecimalFormat("##.##");
     }
 
     @Override
@@ -72,8 +78,15 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     e.printStackTrace();
                 }
 
-                holder.amount.setText("$ 0.00");
-                holder.text.setText("I cut my hand on a peice of glass");
+                HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
+                if (map != null && map.get(visitReport) != null) {
+                    holder.amount.setText("$ " + amountFormat.format(map.get(visitReport).getPaymentAmount()));
+                    holder.text.setText(map.get(visitReport).getTitle());
+                }
+                else {
+                    holder.amount.setText("$ 0.00");
+                    holder.text.setText("I cut my hand on a peice of glass");
+                }
 
                 holder.viewLink.setTag(position);
                 holder.viewLink.setOnClickListener(new View.OnClickListener() {
