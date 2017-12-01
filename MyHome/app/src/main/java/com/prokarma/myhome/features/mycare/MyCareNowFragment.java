@@ -329,7 +329,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 }
 
                 if (medicalHistory.length() > 0 && !allergies.isEmpty()) {
-                    medicalHistory.append("\n");
+                    medicalHistory.append("\n" + getContext().getResources().getString(R.string.allergic_to));
                 }
 
                 for (int i = 0; i < allergies.size(); i++) {

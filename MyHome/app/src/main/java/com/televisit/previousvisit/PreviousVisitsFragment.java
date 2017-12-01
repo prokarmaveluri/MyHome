@@ -10,17 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.SDKLocalDate;
+import com.americanwell.sdk.entity.visit.VisitReport;
+import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
-import com.prokarma.myhome.features.appointments.Appointment;
-import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.televisit.AwsManager;
 
-import static com.prokarma.myhome.features.profile.ProfileManager.appointments;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +35,7 @@ public class PreviousVisitsFragment extends BaseFragment {
     private RecyclerView list;
     private ProgressBar progressBar;
     private PreviousVisitsAdapter adapter;
+    private int reqCount = 0;
 
     public static final String PREVIOUS_VISITS_TAG = "previous_visits_tag";
 
@@ -67,7 +71,7 @@ public class PreviousVisitsFragment extends BaseFragment {
         list = (RecyclerView) view.findViewById(R.id.list);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
 
-        appointments = CommonUtil.getFutureAppointments(appointments);
+        getPreviousVisits();
 
         bindList();
 
@@ -85,33 +89,68 @@ public class PreviousVisitsFragment extends BaseFragment {
 
     private void bindList() {
 
-        adapter = new PreviousVisitsAdapter(getActivity(), appointments, false, new RecyclerViewListener() {
+        adapter = new PreviousVisitsAdapter(getActivity(), AwsManager.getInstance().getVisitReports(), new RecyclerViewListener() {
             @Override
             public void onItemClick(Object model, int position) {
                 /*
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(VISIT_END_REASON_KEY, appointment);
+                bundle.putParcelable(VISIT_END_REASON_KEY, visitReport);
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.SUMMARY_TAG, bundle); */
             }
 
             @Override
             public void onPinClick(Object model, int position) {
-                Appointment appointment = (Appointment) model;
-
-                if (model == null || ((Appointment) model).facilityAddress == null) {
-                    Toast.makeText(getContext(), getString(R.string.directions_not_found), Toast.LENGTH_LONG).show();
-                } else {
-                    CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
-                }
             }
         });
 
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-        if (appointments != null && appointments.size() > 0) {
+        if (AwsManager.getInstance().getVisitReports() != null && AwsManager.getInstance().getVisitReports().size() > 0) {
             RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
             list.addItemDecoration(itemDecoration);
         }
+    }
+
+    private void getPreviousVisits() {
+
+        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
+
+        reqCount++;
+        progressBar.setVisibility(View.VISIBLE);
+
+        Date currentDate = new Date();
+
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReports(
+                AwsManager.getInstance().getConsumer(),
+                new SDKLocalDate(currentDate.getYear(), currentDate.getMonth(), currentDate.getDay()), true,
+                new SDKCallback<List<VisitReport>, SDKError>() {
+                    @Override
+                    public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
+                        if (sdkError == null) {
+                            AwsManager.getInstance().setVisitReports(visitReports);
+
+                            bindList();
+                            adapter.notifyDataSetChanged();
+                        }
+                        reqCount--;
+                        if (reqCount == 0) {
+                            progressBar.setVisibility(View.GONE);
+                            list.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        reqCount--;
+                        if (reqCount == 0) {
+                            progressBar.setVisibility(View.GONE);
+                            list.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+        );
     }
 }

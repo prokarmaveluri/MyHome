@@ -24,7 +24,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/view"
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,26 +38,38 @@
         android:text="@string/view" />
 
     <TextView
-        android:id="@+id/facility"
-        style="@style/tradeGothicLTStd_Dynamic18"
+        android:id="@+id/doctor_name"
+        style="@style/tradeGothicLTStd_Dynamic16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/date"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="8dp"
+        android:maxWidth="285dp"
+        android:text="Dr. Steven M. Howard, MD" />
+
+    <TextView
+        android:id="@+id/amount"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doctor_name"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        android:maxWidth="285dp"
+        android:text="$0.00" />
+
+    <TextView
+        android:id="@+id/text"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/amount"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="5dp"
         android:maxWidth="285dp"
         android:text="Sequoia Hospital" />
-
-    <TextView
-        android:id="@+id/doctor_name"
-        style="@style/tradeGothicLTStd_Dynamic16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/facility"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="8dp"
-        android:maxWidth="285dp"
-        android:text="Dr. Steven M. Howard, MD" />
 
 </RelativeLayout>

@@ -16,6 +16,7 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
+import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.logging.AWSDKLogger;
@@ -47,6 +48,7 @@ public class AwsManager {
     private static final AwsManager ourInstance = new AwsManager();
     private static AWSDK awsdk = null;
 
+    private List<VisitReport> visitReports;
     private List<Allergy> allergies;
     private List<Condition> conditions;
     private List<Practice> practices;
@@ -128,6 +130,14 @@ public class AwsManager {
 
     public void setPractices(List<Practice> practices) {
         this.practices = practices;
+    }
+
+    public List<VisitReport> getVisitReports() {
+        return visitReports;
+    }
+
+    public void setVisitReports(List<VisitReport> visitReports) {
+        this.visitReports = visitReports;
     }
 
     public List<Condition> getConditions() {
@@ -428,7 +438,7 @@ public class AwsManager {
         }
     }
 
-    public void getConsumer(@NonNull final Authentication authentication) {
+    public void getConsumer1(@NonNull final Authentication authentication) {
         getConsumer(authentication, null);
     }
 
