@@ -24,6 +24,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -125,7 +126,11 @@ public class PreviousVisitsFragment extends BaseFragment {
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
 
-        Date currentDate = new Date();
+        final boolean scheduledOnly = false;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -6);
+        Date dateSince = calendar.getTime();
 
         if (AwsManager.getInstance().getVisitReports() == null || AwsManager.getInstance().getVisitReports().isEmpty()) {
             CommonUtil.log(this.getClass().getSimpleName(), "visits before: 0 ");
@@ -135,7 +140,7 @@ public class PreviousVisitsFragment extends BaseFragment {
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReports(
                 AwsManager.getInstance().getConsumer(),
-                new SDKLocalDate(currentDate.getYear(), currentDate.getMonth() - 1, currentDate.getDay()), false,
+                new SDKLocalDate(dateSince.getYear(), dateSince.getMonth(), dateSince.getDay()), scheduledOnly,
                 new SDKCallback<List<VisitReport>, SDKError>() {
                     @Override
                     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
