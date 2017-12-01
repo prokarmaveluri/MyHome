@@ -13,20 +13,16 @@ import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.ChatReport;
-import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.manager.StartVisitCallback;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-import com.televisit.summary.SummaryFragment;
 
 import java.util.Map;
 
@@ -117,6 +113,11 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
                 visitFinishedIntent,
                 new StartVisitCallback() {
                     @Override
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
+                        Timber.w("onValidationFailure " + map);
+                    }
+
+                    @Override
                     public void onProviderEntered(@NonNull Intent intent) {
                         Timber.d("onProviderEntered " + intent);
 
@@ -126,16 +127,16 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
-                        Timber.d("onStartVisitEnded " + visitEndReason);
-
-                        Toast.makeText(getContext(), "visit ended\n" + visitEndReason, Toast.LENGTH_LONG).show();
-
-                        if (isAdded()) {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(SummaryFragment.VISIT_END_REASON_KEY, visitEndReason);
-                            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VISIT_SUMMARY, bundle);
-                        }
+                    public void onStartVisitEnded(@NonNull String s) {
+//                        Timber.d("onStartVisitEnded " + visitEndReason);
+//
+//                        Toast.makeText(getContext(), "visit ended\n" + visitEndReason, Toast.LENGTH_LONG).show();
+//
+//                        if (isAdded()) {
+//                            Bundle bundle = new Bundle();
+//                            bundle.putSerializable(SummaryFragment.VISIT_END_REASON_KEY, visitEndReason);
+//                            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VISIT_SUMMARY, bundle);
+//                        }
                     }
 
                     @Override
@@ -156,11 +157,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
                     @Override
                     public void onPollFailure(@NonNull Throwable throwable) {
                         Timber.w("onPollFailure " + throwable);
-                    }
-
-                    @Override
-                    public void onValidationFailure(Map<String, ValidationReason> map) {
-                        Timber.w("onValidationFailure " + map);
                     }
 
                     @Override

@@ -1,6 +1,7 @@
 package com.televisit.medications;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.DividerItemDecoration;
@@ -21,7 +22,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.MedicationRecyclerViewListener;
 import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
@@ -175,7 +175,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        if(isAdded()){
+                        if (isAdded()) {
                             Timber.e("Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                             searchLayout.setVisibility(View.VISIBLE);
@@ -215,7 +215,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
                 searchText,
                 new SDKValidatedCallback<List<Medication>, SDKError>() {
                     @Override
-                    public void onValidationFailure(Map<String, ValidationReason> map) {
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
                         searchSuggestions.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
                     }
@@ -231,7 +231,7 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        if(isAdded()){
+                        if (isAdded()) {
                             Timber.e("Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                             searchSuggestions.setVisibility(View.GONE);

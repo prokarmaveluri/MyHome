@@ -2,6 +2,7 @@ package com.televisit.cost;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -22,7 +23,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -214,7 +214,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 AwsManager.getInstance().getVisitContext(),
                 new SDKValidatedCallback<Visit, SDKError>() {
                     @Override
-                    public void onValidationFailure(Map<String, ValidationReason> map) {
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
                         Timber.i("Failure " + map.toString());
                         intakeLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
