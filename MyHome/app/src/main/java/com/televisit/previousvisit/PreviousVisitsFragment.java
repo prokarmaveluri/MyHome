@@ -114,7 +114,7 @@ public class PreviousVisitsFragment extends BaseFragment {
 
     private void getPreviousVisits() {
 
-        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
 
