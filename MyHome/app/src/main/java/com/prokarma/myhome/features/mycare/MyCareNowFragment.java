@@ -34,9 +34,8 @@ import com.televisit.interfaces.AwsConsumer;
 import com.televisit.interfaces.AwsInitialization;
 import com.televisit.interfaces.AwsUserAuthentication;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -360,7 +359,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setDependentsSpinner(Consumer me, List<Consumer> dependents) {
-        List<Consumer> consumers = dependents;
+        List<Consumer> consumers = new ArrayList(dependents);
         consumers.add(0, me);
         DependentsSpinnerAdapter dependentsSpinnerAdapter = new DependentsSpinnerAdapter(getContext(), R.layout.dependents_spinner_item, consumers);
         consumerSpinner.setAdapter(dependentsSpinnerAdapter);
