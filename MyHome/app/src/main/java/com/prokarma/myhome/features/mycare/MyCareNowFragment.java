@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -363,6 +364,23 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         consumers.add(0, me);
         DependentsSpinnerAdapter dependentsSpinnerAdapter = new DependentsSpinnerAdapter(getContext(), R.layout.dependents_spinner_item, consumers);
         consumerSpinner.setAdapter(dependentsSpinnerAdapter);
+        consumerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    //Selected Me
+                    AwsManager.getInstance().setDependent(null);
+                } else {
+                    //Selected a Dependent - need to minus one due to adding yourself to the list
+                    AwsManager.getInstance().setDependent(AwsManager.getInstance().getConsumer().getDependents().get(position - 1));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override

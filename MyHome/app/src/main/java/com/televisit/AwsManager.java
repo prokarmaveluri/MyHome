@@ -61,6 +61,7 @@ public class AwsManager {
     private VisitContext visitContext;
     private Visit visit;
     private Consumer consumer;
+    private Consumer dependent;
     private boolean hasMedicationsFilledOut;
     private State hasAllergiesFilledOut = State.NOT_FILLED_OUT;
     private State hasConditionsFilledOut = State.NOT_FILLED_OUT;
@@ -283,6 +284,14 @@ public class AwsManager {
         this.hasConsumer = hasConsumer;
     }
 
+    public Consumer getDependent() {
+        return dependent;
+    }
+
+    public void setDependent(Consumer dependent) {
+        this.dependent = dependent;
+    }
+
     public void getUsersAuthentication(@NonNull final String username, @NonNull final String password) {
         getUsersAuthentication(username, password, null);
     }
@@ -438,6 +447,7 @@ public class AwsManager {
                     public void onResponse(Consumer consumer, SDKError sdkError) {
                         if (sdkError == null) {
                             AwsManager.getInstance().setConsumer(consumer);
+                            AwsManager.getInstance().setDependent(null);
                             AwsManager.getInstance().setHasConsumer(true);
 
                             if (awsConsumer != null) {
@@ -446,6 +456,7 @@ public class AwsManager {
                         } else {
                             Timber.e("Error + " + sdkError);
                             AwsManager.getInstance().setConsumer(null);
+                            AwsManager.getInstance().setDependent(null);
                             AwsManager.getInstance().setHasConsumer(false);
 
                             if (awsConsumer != null) {
@@ -459,6 +470,7 @@ public class AwsManager {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setConsumer(null);
+                        AwsManager.getInstance().setDependent(null);
                         AwsManager.getInstance().setHasConsumer(false);
 
                         if (awsConsumer != null) {

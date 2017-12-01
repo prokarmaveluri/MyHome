@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
@@ -37,13 +38,15 @@ import timber.log.Timber;
  * create an instance of this fragment.
  */
 public class MyCareProvidersFragment extends BaseFragment implements ProvidersListAdapter.IProviderClick {
+    public static final String MY_CARE_PROVIDERS_TAG = "my_care_providers_tag";
+
+    private Consumer patient;
 
     private PracticeInfo practiceInfo;
     private List<ProviderInfo> providerInfo;
     private ProgressBar progressBar;
     private RecyclerView providerList;
     private Button nextAvailableProvider;
-    public static final String MY_CARE_PROVIDERS_TAG = "my_care_providers_tag";
 
     public MyCareProvidersFragment() {
         // Required empty public constructor
@@ -81,6 +84,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         providerList.addItemDecoration(itemDecoration);
 
+        patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
+
         getProviders();
         return view;
     }
@@ -88,7 +93,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     private void getProviders() {
         showLoading();
         AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
-                AwsManager.getInstance().getConsumer(),
+                patient,
                 practiceInfo,
                 null,
                 null,
@@ -165,7 +170,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
     private void getVisitContext(ProviderInfo info) {
         AwsManager.getInstance().getAWSDK()
-                .getVisitManager().getVisitContext(AwsManager.getInstance().getConsumer(),
+                .getVisitManager().getVisitContext(
+                patient,
                 info, new SDKCallback<VisitContext, SDKError>() {
                     @Override
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
