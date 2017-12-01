@@ -403,7 +403,7 @@ public class AwsManager {
     }
 
     public void initializeAwsdk(@NonNull final String baseServiceUrl, @NonNull final String clientKey, @Nullable final String launchUri, @Nullable final AwsInitialization awsInitialization) {
-        final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
+        final Map<Integer, Object> initParams = new HashMap<>();
         initParams.put(AWSDK.InitParam.BaseServiceUrl, baseServiceUrl);
         initParams.put(AWSDK.InitParam.ApiKey, clientKey);
         initParams.put(AWSDK.InitParam.LaunchIntentData, launchUri);
