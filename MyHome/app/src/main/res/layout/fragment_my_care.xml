@@ -42,13 +42,31 @@
                 android:text="@string/mycare_desc"
                 android:textAlignment="center" />
 
+            <TextView
+                android:id="@+id/mcn_who_is_visiting"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/mcn_desc"
+                android:layout_below="@id/mcn_desc"
+                android:text="@string/who_is_visiting_today"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/mcn_dependents_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/mcn_who_is_visiting"
+                android:layout_below="@id/mcn_who_is_visiting" />
+
             <Button
                 android:id="@+id/waiting_room_button"
                 style="@style/primaryButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/mcn_desc"
+                android:layout_below="@+id/mcn_dependents_spinner"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
                 android:minHeight="45dp"
                 android:minWidth="285dp"
                 android:text="@string/get_started" />

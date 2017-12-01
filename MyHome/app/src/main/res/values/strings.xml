@@ -461,6 +461,7 @@
     <string name="previous_visit_summaries">Previous Visit Summaries</string>
     <string name="no_previous_visits">You have no previous visits.</string>
     <string name="field_must_be_completed">Field must be completed</string>
+    <string name="who_is_visiting_today">Who is visiting today?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
