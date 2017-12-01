@@ -22,6 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
@@ -70,7 +71,11 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle(getString(R.string.pharmacy));
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.pharmacy));
+        } else {
+            getActivity().setTitle(getString(R.string.pharmacy));
+        }
         View view = inflater.inflate(R.layout.fragment_pharmacy_details, container, false);
 
         SupportMapFragment myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.pharmacy_map));

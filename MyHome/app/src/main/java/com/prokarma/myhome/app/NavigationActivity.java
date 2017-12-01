@@ -556,10 +556,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 }
                 break;
             case MY_PHARMACY_DETAILS:
-                if (getActivityTag() != ActivityTag.MY_PHARMACY_DETAILS) {
+                //if (getActivityTag() != ActivityTag.MY_PHARMACY_DETAILS) {
                     getSupportFragmentManager().executePendingTransactions();
                     PharmacyDetailsFragment pharmacyDetailsFragment = PharmacyDetailsFragment.newInstance();
                     pharmacyDetailsFragment.setArguments(bundle);
+
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
@@ -569,7 +570,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(Constants.ActivityTag.MY_PHARMACY_DETAILS);
-                }
+                //}
                 break;
 
 

@@ -29,6 +29,8 @@ import com.televisit.AwsManager;
 import java.util.List;
 import java.util.Map;
 
+import timber.log.Timber;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,7 +71,12 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle(getString(R.string.pharmacy));
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.pharmacy));
+        } else {
+            getActivity().setTitle(getString(R.string.pharmacy));
+        }
+
         View view = inflater.inflate(R.layout.fragment_pharmacy_list, container, false);
 
         NavigationActivity.eventBus.register(this);

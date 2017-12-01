@@ -982,6 +982,6 @@ public class CommonUtil {
     }
 
     public static void log(String className, String message) {
-        Timber.d(className, message);
+        Timber.d(className + " " + message );
     }
 }

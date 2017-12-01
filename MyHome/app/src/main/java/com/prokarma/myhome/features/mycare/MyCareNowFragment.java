@@ -36,6 +36,8 @@ import com.televisit.interfaces.AwsUserAuthentication;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MyCareNowFragment#newInstance} factory method to
@@ -371,7 +373,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             AwsManager.getInstance().getUsersAuthentication("cmajji@mailinator.com", "Pass123*", this);
         } else {
             //IoT
-            AwsManager.getInstance().getUsersAuthentication("julie.testing@mailinator.com", "Password1", this);
+            AwsManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
         }
     }
 
