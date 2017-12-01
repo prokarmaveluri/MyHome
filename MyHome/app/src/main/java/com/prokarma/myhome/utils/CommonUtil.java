@@ -137,7 +137,7 @@ public class CommonUtil {
         }
     }
 
-    static public final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
+    static public final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\d{3}.\\d{3}.\\d{4}");
 
     public static boolean isValidMobile(String phone) {
         return PHONE_NUMBER_PATTERN.matcher(phone).find();

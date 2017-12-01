@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+import com.televisit.DependentsSpinnerAdapter;
 import com.televisit.interfaces.AwsConsumer;
 import com.televisit.interfaces.AwsInitialization;
 import com.televisit.interfaces.AwsUserAuthentication;
@@ -48,6 +50,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private TextView medicationsEdit;
     private TextView pharmacyDesc;
     private TextView pharmacyEdit;
+    private Spinner consumerSpinner;
     private ProgressBar progressBar;
     private RelativeLayout userLayout;
 
@@ -89,18 +92,22 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         pharmacyEdit = (TextView) view.findViewById(R.id.pharmacy_edit);
         progressBar = (ProgressBar) view.findViewById(R.id.mcn_progressbar);
         userLayout = (RelativeLayout) view.findViewById(R.id.mcn_user_info);
+        consumerSpinner = (Spinner) view.findViewById(R.id.mcn_dependents_spinner);
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             showLoading();
             AwsManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, this);
         } else if (!AwsManager.getInstance().isHasAuthenticated()) {
+            showLoading();
             this.initializationComplete();
         } else if (!AwsManager.getInstance().isHasConsumer()) {
+            showLoading();
             this.authenticationComplete(AwsManager.getInstance().getAuthentication());
         } else {
             setConsumerMedications();
             setConsumerPharmacy();
             setConsumerMedicalHistory();
+            setDependentsSpinner(AwsManager.getInstance().getConsumer(), AwsManager.getInstance().getConsumer().getDependents());
         }
 
         Button waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
@@ -350,6 +357,13 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
+    private void setDependentsSpinner(Consumer me, List<Consumer> dependents) {
+        List<Consumer> consumers = dependents;
+        consumers.add(0, me);
+        DependentsSpinnerAdapter dependentsSpinnerAdapter = new DependentsSpinnerAdapter(getContext(), R.layout.dependents_spinner_item, consumers);
+        consumerSpinner.setAdapter(dependentsSpinnerAdapter);
+    }
+
     @Override
     public void initializationComplete() {
         if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
@@ -385,6 +399,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         getConsumerConditions();
 
         if (isAdded()) {
+            setDependentsSpinner(consumer, consumer.getDependents());
             finishLoading();
         }
     }
