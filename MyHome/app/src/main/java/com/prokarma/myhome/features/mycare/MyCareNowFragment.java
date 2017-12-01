@@ -202,7 +202,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerMedications() {
-        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
@@ -221,7 +221,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerPharmacy() {
-        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
@@ -240,7 +240,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerConditions() {
-        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
@@ -262,7 +262,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getConsumerAllergies() {
-        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
@@ -336,7 +336,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 }
 
                 if (medicalHistory.length() > 0 && !allergies.isEmpty()) {
-                    medicalHistory.append("\n");
+                    medicalHistory.append("\n" + getContext().getResources().getString(R.string.allergic_to));
                 }
 
                 for (int i = 0; i < allergies.size(); i++) {

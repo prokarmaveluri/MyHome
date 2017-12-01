@@ -298,7 +298,7 @@
                     android:ellipsize="end"
                     android:hint="@string/insurance_plan"
                     android:imeOptions="actionNext"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:maxLines="1"
                     android:singleLine="true" />
 
@@ -319,7 +319,7 @@
                     android:ellipsize="end"
                     android:hint="@string/member_id"
                     android:imeOptions="actionNext"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:maxLines="1"
                     android:singleLine="true" />
 
@@ -340,7 +340,7 @@
                     android:ellipsize="end"
                     android:hint="@string/group_id"
                     android:imeOptions="actionDone"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:maxLines="1"
                     android:singleLine="true" />
 
