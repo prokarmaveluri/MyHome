@@ -283,31 +283,6 @@ public class AwsManager {
         this.hasConsumer = hasConsumer;
     }
 
-    public void authenticateUser(Authentication authentication) {
-        this.awsdk.getConsumerManager().getConsumer(
-                authentication,
-                new SDKCallback<Consumer, SDKError>() {
-                    @Override
-                    public void onResponse(Consumer consumer, SDKError sdkError) {
-                        if (sdkError == null) {
-                            Timber.i("Authneticated User : " + consumer.getFullName());
-                            AwsManager.getInstance().setConsumer(consumer);
-                        } else {
-                            Timber.e("Error + " + sdkError);
-                            AwsManager.getInstance().setConsumer(null);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
-                        Timber.e("Throwable = " + throwable);
-                        AwsManager.getInstance().setConsumer(null);
-                    }
-                }
-        );
-    }
-
     public void getUsersAuthentication(@NonNull final String username, @NonNull final String password) {
         getUsersAuthentication(username, password, null);
     }
@@ -451,7 +426,7 @@ public class AwsManager {
         }
     }
 
-    public void getConsumer1(@NonNull final Authentication authentication) {
+    public void getConsumer(@NonNull final Authentication authentication) {
         getConsumer(authentication, null);
     }
 
