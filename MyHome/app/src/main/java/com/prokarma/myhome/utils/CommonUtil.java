@@ -981,4 +981,7 @@ public class CommonUtil {
         return currentConditions;
     }
 
+    public static void log(String className, String message) {
+        Timber.d(className, message);
+    }
 }

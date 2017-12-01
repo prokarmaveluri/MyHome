@@ -20,6 +20,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
@@ -117,6 +118,7 @@ public class PreviousVisitsFragment extends BaseFragment {
     private void getPreviousVisits() {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            CommonUtil.log(this.getClass().getSimpleName(), "visits isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -125,22 +127,43 @@ public class PreviousVisitsFragment extends BaseFragment {
 
         Date currentDate = new Date();
 
+        if (AwsManager.getInstance().getVisitReports() == null || AwsManager.getInstance().getVisitReports().isEmpty()) {
+            CommonUtil.log(this.getClass().getSimpleName(), "visits before: 0 ");
+        } else {
+            CommonUtil.log(this.getClass().getSimpleName(), "visits before: " + AwsManager.getInstance().getVisitReports().size());
+        }
+
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReports(
                 AwsManager.getInstance().getConsumer(),
-                new SDKLocalDate(currentDate.getYear(), currentDate.getMonth(), currentDate.getDay()), true,
+                new SDKLocalDate(currentDate.getYear(), currentDate.getMonth() - 1, currentDate.getDay()), false,
                 new SDKCallback<List<VisitReport>, SDKError>() {
                     @Override
                     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
+
                         if (sdkError == null) {
                             AwsManager.getInstance().setVisitReports(visitReports);
 
-                            for (VisitReport visitReport: visitReports) {
-                                getVisitReportDetails(visitReport);
+                            CommonUtil.log(this.getClass().getSimpleName(), "visits after: " + AwsManager.getInstance().getVisitReports().size());
+
+                            if (visitReports != null && visitReports.size() > 0) {
+                                for (VisitReport visitReport : visitReports) {
+                                    getVisitReportDetails(visitReport);
+                                }
+                            } else {
+                                HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
+                                map.clear();
+                                AwsManager.getInstance().setVisitReportDetailHashMap(map);
                             }
+
+                            CommonUtil.log(this.getClass().getSimpleName(), "visits map after: " + AwsManager.getInstance().getVisitReportDetailHashMap().size());
 
                             bindList();
                             adapter.notifyDataSetChanged();
+                        } else {
+                            CommonUtil.log(this.getClass().getSimpleName(), "visits. sdkError not NULL. getMessage = " + sdkError.getMessage());
+                            CommonUtil.log(this.getClass().getSimpleName(), "visits. sdkError not NULL. getSDKErrorReason = " + sdkError.getSDKErrorReason());
                         }
+
                         reqCount--;
                         if (reqCount == 0) {
                             progressBar.setVisibility(View.GONE);
@@ -150,6 +173,7 @@ public class PreviousVisitsFragment extends BaseFragment {
 
                     @Override
                     public void onFailure(Throwable throwable) {
+                        CommonUtil.log(this.getClass().getSimpleName(), "visits. onFailure. getMessage = " + throwable.getMessage());
                         reqCount--;
                         if (reqCount == 0) {
                             progressBar.setVisibility(View.GONE);
@@ -163,6 +187,7 @@ public class PreviousVisitsFragment extends BaseFragment {
     private void getVisitReportDetails(final VisitReport visitReport) {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            CommonUtil.log(this.getClass().getSimpleName(), "visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -182,7 +207,6 @@ public class PreviousVisitsFragment extends BaseFragment {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-
                     }
                 }
         );
