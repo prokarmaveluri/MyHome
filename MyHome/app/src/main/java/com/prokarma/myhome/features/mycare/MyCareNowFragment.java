@@ -107,6 +107,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             setConsumerMedications();
             setConsumerPharmacy();
             setConsumerMedicalHistory();
+            setDependentsSpinner(AwsManager.getInstance().getConsumer(), AwsManager.getInstance().getConsumer().getDependents());
         }
 
         Button waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
