@@ -1,9 +1,11 @@
 package com.prokarma.myhome.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -11,6 +13,7 @@ import android.os.Environment;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -986,28 +989,34 @@ public class CommonUtil {
         return currentConditions;
     }
 
-    public static boolean saveFileToStorage(String fileName, byte[] fileData) {
+    public static boolean checkExternalStoragePermission(Context context) {
+        int permissionState = ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
 
-        boolean isFileSaved = false;
+    public static boolean saveFileToStorage(Context context, String fileNameWithEntirePath, byte[] fileData) {
         try {
-            String root = Environment.getDownloadCacheDirectory().toString() + "/visit_reports";
-            File myDir = new File(root);
-            if (!myDir.exists()) {
-                myDir.mkdirs();
-            }
+            File f = new File(fileNameWithEntirePath);
 
-            File f = new File(root + "/" + fileName);
+            Timber.d("file path = " + f.getAbsolutePath());
+
             if (f.exists()) {
                 f.delete();
             }
             f.createNewFile();
+
+            f.setReadable( true, false );
+            f.setWritable( true, false );
 
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(fileData);
             fos.flush();
             fos.close();
 
-            isFileSaved = true;
+            Timber.d("file saved. " );
+
+            return true;
 
         } catch (FileNotFoundException e) {
             Timber.e(e);
@@ -1019,7 +1028,8 @@ public class CommonUtil {
             Timber.e(e);
             e.printStackTrace();
         }
-        return isFileSaved;
+        Timber.d("file saving failed. " );
+        return false;
     }
 
     public static boolean openPdf(Context context, String fileNameWithEntirePath) {

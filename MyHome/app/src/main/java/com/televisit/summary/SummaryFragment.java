@@ -5,6 +5,9 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,19 +21,25 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitReportDetail;
+import com.americanwell.sdk.entity.visit.VisitRx;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
+import com.televisit.previousvisit.PrescriptionsAdapter;
 
 import org.apache.commons.io.IOUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Set;
 
 import timber.log.Timber;
 
 public class SummaryFragment extends Fragment {
     public static final String SUMMARY_TAG = "summary_tag";
-    public static final String VISIT_END_REASON_KEY = "visit_end_reason_key";
     public static final String VISIT_LIST_POSITION = "visit_list_position";
 
     private ProgressBar progressBar;
@@ -40,15 +49,12 @@ public class SummaryFragment extends Fragment {
     private TextView pharmacyAddress;
     private TextView costDesc;
     private CircularImageView docImage;
+    private RecyclerView prescriptionsList;
     private Button viewReport;
-
-    //private VisitSummary summary;
-    //private VisitEndReason endReason;
 
     private int visitReportPosition;
     private VisitReport visitReport;
     private VisitReportDetail visitReportDetail;
-    private FileAttachment visitReportFileAttachement;
 
     public SummaryFragment() {
     }
@@ -61,9 +67,7 @@ public class SummaryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null && getArguments().containsKey(VISIT_END_REASON_KEY)) {
-            //endReason = (VisitEndReason) getArguments().getSerializable(VISIT_END_REASON_KEY);
-        }
+
         if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
             visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
             if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
@@ -78,6 +82,7 @@ public class SummaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.visit_summary));
         View view = inflater.inflate(R.layout.visit_summary, container, false);
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.visit_summary));
 
         progressBar = (ProgressBar) view.findViewById(R.id.summary_progress);
         providerName = (TextView) view.findViewById(R.id.provider_name);
@@ -88,6 +93,7 @@ public class SummaryFragment extends Fragment {
 
         costDesc = (TextView) view.findViewById(R.id.cost_description);
         docImage = (CircularImageView) view.findViewById(R.id.doc_image);
+        prescriptionsList = (RecyclerView) view.findViewById(R.id.prescriptions_list);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
         viewReport.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +147,20 @@ public class SummaryFragment extends Fragment {
                             providerName.setText(visitReport.getProviderName());
                             costDesc.setText(getString(R.string.visit_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
 
-                            viewReport.setEnabled(true);
+                            if (visitReportDetail.getProviderEntries() != null) {
+
+                                if (visitReportDetail.getProviderEntries().getPrescriptions() != null) {
+                                    Timber.d("visit. Prescriptions NOT NULL. count = " + visitReportDetail.getProviderEntries().getPrescriptions().size());
+                                } else {
+                                    Timber.d("visit. Prescriptions is NULL.");
+                                }
+                            } else {
+                                Timber.d("visit. ProviderEntries is NULL ");
+                            }
+
+                            if (visitReportDetail.getProviderEntries() != null && visitReportDetail.getProviderEntries().getPrescriptions() != null) {
+                                displayPrescriptions(visitReportDetail.getProviderEntries().getPrescriptions());
+                            }
 
                             updateDoctorImage();
 
@@ -163,36 +182,6 @@ public class SummaryFragment extends Fragment {
                                 Timber.d("visit. Pharmacy Address is NULL ");
                                 pharmacyAddress.setVisibility(View.GONE);
                             } else {
-//                                StringBuilder sb = new StringBuilder();
-//
-//                                if (visitReportDetail.getPharmacy().getAddress().getAddress1() != null
-//                                        && visitReportDetail.getPharmacy().getAddress().getAddress1().isEmpty()) {
-//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getAddress1());
-//                                }
-//
-//                                if (visitReportDetail.getPharmacy().getAddress().getAddress2() != null
-//                                        && visitReportDetail.getPharmacy().getAddress().getAddress2().isEmpty()) {
-//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getAddress2());
-//                                }
-//
-//                                if (visitReportDetail.getPharmacy().getAddress().getCity() != null
-//                                        && visitReportDetail.getPharmacy().getAddress().getCity().isEmpty()) {
-//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getCity().toString());
-//                                }
-//
-//                                if (visitReportDetail.getPharmacy().getAddress().getState() != null) {
-//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getState().getName());
-//                                }
-//
-//                                if (visitReportDetail.getPharmacy().getAddress().getZipCode() != null
-//                                        && visitReportDetail.getPharmacy().getAddress().getZipCode().isEmpty()) {
-//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getZipCode().toString());
-//                                }
-//
-//                                if (visitReportDetail.getPharmacy().getAddress().getCountry() != null) {
-//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getCountry().getName());
-//                                }
-
                                 pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitReportDetail.getPharmacy()));
                             }
                         }
@@ -224,21 +213,41 @@ public class SummaryFragment extends Fragment {
                     @Override
                     public void onResponse(FileAttachment pdfFile, SDKError sdkError) {
                         if (sdkError == null) {
-                            visitReportFileAttachement = pdfFile;
 
                             progressBar.setVisibility(View.GONE);
+
+                            Timber.d("file ExternalStorageState = " + Environment.getExternalStorageState());
+                            Timber.d("file Permission = " + CommonUtil.checkExternalStoragePermission(getContext()));
+
                             try {
-                                if (pdfFile != null) {
-                                    Toast.makeText(getContext(), "visit. pdf available ", Toast.LENGTH_LONG).show();
-                                    String fileNameWithEntirePath = Environment.getExternalStorageDirectory() + "/visit_reports/" + "Report.pdf";
-
-                                    boolean fileSaved = CommonUtil.saveFileToStorage(fileNameWithEntirePath, IOUtils.toByteArray(pdfFile.getInputStream()));
-
-                                    CommonUtil.openPdf(getContext(), fileNameWithEntirePath);
+                                if (pdfFile == null) {
+                                    Toast.makeText(getContext(), "Visit report not available. ", Toast.LENGTH_LONG).show();
+                                    viewReport.setEnabled(false);
+                                } else if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                                    Toast.makeText(getContext(), "Storage not available. ", Toast.LENGTH_LONG).show();
+                                    viewReport.setEnabled(false);
+                                } else if (!CommonUtil.checkExternalStoragePermission(getContext())) {
+                                    Toast.makeText(getContext(), "Storage Access permission denied.", Toast.LENGTH_LONG).show();
+                                    viewReport.setEnabled(false);
                                 } else {
-                                    Timber.d("visit. Report is NULL ");
-                                    Toast.makeText(getContext(), "visit. pdf is NULL ", Toast.LENGTH_LONG).show();
+                                    Timber.d("file DownloadCache Directory = " + Environment.getDownloadCacheDirectory());
+                                    Timber.d("file Root Directory = " + Environment.getRootDirectory());
+                                    Timber.d("file Data Directory = " + Environment.getDataDirectory());
+                                    Timber.d("file getExternalStorageDirectory = " + Environment.getExternalStorageDirectory());
 
+                                    /*Timber.d("file ExternalCacheDir = " + getContext().getExternalCacheDir().toString());
+                                    Timber.d("file CacheDir = " + getContext().getCacheDir().toString());
+                                    Timber.d("file DIRECTORY_DOWNLOADS = " + getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
+                                    */
+
+                                    String fileNameWithEntirePath = Environment.getExternalStorageDirectory().toString() + File.separator + "Report.pdf";
+
+                                    boolean fileSaved = CommonUtil.saveFileToStorage(getContext(), fileNameWithEntirePath, IOUtils.toByteArray(pdfFile.getInputStream()));
+
+                                    if (fileSaved) {
+                                        Toast.makeText(getContext(), "Visit report is available. ", Toast.LENGTH_LONG).show();
+                                    }
+                                    CommonUtil.openPdf(getContext(), fileNameWithEntirePath);
                                 }
 
                             } catch (Exception e) {
@@ -261,4 +270,24 @@ public class SummaryFragment extends Fragment {
         );
     }
 
+    private void displayPrescriptions(Set<VisitRx> prescriptions) {
+
+        for (VisitRx prescription : visitReportDetail.getProviderEntries().getPrescriptions()) {
+            Timber.d("visit. prescription " + prescription.getName());
+        }
+
+        if (prescriptions != null && prescriptions.size() > 0) {
+
+            prescriptionsList.setVisibility(View.VISIBLE);
+
+            PrescriptionsAdapter adapter = new PrescriptionsAdapter(new ArrayList<>(prescriptions));
+            prescriptionsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            prescriptionsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+            prescriptionsList.setAdapter(adapter);
+
+            adapter.notifyDataSetChanged();
+        } else {
+            prescriptionsList.setVisibility(View.GONE);
+        }
+    }
 }
