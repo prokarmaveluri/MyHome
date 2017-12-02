@@ -78,15 +78,15 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     e.printStackTrace();
                 }
 
-                HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
+                //hardcoding for now.
+                holder.amount.setText("$ 0.00");
+                holder.text.setText("I cut my hand on a peice of glass");
+
+                /*HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
                 if (map != null && map.get(visitReport) != null) {
                     holder.amount.setText("$ " + amountFormat.format(map.get(visitReport).getPaymentAmount()));
                     holder.text.setText(map.get(visitReport).getTitle());
-                }
-                else {
-                    holder.amount.setText("$ 0.00");
-                    holder.text.setText("I cut my hand on a peice of glass");
-                }
+                }*/
 
                 holder.viewLink.setTag(position);
                 holder.viewLink.setOnClickListener(new View.OnClickListener() {
@@ -125,11 +125,6 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    public void setAppointments(ArrayList<VisitReport> visitReports) {
-        this.visitReports = visitReports;
-        notifyDataSetChanged();
-    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public View layout;
@@ -142,7 +137,7 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public ViewHolder(final Context context, final View view) {
             super(view);
             this.view = view;
-            layout = view.findViewById(R.id.appointment_item_layout);
+            layout = view.findViewById(R.id.previousvisit_item_layout);
             date = (TextView) view.findViewById(R.id.date);
             viewLink = (TextView) view.findViewById(R.id.view);
             doctorName = (TextView) view.findViewById(R.id.doctor_name);

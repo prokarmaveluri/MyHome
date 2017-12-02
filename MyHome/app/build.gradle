@@ -360,6 +360,7 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.5'
     compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
     compile 'com.github.myinnos:AlphabetIndex-Fast-Scroll-RecyclerView:1.0.8'
+    compile 'commons-io:commons-io:2.5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.12.0'
 

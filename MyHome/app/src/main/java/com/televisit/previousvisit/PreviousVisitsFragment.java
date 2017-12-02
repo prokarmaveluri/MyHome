@@ -29,6 +29,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import timber.log.Timber;
+
+import static com.televisit.summary.SummaryFragment.VISIT_END_REASON_KEY;
+import static com.televisit.summary.SummaryFragment.VISIT_LIST_POSITION;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PreviousVisitsFragment#newInstance} factory method to
@@ -77,7 +82,7 @@ public class PreviousVisitsFragment extends BaseFragment {
 
         getPreviousVisits();
 
-        bindList();
+        //bindList();
 
         progressBar.setVisibility(View.GONE);
         list.setVisibility(View.VISIBLE);
@@ -96,10 +101,14 @@ public class PreviousVisitsFragment extends BaseFragment {
         adapter = new PreviousVisitsAdapter(getActivity(), AwsManager.getInstance().getVisitReports(), new RecyclerViewListener() {
             @Override
             public void onItemClick(Object model, int position) {
-                /*
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(VISIT_END_REASON_KEY, visitReport);
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.SUMMARY_TAG, bundle); */
+                if (position >= 0 && position < AwsManager.getInstance().getVisitReports().size()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(VISIT_LIST_POSITION, position);
+                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VISIT_SUMMARY, bundle);
+                }
+                else {
+                    Timber.d("PreviousVisits: position out of bounds index. ");
+                }
             }
 
             @Override
@@ -148,7 +157,7 @@ public class PreviousVisitsFragment extends BaseFragment {
                         if (sdkError == null) {
                             AwsManager.getInstance().setVisitReports(visitReports);
 
-                            CommonUtil.log(this.getClass().getSimpleName(), "visits after: " + AwsManager.getInstance().getVisitReports().size());
+                            /*CommonUtil.log(this.getClass().getSimpleName(), "visits after: " + AwsManager.getInstance().getVisitReports().size());
 
                             if (visitReports != null && visitReports.size() > 0) {
                                 for (VisitReport visitReport : visitReports) {
@@ -161,6 +170,7 @@ public class PreviousVisitsFragment extends BaseFragment {
                             }
 
                             CommonUtil.log(this.getClass().getSimpleName(), "visits map after: " + AwsManager.getInstance().getVisitReportDetailHashMap().size());
+                            */
 
                             bindList();
                             adapter.notifyDataSetChanged();
@@ -184,34 +194,6 @@ public class PreviousVisitsFragment extends BaseFragment {
                             progressBar.setVisibility(View.GONE);
                             list.setVisibility(View.VISIBLE);
                         }
-                    }
-                }
-        );
-    }
-
-    private void getVisitReportDetails(final VisitReport visitReport) {
-
-        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            CommonUtil.log(this.getClass().getSimpleName(), "visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
-            return;
-        }
-
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReportDetail(
-                AwsManager.getInstance().getConsumer(),
-                visitReport,
-                new SDKCallback<VisitReportDetail, SDKError>() {
-                    @Override
-                    public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
-                        if (sdkError == null) {
-
-                            HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
-                            map.put(visitReport, visitReportDetail);
-                            AwsManager.getInstance().setVisitReportDetailHashMap(map);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
                     }
                 }
         );

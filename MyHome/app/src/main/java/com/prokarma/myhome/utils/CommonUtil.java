@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,6 +43,10 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -979,6 +984,70 @@ public class CommonUtil {
         }
 
         return currentConditions;
+    }
+
+    public static boolean saveFileToStorage(String fileName, byte[] fileData) {
+
+        boolean isFileSaved = false;
+        try {
+            String root = Environment.getExternalStorageDirectory().toString() + "/visit_reports";
+            File myDir = new File(root);
+            if (!myDir.exists()) {
+                myDir.mkdirs();
+            }
+
+            File f = new File(root + "/" + fileName);
+            if (f.exists()) {
+                f.delete();
+            }
+            f.createNewFile();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(fileData);
+            fos.flush();
+            fos.close();
+
+            isFileSaved = true;
+
+        } catch (FileNotFoundException e) {
+            Timber.e(e);
+            e.printStackTrace();
+        } catch (IOException e) {
+            Timber.e(e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            Timber.e(e);
+            e.printStackTrace();
+        }
+        return isFileSaved;
+    }
+
+    public static boolean openPdf(Context context, String fileNameWithEntirePath) {
+        try {
+            File f = new File(fileNameWithEntirePath);
+
+            if (f != null & f.exists()) {
+
+                Uri path = Uri.fromFile(f);
+
+                Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
+                pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                pdfOpenintent.setDataAndType(path, "application/pdf");
+
+                //check if intent is available inorder to open the PDF file.
+                if (pdfOpenintent.resolveActivity(context.getPackageManager()) != null) {
+                    context.startActivity(pdfOpenintent);
+                }
+                return true;
+            }
+
+
+        } catch (ActivityNotFoundException e) {
+            Timber.e(e);
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return false;
     }
 
     public static void log(String className, String message) {
