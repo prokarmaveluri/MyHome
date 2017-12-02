@@ -15,6 +15,7 @@ import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.visit.ChatReport;
 import com.americanwell.sdk.entity.visit.Visit;
+import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
@@ -24,6 +25,7 @@ import com.televisit.interfaces.AwsGetAllergies;
 import com.televisit.interfaces.AwsGetConditions;
 import com.televisit.interfaces.AwsGetMedications;
 import com.televisit.interfaces.AwsGetPharmacy;
+import com.televisit.interfaces.AwsGetVisitSummary;
 import com.televisit.interfaces.AwsInitialization;
 import com.televisit.interfaces.AwsStartVideoVisit;
 import com.televisit.interfaces.AwsUpdatePharmacy;
@@ -532,6 +534,40 @@ public class AwsNetworkManager {
                     }
                 }
         );
+    }
+
+    public void getVisitSummary(@NonNull final Visit visit, @Nullable final AwsGetVisitSummary awsGetVisitSummary) {
+        AwsManager.getInstance().getAWSDK().getVisitManager().getVisitSummary(
+                visit,
+                new SDKCallback<VisitSummary, SDKError>() {
+                    @Override
+                    public void onResponse(@Nullable VisitSummary visitSummary, @Nullable SDKError sdkError) {
+                        if (sdkError == null) {
+                            if (awsGetVisitSummary != null) {
+                                awsGetVisitSummary.getVisitSummaryComplete(visitSummary);
+                            }
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsGetVisitSummary != null) {
+                                awsGetVisitSummary.getVisitSummaryFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsGetVisitSummary != null) {
+                            awsGetVisitSummary.getVisitSummaryFailed(throwable.getMessage());
+                        }
+                    }
+                }
+        );
+
     }
 
 }

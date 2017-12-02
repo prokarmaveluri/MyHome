@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,7 +26,6 @@ import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsStartVideoVisit;
-import com.televisit.summary.SummaryActivity;
 
 import java.util.Map;
 
@@ -80,8 +80,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
         isVisitEnd = false;
 
-        Intent intent = new Intent(getContext(), SummaryActivity.class);
-        startVisit(patient.getAddress(), intent);
+        //Intent intent = new Intent(getContext(), SummaryActivity.class);
+        startVisit(patient.getAddress(), null);
         return view;
     }
 
@@ -89,13 +89,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     public void onResume() {
         super.onResume();
         if (isVisitEnd) {
-            try {
-                if (getActivity() != null) {
-                    ((NavigationActivity) getActivity()).onBackPressed();
-                }
-            } catch (IllegalStateException ex) {
-                Timber.e(ex);
-            }
+            //Put in handler to avoid IllegalStateException: https://stackoverflow.com/a/41953519/2128921
+            goToVisitSummary();
         }
     }
 
@@ -139,6 +134,19 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         startActivity(intent);
     }
 
+    private void goToVisitSummary() {
+        Handler uiHandler = new Handler();
+        uiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isAdded()) {
+                    ((NavigationActivity) getActivity()).loadFragment(
+                            Constants.ActivityTag.VIDEO_VISIT_SUMMARY, null);
+                }
+            }
+        });
+    }
+
     @Override
     public void onValidationFailure(@NonNull Map<String, String> map) {
 
@@ -156,7 +164,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 //                        if (isAdded()) {
 //                            Bundle bundle = new Bundle();
 //                            bundle.putSerializable(SummaryFragment.VISIT_END_REASON_KEY, visitEndReason);
-//                            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VISIT_SUMMARY, bundle);
+//                            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY, bundle);
 //                        }
     }
 

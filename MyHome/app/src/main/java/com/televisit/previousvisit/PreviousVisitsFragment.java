@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.visit.VisitReport;
-import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -26,12 +25,10 @@ import com.televisit.AwsManager;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
 
-import static com.televisit.summary.SummaryFragment.VISIT_END_REASON_KEY;
 import static com.televisit.summary.SummaryFragment.VISIT_LIST_POSITION;
 
 /**
@@ -93,7 +90,7 @@ public class PreviousVisitsFragment extends BaseFragment {
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.PREVIOUS_VISITS_SUMMARY;
+        return Constants.ActivityTag.PREVIOUS_VISITS_SUMMARIES;
     }
 
     private void bindList() {
@@ -104,7 +101,7 @@ public class PreviousVisitsFragment extends BaseFragment {
                 if (position >= 0 && position < AwsManager.getInstance().getVisitReports().size()) {
                     Bundle bundle = new Bundle();
                     bundle.putInt(VISIT_LIST_POSITION, position);
-                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VISIT_SUMMARY, bundle);
+                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY, bundle);
                 }
                 else {
                     Timber.d("PreviousVisits: position out of bounds index. ");

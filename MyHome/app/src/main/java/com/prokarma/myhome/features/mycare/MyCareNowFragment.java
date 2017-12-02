@@ -142,7 +142,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             public void onClick(View v) {
                 //TODO: Vijaya, do your fragment stuff here. Also, look at visit_summary.xml && SummaryFragment.java
                 ((NavigationActivity) getActivity()).loadFragment(
-                        Constants.ActivityTag.PREVIOUS_VISITS_SUMMARY, null);
+                        Constants.ActivityTag.PREVIOUS_VISITS_SUMMARIES, null);
             }
         });
 

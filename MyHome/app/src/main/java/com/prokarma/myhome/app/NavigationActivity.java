@@ -66,6 +66,7 @@ import com.televisit.previousvisit.PreviousVisitsFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.SummaryFragment;
+import com.televisit.summary.VisitSummaryFragment;
 import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
 import java.util.TimeZone;
@@ -574,8 +575,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
 
 
-            case PREVIOUS_VISITS_SUMMARY:
-                if (getActivityTag() != ActivityTag.PREVIOUS_VISITS_SUMMARY) {
+            case PREVIOUS_VISITS_SUMMARIES:
+                if (getActivityTag() != ActivityTag.PREVIOUS_VISITS_SUMMARIES) {
                     getSupportFragmentManager().executePendingTransactions();
                     PreviousVisitsFragment peviousVisitFragment = PreviousVisitsFragment.newInstance();
                     peviousVisitFragment.setArguments(bundle);
@@ -587,12 +588,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
 
-                    setActivityTag(Constants.ActivityTag.PREVIOUS_VISITS_SUMMARY);
+                    setActivityTag(Constants.ActivityTag.PREVIOUS_VISITS_SUMMARIES);
                 }
                 break;
 
-            case VISIT_SUMMARY:
-                if (getActivityTag() != ActivityTag.VISIT_SUMMARY) {
+            case PREVIOUS_VISIT_SUMMARY:
+                if (getActivityTag() != ActivityTag.PREVIOUS_VISIT_SUMMARY) {
                     getSupportFragmentManager().executePendingTransactions();
                     SummaryFragment summaryFragment = SummaryFragment.newInstance();
                     summaryFragment.setArguments(bundle);
@@ -604,12 +605,32 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
 
-                    setActivityTag(Constants.ActivityTag.VISIT_SUMMARY);
+                    setActivityTag(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY);
                 }
                 break;
-            case VISIT_FEEDBACK:
-                if (getActivityTag() != ActivityTag.VISIT_FEEDBACK) {
+
+            case VIDEO_VISIT_SUMMARY:
+                if (getActivityTag() != ActivityTag.VIDEO_VISIT_SUMMARY) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    VisitSummaryFragment visitSummaryFragment = VisitSummaryFragment.newInstance();
+                    visitSummaryFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, visitSummaryFragment, SummaryFragment.SUMMARY_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.VIDEO_VISIT_SUMMARY);
+                }
+                break;
+
+            case VIDEO_VISIT_FEEDBACK:
+                if (getActivityTag() != ActivityTag.VIDEO_VISIT_FEEDBACK) {
                     //TODO Visit feedback fragment here
+
+                    setActivityTag(Constants.ActivityTag.VIDEO_VISIT_FEEDBACK);
                 }
                 break;
         }
