@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:id="@+id/doc_layout"
@@ -19,12 +20,13 @@
             android:scaleType="centerInside" />
 
         <TextView
+            android:id="@+id/provider_name"
             style="@style/tradeGothicLTStdLight_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/doc_image"
-            android:text="Richard Paul, MD"
+            tools:text="Richard Paul, MD"
             android:textStyle="bold" />
     </RelativeLayout>
 
@@ -48,12 +50,43 @@
         android:text="Your total cost for today's visit was $0.00" />
 
     <TextView
-        android:id="@+id/doctor_notes"
+        android:id="@+id/pharmacy_name"
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/end_description"
         android:layout_below="@+id/cost_description"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        tools:text="Pharmacy Name" />
+
+    <TextView
+        android:id="@+id/pharmacy_address"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/end_description"
+        android:layout_below="@+id/pharmacy_name"
+        android:layout_marginTop="10dp"
+        tools:text="Pharmacy Address" />
+
+    <TextView
+        android:id="@+id/pharmacy_distance"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/end_description"
+        android:layout_below="@+id/pharmacy_address"
+        android:layout_marginTop="10dp"
+        tools:text="0.91 mi" />
+
+    <TextView
+        android:id="@+id/doctor_notes"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/end_description"
+        android:layout_below="@+id/pharmacy_distance"
         android:layout_marginTop="16dp"
         android:text="If your doctor is preparing additional information about your visit, you will be able to see it later in your Visit Summaries." />
 

@@ -42,9 +42,13 @@ public class SummaryFragment extends Fragment {
     public static final String VISIT_LIST_POSITION = "visit_list_position";
 
     private ProgressBar progressBar;
+    private TextView providerName;
+    private TextView pharmacyName;
+    private TextView pharmacyDistance;
+    private TextView pharmacyAddress;
     private TextView costDesc;
-    private Button viewReport;
     private CircularImageView docImage;
+    private Button viewReport;
 
     //private VisitSummary summary;
     //private VisitEndReason endReason;
@@ -84,49 +88,36 @@ public class SummaryFragment extends Fragment {
         View view = inflater.inflate(R.layout.visit_summary, container, false);
 
         progressBar = (ProgressBar) view.findViewById(R.id.summary_progress);
+        providerName = (TextView) view.findViewById(R.id.provider_name);
+
+        pharmacyName = (TextView) view.findViewById(R.id.pharmacy_name);
+        pharmacyDistance = (TextView) view.findViewById(R.id.pharmacy_distance);
+        pharmacyAddress = (TextView) view.findViewById(R.id.pharmacy_address);
+
         costDesc = (TextView) view.findViewById(R.id.cost_description);
-        viewReport = (Button) view.findViewById(R.id.view_report);
         docImage = (CircularImageView) view.findViewById(R.id.doc_image);
+        viewReport = (Button) view.findViewById(R.id.view_report);
 
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getVisitReportAttachment(visitReport);
-                Toast.makeText(getContext(), "SHOW PDF ", Toast.LENGTH_LONG).show();
             }
         });
 
         return view;
     }
 
-    private void updateCost(String costInfo) {
-        costDesc.setText(costInfo);
-    }
+    private void updateDoctorImage() {
 
-    /*private void getVisitSummary() {
-        progressBar.setVisibility(View.VISIBLE);
-        AwsManager.getInstance().getAWSDK()
-                .getVisitManager().getVisitSummary(AwsManager.getInstance().getVisit(),
-                new SDKCallback<VisitSummary, SDKError>() {
-                    @Override
-                    public void onResponse(VisitSummary visitSummary, SDKError sdkError) {
-                        progressBar.setVisibility(View.GONE);
-                        updateCost(getString(R.string.visit_cost_desc) + visitSummary.getVisitCost().getExpectedConsumerCopayCost());
-                        summary = visitSummary;
-                        viewReport.setEnabled(summary != null);
-                        updateDocImage();
-                    }
+        Timber.d("visit. Image available = " +
+                (visitReportDetail != null
+                        && visitReportDetail.getAssignedProviderInfo() != null
+                        && visitReportDetail.getAssignedProviderInfo().hasImage()
+                ) );
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
-    }*/
-
-    private void updateDocImage() {
         if (visitReportDetail != null && visitReportDetail.getAssignedProviderInfo() != null && visitReportDetail.getAssignedProviderInfo().hasImage()) {
+
             // preferred method for loading image
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(visitReportDetail.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
@@ -152,21 +143,74 @@ public class SummaryFragment extends Fragment {
 
                             visitReportDetail = detail;
                             progressBar.setVisibility(View.GONE);
-                            updateCost(getString(R.string.visit_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
 
-                            if (visitReportDetail != null && visitReportDetail.getAssignedProviderInfo() != null && visitReportDetail.getAssignedProviderInfo().hasImage()) {
-                                viewReport.setEnabled(true);
-                            } else {
-                                viewReport.setEnabled(false);
+                            providerName.setText(visitReport.getProviderName());
+                            costDesc.setText(getString(R.string.visit_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
+
+                            viewReport.setEnabled(true);
+
+                            updateDoctorImage();
+
+                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() != null) {
+                                Timber.d("visit. Pharmacy Name is NULL ");
+                                pharmacyName.setVisibility(View.GONE);
                             }
-                            updateDocImage();
+                            else {
+                                pharmacyName.setText(visitReportDetail.getPharmacy().getName());
+                            }
+
+                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getDistance() > 0) {
+                                Timber.d("visit. Pharmacy Distance is NULL ");
+                                pharmacyDistance.setVisibility(View.GONE);
+                            }
+                            else {
+                                pharmacyDistance.setText(String.valueOf(visitReportDetail.getPharmacy().getDistance()) + " mi");
+                            }
+
+                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {
+                                Timber.d("visit. Pharmacy Address is NULL ");
+                                pharmacyAddress.setVisibility(View.GONE);
+                            }
+                            else {
+                                StringBuilder sb = new StringBuilder();
+
+                                if (visitReportDetail.getPharmacy().getAddress().getAddress1() != null
+                                        && visitReportDetail.getPharmacy().getAddress().getAddress1().isEmpty()) {
+                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getAddress1());
+                                }
+
+                                if (visitReportDetail.getPharmacy().getAddress().getAddress2() != null
+                                        && visitReportDetail.getPharmacy().getAddress().getAddress2().isEmpty()) {
+                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getAddress2());
+                                }
+
+                                if (visitReportDetail.getPharmacy().getAddress().getCity() != null
+                                        && visitReportDetail.getPharmacy().getAddress().getCity().isEmpty()) {
+                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getCity().toString());
+                                }
+
+                                if (visitReportDetail.getPharmacy().getAddress().getState() != null) {
+                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getState().getName());
+                                }
+
+                                if (visitReportDetail.getPharmacy().getAddress().getZipCode() != null
+                                        && visitReportDetail.getPharmacy().getAddress().getZipCode().isEmpty()) {
+                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getZipCode().toString());
+                                }
+
+                                if (visitReportDetail.getPharmacy().getAddress().getCountry() != null) {
+                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getCountry().getName());
+                                }
+
+                                pharmacyAddress.setText(sb.toString());
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
                         if (throwable != null) {
-                            Timber.d("getVisitReportDetail: " + throwable.getMessage());
+                            Timber.d("visit. getVisitReportDetail: " + throwable.getMessage());
                         }
                         Timber.e(throwable);
                         progressBar.setVisibility(View.GONE);
@@ -193,11 +237,19 @@ public class SummaryFragment extends Fragment {
 
                             progressBar.setVisibility(View.GONE);
                             try {
-                                String fileNameWithEntirePath = Environment.getExternalStorageDirectory() + "/visit_reports/" + "Report.pdf";
+                                if (pdfFile != null) {
+                                    Toast.makeText(getContext(), "visit. pdf available ", Toast.LENGTH_LONG).show();
+                                    String fileNameWithEntirePath = Environment.getExternalStorageDirectory() + "/visit_reports/" + "Report.pdf";
 
-                                boolean fileSaved = CommonUtil.saveFileToStorage(fileNameWithEntirePath, IOUtils.toByteArray(pdfFile.getInputStream()));
+                                    boolean fileSaved = CommonUtil.saveFileToStorage(fileNameWithEntirePath, IOUtils.toByteArray(pdfFile.getInputStream()));
 
-                                CommonUtil.openPdf(getContext(), fileNameWithEntirePath);
+                                    CommonUtil.openPdf(getContext(), fileNameWithEntirePath);
+                                }
+                                else {
+                                    Timber.d ("visit. Report is NULL ");
+                                    Toast.makeText(getContext(), "visit. pdf is NULL ", Toast.LENGTH_LONG).show();
+
+                                }
 
                             } catch (Exception e) {
                                 Timber.e(e);
@@ -208,10 +260,12 @@ public class SummaryFragment extends Fragment {
                     @Override
                     public void onFailure(Throwable throwable) {
                         if (throwable != null) {
-                            Timber.d("getVisitReportAttachment: " + throwable.getMessage());
+                            Timber.d("visit. getVisitReportAttachment: " + throwable.getMessage());
                         }
                         Timber.e(throwable);
                         progressBar.setVisibility(View.GONE);
+
+                        //viewReport.setEnabled(false);
                     }
                 }
         );
