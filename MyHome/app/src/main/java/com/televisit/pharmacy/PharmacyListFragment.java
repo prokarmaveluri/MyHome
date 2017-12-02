@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
@@ -27,8 +28,6 @@ import com.televisit.AwsManager;
 
 import java.util.List;
 import java.util.Map;
-
-import timber.log.Timber;
 
 
 /**
@@ -132,10 +131,11 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     private void getPharmacies(@NonNull final float latitude,
                                @NonNull final float longitude,
                                @NonNull final int radius,
-                               @NonNull final boolean excludeMailOrder) {
+                               @NonNull final boolean excludeMailOrder,
+                               @NonNull final Consumer patient) {
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
-                AwsManager.getInstance().getConsumer(),
+                patient,
                 latitude,
                 longitude,
                 radius,

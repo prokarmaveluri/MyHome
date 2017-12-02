@@ -25,6 +25,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.BuildConfig;
 import com.televisit.interfaces.AwsConsumer;
 import com.televisit.interfaces.AwsInitialization;
+import com.televisit.interfaces.AwsPharmacyUpdate;
 import com.televisit.interfaces.AwsUserAuthentication;
 
 import java.util.HashMap;
@@ -481,4 +482,46 @@ public class AwsManager {
         );
     }
 
+    public void updateConsumerPharmacy(@NonNull final Consumer patient, @Nullable final Pharmacy pharmacy) {
+        updateConsumerPharmacy(patient, pharmacy, null);
+    }
+
+    public void updateConsumerPharmacy(@NonNull final Consumer patient, @Nullable final Pharmacy pharmacy, final AwsPharmacyUpdate awsPharmacyUpdate) {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
+                patient,
+                pharmacy,
+                new SDKCallback<Void, SDKError>() {
+                    @Override
+                    public void onResponse(Void aVoid, SDKError sdkError) {
+                        if (sdkError == null) {
+                            AwsManager.getInstance().setConsumerPharmacy(pharmacy);
+
+                            if (awsPharmacyUpdate != null) {
+                                awsPharmacyUpdate.pharmacyUpdateComplete(pharmacy);
+                            }
+
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+                            AwsManager.getInstance().setConsumerPharmacy(null);
+
+                            if (awsPharmacyUpdate != null) {
+                                awsPharmacyUpdate.pharmacyUpdateFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        AwsManager.getInstance().setConsumerPharmacy(null);
+
+                        if (awsPharmacyUpdate != null) {
+                            awsPharmacyUpdate.pharmacyUpdateFailed(throwable.getMessage());
+                        }
+                    }
+                }
+        );
+    }
 }

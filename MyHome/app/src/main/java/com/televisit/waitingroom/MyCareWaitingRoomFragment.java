@@ -128,7 +128,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
 
                     @Override
                     public void onStartVisitEnded(@NonNull String s) {
-//                        Timber.d("onStartVisitEnded " + visitEndReason);
+                        Timber.d("onStartVisitEnded " + s);
 //
 //                        Toast.makeText(getContext(), "visit ended\n" + visitEndReason, Toast.LENGTH_LONG).show();
 //
