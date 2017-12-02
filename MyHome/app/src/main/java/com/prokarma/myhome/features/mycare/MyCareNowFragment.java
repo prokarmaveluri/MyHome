@@ -16,13 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Authentication;
-import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -33,6 +31,10 @@ import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.DependentsSpinnerAdapter;
 import com.televisit.interfaces.AwsConsumer;
+import com.televisit.interfaces.AwsGetAllergies;
+import com.televisit.interfaces.AwsGetConditions;
+import com.televisit.interfaces.AwsGetMedications;
+import com.televisit.interfaces.AwsGetPharmacy;
 import com.televisit.interfaces.AwsInitialization;
 import com.televisit.interfaces.AwsUserAuthentication;
 
@@ -44,7 +46,8 @@ import java.util.List;
  * Use the {@link MyCareNowFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyCareNowFragment extends BaseFragment implements View.OnClickListener, AwsUserAuthentication, AwsInitialization, AwsConsumer {
+public class MyCareNowFragment extends BaseFragment implements View.OnClickListener, AwsUserAuthentication, AwsInitialization,
+        AwsConsumer, AwsGetPharmacy, AwsGetMedications, AwsGetConditions, AwsGetAllergies {
 
     private TextView infoEdit;
     private TextView historyDesc;
@@ -149,12 +152,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-
-        if (AwsManager.getInstance().isHasConsumer()) {
-            setConsumerMedications();
-            setConsumerPharmacy();
-            setConsumerMedicalHistory();
-        }
+        refreshDashboard(false);
     }
 
     @Override
@@ -210,81 +208,30 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
-                patient, new SDKCallback<List<Medication>, SDKError>() {
-                    @Override
-                    public void onResponse(List<Medication> medications, SDKError sdkError) {
-                        AwsManager.getInstance().setMedications(medications);
-                        setConsumerMedications();
-                    }
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-
-                    }
-                });
+        AwsNetworkManager.getInstance().getMedications(patient, this);
     }
 
     private void getConsumerPharmacy() {
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
-                patient, new SDKCallback<Pharmacy, SDKError>() {
-                    @Override
-                    public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
-                        AwsManager.getInstance().setConsumerPharmacy(pharmacy);
-                        setConsumerPharmacy();
-                    }
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-
-                    }
-                });
+        AwsNetworkManager.getInstance().getPharmacy(patient, this);
     }
 
     private void getConsumerConditions() {
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
-                patient,
-                new SDKCallback<List<Condition>, SDKError>() {
-                    @Override
-                    public void onResponse(List<Condition> conditions, SDKError sdkError) {
-                        if (sdkError == null) {
-                            AwsManager.getInstance().setConditions(conditions);
-                            getConsumerAllergies();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                    }
-                }
-        );
+        AwsNetworkManager.getInstance().getConditions(patient, this);
     }
 
     private void getConsumerAllergies() {
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
-                patient,
-                new SDKCallback<List<Allergy>, SDKError>() {
-                    @Override
-                    public void onResponse(List<Allergy> allergies, SDKError sdkError) {
-                        if (sdkError == null) {
-                            AwsManager.getInstance().setAllergies(allergies);
-                            setConsumerMedicalHistory();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                    }
-                });
+        AwsNetworkManager.getInstance().getAllergies(patient, this);
     }
 
     private void setConsumerMedications() {
@@ -374,12 +321,12 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                     //Selected Me
                     patient = AwsManager.getInstance().getConsumer();
                     AwsManager.getInstance().setDependent(null);
-                    refreshDashboard();
+                    refreshDashboard(true);
                 } else {
                     //Selected a Dependent - need to minus one due to adding yourself to the list
                     patient = AwsManager.getInstance().getConsumer().getDependents().get(position - 1);
                     AwsManager.getInstance().setDependent(patient);
-                    refreshDashboard();
+                    refreshDashboard(true);
                 }
             }
 
@@ -390,9 +337,19 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         });
     }
 
-    private void refreshDashboard(){
-
-
+    private void refreshDashboard(boolean forceRefresh) {
+        if (AwsManager.getInstance().isHasConsumer() && !forceRefresh) {
+            setConsumerMedications();
+            setConsumerPharmacy();
+            setConsumerMedicalHistory();
+        } else if (AwsManager.getInstance().isHasConsumer()) {
+            getConsumerMedications();
+            getConsumerPharmacy();
+            getConsumerConditions();
+            setConsumerMedications();
+            setConsumerPharmacy();
+            setConsumerMedicalHistory();
+        }
     }
 
     @Override
@@ -424,7 +381,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void consumerComplete(Consumer consumer) {
+    public void getConsumerComplete(Consumer consumer) {
         if (isAdded()) {
             setDependentsSpinner(consumer, consumer.getDependents());
             finishLoading();
@@ -432,8 +389,47 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void consumerFailed(String errorMessage) {
+    public void getConsumerFailed(String errorMessage) {
         errorLoading();
     }
 
+    @Override
+    public void getPharmacyComplete(Pharmacy pharmacy) {
+        setConsumerPharmacy();
+    }
+
+    @Override
+    public void getPharmacyFailed(String errorMessage) {
+
+    }
+
+    @Override
+    public void getMedicationsComplete(List<Medication> medications) {
+        setConsumerMedications();
+    }
+
+    @Override
+    public void getMedicationsFailed(String errorMessage) {
+
+    }
+
+    @Override
+    public void getConditionsComplete(List<Condition> conditions) {
+        getConsumerAllergies();
+    }
+
+    @Override
+    public void getConditionsFailed(String errorMessage) {
+
+    }
+
+    @Override
+    public void getAllergiesComplete(List<Allergy> allergy) {
+        setConsumerMedicalHistory();
+    }
+
+    @Override
+    public void getAllergiesFailed(String errorMessage) {
+
+    }
 }

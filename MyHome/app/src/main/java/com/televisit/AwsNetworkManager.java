@@ -7,15 +7,23 @@ import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.health.Allergy;
+import com.americanwell.sdk.entity.health.Condition;
+import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.televisit.interfaces.AwsConsumer;
+import com.televisit.interfaces.AwsGetAllergies;
+import com.televisit.interfaces.AwsGetConditions;
+import com.televisit.interfaces.AwsGetMedications;
+import com.televisit.interfaces.AwsGetPharmacy;
 import com.televisit.interfaces.AwsInitialization;
-import com.televisit.interfaces.AwsPharmacyUpdate;
+import com.televisit.interfaces.AwsUpdatePharmacy;
 import com.televisit.interfaces.AwsUserAuthentication;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -179,10 +187,6 @@ public class AwsNetworkManager {
                 });
     }
 
-    public void getConsumer(@NonNull final Authentication authentication) {
-        getConsumer(authentication, null);
-    }
-
     public void getConsumer(@NonNull final Authentication authentication, @Nullable final AwsConsumer awsConsumer) {
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumer(
                 authentication,
@@ -195,7 +199,7 @@ public class AwsNetworkManager {
                             AwsManager.getInstance().setHasConsumer(true);
 
                             if (awsConsumer != null) {
-                                awsConsumer.consumerComplete(consumer);
+                                awsConsumer.getConsumerComplete(consumer);
                             }
                         } else {
                             Timber.e("Error + " + sdkError);
@@ -204,7 +208,7 @@ public class AwsNetworkManager {
                             AwsManager.getInstance().setHasConsumer(false);
 
                             if (awsConsumer != null) {
-                                awsConsumer.consumerFailed(sdkError.getMessage());
+                                awsConsumer.getConsumerFailed(sdkError.getMessage());
                             }
                         }
                     }
@@ -218,19 +222,14 @@ public class AwsNetworkManager {
                         AwsManager.getInstance().setHasConsumer(false);
 
                         if (awsConsumer != null) {
-                            awsConsumer.consumerFailed(throwable.getMessage());
+                            awsConsumer.getConsumerFailed(throwable.getMessage());
                         }
                     }
                 }
         );
     }
 
-
-    public void updateConsumerPharmacy(@NonNull final Consumer patient, @Nullable final Pharmacy pharmacy) {
-        updateConsumerPharmacy(patient, pharmacy, null);
-    }
-
-    public void updateConsumerPharmacy(@NonNull final Consumer patient, @Nullable final Pharmacy pharmacy, final AwsPharmacyUpdate awsPharmacyUpdate) {
+    public void updatePharmacy(@NonNull final Consumer patient, @Nullable final Pharmacy pharmacy, final AwsUpdatePharmacy awsUpdatePharmacy) {
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
                 patient,
                 pharmacy,
@@ -240,8 +239,8 @@ public class AwsNetworkManager {
                         if (sdkError == null) {
                             AwsManager.getInstance().setConsumerPharmacy(pharmacy);
 
-                            if (awsPharmacyUpdate != null) {
-                                awsPharmacyUpdate.pharmacyUpdateComplete(pharmacy);
+                            if (awsUpdatePharmacy != null) {
+                                awsUpdatePharmacy.pharmacyUpdateComplete(pharmacy);
                             }
 
                         } else {
@@ -249,8 +248,8 @@ public class AwsNetworkManager {
                             Timber.e("SDK Error: " + sdkError);
                             AwsManager.getInstance().setConsumerPharmacy(null);
 
-                            if (awsPharmacyUpdate != null) {
-                                awsPharmacyUpdate.pharmacyUpdateFailed(sdkError.getMessage());
+                            if (awsUpdatePharmacy != null) {
+                                awsUpdatePharmacy.pharmacyUpdateFailed(sdkError.getMessage());
                             }
                         }
                     }
@@ -261,11 +260,146 @@ public class AwsNetworkManager {
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setConsumerPharmacy(null);
 
-                        if (awsPharmacyUpdate != null) {
-                            awsPharmacyUpdate.pharmacyUpdateFailed(throwable.getMessage());
+                        if (awsUpdatePharmacy != null) {
+                            awsUpdatePharmacy.pharmacyUpdateFailed(throwable.getMessage());
                         }
                     }
                 }
         );
+    }
+
+    public void getPharmacy(@NonNull final Consumer patient, @Nullable final AwsGetPharmacy awsGetPharmacy) {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
+                patient, new SDKCallback<Pharmacy, SDKError>() {
+                    @Override
+                    public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
+                        if (sdkError == null) {
+                            AwsManager.getInstance().setConsumerPharmacy(pharmacy);
+
+                            if (awsGetPharmacy != null) {
+                                awsGetPharmacy.getPharmacyComplete(pharmacy);
+                            }
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsGetPharmacy != null) {
+                                awsGetPharmacy.getPharmacyFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsGetPharmacy != null) {
+                            awsGetPharmacy.getPharmacyFailed(throwable.getMessage());
+                        }
+                    }
+                });
+    }
+
+    public void getMedications(@NonNull final Consumer patient, @Nullable final AwsGetMedications awsGetMedications) {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
+                patient, new SDKCallback<List<Medication>, SDKError>() {
+                    @Override
+                    public void onResponse(List<Medication> medications, SDKError sdkError) {
+                        if (sdkError == null) {
+                            AwsManager.getInstance().setMedications(medications);
+
+                            if (awsGetMedications != null) {
+                                awsGetMedications.getMedicationsComplete(medications);
+                            }
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsGetMedications != null) {
+                                awsGetMedications.getMedicationsFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsGetMedications != null) {
+                            awsGetMedications.getMedicationsFailed(throwable.getMessage());
+                        }
+                    }
+                });
+    }
+
+    public void getConditions(@NonNull final Consumer patient, @Nullable final AwsGetConditions awsGetConditions) {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
+                patient,
+                new SDKCallback<List<Condition>, SDKError>() {
+                    @Override
+                    public void onResponse(List<Condition> conditions, SDKError sdkError) {
+                        if (sdkError == null) {
+                            AwsManager.getInstance().setConditions(conditions);
+
+                            if (awsGetConditions != null) {
+                                awsGetConditions.getConditionsComplete(conditions);
+                            }
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsGetConditions != null) {
+                                awsGetConditions.getConditionsFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsGetConditions != null) {
+                            awsGetConditions.getConditionsFailed(throwable.getMessage());
+                        }
+                    }
+                }
+        );
+    }
+
+    public void getAllergies(@NonNull final Consumer patient, @Nullable final AwsGetAllergies awsGetAllergies) {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
+                patient,
+                new SDKCallback<List<Allergy>, SDKError>() {
+                    @Override
+                    public void onResponse(List<Allergy> allergies, SDKError sdkError) {
+                        if (sdkError == null) {
+                            AwsManager.getInstance().setAllergies(allergies);
+
+                            if (awsGetAllergies != null) {
+                                awsGetAllergies.getAllergiesComplete(allergies);
+                            }
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsGetAllergies != null) {
+                                awsGetAllergies.getAllergiesFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsGetAllergies != null) {
+                            awsGetAllergies.getAllergiesFailed(throwable.getMessage());
+                        }
+                    }
+                });
     }
 }

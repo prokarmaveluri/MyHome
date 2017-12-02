@@ -7,7 +7,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
  */
 
 public interface AwsConsumer {
-    void consumerComplete(Consumer consumer);
+    void getConsumerComplete(Consumer consumer);
 
-    void consumerFailed(String errorMessage);
+    void getConsumerFailed(String errorMessage);
 }

@@ -28,7 +28,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
-import com.televisit.interfaces.AwsPharmacyUpdate;
+import com.televisit.interfaces.AwsUpdatePharmacy;
 
 import java.util.ArrayList;
 
@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * Use the {@link PharmacyDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallback, AwsPharmacyUpdate {
+public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallback, AwsUpdatePharmacy {
     public static final String PHARMACY_DETAILS_TAG = "pharmacy_details_tag";
     public static final String PHARMACY_KEY = "pharmacy_key";
 
@@ -129,7 +129,7 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
                 break;
 
             case R.id.save_pharmacy:
-                AwsNetworkManager.getInstance().updateConsumerPharmacy(patient, pharmacy, this);
+                AwsNetworkManager.getInstance().updatePharmacy(patient, pharmacy, this);
                 break;
         }
 
