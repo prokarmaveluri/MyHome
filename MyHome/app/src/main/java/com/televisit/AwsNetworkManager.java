@@ -1,9 +1,11 @@
 package com.televisit;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.americanwell.sdk.AWSDK;
+import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -11,14 +13,19 @@ import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
+import com.americanwell.sdk.entity.visit.ChatReport;
+import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.americanwell.sdk.manager.StartVisitCallback;
+import com.televisit.interfaces.AwsCancelVideoVisit;
 import com.televisit.interfaces.AwsConsumer;
 import com.televisit.interfaces.AwsGetAllergies;
 import com.televisit.interfaces.AwsGetConditions;
 import com.televisit.interfaces.AwsGetMedications;
 import com.televisit.interfaces.AwsGetPharmacy;
 import com.televisit.interfaces.AwsInitialization;
+import com.televisit.interfaces.AwsStartVideoVisit;
 import com.televisit.interfaces.AwsUpdatePharmacy;
 import com.televisit.interfaces.AwsUserAuthentication;
 
@@ -402,4 +409,129 @@ public class AwsNetworkManager {
                     }
                 });
     }
+
+    public void startVideoVisit(@NonNull final Visit visit, @NonNull final Address location, @Nullable final Intent visitFinishedIntent, @Nullable final AwsStartVideoVisit awsStartVideoVisit) {
+        AwsManager.getInstance().getAWSDK().getVisitManager().startVisit(
+                visit,
+                location,
+                visitFinishedIntent,
+                new StartVisitCallback() {
+                    @Override
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
+                        Timber.w("onValidationFailure " + map);
+
+                        if (awsStartVideoVisit != null) {
+                            awsStartVideoVisit.onValidationFailure(map);
+                        }
+                    }
+
+                    @Override
+                    public void onProviderEntered(@NonNull Intent intent) {
+                        Timber.d("onProviderEntered " + intent);
+
+                        if (awsStartVideoVisit != null) {
+                            awsStartVideoVisit.onProviderEntered(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onStartVisitEnded(@NonNull String s) {
+                        Timber.d("onStartVisitEnded " + s);
+
+                        if (awsStartVideoVisit != null) {
+                            awsStartVideoVisit.onStartVisitEnded(s);
+                        }
+                    }
+
+                    @Override
+                    public void onPatientsAheadOfYouCountChanged(int i) {
+                        Timber.d("onPatientsAheadOfYouCountChanged " + i);
+
+                        if (awsStartVideoVisit != null) {
+                            awsStartVideoVisit.onPatientsAheadOfYouCountChanged(i);
+                        }
+                    }
+
+                    @Override
+                    public void onSuggestedTransfer() {
+                        Timber.d("onSuggestedTransfer ");
+
+                        if (awsStartVideoVisit != null) {
+                            awsStartVideoVisit.onSuggestedTransfer();
+                        }
+                    }
+
+                    @Override
+                    public void onChat(@NonNull ChatReport chatReport) {
+                        Timber.d("onChat " + chatReport);
+
+                        if (awsStartVideoVisit != null) {
+                            awsStartVideoVisit.onChat(chatReport);
+                        }
+                    }
+
+                    @Override
+                    public void onPollFailure(@NonNull Throwable throwable) {
+                        Timber.w("onPollFailure " + throwable);
+
+                        if (awsStartVideoVisit != null) {
+                            awsStartVideoVisit.onPollFailure(throwable);
+                        }
+                    }
+
+                    @Override
+                    public void onResponse(Void aVoid, SDKError sdkError) {
+                        Timber.d("onResponse " + aVoid + " " + sdkError);
+
+                        if (awsStartVideoVisit != null) {
+                            awsStartVideoVisit.onResponse(aVoid, sdkError);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.w("onFailure " + throwable);
+
+                        if (awsStartVideoVisit != null) {
+                            awsStartVideoVisit.onFailure(throwable);
+                        }
+                    }
+                }
+        );
+    }
+
+    public void cancelVideoVisit(@NonNull final Visit visit, @Nullable final AwsCancelVideoVisit awsCancelVideoVisit) {
+        AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
+                visit,
+                new SDKCallback<Void, SDKError>() {
+                    @Override
+                    public void onResponse(Void aVoid, SDKError sdkError) {
+                        if (sdkError == null) {
+                            if (awsCancelVideoVisit != null) {
+                                awsCancelVideoVisit.cancelVideoVisitComplete();
+                            }
+
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsCancelVideoVisit != null) {
+                                awsCancelVideoVisit.cancelVideoVisitFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsCancelVideoVisit != null) {
+                            awsCancelVideoVisit.cancelVideoVisitFailed(throwable.getMessage());
+                        }
+                    }
+                }
+        );
+    }
+
 }
