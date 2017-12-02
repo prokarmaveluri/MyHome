@@ -56,6 +56,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private ProgressBar progressBar;
     private RelativeLayout userLayout;
 
+    private Consumer patient;
+
     public MyCareNowFragment() {
         // Required empty public constructor
     }
@@ -106,10 +108,10 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             showLoading();
             this.authenticationComplete(AwsManager.getInstance().getAuthentication());
         } else {
+            setDependentsSpinner(AwsManager.getInstance().getConsumer(), AwsManager.getInstance().getConsumer().getDependents());
             setConsumerMedications();
             setConsumerPharmacy();
             setConsumerMedicalHistory();
-            setDependentsSpinner(AwsManager.getInstance().getConsumer(), AwsManager.getInstance().getConsumer().getDependents());
         }
 
         Button waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
@@ -208,7 +210,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             return;
         }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
-                AwsManager.getInstance().getConsumer(), new SDKCallback<List<Medication>, SDKError>() {
+                patient, new SDKCallback<List<Medication>, SDKError>() {
                     @Override
                     public void onResponse(List<Medication> medications, SDKError sdkError) {
                         AwsManager.getInstance().setMedications(medications);
@@ -227,7 +229,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             return;
         }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
-                AwsManager.getInstance().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
+                patient, new SDKCallback<Pharmacy, SDKError>() {
                     @Override
                     public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
                         AwsManager.getInstance().setConsumerPharmacy(pharmacy);
@@ -246,7 +248,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             return;
         }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
-                AwsManager.getInstance().getConsumer(),
+                patient,
                 new SDKCallback<List<Condition>, SDKError>() {
                     @Override
                     public void onResponse(List<Condition> conditions, SDKError sdkError) {
@@ -268,7 +270,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             return;
         }
         AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
-                AwsManager.getInstance().getConsumer(),
+                patient,
                 new SDKCallback<List<Allergy>, SDKError>() {
                     @Override
                     public void onResponse(List<Allergy> allergies, SDKError sdkError) {
@@ -369,10 +371,14 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     //Selected Me
+                    patient = AwsManager.getInstance().getConsumer();
                     AwsManager.getInstance().setDependent(null);
+                    refreshDashboard();
                 } else {
                     //Selected a Dependent - need to minus one due to adding yourself to the list
-                    AwsManager.getInstance().setDependent(AwsManager.getInstance().getConsumer().getDependents().get(position - 1));
+                    patient = AwsManager.getInstance().getConsumer().getDependents().get(position - 1);
+                    AwsManager.getInstance().setDependent(patient);
+                    refreshDashboard();
                 }
             }
 
@@ -381,6 +387,11 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
             }
         });
+    }
+
+    private void refreshDashboard(){
+
+
     }
 
     @Override
@@ -413,10 +424,6 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void consumerComplete(Consumer consumer) {
-        getConsumerMedications();
-        getConsumerPharmacy();
-        getConsumerConditions();
-
         if (isAdded()) {
             setDependentsSpinner(consumer, consumer.getDependents());
             finishLoading();

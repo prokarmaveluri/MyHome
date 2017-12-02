@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.manager.SDKCallback;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -27,10 +27,9 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
 import com.televisit.AwsManager;
+import com.televisit.interfaces.AwsPharmacyUpdate;
 
 import java.util.ArrayList;
-
-import timber.log.Timber;
 
 
 /**
@@ -39,11 +38,12 @@ import timber.log.Timber;
  * Use the {@link PharmacyDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallback {
+public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallback, AwsPharmacyUpdate {
     public static final String PHARMACY_DETAILS_TAG = "pharmacy_details_tag";
     public static final String PHARMACY_KEY = "pharmacy_key";
 
     private Pharmacy pharmacy;
+    private Consumer patient;
 
     public PharmacyDetailsFragment() {
         // Required empty public constructor
@@ -107,6 +107,8 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
             }
         });
 
+        patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
+
         setHasOptionsMenu(true);
         return view;
     }
@@ -126,32 +128,7 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
                 break;
 
             case R.id.save_pharmacy:
-                AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumerPharmacy(
-                        AwsManager.getInstance().getConsumer(),
-                        pharmacy,
-                        new SDKCallback<Void, SDKError>() {
-                            @Override
-                            public void onResponse(Void aVoid, SDKError sdkError) {
-                                if (sdkError == null) {
-                                    AwsManager.getInstance().setConsumerPharmacy(pharmacy);
-                                    if (isAdded()) {
-                                        getActivity().onBackPressed();
-                                    }
-                                } else {
-                                    Timber.e("Something failed! :/");
-                                    Timber.e("SDK Error: " + sdkError);
-                                    //AwsManager.getInstance().setConsumerPharmacy(null);
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Throwable throwable) {
-                                Timber.e("Something failed! :/");
-                                Timber.e("Throwable = " + throwable);
-                                //AwsManager.getInstance().setConsumerPharmacy(null);
-                            }
-                        }
-                );
+                AwsManager.getInstance().updateConsumerPharmacy(patient, pharmacy, this);
                 break;
         }
 
@@ -169,5 +146,17 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
                 });
 
         MapUtil.zoomMap(getContext(), googleMap, markers);
+    }
+
+    @Override
+    public void pharmacyUpdateComplete(Pharmacy pharmacy) {
+        if (isAdded()) {
+            getActivity().onBackPressed();
+        }
+    }
+
+    @Override
+    public void pharmacyUpdateFailed(String errorMessage) {
+        Toast.makeText(getContext(), "Error Saving Pharmacy\n" + errorMessage, Toast.LENGTH_LONG).show();
     }
 }
