@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.utils.Constants;
 
 
 /**
@@ -17,7 +19,7 @@ import com.prokarma.myhome.R;
  * Use the {@link PharmaciesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PharmaciesFragment extends Fragment {
+public class PharmaciesFragment extends BaseFragment {
 
     private TabLayout pharmacyTabs;
     private ViewPager pharmacyPager;
@@ -66,5 +68,10 @@ public class PharmaciesFragment extends Fragment {
     private void setPager() {
         pharmacyPager.setAdapter(new PharmacyPagerAdapter(getChildFragmentManager()));
         pharmacyTabs.setupWithViewPager(pharmacyPager);
+    }
+
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        return Constants.ActivityTag.MY_PHARMACY;
     }
 }

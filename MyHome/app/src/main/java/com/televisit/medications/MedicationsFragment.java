@@ -23,9 +23,11 @@ import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.MedicationRecyclerViewListener;
 import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ import timber.log.Timber;
  * Use the {@link MedicationsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MedicationsFragment extends Fragment implements TextWatcher, SuggestionsAdapter.ISuggestionClick {
+public class MedicationsFragment extends BaseFragment implements TextWatcher, SuggestionsAdapter.ISuggestionClick {
 
     private RecyclerView searchSuggestions;
     private RecyclerView medicationsList;
@@ -280,5 +282,10 @@ public class MedicationsFragment extends Fragment implements TextWatcher, Sugges
             sugList.add(med.getName());
         }
         return sugList;
+    }
+
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        return Constants.ActivityTag.MY_MEDICATIONS;
     }
 }

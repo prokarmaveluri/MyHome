@@ -57,6 +57,7 @@ import com.prokarma.myhome.utils.SessionUtil;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.televisit.cost.MyCareVisitCostFragment;
+import com.televisit.feedback.FeedbackFragment;
 import com.televisit.history.HistoryListAdapter;
 import com.televisit.history.MedicalHistoryFragment;
 import com.televisit.medications.MedicationsFragment;
@@ -557,7 +558,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 }
                 break;
             case MY_PHARMACY_DETAILS:
-                //if (getActivityTag() != ActivityTag.MY_PHARMACY_DETAILS) {
+                if (getActivityTag() != ActivityTag.MY_PHARMACY_DETAILS) {
                     getSupportFragmentManager().executePendingTransactions();
                     PharmacyDetailsFragment pharmacyDetailsFragment = PharmacyDetailsFragment.newInstance();
                     pharmacyDetailsFragment.setArguments(bundle);
@@ -571,7 +572,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(Constants.ActivityTag.MY_PHARMACY_DETAILS);
-                //}
+                }
                 break;
 
 
@@ -628,7 +629,16 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
             case VIDEO_VISIT_FEEDBACK:
                 if (getActivityTag() != ActivityTag.VIDEO_VISIT_FEEDBACK) {
-                    //TODO Visit feedback fragment here
+                    getSupportFragmentManager().executePendingTransactions();
+                    FeedbackFragment feedbackFragment = FeedbackFragment.newInstance();
+                    feedbackFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, feedbackFragment, SummaryFragment.SUMMARY_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(Constants.ActivityTag.VIDEO_VISIT_FEEDBACK);
                 }

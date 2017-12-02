@@ -22,6 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
  * Use the {@link PharmacyDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallback, AwsUpdatePharmacy {
+public class PharmacyDetailsFragment extends BaseFragment implements OnMapReadyCallback, AwsUpdatePharmacy {
     public static final String PHARMACY_DETAILS_TAG = "pharmacy_details_tag";
     public static final String PHARMACY_KEY = "pharmacy_key";
 
@@ -159,5 +160,10 @@ public class PharmacyDetailsFragment extends Fragment implements OnMapReadyCallb
     @Override
     public void pharmacyUpdateFailed(String errorMessage) {
         Toast.makeText(getContext(), "Error Saving Pharmacy\n" + errorMessage, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        return Constants.ActivityTag.MY_PHARMACY_DETAILS;
     }
 }

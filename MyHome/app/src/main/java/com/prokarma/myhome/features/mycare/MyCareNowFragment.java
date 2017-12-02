@@ -29,7 +29,6 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
-import com.televisit.DependentsSpinnerAdapter;
 import com.televisit.interfaces.AwsConsumer;
 import com.televisit.interfaces.AwsGetAllergies;
 import com.televisit.interfaces.AwsGetConditions;

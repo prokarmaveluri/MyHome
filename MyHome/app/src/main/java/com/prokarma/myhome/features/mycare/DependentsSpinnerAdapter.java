@@ -1,4 +1,4 @@
-package com.televisit;
+package com.prokarma.myhome.features.mycare;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

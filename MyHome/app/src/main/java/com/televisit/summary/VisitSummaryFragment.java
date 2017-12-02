@@ -2,7 +2,6 @@ package com.televisit.summary;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +15,15 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsGetVisitSummary;
 
-public class VisitSummaryFragment extends Fragment implements AwsGetVisitSummary {
+public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSummary {
     public static final String SUMMARY_TAG = "summary_tag";
     public static final String VISIT_KEY = "visit_key";
 
@@ -119,5 +120,10 @@ public class VisitSummaryFragment extends Fragment implements AwsGetVisitSummary
     @Override
     public void getVisitSummaryFailed(String errorMessage) {
         errorLoading();
+    }
+
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        return Constants.ActivityTag.VIDEO_VISIT_SUMMARY;
     }
 }
