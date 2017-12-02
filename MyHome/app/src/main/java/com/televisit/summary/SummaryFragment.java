@@ -5,7 +5,6 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -147,15 +146,23 @@ public class SummaryFragment extends Fragment {
                             providerName.setText(visitReport.getProviderName());
                             costDesc.setText(getString(R.string.visit_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
 
-                            if (visitReportDetail.getProviderEntries() != null) {
-
-                                if (visitReportDetail.getProviderEntries().getPrescriptions() != null) {
-                                    Timber.d("visit. Prescriptions NOT NULL. count = " + visitReportDetail.getProviderEntries().getPrescriptions().size());
-                                } else {
-                                    Timber.d("visit. Prescriptions is NULL.");
-                                }
+                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() == null) {
+                                pharmacyName.setVisibility(View.GONE);
                             } else {
-                                Timber.d("visit. ProviderEntries is NULL ");
+                                pharmacyName.setText(visitReportDetail.getPharmacy().getName());
+                            }
+
+                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getDistance() < 0) {
+                                pharmacyDistance.setVisibility(View.GONE);
+                            } else {
+                                pharmacyDistance.setText(String.valueOf(visitReportDetail.getPharmacy().getDistance()) + " mi");
+                            }
+
+                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {
+                                pharmacyAddress.setVisibility(View.GONE);
+                            } else {
+
+                                pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitReportDetail.getPharmacy()));
                             }
 
                             if (visitReportDetail.getProviderEntries() != null && visitReportDetail.getProviderEntries().getPrescriptions() != null) {
@@ -163,27 +170,6 @@ public class SummaryFragment extends Fragment {
                             }
 
                             updateDoctorImage();
-
-                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() != null) {
-                                Timber.d("visit. Pharmacy Name is NULL ");
-                                pharmacyName.setVisibility(View.GONE);
-                            } else {
-                                pharmacyName.setText(visitReportDetail.getPharmacy().getName());
-                            }
-
-                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getDistance() > 0) {
-                                Timber.d("visit. Pharmacy Distance is NULL ");
-                                pharmacyDistance.setVisibility(View.GONE);
-                            } else {
-                                pharmacyDistance.setText(String.valueOf(visitReportDetail.getPharmacy().getDistance()) + " mi");
-                            }
-
-                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {
-                                Timber.d("visit. Pharmacy Address is NULL ");
-                                pharmacyAddress.setVisibility(View.GONE);
-                            } else {
-                                pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitReportDetail.getPharmacy()));
-                            }
                         }
                     }
 
@@ -272,17 +258,13 @@ public class SummaryFragment extends Fragment {
 
     private void displayPrescriptions(Set<VisitRx> prescriptions) {
 
-        for (VisitRx prescription : visitReportDetail.getProviderEntries().getPrescriptions()) {
-            Timber.d("visit. prescription " + prescription.getName());
-        }
-
         if (prescriptions != null && prescriptions.size() > 0) {
 
             prescriptionsList.setVisibility(View.VISIBLE);
 
             PrescriptionsAdapter adapter = new PrescriptionsAdapter(new ArrayList<>(prescriptions));
             prescriptionsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            prescriptionsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+            //prescriptionsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
             prescriptionsList.setAdapter(adapter);
 
             adapter.notifyDataSetChanged();
