@@ -14,10 +14,12 @@ import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.visit.ChatReport;
+import com.americanwell.sdk.entity.visit.ConsumerFeedbackQuestion;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
 import com.televisit.interfaces.AwsCancelVideoVisit;
 import com.televisit.interfaces.AwsConsumer;
@@ -27,6 +29,8 @@ import com.televisit.interfaces.AwsGetMedications;
 import com.televisit.interfaces.AwsGetPharmacy;
 import com.televisit.interfaces.AwsGetVisitSummary;
 import com.televisit.interfaces.AwsInitialization;
+import com.televisit.interfaces.AwsSendVisitFeedback;
+import com.televisit.interfaces.AwsSendVisitRating;
 import com.televisit.interfaces.AwsStartVideoVisit;
 import com.televisit.interfaces.AwsUpdatePharmacy;
 import com.televisit.interfaces.AwsUserAuthentication;
@@ -568,6 +572,86 @@ public class AwsNetworkManager {
                 }
         );
 
+    }
+
+    public void sendVisitRatings(@NonNull final Visit visit, final int providerRating, final int experienceRating, @Nullable final AwsSendVisitRating awsSendVisitRating) {
+        AwsManager.getInstance().getAWSDK().getVisitManager().sendRatings(
+                visit,
+                providerRating,
+                experienceRating,
+                new SDKCallback<Void, SDKError>() {
+                    @Override
+                    public void onResponse(@Nullable Void aVoid, @Nullable SDKError sdkError) {
+                        if (sdkError == null) {
+                            if (awsSendVisitRating != null) {
+                                awsSendVisitRating.sendVisitRatingComplete();
+                            }
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsSendVisitRating != null) {
+                                awsSendVisitRating.sendVisitRatingFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsSendVisitRating != null) {
+                            awsSendVisitRating.sendVisitRatingFailed(throwable.getMessage());
+                        }
+                    }
+                }
+        );
+    }
+
+    public void sendVisitFeedback(@NonNull final Visit visit, @NonNull final ConsumerFeedbackQuestion consumerFeedbackQuestion, @Nullable final AwsSendVisitFeedback awsSendVisitFeedback) {
+        AwsManager.getInstance().getAWSDK().getVisitManager().sendVisitFeedback(
+                visit,
+                consumerFeedbackQuestion,
+                new SDKValidatedCallback<Void, SDKError>() {
+                    @Override
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Map: " + map);
+
+                        if (awsSendVisitFeedback != null) {
+                            awsSendVisitFeedback.sendVisitFeedbackFailed("Validation Failed");
+                        }
+                    }
+
+                    @Override
+                    public void onResponse(@Nullable Void aVoid, @Nullable SDKError sdkError) {
+                        if (sdkError == null) {
+                            if (awsSendVisitFeedback != null) {
+                                awsSendVisitFeedback.sendVisitFeedbackComplete();
+                            }
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsSendVisitFeedback != null) {
+                                awsSendVisitFeedback.sendVisitFeedbackFailed(sdkError.getMessage());
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Throwable throwable) {
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsSendVisitFeedback != null) {
+                            awsSendVisitFeedback.sendVisitFeedbackFailed(throwable.getMessage());
+                        }
+                    }
+                }
+        );
     }
 
 }

@@ -446,7 +446,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     myCareNowFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.frame, myCareNowFragment, ProfileViewFragment.PROFILE_VIEW_TAG)
+                            .replace(R.id.frame, myCareNowFragment, MyCareNowFragment.MCN_DASHBOARD_TAG)
                             .commit();
 
                     setActivityTag(ActivityTag.MY_CARE_NOW);
@@ -618,7 +618,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, visitSummaryFragment, SummaryFragment.SUMMARY_TAG)
+                            .replace(R.id.frame, visitSummaryFragment, VisitSummaryFragment.SUMMARY_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
@@ -635,7 +635,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, feedbackFragment, SummaryFragment.SUMMARY_TAG)
+                            .replace(R.id.frame, feedbackFragment, FeedbackFragment.FEEDBACK_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();

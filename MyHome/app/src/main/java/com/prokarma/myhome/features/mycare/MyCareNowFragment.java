@@ -48,6 +48,8 @@ import java.util.List;
 public class MyCareNowFragment extends BaseFragment implements View.OnClickListener, AwsUserAuthentication, AwsInitialization,
         AwsConsumer, AwsGetPharmacy, AwsGetMedications, AwsGetConditions, AwsGetAllergies {
 
+    public static final String MCN_DASHBOARD_TAG = "mcn_dashboard_tag";
+
     private TextView infoEdit;
     private TextView historyDesc;
     private TextView historyEdit;

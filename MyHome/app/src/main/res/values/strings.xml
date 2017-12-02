@@ -465,6 +465,15 @@
     <string name="no_previous_visits">You have no previous visits.</string>
     <string name="field_must_be_completed">Field must be completed</string>
     <string name="who_is_visiting_today">Who is visiting today?</string>
+    <string name="rate_your_provider">Rate your provider</string>
+    <string name="rate_your_overall_experience">Rate your overall experience</string>
+    <string name="if_you_had_not_used_my_care_now_today_where_would_you_have_gone_instead">If you had not used My Care Now today, where would you have gone instead?</string>
+    <string name="emergency_room">Emergency Room</string>
+    <string name="urgent_care_center">Urgent Care Center</string>
+    <string name="retail_health_clinic">Retail Health Clinic</string>
+    <string name="doctor_s_office">Doctor\'s Office</string>
+    <string name="done_nothing">Done Nothing</string>
+    <string name="finish">Finish</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
