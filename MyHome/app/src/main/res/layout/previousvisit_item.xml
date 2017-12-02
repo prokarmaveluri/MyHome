@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/date"
-        style="@style/tradeGothicLTStd_Dynamic22"
+        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -70,6 +70,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="5dp"
         android:maxWidth="285dp"
-        tools:text="I cut my hand on a peice of glass" />
+        tools:text="I cut my hand on a peice of glass"
+        android:visibility="gone" />
 
 </RelativeLayout>
