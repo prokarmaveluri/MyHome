@@ -30,6 +30,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+import com.televisit.AwsNetworkManager;
 import com.televisit.DependentsSpinnerAdapter;
 import com.televisit.interfaces.AwsConsumer;
 import com.televisit.interfaces.AwsInitialization;
@@ -100,7 +101,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             showLoading();
-            AwsManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, this);
+            AwsNetworkManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, this);
         } else if (!AwsManager.getInstance().isHasAuthenticated()) {
             showLoading();
             this.initializationComplete();
@@ -398,10 +399,10 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     public void initializationComplete() {
         if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
             //Dev
-            AwsManager.getInstance().getUsersAuthentication("cmajji@mailinator.com", "Pass123*", this);
+            AwsNetworkManager.getInstance().getUsersAuthentication("cmajji@mailinator.com", "Pass123*", this);
         } else {
             //IoT
-            AwsManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
+            AwsNetworkManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
         }
     }
 
@@ -413,7 +414,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void authenticationComplete(Authentication authentication) {
-        AwsManager.getInstance().getConsumer(authentication, this);
+        AwsNetworkManager.getInstance().getConsumer(authentication, this);
     }
 
     @Override
