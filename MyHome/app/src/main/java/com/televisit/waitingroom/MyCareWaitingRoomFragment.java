@@ -25,6 +25,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsStartVideoVisit;
+import com.televisit.summary.SummaryActivity;
 
 import java.util.Map;
 
@@ -79,13 +80,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
         isVisitEnd = false;
 
-        //TODO: visit summary and feedback
-//        startVisit(patient.getAddress(),
-//                SummaryActivity.getSummaryIntent(getActivity()));
-
-
-
-        startVisit(patient.getAddress(), null);
+        Intent intent = new Intent(getContext(), SummaryActivity.class);
+        startVisit(patient.getAddress(), intent);
         return view;
     }
 
