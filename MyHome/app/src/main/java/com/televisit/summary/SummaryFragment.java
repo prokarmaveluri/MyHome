@@ -1,12 +1,10 @@
 package com.televisit.summary;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +26,6 @@ import com.televisit.AwsManager;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import stencil.parser.Parser;
 import timber.log.Timber;
 
 public class SummaryFragment extends Fragment {
@@ -114,13 +106,15 @@ public class SummaryFragment extends Fragment {
                 (visitReportDetail != null
                         && visitReportDetail.getAssignedProviderInfo() != null
                         && visitReportDetail.getAssignedProviderInfo().hasImage()
-                ) );
+                ));
 
-        if (visitReportDetail != null && visitReportDetail.getAssignedProviderInfo() != null && visitReportDetail.getAssignedProviderInfo().hasImage()) {
+        if (visitReportDetail != null && visitReportDetail.getAssignedProviderInfo() != null) {
 
             // preferred method for loading image
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(visitReportDetail.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
+                    .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.img_provider_photo_placeholder))
+                    .error(ContextCompat.getDrawable(getContext(), R.drawable.img_provider_photo_placeholder))
                     .build()
                     .load();
         }
@@ -154,55 +148,52 @@ public class SummaryFragment extends Fragment {
                             if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() != null) {
                                 Timber.d("visit. Pharmacy Name is NULL ");
                                 pharmacyName.setVisibility(View.GONE);
-                            }
-                            else {
+                            } else {
                                 pharmacyName.setText(visitReportDetail.getPharmacy().getName());
                             }
 
                             if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getDistance() > 0) {
                                 Timber.d("visit. Pharmacy Distance is NULL ");
                                 pharmacyDistance.setVisibility(View.GONE);
-                            }
-                            else {
+                            } else {
                                 pharmacyDistance.setText(String.valueOf(visitReportDetail.getPharmacy().getDistance()) + " mi");
                             }
 
                             if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {
                                 Timber.d("visit. Pharmacy Address is NULL ");
                                 pharmacyAddress.setVisibility(View.GONE);
-                            }
-                            else {
-                                StringBuilder sb = new StringBuilder();
+                            } else {
+//                                StringBuilder sb = new StringBuilder();
+//
+//                                if (visitReportDetail.getPharmacy().getAddress().getAddress1() != null
+//                                        && visitReportDetail.getPharmacy().getAddress().getAddress1().isEmpty()) {
+//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getAddress1());
+//                                }
+//
+//                                if (visitReportDetail.getPharmacy().getAddress().getAddress2() != null
+//                                        && visitReportDetail.getPharmacy().getAddress().getAddress2().isEmpty()) {
+//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getAddress2());
+//                                }
+//
+//                                if (visitReportDetail.getPharmacy().getAddress().getCity() != null
+//                                        && visitReportDetail.getPharmacy().getAddress().getCity().isEmpty()) {
+//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getCity().toString());
+//                                }
+//
+//                                if (visitReportDetail.getPharmacy().getAddress().getState() != null) {
+//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getState().getName());
+//                                }
+//
+//                                if (visitReportDetail.getPharmacy().getAddress().getZipCode() != null
+//                                        && visitReportDetail.getPharmacy().getAddress().getZipCode().isEmpty()) {
+//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getZipCode().toString());
+//                                }
+//
+//                                if (visitReportDetail.getPharmacy().getAddress().getCountry() != null) {
+//                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getCountry().getName());
+//                                }
 
-                                if (visitReportDetail.getPharmacy().getAddress().getAddress1() != null
-                                        && visitReportDetail.getPharmacy().getAddress().getAddress1().isEmpty()) {
-                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getAddress1());
-                                }
-
-                                if (visitReportDetail.getPharmacy().getAddress().getAddress2() != null
-                                        && visitReportDetail.getPharmacy().getAddress().getAddress2().isEmpty()) {
-                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getAddress2());
-                                }
-
-                                if (visitReportDetail.getPharmacy().getAddress().getCity() != null
-                                        && visitReportDetail.getPharmacy().getAddress().getCity().isEmpty()) {
-                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getCity().toString());
-                                }
-
-                                if (visitReportDetail.getPharmacy().getAddress().getState() != null) {
-                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getState().getName());
-                                }
-
-                                if (visitReportDetail.getPharmacy().getAddress().getZipCode() != null
-                                        && visitReportDetail.getPharmacy().getAddress().getZipCode().isEmpty()) {
-                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getZipCode().toString());
-                                }
-
-                                if (visitReportDetail.getPharmacy().getAddress().getCountry() != null) {
-                                    sb.append(", " + visitReportDetail.getPharmacy().getAddress().getCountry().getName());
-                                }
-
-                                pharmacyAddress.setText(sb.toString());
+                                pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitReportDetail.getPharmacy()));
                             }
                         }
                     }
@@ -244,9 +235,8 @@ public class SummaryFragment extends Fragment {
                                     boolean fileSaved = CommonUtil.saveFileToStorage(fileNameWithEntirePath, IOUtils.toByteArray(pdfFile.getInputStream()));
 
                                     CommonUtil.openPdf(getContext(), fileNameWithEntirePath);
-                                }
-                                else {
-                                    Timber.d ("visit. Report is NULL ");
+                                } else {
+                                    Timber.d("visit. Report is NULL ");
                                     Toast.makeText(getContext(), "visit. pdf is NULL ", Toast.LENGTH_LONG).show();
 
                                 }
