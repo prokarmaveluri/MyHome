@@ -61,6 +61,7 @@ public class AwsManager {
     private VisitContext visitContext;
     private Visit visit;
     private Consumer consumer;
+    private Consumer dependent;
     private boolean hasMedicationsFilledOut;
     private State hasAllergiesFilledOut = State.NOT_FILLED_OUT;
     private State hasConditionsFilledOut = State.NOT_FILLED_OUT;
@@ -283,29 +284,12 @@ public class AwsManager {
         this.hasConsumer = hasConsumer;
     }
 
-    public void authenticateUser(Authentication authentication) {
-        this.awsdk.getConsumerManager().getConsumer(
-                authentication,
-                new SDKCallback<Consumer, SDKError>() {
-                    @Override
-                    public void onResponse(Consumer consumer, SDKError sdkError) {
-                        if (sdkError == null) {
-                            Timber.i("Authneticated User : " + consumer.getFullName());
-                            AwsManager.getInstance().setConsumer(consumer);
-                        } else {
-                            Timber.e("Error + " + sdkError);
-                            AwsManager.getInstance().setConsumer(null);
-                        }
-                    }
+    public Consumer getDependent() {
+        return dependent;
+    }
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
-                        Timber.e("Throwable = " + throwable);
-                        AwsManager.getInstance().setConsumer(null);
-                    }
-                }
-        );
+    public void setDependent(Consumer dependent) {
+        this.dependent = dependent;
     }
 
     public void getUsersAuthentication(@NonNull final String username, @NonNull final String password) {
@@ -451,7 +435,7 @@ public class AwsManager {
         }
     }
 
-    public void getConsumer1(@NonNull final Authentication authentication) {
+    public void getConsumer(@NonNull final Authentication authentication) {
         getConsumer(authentication, null);
     }
 
@@ -463,6 +447,7 @@ public class AwsManager {
                     public void onResponse(Consumer consumer, SDKError sdkError) {
                         if (sdkError == null) {
                             AwsManager.getInstance().setConsumer(consumer);
+                            AwsManager.getInstance().setDependent(null);
                             AwsManager.getInstance().setHasConsumer(true);
 
                             if (awsConsumer != null) {
@@ -471,6 +456,7 @@ public class AwsManager {
                         } else {
                             Timber.e("Error + " + sdkError);
                             AwsManager.getInstance().setConsumer(null);
+                            AwsManager.getInstance().setDependent(null);
                             AwsManager.getInstance().setHasConsumer(false);
 
                             if (awsConsumer != null) {
@@ -484,6 +470,7 @@ public class AwsManager {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setConsumer(null);
+                        AwsManager.getInstance().setDependent(null);
                         AwsManager.getInstance().setHasConsumer(false);
 
                         if (awsConsumer != null) {
