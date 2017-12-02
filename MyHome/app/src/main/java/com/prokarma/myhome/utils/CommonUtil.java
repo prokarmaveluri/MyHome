@@ -990,7 +990,7 @@ public class CommonUtil {
 
         boolean isFileSaved = false;
         try {
-            String root = Environment.getExternalStorageDirectory().toString() + "/visit_reports";
+            String root = Environment.getDownloadCacheDirectory().toString() + "/visit_reports";
             File myDir = new File(root);
             if (!myDir.exists()) {
                 myDir.mkdirs();
