@@ -143,24 +143,32 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 phoneLayout.setError(null);
                 reasonLayout.setError(null);
 
-                if (AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() == 0) {
-                    if (isAdded()) {
-                        if (AwsManager.getInstance().getVisit() == null)
-                            break;
+                if ((!isAdded()) || AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getVisitCost() == null) {
 
-                        if (CommonUtil.isValidMobile(reasonPhone.getText().toString()) && reasonForVisit.getText().toString().length() > 0) {
-                            ((NavigationActivity) getActivity()).loadFragment(
-                                    Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
-                        } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString())) {
-                            phoneLayout.setError(getString(R.string.field_must_be_completed));
-                        } else if (reasonForVisit.getText().toString().length() <= 0) {
-                            reasonLayout.setError(getString(R.string.field_must_be_completed));
-                        }
+                    if (!isAdded()) {
+                        Timber.d("Fragment not attached ");
+                    } else if (AwsManager.getInstance().getVisit() == null) {
+                        Timber.d("Visit object is null ");
+                    } else if (AwsManager.getInstance().getVisit().getVisitCost() == null) {
+                        Timber.d("VisitCost object is null ");
+                    }
+
+                } else if (AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() == 0) {
+
+                    if (CommonUtil.isValidMobile(reasonPhone.getText().toString()) && reasonForVisit.getText().toString().length() > 0) {
+
+                        ((NavigationActivity) getActivity()).loadFragment(
+                                Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+
+                    } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString())) {
+                        phoneLayout.setError(getString(R.string.field_must_be_completed));
+
+                    } else if (reasonForVisit.getText().toString().length() <= 0) {
+                        reasonLayout.setError(getString(R.string.field_must_be_completed));
                     }
                 } else {
                     Toast.makeText(getContext(), "Your cost isn't free\nYou might want to apply a coupon...", Toast.LENGTH_LONG).show();
                 }
-
                 break;
         }
 
@@ -173,6 +181,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
         try {
             intakeLayout.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
+
             AwsManager.getInstance().getAWSDK().getVisitManager().applyCouponCode(
                     AwsManager.getInstance().getVisit(),
                     couponCode,
@@ -208,6 +217,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
     }
 
     private void createVisit() {
+
+        Timber.d("createVisit ");
+
         intakeLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
@@ -215,7 +227,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 new SDKValidatedCallback<Visit, SDKError>() {
                     @Override
                     public void onValidationFailure(@NonNull Map<String, String> map) {
-                        Timber.i("Failure " + map.toString());
+                        Timber.d("createOrUpdateVisit. ValidationFailure " + map.toString());
                         intakeLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     }
@@ -223,8 +235,11 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     @Override
                     public void onResponse(Visit visit, SDKError sdkError) {
                         if (sdkError == null) {
+                            Timber.d("createOrUpdateVisit. onResponse " + visit.getEndReason());
                             AwsManager.getInstance().setVisit(visit);
+
                             applyCoupon("Free");
+
                             costInfo.setText(getString(R.string.visit_cost_desc) +
                                     AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
                         }
@@ -234,6 +249,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                     @Override
                     public void onFailure(Throwable throwable) {
+                        Timber.d("createOrUpdateVisit. onFailure " );
                         intakeLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     }
