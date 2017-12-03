@@ -1,19 +1,16 @@
 package com.prokarma.myhome.utils;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -989,32 +986,22 @@ public class CommonUtil {
         return currentConditions;
     }
 
-    public static boolean checkExternalStoragePermission(Context context) {
-        int permissionState = ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        return permissionState == PackageManager.PERMISSION_GRANTED;
-    }
-
     public static boolean saveFileToStorage(Context context, String fileNameWithEntirePath, byte[] fileData) {
         try {
             File f = new File(fileNameWithEntirePath);
-
-            Timber.d("file path = " + f.getAbsolutePath());
 
             if (f.exists()) {
                 f.delete();
             }
             f.createNewFile();
 
-            f.setReadable( true, false );
-            f.setWritable( true, false );
+            f.setReadable(true, false);
+            f.setWritable(true, false);
 
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(fileData);
             fos.flush();
             fos.close();
-
-            Timber.d("file saved. " );
 
             return true;
 
@@ -1028,21 +1015,19 @@ public class CommonUtil {
             Timber.e(e);
             e.printStackTrace();
         }
-        Timber.d("file saving failed. " );
+        Timber.d("file saving failed. ");
         return false;
     }
 
-    public static boolean openPdf(Context context, String fileNameWithEntirePath) {
+    public static boolean openPdf(FragmentActivity activity, Context context, String fileNameWithEntirePath) {
         try {
             File f = new File(fileNameWithEntirePath);
 
             if (f != null & f.exists()) {
 
-                Uri path = Uri.fromFile(f);
-
                 Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
                 pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                pdfOpenintent.setDataAndType(path, "application/pdf");
+                pdfOpenintent.setDataAndType(Uri.fromFile(f), "application/pdf");
 
                 //check if intent is available inorder to open the PDF file.
                 if (pdfOpenintent.resolveActivity(context.getPackageManager()) != null) {
@@ -1050,17 +1035,11 @@ public class CommonUtil {
                 }
                 return true;
             }
-
-
         } catch (ActivityNotFoundException e) {
             Timber.e(e);
         } catch (Exception e) {
             Timber.e(e);
         }
         return false;
-    }
-
-    public static void log(String className, String message) {
-        Timber.d(className + " " + message );
     }
 }

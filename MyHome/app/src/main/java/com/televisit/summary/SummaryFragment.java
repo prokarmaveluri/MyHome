@@ -1,7 +1,6 @@
 package com.televisit.summary;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +24,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
 import com.televisit.previousvisit.PrescriptionsAdapter;
@@ -66,14 +66,6 @@ public class SummaryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
-            visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
-            if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
-                visitReport = AwsManager.getInstance().getVisitReports().get(visitReportPosition);
-                getVisitReportDetails(visitReport);
-            }
-        }
     }
 
     @Nullable
@@ -102,6 +94,14 @@ public class SummaryFragment extends Fragment {
             }
         });
 
+        if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
+            visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
+            if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
+                visitReport = AwsManager.getInstance().getVisitReports().get(visitReportPosition);
+                getVisitReportDetails(visitReport);
+            }
+        }
+
         return view;
     }
 
@@ -128,7 +128,7 @@ public class SummaryFragment extends Fragment {
     private void getVisitReportDetails(final VisitReport visitReport) {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            CommonUtil.log(this.getClass().getSimpleName(), "visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
+            Timber.d("visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -188,7 +188,7 @@ public class SummaryFragment extends Fragment {
     private void getVisitReportAttachment(final VisitReport visitReport) {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            CommonUtil.log(this.getClass().getSimpleName(), "visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
+            Timber.d("visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -201,56 +201,49 @@ public class SummaryFragment extends Fragment {
                         if (sdkError == null) {
 
                             progressBar.setVisibility(View.GONE);
-
-                            Timber.d("file ExternalStorageState = " + Environment.getExternalStorageState());
-                            Timber.d("file Permission = " + CommonUtil.checkExternalStoragePermission(getContext()));
+                            boolean canBeViewed = false;
 
                             try {
-                                if (pdfFile == null) {
-                                    Toast.makeText(getContext(), "Visit report not available. ", Toast.LENGTH_LONG).show();
-                                    viewReport.setEnabled(false);
-                                } else if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                                    Toast.makeText(getContext(), "Storage not available. ", Toast.LENGTH_LONG).show();
-                                    viewReport.setEnabled(false);
-                                } else if (!CommonUtil.checkExternalStoragePermission(getContext())) {
-                                    Toast.makeText(getContext(), "Storage Access permission denied.", Toast.LENGTH_LONG).show();
-                                    viewReport.setEnabled(false);
-                                } else {
-                                    Timber.d("file DownloadCache Directory = " + Environment.getDownloadCacheDirectory());
-                                    Timber.d("file Root Directory = " + Environment.getRootDirectory());
-                                    Timber.d("file Data Directory = " + Environment.getDataDirectory());
-                                    Timber.d("file getExternalStorageDirectory = " + Environment.getExternalStorageDirectory());
+                                if (pdfFile != null) {
 
-                                    /*Timber.d("file ExternalCacheDir = " + getContext().getExternalCacheDir().toString());
-                                    Timber.d("file CacheDir = " + getContext().getCacheDir().toString());
-                                    Timber.d("file DIRECTORY_DOWNLOADS = " + getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
-                                    */
-
-                                    String fileNameWithEntirePath = Environment.getExternalStorageDirectory().toString() + File.separator + "Report.pdf";
+                                    String fileNameWithEntirePath = getContext().getExternalCacheDir().toString() + File.separator + "report.pdf";
 
                                     boolean fileSaved = CommonUtil.saveFileToStorage(getContext(), fileNameWithEntirePath, IOUtils.toByteArray(pdfFile.getInputStream()));
 
                                     if (fileSaved) {
-                                        Toast.makeText(getContext(), "Visit report is available. ", Toast.LENGTH_LONG).show();
+                                        File f = new File(fileNameWithEntirePath);
+                                        if (f != null & f.exists()) {
+
+                                            canBeViewed = true;
+
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("FILENAME_WITH_PATH", fileNameWithEntirePath);
+                                            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
+                                        }
                                     }
-                                    CommonUtil.openPdf(getContext(), fileNameWithEntirePath);
                                 }
 
                             } catch (Exception e) {
                                 Timber.e(e);
+                            }
+
+                            if (!canBeViewed) {
+                                viewReport.setEnabled(false);
+                                Toast.makeText(getContext(), "Visit report not available. ", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
+                        progressBar.setVisibility(View.GONE);
+                        viewReport.setEnabled(false);
+                        Toast.makeText(getContext(), "Visit report not available! ", Toast.LENGTH_LONG).show();
+
                         if (throwable != null) {
                             Timber.d("visit. getVisitReportAttachment: " + throwable.getMessage());
                         }
                         Timber.e(throwable);
-                        progressBar.setVisibility(View.GONE);
-
-                        //viewReport.setEnabled(false);
                     }
                 }
         );

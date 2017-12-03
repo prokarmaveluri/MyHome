@@ -61,6 +61,7 @@
     <string name="family_member">Family Member</string>
     <string name="booking_reason_hint">Please tell us the purpose of your visit.</string>
     <string name="next">Next</string>
+    <string name="previous">Previous</string>
     <string name="contact_us_subheader">We\'re here when you need us.</string>
     <string name="contact_us_warning">If this is an emergency, please call 911 immediately.</string>
     <string name="contact_us_header">Thank you for visiting Dignity Health.</string>
@@ -474,6 +475,8 @@
     <string name="doctor_s_office">Doctor\'s Office</string>
     <string name="done_nothing">Done Nothing</string>
     <string name="finish">Finish</string>
+    <string name="pdf_with_index">Visit Report (%1$d/%2$d)</string>
+    <string name="info">Info</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

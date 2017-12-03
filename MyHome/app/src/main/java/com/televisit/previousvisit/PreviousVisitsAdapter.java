@@ -9,17 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.visit.VisitReport;
-import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.DateUtil;
-import com.televisit.AwsManager;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
@@ -73,7 +69,7 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         Date visitDate = DateUtil.getDateFromHyphens(stringDate);
                         holder.date.setText(DateUtil.convertDateToReadable(visitDate));
                     }
-                } catch(ParseException e) {
+                } catch (ParseException e) {
                     Timber.e(e);
                     e.printStackTrace();
                 }

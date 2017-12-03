@@ -54,6 +54,7 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
+import com.prokarma.myhome.views.PdfRendererBasicFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.televisit.cost.MyCareVisitCostFragment;
@@ -607,6 +608,25 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY);
+                }
+                break;
+
+            case PREVIOUS_VISIT_SUMMARY_PDF:
+                if (getActivityTag() != ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF) {
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    PdfRendererBasicFragment fragment = new PdfRendererBasicFragment();
+                    fragment.setArguments(bundle);
+
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, fragment, PdfRendererBasicFragment.PDF_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF);
                 }
                 break;
 
