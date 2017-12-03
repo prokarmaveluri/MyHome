@@ -95,7 +95,7 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
                         ((NavigationActivity) getActivity()).loadFragment(
                                 Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
                     }
-                } else if (reasonPhone.getText().toString().length() != 10) {
+                } else if (reasonPhone.getText().toString().replace(".", "").trim().length() != 10) {
                     phoneLayout.setError("Enter valid phone number");
                 } else if (reasonForVisit.getText().toString().length() <= 0) {
                     reasonLayout.setError("Enter valid reason for visit");

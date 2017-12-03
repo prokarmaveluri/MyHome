@@ -454,7 +454,7 @@
     <string name="next_available_provider">Next Available Provider</string>
     <string name="my_care_reason_guest_sug">Would you like to invite a guest to your visit?</string>
     <string name="my_care_reason_phone_sug">What is your phone number in case the video visit dropped?</string>
-    <string name="my_care_reason_sug">What is the for you visit today?</string>
+    <string name="my_care_reason_sug">What is the reason for your visit today?</string>
     <string name="intake">Intake</string>
     <string name="reason">Reason</string>
     <string name="visit_cost_desc">Your total cost is $</string>

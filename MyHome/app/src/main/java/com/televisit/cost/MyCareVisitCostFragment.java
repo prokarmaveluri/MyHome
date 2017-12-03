@@ -140,6 +140,15 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 break;
 
             case R.id.next:
+
+                if (reasonPhone.getText().toString().replace(".", "").trim().length() != 10) {
+                    phoneLayout.setError("Enter valid phone number");
+                    break;
+                } else if (reasonForVisit.getText().toString().length() <= 0) {
+                    reasonLayout.setError("Enter valid reason for visit");
+                    break;
+                }
+
                 phoneLayout.setError(null);
                 reasonLayout.setError(null);
 
