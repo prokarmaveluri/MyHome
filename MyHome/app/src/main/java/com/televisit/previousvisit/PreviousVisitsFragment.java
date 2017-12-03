@@ -23,6 +23,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -150,23 +151,8 @@ public class PreviousVisitsFragment extends BaseFragment {
                     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
 
                         if (sdkError == null) {
+                            Collections.sort(visitReports, new VisitReportComparator());
                             AwsManager.getInstance().setVisitReports(visitReports);
-
-                            /*CommonUtil.log(this.getClass().getSimpleName(), "visits after: " + AwsManager.getInstance().getVisitReports().size());
-
-                            if (visitReports != null && visitReports.size() > 0) {
-                                for (VisitReport visitReport : visitReports) {
-                                    getVisitReportDetails(visitReport);
-                                }
-                            } else {
-                                HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
-                                map.clear();
-                                AwsManager.getInstance().setVisitReportDetailHashMap(map);
-                            }
-
-                            CommonUtil.log(this.getClass().getSimpleName(), "visits map after: " + AwsManager.getInstance().getVisitReportDetailHashMap().size());
-                            */
-
                             bindList();
                             adapter.notifyDataSetChanged();
                         } else {

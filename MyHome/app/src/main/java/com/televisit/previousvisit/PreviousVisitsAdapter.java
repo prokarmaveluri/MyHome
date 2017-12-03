@@ -78,12 +78,6 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 holder.amount.setText("$ 0.00");
                 holder.text.setText("I cut my hand on a peice of glass");
 
-                /*HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
-                if (map != null && map.get(visitReport) != null) {
-                    holder.amount.setText("$ " + amountFormat.format(map.get(visitReport).getPaymentAmount()));
-                    holder.text.setText(map.get(visitReport).getTitle());
-                }*/
-
                 holder.viewLink.setTag(position);
                 holder.viewLink.setOnClickListener(new View.OnClickListener() {
                     @Override

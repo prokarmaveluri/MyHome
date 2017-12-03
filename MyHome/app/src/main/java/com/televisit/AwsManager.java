@@ -38,7 +38,6 @@ public class AwsManager {
     private static final AwsManager ourInstance = new AwsManager();
     private static AWSDK awsdk = null;
 
-    //private HashMap<VisitReport, VisitReportDetail> visitReportDetailHashMap;
     private List<VisitReport> visitReports;
     private List<Allergy> allergies;
     private List<Condition> conditions;
@@ -131,17 +130,6 @@ public class AwsManager {
     public void setVisitReports(List<VisitReport> visitReports) {
         this.visitReports = visitReports;
     }
-
-    /*public HashMap<VisitReport, VisitReportDetail> getVisitReportDetailHashMap() {
-        if (visitReportDetailHashMap == null) {
-            visitReportDetailHashMap = new HashMap<>();
-        }
-        return visitReportDetailHashMap;
-    }
-
-    public void setVisitReportDetailHashMap(HashMap<VisitReport, VisitReportDetail> visitReportDetailHashMap) {
-        this.visitReportDetailHashMap = visitReportDetailHashMap;
-    }*/
 
     public List<Condition> getConditions() {
         return conditions;
