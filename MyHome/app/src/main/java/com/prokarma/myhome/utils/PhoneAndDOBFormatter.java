@@ -7,6 +7,8 @@ import android.widget.EditText;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import timber.log.Timber;
+
 /**
  * Created by stomar on 7/13/17.
  * Text watcher to auto format phone number in format xxx-xxx-xxxx.
@@ -105,10 +107,16 @@ public class PhoneAndDOBFormatter implements TextWatcher {
 
             editText.removeTextChangedListener(this);
             editText.setText(finalString);
-            if (selectionIndex < 0) selectionIndex = 0;
-            if (selectionIndex > sbFormatted.toString().length())
-                selectionIndex = sbFormatted.toString().length();
-            editText.setSelection(selectionIndex);
+
+            try {
+                if (selectionIndex < 0) selectionIndex = 0;
+                if (selectionIndex > sbFormatted.toString().length())
+                    selectionIndex = sbFormatted.toString().length();
+                editText.setSelection(selectionIndex);
+            } catch (IndexOutOfBoundsException ex) {
+                Timber.w(ex);
+            }
+
             editText.addTextChangedListener(this);
         }
     }
