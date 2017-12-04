@@ -42,6 +42,7 @@ public class Constants {
         MY_CARE_PROVIDERS,
         MY_CARE_COST,
         MY_CARE_WAITING_ROOM,
+        MY_CARE_PROFILE,
         PREVIOUS_VISITS_SUMMARIES,
         PREVIOUS_VISIT_SUMMARY,
         PREVIOUS_VISIT_SUMMARY_PDF,

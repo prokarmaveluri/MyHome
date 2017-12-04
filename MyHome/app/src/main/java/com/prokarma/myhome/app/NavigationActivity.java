@@ -65,6 +65,7 @@ import com.televisit.medications.MedicationsFragment;
 import com.televisit.pharmacy.PharmaciesFragment;
 import com.televisit.pharmacy.PharmacyDetailsFragment;
 import com.televisit.previousvisit.PreviousVisitsFragment;
+import com.televisit.profile.MyCareProfileFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.SummaryFragment;
@@ -141,9 +142,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         clearBackstack();
                         if (null != currentSelectedMenuItem)
-                            MenuItemCompat.setContentDescription(currentSelectedMenuItem,currentSelectedMenuItem.getTitle());
+                            MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle());
                         currentSelectedMenuItem = item;
-                        MenuItemCompat.setContentDescription(currentSelectedMenuItem,currentSelectedMenuItem.getTitle() + ", selected");
+                        MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle() + ", selected");
                         switch (item.getItemId()) {
                             case R.id.home:
                                 loadFragment(ActivityTag.HOME, null);
@@ -373,7 +374,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, profileViewFragment, ProfileViewFragment.PROFILE_VIEW_TAG)
-                            .addToBackStack(null)
                             .commit();
 
                     setActivityTag(ActivityTag.PROFILE_VIEW);
@@ -509,7 +509,20 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     setActivityTag(ActivityTag.MY_CARE_WAITING_ROOM);
                 }
                 break;
+            case MY_CARE_PROFILE:
+                if (getActivityTag() != ActivityTag.MY_CARE_PROFILE) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MyCareProfileFragment myCareProfileFragment = MyCareProfileFragment.newInstance();
+                    myCareProfileFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, myCareProfileFragment, MyCareProfileFragment.MY_PROFILE_TAG)
+                            .addToBackStack(null)
+                            .commit();
 
+                    setActivityTag(ActivityTag.MY_CARE_PROFILE);
+                }
+                break;
             case MY_MED_HISTORY:
                 if (getActivityTag() != ActivityTag.MY_MED_HISTORY) {
                     getSupportFragmentManager().executePendingTransactions();
