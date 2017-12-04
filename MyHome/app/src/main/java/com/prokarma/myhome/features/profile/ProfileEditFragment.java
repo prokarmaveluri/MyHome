@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
@@ -78,6 +79,12 @@ public class ProfileEditFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.profile_edit, container, false);
+
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.my_personal_information));
+        } else {
+            getActivity().setTitle(getString(R.string.my_personal_information));
+        }
 
         firstNameLayout = (TextInputLayout) profileView.findViewById(R.id.first_name_layout);
         firstName = (TextInputEditText) profileView.findViewById(R.id.first_name);
@@ -341,7 +348,7 @@ public class ProfileEditFragment extends BaseFragment {
         }
 
         if (dateOfBirth.getVisibility() == View.VISIBLE && (!DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) &&
-                !dateOfBirth.getText().toString().trim().isEmpty()){
+                !dateOfBirth.getText().toString().trim().isEmpty()) {
             isValid = false;
             dateOfBirthLayout.setError(getString(R.string.date_of_birth_invalid));
         } else {

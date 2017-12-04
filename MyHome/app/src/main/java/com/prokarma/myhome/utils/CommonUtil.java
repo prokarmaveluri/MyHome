@@ -1,15 +1,19 @@
 package com.prokarma.myhome.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -42,6 +46,10 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -137,7 +145,7 @@ public class CommonUtil {
         }
     }
 
-    static public final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
+    static public final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\d{3}.\\d{3}.\\d{4}");
 
     public static boolean isValidMobile(String phone) {
         return PHONE_NUMBER_PATTERN.matcher(phone).find();
@@ -981,4 +989,78 @@ public class CommonUtil {
         return currentConditions;
     }
 
+    public static boolean checkExternalStoragePermission(Context context) {
+        int permissionState = ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static boolean saveFileToStorage(Context context, String fileNameWithEntirePath, byte[] fileData) {
+        try {
+            File f = new File(fileNameWithEntirePath);
+
+            Timber.d("file path = " + f.getAbsolutePath());
+
+            if (f.exists()) {
+                f.delete();
+            }
+            f.createNewFile();
+
+            f.setReadable( true, false );
+            f.setWritable( true, false );
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(fileData);
+            fos.flush();
+            fos.close();
+
+            Timber.d("file saved. " );
+
+            return true;
+
+        } catch (FileNotFoundException e) {
+            Timber.e(e);
+            e.printStackTrace();
+        } catch (IOException e) {
+            Timber.e(e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            Timber.e(e);
+            e.printStackTrace();
+        }
+        Timber.d("file saving failed. " );
+        return false;
+    }
+
+    public static boolean openPdf(Context context, String fileNameWithEntirePath) {
+        try {
+            File f = new File(fileNameWithEntirePath);
+
+            if (f != null & f.exists()) {
+
+                Uri path = Uri.fromFile(f);
+
+                Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
+                pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                pdfOpenintent.setDataAndType(path, "application/pdf");
+
+                //check if intent is available inorder to open the PDF file.
+                if (pdfOpenintent.resolveActivity(context.getPackageManager()) != null) {
+                    context.startActivity(pdfOpenintent);
+                }
+                return true;
+            }
+
+
+        } catch (ActivityNotFoundException e) {
+            Timber.e(e);
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return false;
+    }
+
+    public static void log(String className, String message) {
+        Timber.d(className + " " + message );
+    }
 }

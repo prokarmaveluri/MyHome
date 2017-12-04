@@ -17,9 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -69,7 +69,12 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle(getString(R.string.pharmacy));
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.pharmacy));
+        } else {
+            getActivity().setTitle(getString(R.string.pharmacy));
+        }
+
         View view = inflater.inflate(R.layout.fragment_pharmacy_list, container, false);
 
         NavigationActivity.eventBus.register(this);
@@ -97,7 +102,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                 null,
                 zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
                     @Override
-                    public void onValidationFailure(Map<String, ValidationReason> map) {
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
                         progressBar.setVisibility(View.GONE);
                     }
 
@@ -126,16 +131,17 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     private void getPharmacies(@NonNull final float latitude,
                                @NonNull final float longitude,
                                @NonNull final int radius,
-                               @NonNull final boolean excludeMailOrder) {
+                               @NonNull final boolean excludeMailOrder,
+                               @NonNull final Consumer patient) {
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
-                AwsManager.getInstance().getConsumer(),
+                patient,
                 latitude,
                 longitude,
                 radius,
                 excludeMailOrder, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
                     @Override
-                    public void onValidationFailure(Map<String, ValidationReason> map) {
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
                         progressBar.setVisibility(View.GONE);
                     }
 

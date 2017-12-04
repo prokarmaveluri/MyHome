@@ -75,9 +75,24 @@ public class ProfileViewFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.profile_view, container, false);
-//        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.profile));
 
-        getActivity().setTitle(getString(R.string.profile));
+        String from = null;
+        if (this.getArguments() != null) {
+            from = this.getArguments().getString("from");
+        }
+        if (from != null && from.equalsIgnoreCase("dashboard")) {
+            if (getActivity() instanceof NavigationActivity) {
+                ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.personal_information));
+            } else {
+                getActivity().setTitle(getString(R.string.personal_information));
+            }
+        } else {
+            if (getActivity() instanceof NavigationActivity) {
+                ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.profile));
+            } else {
+                getActivity().setTitle(getString(R.string.profile));
+            }
+        }
 
         name = (TextView) profileView.findViewById(R.id.name);
         preferredName = (TextView) profileView.findViewById(R.id.preferred_name);
@@ -142,10 +157,10 @@ public class ProfileViewFragment extends BaseFragment {
 //                ((SDKOptionsActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_EDIT,
 //                        null);
 
-                if(getActivity() instanceof NavigationActivity){
+                if (getActivity() instanceof NavigationActivity) {
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_EDIT,
                             null);
-                } else if(getActivity() instanceof OptionsActivity){
+                } else if (getActivity() instanceof OptionsActivity) {
                     NavigationActivity.setActivityTag(Constants.ActivityTag.PROFILE_EDIT);
                     Intent intentChangePassword = new Intent(getActivity(), OptionsActivity.class);
                     ActivityCompat.startActivity(getActivity(), intentChangePassword, null);

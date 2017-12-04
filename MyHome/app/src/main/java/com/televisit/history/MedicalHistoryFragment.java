@@ -19,7 +19,6 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
-import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
@@ -113,9 +112,6 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
                     showAllergies();
                 } else {
                     updateConditions();
-                    updateAllergies();
-
-                    getActivity().getSupportFragmentManager().popBackStack();
                 }
                 break;
         }
@@ -233,6 +229,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
                     public void onResponse(Void aVoid, SDKError sdkError) {
                         adapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
+                        updateAllergies();
                     }
 
                     @Override
@@ -253,6 +250,7 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
                     public void onResponse(Void aVoid, SDKError sdkError) {
                         adapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
+                        getActivity().getSupportFragmentManager().popBackStack();
                     }
 
                     @Override
@@ -271,19 +269,23 @@ public class MedicalHistoryFragment extends BaseFragment implements HistoryListA
                 for (Condition condition : AwsManager.getInstance().getConditions()) {
                     condition.setCurrent(false);
                 }
+                AwsManager.getInstance().setHasConditionsFilledOut(AwsManager.State.FILLED_OUT_HAVE_NONE);
             } else {
                 AwsManager.getInstance().getConditions().get(childPosition - 1).setCurrent(
                         !AwsManager.getInstance().getConditions().get(childPosition - 1).isCurrent());
             }
+            AwsManager.getInstance().setConditions(AwsManager.getInstance().getConditions());
         } else {
             if (childPosition == 0) {
                 for (Allergy allergy : AwsManager.getInstance().getAllergies()) {
                     allergy.setCurrent(false);
                 }
+                AwsManager.getInstance().setHasAllergiesFilledOut(AwsManager.State.FILLED_OUT_HAVE_NONE);
             } else {
                 AwsManager.getInstance().getAllergies().get(childPosition - 1).setCurrent(
                         !AwsManager.getInstance().getAllergies().get(childPosition - 1).isCurrent());
             }
+            AwsManager.getInstance().setAllergies(AwsManager.getInstance().getAllergies());
         }
         adapter.notifyDataSetChanged();
     }

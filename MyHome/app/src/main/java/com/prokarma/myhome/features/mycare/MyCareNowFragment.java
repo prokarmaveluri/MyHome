@@ -7,22 +7,37 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.Authentication;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.manager.SDKCallback;
+import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+import com.televisit.AwsNetworkManager;
+import com.televisit.interfaces.AwsConsumer;
+import com.televisit.interfaces.AwsGetAllergies;
+import com.televisit.interfaces.AwsGetConditions;
+import com.televisit.interfaces.AwsGetMedications;
+import com.televisit.interfaces.AwsGetPharmacy;
+import com.televisit.interfaces.AwsInitialization;
+import com.televisit.interfaces.AwsUserAuthentication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +45,10 @@ import java.util.List;
  * Use the {@link MyCareNowFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyCareNowFragment extends BaseFragment implements View.OnClickListener {
+public class MyCareNowFragment extends BaseFragment implements View.OnClickListener, AwsUserAuthentication, AwsInitialization,
+        AwsConsumer, AwsGetPharmacy, AwsGetMedications, AwsGetConditions, AwsGetAllergies {
+
+    public static final String MCN_DASHBOARD_TAG = "mcn_dashboard_tag";
 
     private TextView infoEdit;
     private TextView historyDesc;
@@ -39,6 +57,11 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private TextView medicationsEdit;
     private TextView pharmacyDesc;
     private TextView pharmacyEdit;
+    private Spinner consumerSpinner;
+    private ProgressBar progressBar;
+    private RelativeLayout userLayout;
+
+    private Consumer patient;
 
     public MyCareNowFragment() {
         // Required empty public constructor
@@ -76,6 +99,26 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         medicationsEdit = (TextView) view.findViewById(R.id.medications_edit);
         pharmacyDesc = (TextView) view.findViewById(R.id.pharmacy_desc);
         pharmacyEdit = (TextView) view.findViewById(R.id.pharmacy_edit);
+        progressBar = (ProgressBar) view.findViewById(R.id.mcn_progressbar);
+        userLayout = (RelativeLayout) view.findViewById(R.id.mcn_user_info);
+        consumerSpinner = (Spinner) view.findViewById(R.id.mcn_dependents_spinner);
+
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            showLoading();
+            AwsNetworkManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, this);
+        } else if (!AwsManager.getInstance().isHasAuthenticated()) {
+            showLoading();
+            this.initializationComplete();
+        } else if (!AwsManager.getInstance().isHasConsumer()) {
+            showLoading();
+            this.authenticationComplete(AwsManager.getInstance().getAuthentication());
+        } else {
+            setDependentsSpinner(AwsManager.getInstance().getConsumer(), AwsManager.getInstance().getConsumer().getDependents());
+            setConsumerMedications();
+            setConsumerPharmacy();
+            setConsumerMedicalHistory();
+        }
+
         Button waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
 
         infoEdit.setOnClickListener(this);
@@ -100,13 +143,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             public void onClick(View v) {
                 //TODO: Vijaya, do your fragment stuff here. Also, look at visit_summary.xml && SummaryFragment.java
                 ((NavigationActivity) getActivity()).loadFragment(
-                        Constants.ActivityTag.PREVIOUS_VISITS_SUMMARY, null);
+                        Constants.ActivityTag.PREVIOUS_VISITS_SUMMARIES, null);
             }
         });
-
-        getConsumerMedications();
-        getConsumerPharmacy();
-        getConsumerConditions();
 
         return view;
     }
@@ -114,9 +153,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-        setConsumerMedications();
-        setConsumerPharmacy();
-        setConsumerMedicalHistory();
+        refreshDashboard(false);
     }
 
     @Override
@@ -147,73 +184,55 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
+    private void showLoading() {
+        if (isAdded()) {
+            progressBar.setVisibility(View.VISIBLE);
+            userLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void finishLoading() {
+        if (isAdded()) {
+            progressBar.setVisibility(View.GONE);
+            userLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void errorLoading() {
+        if (isAdded()) {
+            progressBar.setVisibility(View.GONE);
+            userLayout.setVisibility(View.GONE);
+        }
+    }
+
     private void getConsumerMedications() {
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
-                AwsManager.getInstance().getConsumer(), new SDKCallback<List<Medication>, SDKError>() {
-                    @Override
-                    public void onResponse(List<Medication> medications, SDKError sdkError) {
-                        AwsManager.getInstance().setMedications(medications);
-                        setConsumerMedications();
-                    }
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            return;
+        }
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-
-                    }
-                });
+        AwsNetworkManager.getInstance().getMedications(patient, this);
     }
 
     private void getConsumerPharmacy() {
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getConsumerPharmacy(
-                AwsManager.getInstance().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
-                    @Override
-                    public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
-                        AwsManager.getInstance().setConsumerPharmacy(pharmacy);
-                        setConsumerPharmacy();
-                    }
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            return;
+        }
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-
-                    }
-                });
+        AwsNetworkManager.getInstance().getPharmacy(patient, this);
     }
 
     private void getConsumerConditions() {
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
-                AwsManager.getInstance().getConsumer(),
-                new SDKCallback<List<Condition>, SDKError>() {
-                    @Override
-                    public void onResponse(List<Condition> conditions, SDKError sdkError) {
-                        if (sdkError == null) {
-                            AwsManager.getInstance().setConditions(conditions);
-                            getConsumerAllergies();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                    }
-                }
-        );
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            return;
+        }
+        AwsNetworkManager.getInstance().getConditions(patient, this);
     }
 
     private void getConsumerAllergies() {
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
-                AwsManager.getInstance().getConsumer(),
-                new SDKCallback<List<Allergy>, SDKError>() {
-                    @Override
-                    public void onResponse(List<Allergy> allergies, SDKError sdkError) {
-                        if (sdkError == null) {
-                            AwsManager.getInstance().setAllergies(allergies);
-                            setConsumerMedicalHistory();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                    }
-                });
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            return;
+        }
+        AwsNetworkManager.getInstance().getAllergies(patient, this);
     }
 
     private void setConsumerMedications() {
@@ -257,9 +276,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         List<Condition> conditions = CommonUtil.getCurrentConditions(AwsManager.getInstance().getConditions());
 
         if (isAdded()) {
-            if (!AwsManager.getInstance().isHasConditionsFilledOut() || !AwsManager.getInstance().isHasAllergiesFilledOut()) {
-                historyDesc.setText(getString(R.string.what_medications_are_you_taking));
-            } else if ((conditions != null && !conditions.isEmpty()) || (allergies != null && !allergies.isEmpty())) {
+
+            if ((conditions != null && !conditions.isEmpty()) || (allergies != null && !allergies.isEmpty())) {
                 StringBuilder medicalHistory = new StringBuilder();
 
                 for (int i = 0; i < conditions.size(); i++) {
@@ -270,8 +288,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                     }
                 }
 
-                if (!allergies.isEmpty()) {
-                    medicalHistory.append("\n");
+                if (medicalHistory.length() > 0 && !allergies.isEmpty()) {
+                    medicalHistory.append("\n" + getContext().getResources().getString(R.string.allergic_to));
                 }
 
                 for (int i = 0; i < allergies.size(); i++) {
@@ -283,9 +301,136 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 }
 
                 historyDesc.setText(medicalHistory.toString());
+
+            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT || AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+                historyDesc.setText(getString(R.string.complete_your_medical_history));
             } else {
-                historyDesc.setText(getString(R.string.no_medical_complications_listed));
+                historyDesc.setText(getString(R.string.complete_your_medical_history));  //no_medical_complications_listed));
             }
         }
+    }
+
+    private void setDependentsSpinner(Consumer me, List<Consumer> dependents) {
+        List<Consumer> consumers = new ArrayList(dependents);
+        consumers.add(0, me);
+        DependentsSpinnerAdapter dependentsSpinnerAdapter = new DependentsSpinnerAdapter(getContext(), R.layout.dependents_spinner_item, consumers);
+        consumerSpinner.setAdapter(dependentsSpinnerAdapter);
+        consumerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    //Selected Me
+                    patient = AwsManager.getInstance().getConsumer();
+                    AwsManager.getInstance().setDependent(null);
+                    refreshDashboard(true);
+                } else {
+                    //Selected a Dependent - need to minus one due to adding yourself to the list
+                    patient = AwsManager.getInstance().getConsumer().getDependents().get(position - 1);
+                    AwsManager.getInstance().setDependent(patient);
+                    refreshDashboard(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void refreshDashboard(boolean forceRefresh) {
+        if (AwsManager.getInstance().isHasConsumer() && !forceRefresh) {
+            setConsumerMedications();
+            setConsumerPharmacy();
+            setConsumerMedicalHistory();
+        } else if (AwsManager.getInstance().isHasConsumer()) {
+            getConsumerMedications();
+            getConsumerPharmacy();
+            getConsumerConditions();
+            setConsumerMedications();
+            setConsumerPharmacy();
+            setConsumerMedicalHistory();
+        }
+    }
+
+    @Override
+    public void initializationComplete() {
+        if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
+            //Dev
+            AwsNetworkManager.getInstance().getUsersAuthentication("cmajji@mailinator.com", "Pass123*", this);
+        } else {
+            //IoT
+            AwsNetworkManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
+        }
+    }
+
+    @Override
+    public void initializationFailed(String errorMessage) {
+        Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+        errorLoading();
+    }
+
+    @Override
+    public void authenticationComplete(Authentication authentication) {
+        AwsNetworkManager.getInstance().getConsumer(authentication, this);
+    }
+
+    @Override
+    public void authentciationFailed(String errorMessage) {
+        Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+        errorLoading();
+    }
+
+    @Override
+    public void getConsumerComplete(Consumer consumer) {
+        if (isAdded()) {
+            setDependentsSpinner(consumer, consumer.getDependents());
+            finishLoading();
+        }
+    }
+
+    @Override
+    public void getConsumerFailed(String errorMessage) {
+        errorLoading();
+    }
+
+    @Override
+    public void getPharmacyComplete(Pharmacy pharmacy) {
+        setConsumerPharmacy();
+    }
+
+    @Override
+    public void getPharmacyFailed(String errorMessage) {
+
+    }
+
+    @Override
+    public void getMedicationsComplete(List<Medication> medications) {
+        setConsumerMedications();
+    }
+
+    @Override
+    public void getMedicationsFailed(String errorMessage) {
+
+    }
+
+    @Override
+    public void getConditionsComplete(List<Condition> conditions) {
+        getConsumerAllergies();
+    }
+
+    @Override
+    public void getConditionsFailed(String errorMessage) {
+
+    }
+
+    @Override
+    public void getAllergiesComplete(List<Allergy> allergy) {
+        setConsumerMedicalHistory();
+    }
+
+    @Override
+    public void getAllergiesFailed(String errorMessage) {
+
     }
 }

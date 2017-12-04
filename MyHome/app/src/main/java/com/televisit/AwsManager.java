@@ -5,7 +5,6 @@ import android.content.Context;
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Authentication;
-import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
@@ -14,15 +13,12 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
-import com.americanwell.sdk.exception.AWSDKInitializationException;
+import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.logging.AWSDKLogger;
-import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.BuildConfig;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import timber.log.Timber;
 
@@ -42,6 +38,8 @@ public class AwsManager {
     private static final AwsManager ourInstance = new AwsManager();
     private static AWSDK awsdk = null;
 
+    //private HashMap<VisitReport, VisitReportDetail> visitReportDetailHashMap;
+    private List<VisitReport> visitReports;
     private List<Allergy> allergies;
     private List<Condition> conditions;
     private List<Practice> practices;
@@ -52,10 +50,19 @@ public class AwsManager {
     private VisitContext visitContext;
     private Visit visit;
     private Consumer consumer;
+    private Consumer dependent;
     private boolean hasMedicationsFilledOut;
-    private boolean hasAllergiesFilledOut;
-    private boolean hasConditionsFilledOut;
+    private State hasAllergiesFilledOut = State.NOT_FILLED_OUT;
+    private State hasConditionsFilledOut = State.NOT_FILLED_OUT;
     private boolean hasInitializedAwsdk;
+    private boolean hasAuthenticated;
+    private boolean hasConsumer;
+
+    public enum State {
+        NOT_FILLED_OUT,
+        FILLED_OUT_HAVE_NONE,
+        FILLED_OUT_HAVE_FEW
+    }
 
     public static AwsManager getInstance() {
         return ourInstance;
@@ -117,6 +124,25 @@ public class AwsManager {
         this.practices = practices;
     }
 
+    public List<VisitReport> getVisitReports() {
+        return visitReports;
+    }
+
+    public void setVisitReports(List<VisitReport> visitReports) {
+        this.visitReports = visitReports;
+    }
+
+    /*public HashMap<VisitReport, VisitReportDetail> getVisitReportDetailHashMap() {
+        if (visitReportDetailHashMap == null) {
+            visitReportDetailHashMap = new HashMap<>();
+        }
+        return visitReportDetailHashMap;
+    }
+
+    public void setVisitReportDetailHashMap(HashMap<VisitReport, VisitReportDetail> visitReportDetailHashMap) {
+        this.visitReportDetailHashMap = visitReportDetailHashMap;
+    }*/
+
     public List<Condition> getConditions() {
         return conditions;
     }
@@ -124,10 +150,12 @@ public class AwsManager {
     public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
 
-        setHasConditionsFilledOut(false);
+        if (isHasConditionsFilledOut() == State.FILLED_OUT_HAVE_FEW) {
+            setHasConditionsFilledOut(State.FILLED_OUT_HAVE_NONE);
+        }
         for (Condition condition : conditions) {
             if (condition.isCurrent()) {
-                setHasConditionsFilledOut(true);
+                setHasConditionsFilledOut(State.FILLED_OUT_HAVE_FEW);
                 break;
             }
         }
@@ -140,10 +168,12 @@ public class AwsManager {
     public void setAllergies(List<Allergy> allergies) {
         this.allergies = allergies;
 
-        setHasAllergiesFilledOut(false);
+        if (isHasAllergiesFilledOut() == State.FILLED_OUT_HAVE_FEW) {
+            setHasAllergiesFilledOut(State.FILLED_OUT_HAVE_NONE);
+        }
         for (Allergy allergy : allergies) {
             if (allergy.isCurrent()) {
-                setHasAllergiesFilledOut(true);
+                setHasAllergiesFilledOut(State.FILLED_OUT_HAVE_FEW);
                 break;
             }
         }
@@ -203,19 +233,19 @@ public class AwsManager {
         this.hasMedicationsFilledOut = hasMedicationsFilledOut;
     }
 
-    public boolean isHasAllergiesFilledOut() {
+    public State isHasAllergiesFilledOut() {
         return hasAllergiesFilledOut;
     }
 
-    public void setHasAllergiesFilledOut(boolean hasAllergiesFilledOut) {
+    public void setHasAllergiesFilledOut(State hasAllergiesFilledOut) {
         this.hasAllergiesFilledOut = hasAllergiesFilledOut;
     }
 
-    public boolean isHasConditionsFilledOut() {
+    public State isHasConditionsFilledOut() {
         return hasConditionsFilledOut;
     }
 
-    public void setHasConditionsFilledOut(boolean hasConditionsFilledOut) {
+    public void setHasConditionsFilledOut(State hasConditionsFilledOut) {
         this.hasConditionsFilledOut = hasConditionsFilledOut;
     }
 
@@ -227,116 +257,27 @@ public class AwsManager {
         this.hasInitializedAwsdk = hasInitializedAwsdk;
     }
 
-    public void authenticateUser(Authentication authentication) {
-        this.awsdk.getConsumerManager().getConsumer(
-                authentication,
-                new SDKCallback<Consumer, SDKError>() {
-                    @Override
-                    public void onResponse(Consumer consumer, SDKError sdkError) {
-                        if (sdkError == null) {
-                            Timber.i("Authneticated User : " + consumer.getFullName());
-                            AwsManager.getInstance().setConsumer(consumer);
-                        } else {
-                            Timber.e("Error + " + sdkError);
-                            AwsManager.getInstance().setConsumer(null);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
-                        Timber.e("Throwable = " + throwable);
-                        AwsManager.getInstance().setConsumer(null);
-                    }
-                }
-        );
+    public boolean isHasAuthenticated() {
+        return hasAuthenticated;
     }
 
-    public void getUsersAuthentication(String username, String password) {
-        //techincally, the first parameter in this call is "legalResidence" https://sdk.americanwell.com/?page_id=7377
-        awsdk.authenticate(
-                username,
-                password,
-                username,
-                new SDKCallback<Authentication, SDKError>() {
-                    @Override
-                    public void onResponse(Authentication authentication, SDKError sdkError) {
-                        if (sdkError == null) {
-                            Timber.i("Authentication : " + authentication);
-                            AwsManager.getInstance().setAuthentication(authentication);
-                        } else {
-                            Timber.e("Error + " + sdkError);
-                            AwsManager.getInstance().setAuthentication(null);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
-                        Timber.e("Throwable = " + throwable);
-                        AwsManager.getInstance().setAuthentication(null);
-                    }
-                });
+    public void setHasAuthenticated(boolean hasAuthenticated) {
+        this.hasAuthenticated = hasAuthenticated;
     }
 
-    public void getUsersMutualAuthneticaion(String amWellToken) {
-        awsdk.authenticateMutual(
-                amWellToken,
-                new SDKCallback<Authentication, SDKError>() {
-                    @Override
-                    public void onResponse(Authentication authentication, SDKError sdkError) {
-                        if (sdkError == null) {
-                            Timber.i("Authentication : " + authentication);
-                            AwsManager.getInstance().setAuthentication(authentication);
-                        } else {
-                            Timber.e("Error + " + sdkError);
-                            AwsManager.getInstance().setAuthentication(null);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
-                        Timber.e("Throwable = " + throwable);
-                        AwsManager.getInstance().setAuthentication(null);
-                    }
-                });
+    public boolean isHasConsumer() {
+        return hasConsumer;
     }
 
-    public void initializeAwsdk() {
-        String baseServiceUrl = BuildConfig.awsdkurl;
-        String clientKey = BuildConfig.awsdkkey;
-        String launchUri = null;
+    public void setHasConsumer(boolean hasConsumer) {
+        this.hasConsumer = hasConsumer;
+    }
 
-        final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-        initParams.put(AWSDK.InitParam.BaseServiceUrl, baseServiceUrl);
-        initParams.put(AWSDK.InitParam.ApiKey, clientKey);
-        initParams.put(AWSDK.InitParam.LaunchIntentData, launchUri);
+    public Consumer getDependent() {
+        return dependent;
+    }
 
-        try {
-            this.awsdk.initialize(
-                    initParams,
-                    new SDKCallback<Void, SDKError>() {
-                        @Override
-                        public void onResponse(Void aVoid, SDKError sdkError) {
-                            if (sdkError == null) {
-                                setHasInitializedAwsdk(true);
-                            } else {
-                                Timber.e("Error + " + sdkError);
-                                setHasInitializedAwsdk(false);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            Timber.e("Something failed! :/");
-                            Timber.e("Throwable = " + throwable);
-                            setHasInitializedAwsdk(false);
-                        }
-                    });
-        } catch (AWSDKInitializationException e) {
-            Timber.e(e);
-            setHasInitializedAwsdk(false);
-        }
+    public void setDependent(Consumer dependent) {
+        this.dependent = dependent;
     }
 }

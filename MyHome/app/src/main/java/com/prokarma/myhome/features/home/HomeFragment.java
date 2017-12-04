@@ -462,8 +462,13 @@ public class HomeFragment extends BaseFragment {
 
     private void coachmarkBookAppointment() {
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.HOME_SKIP_COACH_MARKS);
-        if (skip)
+        if (skip) {
             return;
+        }
+
+        if (!isAdded()) {
+            return;
+        }
 
         TapTargetView.showFor(
                 getActivity(),

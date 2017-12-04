@@ -150,8 +150,8 @@
     <string name="new_update_available">New Update Available!</string>
     <string name="no_recent_providers">No Recent Providers to show. Tap Find Care to start.</string>
     <!--Dashboard-->
-    <string name="db_text_one">Teaching Kids About Germs at School.</string>
-    <string name="db_text_two">Help High School Athletes Avoid Injury.</string>
+    <string name="db_text_one">Hit the Slopes: Mountain Safety Tips for Skiers and Snowboarders</string>
+    <string name="db_text_two">Moderate Drinking: How to Avoid Overindulging This Winter</string>
     <string name="db_readmore">Read More</string>
     <string name="db_profile_alert_one">Don\'t have a saved Profile. Retrieving profile now…</string>
     <string name="db_profile_alert_two">Already have a Profile Singleton. Updating the view…</string>
@@ -378,6 +378,7 @@
     <!-- Medical History -->
     <string name="conditions">Conditions</string>
     <string name="allergies">Allergies</string>
+    <string name="allergic_to">Allergic To:&#160;</string>
     <string name="no_conditions">I don\'t have any conditions</string>
     <string name="no_allergies">I don\'t have any allergies</string>
 
@@ -424,6 +425,7 @@
     <string name="mycare_desc">Video visits are a convenient way to get immediate care and questions answered.</string>
     <string name="get_started">Get Started</string>
     <string name="personal_information">Personal Information</string>
+    <string name="my_personal_information">My Personal Information</string>
     <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
     <string name="medical_history">Medical History</string>
     <string name="complete_your_medical_history">Complete your medical history.</string>
@@ -433,6 +435,7 @@
     <string name="no_medications_listed">You have no medications</string>
     <string name="pharmacy">Pharmacy</string>
     <string name="visit_summary">Visit Summary</string>
+    <string name="feedback">Feedback</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
     <string name="mycare_now">My Care Now</string>
     <string name="med_history">My Medical History</string>
@@ -453,13 +456,24 @@
     <string name="my_care_reason_sug">What is the for you visit today?</string>
     <string name="intake">Intake</string>
     <string name="reason">Reason</string>
-    <string name="visit_cost_desc">Your total is $</string>
+    <string name="visit_cost_desc">Your total cost is $</string>
+    <string name="summary_cost_desc">Your total cost for today\'s visit was $</string>
     <string name="waiting_room_title">Waiting Room</string>
     <string name="view_previous_visits">View Previous Visits</string>
     <string name="your_visit_has_ended">Your visit has ended.</string>
     <string name="previous_visit_summaries">Previous Visit Summaries</string>
     <string name="no_previous_visits">You have no previous visits.</string>
     <string name="field_must_be_completed">Field must be completed</string>
+    <string name="who_is_visiting_today">Who is visiting today?</string>
+    <string name="rate_your_provider">Rate your provider</string>
+    <string name="rate_your_overall_experience">Rate your overall experience</string>
+    <string name="if_you_had_not_used_my_care_now_today_where_would_you_have_gone_instead">If you had not used My Care Now today, where would you have gone instead?</string>
+    <string name="emergency_room">Emergency Room</string>
+    <string name="urgent_care_center">Urgent Care Center</string>
+    <string name="retail_health_clinic">Retail Health Clinic</string>
+    <string name="doctor_s_office">Doctor\'s Office</string>
+    <string name="done_nothing">Done Nothing</string>
+    <string name="finish">Finish</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

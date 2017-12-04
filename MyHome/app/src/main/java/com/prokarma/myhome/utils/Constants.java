@@ -33,7 +33,6 @@ public class Constants {
         TOUCH_ID,
         HOME_DID_YOU_KNOW_SEC_1,
         HOME_DID_YOU_KNOW_SEC_2,
-        MY_CARE_NOW_SDK_LOGIN,
         MY_CARE_NOW,
         MY_MED_HISTORY,
         MY_MEDICATIONS,
@@ -43,9 +42,10 @@ public class Constants {
         MY_CARE_PROVIDERS,
         MY_CARE_COST,
         MY_CARE_WAITING_ROOM,
-        PREVIOUS_VISITS_SUMMARY,
-        VISIT_SUMMARY,
-        VISIT_FEEDBACK
+        PREVIOUS_VISITS_SUMMARIES,
+        PREVIOUS_VISIT_SUMMARY,
+        VIDEO_VISIT_SUMMARY,
+        VIDEO_VISIT_FEEDBACK
     }
 
     public enum INPUT_TYPE {
@@ -118,8 +118,8 @@ public class Constants {
     public static final String CHANGED_PASSWORD_EVENT = "changePasswordSuccess";
     public static final String CHANGED_SECURITY_QUESTION_EVENT = "changeSecurityQuestionSuccess";
 
-    public static final String DID_YOU_KNOW_SEC1 = "https://www.dignityhealth.org/articles/Teaching-Kids-About-Germs-at-School";
-    public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/articles/Help-High-School-Athletes-Avoid-Injury";
+    public static final String DID_YOU_KNOW_SEC1 = "https://dignityhealth.org/cm/content/pages/hit-the-slopes-mountain-safety-tips-for-skiers-and-snowboarders.asp";
+    public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/Articles/Moderate-Drinking-How-to-Avoid-Overindulging-This-Winter";
 
     public static final String TEL = "tel:";
     public static final String SUPPORT_EMAIL = "hello@dignityhealth.org";

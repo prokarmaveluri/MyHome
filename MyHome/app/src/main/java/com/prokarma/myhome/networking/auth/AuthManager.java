@@ -14,6 +14,7 @@ import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.televisit.AwsManager;
+import com.televisit.AwsNetworkManager;
 
 import java.lang.ref.WeakReference;
 
@@ -270,8 +271,8 @@ public class AuthManager {
 //                    }
 //                });
 
-                if(!AwsManager.getInstance().isHasInitializedAwsdk()){
-                    AwsManager.getInstance().initializeAwsdk();
+                if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+                    AwsNetworkManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, null);
                 }
 
             }

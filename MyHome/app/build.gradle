@@ -57,6 +57,13 @@ android {
     def AUTHTOKEN = "third_party_auth_token"
     def AUTHURL = "third_party_auth_url"
 
+    def DEV_AWSDK_URL = "\"https://sdk.myonlinecare.com\""
+    def DEV_AWSDK_KEY = "\"8ff96c2a\""
+
+    def IOT_AWSDK_URL = "\"https://iot21.amwellintegration.com\""
+    def IOT_AWSDK_KEY = "\"1b1ddea8\""
+
+
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
@@ -65,8 +72,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 105001
-        versionName "1.5.1"
+        versionCode 105003
+        versionName "1.5.3"
         setProperty("archivesBaseName", "DignityHealth-MyHome-$versionName")
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
@@ -171,8 +178,8 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             //AWSDK
-            buildConfigField STRING, AWSDKURL, "\"https://sdk.myonlinecare.com\""
-            buildConfigField STRING, AWSDKKEY, "\"8ff96c2a\""
+            buildConfigField STRING, AWSDKURL, IOT_AWSDK_URL
+            buildConfigField STRING, AWSDKKEY, IOT_AWSDK_KEY
             buildConfigField BOOLEAN, ENABLEAUTH, FALSE
             buildConfigField STRING, AUTHTOKEN, "\"at1001\""
             buildConfigField STRING, AUTHURL, "\"api.samsungosp.com\""
@@ -240,8 +247,8 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             //AWSDK
-            buildConfigField STRING, AWSDKURL, "\"https://sdk.myonlinecare.com\""
-            buildConfigField STRING, AWSDKKEY, "\"8ff96c2a\""
+            buildConfigField STRING, AWSDKURL, DEV_AWSDK_URL
+            buildConfigField STRING, AWSDKKEY, DEV_AWSDK_KEY
             buildConfigField BOOLEAN, ENABLEAUTH, FALSE
             buildConfigField STRING, AUTHTOKEN, "\"at1001\""
             buildConfigField STRING, AUTHURL, "\"api.samsungosp.com\""
@@ -310,9 +317,8 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", "\"refresh_token\""
 
             //AWSDK
-            //TODO These are just Debug's values. Need to get values for Stage/Prod (IoT?)
-            buildConfigField STRING, AWSDKURL, "\"https://sdk.myonlinecare.com\""
-            buildConfigField STRING, AWSDKKEY, "\"8ff96c2a\""
+            buildConfigField STRING, AWSDKURL, DEV_AWSDK_URL
+            buildConfigField STRING, AWSDKKEY, DEV_AWSDK_KEY
             buildConfigField BOOLEAN, ENABLEAUTH, FALSE
             buildConfigField STRING, AUTHTOKEN, "\"at1001\""
             buildConfigField STRING, AUTHURL, "\"api.samsungosp.com\""
@@ -354,22 +360,22 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.5'
     compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
     compile 'com.github.myinnos:AlphabetIndex-Fast-Scroll-RecyclerView:1.0.8'
+    compile 'commons-io:commons-io:2.5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.12.0'
 
-    implementation project(':sdk')
-
     //Need for AmWell
+    implementation project(':awsdk')
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.0.8'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.1'
-//    compile 'com.android.support:support-annotations:25.3.1'
-//    compile 'com.google.android.gms:play-services-base:10.2.1'
-//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    //    compile 'com.android.support:support-annotations:25.3.1'
+    //    compile 'com.google.android.gms:play-services-base:10.2.1'
+    //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'frankiesardo:icepick:3.2.0'
-//    compile 'com.auth0.android:jwtdecode:1.1.1'
+    //    compile 'com.auth0.android:jwtdecode:1.1.1'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
     provided 'frankiesardo:icepick-processor:3.2.0'
 }

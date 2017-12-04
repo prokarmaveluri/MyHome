@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/prescription_name"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        tools:text="Prescription: " />
+
+    <TextView
+        android:id="@+id/prescription_dose"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prescription_name"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        tools:text="Dosage: " />
+
+    <TextView
+        android:id="@+id/prescription_desc"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prescription_dose"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        tools:text="Description: " />
+
+    <TextView
+        android:id="@+id/prescription_quantity"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prescription_desc"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        tools:text="Quantity: " />
+
+    <TextView
+        android:id="@+id/prescription_instructions"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prescription_quantity"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        tools:text="Instructions: " />
+</RelativeLayout>

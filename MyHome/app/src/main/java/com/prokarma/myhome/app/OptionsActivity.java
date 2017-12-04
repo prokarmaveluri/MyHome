@@ -73,6 +73,9 @@ public class OptionsActivity extends BaseActivity {
 
             case PROFILE_VIEW:
                 ProfileViewFragment profileViewFragment = ProfileViewFragment.newInstance();
+                Bundle bundleProfile = new Bundle();
+                bundleProfile.putString("from", "options");
+                profileViewFragment.setArguments(bundleProfile);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, profileViewFragment, ProfileViewFragment.PROFILE_VIEW_TAG)

@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,20 +14,18 @@ import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.visit.ChatReport;
-import com.americanwell.sdk.entity.visit.VisitEndReason;
-import com.americanwell.sdk.manager.StartVisitCallback;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-import com.televisit.summary.SummaryFragment;
+import com.televisit.AwsNetworkManager;
+import com.televisit.interfaces.AwsStartVideoVisit;
 
 import java.util.Map;
 
@@ -37,11 +36,13 @@ import timber.log.Timber;
  * Use the {@link MyCareWaitingRoomFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyCareWaitingRoomFragment extends BaseFragment {
+public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartVideoVisit {
 
     public static final String MY_CARE_WAITING_TAG = "my_care_waiting_tag";
     private NotificationManager notificationManager;
     public static final int ONGOING_NOTIFICATION_ID = 12345;
+
+    private Consumer patient;
     private boolean isVisitEnd = false;
 
 
@@ -73,15 +74,14 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_care_waiting_room, container, false);
 
-        isVisitEnd = false;
-        notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.waiting_room_title));
+        notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        //TODO: visit summary and feedback
-//        startVisit(AwsManager.getInstance().getConsumer().getAddress(),
-//                SummaryActivity.getSummaryIntent(getActivity()));
+        patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
+        isVisitEnd = false;
 
-        startVisit(AwsManager.getInstance().getConsumer().getAddress(), null);
+        //Intent intent = new Intent(getContext(), SummaryActivity.class);
+        startVisit(patient.getAddress(), null);
         return view;
     }
 
@@ -89,13 +89,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (isVisitEnd) {
-            try {
-                if (getActivity() != null) {
-                    ((NavigationActivity) getActivity()).onBackPressed();
-                }
-            } catch (IllegalStateException ex) {
-                Timber.e(ex);
-            }
+            //Put in handler to avoid IllegalStateException: https://stackoverflow.com/a/41953519/2128921
+            goToVisitSummary();
         }
     }
 
@@ -109,89 +104,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
 
         abandonVisit();
 
-        Timber.e("Starting visit....");
-
-        AwsManager.getInstance().getAWSDK().getVisitManager().startVisit(
-                AwsManager.getInstance().getVisit(),
-                location,
-                visitFinishedIntent,
-                new StartVisitCallback() {
-                    @Override
-                    public void onProviderEntered(@NonNull Intent intent) {
-                        Timber.d("onProviderEntered " + intent);
-
-                        if (intent != null) {
-                            setVisitIntent(intent);
-                        }
-                    }
-
-                    @Override
-                    public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
-                        Timber.d("onStartVisitEnded " + visitEndReason);
-
-                        Toast.makeText(getContext(), "visit ended\n" + visitEndReason, Toast.LENGTH_LONG).show();
-
-                        if (isAdded()) {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(SummaryFragment.VISIT_END_REASON_KEY, visitEndReason);
-                            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VISIT_SUMMARY, bundle);
-                        }
-                    }
-
-                    @Override
-                    public void onPatientsAheadOfYouCountChanged(int i) {
-                        Timber.d("onPatientsAheadOfYouCountChanged " + i);
-                    }
-
-                    @Override
-                    public void onSuggestedTransfer() {
-                        Timber.d("onSuggestedTransfer ");
-                    }
-
-                    @Override
-                    public void onChat(@NonNull ChatReport chatReport) {
-                        Timber.d("onChat " + chatReport);
-                    }
-
-                    @Override
-                    public void onPollFailure(@NonNull Throwable throwable) {
-                        Timber.w("onPollFailure " + throwable);
-                    }
-
-                    @Override
-                    public void onValidationFailure(Map<String, ValidationReason> map) {
-                        Timber.w("onValidationFailure " + map);
-                    }
-
-                    @Override
-                    public void onResponse(Void aVoid, SDKError sdkError) {
-                        Timber.d("onResponse " + aVoid + " " + sdkError);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.w("onFailure " + throwable);
-                    }
-                }
-        );
+        Timber.d("Starting visit....");
+        AwsNetworkManager.getInstance().startVideoVisit(AwsManager.getInstance().getVisit(), location, visitFinishedIntent, this);
     }
-
-//    private void cancelVisit() {
-//        AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
-//                AwsManager.getInstance().getVisit(),
-//                new SDKCallback<Void, SDKError>() {
-//                    @Override
-//                    public void onResponse(Void aVoid, SDKError sdkError) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Throwable throwable) {
-//
-//                    }
-//                }
-//        );
-//    }
 
     public void abandonVisit() {
         // called by onDestroy()
@@ -219,4 +134,67 @@ public class MyCareWaitingRoomFragment extends BaseFragment {
         startActivity(intent);
     }
 
+    private void goToVisitSummary() {
+        Handler uiHandler = new Handler();
+        uiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isAdded()) {
+                    ((NavigationActivity) getActivity()).loadFragment(
+                            Constants.ActivityTag.VIDEO_VISIT_SUMMARY, null);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onValidationFailure(@NonNull Map<String, String> map) {
+
+    }
+
+    @Override
+    public void onProviderEntered(@NonNull Intent intent) {
+        if (intent != null) {
+            setVisitIntent(intent);
+        }
+    }
+
+    @Override
+    public void onStartVisitEnded(@NonNull String s) {
+//                        if (isAdded()) {
+//                            Bundle bundle = new Bundle();
+//                            bundle.putSerializable(SummaryFragment.VISIT_END_REASON_KEY, visitEndReason);
+//                            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY, bundle);
+//                        }
+    }
+
+    @Override
+    public void onPatientsAheadOfYouCountChanged(int i) {
+
+    }
+
+    @Override
+    public void onSuggestedTransfer() {
+
+    }
+
+    @Override
+    public void onChat(@NonNull ChatReport chatReport) {
+
+    }
+
+    @Override
+    public void onPollFailure(@NonNull Throwable throwable) {
+
+    }
+
+    @Override
+    public void onResponse(Void aVoid, SDKError sdkError) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
+    }
 }
