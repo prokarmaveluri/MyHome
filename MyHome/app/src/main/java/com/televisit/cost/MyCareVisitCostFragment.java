@@ -152,20 +152,12 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 phoneLayout.setError(null);
                 reasonLayout.setError(null);
 
-                if ((!isAdded()) || AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getVisitCost() == null) {
 
-                    if (!isAdded()) {
-                        Timber.d("Fragment not attached ");
-                    } else if (AwsManager.getInstance().getVisit() == null) {
-                        Timber.d("Visit object is null ");
-                    } else if (AwsManager.getInstance().getVisit().getVisitCost() == null) {
-                        Timber.d("VisitCost object is null ");
-                    }
+                if (isAdded() && AwsManager.getInstance().getVisit() != null) {
 
-                } else if (AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() == 0) {
-
-                    if (CommonUtil.isValidMobile(reasonPhone.getText().toString()) && reasonForVisit.getText().toString().length() > 0) {
-
+                    if (AwsManager.getInstance().getVisit().getVisitCost() != null && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
+                        Toast.makeText(getContext(), "Your cost isn't free\nYou might want to apply a coupon...", Toast.LENGTH_LONG).show();
+                    } else if (CommonUtil.isValidMobile(reasonPhone.getText().toString()) && reasonForVisit.getText().toString().length() > 0) {
                         ((NavigationActivity) getActivity()).loadFragment(
                                 Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
 
@@ -175,9 +167,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     } else if (reasonForVisit.getText().toString().length() <= 0) {
                         reasonLayout.setError(getString(R.string.field_must_be_completed));
                     }
-                } else {
-                    Toast.makeText(getContext(), "Your cost isn't free\nYou might want to apply a coupon...", Toast.LENGTH_LONG).show();
                 }
+
                 break;
         }
 
@@ -251,15 +242,24 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                             costInfo.setText(getString(R.string.visit_cost_desc) +
                                     AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
+                            intakeLayout.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
+
+                        } else {
+                            Timber.e("Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            intakeLayout.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), sdkError.getMessage(), Toast.LENGTH_LONG).show();
                         }
-                        intakeLayout.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.d("createOrUpdateVisit. onFailure " );
-                        intakeLayout.setVisibility(View.VISIBLE);
+                        Timber.e("Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        intakeLayout.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
                     }
                 }
