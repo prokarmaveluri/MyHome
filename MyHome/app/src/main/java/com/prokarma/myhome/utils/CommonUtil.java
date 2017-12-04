@@ -706,10 +706,10 @@ public class CommonUtil {
      */
     public static void hideSoftKeyboard(Activity activity) {
         try {
-            View view = activity.getCurrentFocus();
-            InputMethodManager imm = (InputMethodManager) activity
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            if (activity.getCurrentFocus() != null) {
+                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+            }
         } catch (NullPointerException | IllegalStateException ex) {
             Timber.w(ex);
         }
