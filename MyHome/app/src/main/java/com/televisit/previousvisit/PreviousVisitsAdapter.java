@@ -64,17 +64,15 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 try {
                     if (visitReport.getDate() != null && visitReport.getDate().isValidDate()) {
-                        //"yyyy-MM-dd"
                         String stringDate = visitReport.getDate().getYear() + "-" + visitReport.getDate().getMonth() + "-" + visitReport.getDate().getDay();
-                        Date visitDate = DateUtil.getDateFromHyphens(stringDate);
-                        holder.date.setText(DateUtil.convertDateToReadable(visitDate));
+                        holder.date.setText(DateUtil.convertDateToReadableShort(DateUtil.getDateFromHyphens(stringDate)));
                     }
                 } catch (ParseException e) {
                     Timber.e(e);
                     e.printStackTrace();
                 }
 
-                //hardcoding for now.
+                //hardcoding for now, as per directions got
                 holder.amount.setText("$ 0.00");
                 holder.text.setText("I cut my hand on a peice of glass");
 

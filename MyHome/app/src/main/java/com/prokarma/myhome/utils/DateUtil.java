@@ -27,6 +27,8 @@ public class DateUtil {
     //Date formats
     public static final String DATE_FORMAT = "MMMM dd, yyyy";
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+    public static final String DATE_FORMAT_SHORT = "MMM dd, yyyy";
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT_SHORT = new SimpleDateFormat(DATE_FORMAT_SHORT, Locale.getDefault());
     public static final String DATE_HYPHEN_FORMAT = "yyyy-MM-dd";
     public static final SimpleDateFormat SIMPLE_DATE_HYPHEN_FORMAT = new SimpleDateFormat(DATE_HYPHEN_FORMAT, Locale.getDefault());
     public static final String DATE_SLASH_FORMAT = "MM/dd/yyyy";
@@ -230,6 +232,16 @@ public class DateUtil {
      */
     public static String convertDateToReadable(Date date) {
         return SIMPLE_DATE_FORMAT.format(date);
+    }
+
+    /**
+     * Convert a Date object into a human-friendly format.
+     *
+     * @param date the date object. This object's date should already be set and finalized before making this call.
+     * @return a String representing the UTC Date (formatted like such: "MM/dd/yy")
+     */
+    public static String convertDateToReadableShort(Date date) {
+        return SIMPLE_DATE_FORMAT_SHORT.format(date);
     }
 
     /**

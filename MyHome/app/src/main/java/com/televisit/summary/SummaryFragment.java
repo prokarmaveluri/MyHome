@@ -50,10 +50,13 @@ public class SummaryFragment extends Fragment {
     private CircularImageView docImage;
     private RecyclerView prescriptionsList;
     private Button viewReport;
+    private TextView doctorNotes;
 
     private int visitReportPosition;
     private VisitReport visitReport;
     private VisitReportDetail visitReportDetail;
+    private String reportNameWithPath;
+    private File report;
 
     public SummaryFragment() {
     }
@@ -85,12 +88,16 @@ public class SummaryFragment extends Fragment {
         costDesc = (TextView) view.findViewById(R.id.cost_description);
         docImage = (CircularImageView) view.findViewById(R.id.doc_image);
         prescriptionsList = (RecyclerView) view.findViewById(R.id.prescriptions_list);
+        doctorNotes = (TextView) view.findViewById(R.id.doctor_notes);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getVisitReportAttachment(visitReport);
+                Bundle bundle = new Bundle();
+                bundle.putString("FILENAME_WITH_PATH", reportNameWithPath);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
+
             }
         });
 
@@ -146,23 +153,28 @@ public class SummaryFragment extends Fragment {
                             providerName.setText(visitReport.getProviderName());
                             costDesc.setText(getString(R.string.visit_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
 
-                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() == null) {
+                            if (visitReportDetail.getPharmacy() == null
+                                    || !visitReportDetail.getPharmacy().isActive()
+                                    || visitReportDetail.getPharmacy().getName() == null
+                                    || visitReportDetail.getPharmacy().getName().toLowerCase().contains("mail order")) {
                                 pharmacyName.setVisibility(View.GONE);
                             } else {
+                                pharmacyName.setVisibility(View.VISIBLE);
                                 pharmacyName.setText(visitReportDetail.getPharmacy().getName());
-                            }
 
-                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getDistance() < 0) {
-                                pharmacyDistance.setVisibility(View.GONE);
-                            } else {
-                                pharmacyDistance.setText(String.valueOf(visitReportDetail.getPharmacy().getDistance()) + " mi");
-                            }
+                                if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getDistance() < 0) {
+                                    pharmacyDistance.setVisibility(View.GONE);
+                                } else {
+                                    pharmacyDistance.setVisibility(View.VISIBLE);
+                                    pharmacyDistance.setText(String.valueOf(visitReportDetail.getPharmacy().getDistance()) + " mi");
+                                }
 
-                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {
-                                pharmacyAddress.setVisibility(View.GONE);
-                            } else {
-
-                                pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitReportDetail.getPharmacy()));
+                                if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {
+                                    pharmacyAddress.setVisibility(View.GONE);
+                                } else {
+                                    pharmacyAddress.setVisibility(View.VISIBLE);
+                                    pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitReportDetail.getPharmacy()));
+                                }
                             }
 
                             if (visitReportDetail.getProviderEntries() != null && visitReportDetail.getProviderEntries().getPrescriptions() != null) {
@@ -170,6 +182,8 @@ public class SummaryFragment extends Fragment {
                             }
 
                             updateDoctorImage();
+
+                            getVisitReportAttachment(visitReport);
                         }
                     }
 
@@ -213,12 +227,12 @@ public class SummaryFragment extends Fragment {
                                     if (fileSaved) {
                                         File f = new File(fileNameWithEntirePath);
                                         if (f != null & f.exists()) {
+                                            reportNameWithPath = fileNameWithEntirePath;
+                                            report = f;
 
                                             canBeViewed = true;
-
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("FILENAME_WITH_PATH", fileNameWithEntirePath);
-                                            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
+                                            viewReport.setEnabled(true);
+                                            doctorNotes.setVisibility(View.GONE);
                                         }
                                     }
                                 }
@@ -238,6 +252,7 @@ public class SummaryFragment extends Fragment {
                     public void onFailure(Throwable throwable) {
                         progressBar.setVisibility(View.GONE);
                         viewReport.setEnabled(false);
+                        doctorNotes.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), "Visit report not available! ", Toast.LENGTH_LONG).show();
 
                         if (throwable != null) {
