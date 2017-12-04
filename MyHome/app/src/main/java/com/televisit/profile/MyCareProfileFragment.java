@@ -151,10 +151,11 @@ public class MyCareProfileFragment extends BaseFragment {
 
             case R.id.save_profile:
                 CommonUtil.hideSoftKeyboard(getActivity());
-                if (isValidProfile()) {
-                    Profile currentProfile = ProfileManager.getProfile();
-                    sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
-                }
+                Toast.makeText(getContext(), "Profile is still under construction...", Toast.LENGTH_LONG).show();
+//                if (isValidProfile()) {
+//                    Profile currentProfile = ProfileManager.getProfile();
+//                    sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
+//                }
                 break;
         }
 
@@ -255,18 +256,6 @@ public class MyCareProfileFragment extends BaseFragment {
         } else {
             gender.setSelection(0);  //Placeholder is the first item in the array
         }
-
-//        if (profile.dateOfBirth != null && !profile.dateOfBirth.trim().isEmpty()) {
-//            Date date = null;
-//            try {
-//                date = DateUtil.getDateNoTimeZone(profile.dateOfBirth);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            if (null != date)
-//                myCalendar.setTime(date);
-//            dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
-//        }
 
         if (profile.dateOfBirth != null) {
             dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
