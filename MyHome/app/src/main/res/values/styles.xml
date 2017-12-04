@@ -186,6 +186,11 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="tradeGothicLTStd_Dynamic16_grey" parent="tradeGothicLTStdLight">
+        <item name="android:textSize">@dimen/scalable_16</item>
+        <item name="android:textColor">@color/md_blue_grey_650</item>
+    </style>
+
     <style name="dbDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
@@ -196,6 +201,10 @@
         <item name="android:textSize">16sp</item>
     </style>
     <!--Home - Daashboard End-->
+
+    <style name="tradeGothicLTStdLight_18" parent="tradeGothicLTStdLight">
+        <item name="android:textSize">18sp</item>
+    </style>
 
     <style name="tradeGothicLTStdLight_16" parent="tradeGothicLTStdLight">
         <item name="android:textSize">16sp</item>
