@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -26,12 +27,12 @@ import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
-import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
-import com.prokarma.myhome.utils.TealiumUtil;
+import com.televisit.AwsNetworkManager;
+import com.televisit.interfaces.AwsUpdateConsumer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +43,7 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class MyCareProfileFragment extends BaseFragment {
+public class MyCareProfileFragment extends BaseFragment implements AwsUpdateConsumer {
     public static final String MY_PROFILE_TAG = "my_profile_tag";
 
     View profileView;
@@ -151,11 +152,10 @@ public class MyCareProfileFragment extends BaseFragment {
 
             case R.id.save_profile:
                 CommonUtil.hideSoftKeyboard(getActivity());
-                Toast.makeText(getContext(), "Profile is still under construction...", Toast.LENGTH_LONG).show();
-//                if (isValidProfile()) {
-//                    Profile currentProfile = ProfileManager.getProfile();
-//                    sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
-//                }
+                if (isValidProfile()) {
+                    Profile currentProfile = ProfileManager.getProfile();
+                    sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
+                }
                 break;
         }
 
@@ -189,41 +189,10 @@ public class MyCareProfileFragment extends BaseFragment {
         });
     }
 
-    /**
-     * Sends the profile information to the server to update the values
-     *
-     * @param bearer         the bearer token needed to provide authentication
-     * @param updatedProfile the updated profile information being attempted
-     */
     private void sendUpdatedProfile(String bearer, Profile updatedProfile) {
         progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (isAdded()) {
-                    if (response.isSuccessful()) {
-                        Timber.d("Successful Response\n" + response);
-                        TealiumUtil.trackEvent(Constants.PROFILE_UPDATE_EVENT, null);
-                        Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
-                        getActivity().onBackPressed();
-                    } else {
-                        Timber.e("Response, but not successful?\n" + response);
-                        ApiErrorUtil.getInstance().updateProfileError(getContext(), profileView, response);
-                    }
 
-                    progress.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                if (isAdded()) {
-                    Timber.e("Something failed! :/");
-                    ApiErrorUtil.getInstance().updateProfileFailed(getContext(), profileView, t);
-                    progress.setVisibility(View.GONE);
-                }
-            }
-        });
+        AwsNetworkManager.getInstance().updateProfile(updatedProfile, this);
     }
 
     /**
@@ -412,5 +381,16 @@ public class MyCareProfileFragment extends BaseFragment {
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.MY_CARE_PROFILE;
+    }
+
+    @Override
+    public void updateConsumerComplete(Consumer consumer) {
+        Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+        getActivity().onBackPressed();
+    }
+
+    @Override
+    public void updateConsumerFailed(String errorMessage) {
+        Timber.e(errorMessage);
     }
 }
