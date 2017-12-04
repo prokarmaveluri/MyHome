@@ -465,6 +465,8 @@
     <string name="previous_visit_summaries">Previous Visit Summaries</string>
     <string name="no_previous_visits">You have no previous visits.</string>
     <string name="field_must_be_completed">Field must be completed</string>
+    <string name="enter_valid_phone_number">Enter valid phone number</string>
+    <string name="enter_valid_reason_for_visit">Enter valid reason for visit</string>
     <string name="who_is_visiting_today">Who is visiting today?</string>
     <string name="rate_your_provider">Rate your provider</string>
     <string name="rate_your_overall_experience">Rate your overall experience</string>

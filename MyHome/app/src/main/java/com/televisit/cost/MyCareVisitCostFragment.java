@@ -140,18 +140,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 break;
 
             case R.id.next:
-
-                if (reasonPhone.getText().toString().replace(".", "").trim().length() != 10) {
-                    phoneLayout.setError("Enter valid phone number");
-                    break;
-                } else if (reasonForVisit.getText().toString().length() <= 0) {
-                    reasonLayout.setError("Enter valid reason for visit");
-                    break;
-                }
-
                 phoneLayout.setError(null);
                 reasonLayout.setError(null);
-
 
                 if (isAdded() && AwsManager.getInstance().getVisit() != null) {
 
@@ -162,10 +152,10 @@ public class MyCareVisitCostFragment extends BaseFragment {
                                 Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
 
                     } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString())) {
-                        phoneLayout.setError(getString(R.string.field_must_be_completed));
+                        phoneLayout.setError(getString(R.string.enter_valid_phone_number));
 
                     } else if (reasonForVisit.getText().toString().length() <= 0) {
-                        reasonLayout.setError(getString(R.string.field_must_be_completed));
+                        reasonLayout.setError(getString(R.string.enter_valid_reason_for_visit));
                     }
                 }
 
