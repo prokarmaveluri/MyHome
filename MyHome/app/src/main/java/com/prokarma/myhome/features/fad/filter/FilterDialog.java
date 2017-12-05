@@ -289,6 +289,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         adapter = new SuggestionsAdapter(list, getActivity(), FilterDialog.this);
         binding.locationSugg.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.locationSugg.setAdapter(adapter);
+        binding.locationSugg.announceForAccessibility(adapter.getItemCount()  + getString(R.string.loc_suggestion));
         adapter.notifyDataSetChanged();
     }
 
