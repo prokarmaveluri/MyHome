@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
 
 
@@ -51,7 +52,13 @@ public class PharmaciesFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle(getString(R.string.pharmacy));
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.pharmacy));
+            ((NavigationActivity) getActivity()).setActionBarLineVisibility(false);
+        } else {
+            getActivity().setTitle(getString(R.string.pharmacy));
+        }
+
         View view = inflater.inflate(R.layout.fragment_pharmacies, container, false);
 
         pharmacyTabs = (TabLayout) view.findViewById(R.id.pharmacyTabs);

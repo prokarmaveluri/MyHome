@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
@@ -89,6 +90,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     public static Bus eventBus;
     public Toolbar toolbar;
+    public View toolbarLine;
 
     private BroadcastReceiver timezoneChangedReceiver;
     private static boolean didTimeZoneChange = false;
@@ -102,6 +104,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         NetworkManager.getInstance().setExpiryListener(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarLine = (View) findViewById(R.id.toolbar_line);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
         } else {
@@ -808,6 +812,22 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+    public void setActionBarLineVisibility(boolean visisble) {
+        if (toolbarLine != null) {
+            if (visisble) {
+                toolbarLine.setVisibility(View.VISIBLE);
+                Timber.d("toolbarLine visibility set to visible ");
+            }
+            else {
+                toolbarLine.setVisibility(View.GONE);
+                Timber.d("toolbarLine visibility set to gone ");
+            }
+        }
+        else {
+            Timber.d("toolbarLine is NULL ");
+        }
     }
 
     /**

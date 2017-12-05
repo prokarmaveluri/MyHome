@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.prokarma.myhome.R;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 
@@ -35,6 +36,9 @@ public abstract class BaseFragment extends Fragment implements BaseInterface {
     @Override
     public void onDestroyView() {
         ApiErrorUtil.getInstance().clearErrorMessage();
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarLineVisibility(true);
+        }
         try {
             CommonUtil.hideSoftKeyboard(getActivity());
         } catch (Exception ex) {
