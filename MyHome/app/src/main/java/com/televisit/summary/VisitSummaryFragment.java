@@ -102,8 +102,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             // preferred method for loading image
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(visitSummary.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
-                    .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.img_provider_photo_placeholder))
-                    .error(ContextCompat.getDrawable(getContext(), R.drawable.img_provider_photo_placeholder))
+                    .placeholder(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
+                    .error(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .build()
                     .load();
         }
