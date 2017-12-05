@@ -33,11 +33,11 @@
                 <TextView
                     android:id="@+id/provider_name"
                     style="@style/tradeGothicLTStdLight_20"
-                    android:paddingLeft="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/doc_image"
+                    android:paddingLeft="15dp"
                     android:textStyle="bold"
                     tools:text="Richard Paul, MD" />
             </RelativeLayout>
@@ -47,9 +47,9 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
+                android:paddingTop="24dp"
                 android:text="@string/your_visit_has_ended" />
 
             <TextView
@@ -71,8 +71,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
-                tools:text="Pharmacy Name"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:text="Pharmacy Name" />
 
             <TextView
                 android:id="@+id/pharmacy_address"
@@ -82,25 +82,45 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="4dp"
-                tools:text="Pharmacy Address"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:text="Pharmacy Address" />
 
-            <TextView
-                android:id="@+id/pharmacy_distance"
-                style="@style/tradeGothicLTStd_Dynamic18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:id="@+id/pharmacy_phone_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="4dp"
-                tools:text="0.91 mi"
-                android:visibility="gone" />
+                android:layout_marginTop="14dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/phone_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@mipmap/phone" />
+
+                <TextView
+                    android:id="@+id/pharmacy_phone"
+                    style="@style/tradeGothicLTStd_Dynamic20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/phone_icon"
+                    android:layout_alignTop="@id/phone_icon"
+                    android:layout_marginLeft="30dp"
+                    android:layout_toRightOf="@id/phone_icon"
+                    android:gravity="center"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    tools:text="616.826.635" />
+            </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/prescriptions_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pharmacy_distance"
+                android:layout_marginTop="16dp"
                 android:visibility="gone" />
 
             <TextView
@@ -111,8 +131,8 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:visibility="gone"
-                android:text="If your doctor is preparing additional information about your visit, you will be able to see it later in your Visit Summaries." />
+                android:text="If your doctor is preparing additional information about your visit, you will be able to see it later in your Visit Summaries."
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/view_report"
@@ -120,8 +140,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="View Visit Report"

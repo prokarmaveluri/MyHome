@@ -1,5 +1,7 @@
 package com.televisit.summary;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +47,8 @@ public class SummaryFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView providerName;
     private TextView pharmacyName;
-    private TextView pharmacyDistance;
+    private RelativeLayout pharmacyPhoneLayout;
+    private TextView pharmacyPhone;
     private TextView pharmacyAddress;
     private TextView costDesc;
     private CircularImageView docImage;
@@ -82,7 +86,8 @@ public class SummaryFragment extends Fragment {
         providerName = (TextView) view.findViewById(R.id.provider_name);
 
         pharmacyName = (TextView) view.findViewById(R.id.pharmacy_name);
-        pharmacyDistance = (TextView) view.findViewById(R.id.pharmacy_distance);
+        pharmacyPhoneLayout = (RelativeLayout) view.findViewById(R.id.pharmacy_phone_layout);
+        pharmacyPhone = (TextView) view.findViewById(R.id.pharmacy_phone);
         pharmacyAddress = (TextView) view.findViewById(R.id.pharmacy_address);
 
         costDesc = (TextView) view.findViewById(R.id.cost_description);
@@ -97,7 +102,6 @@ public class SummaryFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("FILENAME_WITH_PATH", reportNameWithPath);
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
-
             }
         });
 
@@ -159,11 +163,19 @@ public class SummaryFragment extends Fragment {
                                 pharmacyName.setVisibility(View.VISIBLE);
                                 pharmacyName.setText(visitReportDetail.getPharmacy().getName());
 
-                                if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getDistance() < 0) {
-                                    pharmacyDistance.setVisibility(View.GONE);
+                                if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getPhone() == null || visitReportDetail.getPharmacy().getPhone().isEmpty()) {
+                                    pharmacyPhoneLayout.setVisibility(View.GONE);
                                 } else {
-                                    pharmacyDistance.setVisibility(View.VISIBLE);
-                                    pharmacyDistance.setText(String.valueOf(visitReportDetail.getPharmacy().getDistance()) + " mi");
+                                    pharmacyPhoneLayout.setVisibility(View.VISIBLE);
+                                    pharmacyPhone.setText(CommonUtil.constructPhoneNumberDots(visitReportDetail.getPharmacy().getPhone()));
+                                    pharmacyPhoneLayout.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + pharmacyPhone.getText().toString()));
+                                            intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intentPhone);
+                                        }
+                                    });
                                 }
 
                                 if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {

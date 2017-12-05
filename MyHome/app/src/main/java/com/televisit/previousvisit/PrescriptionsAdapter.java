@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.americanwell.sdk.entity.visit.VisitRx;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.utils.DateUtil;
 
 import java.util.List;
 
@@ -33,6 +34,12 @@ public class PrescriptionsAdapter extends RecyclerView.Adapter<RecyclerView.View
         VisitRx prescription = prescriptionsList.get(position);
 
         myHolder.prescriptionName.setText("Prescription: " + prescription.getName());
+
+        if (prescription.getCreateDate() != null) {
+            myHolder.prescriptionDate.setText(DateUtil.convertDobtoReadable(prescription.getCreateDate()));
+        } else {
+            myHolder.prescriptionDate.setVisibility(View.GONE);
+        }
 
         if (prescription.getDescription() != null) {
             myHolder.prescriptionDesc.setText("Description: " + prescription.getDescription());
@@ -76,6 +83,7 @@ public class PrescriptionsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public TextView prescriptionName;
+        public TextView prescriptionDate;
         public TextView prescriptionDesc;
         public TextView prescriptionDose;
         public TextView prescriptionDuration;
@@ -86,6 +94,7 @@ public class PrescriptionsAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(view);
             this.view = view;
             prescriptionName = (TextView) view.findViewById(R.id.prescription_name);
+            prescriptionDate = (TextView) view.findViewById(R.id.prescription_date);
             prescriptionDesc = (TextView) view.findViewById(R.id.prescription_desc);
             prescriptionDose = (TextView) view.findViewById(R.id.prescription_dose);
             prescriptionDuration = (TextView) view.findViewById(R.id.prescription_duration);
