@@ -42,6 +42,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     private Consumer patient;
 
     View profileView;
+    TextView welcomeText;
     TextInputLayout firstNameLayout;
     TextInputEditText firstName;
     TextInputLayout lastNameLayout;
@@ -80,6 +81,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
         patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
 
+        welcomeText = (TextView) profileView.findViewById(R.id.welcome_text);
         firstNameLayout = (TextInputLayout) profileView.findViewById(R.id.first_name_layout);
         firstName = (TextInputEditText) profileView.findViewById(R.id.first_name);
         lastNameLayout = (TextInputLayout) profileView.findViewById(R.id.last_name_layout);
@@ -233,7 +235,10 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
      */
     private void updateConsumerViews(Consumer consumer) {
         if (consumer.getFirstName() != null) {
+            welcomeText.setText(getString(R.string.mcn_welcome_text_variable, consumer.getFirstName()));
             firstName.setText(consumer.getFirstName());
+        } else {
+            welcomeText.setText(getString(R.string.mcn_welcome_text));
         }
 
         if (consumer.getLastName() != null) {
@@ -347,7 +352,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
     @Override
     public void updateConsumerComplete(Consumer consumer) {
-        if(AwsManager.getInstance().getDependent() == null){
+        if (AwsManager.getInstance().getDependent() == null) {
             //You probably updated yourself since no dependents were selectable
             AwsManager.getInstance().setConsumer(consumer);
         } else {

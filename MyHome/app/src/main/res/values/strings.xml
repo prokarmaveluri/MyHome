@@ -482,6 +482,8 @@
     <string name="finish">Finish</string>
     <string name="pdf_with_index">Visit Report (%1$d/%2$d)</string>
     <string name="info">Info</string>
+    <string name="mcn_welcome_text">Hi, let’s fill out a few details to get you started.</string>
+    <string name="mcn_welcome_text_variable">Hi %1$s, let’s fill out a few details to get you started.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

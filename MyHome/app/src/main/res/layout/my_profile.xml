@@ -16,12 +16,13 @@
             android:padding="@dimen/profile_firstname_indent">
 
             <TextView
+                android:id="@+id/welcome_text"
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:lineSpacingExtra="3dp"
-                android:text="Hi, let’s fill out a few details to get you started." />
+                android:text="@string/mcn_welcome_text" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/first_name_layout"
