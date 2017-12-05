@@ -317,7 +317,10 @@ public class SplashActivity extends AppCompatActivity implements
 
     private void startLocationFetch() {
         isGPSVerified = false;
-        if (!checkPermissions()) {
+
+        String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+
+        if (!hasPermissions(this, permissions)) {
             requestPermissions();
             return;
         }
@@ -328,34 +331,42 @@ public class SplashActivity extends AppCompatActivity implements
         getLastLocation();
     }
 
-    private boolean checkPermissions() {
-        int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        return permissionState == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(SplashActivity.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_PERMISSIONS_REQUEST_CODE);
-    }
-
     private void requestPermissions() {
 
         Timber.i("Requesting permission");
         // Request permission. It's possible this can be auto answered if device policy
         // sets the permission in a given state or the user denied the permission
         // previously and checked "Never ask again".
-        startLocationPermissionRequest();
+
+        String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+
+        ActivityCompat.requestPermissions(SplashActivity.this, permissions, REQUEST_PERMISSIONS_REQUEST_CODE);
+    }
+
+    private static boolean hasPermissions(Context context, String... permissions) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    Timber.d("permission " + permission.toString() + " not granted. ");
+                    return false;
+                } else {
+                    Timber.d("permission " + permission.toString() + " is granted. ");
+                }
+            }
+        }
+        return true;
     }
 
     /**
      * Callback received when a permissions request has been completed.
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         Timber.i("onRequestPermissionResult");
+
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length <= 0) {
                 // If user interaction was interrupted, the permission request is cancelled and you

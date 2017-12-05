@@ -61,6 +61,7 @@
     <string name="family_member">Family Member</string>
     <string name="booking_reason_hint">Please tell us the purpose of your visit.</string>
     <string name="next">Next</string>
+    <string name="previous">Previous</string>
     <string name="contact_us_subheader">We\'re here when you need us.</string>
     <string name="contact_us_warning">If this is an emergency, please call 911 immediately.</string>
     <string name="contact_us_header">Thank you for visiting Dignity Health.</string>
@@ -182,7 +183,7 @@
     <!--Booking Flow-->
     <string name="provider_list">Providers List</string>
     <string name="recent_providers">Recent Providers</string>
-    <string name="fav_providers">My Saved Doctors</string>
+    <string name="fav_providers">Saved Doctors</string>
     <string name="do_you_need_standing_assistance">Do you need standing assistance?</string>
     <string name="insurance_phone_number">Insurance Phone Number</string>
     <string name="do_you_need_a_translator">Do you need a translator?</string>
@@ -396,6 +397,7 @@
     <!-- Visit Cost -->
     <string name="visit_cost_coupon_code">Coupon Code</string>
     <string name="visit_cost_apply">Apply</string>
+    <string name="payment">Payment</string>
 
     <!-- Payment Information -->
 
@@ -425,10 +427,12 @@
     <string name="mycare_desc">Video visits are a convenient way to get immediate care and questions answered.</string>
     <string name="get_started">Get Started</string>
     <string name="personal_information">Personal Information</string>
-    <string name="my_personal_information">My Personal Information</string>
+    <string name="my_personal_information">Personal Information</string>
     <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
     <string name="medical_history">Medical History</string>
     <string name="complete_your_medical_history">Complete your medical history.</string>
+    <string name="complete_your_medical_conditions">Complete your conditions</string>
+    <string name="complete_your_medical_allergies">Complete your allergies</string>
     <string name="no_medical_complications_listed">You have no medical complications</string>
     <string name="medications">Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
@@ -438,7 +442,7 @@
     <string name="feedback">Feedback</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
     <string name="mycare_now">My Care Now</string>
-    <string name="med_history">My Medical History</string>
+    <string name="med_history">Medical History</string>
     <string name="pharmacy_search_hint">Search Zip Code</string>
 
     <string name="history_desc">Tell me a little more about yourself so I can help you get proper care.\n\nWhat is your medical history?\nCheck all that you apply.</string>
@@ -453,7 +457,7 @@
     <string name="next_available_provider">Next Available Provider</string>
     <string name="my_care_reason_guest_sug">Would you like to invite a guest to your visit?</string>
     <string name="my_care_reason_phone_sug">What is your phone number in case the video visit dropped?</string>
-    <string name="my_care_reason_sug">What is the for you visit today?</string>
+    <string name="my_care_reason_sug">What is the reason for your visit today?</string>
     <string name="intake">Intake</string>
     <string name="reason">Reason</string>
     <string name="visit_cost_desc">Your total cost is $</string>
@@ -464,6 +468,8 @@
     <string name="previous_visit_summaries">Previous Visit Summaries</string>
     <string name="no_previous_visits">You have no previous visits.</string>
     <string name="field_must_be_completed">Field must be completed</string>
+    <string name="enter_valid_phone_number">Enter valid phone number</string>
+    <string name="enter_valid_reason_for_visit">Enter valid reason for visit</string>
     <string name="who_is_visiting_today">Who is visiting today?</string>
     <string name="rate_your_provider">Rate your provider</string>
     <string name="rate_your_overall_experience">Rate your overall experience</string>
@@ -475,7 +481,9 @@
     <string name="done_nothing">Done Nothing</string>
     <string name="finish">Finish</string>
     <string name="loc_suggestion">location suggestions available swipe to select</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="pdf_with_index">Visit Report (%1$d/%2$d)</string>
+    <string name="info">Info</string>
+    <string name="mcn_welcome_text">Hi, let’s fill out a few details to get you started.</string>
+    <string name="mcn_welcome_text_variable">Hi %1$s, let’s fill out a few details to get you started.</string>
 
 </resources>

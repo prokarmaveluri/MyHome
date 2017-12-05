@@ -50,7 +50,13 @@ public class AppointmentsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         appointmentsView = inflater.inflate(R.layout.appointments, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.appointments));
+
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.appointments));
+            ((NavigationActivity) getActivity()).setActionBarLineVisibility(false);
+        } else {
+            getActivity().setTitle(getString(R.string.appointments));
+        }
 
         progressBar = (ProgressBar) appointmentsView.findViewById(R.id.appointments_progress);
 

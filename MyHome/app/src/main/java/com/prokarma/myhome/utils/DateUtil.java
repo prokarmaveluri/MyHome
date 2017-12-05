@@ -1,7 +1,9 @@
 package com.prokarma.myhome.utils;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.americanwell.sdk.entity.SDKLocalDate;
 import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
@@ -27,6 +29,8 @@ public class DateUtil {
     //Date formats
     public static final String DATE_FORMAT = "MMMM dd, yyyy";
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+    public static final String DATE_FORMAT_SHORT = "MMM dd, yyyy";
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT_SHORT = new SimpleDateFormat(DATE_FORMAT_SHORT, Locale.getDefault());
     public static final String DATE_HYPHEN_FORMAT = "yyyy-MM-dd";
     public static final SimpleDateFormat SIMPLE_DATE_HYPHEN_FORMAT = new SimpleDateFormat(DATE_HYPHEN_FORMAT, Locale.getDefault());
     public static final String DATE_SLASH_FORMAT = "MM/dd/yyyy";
@@ -230,6 +234,16 @@ public class DateUtil {
      */
     public static String convertDateToReadable(Date date) {
         return SIMPLE_DATE_FORMAT.format(date);
+    }
+
+    /**
+     * Convert a Date object into a human-friendly format.
+     *
+     * @param date the date object. This object's date should already be set and finalized before making this call.
+     * @return a String representing the UTC Date (formatted like such: "MM/dd/yy")
+     */
+    public static String convertDateToReadableShort(Date date) {
+        return SIMPLE_DATE_FORMAT_SHORT.format(date);
     }
 
     /**
@@ -673,7 +687,7 @@ public class DateUtil {
         return SIMPLE_DATE_SLASH_FORMAT.format(new Date());
     }
 
-    public static Date addOneMonthToDate(Date date){
+    public static Date addOneMonthToDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.MONTH, 1);
@@ -695,5 +709,28 @@ public class DateUtil {
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
+    }
+
+    public static String convertDobtoReadable(@NonNull final SDKLocalDate dobDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(dobDate.getYear(), dobDate.getMonth() - 1, dobDate.getDay());
+
+        return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
+    }
+
+    @Nullable
+    public static SDKLocalDate convertReadabletoDob(@NonNull final String stringDate) {
+        try {
+            Date date = getDateFromSlashes(stringDate);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            SDKLocalDate dob = new SDKLocalDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+            return dob;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

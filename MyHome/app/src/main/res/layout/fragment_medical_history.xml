@@ -4,53 +4,95 @@
     android:layout_height="match_parent"
     tools:context="com.prokarma.myhome.features.mycare.MyCareNowFragment">
 
-    <!--<ScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content">-->
-
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:visibility="visible">
 
-        <TextView
-            android:id="@+id/mcn_desc"
-            style="@style/tradeGothicLTStd_Dynamic18"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="34dp"
-            android:text="@string/history_desc"
-            android:textColor="@color/grey" />
+            android:layout_margin="4dp"
+            android:background="@color/white"
+            android:elevation="8dp">
 
-        <View
-            android:id="@+id/lineTop"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/mcn_desc"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/db_white" />
+            <EditText
+                android:id="@+id/searchQuery"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/search"
+                android:drawablePadding="8dp"
+                android:drawableRight="@mipmap/xblue"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/medication_search_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="textCapSentences"
+                android:longClickable="false"
+                android:padding="8dp"
+                android:scrollHorizontally="true" />
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 
-        <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
-            android:id="@+id/expandableList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lineTop"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:focusable="true"
-            android:groupIndicator="@null"
-            android:nestedScrollingEnabled="true"
-            android:textAlignment="viewStart"
-            android:visibility="gone" />
-    </RelativeLayout>
-    <!--</ScrollView>-->
+    <TextView
+        android:id="@+id/mcn_desc"
+        android:layout_below="@+id/searchLayout"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
+        android:text="@string/history_desc"
+        android:textColor="@color/grey"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/lineTop"
+        android:layout_below="@+id/mcn_desc"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/db_white"
+        android:visibility="gone" />
+
+    <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
+        android:id="@+id/expandableList"
+        android:layout_below="@+id/lineTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:focusable="true"
+        android:groupIndicator="@null"
+        android:nestedScrollingEnabled="true"
+        android:textAlignment="viewStart"
+        android:visibility="gone" />
+
+    <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
+        android:id="@+id/searchSuggestions"
+        android:layout_below="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:focusable="true"
+        android:groupIndicator="@null"
+        android:nestedScrollingEnabled="true"
+        android:textAlignment="viewStart"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/req_progress"

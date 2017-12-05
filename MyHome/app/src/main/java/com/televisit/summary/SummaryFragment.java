@@ -1,7 +1,6 @@
 package com.televisit.summary;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +24,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
 import com.televisit.previousvisit.PrescriptionsAdapter;
@@ -50,10 +50,13 @@ public class SummaryFragment extends Fragment {
     private CircularImageView docImage;
     private RecyclerView prescriptionsList;
     private Button viewReport;
+    private TextView doctorNotes;
 
     private int visitReportPosition;
     private VisitReport visitReport;
     private VisitReportDetail visitReportDetail;
+    private String reportNameWithPath;
+    private File report;
 
     public SummaryFragment() {
     }
@@ -66,14 +69,6 @@ public class SummaryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
-            visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
-            if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
-                visitReport = AwsManager.getInstance().getVisitReports().get(visitReportPosition);
-                getVisitReportDetails(visitReport);
-            }
-        }
     }
 
     @Nullable
@@ -93,14 +88,26 @@ public class SummaryFragment extends Fragment {
         costDesc = (TextView) view.findViewById(R.id.cost_description);
         docImage = (CircularImageView) view.findViewById(R.id.doc_image);
         prescriptionsList = (RecyclerView) view.findViewById(R.id.prescriptions_list);
+        doctorNotes = (TextView) view.findViewById(R.id.doctor_notes);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getVisitReportAttachment(visitReport);
+                Bundle bundle = new Bundle();
+                bundle.putString("FILENAME_WITH_PATH", reportNameWithPath);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
+
             }
         });
+
+        if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
+            visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
+            if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
+                visitReport = AwsManager.getInstance().getVisitReports().get(visitReportPosition);
+                getVisitReportDetails(visitReport);
+            }
+        }
 
         return view;
     }
@@ -118,8 +125,8 @@ public class SummaryFragment extends Fragment {
             // preferred method for loading image
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(visitReportDetail.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
-                    .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.img_provider_photo_placeholder))
-                    .error(ContextCompat.getDrawable(getContext(), R.drawable.img_provider_photo_placeholder))
+                    .placeholder(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
+                    .error(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .build()
                     .load();
         }
@@ -128,7 +135,7 @@ public class SummaryFragment extends Fragment {
     private void getVisitReportDetails(final VisitReport visitReport) {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            CommonUtil.log(this.getClass().getSimpleName(), "visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
+            Timber.d("visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -149,20 +156,22 @@ public class SummaryFragment extends Fragment {
                             if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() == null) {
                                 pharmacyName.setVisibility(View.GONE);
                             } else {
+                                pharmacyName.setVisibility(View.VISIBLE);
                                 pharmacyName.setText(visitReportDetail.getPharmacy().getName());
-                            }
 
-                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getDistance() < 0) {
-                                pharmacyDistance.setVisibility(View.GONE);
-                            } else {
-                                pharmacyDistance.setText(String.valueOf(visitReportDetail.getPharmacy().getDistance()) + " mi");
-                            }
+                                if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getDistance() < 0) {
+                                    pharmacyDistance.setVisibility(View.GONE);
+                                } else {
+                                    pharmacyDistance.setVisibility(View.VISIBLE);
+                                    pharmacyDistance.setText(String.valueOf(visitReportDetail.getPharmacy().getDistance()) + " mi");
+                                }
 
-                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {
-                                pharmacyAddress.setVisibility(View.GONE);
-                            } else {
-
-                                pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitReportDetail.getPharmacy()));
+                                if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {
+                                    pharmacyAddress.setVisibility(View.GONE);
+                                } else {
+                                    pharmacyAddress.setVisibility(View.VISIBLE);
+                                    pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitReportDetail.getPharmacy()));
+                                }
                             }
 
                             if (visitReportDetail.getProviderEntries() != null && visitReportDetail.getProviderEntries().getPrescriptions() != null) {
@@ -170,6 +179,8 @@ public class SummaryFragment extends Fragment {
                             }
 
                             updateDoctorImage();
+
+                            getVisitReportAttachment(visitReport);
                         }
                     }
 
@@ -188,7 +199,7 @@ public class SummaryFragment extends Fragment {
     private void getVisitReportAttachment(final VisitReport visitReport) {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            CommonUtil.log(this.getClass().getSimpleName(), "visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
+            Timber.d("visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -201,56 +212,50 @@ public class SummaryFragment extends Fragment {
                         if (sdkError == null) {
 
                             progressBar.setVisibility(View.GONE);
-
-                            Timber.d("file ExternalStorageState = " + Environment.getExternalStorageState());
-                            Timber.d("file Permission = " + CommonUtil.checkExternalStoragePermission(getContext()));
+                            boolean canBeViewed = false;
 
                             try {
-                                if (pdfFile == null) {
-                                    Toast.makeText(getContext(), "Visit report not available. ", Toast.LENGTH_LONG).show();
-                                    viewReport.setEnabled(false);
-                                } else if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                                    Toast.makeText(getContext(), "Storage not available. ", Toast.LENGTH_LONG).show();
-                                    viewReport.setEnabled(false);
-                                } else if (!CommonUtil.checkExternalStoragePermission(getContext())) {
-                                    Toast.makeText(getContext(), "Storage Access permission denied.", Toast.LENGTH_LONG).show();
-                                    viewReport.setEnabled(false);
-                                } else {
-                                    Timber.d("file DownloadCache Directory = " + Environment.getDownloadCacheDirectory());
-                                    Timber.d("file Root Directory = " + Environment.getRootDirectory());
-                                    Timber.d("file Data Directory = " + Environment.getDataDirectory());
-                                    Timber.d("file getExternalStorageDirectory = " + Environment.getExternalStorageDirectory());
+                                if (pdfFile != null) {
 
-                                    /*Timber.d("file ExternalCacheDir = " + getContext().getExternalCacheDir().toString());
-                                    Timber.d("file CacheDir = " + getContext().getCacheDir().toString());
-                                    Timber.d("file DIRECTORY_DOWNLOADS = " + getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString());
-                                    */
-
-                                    String fileNameWithEntirePath = Environment.getExternalStorageDirectory().toString() + File.separator + "Report.pdf";
+                                    String fileNameWithEntirePath = getContext().getExternalCacheDir().toString() + File.separator + "report.pdf";
 
                                     boolean fileSaved = CommonUtil.saveFileToStorage(getContext(), fileNameWithEntirePath, IOUtils.toByteArray(pdfFile.getInputStream()));
 
                                     if (fileSaved) {
-                                        Toast.makeText(getContext(), "Visit report is available. ", Toast.LENGTH_LONG).show();
+                                        File f = new File(fileNameWithEntirePath);
+                                        if (f != null & f.exists()) {
+                                            reportNameWithPath = fileNameWithEntirePath;
+                                            report = f;
+
+                                            canBeViewed = true;
+                                            viewReport.setEnabled(true);
+                                            doctorNotes.setVisibility(View.GONE);
+                                        }
                                     }
-                                    CommonUtil.openPdf(getContext(), fileNameWithEntirePath);
                                 }
 
                             } catch (Exception e) {
                                 Timber.e(e);
+                            }
+
+                            if (!canBeViewed) {
+                                viewReport.setEnabled(false);
+                                Toast.makeText(getContext(), "Visit report not available. ", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
+                        progressBar.setVisibility(View.GONE);
+                        viewReport.setEnabled(false);
+                        doctorNotes.setVisibility(View.VISIBLE);
+                        Toast.makeText(getContext(), "Visit report not available! ", Toast.LENGTH_LONG).show();
+
                         if (throwable != null) {
                             Timber.d("visit. getVisitReportAttachment: " + throwable.getMessage());
                         }
                         Timber.e(throwable);
-                        progressBar.setVisibility(View.GONE);
-
-                        //viewReport.setEnabled(false);
                     }
                 }
         );

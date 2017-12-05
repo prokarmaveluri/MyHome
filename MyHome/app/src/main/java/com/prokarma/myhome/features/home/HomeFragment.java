@@ -339,6 +339,11 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void updateAppointViews() {
+
+        if (!isAdded()) {
+            return;
+        }
+
         ArrayList<Appointment> appointments = ProfileManager.getAppointments();
         appointments = CommonUtil.getFutureAppointments(appointments);
         if (appointments != null && appointments.size() > 0) {

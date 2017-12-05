@@ -40,16 +40,22 @@ public class PrescriptionsAdapter extends RecyclerView.Adapter<RecyclerView.View
             myHolder.prescriptionDesc.setVisibility(View.GONE);
         }
 
-        if (prescription.getQuantity() != null) {
-            myHolder.prescriptionQuantity.setText("Quantity: " + prescription.getQuantity());
-        } else {
-            myHolder.prescriptionQuantity.setVisibility(View.GONE);
-        }
-
         if (prescription.getDosage() != null) {
             myHolder.prescriptionDose.setText("Dosage: " + prescription.getDosage());
         } else {
             myHolder.prescriptionDose.setVisibility(View.GONE);
+        }
+
+        if (prescription.getDuration() != null) {
+            myHolder.prescriptionDuration.setText("Duration: " + prescription.getDuration());
+        } else {
+            myHolder.prescriptionDuration.setVisibility(View.GONE);
+        }
+
+        if (prescription.getFrequency() != null) {
+            myHolder.prescriptionFrequency.setText("Frequency: " + prescription.getFrequency());
+        } else {
+            myHolder.prescriptionFrequency.setVisibility(View.GONE);
         }
 
         if (prescription.getInstructions() != null) {
@@ -70,18 +76,20 @@ public class PrescriptionsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public TextView prescriptionName;
-        public TextView prescriptionDose;
         public TextView prescriptionDesc;
-        public TextView prescriptionQuantity;
+        public TextView prescriptionDose;
+        public TextView prescriptionDuration;
+        public TextView prescriptionFrequency;
         public TextView prescriptionInstructions;
 
         public ViewHolder(final View view) {
             super(view);
             this.view = view;
             prescriptionName = (TextView) view.findViewById(R.id.prescription_name);
-            prescriptionDose = (TextView) view.findViewById(R.id.prescription_dose);
             prescriptionDesc = (TextView) view.findViewById(R.id.prescription_desc);
-            prescriptionQuantity = (TextView) view.findViewById(R.id.prescription_quantity);
+            prescriptionDose = (TextView) view.findViewById(R.id.prescription_dose);
+            prescriptionDuration = (TextView) view.findViewById(R.id.prescription_duration);
+            prescriptionFrequency = (TextView) view.findViewById(R.id.prescription_frequency);
             prescriptionInstructions = (TextView) view.findViewById(R.id.prescription_instructions);
         }
     }

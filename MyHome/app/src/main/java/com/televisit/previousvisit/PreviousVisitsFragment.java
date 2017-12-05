@@ -19,11 +19,11 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
-import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -79,8 +79,6 @@ public class PreviousVisitsFragment extends BaseFragment {
 
         getPreviousVisits();
 
-        //bindList();
-
         progressBar.setVisibility(View.GONE);
         list.setVisibility(View.VISIBLE);
 
@@ -102,8 +100,7 @@ public class PreviousVisitsFragment extends BaseFragment {
                     Bundle bundle = new Bundle();
                     bundle.putInt(VISIT_LIST_POSITION, position);
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY, bundle);
-                }
-                else {
+                } else {
                     Timber.d("PreviousVisits: position out of bounds index. ");
                 }
             }
@@ -116,16 +113,20 @@ public class PreviousVisitsFragment extends BaseFragment {
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-        if (AwsManager.getInstance().getVisitReports() != null && AwsManager.getInstance().getVisitReports().size() > 0) {
-            RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-            list.addItemDecoration(itemDecoration);
+        try {
+            if (AwsManager.getInstance().getVisitReports() != null && AwsManager.getInstance().getVisitReports().size() > 0) {
+                RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+                list.addItemDecoration(itemDecoration);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
         }
     }
 
     private void getPreviousVisits() {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            CommonUtil.log(this.getClass().getSimpleName(), "visits isHasInitializedAwsdk: FALSE ");
+            Timber.d("visits isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -139,9 +140,9 @@ public class PreviousVisitsFragment extends BaseFragment {
         Date dateSince = calendar.getTime();
 
         if (AwsManager.getInstance().getVisitReports() == null || AwsManager.getInstance().getVisitReports().isEmpty()) {
-            CommonUtil.log(this.getClass().getSimpleName(), "visits before: 0 ");
+            Timber.d("visits before: 0 ");
         } else {
-            CommonUtil.log(this.getClass().getSimpleName(), "visits before: " + AwsManager.getInstance().getVisitReports().size());
+            Timber.d("visits before: " + AwsManager.getInstance().getVisitReports().size());
         }
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReports(
@@ -152,28 +153,13 @@ public class PreviousVisitsFragment extends BaseFragment {
                     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
 
                         if (sdkError == null) {
+                            Collections.sort(visitReports, new VisitReportComparator());
                             AwsManager.getInstance().setVisitReports(visitReports);
-
-                            /*CommonUtil.log(this.getClass().getSimpleName(), "visits after: " + AwsManager.getInstance().getVisitReports().size());
-
-                            if (visitReports != null && visitReports.size() > 0) {
-                                for (VisitReport visitReport : visitReports) {
-                                    getVisitReportDetails(visitReport);
-                                }
-                            } else {
-                                HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
-                                map.clear();
-                                AwsManager.getInstance().setVisitReportDetailHashMap(map);
-                            }
-
-                            CommonUtil.log(this.getClass().getSimpleName(), "visits map after: " + AwsManager.getInstance().getVisitReportDetailHashMap().size());
-                            */
-
                             bindList();
                             adapter.notifyDataSetChanged();
                         } else {
-                            CommonUtil.log(this.getClass().getSimpleName(), "visits. sdkError not NULL. getMessage = " + sdkError.getMessage());
-                            CommonUtil.log(this.getClass().getSimpleName(), "visits. sdkError not NULL. getSDKErrorReason = " + sdkError.getSDKErrorReason());
+                            Timber.d("visits. sdkError not NULL. getMessage = " + sdkError.getMessage());
+                            Timber.d("visits. sdkError not NULL. getSDKErrorReason = " + sdkError.getSDKErrorReason());
                         }
 
                         reqCount--;
@@ -185,7 +171,7 @@ public class PreviousVisitsFragment extends BaseFragment {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        CommonUtil.log(this.getClass().getSimpleName(), "visits. onFailure. getMessage = " + throwable.getMessage());
+                        Timber.d("visits. onFailure. getMessage = " + throwable.getMessage());
                         reqCount--;
                         if (reqCount == 0) {
                             progressBar.setVisibility(View.GONE);

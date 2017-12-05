@@ -170,7 +170,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
         switch (Id) {
             case R.id.personal_info_edit:
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PROFILE_VIEW, null);
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROFILE, null);
                 break;
             case R.id.medical_history_edit:
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_MED_HISTORY, null);
@@ -278,34 +278,57 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         if (isAdded()) {
 
             if ((conditions != null && !conditions.isEmpty()) || (allergies != null && !allergies.isEmpty())) {
+
                 StringBuilder medicalHistory = new StringBuilder();
 
-                for (int i = 0; i < conditions.size(); i++) {
-                    medicalHistory.append(conditions.get(i).getName());
+                if (conditions != null && !conditions.isEmpty()) {
+                    for (int i = 0; i < conditions.size(); i++) {
+                        medicalHistory.append(conditions.get(i).getName());
 
-                    if (i < conditions.size() - 1) {
-                        medicalHistory.append(", ");
+                        if (i < conditions.size() - 1) {
+                            medicalHistory.append(", ");
+                        }
                     }
                 }
-
-                if (medicalHistory.length() > 0 && !allergies.isEmpty()) {
-                    medicalHistory.append("\n" + getContext().getResources().getString(R.string.allergic_to));
+                else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
+                    medicalHistory.append(getContext().getResources().getString(R.string.no_conditions));
+                }
+                else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+                    medicalHistory.append(getContext().getResources().getString(R.string.complete_your_medical_conditions));
                 }
 
-                for (int i = 0; i < allergies.size(); i++) {
-                    medicalHistory.append(allergies.get(i).getName());
+                if (allergies != null && !allergies.isEmpty()) {
 
-                    if (i < allergies.size() - 1) {
-                        medicalHistory.append(", ");
+                    if (medicalHistory.length() > 0) {
+                        medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.allergic_to));
                     }
+                    for (int i = 0; i < allergies.size(); i++) {
+                        medicalHistory.append(allergies.get(i).getName());
+
+                        if (i < allergies.size() - 1) {
+                            medicalHistory.append(", ");
+                        }
+                    }
+                }
+                else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
+                    medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.no_allergies));
+                }
+                else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+                    medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.complete_your_medical_allergies));
                 }
 
                 historyDesc.setText(medicalHistory.toString());
 
-            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT || AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE
+                    && AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
+
+                historyDesc.setText(getContext().getResources().getString(R.string.no_conditions)
+                        + "\n" + getContext().getResources().getString(R.string.no_allergies));
+
+            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT
+                    && AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+
                 historyDesc.setText(getString(R.string.complete_your_medical_history));
-            } else {
-                historyDesc.setText(getString(R.string.complete_your_medical_history));  //no_medical_complications_listed));
             }
         }
     }
@@ -357,7 +380,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     public void initializationComplete() {
         if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
             //Dev
-            AwsNetworkManager.getInstance().getUsersAuthentication("cmajji@mailinator.com", "Pass123*", this);
+            AwsNetworkManager.getInstance().getUsersAuthentication("jj@prokarma.com", "Pass123*", this);
         } else {
             //IoT
             AwsNetworkManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);

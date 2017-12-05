@@ -9,17 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.visit.VisitReport;
-import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.DateUtil;
-import com.televisit.AwsManager;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
@@ -68,25 +64,17 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 try {
                     if (visitReport.getDate() != null && visitReport.getDate().isValidDate()) {
-                        //"yyyy-MM-dd"
                         String stringDate = visitReport.getDate().getYear() + "-" + visitReport.getDate().getMonth() + "-" + visitReport.getDate().getDay();
-                        Date visitDate = DateUtil.getDateFromHyphens(stringDate);
-                        holder.date.setText(DateUtil.convertDateToReadable(visitDate));
+                        holder.date.setText(DateUtil.convertDateToReadableShort(DateUtil.getDateFromHyphens(stringDate)));
                     }
-                } catch(ParseException e) {
+                } catch (ParseException e) {
                     Timber.e(e);
                     e.printStackTrace();
                 }
 
-                //hardcoding for now.
+                //hardcoding for now, as per directions got
                 holder.amount.setText("$ 0.00");
                 holder.text.setText("I cut my hand on a peice of glass");
-
-                /*HashMap<VisitReport, VisitReportDetail> map = AwsManager.getInstance().getVisitReportDetailHashMap();
-                if (map != null && map.get(visitReport) != null) {
-                    holder.amount.setText("$ " + amountFormat.format(map.get(visitReport).getPaymentAmount()));
-                    holder.text.setText(map.get(visitReport).getTitle());
-                }*/
 
                 holder.viewLink.setTag(position);
                 holder.viewLink.setOnClickListener(new View.OnClickListener() {

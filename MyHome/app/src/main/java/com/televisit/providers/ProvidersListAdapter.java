@@ -75,7 +75,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
 
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(providerInfo, binding.providerImage, ProviderImageSize.EXTRA_EXTRA_LARGE)
-                    .placeholder(ContextCompat.getDrawable(context, R.drawable.img_provider_photo_placeholder))
+                    .placeholder(ContextCompat.getDrawable(context, R.mipmap.img_provider_photo_placeholder))
                     .build()
                     .load();
 
