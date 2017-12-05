@@ -256,7 +256,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         }
 
         if (consumer.getDob() != null) {
-            //dateOfBirth.setText(DateUtil.convertUTCtoReadable(consumer.getDob()));
+            dateOfBirth.setText(DateUtil.convertDobtoReadable(consumer.getDob()));
         }
 
         if (consumer.getAddress() != null && consumer.getAddress().getAddress1() != null) {

@@ -1,7 +1,9 @@
 package com.prokarma.myhome.utils;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.americanwell.sdk.entity.SDKLocalDate;
 import com.prokarma.myhome.features.fad.Appointment;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
@@ -705,6 +707,15 @@ public class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
+    }
+
+    public static String convertDobtoReadable(@NonNull final SDKLocalDate dobDate){
+        Calendar calendar = Calendar.getInstance();
+
+        //TODO Kevin, do we hace to subtract one from month?
+        calendar.set(dobDate.getYear(), dobDate.getMonth(), dobDate.getDay());
 
         return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
     }
