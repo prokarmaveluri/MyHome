@@ -23,7 +23,6 @@ import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
-import com.prokarma.myhome.features.profile.Profile;
 import com.televisit.interfaces.AwsCancelVideoVisit;
 import com.televisit.interfaces.AwsConsumer;
 import com.televisit.interfaces.AwsGetAllergies;
@@ -658,7 +657,7 @@ public class AwsNetworkManager {
         );
     }
 
-    public void updateProfile(@NonNull final Profile consumerUpdate, @Nullable final AwsUpdateConsumer awsUpdateConsumer) {
+    public void updateConsumer(@NonNull final ConsumerUpdate consumerUpdate, @Nullable final AwsUpdateConsumer awsUpdateConsumer) {
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumer((ConsumerUpdate) consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {

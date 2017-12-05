@@ -17,11 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
-import com.prokarma.myhome.features.profile.Address;
-import com.prokarma.myhome.features.profile.InsuranceProvider;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
@@ -31,6 +31,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
+import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateConsumer;
 
@@ -45,6 +46,8 @@ import timber.log.Timber;
 
 public class MyCareProfileFragment extends BaseFragment implements AwsUpdateConsumer {
     public static final String MY_PROFILE_TAG = "my_profile_tag";
+
+    private Consumer patient;
 
     View profileView;
     TextInputLayout firstNameLayout;
@@ -83,6 +86,8 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.my_profile, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.my_personal_information));
+
+        patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
 
         firstNameLayout = (TextInputLayout) profileView.findViewById(R.id.first_name_layout);
         firstName = (TextInputEditText) profileView.findViewById(R.id.first_name);
@@ -129,7 +134,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             getProfileInfo(AuthManager.getInstance().getBearerToken());
         } else {
             Timber.i("Already have a Profile Singleton. Updating the view...");
-            updateProfileViews(ProfileManager.getProfile());
+            updateConsumerViews(ProfileManager.getProfile());
         }
 
         setHasOptionsMenu(true);
@@ -152,9 +157,8 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
             case R.id.save_profile:
                 CommonUtil.hideSoftKeyboard(getActivity());
-                if (isValidProfile()) {
-                    Profile currentProfile = ProfileManager.getProfile();
-                    sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
+                if (isValidConsumer()) {
+                    sendUpdatedConsumer();
                 }
                 break;
         }
@@ -171,7 +175,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
                         ProfileManager.setProfile(response.body().getData().getUser());
-                        updateProfileViews(response.body().getData().getUser());
+                        updateConsumerViews(response.body().getData().getUser());
                     } else {
                         Timber.e("Response, but not successful?\n" + response);
                     }
@@ -189,10 +193,82 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         });
     }
 
-    private void sendUpdatedProfile(String bearer, Profile updatedProfile) {
+    private void sendUpdatedConsumer() {
         progress.setVisibility(View.VISIBLE);
 
-        AwsNetworkManager.getInstance().updateProfile(updatedProfile, this);
+        ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(patient);
+
+        //TODO change this once login actually works
+        if(BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")){
+            update.setEmail("jj@prokarma.com");
+            update.setPassword("Pass123*");
+        } else {
+            update.setEmail("jjjj@pk.com");
+            update.setPassword("Password1");
+        }
+
+        //Comment this back in once login works
+        //update.setEmail(email.getText().toString().trim());
+
+        update.setFirstName(firstName.getText().toString().trim());
+        update.setLastName(lastName.getText().toString().trim());
+        update.setGender(gender.getSelectedItem().toString().trim());
+        update.setPhone(CommonUtil.stripPhoneNumber(phone.getText().toString().trim()));
+
+        com.americanwell.sdk.entity.Address userAddress = AwsManager.getInstance().getAWSDK().getNewAddress();
+
+        if (address.getText() != null) {
+            userAddress.setAddress1(address.getText().toString());
+        }
+
+        if (address2.getText() != null) {
+            userAddress.setAddress2(address2.getText().toString());
+        }
+
+        if (city.getText() != null) {
+            userAddress.setCity(city.getText().toString());
+        }
+
+        if (state.getSelectedItemPosition() != 0) {
+            userAddress.setState(AwsManager.getInstance().getState(state.getSelectedItem().toString()));
+        }
+
+        if (zip.getText() != null) {
+            userAddress.setZipCode(zip.getText().toString());
+        }
+
+        update.setAddress(userAddress);
+
+//        if (!TextUtils.isEmpty(address1)
+//                || !TextUtils.isEmpty(address2)
+//                || !TextUtils.isEmpty(city)
+//                || state != null
+//                || !TextUtils.isEmpty(zipcode)) {
+//
+//            userAddress.setAddress1(address.getText().toString());
+//            userAddress.setAddress2(address2.getText().toString());
+//            userAddress.setCity(city.getText().toString());
+//            userAddress.setState(state.getSelectedItem().toString());
+//            // not needed as Country is tied to State, but adding for clarity
+//            //userAddress.setCountry(country);
+//            userAddress.setZipCode(zip.getText().toString());
+//        }
+//
+//        if (consumer.getAddress() != null &&
+//                address != null &&
+//                !consumer.getAddress().equals(address)) {
+//            consumerUpdate.setAddress(address);
+//        }
+//
+//        if (consumer.getLegalResidence() != null &&
+//                stateResidence != null &&
+//                !consumer.getLegalResidence().equals(stateResidence)) {
+//            consumerUpdate.setLegalResidence(stateResidence);
+//        }
+
+        AwsManager.getInstance().getAWSDK().getNewAddress();
+
+        AwsNetworkManager.getInstance().updateConsumer(update, this);
     }
 
     /**
@@ -200,7 +276,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
      *
      * @param profile the profile that we're using to autopopulate the EditTexts
      */
-    private void updateProfileViews(Profile profile) {
+    private void updateConsumerViews(Profile profile) {
         if (profile.firstName != null) {
             firstName.setText(profile.firstName);
         }
@@ -269,7 +345,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         }
     }
 
-    private boolean isValidProfile() {
+    private boolean isValidConsumer() {
         boolean isValid = true;
 
         if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().trim().isEmpty()) {
@@ -313,71 +389,6 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         return isValid;
     }
 
-    /**
-     * Grabs values from EditTexts and updates the current profile with said values
-     *
-     * @param currentProfile the current profile so far (before looking at the EditTexts)
-     * @return the profile with updated information according to the EditTexts
-     */
-    private Profile getProfileValues(Profile currentProfile) {
-        Profile profile = currentProfile;
-
-        if (profile.address == null) {
-            profile.address = new Address();
-        }
-
-        if (profile.insuranceProvider == null) {
-            profile.insuranceProvider = new InsuranceProvider();
-        }
-
-        if (firstName.getText() != null) {
-            profile.firstName = firstName.getText().toString().trim();
-        }
-
-        if (lastName.getText() != null) {
-            profile.lastName = lastName.getText().toString().trim();
-        }
-
-        if (preferredName.getText() != null) {
-            profile.preferredName = preferredName.getText().toString().trim();
-        }
-
-        if (gender.getSelectedItemPosition() != 0) {
-            profile.gender = gender.getSelectedItem().toString().trim();
-        }
-
-        if (dateOfBirth.getText() != null && !dateOfBirth.getText().toString().trim().isEmpty()) {
-            profile.dateOfBirth = DateUtil.convertReadableToUTC(dateOfBirth.getText().toString().trim());
-        }
-
-        if (address.getText() != null) {
-            profile.address.line1 = address.getText().toString().trim();
-        }
-
-        if (address2.getText() != null) {
-            profile.address.line2 = address2.getText().toString().trim();
-        }
-
-        if (city.getText() != null) {
-            profile.address.city = city.getText().toString().trim();
-        }
-
-        if (state.getSelectedItemPosition() != 0) {
-            profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
-        }
-
-        if (zip.getText() != null) {
-            profile.address.zipCode = zip.getText().toString().trim();
-        }
-
-        //Make sure to strip phone number of any non-digits
-        if (phone.getText() != null) {
-            profile.phoneNumber = CommonUtil.stripPhoneNumber(phone.getText().toString().trim());
-        }
-
-        return profile;
-    }
-
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.MY_CARE_PROFILE;
@@ -392,5 +403,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     @Override
     public void updateConsumerFailed(String errorMessage) {
         Timber.e(errorMessage);
+        Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+        getActivity().onBackPressed();
     }
 }
