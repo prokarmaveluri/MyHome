@@ -380,7 +380,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     public void initializationComplete() {
         if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
             //Dev
-            AwsNetworkManager.getInstance().getUsersAuthentication("cmajji@mailinator.com", "Pass123*", this);
+            AwsNetworkManager.getInstance().getUsersAuthentication("jj@prokarma.com", "Pass123*", this);
         } else {
             //IoT
             AwsNetworkManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
