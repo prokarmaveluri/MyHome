@@ -157,20 +157,18 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
         //TODO change this once login actually works
         if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
-            update.setEmail("jj@prokarma.com");
             update.setPassword("Pass123*");
         } else {
-            update.setEmail("jjjj@pk.com");
             update.setPassword("Password1");
         }
 
         //Comment this back in once login works
-        //update.setEmail(email.getText().toString().trim());
-
+        update.setEmail(email.getText().toString().trim());
         update.setFirstName(firstName.getText().toString().trim());
         update.setLastName(lastName.getText().toString().trim());
         update.setGender(gender.getSelectedItem().toString().trim());
         update.setPhone(CommonUtil.stripPhoneNumber(phone.getText().toString().trim()));
+        update.setDob(DateUtil.convertReadabletoDob(dateOfBirth.getText().toString().trim()));
 
         com.americanwell.sdk.entity.Address userAddress = AwsManager.getInstance().getAWSDK().getNewAddress();
 
@@ -349,6 +347,14 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
     @Override
     public void updateConsumerComplete(Consumer consumer) {
+        if(AwsManager.getInstance().getDependent() == null){
+            //You probably updated yourself since no dependents were selectable
+            AwsManager.getInstance().setConsumer(consumer);
+        } else {
+            //You probably updated your dependent
+            AwsManager.getInstance().setDependent(consumer);
+        }
+
         Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
         getActivity().onBackPressed();
     }
