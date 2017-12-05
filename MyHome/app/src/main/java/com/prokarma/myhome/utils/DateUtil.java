@@ -713,9 +713,7 @@ public class DateUtil {
 
     public static String convertDobtoReadable(@NonNull final SDKLocalDate dobDate) {
         Calendar calendar = Calendar.getInstance();
-
-        //TODO Kevin, do we hace to subtract one from month?
-        calendar.set(dobDate.getYear(), dobDate.getMonth(), dobDate.getDay());
+        calendar.set(dobDate.getYear(), dobDate.getMonth() - 1, dobDate.getDay());
 
         return SIMPLE_DATE_SLASH_FORMAT.format(calendar.getTime());
     }
@@ -728,7 +726,6 @@ public class DateUtil {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
 
-            //TODO Kevin, do we have to add a one to the month here
             SDKLocalDate dob = new SDKLocalDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
             return dob;
         } catch (ParseException e) {
