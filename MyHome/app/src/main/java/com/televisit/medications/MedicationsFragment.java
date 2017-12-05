@@ -25,6 +25,7 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.MedicationRecyclerViewListener;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -83,7 +84,13 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle(getString(R.string.medications));
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.medications));
+            ((NavigationActivity) getActivity()).setActionBarLineVisibility(false);
+        } else {
+            getActivity().setTitle(getString(R.string.medications));
+        }
+
         View view = inflater.inflate(R.layout.fragment_medications, container, false);
 
         searchQuery = (EditText) view.findViewById(R.id.searchQuery);
