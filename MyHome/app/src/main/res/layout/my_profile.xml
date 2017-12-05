@@ -69,29 +69,6 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/preferred_name_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:errorTextAppearance="@style/error_appearance"
-                app:hintTextAppearance="@style/hint_appearance">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/preferred_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "
-                    android:ellipsize="end"
-                    android:hint="@string/preferred_name"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapWords"
-                    android:maxLength="35"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
             <TextView
                 android:id="@+id/gender_label"
                 style="@style/tradeGothicLTStdLight_14"

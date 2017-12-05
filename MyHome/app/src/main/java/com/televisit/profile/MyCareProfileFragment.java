@@ -22,11 +22,6 @@ import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
-import com.prokarma.myhome.features.profile.Profile;
-import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
-import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.networking.NetworkManager;
-import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
@@ -35,9 +30,6 @@ import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateConsumer;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import timber.log.Timber;
 
 /**
@@ -54,7 +46,6 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     TextInputEditText firstName;
     TextInputLayout lastNameLayout;
     TextInputEditText lastName;
-    TextInputEditText preferredName;
     Spinner gender;
     TextInputLayout dateOfBirthLayout;
     TextInputEditText dateOfBirth;
@@ -93,7 +84,6 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         firstName = (TextInputEditText) profileView.findViewById(R.id.first_name);
         lastNameLayout = (TextInputLayout) profileView.findViewById(R.id.last_name_layout);
         lastName = (TextInputEditText) profileView.findViewById(R.id.last_name);
-        preferredName = (TextInputEditText) profileView.findViewById(R.id.preferred_name);
         genderLabel = (TextView) profileView.findViewById(R.id.gender_label);
         gender = (Spinner) profileView.findViewById(R.id.gender);
         dateOfBirthLayout = (TextInputLayout) profileView.findViewById(R.id.dob_layout);
@@ -129,13 +119,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             }
         });
 
-        if (ProfileManager.getProfile() == null) {
-            Timber.i("Don't have a saved Profile. Retrieving profile now...");
-            getProfileInfo(AuthManager.getInstance().getBearerToken());
-        } else {
-            Timber.i("Already have a Profile Singleton. Updating the view...");
-            updateConsumerViews(ProfileManager.getProfile());
-        }
+        updateConsumerViews(patient);
 
         setHasOptionsMenu(true);
         return profileView;
@@ -166,40 +150,13 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         return super.onOptionsItemSelected(item);
     }
 
-    private void getProfileInfo(String bearer) {
-        progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileGraphqlResponse>() {
-            @Override
-            public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
-                if (isAdded()) {
-                    if (response.isSuccessful()) {
-                        Timber.d("Successful Response\n" + response);
-                        ProfileManager.setProfile(response.body().getData().getUser());
-                        updateConsumerViews(response.body().getData().getUser());
-                    } else {
-                        Timber.e("Response, but not successful?\n" + response);
-                    }
-                    progress.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
-                if (isAdded()) {
-                    Timber.e("Something failed! :/");
-                    progress.setVisibility(View.GONE);
-                }
-            }
-        });
-    }
-
     private void sendUpdatedConsumer() {
         progress.setVisibility(View.VISIBLE);
 
         ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(patient);
 
         //TODO change this once login actually works
-        if(BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")){
+        if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
             update.setEmail("jj@prokarma.com");
             update.setPassword("Pass123*");
         } else {
@@ -272,28 +229,24 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     }
 
     /**
-     * Updates the view on screen to have the proper profile values autopopulated
+     * Updates the view on screen to have the proper consumer values autopopulated
      *
-     * @param profile the profile that we're using to autopopulate the EditTexts
+     * @param consumer the consumer that we're using to autopopulate the EditTexts
      */
-    private void updateConsumerViews(Profile profile) {
-        if (profile.firstName != null) {
-            firstName.setText(profile.firstName);
+    private void updateConsumerViews(Consumer consumer) {
+        if (consumer.getFirstName() != null) {
+            firstName.setText(consumer.getFirstName());
         }
 
-        if (profile.lastName != null) {
-            lastName.setText(profile.lastName);
+        if (consumer.getLastName() != null) {
+            lastName.setText(consumer.getLastName());
         }
 
-        if (profile.preferredName != null) {
-            preferredName.setText(profile.preferredName);
-        }
-
-        if (profile.gender != null) {
+        if (consumer.getGender() != null) {
 
             //Loop through genders until we find a match, then set gender spinner selection
             for (int i = 0; i < gender.getAdapter().getCount(); i++) {
-                if (profile.gender.equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
+                if (consumer.getGender().equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
                     gender.setSelection(i);
                     break;
                 }
@@ -302,27 +255,27 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             gender.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (profile.dateOfBirth != null) {
-            dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
+        if (consumer.getDob() != null) {
+            //dateOfBirth.setText(DateUtil.convertUTCtoReadable(consumer.getDob()));
         }
 
-        if (profile.address != null && profile.address.line1 != null) {
-            address.setText(profile.address.line1);
+        if (consumer.getAddress() != null && consumer.getAddress().getAddress1() != null) {
+            address.setText(consumer.getAddress().getAddress1());
         }
 
-        if (profile.address != null && profile.address.line2 != null) {
-            address2.setText(profile.address.line2);
+        if (consumer.getAddress() != null && consumer.getAddress().getAddress2() != null) {
+            address2.setText(consumer.getAddress().getAddress2());
         }
 
-        if (profile.address != null && profile.address.city != null) {
-            city.setText(profile.address.city);
+        if (consumer.getAddress() != null && consumer.getAddress().getCity() != null) {
+            city.setText(consumer.getAddress().getCity());
         }
 
-        if (profile.address != null && profile.address.stateOrProvince != null) {
+        if (consumer.getAddress() != null && consumer.getAddress().getState() != null) {
 
             //Loop through states until we find a match, then set state spinner selection
             for (int i = 0; i < state.getAdapter().getCount(); i++) {
-                if (profile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
+                if (consumer.getAddress().getState().getName().equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
                     state.setSelection(i);
                     break;
                 }
@@ -331,17 +284,17 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             state.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (profile.address != null && profile.address.zipCode != null && profile.address.zipCode.trim().length() > 0) {
-            zip.setText(profile.address.zipCode.trim());
+        if (consumer.getAddress() != null && consumer.getAddress().getZipCode() != null) {
+            zip.setText(consumer.getAddress().getZipCode().trim());
         }
 
-        if (profile.phoneNumber != null) {
+        if (consumer.getPhone() != null) {
             //phone.setText(profile.phoneNumber.replaceAll("\\.", "-"));
-            phone.setText(CommonUtil.constructPhoneNumberDots(profile.phoneNumber));
+            phone.setText(CommonUtil.constructPhoneNumberDots(consumer.getPhone()));
         }
 
-        if (profile.email != null) {
-            email.setText(profile.email);
+        if (consumer.getEmail() != null) {
+            email.setText(consumer.getEmail());
         }
     }
 
