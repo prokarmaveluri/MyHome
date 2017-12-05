@@ -79,8 +79,8 @@ public class PreviousVisitsFragment extends BaseFragment {
 
         getPreviousVisits();
 
-        progressBar.setVisibility(View.GONE);
-        list.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        list.setVisibility(View.GONE);
 
         setHasOptionsMenu(false);
         return view;
@@ -126,6 +126,7 @@ public class PreviousVisitsFragment extends BaseFragment {
     private void getPreviousVisits() {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            progressBar.setVisibility(View.GONE);
             Timber.d("visits isHasInitializedAwsdk: FALSE ");
             return;
         }

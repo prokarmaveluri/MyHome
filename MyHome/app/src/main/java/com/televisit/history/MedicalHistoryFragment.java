@@ -206,6 +206,11 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
     private void getConditions() {
 
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            Timber.d("MH. getConditions. isHasInitializedAwsdk: FALSE ");
+            return;
+        }
+
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
@@ -241,6 +246,11 @@ public class MedicalHistoryFragment extends BaseFragment implements
     }
 
     private void getAllergies() {
+
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            Timber.d("MH. getAllergies. isHasInitializedAwsdk: FALSE ");
+            return;
+        }
 
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);

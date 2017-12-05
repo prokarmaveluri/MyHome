@@ -143,6 +143,8 @@ public class SummaryFragment extends Fragment {
             return;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
+
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReportDetail(
                 AwsManager.getInstance().getConsumer(),
                 visitReport,
@@ -152,7 +154,6 @@ public class SummaryFragment extends Fragment {
                         if (sdkError == null) {
 
                             visitReportDetail = detail;
-                            progressBar.setVisibility(View.GONE);
 
                             providerName.setText(visitReport.getProviderName());
                             costDesc.setText(getString(R.string.visit_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
@@ -193,6 +194,8 @@ public class SummaryFragment extends Fragment {
                             updateDoctorImage();
 
                             getVisitReportAttachment(visitReport);
+
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
 
@@ -214,6 +217,9 @@ public class SummaryFragment extends Fragment {
             Timber.d("visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
+
+
+        progressBar.setVisibility(View.VISIBLE);
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReportAttachment(
                 AwsManager.getInstance().getConsumer(),
