@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -30,6 +31,7 @@ import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+import com.televisit.history.HistoryListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +106,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         noMedicationsCheckbox.setChecked(AwsManager.getInstance().isHasMedicationsFilledOut());
 
         searchQuery.addTextChangedListener(this);
+        searchCancelClickEvent();
         noMedicationsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -295,4 +298,31 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.MY_MEDICATIONS;
     }
+
+    private void searchCancelClickEvent() {
+        searchQuery.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                    if ((int) event.getRawX() >= (searchQuery.getRight() -
+                            searchQuery.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                        searchQuery.setText("");
+
+                        searchLayout.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        setMedicationsAdapter(AwsManager.getInstance().getMedications());
+
+                        CommonUtil.hideSoftKeyboard(getActivity());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
 }

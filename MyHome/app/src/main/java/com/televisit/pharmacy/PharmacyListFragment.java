@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -78,10 +79,13 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         View view = inflater.inflate(R.layout.fragment_pharmacy_list, container, false);
 
         NavigationActivity.eventBus.register(this);
-        pharmacySearch = (EditText) view.findViewById(R.id.pharmacySearch);
         pharmacyList = (RecyclerView) view.findViewById(R.id.pharmacyList);
         progressBar = (ProgressBar) view.findViewById(R.id.search_progress);
+
+        pharmacySearch = (EditText) view.findViewById(R.id.pharmacySearch);
         pharmacySearch.setOnEditorActionListener(this);
+        searchCancelClickEvent();
+
         setListAdapter(AwsManager.getInstance().getPharmacies());
         return view;
     }
@@ -90,6 +94,29 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     public void onStop() {
         super.onStop();
         CommonUtil.hideSoftKeyboard(getActivity());
+    }
+
+    private void searchCancelClickEvent() {
+        pharmacySearch.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                    if ((int) event.getRawX() >= (pharmacySearch.getRight() -
+                            pharmacySearch.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                        pharmacySearch.setText("");
+
+                        CommonUtil.hideSoftKeyboard(getActivity());
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private void getPharmaciesByZip(String zipCode) {
