@@ -183,7 +183,7 @@
     <!--Booking Flow-->
     <string name="provider_list">Providers List</string>
     <string name="recent_providers">Recent Providers</string>
-    <string name="fav_providers">My Saved Doctors</string>
+    <string name="fav_providers">Saved Doctors</string>
     <string name="do_you_need_standing_assistance">Do you need standing assistance?</string>
     <string name="insurance_phone_number">Insurance Phone Number</string>
     <string name="do_you_need_a_translator">Do you need a translator?</string>
@@ -397,6 +397,7 @@
     <!-- Visit Cost -->
     <string name="visit_cost_coupon_code">Coupon Code</string>
     <string name="visit_cost_apply">Apply</string>
+    <string name="payment">Payment</string>
 
     <!-- Payment Information -->
 
@@ -426,10 +427,12 @@
     <string name="mycare_desc">Video visits are a convenient way to get immediate care and questions answered.</string>
     <string name="get_started">Get Started</string>
     <string name="personal_information">Personal Information</string>
-    <string name="my_personal_information">My Personal Information</string>
+    <string name="my_personal_information">Personal Information</string>
     <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
     <string name="medical_history">Medical History</string>
     <string name="complete_your_medical_history">Complete your medical history.</string>
+    <string name="complete_your_medical_conditions">Complete your conditions</string>
+    <string name="complete_your_medical_allergies">Complete your allergies</string>
     <string name="no_medical_complications_listed">You have no medical complications</string>
     <string name="medications">Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
@@ -439,7 +442,7 @@
     <string name="feedback">Feedback</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
     <string name="mycare_now">My Care Now</string>
-    <string name="med_history">My Medical History</string>
+    <string name="med_history">Medical History</string>
     <string name="pharmacy_search_hint">Search Zip Code</string>
 
     <string name="history_desc">Tell me a little more about yourself so I can help you get proper care.\n\nWhat is your medical history?\nCheck all that you apply.</string>

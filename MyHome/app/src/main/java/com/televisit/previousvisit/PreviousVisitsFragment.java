@@ -79,8 +79,6 @@ public class PreviousVisitsFragment extends BaseFragment {
 
         getPreviousVisits();
 
-        //bindList();
-
         progressBar.setVisibility(View.GONE);
         list.setVisibility(View.VISIBLE);
 
@@ -115,9 +113,13 @@ public class PreviousVisitsFragment extends BaseFragment {
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-        if (AwsManager.getInstance().getVisitReports() != null && AwsManager.getInstance().getVisitReports().size() > 0) {
-            RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-            list.addItemDecoration(itemDecoration);
+        try {
+            if (AwsManager.getInstance().getVisitReports() != null && AwsManager.getInstance().getVisitReports().size() > 0) {
+                RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+                list.addItemDecoration(itemDecoration);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
         }
     }
 

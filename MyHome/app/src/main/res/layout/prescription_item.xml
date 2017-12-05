@@ -18,7 +18,7 @@
         tools:text="Prescription: " />
 
     <TextView
-        android:id="@+id/prescription_dose"
+        android:id="@+id/prescription_desc"
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,10 +26,21 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
+        tools:text="Description: " />
+
+    <TextView
+        android:id="@+id/prescription_dose"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prescription_desc"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
         tools:text="Dosage: " />
 
     <TextView
-        android:id="@+id/prescription_desc"
+        android:id="@+id/prescription_duration"
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,14 +48,14 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
-        tools:text="Description: " />
+        tools:text="Dosage: " />
 
     <TextView
-        android:id="@+id/prescription_quantity"
+        android:id="@+id/prescription_frequency"
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/prescription_desc"
+        android:layout_below="@+id/prescription_duration"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
@@ -55,7 +66,7 @@
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/prescription_quantity"
+        android:layout_below="@+id/prescription_frequency"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"

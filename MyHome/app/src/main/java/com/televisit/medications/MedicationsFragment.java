@@ -257,8 +257,8 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     @Override
     public void afterTextChanged(Editable s) {
         searchSuggestions.setVisibility(View.GONE);
-        if (s.toString().length() > 1) {
-            searchMedications(s.toString());
+        if (s.toString().trim().length() > 0) {
+            searchMedications(s.toString().trim());
         }
     }
 

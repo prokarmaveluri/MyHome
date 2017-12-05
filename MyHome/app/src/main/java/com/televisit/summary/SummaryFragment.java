@@ -125,8 +125,8 @@ public class SummaryFragment extends Fragment {
             // preferred method for loading image
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(visitReportDetail.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
-                    .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.img_provider_photo_placeholder))
-                    .error(ContextCompat.getDrawable(getContext(), R.drawable.img_provider_photo_placeholder))
+                    .placeholder(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
+                    .error(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .build()
                     .load();
         }
@@ -153,10 +153,7 @@ public class SummaryFragment extends Fragment {
                             providerName.setText(visitReport.getProviderName());
                             costDesc.setText(getString(R.string.visit_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
 
-                            if (visitReportDetail.getPharmacy() == null
-                                    || !visitReportDetail.getPharmacy().isActive()
-                                    || visitReportDetail.getPharmacy().getName() == null
-                                    || visitReportDetail.getPharmacy().getName().toLowerCase().contains("mail order")) {
+                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() == null) {
                                 pharmacyName.setVisibility(View.GONE);
                             } else {
                                 pharmacyName.setVisibility(View.VISIBLE);

@@ -33,6 +33,7 @@
                 <TextView
                     android:id="@+id/provider_name"
                     style="@style/tradeGothicLTStdLight_20"
+                    android:paddingLeft="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -46,6 +47,7 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
                 android:text="@string/your_visit_has_ended" />

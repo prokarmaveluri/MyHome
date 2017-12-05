@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prokarma.myhome.utils.ApiErrorUtil;
+import com.prokarma.myhome.utils.CommonUtil;
+
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 4/27/17.
@@ -32,6 +35,11 @@ public abstract class BaseFragment extends Fragment implements BaseInterface {
     @Override
     public void onDestroyView() {
         ApiErrorUtil.getInstance().clearErrorMessage();
+        try {
+            CommonUtil.hideSoftKeyboard(getActivity());
+        } catch (Exception ex) {
+            Timber.w(ex);
+        }
         super.onDestroyView();
     }
 }
