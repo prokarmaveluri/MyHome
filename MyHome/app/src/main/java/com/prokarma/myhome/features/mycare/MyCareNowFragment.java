@@ -291,7 +291,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                     }
                 }
                 else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
-                    medicalHistory.append("\n" + getContext().getResources().getString(R.string.no_conditions));
+                    medicalHistory.append(getContext().getResources().getString(R.string.no_conditions));
                 }
                 else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
                     medicalHistory.append(getContext().getResources().getString(R.string.complete_your_medical_conditions));
@@ -300,7 +300,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 if (allergies != null && !allergies.isEmpty()) {
 
                     if (medicalHistory.length() > 0) {
-                        medicalHistory.append("\n" + getContext().getResources().getString(R.string.allergic_to));
+                        medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.allergic_to));
                     }
                     for (int i = 0; i < allergies.size(); i++) {
                         medicalHistory.append(allergies.get(i).getName());
@@ -311,10 +311,10 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                     }
                 }
                 else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
-                    medicalHistory.append("\n" + getContext().getResources().getString(R.string.no_allergies));
+                    medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.no_allergies));
                 }
                 else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
-                    medicalHistory.append("\n" + getContext().getResources().getString(R.string.complete_your_medical_allergies));
+                    medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.complete_your_medical_allergies));
                 }
 
                 historyDesc.setText(medicalHistory.toString());

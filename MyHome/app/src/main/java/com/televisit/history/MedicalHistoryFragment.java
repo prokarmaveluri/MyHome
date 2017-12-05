@@ -188,18 +188,20 @@ public class MedicalHistoryFragment extends BaseFragment implements
             listAllergies = AwsManager.getInstance().getAllergies();
         }
 
-        if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == selectedGroup.getValue()) {
-            Timber.d("MH. adapter. conditions size = " + listConditions.size());
-        } else {
-            Timber.d("MH. adapter. allergies size = " + listAllergies.size());
-        }
-
         adapter = new HistoryListAdapter(getActivity(), isSearchResults, selectedGroup,
                 listConditions,
                 listAllergies, this);
 
         expandableList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+        if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == selectedGroup.getValue()) {
+            expandableList.setIndexBarVisibility(true);
+            Timber.d("MH. adapter. conditions size = " + listConditions.size());
+        } else {
+            expandableList.setIndexBarVisibility(false);
+            Timber.d("MH. adapter. allergies size = " + listAllergies.size());
+        }
     }
 
     private void getConditions() {
