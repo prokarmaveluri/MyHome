@@ -397,6 +397,7 @@
     <!-- Visit Cost -->
     <string name="visit_cost_coupon_code">Coupon Code</string>
     <string name="visit_cost_apply">Apply</string>
+    <string name="payment">Payment</string>
 
     <!-- Payment Information -->
 

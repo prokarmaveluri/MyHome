@@ -81,7 +81,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ((NavigationActivity) getActivity()).setActionBarTitle("Payment");
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.intake));
 
         View view = inflater.inflate(R.layout.fragment_my_care_cost, container, false);
 
