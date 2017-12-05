@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
-            android:textColorHint="@color/md_grey_500"
+            android:textColorHint="@color/md_grey_600"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance"

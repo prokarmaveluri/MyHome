@@ -32,7 +32,7 @@
             android:layout_below="@+id/select_question"
             android:layout_marginTop="70dp"
             app:errorEnabled="true"
-            android:textColorHint="@color/md_grey_500"
+            android:textColorHint="@color/md_grey_600"
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
 
