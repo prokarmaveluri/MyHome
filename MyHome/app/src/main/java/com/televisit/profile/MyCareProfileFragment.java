@@ -273,7 +273,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
             //Loop through states until we find a match, then set state spinner selection
             for (int i = 0; i < state.getAdapter().getCount(); i++) {
-                if (consumer.getAddress().getState().getName().equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
+                if (consumer.getAddress().getState().getCode().equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
                     state.setSelection(i);
                     break;
                 }
