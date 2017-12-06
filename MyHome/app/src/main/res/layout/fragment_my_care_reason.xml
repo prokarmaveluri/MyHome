@@ -76,10 +76,10 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:hint="@string/phone_number"
-                    android:inputType="textEmailAddress"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="2488263385" />
+                    tools:text="2488263385" />
 
             </android.support.design.widget.TextInputLayout>
 
