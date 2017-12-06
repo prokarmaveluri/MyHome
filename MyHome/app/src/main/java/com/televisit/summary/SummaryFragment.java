@@ -41,7 +41,7 @@ import java.util.Set;
 import timber.log.Timber;
 
 public class SummaryFragment extends Fragment {
-    public static final String SUMMARY_TAG = "summary_tag";
+    public static final String SUMMARY_TAG = "previous_visit_summary_tag";
     public static final String VISIT_LIST_POSITION = "visit_list_position";
 
     private ProgressBar progressBar;

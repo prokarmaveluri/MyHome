@@ -3,6 +3,7 @@ package com.televisit.reason;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -57,25 +58,49 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
         }
     }
 
+    private Button nextButton;
+    private TextInputEditText reasonEmail;
+    private TextInputEditText reasonPhone;
+    private TextInputEditText reasonForVisit;
+    private TextInputLayout reasonLayout;
+    private TextInputLayout emailLayout;
+    private TextInputLayout phoneLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_care_reason, container, false);
 
-        Button nextButton = (Button) view.findViewById(R.id.next_button);
-        final TextInputEditText reasonEmail = (TextInputEditText) view.findViewById(R.id.reasonEmail);
-        final TextInputEditText reasonPhone = (TextInputEditText) view.findViewById(R.id.reasonPhone);
-        final TextInputEditText reasonForVisit = (TextInputEditText) view.findViewById(R.id.reasonForVisit);
-
-        final TextInputLayout reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
-        final TextInputLayout emailLayout = (TextInputLayout) view.findViewById(R.id.email_layout);
-        final TextInputLayout phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
-        progressBar = (ProgressBar) view.findViewById(R.id.services_progress);
-
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.intake));
 
-        createVisit();
+        Button nextButton = (Button) view.findViewById(R.id.next_button);
+        reasonEmail = (TextInputEditText) view.findViewById(R.id.reasonEmail);
+        reasonPhone = (TextInputEditText) view.findViewById(R.id.reasonPhone);
+        reasonForVisit = (TextInputEditText) view.findViewById(R.id.reasonForVisit);
+
+        reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
+        emailLayout = (TextInputLayout) view.findViewById(R.id.email_layout);
+        phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
+        progressBar = (ProgressBar) view.findViewById(R.id.services_progress);
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        //return Constants.ActivityTag.MY_CARE_REASON;
+        return null;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,18 +127,8 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
                 }
             }
         });
-        return view;
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public Constants.ActivityTag setDrawerTag() {
-        //return Constants.ActivityTag.MY_CARE_REASON;
-        return null;
+        createVisit();
     }
 
     private void createVisit() {

@@ -58,8 +58,13 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getActivity().setTitle(getString(R.string.visit_summary));
         View view = inflater.inflate(R.layout.visit_summary, container, false);
+
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.visit_summary));
+        } else {
+            getActivity().setTitle(getString(R.string.visit_summary));
+        }
 
         visit = AwsManager.getInstance().getVisit();
 

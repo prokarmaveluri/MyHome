@@ -48,6 +48,12 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
         getActivity().setTitle(getString(R.string.feedback));
         View view = inflater.inflate(R.layout.visit_feedback, container, false);
 
+        if (getActivity() instanceof NavigationActivity) {
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.feedback));
+        } else {
+            getActivity().setTitle(getString(R.string.feedback));
+        }
+
         feedbackLayout = (LinearLayout) view.findViewById(R.id.feedback_layout);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
 

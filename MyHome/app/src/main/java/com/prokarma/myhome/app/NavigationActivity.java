@@ -240,6 +240,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case APPOINTMENTS:
                 bottomNavigationView.setSelectedItemId(R.id.appointments);
                 break;
+            case MY_CARE:
+                bottomNavigationView.setSelectedItemId(R.id.profile);
+                break;
         }
     }
 
@@ -785,6 +788,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 } else {
                     fm.popBackStack();
                 }
+
+            } else if (activityTag == ActivityTag.VIDEO_VISIT_SUMMARY) {
+                goToPage(ActivityTag.MY_CARE);
 
             } else if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
