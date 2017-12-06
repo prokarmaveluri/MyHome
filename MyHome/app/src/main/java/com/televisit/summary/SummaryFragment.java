@@ -96,6 +96,13 @@ public class SummaryFragment extends Fragment {
         doctorNotes = (TextView) view.findViewById(R.id.doctor_notes);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,8 +119,6 @@ public class SummaryFragment extends Fragment {
                 getVisitReportDetails(visitReport);
             }
         }
-
-        return view;
     }
 
     private void updateDoctorImage() {
@@ -157,6 +162,7 @@ public class SummaryFragment extends Fragment {
                     @Override
                     public void onResponse(VisitReportDetail detail, SDKError sdkError) {
                         if (!isAdded()) {
+                            progressBar.setVisibility(View.GONE);
                             return;
                         }
                         if (sdkError == null) {
@@ -236,6 +242,7 @@ public class SummaryFragment extends Fragment {
                     @Override
                     public void onResponse(FileAttachment pdfFile, SDKError sdkError) {
                         if (!isAdded()) {
+                            progressBar.setVisibility(View.GONE);
                             return;
                         }
                         if (sdkError == null) {

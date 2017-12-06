@@ -2,6 +2,7 @@ package com.televisit.previousvisit;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -74,8 +75,6 @@ public class PreviousVisitsFragment extends BaseFragment {
         list = (RecyclerView) view.findViewById(R.id.list);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
 
-        getPreviousVisits();
-
         progressBar.setVisibility(View.VISIBLE);
         list.setVisibility(View.GONE);
 
@@ -88,7 +87,14 @@ public class PreviousVisitsFragment extends BaseFragment {
         return Constants.ActivityTag.PREVIOUS_VISITS_SUMMARIES;
     }
 
-    private void bindList() {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getPreviousVisits();
+    }
+
+    private void setAdapter() {
 
         adapter = new PreviousVisitsAdapter(getActivity(), AwsManager.getInstance().getVisitReports(), new RecyclerViewListener() {
             @Override
@@ -143,7 +149,7 @@ public class PreviousVisitsFragment extends BaseFragment {
                         if (sdkError == null) {
                             Collections.sort(visitReports, new VisitReportComparator());
                             AwsManager.getInstance().setVisitReports(visitReports);
-                            bindList();
+                            setAdapter();
                             adapter.notifyDataSetChanged();
                         } else {
                             Timber.d("visits. sdkError not NULL. getMessage = " + sdkError.getMessage());

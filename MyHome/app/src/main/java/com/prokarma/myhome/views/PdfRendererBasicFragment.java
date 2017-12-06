@@ -84,10 +84,9 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
 
             showPage(index);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
+            Timber.e(e);
             e.printStackTrace();
-            Toast.makeText(this.getActivity(), "Error! " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            this.getActivity().finish();
         }
     }
 
