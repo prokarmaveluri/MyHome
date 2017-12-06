@@ -112,8 +112,10 @@ public class MapViewFragment extends Fragment implements
                 NavigationActivity.eventBus.post(latlon);
             }
         });
-        if (null != map)
+
+        if (null != map) {
             updateMap();
+        }
         return view;
     }
 
@@ -143,7 +145,7 @@ public class MapViewFragment extends Fragment implements
     }
 
     private void updateMap() {
-        //        map.setMyLocationEnabled(true);
+        //map.setMyLocationEnabled(true);
         try {
             mClusterManager = new ClusterManager<>(getActivity(), map);
             map.setOnCameraIdleListener(mClusterManager);
@@ -186,7 +188,7 @@ public class MapViewFragment extends Fragment implements
 
             LatLngBounds bounds = builder.build();
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 120);
-//        map.animateCamera(cu);
+            //map.animateCamera(cu);
             map.setMaxZoomPreference(18);
             map.moveCamera(cu);
             map.setOnInfoWindowClickListener(this);
@@ -411,11 +413,11 @@ public class MapViewFragment extends Fragment implements
                         break;
 
                     case MAP_PROVIDER_DETAILS:
-                        if (mapViewFragment.marker != null){
+                        if (mapViewFragment.marker != null) {
                             mapViewFragment.provider = mapViewFragment.getProvider(mapViewFragment.marker.getTitle(), mapViewFragment.marker.getPosition());
                         }
 
-                        if (null != mapViewFragment.provider){
+                        if (null != mapViewFragment.provider) {
                             mapViewFragment.providerDetails(mapViewFragment.provider);
                         }
 

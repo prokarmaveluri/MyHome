@@ -17,17 +17,26 @@ public class VisitReportComparator implements Comparator<VisitReport> {
     @Override
     public int compare(VisitReport o1, VisitReport o2) {
         try {
+            //0 comes when two date are same,
+            //1 comes when date1 is lower then date2
+            //-1 comes when date1 is higher then date2
+
             if (o1.getDate() != null && o2.getDate() != null) {
 
-                Date visitDate1 = DateUtil.getDateFromHyphens(o1.getDate().getYear() + "-" + o1.getDate().getMonth() + "-" + o1.getDate().getDay());
-                Date visitDate2 = DateUtil.getDateFromHyphens(o2.getDate().getYear() + "-" + o2.getDate().getMonth() + "-" + o2.getDate().getDay());
-
-                return visitDate2.compareTo(visitDate1);
+                if (o1.getDate().toDate().getTime() > o2.getDate().toDate().getTime()) {
+                    return -1;
+                }
+                else if (o1.getDate().toDate().getTime() < o2.getDate().toDate().getTime()) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             Timber.e(e);
             e.printStackTrace();
         }
-        return 1;
+        return 0;
     }
 }

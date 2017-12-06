@@ -1,5 +1,7 @@
 package com.televisit.summary;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
@@ -35,7 +38,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
     private ProgressBar progressBar;
     private TextView providerName;
     private TextView pharmacyName;
-    private TextView pharmacyDistance;
+    private RelativeLayout pharmacyPhoneLayout;
+    private TextView pharmacyPhone;
     private TextView pharmacyAddress;
     private TextView costDesc;
     private CircularImageView docImage;
@@ -65,7 +69,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         providerName = (TextView) view.findViewById(R.id.provider_name);
 
         pharmacyName = (TextView) view.findViewById(R.id.pharmacy_name);
-        pharmacyDistance = (TextView) view.findViewById(R.id.pharmacy_distance);
+        pharmacyPhoneLayout = (RelativeLayout) view.findViewById(R.id.pharmacy_phone_layout);
+        pharmacyPhone = (TextView) view.findViewById(R.id.pharmacy_phone);
         pharmacyAddress = (TextView) view.findViewById(R.id.pharmacy_address);
 
         costDesc = (TextView) view.findViewById(R.id.cost_description);
@@ -133,8 +138,17 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
 
         pharmacyName.setText(visitSummary.getPharmacy().getName());
-        pharmacyDistance.setText(String.valueOf(visitSummary.getPharmacy().getDistance()));
         pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitSummary.getPharmacy()));
+
+        pharmacyPhone.setText(CommonUtil.constructPhoneNumberDots(visitSummary.getPharmacy().getPhone()));
+        pharmacyPhoneLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + pharmacyPhone.getText().toString()));
+                intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intentPhone);
+            }
+        });
 
         costDesc.setText(getString(R.string.summary_cost_desc) + visitSummary.getVisitCost().getExpectedConsumerCopayCost());
     }

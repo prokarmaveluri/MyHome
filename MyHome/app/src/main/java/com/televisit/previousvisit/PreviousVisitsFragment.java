@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
@@ -22,9 +21,7 @@ import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
@@ -118,7 +115,7 @@ public class PreviousVisitsFragment extends BaseFragment {
                 RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
                 list.addItemDecoration(itemDecoration);
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -136,19 +133,9 @@ public class PreviousVisitsFragment extends BaseFragment {
 
         final boolean scheduledOnly = false;
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -6);
-        Date dateSince = calendar.getTime();
-
-        if (AwsManager.getInstance().getVisitReports() == null || AwsManager.getInstance().getVisitReports().isEmpty()) {
-            Timber.d("visits before: 0 ");
-        } else {
-            Timber.d("visits before: " + AwsManager.getInstance().getVisitReports().size());
-        }
-
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReports(
                 AwsManager.getInstance().getConsumer(),
-                new SDKLocalDate(dateSince.getYear(), dateSince.getMonth(), dateSince.getDay()), scheduledOnly,
+                null, scheduledOnly,
                 new SDKCallback<List<VisitReport>, SDKError>() {
                     @Override
                     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {

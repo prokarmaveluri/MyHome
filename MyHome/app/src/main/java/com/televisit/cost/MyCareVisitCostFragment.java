@@ -241,7 +241,10 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                             intakeLayout.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(getContext(), sdkError.getMessage(), Toast.LENGTH_LONG).show();
+
+                            if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
+                                Toast.makeText(getContext(), sdkError.getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
 
