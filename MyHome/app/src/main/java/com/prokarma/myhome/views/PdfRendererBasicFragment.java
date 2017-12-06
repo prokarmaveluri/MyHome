@@ -26,55 +26,18 @@ import timber.log.Timber;
  * Created by veluri on 12/02/17.
  */
 
-/**
- * This fragment has a big {@ImageView} that shows PDF pages, and 2 {@link android.widget.Button}s to move between
- * pages. We use a {@link android.graphics.pdf.PdfRenderer} to render PDF pages as {@link android.graphics.Bitmap}s.
- */
 public class PdfRendererBasicFragment extends Fragment implements View.OnClickListener {
 
     public static final String PDF_TAG = "pdf_tag";
 
-    /**
-     * Key string for saving the state of current page index.
-     */
     private static final String STATE_CURRENT_PAGE_INDEX = "current_page_index";
-
-    /**
-     * The filename of the PDF.
-     */
     private static String FILENAME_WITH_PATH = "";
-
-    /**
-     * File descriptor of the PDF.
-     */
     private ParcelFileDescriptor mFileDescriptor;
-
-    /**
-     * {@link android.graphics.pdf.PdfRenderer} to render the PDF.
-     */
     private PdfRenderer mPdfRenderer;
-
-    /**
-     * Page that is currently shown on the screen.
-     */
     private PdfRenderer.Page mCurrentPage;
-
-    /**
-     * {@link android.widget.ImageView} that shows a PDF page as a {@link android.graphics.Bitmap}
-     */
     private ImageView mImageView;
-
-    /**
-     * {@link android.widget.Button} to move to the previous page.
-     */
     private Button mButtonPrevious;
-
-    /**
-     * {@link android.widget.Button} to move to the next page.
-     */
     private Button mButtonNext;
-
-    // Show the first page by default.
     private int index = 0;
 
     public PdfRendererBasicFragment() {
@@ -89,7 +52,6 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         try {
             if (getArguments() != null) {
                 FILENAME_WITH_PATH = getArguments().getString("FILENAME_WITH_PATH");
@@ -147,18 +109,12 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    /**
-     * Sets up a {@link android.graphics.pdf.PdfRenderer} and related resources.
-     */
     private void openRenderer(Context context) throws IOException {
-        // In this sample, we read a PDF from the assets directory.
-        //File file = new File(context.getCacheDir(), FILENAME);
 
         File file = new File(FILENAME_WITH_PATH);
 
         if (!file.exists()) {
-            // Since PdfRenderer cannot handle the compressed asset file directly, we copy it into
-            // the cache directory.
+            // Since PdfRenderer cannot handle the compressed asset file directly, copy it into the cache directory.
             InputStream asset = context.getAssets().open("report.pdf");
 
             FileOutputStream output = new FileOutputStream(file);
@@ -171,15 +127,9 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
             output.close();
         }
         mFileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
-        // This is the PdfRenderer we use to render the PDF.
         mPdfRenderer = new PdfRenderer(mFileDescriptor);
     }
 
-    /**
-     * Closes the {@link android.graphics.pdf.PdfRenderer} and related resources.
-     *
-     * @throws java.io.IOException When the PDF file cannot be closed.
-     */
     private void closeRenderer() throws IOException {
         if (null != mCurrentPage) {
             mCurrentPage.close();
@@ -188,32 +138,32 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
         mFileDescriptor.close();
     }
 
-    /**
-     * Shows the specified page of PDF to the screen.
-     *
-     * @param index The page index.
-     */
     private void showPage(int index) {
-        if (mPdfRenderer.getPageCount() <= index) {
-            return;
+        try {
+            if (mPdfRenderer.getPageCount() <= index) {
+                return;
+            }
+            // Make sure to close the current page before opening another one.
+            if (null != mCurrentPage) {
+                mCurrentPage.close();
+            }
+
+            mCurrentPage = mPdfRenderer.openPage(index);
+
+            // the destination bitmap must be ARGB (not RGB).
+            Bitmap bitmap = Bitmap.createBitmap(mCurrentPage.getWidth(), mCurrentPage.getHeight(), Bitmap.Config.ARGB_8888);
+
+            // To render a portion of the page, use the second and third parameter. Pass nulls to get the default result.
+            // Pass either RENDER_MODE_FOR_DISPLAY or RENDER_MODE_FOR_PRINT for the last parameter.
+            mCurrentPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+
+            mImageView.setImageBitmap(bitmap);
+            updateUi();
+
+        } catch (Exception e) {
+            Timber.e(e);
+            e.printStackTrace();
         }
-        // Make sure to close the current page before opening another one.
-        if (null != mCurrentPage) {
-            mCurrentPage.close();
-        }
-        // Use `openPage` to open a specific page in PDF.
-        mCurrentPage = mPdfRenderer.openPage(index);
-        // Important: the destination bitmap must be ARGB (not RGB).
-        Bitmap bitmap = Bitmap.createBitmap(mCurrentPage.getWidth(), mCurrentPage.getHeight(),
-                Bitmap.Config.ARGB_8888);
-        // Here, we render the page onto the Bitmap.
-        // To render a portion of the page, use the second and third parameter. Pass nulls to get
-        // the default result.
-        // Pass either RENDER_MODE_FOR_DISPLAY or RENDER_MODE_FOR_PRINT for the last parameter.
-        mCurrentPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
-        // We are ready to show the Bitmap to user.
-        mImageView.setImageBitmap(bitmap);
-        updateUi();
     }
 
     /**
@@ -254,5 +204,4 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
             }
         }
     }
-
 }

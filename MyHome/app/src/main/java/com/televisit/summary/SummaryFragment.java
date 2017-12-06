@@ -143,6 +143,11 @@ public class SummaryFragment extends Fragment {
             return;
         }
 
+        if (!isAdded()) {
+            Timber.d("visits VisitReportDetails. isAdded: FALSE ");
+            return;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReportDetail(
@@ -151,6 +156,9 @@ public class SummaryFragment extends Fragment {
                 new SDKCallback<VisitReportDetail, SDKError>() {
                     @Override
                     public void onResponse(VisitReportDetail detail, SDKError sdkError) {
+                        if (!isAdded()) {
+                            return;
+                        }
                         if (sdkError == null) {
 
                             visitReportDetail = detail;
@@ -227,6 +235,9 @@ public class SummaryFragment extends Fragment {
                 new SDKCallback<FileAttachment, SDKError>() {
                     @Override
                     public void onResponse(FileAttachment pdfFile, SDKError sdkError) {
+                        if (!isAdded()) {
+                            return;
+                        }
                         if (sdkError == null) {
 
                             progressBar.setVisibility(View.GONE);

@@ -285,15 +285,22 @@ public class SplashActivity extends AppCompatActivity implements
 
 
     private void onRefreshSuccess() {
-        //  Pre- load profile and appointment
-//        ProfileManager.getProfileInfo();
-        NetworkManager.getInstance().getMyAppointments();
-        AuthManager.getInstance().setCount(0);
-        Intent intentHome = new Intent(this, NavigationActivity.class);
-        intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left);
-        ActivityCompat.startActivity(this, intentHome, options.toBundle());
-        finish();
+        try {
+            //Pre- load profile and appointment
+            //ProfileManager.getProfileInfo();
+            NetworkManager.getInstance().getMyAppointments();
+            AuthManager.getInstance().setCount(0);
+
+            Intent intentHome = new Intent(this, NavigationActivity.class);
+            intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left);
+            ActivityCompat.startActivity(this, intentHome, options.toBundle());
+            finish();
+
+        } catch (Exception e) {
+            Timber.e(e);
+            e.printStackTrace();
+        }
     }
 
     private void onRefreshFailed() {
