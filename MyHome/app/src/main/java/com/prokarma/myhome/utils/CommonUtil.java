@@ -1048,4 +1048,15 @@ public class CommonUtil {
         AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
         return am.isEnabled();
     }
+
+    public static String stringToSpacesString(String string){
+        String spacesString = "";
+        if (null != string) {
+            for (char c : string.toCharArray()) {
+                if (c != '-')
+                spacesString+=" "+c;
+            }
+        }
+        return spacesString;
+    }
 }
