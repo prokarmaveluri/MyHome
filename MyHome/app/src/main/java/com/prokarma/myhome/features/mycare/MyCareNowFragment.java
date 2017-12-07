@@ -2,6 +2,7 @@ package com.prokarma.myhome.features.mycare;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
@@ -60,6 +62,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private Spinner consumerSpinner;
     private ProgressBar progressBar;
     private RelativeLayout userLayout;
+    private TextView previousVisit;
+    private Button waitingRoom;
 
     private Consumer patient;
 
@@ -103,6 +107,46 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         userLayout = (RelativeLayout) view.findViewById(R.id.mcn_user_info);
         consumerSpinner = (Spinner) view.findViewById(R.id.mcn_dependents_spinner);
 
+        waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
+
+        infoEdit.setOnClickListener(this);
+        historyEdit.setOnClickListener(this);
+        medicationsEdit.setOnClickListener(this);
+        pharmacyEdit.setOnClickListener(this);
+        previousVisit = (TextView) view.findViewById(R.id.previous_visits);
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        waitingRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Services is ignored
+//                ((NavigationActivity) getActivity()).loadFragment(
+//                        Constants.ActivityTag.MY_CARE_SERVICES, null);
+
+                ((NavigationActivity) getActivity()).loadFragment(
+                        Constants.ActivityTag.MY_CARE_PROVIDERS, null);
+            }
+        });
+
+        previousVisit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((NavigationActivity) getActivity()).loadFragment(
+                        Constants.ActivityTag.PREVIOUS_VISITS_SUMMARIES, null);
+            }
+        });
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             showLoading();
             AwsNetworkManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, this);
@@ -118,39 +162,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             setConsumerPharmacy();
             setConsumerMedicalHistory();
         }
-
-        Button waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
-
-        infoEdit.setOnClickListener(this);
-        historyEdit.setOnClickListener(this);
-        medicationsEdit.setOnClickListener(this);
-        pharmacyEdit.setOnClickListener(this);
-        waitingRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Services is ignored
-//                ((NavigationActivity) getActivity()).loadFragment(
-//                        Constants.ActivityTag.MY_CARE_SERVICES, null);
-
-                ((NavigationActivity) getActivity()).loadFragment(
-                        Constants.ActivityTag.MY_CARE_PROVIDERS, null);
-            }
-        });
-
-        TextView previousVisit = (TextView) view.findViewById(R.id.previous_visits);
-        previousVisit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: Vijaya, do your fragment stuff here. Also, look at visit_summary.xml && SummaryFragment.java
-                ((NavigationActivity) getActivity()).loadFragment(
-                        Constants.ActivityTag.PREVIOUS_VISITS_SUMMARIES, null);
-            }
-        });
-
-        return view;
     }
 
-    @Override
+        @Override
     public void onResume() {
         super.onResume();
         refreshDashboard(false);

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.Visit;
@@ -19,6 +20,7 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
@@ -132,6 +134,12 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
     }
 
     private void createVisit() {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
                 AwsManager.getInstance().getVisitContext(),

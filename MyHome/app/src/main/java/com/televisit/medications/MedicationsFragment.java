@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Medication;
@@ -32,6 +33,7 @@ import com.prokarma.myhome.app.MedicationRecyclerViewListener;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
@@ -220,6 +222,13 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     }
 
     private void getMedications() {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
                 AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Medication>, SDKError>() {
