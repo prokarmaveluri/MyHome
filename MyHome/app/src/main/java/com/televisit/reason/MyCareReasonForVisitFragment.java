@@ -121,9 +121,9 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
                                 Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
                     }
                 } else if (reasonPhone.getText().toString().replace(".", "").trim().length() != 10) {
-                    phoneLayout.setError("Enter valid phone number");
+                    phoneLayout.setError(getString(R.string.field_must_be_completed));
                 } else if (reasonForVisit.getText().toString().length() <= 0) {
-                    reasonLayout.setError("Enter valid reason for visit");
+                    reasonLayout.setError(getString(R.string.field_must_be_completed));
                 }
             }
         });

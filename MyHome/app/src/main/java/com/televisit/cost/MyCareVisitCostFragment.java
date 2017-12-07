@@ -152,10 +152,10 @@ public class MyCareVisitCostFragment extends BaseFragment {
                                 Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
 
                     } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString())) {
-                        phoneLayout.setError(getString(R.string.enter_valid_phone_number));
+                        phoneLayout.setError(getString(R.string.field_must_be_completed));
 
                     } else if (reasonForVisit.getText().toString().length() <= 0) {
-                        reasonLayout.setError(getString(R.string.enter_valid_reason_for_visit));
+                        reasonLayout.setError(getString(R.string.field_must_be_completed));
                     }
                 }
 
@@ -244,6 +244,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                             if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
                                 Toast.makeText(getContext(), sdkError.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                Toast.makeText(getContext(), "Provider unavailable \nPlease select a different provider.", Toast.LENGTH_LONG).show();
                             }
                         }
                     }

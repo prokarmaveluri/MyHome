@@ -82,7 +82,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:ems="10"
-                android:hint="@string/phone_number"
                 android:imeOptions="actionNext"
                 android:inputType="phone"
                 android:maxLength="12"
@@ -110,7 +109,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:hint="@string/reason"
                 android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:singleLine="true" />
