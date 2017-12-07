@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:background="@color/white"
-            android:elevation="8dp">
+            android:elevation="22dp">
 
             <EditText
                 android:id="@+id/searchQuery"

@@ -387,7 +387,7 @@
     <!-- Medications -->
 
     <!-- Add Medication -->
-    <string name="add_additional_medication">Add Additional Medication</string>
+    <string name="add_additional_medication">+&#160;Add Additional Medication</string>
 
 
     <!-- Allergies -->

@@ -2,7 +2,9 @@ package com.televisit.medications;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Medication;
@@ -31,7 +34,6 @@ import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-import com.televisit.history.HistoryListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,10 @@ import timber.log.Timber;
 public class MedicationsFragment extends BaseFragment implements TextWatcher, SuggestionsAdapter.ISuggestionClick {
 
     private RecyclerView searchSuggestions;
+    private TextView medicationDesc;
+    private TextView addAdditionalMedication;
     private RecyclerView medicationsList;
+    private View divider;
     private LinearLayout noMedicationsLayout;
     private AppCompatCheckBox noMedicationsCheckbox;
     private EditText searchQuery;
@@ -96,14 +101,42 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         View view = inflater.inflate(R.layout.fragment_medications, container, false);
 
         searchQuery = (EditText) view.findViewById(R.id.searchQuery);
+
+        medicationDesc = (TextView) view.findViewById(R.id.medicationDesc);
+        addAdditionalMedication = (TextView) view.findViewById(R.id.add_additional_medication);
         searchSuggestions = (RecyclerView) view.findViewById(R.id.searchSuggestions);
         medicationsList = (RecyclerView) view.findViewById(R.id.medicationsList);
+        divider = (View) view.findViewById(R.id.divider);
         noMedicationsLayout = (LinearLayout) view.findViewById(R.id.no_medications_layout);
         noMedicationsCheckbox = (AppCompatCheckBox) view.findViewById(R.id.no_medications_checkbox);
         searchLayout = (RelativeLayout) view.findViewById(R.id.searchLayout);
         progressBar = (ProgressBar) view.findViewById(R.id.medications_progress);
 
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         noMedicationsCheckbox.setChecked(AwsManager.getInstance().isHasMedicationsFilledOut());
+
+        searchQuery.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    showSearchView();
+                }
+            }
+        });
+
+        addAdditionalMedication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchQuery.requestFocus();
+                showSearchView();
+            }
+        });
 
         searchQuery.addTextChangedListener(this);
         searchCancelClickEvent();
@@ -115,12 +148,19 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         });
 
         getMedications();
-        return view;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    private void showSearchView() {
+        addAdditionalMedication.setVisibility(View.GONE);
+        medicationDesc.setVisibility(View.GONE);
+        noMedicationsLayout.setVisibility(View.GONE);
+        medicationsList.setVisibility(View.GONE);
+        divider.setVisibility(View.GONE);
     }
 
     private void setSuggestionAdapter(List<String> list) {
@@ -132,8 +172,11 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
     private void setMedicationsAdapter(List<Medication> list) {
         if (list != null && list.size() > 0) {
+            medicationDesc.setVisibility(View.VISIBLE);
             noMedicationsLayout.setVisibility(View.GONE);
             medicationsList.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
+
             noMedicationsCheckbox.setChecked(false);
 
             MedicationsAdapter adapter = new MedicationsAdapter(list, new MedicationRecyclerViewListener() {
@@ -154,14 +197,19 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                 }
             });
 
-            medicationsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+            medicationsList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+            itemDecoration.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.list_divider));
             medicationsList.addItemDecoration(itemDecoration);
+
             medicationsList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         } else {
             noMedicationsLayout.setVisibility(View.VISIBLE);
             medicationsList.setVisibility(View.GONE);
+            divider.setVisibility(View.GONE);
+            noMedicationsCheckbox.setChecked(true);
         }
 
         if ((list != null && list.size() > 0) || noMedicationsCheckbox.isChecked()) {
@@ -221,6 +269,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     }
 
     private void searchMedications(String searchText) {
+
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().searchMedications(
                 AwsManager.getInstance().getConsumer(),
@@ -270,6 +319,9 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         if (s.toString().trim().length() > 0) {
             searchMedications(s.toString().trim());
         }
+        else {
+            setMedicationsAdapter(AwsManager.getInstance().getMedications());
+        }
     }
 
     @Override
@@ -312,12 +364,16 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
                         searchQuery.setText("");
 
+                        addAdditionalMedication.setVisibility(View.VISIBLE);
+                        medicationDesc.setVisibility(View.VISIBLE);
                         searchLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                         setMedicationsAdapter(AwsManager.getInstance().getMedications());
 
                         CommonUtil.hideSoftKeyboard(getActivity());
                         return true;
+                    } else {
+                        showSearchView();
                     }
                 }
                 return false;
