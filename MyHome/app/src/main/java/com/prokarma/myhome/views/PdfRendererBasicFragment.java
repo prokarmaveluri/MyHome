@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 
@@ -25,13 +24,12 @@ import timber.log.Timber;
 /**
  * Created by veluri on 12/02/17.
  */
-
 public class PdfRendererBasicFragment extends Fragment implements View.OnClickListener {
 
     public static final String PDF_TAG = "pdf_tag";
 
     private static final String STATE_CURRENT_PAGE_INDEX = "current_page_index";
-    private static String FILENAME_WITH_PATH = "";
+    private String fileNameWithEntirePath = "";
     private ParcelFileDescriptor mFileDescriptor;
     private PdfRenderer mPdfRenderer;
     private PdfRenderer.Page mCurrentPage;
@@ -54,7 +52,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
         super.onViewCreated(view, savedInstanceState);
         try {
             if (getArguments() != null) {
-                FILENAME_WITH_PATH = getArguments().getString("FILENAME_WITH_PATH");
+                fileNameWithEntirePath = getArguments().getString("FILENAME_WITH_PATH");
             }
 
             // Retain view references.
@@ -110,7 +108,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
 
     private void openRenderer(Context context) throws IOException {
 
-        File file = new File(FILENAME_WITH_PATH);
+        File file = new File(fileNameWithEntirePath);
 
         if (!file.exists()) {
             // Since PdfRenderer cannot handle the compressed asset file directly, copy it into the cache directory.
