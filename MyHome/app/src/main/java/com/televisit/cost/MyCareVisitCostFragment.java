@@ -68,7 +68,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment MyCareServicesFragment.
+     * @return A new instance of fragment MyCareVisitCostFragment.
      */
     public static MyCareVisitCostFragment newInstance() {
         return new MyCareVisitCostFragment();
@@ -125,7 +125,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
         privacyPolicyLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (getActivity() instanceof NavigationActivity) {
+                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PRIVACY_POLICY, null);
+                }
             }
         });
     }
@@ -161,9 +163,14 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                 if (isAdded() && AwsManager.getInstance().getVisit() != null) {
 
+                    Timber.d("visit. PrivacyPolicyRadio = " + agreePrivacyPolicyRadio.isChecked());
+
                     if (AwsManager.getInstance().getVisit().getVisitCost() != null && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
+
                         Toast.makeText(getContext(), "Your cost isn't free\nYou might want to apply a coupon...", Toast.LENGTH_LONG).show();
+
                     } else if (CommonUtil.isValidMobile(reasonPhone.getText().toString()) && reasonForVisit.getText().toString().length() > 0) {
+
                         ((NavigationActivity) getActivity()).loadFragment(
                                 Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
 
@@ -283,7 +290,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                                     Toast.makeText(getContext(), sdkError.toString(), Toast.LENGTH_LONG).show();
                                 }
                             } else {
-                                Toast.makeText(getContext(), "Provider unavailable \nPlease select a different provider.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), sdkError.toString(), Toast.LENGTH_LONG).show(); //"Provider unavailable \nPlease select a different provider.", Toast.LENGTH_LONG).show();
                             }
                         }
                     }

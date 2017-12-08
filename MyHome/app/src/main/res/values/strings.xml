@@ -464,6 +464,7 @@
     <string name="my_care_reason_sug">Why are you visiting today?</string>
     <string name="my_care_privacy_policy_accept">Please accept privacy policy to proceed</string>
     <string name="intake">Intake</string>
+    <string name="my_care_privacy_policy">Privacy Policy</string>
     <string name="reason">Reason</string>
     <string name="visit_cost_desc">Your total is $</string>
     <string name="visit_total_cost_desc">Your total cost is $</string>
