@@ -59,6 +59,7 @@ import com.prokarma.myhome.views.PdfRendererZoomFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.televisit.cost.MyCareVisitCostFragment;
+import com.televisit.cost.PrivacyPolicyFragment;
 import com.televisit.feedback.FeedbackFragment;
 import com.televisit.history.HistoryListAdapter;
 import com.televisit.history.MedicalHistoryFragment;
@@ -660,6 +661,23 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF);
+                }
+                break;
+
+            case MY_CARE_PRIVACY_POLICY:
+                if (getActivityTag() != ActivityTag.MY_CARE_PRIVACY_POLICY) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    PrivacyPolicyFragment privacyPolicyFragment = PrivacyPolicyFragment.newInstance();
+                    privacyPolicyFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, privacyPolicyFragment, PrivacyPolicyFragment.MY_CARE_PRIVACY_POLICY_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.MY_CARE_PRIVACY_POLICY);
                 }
                 break;
 
