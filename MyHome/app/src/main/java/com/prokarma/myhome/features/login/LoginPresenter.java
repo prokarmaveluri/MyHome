@@ -94,6 +94,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                             mView.acceptTermsOfService(false);
 
                         } else {
+                            AuthManager.getInstance().getUsersAmWellToken();
                             mView.SignInSuccess();
                         }
                     } else {
