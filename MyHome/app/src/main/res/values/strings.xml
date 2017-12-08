@@ -491,5 +491,7 @@
     <string name="info">Info</string>
     <string name="mcn_welcome_text">Hi, let’s fill out a few details to get you started.</string>
     <string name="mcn_welcome_text_variable">Hi %1$s, let’s fill out a few details to get you started.</string>
+    <string name="location">Location, </string>
+    <string name="phone_number_des">Phone number, </string>
 
 </resources>

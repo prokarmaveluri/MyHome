@@ -65,8 +65,6 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private TextView previousVisit;
     private Button waitingRoom;
 
-    private Consumer patient;
-
     public MyCareNowFragment() {
         // Required empty public constructor
     }
@@ -224,7 +222,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             return;
         }
 
-        AwsNetworkManager.getInstance().getMedications(patient, this);
+        AwsNetworkManager.getInstance().getMedications(AwsManager.getInstance().getPatient(), this);
     }
 
     private void getConsumerPharmacy() {
@@ -232,21 +230,21 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             return;
         }
 
-        AwsNetworkManager.getInstance().getPharmacy(patient, this);
+        AwsNetworkManager.getInstance().getPharmacy(AwsManager.getInstance().getPatient(), this);
     }
 
     private void getConsumerConditions() {
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
-        AwsNetworkManager.getInstance().getConditions(patient, this);
+        AwsNetworkManager.getInstance().getConditions(AwsManager.getInstance().getPatient(), this);
     }
 
     private void getConsumerAllergies() {
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             return;
         }
-        AwsNetworkManager.getInstance().getAllergies(patient, this);
+        AwsNetworkManager.getInstance().getAllergies(AwsManager.getInstance().getPatient(), this);
     }
 
     private void setConsumerMedications() {
@@ -303,11 +301,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                             medicalHistory.append(", ");
                         }
                     }
-                }
-                else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
+                } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
                     medicalHistory.append(getContext().getResources().getString(R.string.no_conditions));
-                }
-                else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+                } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
                     medicalHistory.append(getContext().getResources().getString(R.string.complete_your_medical_conditions));
                 }
 
@@ -323,11 +319,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                             medicalHistory.append(", ");
                         }
                     }
-                }
-                else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
+                } else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
                     medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.no_allergies));
-                }
-                else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+                } else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
                     medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.complete_your_medical_allergies));
                 }
 
@@ -352,20 +346,21 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         consumers.add(0, me);
         DependentsSpinnerAdapter dependentsSpinnerAdapter = new DependentsSpinnerAdapter(getContext(), R.layout.dependents_spinner_item, consumers);
         consumerSpinner.setAdapter(dependentsSpinnerAdapter);
+        consumerSpinner.setSelection(AwsManager.getInstance().getPatientNumber());
         consumerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     //Selected Me
-                    patient = AwsManager.getInstance().getConsumer();
-                    AwsManager.getInstance().setDependent(null);
+                    AwsManager.getInstance().setPatient(AwsManager.getInstance().getConsumer());
                     refreshDashboard(true);
                 } else {
                     //Selected a Dependent - need to minus one due to adding yourself to the list
-                    patient = AwsManager.getInstance().getConsumer().getDependents().get(position - 1);
-                    AwsManager.getInstance().setDependent(patient);
+                    AwsManager.getInstance().setPatient(AwsManager.getInstance().getConsumer().getDependents().get(position - 1));
                     refreshDashboard(true);
                 }
+
+                AwsManager.getInstance().setPatientNumber(position);
             }
 
             @Override
@@ -398,6 +393,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         } else {
             //IoT
             AwsNetworkManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
+            //AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken());
         }
     }
 

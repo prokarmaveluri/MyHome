@@ -11,6 +11,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.consumer.DependentUpdate;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
@@ -35,6 +36,7 @@ import com.televisit.interfaces.AwsSendVisitFeedback;
 import com.televisit.interfaces.AwsSendVisitRating;
 import com.televisit.interfaces.AwsStartVideoVisit;
 import com.televisit.interfaces.AwsUpdateConsumer;
+import com.televisit.interfaces.AwsUpdateDependent;
 import com.televisit.interfaces.AwsUpdatePharmacy;
 import com.televisit.interfaces.AwsUserAuthentication;
 
@@ -211,7 +213,7 @@ public class AwsNetworkManager {
                     public void onResponse(Consumer consumer, SDKError sdkError) {
                         if (sdkError == null) {
                             AwsManager.getInstance().setConsumer(consumer);
-                            AwsManager.getInstance().setDependent(null);
+                            AwsManager.getInstance().setPatient(null);
                             AwsManager.getInstance().setHasConsumer(true);
 
                             if (awsConsumer != null) {
@@ -220,7 +222,7 @@ public class AwsNetworkManager {
                         } else {
                             Timber.e("Error + " + sdkError);
                             AwsManager.getInstance().setConsumer(null);
-                            AwsManager.getInstance().setDependent(null);
+                            AwsManager.getInstance().setPatient(null);
                             AwsManager.getInstance().setHasConsumer(false);
 
                             if (awsConsumer != null) {
@@ -234,7 +236,7 @@ public class AwsNetworkManager {
                         Timber.e("Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setConsumer(null);
-                        AwsManager.getInstance().setDependent(null);
+                        AwsManager.getInstance().setPatient(null);
                         AwsManager.getInstance().setHasConsumer(false);
 
                         if (awsConsumer != null) {
@@ -695,7 +697,46 @@ public class AwsNetworkManager {
                 }
             }
         });
+    }
 
+    public void updateDependent(@NonNull final DependentUpdate consumerUpdate, @Nullable final AwsUpdateDependent awsUpdateConsumer) {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateDependent((DependentUpdate) consumerUpdate, new SDKValidatedCallback<Consumer, SDKError>() {
+            @Override
+            public void onValidationFailure(@NonNull Map<String, String> map) {
+                Timber.e("Something failed! :/");
+                Timber.e("Map: " + map);
+
+                if (awsUpdateConsumer != null) {
+                    awsUpdateConsumer.updateDependentFailed("Validation Failed");
+                }
+            }
+
+            @Override
+            public void onResponse(@Nullable Consumer consumer, @Nullable SDKError sdkError) {
+                if (sdkError == null) {
+                    if (awsUpdateConsumer != null) {
+                        awsUpdateConsumer.updateDependentComplete(consumer);
+                    }
+                } else {
+                    Timber.e("Something failed! :/");
+                    Timber.e("SDK Error: " + sdkError);
+
+                    if (awsUpdateConsumer != null) {
+                        awsUpdateConsumer.updateDependentFailed(sdkError.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Throwable throwable) {
+                Timber.e("Something failed! :/");
+                Timber.e("Throwable = " + throwable);
+
+                if (awsUpdateConsumer != null) {
+                    awsUpdateConsumer.updateDependentFailed(throwable.getMessage());
+                }
+            }
+        });
     }
 
 }

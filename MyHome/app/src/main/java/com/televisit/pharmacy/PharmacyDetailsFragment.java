@@ -108,7 +108,7 @@ public class PharmacyDetailsFragment extends BaseFragment implements OnMapReadyC
             }
         });
 
-        patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
+        patient = AwsManager.getInstance().getPatient() != null ? AwsManager.getInstance().getPatient() : AwsManager.getInstance().getConsumer();
 
         setHasOptionsMenu(true);
         return view;

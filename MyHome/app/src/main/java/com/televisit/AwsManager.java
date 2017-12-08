@@ -51,7 +51,8 @@ public class AwsManager {
     private VisitContext visitContext;
     private Visit visit;
     private Consumer consumer;
-    private Consumer dependent;
+    private Consumer patient;
+    private int patientNumber;
     private boolean hasMedicationsFilledOut;
     private State hasAllergiesFilledOut = State.NOT_FILLED_OUT;
     private State hasConditionsFilledOut = State.NOT_FILLED_OUT;
@@ -115,6 +116,27 @@ public class AwsManager {
 
     public void setConsumer(Consumer consumer) {
         this.consumer = consumer;
+    }
+
+    public Consumer getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Consumer patient) {
+        this.patient = patient;
+    }
+
+    //This is really just the index of the consumer being changed so that we can update the correct static variable
+    public int getPatientNumber() {
+        return patientNumber;
+    }
+
+    public void setPatientNumber(int patientNumber) {
+        this.patientNumber = patientNumber;
+    }
+
+    public boolean isPatientMainConsumer() {
+        return this.patientNumber == 0;
     }
 
     public List<Practice> getPractices() {
@@ -261,14 +283,6 @@ public class AwsManager {
 
     public void setHasConsumer(boolean hasConsumer) {
         this.hasConsumer = hasConsumer;
-    }
-
-    public Consumer getDependent() {
-        return dependent;
-    }
-
-    public void setDependent(Consumer dependent) {
-        this.dependent = dependent;
     }
 
     public com.americanwell.sdk.entity.State getState(String stateName) {

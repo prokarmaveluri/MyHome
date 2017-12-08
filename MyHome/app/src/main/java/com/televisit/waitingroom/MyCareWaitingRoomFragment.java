@@ -80,7 +80,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.waiting_room_title));
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
+        patient = AwsManager.getInstance().getPatient() != null ? AwsManager.getInstance().getPatient() : AwsManager.getInstance().getConsumer();
         isVisitEnd = false;
 
         //Intent intent = new Intent(getContext(), SummaryActivity.class);

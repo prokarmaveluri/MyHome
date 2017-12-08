@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -1041,5 +1042,25 @@ public class CommonUtil {
             Timber.e(e);
         }
         return false;
+    }
+
+    public static boolean isAccessibilityEnabled(Context context){
+        AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
+        return am.isEnabled();
+    }
+
+    public static String stringToSpacesString(String string){
+        String spacesString = "";
+        if (null != string) {
+            for (char c : string.toCharArray()) {
+                if (c != '-')
+                spacesString+=" "+c;
+            }
+        }
+        return spacesString;
+    }
+
+    public static void showToast(Context context,String message,int duration){
+        Toast.makeText(context, message, duration).show();
     }
 }
