@@ -400,6 +400,8 @@
     <string name="visit_cost_coupon_code">Coupon Code</string>
     <string name="visit_cost_apply">Apply</string>
     <string name="payment">Payment</string>
+    <string name="agree_privacy_policy_text1">I have read and agree to the&#160;</string>
+    <string name="agree_privacy_policy_text2">Privacy Policy.</string>
 
     <!-- Payment Information -->
 
@@ -458,11 +460,13 @@
     <string name="not_on_any_medications">I\'m not on any medications</string>
     <string name="next_available_provider">Next Available Provider</string>
     <string name="my_care_reason_guest_sug">Would you like to invite a guest to your visit?</string>
-    <string name="my_care_reason_phone_sug">What is your phone number in case the video visit dropped?</string>
-    <string name="my_care_reason_sug">What is the reason for your visit today?</string>
+    <string name="my_care_reason_phone_sug">How can we call you back if we\'re disconnected?</string>
+    <string name="my_care_reason_sug">Why are you visiting today?</string>
+    <string name="my_care_privacy_policy_accept">Please accept privacy policy to proceed</string>
     <string name="intake">Intake</string>
     <string name="reason">Reason</string>
-    <string name="visit_cost_desc">Your total cost is $</string>
+    <string name="visit_cost_desc">Your total is $</string>
+    <string name="visit_total_cost_desc">Your total cost is $</string>
     <string name="summary_cost_desc">Your total cost for today\'s visit was $</string>
     <string name="waiting_room_title">Waiting Room</string>
     <string name="view_previous_visits">View Previous Visits</string>

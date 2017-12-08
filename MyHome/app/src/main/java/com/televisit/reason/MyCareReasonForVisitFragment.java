@@ -49,15 +49,12 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
      * @return A new instance of fragment MyCareServicesFragment.
      */
     public static MyCareReasonForVisitFragment newInstance() {
-        MyCareReasonForVisitFragment fragment = new MyCareReasonForVisitFragment();
-        return fragment;
+        return new MyCareReasonForVisitFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     private Button nextButton;

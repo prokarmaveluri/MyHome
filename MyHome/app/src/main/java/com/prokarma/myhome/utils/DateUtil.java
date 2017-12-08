@@ -53,8 +53,8 @@ public class DateUtil {
     public static final String DATE_FORMAT_UTC_TIMEZONE = "yyyy-MM-dd'T'HH:mm:ss";
     public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
-    public static final String DATE_TIME_SHORT_TIMEZONE = "MMM dd, yyyy hh:mm a z";
-    public static final SimpleDateFormat SIMPLE_DATE_TIME_SHORT_TIMEZONE = new SimpleDateFormat(DATE_TIME_SHORT_TIMEZONE, Locale.getDefault());
+    public static final String TIME_FORMAT_TIMEZONE = "hh:mm a z";
+    public static final SimpleDateFormat SIMPLE_TIME_FORMAT_TIMEZONE= new SimpleDateFormat(TIME_FORMAT_TIMEZONE, Locale.getDefault());
 
 
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC_TIMEZONE = new SimpleDateFormat(DATE_FORMAT_UTC_TIMEZONE, Locale.getDefault());
@@ -254,10 +254,10 @@ public class DateUtil {
      * Convert a Date object into a human-friendly format.
      *
      * @param date the date object. This object's date should already be set and finalized before making this call.
-     * @return a String representing the Date (formatted like such: "MMM dd, yyyy'T'hh:mm a z")
+     * @return a String representing the Date (formatted like such: "hh:mm a z")
      */
-    public static String convertDateTimeTimezoneToReadableShort(Date date) {
-        return SIMPLE_DATE_TIME_SHORT_TIMEZONE.format(date);
+    public static String getTimeTimezone(Date date) {
+        return SIMPLE_TIME_FORMAT_TIMEZONE.format(date).replace("AM", "am").replace("PM", "pm");
     }
 
     /**

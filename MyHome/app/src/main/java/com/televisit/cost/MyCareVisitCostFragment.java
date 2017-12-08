@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,6 +57,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private TextInputEditText reasonForVisit;
     private TextInputLayout reasonLayout;
     private TextInputLayout phoneLayout;
+    private TextView privacyPolicyLink;
+    private AppCompatRadioButton agreePrivacyPolicyRadio;
 
     public MyCareVisitCostFragment() {
         // Required empty public constructor
@@ -68,15 +71,12 @@ public class MyCareVisitCostFragment extends BaseFragment {
      * @return A new instance of fragment MyCareServicesFragment.
      */
     public static MyCareVisitCostFragment newInstance() {
-        MyCareVisitCostFragment fragment = new MyCareVisitCostFragment();
-        return fragment;
+        return new MyCareVisitCostFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -96,6 +96,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
         reasonForVisit = (TextInputEditText) view.findViewById(R.id.reasonForVisit);
         reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
         phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
+        privacyPolicyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text2);
+        agreePrivacyPolicyRadio = (AppCompatRadioButton) view.findViewById(R.id.agree_privacy_policy_radio);
 
         reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
         reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
@@ -114,8 +116,16 @@ public class MyCareVisitCostFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (couponText.getText().toString().length() > 0
-                        && AwsManager.getInstance().getVisit() != null)
+                        && AwsManager.getInstance().getVisit() != null) {
                     applyCoupon(couponText.getText().toString());
+                }
+            }
+        });
+
+        privacyPolicyLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -162,6 +172,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                     } else if (reasonForVisit.getText().toString().length() <= 0) {
                         reasonLayout.setError(getString(R.string.field_must_be_completed));
+
+                    } else if (!agreePrivacyPolicyRadio.isChecked()) {
+                        Toast.makeText(getActivity(), R.string.my_care_privacy_policy_accept, Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -229,6 +242,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
         intakeLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
+
         AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
                 AwsManager.getInstance().getVisitContext(),
                 new SDKValidatedCallback<Visit, SDKError>() {
@@ -253,7 +267,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                             progressBar.setVisibility(View.GONE);
 
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("Something failed during video visit! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             intakeLayout.setVisibility(View.GONE);

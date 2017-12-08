@@ -57,15 +57,12 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
      * @return A new instance of fragment PharmacyListFragment.
      */
     public static PharmacyListFragment newInstance() {
-        PharmacyListFragment fragment = new PharmacyListFragment();
-        return fragment;
+        return new PharmacyListFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override

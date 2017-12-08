@@ -37,15 +37,12 @@ public class PharmaciesFragment extends BaseFragment {
      * @return A new instance of fragment PharmacyListFragment.
      */
     public static PharmaciesFragment newInstance() {
-        PharmaciesFragment fragment = new PharmaciesFragment();
-        return fragment;
+        return new PharmaciesFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override

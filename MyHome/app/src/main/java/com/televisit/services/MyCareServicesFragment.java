@@ -49,8 +49,7 @@ public class MyCareServicesFragment extends BaseFragment implements ServicesList
      * @return A new instance of fragment MyCareServicesFragment.
      */
     public static MyCareServicesFragment newInstance() {
-        MyCareServicesFragment fragment = new MyCareServicesFragment();
-        return fragment;
+        return new MyCareServicesFragment();
     }
 
     @Override

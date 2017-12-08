@@ -59,8 +59,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
      * @return A new instance of fragment MyCareServicesFragment.
      */
     public static MyCareProvidersFragment newInstance() {
-        MyCareProvidersFragment fragment = new MyCareProvidersFragment();
-        return fragment;
+        return new MyCareProvidersFragment();
     }
 
     @Override

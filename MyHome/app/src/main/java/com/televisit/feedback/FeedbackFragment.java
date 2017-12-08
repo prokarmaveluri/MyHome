@@ -38,8 +38,7 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
     }
 
     public static FeedbackFragment newInstance() {
-        FeedbackFragment fragment = new FeedbackFragment();
-        return fragment;
+        return new FeedbackFragment();
     }
 
     @Nullable

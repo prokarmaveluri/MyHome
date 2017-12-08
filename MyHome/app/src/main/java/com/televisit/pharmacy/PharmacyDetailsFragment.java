@@ -58,8 +58,7 @@ public class PharmacyDetailsFragment extends BaseFragment implements OnMapReadyC
      * @return A new instance of fragment PharmacyListFragment.
      */
     public static PharmacyDetailsFragment newInstance() {
-        PharmacyDetailsFragment fragment = new PharmacyDetailsFragment();
-        return fragment;
+        return new PharmacyDetailsFragment();
     }
 
     @Override

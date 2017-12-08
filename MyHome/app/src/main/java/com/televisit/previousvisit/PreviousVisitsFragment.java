@@ -56,15 +56,12 @@ public class PreviousVisitsFragment extends BaseFragment {
      * @return A new instance of fragment MyCareFragment.
      */
     public static PreviousVisitsFragment newInstance() {
-        PreviousVisitsFragment fragment = new PreviousVisitsFragment();
-        return fragment;
+        return new PreviousVisitsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override

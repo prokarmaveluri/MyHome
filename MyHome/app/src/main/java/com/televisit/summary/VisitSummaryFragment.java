@@ -51,8 +51,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
     }
 
     public static VisitSummaryFragment newInstance() {
-        VisitSummaryFragment fragment = new VisitSummaryFragment();
-        return fragment;
+        return new VisitSummaryFragment();
     }
 
     @Nullable

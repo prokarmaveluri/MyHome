@@ -71,8 +71,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
      * @return A new instance of fragment MyCareFragment.
      */
     public static MedicalHistoryFragment newInstance() {
-        MedicalHistoryFragment fragment = new MedicalHistoryFragment();
-        return fragment;
+        return new MedicalHistoryFragment();
     }
 
     @Override

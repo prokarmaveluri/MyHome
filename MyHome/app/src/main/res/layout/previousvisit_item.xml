@@ -12,7 +12,7 @@
     tools:ignore="HardcodedText">
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/visit_date"
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,14 +42,15 @@
         style="@style/tradeGothicLTStd_Dynamic16_grey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date"
+        android:layout_below="@id/visit_date"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
         android:maxWidth="285dp"
         tools:text="Dr. Steven M. Howard, MD" />
 
     <TextView
-        android:id="@+id/amount"
+        android:id="@+id/visit_time"
         style="@style/tradeGothicLTStd_Dynamic16_grey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,14 +59,26 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="5dp"
         android:maxWidth="285dp"
-        tools:text="$0.00" />
+        tools:text="9:56 am MST" />
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/cost"
         style="@style/tradeGothicLTStd_Dynamic16_grey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/amount"
+        android:layout_below="@id/visit_time"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        android:maxWidth="285dp"
+        tools:text="$0.00" />
+
+    <TextView
+        android:id="@+id/visit_reason"
+        style="@style/tradeGothicLTStd_Dynamic16_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cost"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="5dp"

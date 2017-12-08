@@ -67,8 +67,7 @@ public class SummaryFragment extends Fragment {
     }
 
     public static SummaryFragment newInstance() {
-        SummaryFragment fragment = new SummaryFragment();
-        return fragment;
+        return new SummaryFragment();
     }
 
     @Override
@@ -176,7 +175,7 @@ public class SummaryFragment extends Fragment {
                             visitReportDetail = detail;
 
                             providerName.setText(visitReport.getProviderName());
-                            costDesc.setText(getString(R.string.visit_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
+                            costDesc.setText(getString(R.string.visit_total_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
 
                             if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() == null) {
                                 pharmacyName.setVisibility(View.GONE);

@@ -63,7 +63,8 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 try {
                     if (visitReport.getDate() != null && visitReport.getDate().isValidDate()) {
-                        holder.date.setText(DateUtil.convertDateTimeTimezoneToReadableShort(visitReport.getDate().toDate()));
+                        holder.visitDate.setText(DateUtil.convertDateToReadable(visitReport.getDate().toDate()));
+                        holder.visitTime.setText(DateUtil.getTimeTimezone(visitReport.getDate().toDate()));
                     }
                 } catch (Exception e) {
                     Timber.e(e);
@@ -71,8 +72,8 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
 
                 //hardcoding for now, as per directions got
-                holder.amount.setText("$ 0.00");
-                holder.text.setText("I cut my hand on a peice of glass");
+                holder.cost.setText("$ 0.00");
+                holder.visitReason.setText("I cut my hand on a peice of glass");
 
                 holder.viewLink.setTag(position);
                 holder.viewLink.setOnClickListener(new View.OnClickListener() {
@@ -114,21 +115,23 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public View layout;
-        public TextView date;
         public TextView viewLink;
+        public TextView visitDate;
+        public TextView visitTime;
         public TextView doctorName;
-        public TextView text;
-        public TextView amount;
+        public TextView visitReason;
+        public TextView cost;
 
         public ViewHolder(final Context context, final View view) {
             super(view);
             this.view = view;
             layout = view.findViewById(R.id.previousvisit_item_layout);
-            date = (TextView) view.findViewById(R.id.date);
             viewLink = (TextView) view.findViewById(R.id.view);
+            visitDate = (TextView) view.findViewById(R.id.visit_date);
+            visitTime = (TextView) view.findViewById(R.id.visit_time);
             doctorName = (TextView) view.findViewById(R.id.doctor_name);
-            amount = (TextView) view.findViewById(R.id.amount);
-            text = (TextView) view.findViewById(R.id.text);
+            cost = (TextView) view.findViewById(R.id.cost);
+            visitReason = (TextView) view.findViewById(R.id.visit_reason);
         }
 
         public void setOnItemClickListener(final VisitReport visitReport, final RecyclerViewListener onItemClickListener) {

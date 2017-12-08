@@ -78,15 +78,12 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
      * @return A new instance of fragment PharmacyListFragment.
      */
     public static MedicationsFragment newInstance() {
-        MedicationsFragment fragment = new MedicationsFragment();
-        return fragment;
+        return new MedicationsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -327,8 +324,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         searchSuggestions.setVisibility(View.GONE);
         if (s.toString().trim().length() > 0) {
             searchMedications(s.toString().trim());
-        }
-        else {
+        } else {
             setMedicationsAdapter(AwsManager.getInstance().getMedications());
         }
     }
