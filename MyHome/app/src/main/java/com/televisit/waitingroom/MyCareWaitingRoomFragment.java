@@ -20,6 +20,7 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.visit.ChatReport;
+import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -97,6 +98,17 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     }
 
     @Override
+    public void onDestroyView() {
+        try {
+            Timber.d("waitingroom. onDestroyView. abandonVisit ");
+            abandonVisit();
+        } catch (Exception ex) {
+            Timber.e(ex);
+        }
+        super.onDestroyView();
+    }
+
+    @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.MY_CARE_WAITING_ROOM;
     }
@@ -116,9 +128,43 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     }
 
     public void abandonVisit() {
+
         // called by onDestroy()
         // this is to ensure we don't have any polling hanging out when it shouldn't be
         AwsManager.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
+    }
+
+    public void cancelVisit() {
+
+        if (AwsManager.getInstance().getVisit() != null) {
+
+            //if we donot cancel on backbutton, we are getting following error:
+            //SDK Error: The consumer is already active in a visit, End the active visit and try again
+
+            Timber.d("Cancelling visit...");
+
+            AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
+                    AwsManager.getInstance().getVisit(),
+                    new SDKCallback<Void, SDKError>() {
+                        @Override
+                        public void onResponse(Void aVoid, SDKError sdkError) {
+                            if (sdkError == null) {
+                                Timber.d("Visit cancelled successfully!!");
+                            } else {
+                                Timber.e("Something failed! :/");
+                                Timber.e("SDK Error: " + sdkError);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            Timber.e("Something failed! :/");
+                            Timber.e("Throwable = " + throwable);
+                        }
+                    });
+        }
+
+        abandonVisit();
     }
 
     public void setVisitIntent(final Intent intent) {

@@ -3,6 +3,7 @@ package com.televisit.cost;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -99,6 +100,14 @@ public class MyCareVisitCostFragment extends BaseFragment {
         reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
         reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
 
+        setHasOptionsMenu(true);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         createVisit();
 
         applyButton.setOnClickListener(new View.OnClickListener() {
@@ -109,10 +118,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     applyCoupon(couponText.getText().toString());
             }
         });
-
-
-        setHasOptionsMenu(true);
-        return view;
     }
 
     @Override
@@ -167,8 +172,16 @@ public class MyCareVisitCostFragment extends BaseFragment {
     }
 
     private void applyCoupon(String couponCode) {
-        if (AwsManager.getInstance().getVisit() == null)
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
             return;
+        }
+
+        if (AwsManager.getInstance().getVisit() == null) {
+            return;
+        }
+
         try {
             intakeLayout.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
@@ -209,8 +222,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
     private void createVisit() {
 
-        Timber.d("createVisit ");
-
         if (!ConnectionUtil.isConnected(getActivity())) {
             Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
             return;
@@ -248,10 +259,16 @@ public class MyCareVisitCostFragment extends BaseFragment {
                             intakeLayout.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
 
-                            if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
-                                Toast.makeText(getContext(), sdkError.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                            else {
+                            if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty() && !sdkError.getSDKErrorReason().isEmpty()) {
+
+                                if (!sdkError.getMessage().isEmpty()) {
+                                    Toast.makeText(getContext(), sdkError.getMessage(), Toast.LENGTH_LONG).show();
+                                } else if (!sdkError.getSDKErrorReason().isEmpty()) {
+                                    Toast.makeText(getContext(), sdkError.getSDKErrorReason(), Toast.LENGTH_LONG).show();
+                                } else if (!sdkError.toString().isEmpty()) {
+                                    Toast.makeText(getContext(), sdkError.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            } else {
                                 Toast.makeText(getContext(), "Provider unavailable \nPlease select a different provider.", Toast.LENGTH_LONG).show();
                             }
                         }

@@ -781,9 +781,17 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
             } else if (activityTag == ActivityTag.MY_MED_HISTORY) {
                 MedicalHistoryFragment frag = ((MedicalHistoryFragment) fm.findFragmentByTag(MedicalHistoryFragment.MED_HISTORY_TAG));
-                if (frag.selectedGroup == HistoryListAdapter.GROUP.ALLERGIES) {
+                if (frag != null && frag.selectedGroup == HistoryListAdapter.GROUP.ALLERGIES) {
                     frag.showConditions();
                 } else {
+                    fm.popBackStack();
+                }
+
+            } else if (activityTag == ActivityTag.MY_CARE_WAITING_ROOM) {
+                MyCareWaitingRoomFragment frag = ((MyCareWaitingRoomFragment) fm.findFragmentByTag(MyCareWaitingRoomFragment.MY_CARE_WAITING_TAG));
+                if (frag != null) {
+                    Timber.d("waitingroom. navigationActivity. cancelVisit ");
+                    frag.cancelVisit();
                     fm.popBackStack();
                 }
 
