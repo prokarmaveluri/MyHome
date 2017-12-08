@@ -168,7 +168,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         checkNotNull(status);
 
         if (null != getActivity())
-            showAlert(getActivity(),status);
+            CommonUtil.showToast(getActivity(),status,Constants.TOAST_DURATION);
     }
 
     @Override
@@ -204,22 +204,6 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         getActivity().finish();
     }
 
-    void showAlert(Context context, String message) {
-        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(context);
-
-        dlgAlert.setMessage(message);
-        dlgAlert.setPositiveButton(context.getString(R.string.ok), null);
-        dlgAlert.setCancelable(true);
-        dlgAlert.create().show();
-
-        dlgAlert.setPositiveButton("Ok",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-    }
-
     public class LoginViewClickEvent {
 
         public void onClickEvent(View view) {
@@ -238,7 +222,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
                         }
                     } else {
-                        showAlert(getActivity(), getActivity().getString(R.string.no_network_msg));
+                        CommonUtil.showToast(getActivity(),getActivity().getString(R.string.no_network_msg),Constants.TOAST_DURATION);
                     }
                     break;
                 case R.id.forgot_password:
@@ -264,14 +248,14 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
 
         if (!CommonUtil.isValidPassword(binder.password.getText().toString())) {
-            showAlert(getActivity(),getString(R.string.valid_password));
+            CommonUtil.showToast(getActivity(),getString(R.string.valid_password),Constants.TOAST_DURATION);
             binder.password.requestFocus();
             return null;
         }
 
         if (AuthManager.getInstance().isMaxFailureAttemptsReached() &&
                 !AuthManager.getInstance().isTimeStampGreaterThan5Mins()) {
-            showAlert(getActivity(),getString(R.string.max_login_tries_reached));
+            CommonUtil.showToast(getActivity(),getString(R.string.max_login_tries_reached),Constants.TOAST_DURATION);
             return null;
         }
         LoginRequest.Options options = new LoginRequest.Options(true, true);
@@ -305,7 +289,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     if (isAdded()) {
                         showProgress(false);
                         AuthManager.getInstance().setBearerToken(null);
-                        showAlert(getActivity(), getString(R.string.failure_msg));
+                        CommonUtil.showToast(getActivity(),getString(R.string.failure_msg),Constants.TOAST_DURATION);
                     }
                     break;
             }
