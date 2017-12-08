@@ -413,23 +413,8 @@ public class HomeFragment extends BaseFragment {
             }
 
             @Override
-            public void onClick(View textView) {
-                /*Toast.makeText(getActivity(), getString(R.string.db_readmore_click),
-                        Toast.LENGTH_LONG).show();*/
-                int id = textView.getId();
-                switch (id) {
-                    case R.id.txt_db_didyouknow_first:
-                        NavigationActivity.setActivityTag(Constants.ActivityTag.HOME_DID_YOU_KNOW_SEC_1);
-                        break;
-                    case R.id.txt_db_didyouknow_second:
-                        NavigationActivity.setActivityTag(Constants.ActivityTag.HOME_DID_YOU_KNOW_SEC_2);
-                        break;
-                }
-
-                final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
-                        R.anim.slide_in_right, R.anim.slide_out_left);
-                Intent intent = new Intent(getActivity(), OptionsActivity.class);
-                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+            public void onClick(View view) {
+                readMoreClickEvents(view);
             }
         };
         partTwo.setSpan(span1, 0, partTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -437,6 +422,32 @@ public class HomeFragment extends BaseFragment {
         builder1.append(partTwo);
         txtReadmore.setText(builder1);
         txtReadmore.setMovementMethod(LinkMovementMethod.getInstance());
+        txtReadmore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                    readMoreClickEvents(view);
+                }
+            }
+        });
+
+    }
+
+    private void readMoreClickEvents(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.txt_db_didyouknow_first:
+                NavigationActivity.setActivityTag(Constants.ActivityTag.HOME_DID_YOU_KNOW_SEC_1);
+                break;
+            case R.id.txt_db_didyouknow_second:
+                NavigationActivity.setActivityTag(Constants.ActivityTag.HOME_DID_YOU_KNOW_SEC_2);
+                break;
+        }
+
+        final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(),
+                R.anim.slide_in_right, R.anim.slide_out_left);
+        Intent intent = new Intent(getActivity(), OptionsActivity.class);
+        ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
     }
 
     @Override
