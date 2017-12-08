@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.consumer.DependentUpdate;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -29,6 +30,7 @@ import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateConsumer;
+import com.televisit.interfaces.AwsUpdateDependent;
 
 import timber.log.Timber;
 
@@ -36,10 +38,8 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class MyCareProfileFragment extends BaseFragment implements AwsUpdateConsumer {
+public class MyCareProfileFragment extends BaseFragment implements AwsUpdateConsumer, AwsUpdateDependent {
     public static final String MY_PROFILE_TAG = "my_profile_tag";
-
-    private Consumer patient;
 
     View profileView;
     TextView welcomeText;
@@ -78,8 +78,6 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         profileView = inflater.inflate(R.layout.my_profile, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.my_personal_information));
-
-        patient = AwsManager.getInstance().getDependent() != null ? AwsManager.getInstance().getDependent() : AwsManager.getInstance().getConsumer();
 
         welcomeText = (TextView) profileView.findViewById(R.id.welcome_text);
         firstNameLayout = (TextInputLayout) profileView.findViewById(R.id.first_name_layout);
@@ -121,7 +119,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             }
         });
 
-        updateConsumerViews(patient);
+        updateConsumerViews(AwsManager.getInstance().getPatient());
 
         setHasOptionsMenu(true);
         return profileView;
@@ -155,77 +153,63 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     private void sendUpdatedConsumer() {
         progress.setVisibility(View.VISIBLE);
 
-        ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(patient);
-
-        //TODO change this once login actually works
-        if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
-            update.setPassword("Pass123*");
-        } else {
-            update.setPassword("Password1");
-        }
-
-        //Comment this back in once login works
-        update.setEmail(email.getText().toString().trim());
-        update.setFirstName(firstName.getText().toString().trim());
-        update.setLastName(lastName.getText().toString().trim());
-        update.setGender(gender.getSelectedItem().toString().trim());
-        update.setPhone(CommonUtil.stripPhoneNumber(phone.getText().toString().trim()));
-        update.setDob(DateUtil.convertReadabletoDob(dateOfBirth.getText().toString().trim()));
-
-        com.americanwell.sdk.entity.Address userAddress = AwsManager.getInstance().getAWSDK().getNewAddress();
-
-        if (address.getText() != null) {
-            userAddress.setAddress1(address.getText().toString());
-        }
-
-        if (address2.getText() != null) {
-            userAddress.setAddress2(address2.getText().toString());
-        }
-
-        if (city.getText() != null) {
-            userAddress.setCity(city.getText().toString());
-        }
-
-        if (state.getSelectedItemPosition() != 0) {
-            userAddress.setState(AwsManager.getInstance().getState(state.getSelectedItem().toString()));
-        }
-
-        if (zip.getText() != null) {
-            userAddress.setZipCode(zip.getText().toString());
-        }
-
-        update.setAddress(userAddress);
-
-//        if (!TextUtils.isEmpty(address1)
-//                || !TextUtils.isEmpty(address2)
-//                || !TextUtils.isEmpty(city)
-//                || state != null
-//                || !TextUtils.isEmpty(zipcode)) {
-//
-//            userAddress.setAddress1(address.getText().toString());
-//            userAddress.setAddress2(address2.getText().toString());
-//            userAddress.setCity(city.getText().toString());
-//            userAddress.setState(state.getSelectedItem().toString());
-//            // not needed as Country is tied to State, but adding for clarity
-//            //userAddress.setCountry(country);
-//            userAddress.setZipCode(zip.getText().toString());
-//        }
-//
-//        if (consumer.getAddress() != null &&
-//                address != null &&
-//                !consumer.getAddress().equals(address)) {
-//            consumerUpdate.setAddress(address);
-//        }
-//
-//        if (consumer.getLegalResidence() != null &&
-//                stateResidence != null &&
-//                !consumer.getLegalResidence().equals(stateResidence)) {
-//            consumerUpdate.setLegalResidence(stateResidence);
-//        }
-
         AwsManager.getInstance().getAWSDK().getNewAddress();
 
-        AwsNetworkManager.getInstance().updateConsumer(update, this);
+        if(AwsManager.getInstance().isPatientMainConsumer()){
+
+            ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(AwsManager.getInstance().getPatient());
+
+            //TODO change this once login actually works
+            if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
+                update.setPassword("Pass123*");
+            } else {
+                update.setPassword("Password1");
+            }
+
+            //Comment this back in once login works
+            update.setEmail(email.getText().toString().trim());
+            update.setFirstName(firstName.getText().toString().trim());
+            update.setLastName(lastName.getText().toString().trim());
+            update.setGender(gender.getSelectedItem().toString().trim());
+            update.setPhone(CommonUtil.stripPhoneNumber(phone.getText().toString().trim()));
+            update.setDob(DateUtil.convertReadabletoDob(dateOfBirth.getText().toString().trim()));
+
+            com.americanwell.sdk.entity.Address userAddress = AwsManager.getInstance().getAWSDK().getNewAddress();
+
+            if (address.getText() != null) {
+                userAddress.setAddress1(address.getText().toString());
+            }
+
+            if (address2.getText() != null) {
+                userAddress.setAddress2(address2.getText().toString());
+            }
+
+            if (city.getText() != null) {
+                userAddress.setCity(city.getText().toString());
+            }
+
+            if (state.getSelectedItemPosition() != 0) {
+                userAddress.setState(AwsManager.getInstance().getState(state.getSelectedItem().toString()));
+            }
+
+            if (zip.getText() != null) {
+                userAddress.setZipCode(zip.getText().toString());
+            }
+
+            update.setAddress(userAddress);
+
+            AwsNetworkManager.getInstance().updateConsumer(update, this);
+        } else {
+            DependentUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewDependentUpdate(AwsManager.getInstance().getPatient());
+
+            //Comment this back in once login works
+            update.setFirstName(firstName.getText().toString().trim());
+            update.setLastName(lastName.getText().toString().trim());
+            update.setGender(gender.getSelectedItem().toString().trim());
+            update.setDob(DateUtil.convertReadabletoDob(dateOfBirth.getText().toString().trim()));
+
+            AwsNetworkManager.getInstance().updateDependent(update, this);
+        }
     }
 
     /**
@@ -352,13 +336,8 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
     @Override
     public void updateConsumerComplete(Consumer consumer) {
-        if (AwsManager.getInstance().getDependent() == null) {
-            //You probably updated yourself since no dependents were selectable
-            AwsManager.getInstance().setConsumer(consumer);
-        } else {
-            //You probably updated your dependent
-            AwsManager.getInstance().setDependent(consumer);
-        }
+        AwsManager.getInstance().setPatient(consumer);
+        AwsManager.getInstance().setConsumer(consumer);
 
         Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
         getActivity().onBackPressed();
@@ -366,6 +345,22 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
     @Override
     public void updateConsumerFailed(String errorMessage) {
+        Timber.e(errorMessage);
+        Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+        getActivity().onBackPressed();
+    }
+
+    @Override
+    public void updateDependentComplete(Consumer consumer) {
+        AwsManager.getInstance().setPatient(consumer);
+        AwsManager.getInstance().setHasConsumer(false); //force a refresh of the dashboard
+
+        Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+        getActivity().onBackPressed();
+    }
+
+    @Override
+    public void updateDependentFailed(String errorMessage) {
         Timber.e(errorMessage);
         Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
         getActivity().onBackPressed();
