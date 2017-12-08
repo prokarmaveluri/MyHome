@@ -362,6 +362,7 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.5'
     compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
     compile 'com.github.myinnos:AlphabetIndex-Fast-Scroll-RecyclerView:1.0.8'
+    compile 'es.voghdev.pdfviewpager:library:1.0.3'
     compile 'commons-io:commons-io:2.5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.12.0'
@@ -377,7 +378,7 @@ dependencies {
     //    compile 'com.google.android.gms:play-services-base:10.2.1'
     //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'frankiesardo:icepick:3.2.0'
-    //    compile 'com.auth0.android:jwtdecode:1.1.1'
+    compile 'com.auth0.android:jwtdecode:1.1.1'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
     provided 'frankiesardo:icepick-processor:3.2.0'
 }

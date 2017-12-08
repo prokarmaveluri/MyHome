@@ -82,11 +82,16 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         docImage = (CircularImageView) view.findViewById(R.id.doc_image);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
-        showLoading();
-        AwsNetworkManager.getInstance().getVisitSummary(visit, this);
-
         setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        showLoading();
+        AwsNetworkManager.getInstance().getVisitSummary(visit, this);
     }
 
     @Override

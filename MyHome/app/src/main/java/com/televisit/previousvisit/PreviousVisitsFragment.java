@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.VisitReport;
@@ -19,6 +20,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
@@ -75,9 +77,6 @@ public class PreviousVisitsFragment extends BaseFragment {
         list = (RecyclerView) view.findViewById(R.id.list);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
 
-        progressBar.setVisibility(View.VISIBLE);
-        list.setVisibility(View.GONE);
-
         setHasOptionsMenu(false);
         return view;
     }
@@ -128,6 +127,12 @@ public class PreviousVisitsFragment extends BaseFragment {
 
     private void getPreviousVisits() {
 
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             progressBar.setVisibility(View.GONE);
             Timber.d("visits isHasInitializedAwsdk: FALSE ");
@@ -135,7 +140,9 @@ public class PreviousVisitsFragment extends BaseFragment {
         }
 
         reqCount++;
+
         progressBar.setVisibility(View.VISIBLE);
+        list.setVisibility(View.GONE);
 
         final boolean scheduledOnly = false;
 

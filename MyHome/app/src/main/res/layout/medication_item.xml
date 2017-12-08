@@ -2,15 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp">
+    android:layout_marginLeft="32dp"
+    android:paddingRight="6dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
 
     <TextView
         android:id="@+id/medication_text"
         style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:padding="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="6dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
         android:text="Show More API Error Info" />
 
     <TextView

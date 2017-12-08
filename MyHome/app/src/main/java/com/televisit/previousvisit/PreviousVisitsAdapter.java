@@ -14,9 +14,6 @@ import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.DateUtil;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
@@ -33,7 +30,6 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public List<VisitReport> visitReports;
     private final RecyclerViewListener onItemClickListener;
     private final DecimalFormat amountFormat;
-    private final SimpleDateFormat dateFormat;
 
 
     public PreviousVisitsAdapter(Context context, @Nullable List<VisitReport> visitReports, RecyclerViewListener onItemClickListener) {
@@ -41,7 +37,6 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.visitReports = visitReports;
         this.onItemClickListener = onItemClickListener;
         amountFormat = new DecimalFormat("##.##");
-        dateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a");
     }
 
     @Override
@@ -68,10 +63,7 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 try {
                     if (visitReport.getDate() != null && visitReport.getDate().isValidDate()) {
-                        // DateUtil.convertDateToReadableShort(DateUtil.getDateFromHyphens(stringDate)));
-                        // holder.date.setText(dateFormat.format(visitReport.getDate().toDate()));
-
-                        holder.date.setText(DateUtil.convertDateToReadableShort(visitReport.getDate().toDate()));
+                        holder.date.setText(DateUtil.convertDateTimeTimezoneToReadableShort(visitReport.getDate().toDate()));
                     }
                 } catch (Exception e) {
                     Timber.e(e);

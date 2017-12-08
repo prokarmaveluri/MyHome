@@ -41,6 +41,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.MapClusterItem;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
 import com.squareup.otto.Subscribe;
@@ -341,6 +342,11 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private void getPharmaciesByZip(String zipCode) {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
 
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(

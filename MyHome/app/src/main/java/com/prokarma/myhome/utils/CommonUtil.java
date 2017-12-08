@@ -366,7 +366,7 @@ public class CommonUtil {
             }
 
             if (appointment.facilityPhoneNumber != null || appointment.visitReason != null) {
-                intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumberDots(appointment.facilityPhoneNumber) + "\n" + appointment.visitReason);
+                intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumberDots(appointment.facilityPhoneNumber) + "\n\nReason for visit: " + appointment.visitReason);
             }
 
             if (appointment.facilityAddress != null) {
@@ -412,7 +412,7 @@ public class CommonUtil {
         }
 
         if (facilityPhoneNumber != null || visitReason != null) {
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumberDots(facilityPhoneNumber) + "\n" + visitReason);
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, constructPhoneNumberDots(facilityPhoneNumber) + "\n\nReason for visit: " + visitReason);
         }
 
         if (facilityAddress != null) {
@@ -566,7 +566,7 @@ public class CommonUtil {
         }
 
         if (visitReason != null && !visitReason.isEmpty()) {
-            message = message + "\n" + visitReason;
+            message = message + "\n\nReason for visit: " + visitReason;
         }
 
         Intent intent = new Intent(Intent.ACTION_SEND);

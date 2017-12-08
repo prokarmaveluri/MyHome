@@ -14,6 +14,7 @@ import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
@@ -22,6 +23,7 @@ import com.americanwell.sdk.entity.visit.ChatReport;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
@@ -101,6 +103,11 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     private void startVisit(final Address location,
                             @Nullable final Intent visitFinishedIntent) {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
 
         abandonVisit();
 

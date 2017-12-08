@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
@@ -17,6 +19,7 @@ import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -140,6 +143,7 @@ public class AuthManager {
     }
 
     public boolean hasMyCare() {
+        //temporarily showing MyCareNow to all users, until login & certain APIs are figured out
         return true; //hasMyCare;
     }
 
@@ -249,7 +253,7 @@ public class AuthManager {
         if (bearerToken != null) {
             checkMyCareEligibility();
 
-            if (hasMyCare) {
+            if (hasMyCare()) {
                 //TODO KEVIN - once mutual auth is figured out, uncomment this so we can grab the AmWell token as early as possible
 //                NetworkManager.getInstance().getAmWellToken(bearerToken).enqueue(new Callback<AmWellResponse>() {
 //                    @Override
@@ -280,18 +284,19 @@ public class AuthManager {
     }
 
     private void checkMyCareEligibility() {
-//        try {
-//            JWT jwt = new JWT(bearerToken);
-//
-//            Claim claim = jwt.getClaim("groups");
-//            List<String> groups = claim.asList(String.class);
-//            if (groups != null && groups.contains("Telehealth Users")) {
-//                setHasMyCare(true);
-//            }
-//        } catch (Exception e) {
-//            Timber.e(e);
-//            e.printStackTrace();
-//        }
+        try {
+            JWT jwt = new JWT(bearerToken);
+
+            Claim claim = jwt.getClaim("groups");
+            List<String> groups = claim.asList(String.class);
+            if (groups != null && groups.contains("Telehealth Users")) {
+                setHasMyCare(true);
+            }
+        } catch (Exception e) {
+            Timber.e(e);
+            e.printStackTrace();
+        }
+        //temporarily showing MyCareNow to all users, until login & certain APIs are figured out
         setHasMyCare(true);
     }
 

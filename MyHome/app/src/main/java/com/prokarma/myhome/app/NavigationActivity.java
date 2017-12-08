@@ -55,7 +55,7 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
-import com.prokarma.myhome.views.PdfRendererBasicFragment;
+import com.prokarma.myhome.views.PdfRendererZoomFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.televisit.cost.MyCareVisitCostFragment;
@@ -634,14 +634,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case PREVIOUS_VISIT_SUMMARY_PDF:
                 if (getActivityTag() != ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF) {
                     getSupportFragmentManager().executePendingTransactions();
-
-                    PdfRendererBasicFragment fragment = new PdfRendererBasicFragment();
+                    PdfRendererZoomFragment fragment = new PdfRendererZoomFragment();
                     fragment.setArguments(bundle);
-
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, fragment, PdfRendererBasicFragment.PDF_TAG)
+                            .replace(R.id.frame, fragment, PdfRendererZoomFragment.PDF_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
@@ -825,13 +823,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             if (visisble) {
                 toolbarLine.setVisibility(View.VISIBLE);
                 Timber.d("toolbarLine visibility set to visible ");
-            }
-            else {
+            } else {
                 toolbarLine.setVisibility(View.GONE);
                 Timber.d("toolbarLine visibility set to gone ");
             }
-        }
-        else {
+        } else {
             Timber.d("toolbarLine is NULL ");
         }
     }

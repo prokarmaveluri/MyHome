@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/waiting_room_button"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="23dp"
+                android:layout_marginTop="18dp"
                 android:padding="12dp"
                 android:text="@string/view_previous_visits"
                 android:textColor="@color/accent"

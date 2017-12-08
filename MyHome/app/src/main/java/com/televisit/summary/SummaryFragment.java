@@ -27,6 +27,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
@@ -142,6 +143,11 @@ public class SummaryFragment extends Fragment {
     }
 
     private void getVisitReportDetails(final VisitReport visitReport) {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             Timber.d("visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");

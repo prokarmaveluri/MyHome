@@ -164,7 +164,7 @@
     <string name="db_res_notsuccess">Response, but not successful?</string>
     <string name="db_res_failed">Something failed! :/</string>
     <string name="db_res_throwable">Throwable</string>
-    <string name="db_appoint_one">It looks like you have</string>
+    <string name="db_appoint_one">You have</string>
     <string name="db_appoint_two">appointment scheduled</string>
     <string name="db_appoint_three">appointments scheduled</string>
     <string name="db_appoint_four">No appointments scheduled!</string>
@@ -238,6 +238,7 @@
     <string name="contact_us_phone">8442748497</string>
     <string name="something_went_wrong">We\'re sorry, we\'ve hit a snag. Please try again.</string>
     <string name="date_of_birth_invalid">Invalid Date of Birth</string>
+    <string name="date_of_birth_required">Date of Birth required</string>
     <string name="contact_us_email">hello@dignityhealth.org</string>
 
     <string name="filter_title">Filter</string>
@@ -386,7 +387,7 @@
     <!-- Medications -->
 
     <!-- Add Medication -->
-    <string name="add_additional_medication">Add Additional Medication</string>
+    <string name="add_additional_medication">+&#160;Add Additional Medication</string>
 
 
     <!-- Allergies -->

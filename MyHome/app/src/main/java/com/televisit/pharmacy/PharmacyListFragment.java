@@ -20,10 +20,12 @@ import android.widget.Toast;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
+import com.americanwell.sdk.entity.pharmacy.PharmacyType;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
@@ -86,7 +88,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         pharmacySearch.setOnEditorActionListener(this);
         searchCancelClickEvent();
 
-        setListAdapter(AwsManager.getInstance().getPharmacies());
+        //setListAdapter(AwsManager.getInstance().getPharmacies(), "");
         return view;
     }
 
@@ -119,12 +121,17 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         });
     }
 
-    private void getPharmaciesByZip(String zipCode) {
+    private void getPharmaciesByZip(final String zipCode) {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
 
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 AwsManager.getInstance().getConsumer(),
-                null,
+                PharmacyType.RETAIL,
                 null,
                 null,
                 zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
@@ -136,16 +143,24 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                     @Override
                     public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
                         if (sdkError == null) {
+
                             AwsManager.getInstance().setPharmacies(pharmacies);
-                            setListAdapter(pharmacies);
+                            setListAdapter(pharmacies, zipCode);
+
                             SearchPharmacies object = new SearchPharmacies();
                             object.setPharmacies(pharmacies);
-                            if (null != getActivity()) {
-                                NavigationActivity.eventBus.post(object);
-                                CommonUtil.hideSoftKeyboard(getActivity());
-                            }
+                            NavigationActivity.eventBus.post(object);
                         }
+
                         progressBar.setVisibility(View.GONE);
+
+                        if (pharmacies == null || pharmacies.size() == 0) {
+                            Toast.makeText(getContext(), "No Pharmacies found. \n\n we could'nt find any relevent results for " + zipCode, Toast.LENGTH_SHORT).show();
+                        }
+
+                        if (null != getActivity()) {
+                            CommonUtil.hideSoftKeyboard(getActivity());
+                        }
                     }
 
                     @Override
@@ -197,8 +212,8 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         return false;
     }
 
-    private void setListAdapter(List<Pharmacy> pharmacies) {
-        if (null != getActivity() && isAdded() && pharmacies != null) {
+    private void setListAdapter(List<Pharmacy> pharmacies, final String zipCode) {
+        if (null != getActivity() && isAdded() && pharmacies != null && pharmacies.size() > 0) {
             pharmacyList.setVisibility(View.VISIBLE);
             pharmacyList.setLayoutManager(new LinearLayoutManager(getActivity()));
             RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);

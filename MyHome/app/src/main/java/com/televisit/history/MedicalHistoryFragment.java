@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,11 +13,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Allergy;
@@ -28,6 +26,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
 
@@ -104,8 +103,6 @@ public class MedicalHistoryFragment extends BaseFragment implements
             progressBar.setVisibility(View.GONE);
             expandableList.setVisibility(View.VISIBLE);
         } else {
-            progressBar.setVisibility(View.VISIBLE);
-            expandableList.setVisibility(View.GONE);
             getConditions();
             getAllergies();
         }
@@ -212,7 +209,10 @@ public class MedicalHistoryFragment extends BaseFragment implements
         }
 
         reqCount++;
+
         progressBar.setVisibility(View.VISIBLE);
+        expandableList.setVisibility(View.GONE);
+
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
                 AwsManager.getInstance().getConsumer(),
                 new SDKCallback<List<Condition>, SDKError>() {
@@ -246,6 +246,11 @@ public class MedicalHistoryFragment extends BaseFragment implements
     }
 
     private void getAllergies() {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             Timber.d("MH. getAllergies. isHasInitializedAwsdk: FALSE ");
@@ -282,6 +287,12 @@ public class MedicalHistoryFragment extends BaseFragment implements
     }
 
     private void updateConditions() {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateConditions(
                 AwsManager.getInstance().getConsumer(),
