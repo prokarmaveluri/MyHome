@@ -52,6 +52,18 @@ android {
     def TEST_S2_BASE_URL = "\"https://web-usw1-fad-tst.azurewebsites.net/\""
     def TEST_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-tst.azurewebsites.net/\""
 
+    def SLOT1_VERSIONING_URL = "\"https://web-usw1-versioningservices-dev.azurewebsites.net/\""
+    def SLOT1_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
+    def SLOT1_CIAM_BASE_URL = "\"https://web-usw1-ciamweb-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def SLOT1_S2_BASE_URL = "\"https://web-usw1-fad-dev.azurewebsites.net/\""
+    def SLOT1_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-dev.azurewebsites.net/\""
+    def SLOT1_AUTH_CLIENT_ID = "\"ausb2b0jbri7MsQGl0h7\""
+    def SLOT1_CLIENT_ID = "\"0oab54ai6q0zFI8fq0h7\""
+    def SLOT1_AUTH_SCOPE = "\"openid+email+profile+offline_access+groups\""
+    def SLOT1_AUTH_REDIRECT_URI = "\"http://localhost:8080\""
+    def SLOT1_GRANT_TYPE_AUTH = "\"authorization_code\""
+    def SLOT1_GRANT_TYPE_REFRESH = "\"refresh_token\""
+
     def DEV_VERSIONING_URL = "\"https://web-usw1-versioningservices-dev.azurewebsites.net/\""
     def DEV_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def DEV_CIAM_BASE_URL = "\"https://dev.ciam.dignityhealth.org/\""
@@ -188,6 +200,19 @@ android {
             buildConfigField STRING, "D_GRANT_TYPE_AUTH", DEV_GRANT_TYPE_AUTH
             buildConfigField STRING, "D_GRANT_TYPE_REFRESH", DEV_GRANT_TYPE_REFRESH
 
+            buildConfigField STRING, S1_VERSIONING_URL, SLOT1_VERSIONING_URL
+            buildConfigField STRING, S1_OKTA_BASE_URL, SLOT1_OKTA_BASE_URL
+            buildConfigField STRING, S1_CIAM_BASE_URL, SLOT1_CIAM_BASE_URL
+            buildConfigField STRING, S1_S2_BASE_URL, SLOT1_S2_BASE_URL
+            buildConfigField STRING, S1_SCHEDULING_BASE, SLOT1_SCHEDULING_BASE
+
+            buildConfigField STRING, "S1_AUTH_CLIENT_ID", SLOT1_AUTH_CLIENT_ID
+            buildConfigField STRING, "S1_CLIENT_ID", SLOT1_CLIENT_ID
+            buildConfigField STRING, "S1_AUTH_SCOPE", SLOT1_AUTH_SCOPE
+            buildConfigField STRING, "S1_AUTH_REDIRECT_URI", SLOT1_AUTH_REDIRECT_URI
+            buildConfigField STRING, "S1_GRANT_TYPE_AUTH", SLOT1_GRANT_TYPE_AUTH
+            buildConfigField STRING, "S1_GRANT_TYPE_REFRESH", SLOT1_GRANT_TYPE_REFRESH
+
             buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
             buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
             buildConfigField STRING, P_CIAM_BASE_URL, PROD_CIAM_BASE_URL
@@ -256,6 +281,19 @@ android {
             buildConfigField STRING, "D_AUTH_REDIRECT_URI", DEV_AUTH_REDIRECT_URI
             buildConfigField STRING, "D_GRANT_TYPE_AUTH", DEV_GRANT_TYPE_AUTH
             buildConfigField STRING, "D_GRANT_TYPE_REFRESH", DEV_GRANT_TYPE_REFRESH
+
+            buildConfigField STRING, S1_VERSIONING_URL, SLOT1_VERSIONING_URL
+            buildConfigField STRING, S1_OKTA_BASE_URL, SLOT1_OKTA_BASE_URL
+            buildConfigField STRING, S1_CIAM_BASE_URL, SLOT1_CIAM_BASE_URL
+            buildConfigField STRING, S1_S2_BASE_URL, SLOT1_S2_BASE_URL
+            buildConfigField STRING, S1_SCHEDULING_BASE, SLOT1_SCHEDULING_BASE
+
+            buildConfigField STRING, "S1_AUTH_CLIENT_ID", SLOT1_AUTH_CLIENT_ID
+            buildConfigField STRING, "S1_CLIENT_ID", SLOT1_CLIENT_ID
+            buildConfigField STRING, "S1_AUTH_SCOPE", SLOT1_AUTH_SCOPE
+            buildConfigField STRING, "S1_AUTH_REDIRECT_URI", SLOT1_AUTH_REDIRECT_URI
+            buildConfigField STRING, "S1_GRANT_TYPE_AUTH", SLOT1_GRANT_TYPE_AUTH
+            buildConfigField STRING, "S1_GRANT_TYPE_REFRESH", SLOT1_GRANT_TYPE_REFRESH
 
             buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
             buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
@@ -326,6 +364,19 @@ android {
             buildConfigField STRING, "D_AUTH_REDIRECT_URI", DEV_AUTH_REDIRECT_URI
             buildConfigField STRING, "D_GRANT_TYPE_AUTH", DEV_GRANT_TYPE_AUTH
             buildConfigField STRING, "D_GRANT_TYPE_REFRESH", DEV_GRANT_TYPE_REFRESH
+
+            buildConfigField STRING, S1_VERSIONING_URL, SLOT1_VERSIONING_URL
+            buildConfigField STRING, S1_OKTA_BASE_URL, SLOT1_OKTA_BASE_URL
+            buildConfigField STRING, S1_CIAM_BASE_URL, SLOT1_CIAM_BASE_URL
+            buildConfigField STRING, S1_S2_BASE_URL, SLOT1_S2_BASE_URL
+            buildConfigField STRING, S1_SCHEDULING_BASE, SLOT1_SCHEDULING_BASE
+
+            buildConfigField STRING, "S1_AUTH_CLIENT_ID", SLOT1_AUTH_CLIENT_ID
+            buildConfigField STRING, "S1_CLIENT_ID", SLOT1_CLIENT_ID
+            buildConfigField STRING, "S1_AUTH_SCOPE", SLOT1_AUTH_SCOPE
+            buildConfigField STRING, "S1_AUTH_REDIRECT_URI", SLOT1_AUTH_REDIRECT_URI
+            buildConfigField STRING, "S1_GRANT_TYPE_AUTH", SLOT1_GRANT_TYPE_AUTH
+            buildConfigField STRING, "S1_GRANT_TYPE_REFRESH", SLOT1_GRANT_TYPE_REFRESH
 
             buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
             buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
