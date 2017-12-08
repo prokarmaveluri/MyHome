@@ -57,7 +57,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private TextInputEditText reasonForVisit;
     private TextInputLayout reasonLayout;
     private TextInputLayout phoneLayout;
-    private TextView privacyPolicyLink;
+    private TextView privacyLink;
+    private TextView policyLink;
     private AppCompatRadioButton agreePrivacyPolicyRadio;
 
     public MyCareVisitCostFragment() {
@@ -96,7 +97,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
         reasonForVisit = (TextInputEditText) view.findViewById(R.id.reasonForVisit);
         reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
         phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
-        privacyPolicyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text2);
+        privacyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text2);
+        policyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text3);
         agreePrivacyPolicyRadio = (AppCompatRadioButton) view.findViewById(R.id.agree_privacy_policy_radio);
 
         reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
@@ -122,7 +124,16 @@ public class MyCareVisitCostFragment extends BaseFragment {
             }
         });
 
-        privacyPolicyLink.setOnClickListener(new View.OnClickListener() {
+        privacyLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() instanceof NavigationActivity) {
+                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PRIVACY_POLICY, null);
+                }
+            }
+        });
+
+        policyLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (getActivity() instanceof NavigationActivity) {

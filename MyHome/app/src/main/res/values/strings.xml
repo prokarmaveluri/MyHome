@@ -401,7 +401,9 @@
     <string name="visit_cost_apply">Apply</string>
     <string name="payment">Payment</string>
     <string name="agree_privacy_policy_text1">I have read and agree to the&#160;</string>
-    <string name="agree_privacy_policy_text2">Privacy Policy.</string>
+    <string name="agree_privacy_policy_text2">Privacy</string>
+    <string name="agree_privacy_policy_text3">Policy.</string>
+
 
     <!-- Payment Information -->
 
