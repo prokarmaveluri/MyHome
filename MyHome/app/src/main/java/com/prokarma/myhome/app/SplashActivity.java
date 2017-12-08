@@ -135,6 +135,8 @@ public class SplashActivity extends AppCompatActivity implements
             if (currentEnv != EnviHandler.EnvType.NONE) {
                 if (currentEnv == EnviHandler.EnvType.DEV) {
                     EnviHandler.initEnv(EnviHandler.EnvType.DEV);
+                } else if (currentEnv == EnviHandler.EnvType.SLOT1) {
+                    EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
                 } else if (currentEnv == EnviHandler.EnvType.STAGE) {
                     EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
                 } else if (currentEnv == EnviHandler.EnvType.PROD) {
@@ -156,9 +158,12 @@ public class SplashActivity extends AppCompatActivity implements
                                 currentEnv = EnviHandler.EnvType.DEV;
                                 EnviHandler.initEnv(EnviHandler.EnvType.DEV);
                             } else if (which == 1) {
+                                currentEnv = EnviHandler.EnvType.SLOT1;
+                                EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
+                            } else if (which == 2) {
                                 currentEnv = EnviHandler.EnvType.STAGE;
                                 EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
-                            } else if (which == 2) {
+                            } else if (which == 3) {
                                 currentEnv = EnviHandler.EnvType.PROD;
                                 EnviHandler.initEnv(EnviHandler.EnvType.PROD);
                             }

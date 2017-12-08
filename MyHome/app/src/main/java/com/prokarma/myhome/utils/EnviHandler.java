@@ -10,6 +10,7 @@ public class EnviHandler {
 
     public enum EnvType {
         DEV,
+        SLOT1,
         STAGE,
         PROD,
         TEST,
@@ -34,6 +35,9 @@ public class EnviHandler {
         switch (type) {
             case DEV:
                 initDev();
+                break;
+            case SLOT1:
+                initSlot1();
                 break;
             case STAGE:
                 initStage();
@@ -63,6 +67,22 @@ public class EnviHandler {
         AUTH_REDIRECT_URI = BuildConfig.D_AUTH_REDIRECT_URI;
         GRANT_TYPE_AUTH = BuildConfig.D_GRANT_TYPE_AUTH;
         GRANT_TYPE_REFRESH = BuildConfig.D_GRANT_TYPE_REFRESH;
+    }
+
+    private static void initSlot1() {
+
+        VERSIONING_URL = BuildConfig.S1_VERSIONING_URL;
+        OKTA_BASE_URL = BuildConfig.S1_OKTA_BASE_URL;
+        CIAM_BASE_URL = BuildConfig.S1_CIAM_BASE_URL;
+        S2_BASE_URL = BuildConfig.S1_S2_BASE_URL;
+        SCHEDULING_BASE = BuildConfig.S1_SCHEDULING_BASE;
+
+        AUTH_CLIENT_ID = BuildConfig.S1_AUTH_CLIENT_ID;
+        CLIENT_ID = BuildConfig.S1_CLIENT_ID;
+        AUTH_SCOPE = BuildConfig.S1_AUTH_SCOPE;
+        AUTH_REDIRECT_URI = BuildConfig.S1_AUTH_REDIRECT_URI;
+        GRANT_TYPE_AUTH = BuildConfig.S1_GRANT_TYPE_AUTH;
+        GRANT_TYPE_REFRESH = BuildConfig.S1_GRANT_TYPE_REFRESH;
     }
 
     private static void initStage() {
