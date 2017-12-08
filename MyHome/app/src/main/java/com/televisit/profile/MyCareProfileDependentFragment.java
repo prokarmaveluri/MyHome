@@ -17,8 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
-import com.prokarma.myhome.BuildConfig;
+import com.americanwell.sdk.entity.consumer.DependentUpdate;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -28,7 +27,7 @@ import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
-import com.televisit.interfaces.AwsUpdateConsumer;
+import com.televisit.interfaces.AwsUpdateDependent;
 
 import timber.log.Timber;
 
@@ -36,11 +35,10 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class MyCareProfileFragment extends BaseFragment implements AwsUpdateConsumer {
+public class MyCareProfileDependentFragment extends BaseFragment implements AwsUpdateDependent {
     public static final String MY_PROFILE_TAG = "my_profile_tag";
 
     View profileView;
-    TextView welcomeText;
     TextInputLayout firstNameLayout;
     TextInputEditText firstName;
     TextInputLayout lastNameLayout;
@@ -48,22 +46,12 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     Spinner gender;
     TextInputLayout dateOfBirthLayout;
     TextInputEditText dateOfBirth;
-    TextInputEditText address;
-    TextInputEditText address2;
-    TextInputEditText city;
-    Spinner state;
-    TextInputLayout zipLayout;
-    TextInputEditText zip;
-    TextInputLayout phoneLayout;
-    TextInputEditText phone;
-    TextInputLayout emailLayout;
-    TextView email;
     TextView genderLabel;
 
     ProgressBar progress;
 
-    public static MyCareProfileFragment newInstance() {
-        return new MyCareProfileFragment();
+    public static MyCareProfileDependentFragment newInstance() {
+        return new MyCareProfileDependentFragment();
     }
 
     @Override
@@ -74,10 +62,9 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        profileView = inflater.inflate(R.layout.my_profile, container, false);
+        profileView = inflater.inflate(R.layout.dependent_profile, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.my_personal_information));
 
-        welcomeText = (TextView) profileView.findViewById(R.id.welcome_text);
         firstNameLayout = (TextInputLayout) profileView.findViewById(R.id.first_name_layout);
         firstName = (TextInputEditText) profileView.findViewById(R.id.first_name);
         lastNameLayout = (TextInputLayout) profileView.findViewById(R.id.last_name_layout);
@@ -86,20 +73,9 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         gender = (Spinner) profileView.findViewById(R.id.gender);
         dateOfBirthLayout = (TextInputLayout) profileView.findViewById(R.id.dob_layout);
         dateOfBirth = (TextInputEditText) profileView.findViewById(R.id.dob);
-        address = (TextInputEditText) profileView.findViewById(R.id.address);
-        address2 = (TextInputEditText) profileView.findViewById(R.id.address2);
-        city = (TextInputEditText) profileView.findViewById(R.id.city);
-        state = (Spinner) profileView.findViewById(R.id.state);
-        zipLayout = (TextInputLayout) profileView.findViewById(R.id.zip_layout);
-        zip = (TextInputEditText) profileView.findViewById(R.id.zip);
-        phoneLayout = (TextInputLayout) profileView.findViewById(R.id.phone_layout);
-        phone = (TextInputEditText) profileView.findViewById(R.id.phone);
-        email = (TextView) profileView.findViewById(R.id.email);
         progress = (ProgressBar) profileView.findViewById(R.id.profile_edit_progress);
 
         dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
-
-        phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -109,15 +85,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             }
         });
 
-        state.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                CommonUtil.hideSoftKeyboard(getActivity());
-                return false;
-            }
-        });
-
-        updateConsumerViews(AwsManager.getInstance().getPatient());
+        updateDependentViews(AwsManager.getInstance().getPatient());
 
         setHasOptionsMenu(true);
         return profileView;
@@ -140,7 +108,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             case R.id.save_profile:
                 CommonUtil.hideSoftKeyboard(getActivity());
                 if (isValidConsumer()) {
-                    sendUpdatedConsumer();
+                    sendUpdatedDependent();
                 }
                 break;
         }
@@ -148,53 +116,20 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendUpdatedConsumer() {
+    private void sendUpdatedDependent() {
         progress.setVisibility(View.VISIBLE);
 
         AwsManager.getInstance().getAWSDK().getNewAddress();
 
-        ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(AwsManager.getInstance().getPatient());
-
-        //TODO change this once login actually works
-        if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
-            update.setPassword("Pass123*");
-        } else {
-            update.setPassword("Password1");
-        }
+        DependentUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewDependentUpdate(AwsManager.getInstance().getPatient());
 
         //Comment this back in once login works
-        update.setEmail(email.getText().toString().trim());
         update.setFirstName(firstName.getText().toString().trim());
         update.setLastName(lastName.getText().toString().trim());
         update.setGender(gender.getSelectedItem().toString().trim());
-        update.setPhone(CommonUtil.stripPhoneNumber(phone.getText().toString().trim()));
         update.setDob(DateUtil.convertReadabletoDob(dateOfBirth.getText().toString().trim()));
 
-        com.americanwell.sdk.entity.Address userAddress = AwsManager.getInstance().getAWSDK().getNewAddress();
-
-        if (address.getText() != null) {
-            userAddress.setAddress1(address.getText().toString());
-        }
-
-        if (address2.getText() != null) {
-            userAddress.setAddress2(address2.getText().toString());
-        }
-
-        if (city.getText() != null) {
-            userAddress.setCity(city.getText().toString());
-        }
-
-        if (state.getSelectedItemPosition() != 0) {
-            userAddress.setState(AwsManager.getInstance().getState(state.getSelectedItem().toString()));
-        }
-
-        if (zip.getText() != null) {
-            userAddress.setZipCode(zip.getText().toString());
-        }
-
-        update.setAddress(userAddress);
-
-        AwsNetworkManager.getInstance().updateConsumer(update, this);
+        AwsNetworkManager.getInstance().updateDependent(update, this);
     }
 
     /**
@@ -202,14 +137,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
      *
      * @param consumer the consumer that we're using to autopopulate the EditTexts
      */
-    private void updateConsumerViews(Consumer consumer) {
-        if (consumer.getFirstName() != null) {
-            welcomeText.setText(getString(R.string.mcn_welcome_text_variable, consumer.getFirstName()));
-            firstName.setText(consumer.getFirstName());
-        } else {
-            welcomeText.setText(getString(R.string.mcn_welcome_text));
-        }
-
+    private void updateDependentViews(Consumer consumer) {
         if (consumer.getLastName() != null) {
             lastName.setText(consumer.getLastName());
         }
@@ -229,44 +157,6 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
         if (consumer.getDob() != null) {
             dateOfBirth.setText(DateUtil.convertDobtoReadable(consumer.getDob()));
-        }
-
-        if (consumer.getAddress() != null && consumer.getAddress().getAddress1() != null) {
-            address.setText(consumer.getAddress().getAddress1());
-        }
-
-        if (consumer.getAddress() != null && consumer.getAddress().getAddress2() != null) {
-            address2.setText(consumer.getAddress().getAddress2());
-        }
-
-        if (consumer.getAddress() != null && consumer.getAddress().getCity() != null) {
-            city.setText(consumer.getAddress().getCity());
-        }
-
-        if (consumer.getAddress() != null && consumer.getAddress().getState() != null) {
-
-            //Loop through states until we find a match, then set state spinner selection
-            for (int i = 0; i < state.getAdapter().getCount(); i++) {
-                if (consumer.getAddress().getState().getCode().equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
-                    state.setSelection(i);
-                    break;
-                }
-            }
-        } else {
-            state.setSelection(0);  //Placeholder is the first item in the array
-        }
-
-        if (consumer.getAddress() != null && consumer.getAddress().getZipCode() != null) {
-            zip.setText(consumer.getAddress().getZipCode().trim());
-        }
-
-        if (consumer.getPhone() != null) {
-            //phone.setText(profile.phoneNumber.replaceAll("\\.", "-"));
-            phone.setText(CommonUtil.constructPhoneNumberDots(consumer.getPhone()));
-        }
-
-        if (consumer.getEmail() != null) {
-            email.setText(consumer.getEmail());
         }
     }
 
@@ -295,41 +185,25 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             dateOfBirthLayout.setError(null);
         }
 
-        if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 &&
-                zip.getText().toString().trim().length() != 5)) {
-            isValid = false;
-            zipLayout.setError(getString(R.string.zip_invalid));
-        } else {
-            zipLayout.setError(null);
-        }
-
-        if (phoneLayout.getVisibility() == View.VISIBLE && phone.getText().toString().trim().length() != 0 &&
-                !CommonUtil.isValidMobile(phone.getText().toString())) {
-            isValid = false;
-            phoneLayout.setError(getString(R.string.phone_number_invalid));
-        } else {
-            phoneLayout.setError(null);
-        }
-
         return isValid;
     }
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.MY_CARE_PROFILE;
+        return Constants.ActivityTag.MY_CARE_PROFILE_DEPENDENT;
     }
 
     @Override
-    public void updateConsumerComplete(Consumer consumer) {
+    public void updateDependentComplete(Consumer consumer) {
         AwsManager.getInstance().setPatient(consumer);
-        AwsManager.getInstance().setConsumer(consumer);
+        AwsManager.getInstance().setHasConsumer(false); //force a refresh of the dashboard
 
         Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
         getActivity().onBackPressed();
     }
 
     @Override
-    public void updateConsumerFailed(String errorMessage) {
+    public void updateDependentFailed(String errorMessage) {
         Timber.e(errorMessage);
         Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
         getActivity().onBackPressed();

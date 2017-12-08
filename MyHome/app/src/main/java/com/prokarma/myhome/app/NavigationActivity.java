@@ -67,6 +67,7 @@ import com.televisit.medications.MedicationsFragment;
 import com.televisit.pharmacy.PharmaciesFragment;
 import com.televisit.pharmacy.PharmacyDetailsFragment;
 import com.televisit.previousvisit.PreviousVisitsFragment;
+import com.televisit.profile.MyCareProfileDependentFragment;
 import com.televisit.profile.MyCareProfileFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.services.MyCareServicesFragment;
@@ -529,6 +530,20 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commit();
 
                     setActivityTag(ActivityTag.MY_CARE_PROFILE);
+                }
+                break;
+            case MY_CARE_PROFILE_DEPENDENT:
+                if (getActivityTag() != ActivityTag.MY_CARE_PROFILE_DEPENDENT) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MyCareProfileDependentFragment myCareProfileDependentFragment = MyCareProfileDependentFragment.newInstance();
+                    myCareProfileDependentFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, myCareProfileDependentFragment, MyCareProfileDependentFragment.MY_PROFILE_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_PROFILE_DEPENDENT);
                 }
                 break;
             case MY_MED_HISTORY:
