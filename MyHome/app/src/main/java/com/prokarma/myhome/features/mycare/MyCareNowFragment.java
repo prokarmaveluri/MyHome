@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -59,6 +60,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private TextView medicationsEdit;
     private TextView pharmacyDesc;
     private TextView pharmacyEdit;
+    private ImageView pharmacyPin;
     private Spinner consumerSpinner;
     private ProgressBar progressBar;
     private RelativeLayout userLayout;
@@ -76,15 +78,12 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
      * @return A new instance of fragment MyCareFragment.
      */
     public static MyCareNowFragment newInstance() {
-        MyCareNowFragment fragment = new MyCareNowFragment();
-        return fragment;
+        return new MyCareNowFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -101,16 +100,18 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         medicationsEdit = (TextView) view.findViewById(R.id.medications_edit);
         pharmacyDesc = (TextView) view.findViewById(R.id.pharmacy_desc);
         pharmacyEdit = (TextView) view.findViewById(R.id.pharmacy_edit);
+        pharmacyPin = (ImageView) view.findViewById(R.id.pharmacy_pin_icon);
+
         progressBar = (ProgressBar) view.findViewById(R.id.mcn_progressbar);
         userLayout = (RelativeLayout) view.findViewById(R.id.mcn_user_info);
         consumerSpinner = (Spinner) view.findViewById(R.id.mcn_dependents_spinner);
-
         waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
 
         infoEdit.setOnClickListener(this);
         historyEdit.setOnClickListener(this);
         medicationsEdit.setOnClickListener(this);
         pharmacyEdit.setOnClickListener(this);
+        previousVisit = (TextView) view.findViewById(R.id.previous_visits);
         previousVisit = (TextView) view.findViewById(R.id.previous_visits);
 
         return view;
@@ -119,6 +120,21 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        pharmacyPin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isAdded()) {
+                    return;
+                }
+                Pharmacy pharmacy = AwsManager.getInstance().getConsumerPharmacy();
+                if (pharmacy != null) {
+                    CommonUtil.getDirections(getActivity(), pharmacy.getAddress().getAddress1(), pharmacy.getAddress().getCity(), pharmacy.getAddress().getState().getCode());
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.directions_not_found), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         waitingRoom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +178,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
-        @Override
+    @Override
     public void onResume() {
         super.onResume();
         refreshDashboard(false);
@@ -182,7 +198,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
         switch (Id) {
             case R.id.personal_info_edit:
-                if(!AwsManager.getInstance().isPatientMainConsumer()){
+                if (!AwsManager.getInstance().isPatientMainConsumer()) {
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROFILE_DEPENDENT, null);
                 } else {
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROFILE, null);
@@ -252,96 +268,100 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setConsumerMedications() {
+
+        if (!isAdded()) {
+            return;
+        }
+
         List<Medication> medicationsList = AwsManager.getInstance().getMedications();
+        if (!AwsManager.getInstance().isHasMedicationsFilledOut()) {
+            medicationsDesc.setText(getString(R.string.what_medications_are_you_taking));
+        } else if (medicationsList != null && medicationsList.size() > 0) {
+            StringBuilder medications = new StringBuilder();
 
-        if (isAdded()) {
-            if (!AwsManager.getInstance().isHasMedicationsFilledOut()) {
-                medicationsDesc.setText(getString(R.string.what_medications_are_you_taking));
-            } else if (medicationsList != null && medicationsList.size() > 0) {
-                StringBuilder medications = new StringBuilder();
+            for (int i = 0; i < medicationsList.size(); i++) {
+                medications.append(medicationsList.get(i).getName());
 
-                for (int i = 0; i < medicationsList.size(); i++) {
-                    medications.append(medicationsList.get(i).getName());
-
-                    if (i < medicationsList.size() - 1) {
-                        medications.append(", ");
-                    }
+                if (i < medicationsList.size() - 1) {
+                    medications.append(", ");
                 }
-
-                medicationsDesc.setText(medications.toString());
-            } else {
-                medicationsDesc.setText(getString(R.string.no_medications_listed));
             }
+
+            medicationsDesc.setText(medications.toString());
+        } else {
+            medicationsDesc.setText(getString(R.string.no_medications_listed));
         }
     }
 
     private void setConsumerPharmacy() {
+        if (!isAdded()) {
+            return;
+        }
         Pharmacy pharmacy = AwsManager.getInstance().getConsumerPharmacy();
-
-        if (isAdded()) {
-            if (pharmacy != null) {
-                pharmacyDesc.setText(pharmacy.getName() + "\n" + CommonUtil.getPharmacyAddress(pharmacy));
-            } else {
-                pharmacyDesc.setText(getString(R.string.choose_your_preferred_pharmacy));
-            }
+        if (pharmacy != null) {
+            pharmacyDesc.setText(pharmacy.getName() + "\n" + CommonUtil.getPharmacyAddress(pharmacy));
+        } else {
+            pharmacyDesc.setText(getString(R.string.choose_your_preferred_pharmacy));
+            pharmacyPin.setVisibility(View.GONE);
         }
     }
 
     private void setConsumerMedicalHistory() {
+        if (!isAdded()) {
+            return;
+        }
+
         List<Allergy> allergies = CommonUtil.getCurrentAllergies(AwsManager.getInstance().getAllergies());
         List<Condition> conditions = CommonUtil.getCurrentConditions(AwsManager.getInstance().getConditions());
 
-        if (isAdded()) {
+        if ((conditions != null && !conditions.isEmpty()) || (allergies != null && !allergies.isEmpty())) {
 
-            if ((conditions != null && !conditions.isEmpty()) || (allergies != null && !allergies.isEmpty())) {
+            StringBuilder medicalHistory = new StringBuilder();
 
-                StringBuilder medicalHistory = new StringBuilder();
+            if (conditions != null && !conditions.isEmpty()) {
+                for (int i = 0; i < conditions.size(); i++) {
+                    medicalHistory.append(conditions.get(i).getName());
 
-                if (conditions != null && !conditions.isEmpty()) {
-                    for (int i = 0; i < conditions.size(); i++) {
-                        medicalHistory.append(conditions.get(i).getName());
-
-                        if (i < conditions.size() - 1) {
-                            medicalHistory.append(", ");
-                        }
+                    if (i < conditions.size() - 1) {
+                        medicalHistory.append(", ");
                     }
-                } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
-                    medicalHistory.append(getContext().getResources().getString(R.string.no_conditions));
-                } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
-                    medicalHistory.append(getContext().getResources().getString(R.string.complete_your_medical_conditions));
                 }
-
-                if (allergies != null && !allergies.isEmpty()) {
-
-                    if (medicalHistory.length() > 0) {
-                        medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.allergic_to));
-                    }
-                    for (int i = 0; i < allergies.size(); i++) {
-                        medicalHistory.append(allergies.get(i).getName());
-
-                        if (i < allergies.size() - 1) {
-                            medicalHistory.append(", ");
-                        }
-                    }
-                } else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
-                    medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.no_allergies));
-                } else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
-                    medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.complete_your_medical_allergies));
-                }
-
-                historyDesc.setText(medicalHistory.toString());
-
-            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE
-                    && AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
-
-                historyDesc.setText(getContext().getResources().getString(R.string.no_conditions)
-                        + "\n" + getContext().getResources().getString(R.string.no_allergies));
-
-            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT
-                    && AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
-
-                historyDesc.setText(getString(R.string.complete_your_medical_history));
+            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
+                medicalHistory.append(getContext().getResources().getString(R.string.no_conditions));
+            } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+                medicalHistory.append(getContext().getResources().getString(R.string.complete_your_medical_conditions));
             }
+
+            if (allergies != null && !allergies.isEmpty()) {
+
+                if (medicalHistory.length() > 0) {
+                    medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.allergic_to));
+                }
+                for (int i = 0; i < allergies.size(); i++) {
+                    medicalHistory.append(allergies.get(i).getName());
+
+                    if (i < allergies.size() - 1) {
+                        medicalHistory.append(", ");
+                    }
+                }
+            } else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
+                medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.no_allergies));
+            } else if (AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+                medicalHistory.append("\n\n" + getContext().getResources().getString(R.string.complete_your_medical_allergies));
+            }
+
+            historyDesc.setText(medicalHistory.toString());
+
+        } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE
+                && AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.FILLED_OUT_HAVE_NONE) {
+
+            historyDesc.setText(getContext().getResources().getString(R.string.no_conditions)
+                    + "\n" + getContext().getResources().getString(R.string.no_allergies));
+
+        } else if (AwsManager.getInstance().isHasConditionsFilledOut() == AwsManager.State.NOT_FILLED_OUT
+                && AwsManager.getInstance().isHasAllergiesFilledOut() == AwsManager.State.NOT_FILLED_OUT) {
+
+            historyDesc.setText(getString(R.string.complete_your_medical_history));
         }
     }
 
@@ -420,10 +440,11 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void getConsumerComplete(Consumer consumer) {
-        if (isAdded()) {
-            setDependentsSpinner(consumer, consumer.getDependents());
-            finishLoading();
+        if (!isAdded()) {
+            return;
         }
+        setDependentsSpinner(consumer, consumer.getDependents());
+        finishLoading();
     }
 
     @Override

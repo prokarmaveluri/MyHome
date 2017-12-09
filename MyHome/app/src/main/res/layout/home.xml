@@ -122,8 +122,8 @@
                         android:layout_marginRight="8dp"
                         android:layout_toLeftOf="@+id/time"
                         android:layout_toRightOf="@+id/docImage"
-                        android:text="Thurs May 26"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="Thurs May 26" />
 
                     <TextView
                         android:id="@+id/time"
@@ -135,7 +135,7 @@
                         android:layout_marginLeft="12dp"
                         android:gravity="center"
                         android:maxWidth="285dp"
-                        android:text="2:45 PM" />
+                        tools:text="2:45 PM" />
 
                     <TextView
                         android:id="@+id/facility"
@@ -150,8 +150,8 @@
                         android:layout_toLeftOf="@+id/pin_icon"
                         android:layout_toRightOf="@+id/docImage"
                         android:maxWidth="285dp"
-                        android:text="Sequoia Hospital"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="Sequoia Hospital" />
 
                     <TextView
                         android:id="@+id/doctor_name"
@@ -165,7 +165,7 @@
                         android:layout_toLeftOf="@+id/pin_icon"
                         android:layout_toRightOf="@+id/docImage"
                         android:maxWidth="285dp"
-                        android:text="Dr. Steven M. Howard, MD" />
+                        tools:text="Dr. Steven M. Howard, MD" />
 
                     <ImageView
                         android:id="@+id/pin_icon"

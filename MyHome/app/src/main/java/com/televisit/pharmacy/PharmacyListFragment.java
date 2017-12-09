@@ -152,7 +152,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                         progressBar.setVisibility(View.GONE);
 
                         if (pharmacies == null || pharmacies.size() == 0) {
-                            Toast.makeText(getContext(), "No Pharmacies found. \n\n we could'nt find any relevent results for " + zipCode, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "No Pharmacies found. \n\n we could'nt find any relevant results for " + zipCode, Toast.LENGTH_SHORT).show();
                         }
 
                         if (null != getActivity()) {

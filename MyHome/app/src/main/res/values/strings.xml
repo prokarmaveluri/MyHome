@@ -473,6 +473,7 @@
     <string name="summary_cost_desc">Your total cost for today\'s visit was $</string>
     <string name="waiting_room_title">Waiting Room</string>
     <string name="view_previous_visits">View Previous Visits</string>
+    <string name="review_and_complete">Review and complete the following details to enter the waiting room.</string>
     <string name="your_visit_has_ended">Your visit has ended.</string>
     <string name="previous_visit_summaries">Previous Visit Summaries</string>
     <string name="no_previous_visits">You have no previous visits.</string>

@@ -133,10 +133,11 @@
             app:alignItems="stretch"
             app:flexWrap="wrap">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/agree_privacy_policy_radio"
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/agree_privacy_policy_check"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp" />
 
             <TextView
                 android:id="@+id/agree_privacy_policy_text1"

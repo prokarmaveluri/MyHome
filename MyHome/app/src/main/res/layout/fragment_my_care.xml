@@ -84,11 +84,23 @@
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/review"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/previous_visits"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:padding="12dp"
+                android:text="@string/review_and_complete" />
+
             <RelativeLayout
                 android:id="@+id/personal_info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/previous_visits"
+                android:layout_below="@+id/review"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp">
@@ -282,12 +294,24 @@
                 <TextView
                     android:id="@+id/pharmacy_desc"
                     style="@style/tradeGothicLTStd_Dynamic16"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/pharmacy_image"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/choose_your_preferred_pharmacy" />
+
+                <ImageView
+                    android:id="@+id/pharmacy_pin_icon"
+                    android:layout_width="21dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/pharmacy_edit"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/pharmacy_edit"
+                    android:src="@mipmap/map_blue" />
             </RelativeLayout>
         </RelativeLayout>
 

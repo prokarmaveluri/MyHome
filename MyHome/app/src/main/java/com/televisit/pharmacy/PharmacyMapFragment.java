@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
+import com.americanwell.sdk.entity.pharmacy.PharmacyType;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -341,7 +342,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
         });
     }
 
-    private void getPharmaciesByZip(String zipCode) {
+    private void getPharmaciesByZip(final String zipCode) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
             Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
@@ -351,7 +352,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 AwsManager.getInstance().getConsumer(),
-                null,
+                PharmacyType.RETAIL,
                 null,
                 null,
                 zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
@@ -374,7 +375,16 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
 
                             updateMap();
                         }
+
                         progressBar.setVisibility(View.GONE);
+
+                        if (pharmacies == null || pharmacies.size() == 0) {
+                            Toast.makeText(getContext(), "No Pharmacies found. \n\n we could'nt find any relevant results for " + zipCode, Toast.LENGTH_SHORT).show();
+                        }
+
+                        if (null != getActivity()) {
+                            CommonUtil.hideSoftKeyboard(getActivity());
+                        }
                     }
 
                     @Override

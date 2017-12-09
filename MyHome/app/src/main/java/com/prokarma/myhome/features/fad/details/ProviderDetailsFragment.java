@@ -284,7 +284,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
                         CommonUtil.stringToSpacesString(provider.getOffices().get(0).getAddresses().get(0).getZip())
                 : getString(R.string.address_unknown);
-        address.setContentDescription(getString(R.string.location)  + addressCintentDescription);
+        address.setContentDescription(getString(R.string.location) + addressCintentDescription);
         phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumberDots(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         phone.setContentDescription(provider.getOffices() != null ? getString(R.string.phone_number_des) + CommonUtil.stringToSpacesString(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
@@ -627,8 +627,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     alertDialog.setMessage(getString(R.string.map_alert));
                     alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Office office = (Office) model;
-                            CommonUtil.getDirections(getActivity(), office.getAddress1(), office.getCity(), office.getState());
+                            if (model instanceof Office) {
+                                Office office = (Office) model;
+                                CommonUtil.getDirections(getActivity(), office.getAddress1(), office.getCity(), office.getState());
+                            }
                         }
                     }).setNeutralButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {

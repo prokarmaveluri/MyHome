@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -59,7 +60,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private TextInputLayout phoneLayout;
     private TextView privacyLink;
     private TextView policyLink;
-    private AppCompatRadioButton agreePrivacyPolicyRadio;
+    private AppCompatCheckBox agreePrivacyPolicyCheck;
 
     public MyCareVisitCostFragment() {
         // Required empty public constructor
@@ -99,7 +100,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
         phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
         privacyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text2);
         policyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text3);
-        agreePrivacyPolicyRadio = (AppCompatRadioButton) view.findViewById(R.id.agree_privacy_policy_radio);
+        agreePrivacyPolicyCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_privacy_policy_check);
 
         reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
         reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
@@ -174,8 +175,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                 if (isAdded() && AwsManager.getInstance().getVisit() != null) {
 
-                    Timber.d("visit. PrivacyPolicyRadio = " + agreePrivacyPolicyRadio.isChecked());
-
                     if (AwsManager.getInstance().getVisit().getVisitCost() != null && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
 
                         Toast.makeText(getContext(), "Your cost isn't free\nYou might want to apply a coupon...", Toast.LENGTH_LONG).show();
@@ -186,12 +185,12 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     } else if (reasonForVisit.getText().toString().trim().length() <= 0) {
                         reasonLayout.setError(getString(R.string.field_must_be_completed));
 
-                    } else if (!agreePrivacyPolicyRadio.isChecked()) {
+                    } else if (!agreePrivacyPolicyCheck.isChecked()) {
                         Toast.makeText(getActivity(), R.string.my_care_privacy_policy_accept, Toast.LENGTH_LONG).show();
 
                     } else if (CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())
                             && reasonForVisit.getText().toString().trim().length() > 0
-                            && agreePrivacyPolicyRadio.isChecked()) {
+                            && agreePrivacyPolicyCheck.isChecked()) {
 
                         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
                     }
