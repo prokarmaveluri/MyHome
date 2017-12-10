@@ -446,6 +446,8 @@
     <string name="pharmacy">Pharmacy</string>
     <string name="visit_summary">Visit Summary</string>
     <string name="feedback">Feedback</string>
+    <string name="feedback_ratings_submission_failed">We\'re sorry, failed to submit ratings. Please try again.</string>
+    <string name="feedback_answers_submission_failed">We\'re sorry, failed to submit feedback. Please try again.</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
     <string name="mycare_now">My Care Now</string>
     <string name="med_history">Medical History</string>

@@ -1,6 +1,7 @@
 package com.televisit.feedback;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -11,19 +12,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-import com.televisit.AwsNetworkManager;
-import com.televisit.interfaces.AwsSendVisitFeedback;
-import com.televisit.interfaces.AwsSendVisitRating;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -31,13 +37,19 @@ import timber.log.Timber;
  * Created by kwelsh on 12/1/17.
  */
 
-public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedback, AwsSendVisitRating {
+public class FeedbackFragment extends BaseFragment {
     public static final String FEEDBACK_TAG = "feedback_tag";
 
     private LinearLayout feedbackLayout;
     private ProgressBar progressBar;
     private RatingBar providerRating;
     private RatingBar experienceRating;
+
+    private RadioGroup radioGroup;
+    private String question1 = "";
+    private String question2 = "";
+    private String question3 = "";
+    private List<String> question3Options = new ArrayList<String>();
     private VisitSummary visitSummary;
 
     public FeedbackFragment() {
@@ -65,6 +77,8 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
         providerRating = (RatingBar) view.findViewById(R.id.rate_provider);
         experienceRating = (RatingBar) view.findViewById(R.id.rate_experience);
 
+        radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
+
         showLayout();
 
         setHasOptionsMenu(true);
@@ -74,6 +88,17 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        question1 = getContext().getString(R.string.rate_your_provider);
+        question2 = getContext().getString(R.string.rate_your_overall_experience);
+        question3 = getContext().getString(R.string.if_you_had_not_used_my_care_now_today_where_would_you_have_gone_instead);
+
+        question3Options.add(getContext().getString(R.string.emergency_room));
+        question3Options.add(getContext().getString(R.string.urgent_care_center));
+        question3Options.add(getContext().getString(R.string.retail_health_clinic));
+        question3Options.add(getContext().getString(R.string.doctor_s_office));
+        question3Options.add(getContext().getString(R.string.done_nothing));
+
         getVisitSummary();
     }
 
@@ -88,7 +113,12 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
         switch (item.getItemId()) {
             case R.id.finish:
                 showLoading();
-                AwsNetworkManager.getInstance().sendVisitRatings(AwsManager.getInstance().getVisit(), providerRating.getNumStars(), experienceRating.getNumStars(), this);
+
+                Timber.d("feedback finish. ProviderRating = " + getProviderRating() + " out of " + providerRating.getNumStars());
+                Timber.d("feedback finish. VisitRating = " + getVisitRating() + " out of " + experienceRating.getNumStars());
+
+                //AwsNetworkManager.getInstance().sendVisitRatings(AwsManager.getInstance().getVisit(), getProviderRating(), getVisitRating(), this);
+                sendRatings();
                 break;
         }
 
@@ -139,64 +169,109 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
         );
     }
 
-    @Override
-    public void sendVisitRatingComplete() {
+    private int getProviderRating() {
+        return Math.round(providerRating.getRating());
+    }
+
+    private int getVisitRating() {
+        return Math.round(experienceRating.getRating());
+    }
+
+    private String getQuestionAnswer() {
+        View radioButton = radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+        int radioButtonIndex = radioGroup.indexOfChild(radioButton);
+
+        RadioButton optionSelected = (RadioButton) radioGroup.getChildAt(radioButtonIndex);
+        return optionSelected.getText().toString();
+    }
+
+    private void sendRatings() {
+
+        AwsManager.getInstance().getAWSDK().getVisitManager().sendRatings(
+                AwsManager.getInstance().getVisit(),
+                getProviderRating(),
+                getVisitRating(),
+                new SDKCallback<Void, SDKError>() {
+                    @Override
+                    public void onResponse(Void voida, SDKError sdkError) {
+
+                        if (sdkError == null) {
+                            Timber.d("sendRatings succeeded! ");
+                            sendFeedbackAfterRatings();
+
+                        } else {
+                            Timber.e("sendRatings failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+                            sendFeedbackAfterRatings();
+                            Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("sendRatings failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        sendFeedbackAfterRatings();
+                        Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+    }
+
+    private void sendFeedbackAfterRatings() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                sendFeedback();
+            }
+        });
+    }
+
+    private void sendFeedback() {
+
         if (visitSummary == null) {
-            Timber.d("visitSummary is NULL. Could not submit feedback. ");
-            goBackToDashboard();
-        } else {
-            AwsNetworkManager.getInstance().sendVisitFeedback(
-                    AwsManager.getInstance().getVisit(), visitSummary.getConsumerFeedbackQuestion(), this);
+            Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+
+        } else if (visitSummary.getConsumerFeedbackQuestion() == null) {
+            Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+
+        } else if (visitSummary != null && visitSummary.getConsumerFeedbackQuestion() != null) {
+            visitSummary.getConsumerFeedbackQuestion().setQuestionAnswer(getQuestionAnswer());
         }
 
-        //TODO Not sure how to send this feedback...
-//        AwsNetworkManager.getInstance().sendVisitFeedback(AwsManager.getInstance().getVisit(), new ConsumerFeedbackQuestion() {
-//            @Override
-//            public boolean isShow() {
-//                return false;
-//            }
-//
-//            @Nullable
-//            @Override
-//            public String getQuestionText() {
-//                return null;
-//            }
-//
-//            @NonNull
-//            @Override
-//            public List<String> getResponseOptions() {
-//                return null;
-//            }
-//
-//            @Override
-//            public void setQuestionAnswer(@NonNull String s) {
-//
-//            }
-//
-//            @Override
-//            public int describeContents() {
-//                return 0;
-//            }
-//
-//            @Override
-//            public void writeToParcel(Parcel dest, int flags) {
-//
-//            }
-//        }, this);
-    }
+        AwsManager.getInstance().getAWSDK().getVisitManager().sendVisitFeedback(
+                AwsManager.getInstance().getVisit(),
+                visitSummary.getConsumerFeedbackQuestion(),
+                new SDKValidatedCallback<Void, SDKError>() {
+                    @Override
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
 
-    @Override
-    public void sendVisitRatingFailed(String errorMessage) {
-        goBackToDashboard();
-    }
+                        Timber.e("sendVisitFeedback Validation failed! :/");
+                        Timber.e("Map: " + map);
+                        Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+                    }
 
-    @Override
-    public void sendVisitFeedbackComplete() {
-        goBackToDashboard();
-    }
+                    @Override
+                    public void onResponse(@Nullable Void aVoid, @Nullable SDKError sdkError) {
 
-    @Override
-    public void sendVisitFeedbackFailed(String errorMessage) {
-        goBackToDashboard();
+                        if (sdkError == null) {
+                            Timber.d("sendVisitFeedback succeeded! ");
+                            goBackToDashboard();
+
+                        } else {
+                            Timber.e("sendVisitFeedback failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+                            Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Throwable throwable) {
+                        Timber.e("sendVisitFeedback failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
     }
 }
