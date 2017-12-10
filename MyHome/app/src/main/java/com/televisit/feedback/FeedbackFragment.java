@@ -197,12 +197,12 @@ public class FeedbackFragment extends BaseFragment {
 
                         if (sdkError == null) {
                             Timber.d("sendRatings succeeded! ");
-                            sendFeedbackAfterRatings();
+                            sendFeedback();
 
                         } else {
                             Timber.e("sendRatings failed! :/");
                             Timber.e("SDK Error: " + sdkError);
-                            sendFeedbackAfterRatings();
+                            sendFeedback();
                             Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
                         }
                     }
@@ -211,20 +211,11 @@ public class FeedbackFragment extends BaseFragment {
                     public void onFailure(Throwable throwable) {
                         Timber.e("sendRatings failed! :/");
                         Timber.e("Throwable = " + throwable);
-                        sendFeedbackAfterRatings();
+                        sendFeedback();
                         Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
                     }
                 }
         );
-    }
-
-    private void sendFeedbackAfterRatings() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                sendFeedback();
-            }
-        });
     }
 
     private void sendFeedback() {
