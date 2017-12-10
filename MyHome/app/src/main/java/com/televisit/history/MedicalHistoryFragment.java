@@ -2,6 +2,7 @@ package com.televisit.history;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
@@ -44,7 +45,6 @@ import timber.log.Timber;
 public class MedicalHistoryFragment extends BaseFragment implements
         HistoryListAdapter.GroupSelectionListener,
         TextWatcher {
-    // TextView.OnEditorActionListener,
 
     private LinearLayout searchLayout;
     private EditText searchQuery;
@@ -91,6 +91,15 @@ public class MedicalHistoryFragment extends BaseFragment implements
         expandableList = (IndexFastScrollRecyclerView) view.findViewById(R.id.expandableList);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
 
+
+        setHasOptionsMenu(true);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         searchLayout.setVisibility(View.VISIBLE);
         searchQuery.addTextChangedListener(this);
         searchCancelClickEvent();
@@ -105,8 +114,6 @@ public class MedicalHistoryFragment extends BaseFragment implements
             getConditions();
             getAllergies();
         }
-        setHasOptionsMenu(true);
-        return view;
     }
 
     @Override

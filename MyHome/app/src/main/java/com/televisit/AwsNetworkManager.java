@@ -621,7 +621,7 @@ public class AwsNetworkManager {
                 new SDKValidatedCallback<Void, SDKError>() {
                     @Override
                     public void onValidationFailure(@NonNull Map<String, String> map) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("sendVisitFeedback failed! :/");
                         Timber.e("Map: " + map);
 
                         if (awsSendVisitFeedback != null) {
@@ -636,7 +636,7 @@ public class AwsNetworkManager {
                                 awsSendVisitFeedback.sendVisitFeedbackComplete();
                             }
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("sendVisitFeedback failed! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             if (awsSendVisitFeedback != null) {
@@ -648,7 +648,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(@NonNull Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("sendVisitFeedback failed! :/");
                         Timber.e("Throwable = " + throwable);
 
                         if (awsSendVisitFeedback != null) {

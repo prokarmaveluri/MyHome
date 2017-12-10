@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
+import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.visit.VisitSummary;
+import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -21,6 +24,8 @@ import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsSendVisitFeedback;
 import com.televisit.interfaces.AwsSendVisitRating;
+
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 12/1/17.
@@ -33,6 +38,7 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
     private ProgressBar progressBar;
     private RatingBar providerRating;
     private RatingBar experienceRating;
+    private VisitSummary visitSummary;
 
     public FeedbackFragment() {
     }
@@ -63,6 +69,12 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
 
         setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getVisitSummary();
     }
 
     @Override
@@ -103,8 +115,40 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
         return Constants.ActivityTag.VIDEO_VISIT_FEEDBACK;
     }
 
+    private void getVisitSummary() {
+
+        AwsManager.getInstance().getAWSDK().getVisitManager().getVisitSummary(
+                AwsManager.getInstance().getVisit(),
+                new SDKCallback<VisitSummary, SDKError>() {
+                    @Override
+                    public void onResponse(VisitSummary visitSummaryObject, SDKError sdkError) {
+                        if (sdkError == null) {
+                            visitSummary = visitSummaryObject;
+                        } else {
+                            Timber.e("getVisitSummary failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("getVisitSummary failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                    }
+                }
+        );
+    }
+
     @Override
     public void sendVisitRatingComplete() {
+        if (visitSummary == null) {
+            Timber.d("visitSummary is NULL. Could not submit feedback. ");
+            goBackToDashboard();
+        } else {
+            AwsNetworkManager.getInstance().sendVisitFeedback(
+                    AwsManager.getInstance().getVisit(), visitSummary.getConsumerFeedbackQuestion(), this);
+        }
+
         //TODO Not sure how to send this feedback...
 //        AwsNetworkManager.getInstance().sendVisitFeedback(AwsManager.getInstance().getVisit(), new ConsumerFeedbackQuestion() {
 //            @Override
@@ -139,7 +183,6 @@ public class FeedbackFragment extends BaseFragment implements AwsSendVisitFeedba
 //
 //            }
 //        }, this);
-        goBackToDashboard();
     }
 
     @Override
