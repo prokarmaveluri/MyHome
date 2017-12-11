@@ -254,14 +254,14 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                     public void onResponse(Call<List<SearchSuggestionResponse>> call,
                                            Response<List<SearchSuggestionResponse>> response) {
                         if (response.isSuccessful() && response.body().size() > 0) {
-                            Timber.d("Successful Response\n" + response);
+                            Timber.d("getSearchSuggestions. Successful Response\n" + response);
                             if (currentSearchQuery.trim().length() > 0)
                                 updateSuggestionList(response.body());
                             isSugShow = true;
                             if (isSugShow && binding.searchLayout.isShown())
                                 binding.suggestionList.setVisibility(View.VISIBLE);
                         } else {
-                            Timber.e("Response, but not successful?\n" + response);
+                            Timber.e("getSearchSuggestions. Response, but not successful?\n" + response);
                             ApiErrorUtil.getInstance().getSearchSuggestionError(getContext(), getView(), response);
                             binding.suggestionList.setVisibility(View.GONE);
                             isSugShow = false;
@@ -270,7 +270,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
                     @Override
                     public void onFailure(Call<List<SearchSuggestionResponse>> call, Throwable t) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getSearchSuggestions. Something failed! :/");
                         Timber.e("Throwable = " + t);
                         ApiErrorUtil.getInstance().getSearchSuggestionFailed(getContext(), getView(), t);
                         binding.suggestionList.setVisibility(View.GONE);

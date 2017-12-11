@@ -237,13 +237,13 @@ public class AuthManager {
                         ex.printStackTrace();
                     }
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                    Timber.e("refreshToken. Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<SignInResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
+                Timber.e("refreshToken. Something failed! :/");
                 Timber.e("Throwable = " + t);
             }
         });
@@ -262,14 +262,14 @@ public class AuthManager {
 //                            Timber.d("Successful Response\n" + response);
 //                            AuthManager.getInstance().setAmWellToken(response.body().result);
 //                        } else {
-//                            Timber.e("Response, but not successful?\n" + response);
+//                            Timber.e("getUsersAmWellToken. Response, but not successful?\n" + response);
 //                            AuthManager.getInstance().setAmWellToken(null);
 //                        }
 //                    }
 //
 //                    @Override
 //                    public void onFailure(Call<AmWellResponse> call, Throwable t) {
-//                        Timber.e("Something failed! :/");
+//                        Timber.e("getUsersAmWellToken. Something failed! :/");
 //                        Timber.e("Throwable = " + t);
 //                        AuthManager.getInstance().setAmWellToken(null);
 //                    }

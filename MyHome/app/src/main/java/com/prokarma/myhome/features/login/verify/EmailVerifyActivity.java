@@ -164,11 +164,14 @@ public class EmailVerifyActivity extends AppCompatActivity {
     public void getProfileInfo() {
         binding.verifyProgress.setVisibility(View.VISIBLE);
         String bearerToken = AuthManager.getInstance().getBearerToken();
+
         NetworkManager.getInstance().getProfile(bearerToken).enqueue(new Callback<ProfileGraphqlResponse>() {
             @Override
             public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
                 if (response.isSuccessful()) {
+
                     binding.verifyProgress.setVisibility(View.GONE);
+
                     try {
                         ProfileManager.setProfile(response.body().getData().getUser());
                         NetworkManager.getInstance().getMyAppointments();
@@ -183,6 +186,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
                             ActivityCompat.startActivity(EmailVerifyActivity.this, intentHome, options.toBundle());
                             setResult(Activity.RESULT_OK);
                             finish();
+
                         } else if (response.body().getData().getUser().isVerified &&
                                 !response.body().getData().getUser().isTermsAccepted) {
 
@@ -194,13 +198,13 @@ public class EmailVerifyActivity extends AppCompatActivity {
                         Timber.w(ex);
                     }
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                    Timber.e("EmailVerify. getProfile. Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
+                Timber.e("EmailVerify. getProfile. Something failed! :/");
                 Timber.e("Throwable = " + t);
                 binding.verifyProgress.setVisibility(View.GONE);
             }

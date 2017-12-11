@@ -151,14 +151,14 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                             if (sdkError == null) {
                                 Timber.d("Visit cancelled successfully!!");
                             } else {
-                                Timber.e("Something failed! :/");
+                                Timber.e("cancelVisit. Something failed! :/");
                                 Timber.e("SDK Error: " + sdkError);
                             }
                         }
 
                         @Override
                         public void onFailure(Throwable throwable) {
-                            Timber.e("Something failed! :/");
+                            Timber.e("cancelVisit. Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                         }
                     });

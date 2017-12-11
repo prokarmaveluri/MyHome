@@ -242,7 +242,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                     @Override
                     public void onFailure(Throwable throwable) {
                         if (isAdded()) {
-                            Timber.e("Something failed! :/");
+                            Timber.e("getMedications. Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                             searchLayout.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
@@ -266,7 +266,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("updateMedications. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         progressBar.setVisibility(View.GONE);
                     }
@@ -285,6 +285,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                     public void onValidationFailure(@NonNull Map<String, String> map) {
                         searchSuggestions.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
+                        Timber.d("searchMedications. ValidationFailure " );
                     }
 
                     @Override
@@ -293,13 +294,17 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                         searchSuggestions.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
 
-                        setSuggestionAdapter(getSuggestions(medications));
+                        if (sdkError == null) {
+                            setSuggestionAdapter(getSuggestions(medications));
+                        } else {
+                            Timber.e("searchMedications. Error + " + sdkError);
+                        }
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
                         if (isAdded()) {
-                            Timber.e("Something failed! :/");
+                            Timber.e("searchMedications. Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                             searchSuggestions.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);

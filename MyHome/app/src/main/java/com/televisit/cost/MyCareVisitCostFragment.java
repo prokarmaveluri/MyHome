@@ -227,7 +227,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                                 costInfo.setText(getString(R.string.visit_cost_desc) +
                                         AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
                             } else {
-                                Timber.e("Something failed! :/");
+                                Timber.e("applyCouponCode. Something failed! :/");
                                 Timber.e("SDK Error: " + sdkError);
                             }
 
@@ -237,7 +237,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                         @Override
                         public void onFailure(Throwable throwable) {
-                            Timber.e("Something failed! :/");
+                            Timber.e("applyCouponCode. Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                             intakeLayout.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
@@ -285,7 +285,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                             progressBar.setVisibility(View.GONE);
 
                         } else {
-                            Timber.e("Something failed during video visit! :/");
+                            Timber.e("createOrUpdateVisit. Something failed during video visit! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             intakeLayout.setVisibility(View.GONE);
@@ -308,7 +308,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("createOrUpdateVisit. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         intakeLayout.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);

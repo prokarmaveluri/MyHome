@@ -77,14 +77,14 @@ public class TosFragment extends BaseFragment {
             return;
         }
         progress.setVisibility(View.VISIBLE);
-        Timber.i("Session bearer " + bearer);
+        Timber.i("getTosInfo. Session bearer " + bearer);
         NetworkManager.getInstance().getTos(bearer).enqueue(new Callback<Tos>() {
             @Override
             public void onResponse(Call<Tos> call, Response<Tos> response) {
                 try {
                     progress.setVisibility(View.GONE);
                     if (response.isSuccessful() && response.body().isValid) {
-                        Timber.d("Successful Response\n" + response);
+                        Timber.d("getTosInfo. Successful Response\n" + response);
                         webView.setVisibility(View.VISIBLE);
                         if (isAdded() && response.body().result.isTermsAccepted) {
                             tosView.findViewById(R.id.tc_button_bar).setVisibility(View.GONE);
@@ -92,7 +92,7 @@ public class TosFragment extends BaseFragment {
                             tosView.findViewById(R.id.tc_button_bar).setVisibility(View.VISIBLE);
                         }
                     } else {
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e("getTosInfo. Response, but not successful?\n" + response);
                         ApiErrorUtil.getInstance().getTosError(getContext(), tosView, response);
                     }
                 } catch (NullPointerException ex) {
@@ -103,7 +103,7 @@ public class TosFragment extends BaseFragment {
             @Override
             public void onFailure(Call<Tos> call, Throwable t) {
                 progress.setVisibility(View.GONE);
-                Timber.e("Something failed! :/");
+                Timber.e("getTosInfo. Something failed! :/");
                 Timber.e("Throwable = " + t);
                 ApiErrorUtil.getInstance().getTosFailed(getContext(), tosView, t);
             }
@@ -125,7 +125,7 @@ public class TosFragment extends BaseFragment {
                         //TODO TOS accepted... notify the user.
                         tosView.findViewById(R.id.tc_button_bar).setVisibility(View.GONE);
                     } else {
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e("acceptTerms. Response, but not successful?\n" + response);
                         ApiErrorUtil.getInstance().getTosError(getContext(), tosView, response);
                     }
                 }
@@ -133,7 +133,7 @@ public class TosFragment extends BaseFragment {
                 @Override
                 public void onFailure(Call<Tos> call, Throwable t) {
                     progress.setVisibility(View.GONE);
-                    Timber.e("Something failed! :/");
+                    Timber.e("acceptTerms. Something failed! :/");
                     Timber.e("Throwable = " + t);
                     ApiErrorUtil.getInstance().getTosFailed(getContext(), tosView, t);
                 }

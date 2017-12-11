@@ -171,7 +171,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                     ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupInsurancePlanSpinner(response.body());
                     ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(response.body());
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                    Timber.e("getValidationRules. Response, but not successful?\n" + response);
                     getDialog().dismiss();
 
                     if (bookingDialogInterface != null) {
@@ -182,7 +182,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
             @Override
             public void onFailure(Call<RegValidationResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
+                Timber.e("getValidationRules. Something failed! :/");
                 Timber.e("Throwable = " + t);
                 getDialog().dismiss();
 

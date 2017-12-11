@@ -183,14 +183,14 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                             setLegalTextsAccepted(true, visitContext);
                             setShareHealthSummary(visitContext);
                         } else {
-                            Timber.e("Error + " + sdkError);
+                            Timber.e("getVisitContext. Error + " + sdkError);
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
                         if (isAdded()) {
-                            Timber.e("Something failed! :/");
+                            Timber.e("getVisitContext. Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                         }
                     }

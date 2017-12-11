@@ -132,7 +132,7 @@ public class AppointmentsFragment extends BaseFragment {
                         }
 
                     } else {
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e("getMyAppointments. Response, but not successful?\n" + response);
                         ApiErrorUtil.getInstance().getMyAppointmentsError(getContext(), appointmentsView, response);
                     }
                 }
@@ -141,7 +141,7 @@ public class AppointmentsFragment extends BaseFragment {
             @Override
             public void onFailure(Call<MyAppointmentsResponse> call, Throwable t) {
                 if (isAdded()) {
-                    Timber.e("Something failed! :/");
+                    Timber.e("getMyAppointments. Something failed! :/");
                     Timber.e("Throwable = " + t);
                     showScreen();
                     ApiErrorUtil.getInstance().getMyAppointmentsFailed(getContext(), appointmentsView, t);

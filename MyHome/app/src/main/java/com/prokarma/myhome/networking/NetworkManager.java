@@ -570,7 +570,7 @@ public class NetworkManager {
                     FadManager.getInstance().setLocation(response.body());
                     AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", true);
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                    Timber.e("getUserLocation. Response, but not successful?\n" + response);
                     AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", false);
                     FadManager.getInstance().setCurrentLocation(null);
                     FadManager.getInstance().setLocation(null);
@@ -579,7 +579,7 @@ public class NetworkManager {
 
             @Override
             public void onFailure(Call<LocationResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
+                Timber.e("getUserLocation. Something failed! :/");
                 Timber.e("Throwable = " + t);
                 Timber.i("get user location failed");
                 AppPreferences.getInstance().setBooleanPreference("IS_USER_LOCATION", false);
@@ -838,13 +838,13 @@ public class NetworkManager {
                         Timber.w(e);
                     }
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                    Timber.e("getMyAppointments. Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<MyAppointmentsResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
+                Timber.e("getMyAppointments. Something failed! :/");
                 Timber.e("Throwable = " + t);
             }
         });

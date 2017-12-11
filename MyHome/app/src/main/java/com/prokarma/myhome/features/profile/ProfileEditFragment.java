@@ -179,7 +179,7 @@ public class ProfileEditFragment extends BaseFragment {
                         ProfileManager.setProfile(response.body().getData().getUser());
                         updateProfileViews(response.body().getData().getUser());
                     } else {
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e("ProfileEdit. getProfile. Response, but not successful?\n" + response);
                     }
                     progress.setVisibility(View.GONE);
                 }
@@ -188,7 +188,7 @@ public class ProfileEditFragment extends BaseFragment {
             @Override
             public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
                 if (isAdded()) {
-                    Timber.e("Something failed! :/");
+                    Timber.e("ProfileEdit. getProfile. Something failed! :/");
                     progress.setVisibility(View.GONE);
                 }
             }
@@ -213,7 +213,7 @@ public class ProfileEditFragment extends BaseFragment {
                         Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
                     } else {
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e("ProfileEdit. updateProfile. Response, but not successful?\n" + response);
                         ApiErrorUtil.getInstance().updateProfileError(getContext(), profileView, response);
                     }
 
@@ -224,7 +224,7 @@ public class ProfileEditFragment extends BaseFragment {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 if (isAdded()) {
-                    Timber.e("Something failed! :/");
+                    Timber.e("ProfileEdit. updateProfile. Something failed! :/");
                     ApiErrorUtil.getInstance().updateProfileFailed(getContext(), profileView, t);
                     progress.setVisibility(View.GONE);
                 }

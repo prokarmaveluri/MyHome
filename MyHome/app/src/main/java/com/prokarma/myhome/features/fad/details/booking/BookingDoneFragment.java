@@ -212,7 +212,7 @@ public class BookingDoneFragment extends Fragment {
                         ProfileManager.setAppointments(null);
                         coachmarkBookingDone();
                     } else {
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e("scheduleAppointment Response, but not successful?\n" + response);
                         ApiErrorUtil.getInstance().createAppointmentError(getContext(), bookingView, response);
                         ((NavigationActivity) getActivity()).setActionBarTitle("Unable to book");
 
@@ -228,7 +228,7 @@ public class BookingDoneFragment extends Fragment {
             @Override
             public void onFailure(Call<CreateAppointmentResponse> call, Throwable t) {
                 if (isAdded()) {
-                    Timber.e("Something failed! :/");
+                    Timber.e("scheduleAppointment Something failed! :/");
                     Timber.e("Throwable = " + t);
                     ApiErrorUtil.getInstance().createAppointmentFailed(getContext(), bookingView, t);
                     ((NavigationActivity) getActivity()).setActionBarTitle("Unable to book");

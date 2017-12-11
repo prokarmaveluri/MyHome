@@ -85,7 +85,7 @@ public class AwsNetworkManager {
                                     awsInitialization.initializationComplete();
                                 }
                             } else {
-                                Timber.e("Error + " + sdkError);
+                                Timber.e("AWSDK initialize. Error + " + sdkError);
                                 AwsManager.getInstance().setHasInitializedAwsdk(false);
 
                                 if (awsInitialization != null) {
@@ -96,7 +96,7 @@ public class AwsNetworkManager {
 
                         @Override
                         public void onFailure(Throwable throwable) {
-                            Timber.e("Something failed! :/");
+                            Timber.e("AWSDK initialize. Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                             AwsManager.getInstance().setHasInitializedAwsdk(false);
 
@@ -138,7 +138,7 @@ public class AwsNetworkManager {
                             }
 
                         } else {
-                            Timber.e("Error + " + sdkError);
+                            Timber.e("getUsersAuthentication. Error + " + sdkError);
                             AwsManager.getInstance().setAuthentication(null);
                             AwsManager.getInstance().setHasAuthenticated(false);
 
@@ -150,7 +150,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getUsersAuthentication. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setAuthentication(null);
                         AwsManager.getInstance().setHasAuthenticated(false);
@@ -181,7 +181,7 @@ public class AwsNetworkManager {
                                 awsUserAuthentication.authenticationComplete(authentication);
                             }
                         } else {
-                            Timber.e("Error + " + sdkError);
+                            Timber.e("getUsersMutualAuthneticaion. Error + " + sdkError);
                             AwsManager.getInstance().setAuthentication(null);
                             AwsManager.getInstance().setHasAuthenticated(false);
 
@@ -193,7 +193,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getUsersMutualAuthneticaion. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setAuthentication(null);
                         AwsManager.getInstance().setHasAuthenticated(false);
@@ -220,7 +220,7 @@ public class AwsNetworkManager {
                                 awsConsumer.getConsumerComplete(consumer);
                             }
                         } else {
-                            Timber.e("Error + " + sdkError);
+                            Timber.e("getConsumer. Error + " + sdkError);
                             AwsManager.getInstance().setConsumer(null);
                             AwsManager.getInstance().setPatient(null);
                             AwsManager.getInstance().setHasConsumer(false);
@@ -233,7 +233,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getConsumer. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setConsumer(null);
                         AwsManager.getInstance().setPatient(null);
@@ -262,7 +262,7 @@ public class AwsNetworkManager {
                             }
 
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("updatePharmacy. Something failed! :/");
                             Timber.e("SDK Error: " + sdkError);
                             AwsManager.getInstance().setConsumerPharmacy(null);
 
@@ -274,7 +274,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("updatePharmacy. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setConsumerPharmacy(null);
 
@@ -298,7 +298,7 @@ public class AwsNetworkManager {
                                 awsGetPharmacy.getPharmacyComplete(pharmacy);
                             }
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("getPharmacy. Something failed! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             if (awsGetPharmacy != null) {
@@ -309,7 +309,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getPharmacy. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
 
                         if (awsGetPharmacy != null) {
@@ -331,7 +331,7 @@ public class AwsNetworkManager {
                                 awsGetMedications.getMedicationsComplete(medications);
                             }
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("getMedications. Something failed! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             if (awsGetMedications != null) {
@@ -342,7 +342,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getMedications. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
 
                         if (awsGetMedications != null) {
@@ -365,7 +365,7 @@ public class AwsNetworkManager {
                                 awsGetConditions.getConditionsComplete(conditions);
                             }
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("getConditions. Something failed! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             if (awsGetConditions != null) {
@@ -376,7 +376,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getConditions. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
 
                         if (awsGetConditions != null) {
@@ -400,7 +400,7 @@ public class AwsNetworkManager {
                                 awsGetAllergies.getAllergiesComplete(allergies);
                             }
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("getAllergies. Something failed! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             if (awsGetAllergies != null) {
@@ -411,7 +411,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getAllergies. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
 
                         if (awsGetAllergies != null) {
@@ -429,7 +429,7 @@ public class AwsNetworkManager {
                 new StartVisitCallback() {
                     @Override
                     public void onValidationFailure(@NonNull Map<String, String> map) {
-                        Timber.w("onValidationFailure " + map);
+                        Timber.w("startVideoVisit. onValidationFailure " + map);
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onValidationFailure(map);
@@ -438,7 +438,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onProviderEntered(@NonNull Intent intent) {
-                        Timber.d("onProviderEntered " + intent);
+                        Timber.d("startVideoVisit. onProviderEntered " + intent);
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onProviderEntered(intent);
@@ -447,7 +447,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onStartVisitEnded(@NonNull String s) {
-                        Timber.d("onStartVisitEnded " + s);
+                        Timber.d("startVideoVisit. onStartVisitEnded " + s);
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onStartVisitEnded(s);
@@ -456,7 +456,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onPatientsAheadOfYouCountChanged(int i) {
-                        Timber.d("onPatientsAheadOfYouCountChanged " + i);
+                        Timber.d("startVideoVisit. onPatientsAheadOfYouCountChanged " + i);
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onPatientsAheadOfYouCountChanged(i);
@@ -465,7 +465,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onSuggestedTransfer() {
-                        Timber.d("onSuggestedTransfer ");
+                        Timber.d("startVideoVisit. onSuggestedTransfer ");
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onSuggestedTransfer();
@@ -474,7 +474,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onChat(@NonNull ChatReport chatReport) {
-                        Timber.d("onChat " + chatReport);
+                        Timber.d("startVideoVisit. onChat " + chatReport);
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onChat(chatReport);
@@ -483,7 +483,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onPollFailure(@NonNull Throwable throwable) {
-                        Timber.w("onPollFailure " + throwable);
+                        Timber.w("startVideoVisit. onPollFailure " + throwable);
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onPollFailure(throwable);
@@ -492,7 +492,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
-                        Timber.d("onResponse " + aVoid + " " + sdkError);
+                        Timber.d("startVideoVisit. onResponse " + aVoid + " " + sdkError);
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onResponse(aVoid, sdkError);
@@ -501,7 +501,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.w("onFailure " + throwable);
+                        Timber.w("startVideoVisit. onFailure " + throwable);
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onFailure(throwable);
@@ -523,7 +523,7 @@ public class AwsNetworkManager {
                             }
 
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("cancelVideoVisit. Something failed! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             if (awsCancelVideoVisit != null) {
@@ -534,7 +534,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("cancelVideoVisit. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
 
                         if (awsCancelVideoVisit != null) {
@@ -556,7 +556,7 @@ public class AwsNetworkManager {
                                 awsGetVisitSummary.getVisitSummaryComplete(visitSummary);
                             }
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("getVisitSummary. Something failed! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             if (awsGetVisitSummary != null) {
@@ -567,7 +567,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(@NonNull Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getVisitSummary. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
 
                         if (awsGetVisitSummary != null) {
@@ -592,7 +592,7 @@ public class AwsNetworkManager {
                                 awsSendVisitRating.sendVisitRatingComplete();
                             }
                         } else {
-                            Timber.e("Something failed! :/");
+                            Timber.e("sendVisitRatings. Something failed! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             if (awsSendVisitRating != null) {
@@ -603,7 +603,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(@NonNull Throwable throwable) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("sendVisitRatings. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
 
                         if (awsSendVisitRating != null) {
@@ -621,7 +621,7 @@ public class AwsNetworkManager {
                 new SDKValidatedCallback<Void, SDKError>() {
                     @Override
                     public void onValidationFailure(@NonNull Map<String, String> map) {
-                        Timber.e("sendVisitFeedback failed! :/");
+                        Timber.e("sendVisitFeedback. onValidationFailure Something failed! :/");
                         Timber.e("Map: " + map);
 
                         if (awsSendVisitFeedback != null) {
@@ -636,7 +636,7 @@ public class AwsNetworkManager {
                                 awsSendVisitFeedback.sendVisitFeedbackComplete();
                             }
                         } else {
-                            Timber.e("sendVisitFeedback failed! :/");
+                            Timber.e("sendVisitFeedback. Something failed! :/");
                             Timber.e("SDK Error: " + sdkError);
 
                             if (awsSendVisitFeedback != null) {
@@ -648,7 +648,7 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onFailure(@NonNull Throwable throwable) {
-                        Timber.e("sendVisitFeedback failed! :/");
+                        Timber.e("sendVisitFeedback. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
 
                         if (awsSendVisitFeedback != null) {
@@ -663,7 +663,7 @@ public class AwsNetworkManager {
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateConsumer((ConsumerUpdate) consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
-                Timber.e("Something failed! :/");
+                Timber.e("updateConsumer. Something failed! :/");
                 Timber.e("Map: " + map);
 
                 if (awsUpdateConsumer != null) {
@@ -678,7 +678,7 @@ public class AwsNetworkManager {
                         awsUpdateConsumer.updateConsumerComplete(consumer);
                     }
                 } else {
-                    Timber.e("Something failed! :/");
+                    Timber.e("updateConsumer. Something failed! :/");
                     Timber.e("SDK Error: " + sdkPasswordError);
 
                     if (awsUpdateConsumer != null) {
@@ -689,7 +689,7 @@ public class AwsNetworkManager {
 
             @Override
             public void onFailure(@NonNull Throwable throwable) {
-                Timber.e("Something failed! :/");
+                Timber.e("updateConsumer. Something failed! :/");
                 Timber.e("Throwable = " + throwable);
 
                 if (awsUpdateConsumer != null) {
@@ -703,7 +703,7 @@ public class AwsNetworkManager {
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateDependent((DependentUpdate) consumerUpdate, new SDKValidatedCallback<Consumer, SDKError>() {
             @Override
             public void onValidationFailure(@NonNull Map<String, String> map) {
-                Timber.e("Something failed! :/");
+                Timber.e("updateDependent. onValidationFailure. Something failed! :/");
                 Timber.e("Map: " + map);
 
                 if (awsUpdateConsumer != null) {
@@ -718,7 +718,7 @@ public class AwsNetworkManager {
                         awsUpdateConsumer.updateDependentComplete(consumer);
                     }
                 } else {
-                    Timber.e("Something failed! :/");
+                    Timber.e("updateDependent. Something failed! :/");
                     Timber.e("SDK Error: " + sdkError);
 
                     if (awsUpdateConsumer != null) {
@@ -729,7 +729,7 @@ public class AwsNetworkManager {
 
             @Override
             public void onFailure(@NonNull Throwable throwable) {
-                Timber.e("Something failed! :/");
+                Timber.e("updateDependent. Something failed! :/");
                 Timber.e("Throwable = " + throwable);
 
                 if (awsUpdateConsumer != null) {

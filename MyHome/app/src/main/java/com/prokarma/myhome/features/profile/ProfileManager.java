@@ -71,19 +71,19 @@ public class ProfileManager {
             public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
                 if (response.isSuccessful()) {
                     try {
-                        Timber.d("Successful Response\n" + response);
+                        Timber.d("ProfileManager.getProfile. Successful Response\n" + response);
                         ProfileManager.setProfile(response.body().getData().getUser());
                     } catch (NullPointerException ex) {
                         Timber.w(ex);
                     }
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                    Timber.e("ProfileManager.getProfile. Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
+                Timber.e("ProfileManager.getProfile. Something failed! :/");
                 Timber.e("Throwable = " + t);
             }
         });
@@ -103,13 +103,13 @@ public class ProfileManager {
                     Timber.d("Successful Response\n" + response);
                     ProfileManager.setProfile(updatedProfile);
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                    Timber.e("ProfileManager. updateProfile. Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Timber.e("Something failed! :/");
+                Timber.e("ProfileManager. updateProfile. Something failed! :/");
             }
         });
     }

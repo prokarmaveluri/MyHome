@@ -306,19 +306,19 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
                     public void onResponse(Call<List<LocationResponse>> call,
                                            Response<List<LocationResponse>> response) {
                         if (response.isSuccessful()) {
-                            Timber.e("Response, but not successful?\n" + response);
+                            Timber.e("getLocationSuggestions. Response, but not successful?\n" + response);
                             locationSug.clear();
                             locationSug.addAll(response.body());
                             locationSuggestions(getLocationNames(response.body()));
                         } else {
-                            Timber.e("Response, but not successful?\n" + response);
+                            Timber.e("getLocationSuggestions. Response, but not successful?\n" + response);
                             ApiErrorUtil.getInstance().getLocationSuggestionError(getContext(), getView(), response);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<LocationResponse>> call, Throwable t) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getLocationSuggestions. Something failed! :/");
                         Timber.e("Throwable = " + t);
                         ApiErrorUtil.getInstance().getLocationSuggestionFailed(getContext(), getView(), t);
                     }

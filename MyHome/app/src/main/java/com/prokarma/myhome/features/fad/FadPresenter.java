@@ -74,15 +74,15 @@ public class FadPresenter implements FadInteractor.Presenter {
                     @Override
                     public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
                         if (response.isSuccessful() && response.body().getProviders().size() > 0) {
-                            Timber.d("Successful Response\n" + response);
+                            Timber.d("getProviders. Successful Response\n" + response);
                             mView.updateProviderList(response.body());
                             FadFragment.maxCount = response.body().getNumResults();
                         } else if(response.isSuccessful() && response.body().getProviders().size() < 1) {
-                            Timber.e("Successful Response, but no providers\n" + response);
+                            Timber.e("getProviders. Successful Response, but no providers\n" + response);
                             mView.showEmptyMessage(mContext.getString(R.string.no_providers));
                             mView.providersListError();
                         } else {
-                            Timber.e("Response, but not successful?\n" + response);
+                            Timber.e("getProviders. Response, but not successful?\n" + response);
                             mView.showErrorMessage(mContext.getString(R.string.something_went_wrong) + "\n" + mContext.getString(R.string.api_error_message));
                             mView.providersListError();
                         }
@@ -91,7 +91,7 @@ public class FadPresenter implements FadInteractor.Presenter {
 
                     @Override
                     public void onFailure(Call<ProvidersResponse> call, Throwable t) {
-                        Timber.e("Something failed! :/");
+                        Timber.e("getProviders. Something failed! :/");
                         Timber.e("Throwable = " + t);
                         mView.showProgress(false);
                         mView.showErrorMessage(mContext.getString(R.string.something_went_wrong) + "\n" + mContext.getString(R.string.api_error_message));

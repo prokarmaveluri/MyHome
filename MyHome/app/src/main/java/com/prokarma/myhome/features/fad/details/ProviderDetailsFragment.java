@@ -305,7 +305,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             public void onResponse(Call<AppointmentTimeSlots> call, Response<AppointmentTimeSlots> response) {
                 if (isAdded()) {
                     if (response != null && response.isSuccessful() && response.body() != null) {
-                        Timber.d("Successful Response\n" + response);
+                        Timber.d("getAppointmentDetails. Successful Response\n" + response);
 
                         try {
                             AppointmentManager.getInstance().addMonthsAppointmentDetails(new AppointmentMonthDetails(DateUtil.getDateFromSlashes(fromDate), DateUtil.getDateFromSlashes(toDate), response.body()));
@@ -330,7 +330,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             isCalendarLoading = false;
                         } catch (ParseException parseException) {
                             Timber.e(parseException);
-                            Timber.e("Is the date being parsed correctly???");
+                            Timber.e("getAppointmentDetails. Is the date being parsed correctly???");
 
                             waitingForAppointmentTypes = false;
 
@@ -344,7 +344,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
 
                     } else {
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e("getAppointmentDetails. Response, but not successful?\n" + response);
                         ApiErrorUtil.getInstance().getProviderAppointmentsError(getContext(), providerDetailsView, response);
 
                         waitingForAppointmentTypes = false;
@@ -362,7 +362,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             @Override
             public void onFailure(Call<AppointmentTimeSlots> call, Throwable t) {
                 if (isAdded()) {
-                    Timber.e("Something failed! :/");
+                    Timber.e("getAppointmentDetails. Something failed! :/");
                     Timber.e("Throwable = " + t);
                     ApiErrorUtil.getInstance().getProviderAppointmentsFailed(getContext(), providerDetailsView, t);
 
@@ -389,7 +389,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 if (isAdded()) {
                     if (response.isSuccessful()) {
                         detailsProgressBar.setVisibility(View.GONE);
-                        Timber.d("Successful Response\n" + response);
+                        Timber.d("getProviderDetails. Successful Response\n" + response);
                         provider = response.body().getResult().get(0);
 
                         setupInitialView();
@@ -466,7 +466,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         ApiErrorUtil.getInstance().getProviderDetailsError(getContext(), providerDetailsView, response);
                         detailsProgressBar.setVisibility(View.GONE);
                         //Toast.makeText(getActivity(), R.string.provider_details_error_msg, Toast.LENGTH_SHORT).show();
-                        Timber.e("Response, but not successful?\n" + response);
+                        Timber.e("getProviderDetails. Response, but not successful?\n" + response);
                         showStatsUnavailable();
                     }
 
@@ -478,7 +478,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             @Override
             public void onFailure(Call<ProviderDetails> call, Throwable t) {
                 if (isAdded()) {
-                    Timber.e("Something failed! :/");
+                    Timber.e("getProviderDetails. Something failed! :/");
                     Timber.e("Throwable = " + t);
                     ApiErrorUtil.getInstance().getProviderDetailsFailed(getContext(), providerDetailsView, t);
 

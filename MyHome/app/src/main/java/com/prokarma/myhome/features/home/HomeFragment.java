@@ -309,7 +309,7 @@ public class HomeFragment extends BaseFragment {
                         }
                     }
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                    Timber.e("getMyAppointments. Response, but not successful?\n" + response);
                 }
                 if (progressStatus == 1) {
                     hideLoading();
@@ -320,7 +320,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<MyAppointmentsResponse> call, Throwable t) {
-                Timber.e("Something failed! :/");
+                Timber.e("getMyAppointments. Something failed! :/");
                 Timber.e("Throwable = " + t);
                 hideLoading();
                 coachmarkBookAppointment();
