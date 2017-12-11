@@ -36,7 +36,7 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.context = context;
         this.visitReports = visitReports;
         this.onItemClickListener = onItemClickListener;
-        amountFormat = new DecimalFormat("##.##");
+        amountFormat = new DecimalFormat("0.00"); // "##.##");
     }
 
     @Override
@@ -71,7 +71,8 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     e.printStackTrace();
                 }
 
-                //hardcoding for now, as per directions got
+                //hardcoding for now, as per directions got.
+                //holder.cost.setText("$" + amountFormat.format(detail));
                 holder.cost.setText("$ 0.00");
                 holder.visitReason.setText("I cut my hand on a peice of glass");
 

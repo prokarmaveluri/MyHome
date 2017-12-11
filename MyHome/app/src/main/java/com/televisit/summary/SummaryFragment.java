@@ -36,6 +36,7 @@ import com.televisit.previousvisit.PrescriptionsAdapter;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -96,6 +97,8 @@ public class SummaryFragment extends Fragment {
         doctorNotes = (TextView) view.findViewById(R.id.doctor_notes);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
+        Timber.d("onCreateView");
+
         return view;
     }
 
@@ -103,9 +106,14 @@ public class SummaryFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        Timber.d("onActivityCreated");
+
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Timber.d("viewReport");
+                
                 Bundle bundle = new Bundle();
                 bundle.putString("FILENAME_WITH_PATH", reportNameWithPath);
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
@@ -174,8 +182,24 @@ public class SummaryFragment extends Fragment {
 
                             visitReportDetail = detail;
 
-                            providerName.setText(visitReport.getProviderName());
-                            costDesc.setText(getString(R.string.visit_total_cost_desc) + detail.getVisitCost().getExpectedConsumerCopayCost());
+                            if (visitReport.getProviderName() != null && !visitReport.getProviderName().isEmpty()) {
+                                providerName.setText(visitReport.getProviderName() + ", MD");
+                            }
+
+                            Timber.d("visit. ProviderName = " + visitReport.getProviderName());
+                            Timber.d("visit. Title = " + detail.getTitle());
+                            Timber.d("visit. PracticeName = " + detail.getPracticeName());
+
+                            if (detail.getAssignedProviderInfo() != null) {
+                                Timber.d("visit. AssignedProvider Name = " + detail.getAssignedProviderInfo().getFullName() );
+                            }
+
+                            if (detail.getAssignedProviderInfo() != null && detail.getAssignedProviderInfo().getSpecialty() != null) {
+                                Timber.d("visit. AssignedProviderInfo = " + detail.getAssignedProviderInfo().getSpecialty().getName());
+                            }
+
+                            DecimalFormat amountFormat = new DecimalFormat("0.00");
+                            costDesc.setText(getString(R.string.visit_total_cost_desc) + amountFormat.format(detail.getVisitCost().getExpectedConsumerCopayCost()));
 
                             if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() == null) {
                                 pharmacyName.setVisibility(View.GONE);

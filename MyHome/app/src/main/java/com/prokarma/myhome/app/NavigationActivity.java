@@ -648,7 +648,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
 
             case PREVIOUS_VISIT_SUMMARY_PDF:
-                if (getActivityTag() != ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF) {
+                //if (getActivityTag() != ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF) {
                     getSupportFragmentManager().executePendingTransactions();
                     PdfRendererZoomFragment fragment = new PdfRendererZoomFragment();
                     fragment.setArguments(bundle);
@@ -661,7 +661,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     getSupportFragmentManager().executePendingTransactions();
 
                     setActivityTag(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF);
-                }
+                //}
                 break;
 
             case MY_CARE_PRIVACY_POLICY:

@@ -134,6 +134,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
             public void onClick(View v) {
                 searchQuery.requestFocus();
                 showSearchView();
+                CommonUtil.showSoftKeyboard(searchQuery, getActivity());
             }
         });
 
@@ -171,6 +172,8 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
     private void setMedicationsAdapter(List<Medication> list) {
         if (list != null && list.size() > 0) {
+
+            addAdditionalMedication.setVisibility(View.VISIBLE);
             medicationDesc.setVisibility(View.VISIBLE);
             noMedicationsLayout.setVisibility(View.GONE);
             medicationsList.setVisibility(View.VISIBLE);
@@ -285,7 +288,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                     public void onValidationFailure(@NonNull Map<String, String> map) {
                         searchSuggestions.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
-                        Timber.d("searchMedications. ValidationFailure " );
+                        Timber.d("searchMedications. ValidationFailure ");
                     }
 
                     @Override
@@ -340,10 +343,12 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         CommonUtil.hideSoftKeyboard(getActivity());
 
         List<Medication> medications = AwsManager.getInstance().getMedications();
-        if (medications == null)
+        if (medications == null) {
             medications = new ArrayList<>();
+        }
         if (searchList != null && searchList.size() > position) {
             medications.add(searchList.get(position));
+            searchQuery.setText("");
             updateMedications();
         }
     }
