@@ -114,11 +114,27 @@ public class FeedbackFragment extends BaseFragment {
             case R.id.finish:
                 showLoading();
 
+                String answer = getQuestionAnswer();
+
                 Timber.d("feedback finish. ProviderRating = " + getProviderRating() + " out of " + providerRating.getNumStars());
                 Timber.d("feedback finish. VisitRating = " + getVisitRating() + " out of " + experienceRating.getNumStars());
+                Timber.d("feedback finish. answer = " + answer);
 
-                //AwsNetworkManager.getInstance().sendVisitRatings(AwsManager.getInstance().getVisit(), getProviderRating(), getVisitRating(), this);
-                sendRatings();
+                if (answer == null || answer.isEmpty()) {
+
+                    feedbackLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), R.string.feedback_choose_answer, Toast.LENGTH_LONG).show();
+
+                } else if (getProviderRating() == 0 && getVisitRating() == 0) {
+
+                    Timber.d("Feedback. User has not submitted both ProviderRating and VisitRating. ");
+
+                    sendFeedback();
+
+                } else {
+                    sendRatings();
+                }
                 break;
         }
 
@@ -178,44 +194,59 @@ public class FeedbackFragment extends BaseFragment {
     }
 
     private String getQuestionAnswer() {
-        View radioButton = radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
-        int radioButtonIndex = radioGroup.indexOfChild(radioButton);
+        if (radioGroup.getCheckedRadioButtonId() == -1) {
+            return "";
+        } else {
+            View radioButton = radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+            int radioButtonIndex = radioGroup.indexOfChild(radioButton);
 
-        RadioButton optionSelected = (RadioButton) radioGroup.getChildAt(radioButtonIndex);
-        return optionSelected.getText().toString();
+            if (radioButtonIndex > -1 && radioButtonIndex < radioGroup.getChildCount()) {
+                RadioButton optionSelected = (RadioButton) radioGroup.getChildAt(radioButtonIndex);
+                return optionSelected.getText().toString();
+            }
+        }
+        return "";
     }
 
     private void sendRatings() {
 
-        AwsManager.getInstance().getAWSDK().getVisitManager().sendRatings(
-                AwsManager.getInstance().getVisit(),
-                getProviderRating(),
-                getVisitRating(),
-                new SDKCallback<Void, SDKError>() {
-                    @Override
-                    public void onResponse(Void voida, SDKError sdkError) {
+        if (getProviderRating() == 0 && getVisitRating() == 0) {
 
-                        if (sdkError == null) {
-                            Timber.d("sendRatings succeeded! ");
-                            sendFeedback();
+            Timber.d("Feedback. User has not submitted both ProviderRating and VisitRating. ");
 
-                        } else {
+            sendFeedback();
+
+        } else {
+            AwsManager.getInstance().getAWSDK().getVisitManager().sendRatings(
+                    AwsManager.getInstance().getVisit(),
+                    getProviderRating(),
+                    getVisitRating(),
+                    new SDKCallback<Void, SDKError>() {
+                        @Override
+                        public void onResponse(Void voida, SDKError sdkError) {
+
+                            if (sdkError == null) {
+                                Timber.d("sendRatings succeeded! ");
+                                sendFeedback();
+
+                            } else {
+                                Timber.e("sendRatings failed! :/");
+                                Timber.e("SDK Error: " + sdkError);
+                                sendFeedback();
+                                Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
                             Timber.e("sendRatings failed! :/");
-                            Timber.e("SDK Error: " + sdkError);
+                            Timber.e("Throwable = " + throwable);
                             sendFeedback();
                             Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
                         }
                     }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e("sendRatings failed! :/");
-                        Timber.e("Throwable = " + throwable);
-                        sendFeedback();
-                        Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
+            );
+        }
     }
 
     private void sendFeedback() {

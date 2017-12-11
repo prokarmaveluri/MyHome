@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -291,17 +290,19 @@ public class MyCareVisitCostFragment extends BaseFragment {
                             intakeLayout.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
 
-                            if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty() && !sdkError.getSDKErrorReason().isEmpty()) {
+                            if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
+                                Toast.makeText(getContext(), sdkError.getMessage(), Toast.LENGTH_LONG).show();
 
-                                if (!sdkError.getMessage().isEmpty()) {
-                                    Toast.makeText(getContext(), sdkError.getMessage(), Toast.LENGTH_LONG).show();
-                                } else if (!sdkError.getSDKErrorReason().isEmpty()) {
-                                    Toast.makeText(getContext(), sdkError.getSDKErrorReason(), Toast.LENGTH_LONG).show();
-                                } else if (!sdkError.toString().isEmpty()) {
-                                    Toast.makeText(getContext(), sdkError.toString(), Toast.LENGTH_LONG).show();
-                                }
+                            } else if (sdkError.getSDKErrorReason() != null && !sdkError.getSDKErrorReason().isEmpty()) {
+                                Toast.makeText(getContext(), sdkError.getSDKErrorReason(), Toast.LENGTH_LONG).show();
+
+                            } else if (sdkError.toString() != null && sdkError.toString().toLowerCase().contains("provider unavailable")) {
+                                Toast.makeText(getContext(), "Provider unavailable \nPlease select a different provider.", Toast.LENGTH_LONG).show();
+
+                            } else if (sdkError.toString() != null && !sdkError.toString().isEmpty()) {
+                                Toast.makeText(getContext(), sdkError.toString(), Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(getContext(), sdkError.toString(), Toast.LENGTH_LONG).show(); //"Provider unavailable \nPlease select a different provider.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), getContext().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                             }
                         }
                     }
