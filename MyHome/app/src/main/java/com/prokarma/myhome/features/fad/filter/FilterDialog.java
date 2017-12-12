@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -125,8 +126,25 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
 
             binding.filterLocation.setOnEditorActionListener(this);
 
-            if (newPatients.size() > 0)
+            if (newPatients.size() > 0) {
                 binding.newPatientsSwitch.setChecked(newPatients.get(0).getSelected());
+                if (binding.newPatientsSwitch.isChecked()) {
+                    binding.newPatientsText.setContentDescription(getContext().getString(R.string.accepting_new_patients) + " is On. ");
+                } else {
+                    binding.newPatientsText.setContentDescription(getContext().getString(R.string.accepting_new_patients) + " is Off. ");
+                }
+            }
+
+            binding.newPatientsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        binding.newPatientsText.setContentDescription(getContext().getString(R.string.accepting_new_patients) + " is On. ");
+                    } else {
+                        binding.newPatientsText.setContentDescription(getContext().getString(R.string.accepting_new_patients) + " is Off. ");
+                    }
+                }
+            });
 
             listListeners();
             updateSortBy();
@@ -224,14 +242,17 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
             case R.id.distance:
                 sortBy = "5";
                 updateSortByButtons(binding.distance, true);
+                binding.sortByGroup.setContentDescription(getContext().getString(R.string.distance));
                 break;
             case R.id.bestMatch:
                 sortBy = "";
                 updateSortByButtons(binding.bestMatch, true);
+                binding.sortByGroup.setContentDescription(getContext().getString(R.string.best_match));
                 break;
             case R.id.lastName:
                 sortBy = "4";
                 updateSortByButtons(binding.lastName, true);
+                binding.sortByGroup.setContentDescription(getContext().getString(R.string.last_name));
                 break;
         }
     }
@@ -289,7 +310,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
         adapter = new SuggestionsAdapter(list, getActivity(), FilterDialog.this);
         binding.locationSugg.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.locationSugg.setAdapter(adapter);
-        binding.locationSugg.announceForAccessibility(adapter.getItemCount()  + getString(R.string.loc_suggestion));
+        binding.locationSugg.announceForAccessibility(adapter.getItemCount() + getString(R.string.loc_suggestion));
         adapter.notifyDataSetChanged();
     }
 

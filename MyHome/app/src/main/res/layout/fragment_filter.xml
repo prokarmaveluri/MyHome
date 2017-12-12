@@ -108,6 +108,7 @@
                             style="@style/tradeGothicLTStdLight_20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@string/sort_by"
                             android:lineSpacingExtra="-0.09sp"
                             android:text="@string/sort_by"
                             android:textStyle="bold" />
@@ -118,7 +119,9 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/sortByTitle"
                             android:layout_marginTop="16dp"
+                            android:contentDescription="@string/distance"
                             android:gravity="center"
+                            android:importantForAccessibility="yes"
                             android:orientation="horizontal"
                             android:weightSum="3">
 
@@ -131,6 +134,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/button_boarder_acent"
                                 android:button="@null"
+                                android:contentDescription="@string/distance_accessibility"
                                 android:lineSpacingExtra="-0.1sp"
                                 android:paddingBottom="@dimen/scalable_8"
                                 android:paddingLeft="3dp"
@@ -151,6 +155,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/button_boarder_acent"
                                 android:button="@null"
+                                android:contentDescription="@string/best_match_accessibility"
                                 android:lineSpacingExtra="-0.1sp"
                                 android:paddingBottom="@dimen/scalable_8"
                                 android:paddingLeft="3dp"
@@ -171,6 +176,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/button_boarder_acent"
                                 android:button="@null"
+                                android:contentDescription="@string/last_name_accessibility"
                                 android:lineSpacingExtra="-0.1sp"
                                 android:paddingBottom="@dimen/scalable_8"
                                 android:paddingLeft="3dp"
@@ -238,10 +244,10 @@
                                 style="@style/tradeGothicLTStd_Dynamic18"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:contentDescription="@string/accepting_new_patients"
                                 android:textAlignment="textEnd" />
 
                             <TextView
+                                android:id="@+id/newPatientsText"
                                 style="@style/tradeGothicLTStd_Dynamic18"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

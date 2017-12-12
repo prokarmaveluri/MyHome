@@ -101,88 +101,99 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            setContentView(R.layout.navigation_activity);
 
-        setContentView(R.layout.navigation_activity);
+            NetworkManager.getInstance().setExpiryListener(this);
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            toolbarLine = (View) findViewById(R.id.toolbar_line);
 
-        NetworkManager.getInstance().setExpiryListener(this);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbarLine = (View) findViewById(R.id.toolbar_line);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
+            } else {
+                //noinspection deprecation
+                toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
+            }
+            setSupportActionBar(toolbar);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
-        } else {
-            //noinspection deprecation
-            toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
-        }
-        setSupportActionBar(toolbar);
+            //Listen for changes in the back stack
+            getSupportFragmentManager().addOnBackStackChangedListener(this);
+            //Handle when activity is recreated like on orientation Change
+            shouldDisplayHomeUp();
 
-        //Listen for changes in the back stack
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
-        //Handle when activity is recreated like on orientation Change
-        shouldDisplayHomeUp();
+            MapsInitializer.initialize(getApplicationContext());
 
-        MapsInitializer.initialize(getApplicationContext());
-        LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
-        bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
-        if (AuthManager.getInstance().hasMyCare()) {
-            bottomNavigationView.inflateMenu(R.menu.navigation_menu);
-        } else {
-            bottomNavigationView.inflateMenu(R.menu.navigation_menu_profile);
-        }
-        bottomNavigationView.enableAnimation(false);
-        bottomNavigationView.enableShiftingMode(false);
-        bottomNavigationView.enableItemShiftingMode(false);
-        bottomNavigationView.setTextVisibility(true);
-        bottomNavigationView.setTextSize(13f);
+            progressBar = (ProgressBar) findViewById(R.id.dash_progress);
+            setActivityTag(ActivityTag.NONE);
 
-        progressBar = (ProgressBar) findViewById(R.id.dash_progress);
-        setActivityTag(ActivityTag.NONE);
-        initializeBottomView();
+            eventBus = new Bus(ThreadEnforcer.MAIN);
+            RecentlyViewedDataSourceDB.getInstance().open(getApplicationContext());
 
-        eventBus = new Bus(ThreadEnforcer.MAIN);
-        RecentlyViewedDataSourceDB.getInstance().open(getApplicationContext());
+            //Inspired by https://stackoverflow.com/a/26905894/2128921
+            timezoneChangedReceiver = new MyBroadcastReceiver();
+            registerReceiver(timezoneChangedReceiver, new IntentFilter("android.intent.action.TIMEZONE_CHANGED"));
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationViewEx.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        clearBackstack();
-                        if (null != currentSelectedMenuItem)
-                            MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle());
-                        currentSelectedMenuItem = item;
-                        MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle() + ", selected");
-                        switch (item.getItemId()) {
-                            case R.id.home:
-                                loadFragment(ActivityTag.HOME, null);
-                                break;
+            //Pre-load Google Play Services
+            //loadGooglePlayServices();
 
-                            case R.id.fad:
-                                loadFragment(ActivityTag.FAD_DASH_BOARD, null);
-                                break;
+            LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
+            bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
+            if (AuthManager.getInstance().hasMyCare()) {
+                bottomNavigationView.inflateMenu(R.menu.navigation_menu);
+            } else {
+                bottomNavigationView.inflateMenu(R.menu.navigation_menu_profile);
+            }
+            bottomNavigationView.enableAnimation(false);
+            bottomNavigationView.enableShiftingMode(false);
+            bottomNavigationView.enableItemShiftingMode(false);
+            bottomNavigationView.setTextVisibility(true);
+            bottomNavigationView.setTextSize(13f);
 
-                            case R.id.appointments:
-                                loadFragment(ActivityTag.APPOINTMENTS, null);
-                                break;
+            initializeBottomView();
 
-                            case R.id.profile:
-                                if (AuthManager.getInstance().hasMyCare()) {
-                                    loadFragment(ActivityTag.MY_CARE_NOW, null);
-                                } else {
-                                    loadFragment(ActivityTag.PROFILE_VIEW, null);
-                                }
-                                break;
+            bottomNavigationView.setOnNavigationItemSelectedListener(
+                    new BottomNavigationViewEx.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                            clearBackstack();
+
+                            if (null != currentSelectedMenuItem) {
+                                MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle());
+                            }
+
+                            currentSelectedMenuItem = item;
+                            MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle() + ", selected");
+
+                            switch (item.getItemId()) {
+                                case R.id.home:
+                                    loadFragment(ActivityTag.HOME, null);
+                                    break;
+
+                                case R.id.fad:
+                                    loadFragment(ActivityTag.FAD_DASH_BOARD, null);
+                                    break;
+
+                                case R.id.appointments:
+                                    loadFragment(ActivityTag.APPOINTMENTS, null);
+                                    break;
+
+                                case R.id.profile:
+                                    if (AuthManager.getInstance().hasMyCare()) {
+                                        loadFragment(ActivityTag.MY_CARE_NOW, null);
+                                    } else {
+                                        loadFragment(ActivityTag.PROFILE_VIEW, null);
+                                    }
+                                    break;
+                            }
+
+                            return true;
                         }
+                    });
 
-                        return true;
-                    }
-                });
-
-        //Inspired by https://stackoverflow.com/a/26905894/2128921
-        timezoneChangedReceiver = new MyBroadcastReceiver();
-        registerReceiver(timezoneChangedReceiver, new IntentFilter("android.intent.action.TIMEZONE_CHANGED"));
-
-        //Pre-load Google Play Services
-//        loadGooglePlayServices();
+        } catch (Exception e) {
+            Timber.e(e);
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -217,7 +228,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      * Currently the HomeFragment is the initial fragment shown
      */
     private void initializeBottomView() {
-        loadFragment(ActivityTag.HOME, null);
+        try {
+            loadFragment(ActivityTag.HOME, null);
+        } catch (Exception e) {
+            Timber.e(e);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -649,18 +665,18 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
             case PREVIOUS_VISIT_SUMMARY_PDF:
                 //if (getActivityTag() != ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF) {
-                    getSupportFragmentManager().executePendingTransactions();
-                    PdfRendererZoomFragment fragment = new PdfRendererZoomFragment();
-                    fragment.setArguments(bundle);
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, fragment, PdfRendererZoomFragment.PDF_TAG)
-                            .addToBackStack(null)
-                            .commitAllowingStateLoss();
-                    getSupportFragmentManager().executePendingTransactions();
+                getSupportFragmentManager().executePendingTransactions();
+                PdfRendererZoomFragment fragment = new PdfRendererZoomFragment();
+                fragment.setArguments(bundle);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                        .replace(R.id.frame, fragment, PdfRendererZoomFragment.PDF_TAG)
+                        .addToBackStack(null)
+                        .commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
 
-                    setActivityTag(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF);
+                setActivityTag(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF);
                 //}
                 break;
 

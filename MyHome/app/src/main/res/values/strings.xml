@@ -73,6 +73,9 @@
     <string name="distance">Distance</string>
     <string name="best_match">Best Match</string>
     <string name="last_name">Last Name</string>
+    <string name="distance_accessibility">Sort By Distance</string>
+    <string name="best_match_accessibility">Sort By Best Match</string>
+    <string name="last_name_accessibility">Sort By Last Name</string>
     <string name="filter_by">Filter By</string>
     <string name="accepting_new_patients">Accepting New Patients</string>
     <string name="display_recently_viewed_doctors">Display recently viewed doctors</string>
