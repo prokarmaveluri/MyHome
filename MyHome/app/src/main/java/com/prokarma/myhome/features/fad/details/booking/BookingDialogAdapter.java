@@ -761,13 +761,13 @@ public class BookingDialogAdapter extends PagerAdapter {
                 weeksPregnantLayout.setError(null);
             }
 
-            if (dateOfBirthLayout.getVisibility() == View.VISIBLE && !dateOfBirth.getText().toString().isEmpty()) {
-                dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_invalid));
+            if (dateOfBirthLayout.getVisibility() == View.VISIBLE && dateOfBirth.getText().toString().isEmpty()) {
+                dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);
             }
-            else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString())) {
+            else if (dateOfBirthLayout.getVisibility() == View.VISIBLE  && !dateOfBirth.getText().toString().isEmpty() && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString())) {
                 dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_invalid));
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();

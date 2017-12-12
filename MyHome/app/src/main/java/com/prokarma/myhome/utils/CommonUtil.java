@@ -686,6 +686,23 @@ public class CommonUtil {
     }
 
     /**
+     * Show Toast
+     *
+     */
+    public static void showToast(Context context, String message) {
+        try {
+            if (context != null) {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            }
+            else {
+                Timber.e("context is null. Could not show toast message.");
+            }
+        } catch (NullPointerException | IllegalStateException ex) {
+            Timber.w(ex);
+        }
+    }
+
+    /**
      * Show Keyboard
      *
      * @param activity the activtity that we are currently on at the time we want to hide the keyboard.

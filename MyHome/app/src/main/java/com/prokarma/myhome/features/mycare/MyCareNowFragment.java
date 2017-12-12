@@ -423,7 +423,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void initializationFailed(String errorMessage) {
-        Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+        CommonUtil.showToast(getContext(), "Error: " + errorMessage);
         errorLoading();
     }
 
@@ -434,7 +434,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void authentciationFailed(String errorMessage) {
-        Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+        CommonUtil.showToast(getContext(), "Error: " + errorMessage);
         errorLoading();
     }
 

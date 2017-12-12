@@ -278,6 +278,7 @@ public class FeedbackFragment extends BaseFragment {
 
                         if (sdkError == null) {
                             Timber.d("sendVisitFeedback succeeded! ");
+                            Toast.makeText(getActivity(), R.string.feedback_completed, Toast.LENGTH_LONG).show();
                             goBackToDashboard();
 
                         } else {

@@ -92,6 +92,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     public void onResume() {
         super.onResume();
         if (isVisitEnd) {
+
+            Toast.makeText(getActivity(), R.string.visit_completed, Toast.LENGTH_LONG).show();
+
             //Put in handler to avoid IllegalStateException: https://stackoverflow.com/a/41953519/2128921
             goToVisitSummary();
         }
