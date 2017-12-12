@@ -165,7 +165,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             showLoading();
             AwsNetworkManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, this);
-        } else if (!AwsManager.getInstance().isHasAuthenticated()) {
+        } else if (!AwsManager.getInstance().hasAuthenticated()) {
             showLoading();
             this.initializationComplete();
         } else if (!AwsManager.getInstance().isHasConsumer()) {
