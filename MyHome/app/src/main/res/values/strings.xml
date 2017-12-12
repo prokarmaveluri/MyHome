@@ -494,5 +494,6 @@
     <string name="mcn_welcome_text_variable">Hi %1$s, let’s fill out a few details to get you started.</string>
     <string name="location">Location, </string>
     <string name="phone_number_des">Phone number, </string>
-
+    <string name="fav_selected">selected favourite heart stroke </string>
+    <string name="fav_unselected">not selected favourite heart stroke</string>
 </resources>
