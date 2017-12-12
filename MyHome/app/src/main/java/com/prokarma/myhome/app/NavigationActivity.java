@@ -126,6 +126,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
         if (AuthManager.getInstance().hasMyCare()) {
             bottomNavigationView.inflateMenu(R.menu.navigation_menu);
+            currentSelectedMenuItem = bottomNavigationView.getMenu().getItem(0);
+            MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle() + ", selected");
         } else {
             bottomNavigationView.inflateMenu(R.menu.navigation_menu_profile);
         }

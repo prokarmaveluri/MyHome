@@ -43,6 +43,7 @@
                 android:src="@mipmap/filter_blue" />
 
             <TextView
+                android:id="@+id/fad_screen_title"
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

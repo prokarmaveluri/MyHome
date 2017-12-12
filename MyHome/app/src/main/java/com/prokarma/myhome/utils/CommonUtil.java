@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -43,7 +42,6 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -55,9 +53,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import timber.log.Timber;
-
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 /**
@@ -66,18 +62,16 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public class CommonUtil {
-    private static final String TYPE_PLAIN = "text/plain";
-
     public static final String GOOD_IRI_CHAR =
             "a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF";
-
+    static public final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\d{3}.\\d{3}.\\d{4}");
+    private static final String TYPE_PLAIN = "text/plain";
     /**
      * Regular expression for a domain label, as per RFC 3490.
      * Its total length must not exceed 63 octets, according to RFC 5890.
      */
     private static final String LABEL_REGEXP =
             "([" + GOOD_IRI_CHAR + "\\-]{2,61})?";
-
     /**
      * Expression that matches a domain name, including international domain names in Punycode or
      * Unicode.
@@ -86,7 +80,6 @@ public class CommonUtil {
             "(" + LABEL_REGEXP + "\\.)+"                 // Subdomains and domain
                     // Top-level domain must be at least 2 chars
                     + "[" + GOOD_IRI_CHAR + "\\-]{2,61}";
-
 
     public static boolean isValidPassword(String password) {
 
@@ -142,8 +135,6 @@ public class CommonUtil {
             return true;
         }
     }
-
-    static public final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\d{3}.\\d{3}.\\d{4}");
 
     public static boolean isValidMobile(String phone) {
         return PHONE_NUMBER_PATTERN.matcher(phone).find();
@@ -1044,23 +1035,27 @@ public class CommonUtil {
         return false;
     }
 
-    public static boolean isAccessibilityEnabled(Context context){
+    public static boolean isAccessibilityEnabled(Context context) {
         AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
         return am.isEnabled();
     }
 
-    public static String stringToSpacesString(String string){
+    public static String stringToSpacesString(String string) {
         String spacesString = "";
         if (null != string) {
             for (char c : string.toCharArray()) {
                 if (c != '-')
-                spacesString+=" "+c;
+                    spacesString += " " + c;
             }
         }
         return spacesString;
     }
 
-    public static void showToast(Context context,String message,int duration){
-        Toast.makeText(context, message, duration).show();
+    public static void showToast(Context context, String message, int duration) {
+        if (CommonUtil.isAccessibilityEnabled(context)) {
+            Toast.makeText(context, message, duration).show();
+        } else {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        }
     }
 }
