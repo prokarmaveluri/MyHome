@@ -257,7 +257,7 @@ public class DateUtil {
      * @return a String representing the Date (formatted like such: "hh:mm a z")
      */
     public static String getTimeTimezone(Date date) {
-        return SIMPLE_TIME_FORMAT_TIMEZONE.format(date).replace("AM", "am").replace("PM", "pm");
+        return SIMPLE_TIME_FORMAT_TIMEZONE.format(date);
     }
 
     /**
