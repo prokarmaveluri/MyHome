@@ -1061,6 +1061,10 @@ public class CommonUtil {
     }
 
     public static void showToast(Context context,String message,int duration){
-        Toast.makeText(context, message, duration).show();
+        if (CommonUtil.isAccessibilityEnabled(context)) {
+            Toast.makeText(context, message, duration).show();
+        } else {
+            Toast.makeText(context,message,Toast.LENGTH_LONG).show();
+        }
     }
 }
