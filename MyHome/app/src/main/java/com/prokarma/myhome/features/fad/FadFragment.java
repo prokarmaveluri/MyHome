@@ -117,7 +117,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         ((NavigationActivity) getActivity()).getSupportActionBar().hide();
 
         binding.suggestionList.setVisibility(View.GONE);
-        binding.searchLayout.setVisibility(View.GONE);
+        searchLayoutVisibility(false);
         binding.fadProgress.setVisibility(View.GONE);
 
         presenter = new FadPresenter(this, getActivity());
@@ -139,7 +139,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             clearFilters();
         }
         binding.suggestionList.setVisibility(View.VISIBLE);
-        binding.searchLayout.setVisibility(View.VISIBLE);
+        searchLayoutVisibility(true);
         binding.searchQuery.requestFocus();
         getSearchSuggestions("");
         CommonUtil.showSoftKeyboard(binding.searchQuery, getActivity());
@@ -147,6 +147,30 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
 
         drawableClickEvent();
         return binding.getRoot();
+    }
+
+    private void searchLayoutVisibility(boolean visible) {
+        if (visible) {
+            binding.searchLayout.setVisibility(View.VISIBLE);
+            binding.fadFilter.setVisibility(View.GONE);
+            binding.fadRecent.setVisibility(View.GONE);
+            binding.fadMore.setVisibility(View.GONE);
+            binding.fadRecent.setVisibility(View.GONE);
+            binding.fadFilter.setVisibility(View.GONE);
+            binding.fadSearch.setVisibility(View.GONE);
+            binding.fadBack.setVisibility(View.GONE);
+            binding.fadScreenTitle.setVisibility(View.GONE);
+        } else {
+            binding.searchLayout.setVisibility(View.GONE);
+            binding.fadFilter.setVisibility(View.VISIBLE);
+            binding.fadRecent.setVisibility(View.VISIBLE);
+            binding.fadMore.setVisibility(View.VISIBLE);
+            binding.fadRecent.setVisibility(View.VISIBLE);
+            binding.fadFilter.setVisibility(View.VISIBLE);
+            binding.fadSearch.setVisibility(View.VISIBLE);
+            binding.fadBack.setVisibility(View.VISIBLE);
+            binding.fadScreenTitle.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -161,7 +185,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             NavigationActivity.eventBus.register(this);
         if (!isSugShow) {
             binding.suggestionList.setVisibility(View.GONE);
-            binding.searchLayout.setVisibility(View.GONE);
+            searchLayoutVisibility(false);
             CommonUtil.hideSoftKeyboard(getActivity());
         }
         ((NavigationActivity) getActivity()).getSupportActionBar().hide();
@@ -409,7 +433,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 startFilterDialog();
                 break;
             case R.id.fad_search:
-                binding.searchLayout.setVisibility(View.VISIBLE);
+                searchLayoutVisibility(true);
                 getSearchSuggestions(currentSearchQuery);
                 binding.searchQuery.requestFocus();
                 CommonUtil.showSoftKeyboard(binding.searchQuery, getActivity());
@@ -590,7 +614,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             if (isResumed() && null == getActivity() && getChildFragmentManager() == null)
                 return;
             CommonUtil.hideSoftKeyboard(getActivity());
-            binding.searchLayout.setVisibility(View.GONE);
+            searchLayoutVisibility(false);
             setPager();
             pagerAdapter.notifyDataSetChanged();
 
@@ -652,7 +676,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         // Update list
 
         CommonUtil.hideSoftKeyboard(getActivity());
-        binding.searchLayout.setVisibility(View.GONE);
+        searchLayoutVisibility(false);
         if (isResumed()) {
             pagerAdapter =
                     new FadPagerAdapter(getChildFragmentManager(), providerList, message);
@@ -669,7 +693,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         // Update list
 
         CommonUtil.hideSoftKeyboard(getActivity());
-        binding.searchLayout.setVisibility(View.GONE);
+        searchLayoutVisibility(false);
         if (isResumed()) {
             pagerAdapter =
                     new FadPagerAdapter(getChildFragmentManager(), providerList, message);
@@ -705,7 +729,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                                     if (binding.searchQuery.getText().length() <= 0) {
                                         if (null != getActivity())
                                             CommonUtil.hideSoftKeyboard(getActivity());
-                                        binding.searchLayout.setVisibility(View.GONE);
+                                        searchLayoutVisibility(false);
                                         binding.suggestionList.setVisibility(View.GONE);
                                     } else {
                                         if (null != suggestionList)
@@ -716,7 +740,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                                 } catch (NullPointerException ex) {
                                     if (null != getActivity())
                                         CommonUtil.hideSoftKeyboard(getActivity());
-                                    binding.searchLayout.setVisibility(View.GONE);
+                                     searchLayoutVisibility(false);
                                     binding.suggestionList.setVisibility(View.GONE);
                                 }
                                 return true;

@@ -726,7 +726,8 @@ public class NetworkManager {
             return;
         }
         if (isSave) {
-            CommonUtil.updateFavView(isSave, favProvider);
+            CommonUtil.updateFavView(context, isSave, favProvider);
+            favProvider.announceForAccessibility(favProvider.getContentDescription());
             final SaveDoctorRequest request = new SaveDoctorRequest(npi);
             NetworkManager.getInstance().saveDoctor(AuthManager.getInstance().getBearerToken(),
                     request).enqueue(new Callback<SaveDoctorResponse>() {
@@ -747,20 +748,24 @@ public class NetworkManager {
                             ProfileManager.setFavoriteProviders(providerList);
                         }
                     } else {
-                        CommonUtil.updateFavView(!isSave, favProvider);
+                        CommonUtil.updateFavView(context, !isSave, favProvider);
+                        favProvider.announceForAccessibility(favProvider.getContentDescription());
                         ApiErrorUtil.getInstance().saveDoctorError(context, parentView, response);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
-                    CommonUtil.updateFavView(!isSave, favProvider);
+                    CommonUtil.updateFavView(context, !isSave, favProvider);
+                    favProvider.announceForAccessibility(favProvider.getContentDescription());
                     ApiErrorUtil.getInstance().saveDoctorFailed(context, parentView, t);
                 }
             });
         } else { //DELETE saved Doc
-            if (!isList)
-                CommonUtil.updateFavView(isSave, favProvider);
+            if (!isList) {
+                CommonUtil.updateFavView(context, isSave, favProvider);
+                favProvider.announceForAccessibility(favProvider.getContentDescription());
+            }
             NetworkManager.getInstance().deleteSavedDoctor(AuthManager.getInstance().getBearerToken(),
                     npi).enqueue(new Callback<SaveDoctorResponse>() {
                 @Override
@@ -772,14 +777,16 @@ public class NetworkManager {
 
                         deleteSavedDoctor(npi);
                     } else {
-                        CommonUtil.updateFavView(!isSave, favProvider);
+                        CommonUtil.updateFavView(context, !isSave, favProvider);
+                        favProvider.announceForAccessibility(favProvider.getContentDescription());
                         ApiErrorUtil.getInstance().deleteSavedDoctorError(context, parentView, response);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SaveDoctorResponse> call, Throwable t) {
-                    CommonUtil.updateFavView(!isSave, favProvider);
+                    CommonUtil.updateFavView(context, !isSave, favProvider);
+                    favProvider.announceForAccessibility(favProvider.getContentDescription());
                     ApiErrorUtil.getInstance().deleteSavedDoctorFailed(context, parentView, t);
                 }
             });

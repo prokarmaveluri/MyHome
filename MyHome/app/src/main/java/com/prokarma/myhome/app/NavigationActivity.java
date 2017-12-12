@@ -126,23 +126,18 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             progressBar = (ProgressBar) findViewById(R.id.dash_progress);
             setActivityTag(ActivityTag.NONE);
 
-            eventBus = new Bus(ThreadEnforcer.MAIN);
-            RecentlyViewedDataSourceDB.getInstance().open(getApplicationContext());
-
-            //Inspired by https://stackoverflow.com/a/26905894/2128921
-            timezoneChangedReceiver = new MyBroadcastReceiver();
-            registerReceiver(timezoneChangedReceiver, new IntentFilter("android.intent.action.TIMEZONE_CHANGED"));
-
-            //Pre-load Google Play Services
-            //loadGooglePlayServices();
-
+            MapsInitializer.initialize(getApplicationContext());
             LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
             bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
+
             if (AuthManager.getInstance().hasMyCare()) {
                 bottomNavigationView.inflateMenu(R.menu.navigation_menu);
+                currentSelectedMenuItem = bottomNavigationView.getMenu().getItem(0);
+                MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle() + ", selected");
             } else {
                 bottomNavigationView.inflateMenu(R.menu.navigation_menu_profile);
             }
+
             bottomNavigationView.enableAnimation(false);
             bottomNavigationView.enableShiftingMode(false);
             bottomNavigationView.enableItemShiftingMode(false);
@@ -150,6 +145,13 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             bottomNavigationView.setTextSize(13f);
 
             initializeBottomView();
+
+            eventBus = new Bus(ThreadEnforcer.MAIN);
+            RecentlyViewedDataSourceDB.getInstance().open(getApplicationContext());
+
+            //Inspired by https://stackoverflow.com/a/26905894/2128921
+            timezoneChangedReceiver = new MyBroadcastReceiver();
+            registerReceiver(timezoneChangedReceiver, new IntentFilter("android.intent.action.TIMEZONE_CHANGED"));
 
             bottomNavigationView.setOnNavigationItemSelectedListener(
                     new BottomNavigationViewEx.OnNavigationItemSelectedListener() {

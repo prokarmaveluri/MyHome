@@ -174,11 +174,11 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         });
 
         if (ProfileManager.getFavoriteProviders() != null) {
-            CommonUtil.updateFavView(false, favProvider);
+            CommonUtil.updateFavView(getActivity(), false, favProvider);
             for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
                 if (appointment.provider.getNpi() != null && appointment.provider.getNpi().contains(provider.getNpi())) {
                     favDoc = true;
-                    CommonUtil.updateFavView(true, favProvider);
+                    CommonUtil.updateFavView(getActivity(), true, favProvider);
                     break;
                 }
             }
