@@ -27,6 +27,7 @@ import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -416,8 +417,12 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             AwsNetworkManager.getInstance().getUsersAuthentication("jj@prokarma.com", "Pass123*", this);
         } else {
             //IoT
-            AwsNetworkManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
-            //AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken());
+            //TODO Clean this up once mutual auth is reliable
+            if(AuthManager.getAmWellToken() == null){
+                AwsNetworkManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
+            } else {
+                AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken(), this);
+            }
         }
     }
 
