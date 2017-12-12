@@ -217,7 +217,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         phone = (TextView) providerDetailsView.findViewById(R.id.phone);
         favProvider = (ImageView) providerDetailsView.findViewById(R.id.provider_details_fav);
 
-        CommonUtil.updateFavView(false, favProvider);
+        CommonUtil.updateFavView(getActivity(), false, favProvider);
         favProvider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -457,7 +457,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             for (ProviderResponse provider : ProfileManager.getFavoriteProviders()) {
                                 if (ProviderDetailsFragment.this.provider.getNpi().contains(provider.getNpi())) {
                                     fav = true;
-                                    CommonUtil.updateFavView(true, favProvider);
+                                    CommonUtil.updateFavView(getActivity(), true, favProvider);
                                     break;
                                 }
                             }

@@ -735,15 +735,17 @@ public class CommonUtil {
 
     /**
      * update imageview fav icon
-     *
+     * @param context
      * @param isFav
      * @param favProvider
      */
-    public static void updateFavView(boolean isFav, ImageView favProvider) {
+    public static void updateFavView(Context context, boolean isFav, ImageView favProvider) {
         if (!isFav) {
             favProvider.setImageResource(R.drawable.ic_favorite_stroke);
+            favProvider.setContentDescription(context.getString(R.string.fav_unselected));
         } else {
             favProvider.setImageResource(R.drawable.ic_favorite_filled);
+            favProvider.setContentDescription(context.getString(R.string.fav_selected));
         }
     }
 
