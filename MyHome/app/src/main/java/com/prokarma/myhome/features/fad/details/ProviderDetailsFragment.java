@@ -999,6 +999,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void coachmarkBooking() {
+        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+            return;
+
         if (bookAppointment.getVisibility() != View.VISIBLE) {
             coachmarkLocations();
             return;
@@ -1028,6 +1031,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void coachmarkLocations() {
+        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+            return;
+
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.PROVIDER_DETAILS_LOCATION_SKIP_COACH_MARKS);
         if (skip)
             return;

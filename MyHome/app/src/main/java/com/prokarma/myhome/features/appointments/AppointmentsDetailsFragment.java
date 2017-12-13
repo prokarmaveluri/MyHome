@@ -214,6 +214,9 @@ public class AppointmentsDetailsFragment extends BaseFragment {
 
     private void coachmarkHeart() {
         boolean skip;
+        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+            return;
+
         if (isPastAppointment)
             skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_PAST_SKIP_COACH_MARKS);
         else
@@ -247,6 +250,9 @@ public class AppointmentsDetailsFragment extends BaseFragment {
     }
 
     private void coachmarkCalendar() {
+        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+            return;
+
         boolean skip;
         if (isPastAppointment)
             skip = AppPreferences.getInstance().getBooleanPreference(Constants.APT_DETAILS_PAST_SKIP_COACH_MARKS);
