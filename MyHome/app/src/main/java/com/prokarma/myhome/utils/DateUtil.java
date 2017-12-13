@@ -29,6 +29,8 @@ public class DateUtil {
     //Date formats
     public static final String DATE_FORMAT = "MMMM dd, yyyy";
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+    public static final String DATE_MONTH_YEAR_FORMAT = "MMMM, yyyy";
+    public static final SimpleDateFormat SIMPLE_DATE_MONTH_YEAR_FORMAT = new SimpleDateFormat(DATE_MONTH_YEAR_FORMAT, Locale.getDefault());
     public static final String DATE_FORMAT_SHORT = "MMM dd, yyyy";
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_SHORT = new SimpleDateFormat(DATE_FORMAT_SHORT, Locale.getDefault());
     public static final String DATE_HYPHEN_FORMAT = "yyyy-MM-dd";
@@ -54,7 +56,7 @@ public class DateUtil {
     public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     public static final String TIME_FORMAT_TIMEZONE = "hh:mm a z";
-    public static final SimpleDateFormat SIMPLE_TIME_FORMAT_TIMEZONE= new SimpleDateFormat(TIME_FORMAT_TIMEZONE, Locale.getDefault());
+    public static final SimpleDateFormat SIMPLE_TIME_FORMAT_TIMEZONE = new SimpleDateFormat(TIME_FORMAT_TIMEZONE, Locale.getDefault());
 
 
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC_TIMEZONE = new SimpleDateFormat(DATE_FORMAT_UTC_TIMEZONE, Locale.getDefault());
@@ -346,6 +348,17 @@ public class DateUtil {
      * Convert a Date object into a human-friendly format.
      *
      * @param date the date object. This object's date should already be set and finalized before making this call.
+     * @return a String representing the UTC Date (formatted like such: "MMMM, yyyy")
+     */
+    public static String convertDateToMonthYearWords(Date date) {
+        return SIMPLE_DATE_MONTH_YEAR_FORMAT.format(date);
+    }
+
+
+    /**
+     * Convert a Date object into a human-friendly format.
+     *
+     * @param date the date object. This object's date should already be set and finalized before making this call.
      * @return a String representing the UTC Date (formatted like such: "EEE, MMM dd")
      */
     public static String convertDateToReadableShortWords(Date date) {
@@ -527,6 +540,21 @@ public class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, daysToMove);
+
+        return calendar.getTime();
+    }
+
+    /**
+     * Method to move a certain date a certain amount of months
+     *
+     * @param date         the date to be modified
+     * @param monthsToMove the amount of months we wish to move the date. Can be negative to go back in time.
+     * @return the new date after the move
+     */
+    public static Date moveDateByMonths(Date date, int monthsToMove) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, monthsToMove);
 
         return calendar.getTime();
     }
@@ -746,5 +774,12 @@ public class DateUtil {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static int getMonthFromDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+        return month + 1;
     }
 }
