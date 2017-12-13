@@ -101,7 +101,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
+        //try {
             setContentView(R.layout.navigation_activity);
 
             NetworkManager.getInstance().setExpiryListener(this);
@@ -192,10 +192,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                         }
                     });
 
-        } catch (Exception e) {
+        /*} catch (Exception e) {
             Timber.e(e);
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
