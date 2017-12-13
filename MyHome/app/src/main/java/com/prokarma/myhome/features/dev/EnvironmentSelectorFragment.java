@@ -9,10 +9,11 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -28,6 +29,14 @@ public class EnvironmentSelectorFragment extends DialogFragment {
     public static final String ENVIRONMENT_SELECTOR_TAG = "environment_selector_tag";
 
     View envSelectorView;
+    RadioGroup envMyHomeGroup;
+    RadioGroup envAmWellGroup;
+    AppCompatCheckBox checkBox;
+    TextInputLayout usernameLayout;
+    TextInputEditText user;
+    TextInputLayout passwordLayout;
+    TextInputEditText password;
+
     EnvironmentSelectorInterface environmentSelectorInterface;
 
     public static EnvironmentSelectorFragment newInstance() {
@@ -36,6 +45,12 @@ public class EnvironmentSelectorFragment extends DialogFragment {
 
     public void setEnvironmentSelectorInterface(EnvironmentSelectorInterface environmentSelectorInterface) {
         this.environmentSelectorInterface = environmentSelectorInterface;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NO_FRAME, R.style.DialogTheame);
     }
 
     @Override
@@ -61,14 +76,28 @@ public class EnvironmentSelectorFragment extends DialogFragment {
         envSelectorView = inflater.inflate(R.layout.environment_selector, container, false);
         getActivity().setTitle(getString(R.string.developer_settings));
 
-        final RadioGroup envMyHomeGroup = (RadioGroup) envSelectorView.findViewById(R.id.env_myhome_radio_group);
-        final RadioGroup envAmWellGroup = (RadioGroup) envSelectorView.findViewById(R.id.env_amwell_radio_group);
-        final AppCompatCheckBox checkBox = (AppCompatCheckBox) envSelectorView.findViewById(R.id.checkbox_mutual_auth);
-        final Button acceptButton = (Button) envSelectorView.findViewById(R.id.accept_button);
-        final TextInputLayout usernameLayout = (TextInputLayout) envSelectorView.findViewById(R.id.user_layout);
-        final TextInputEditText user = (TextInputEditText) envSelectorView.findViewById(R.id.user);
-        final TextInputLayout passwordLayout = (TextInputLayout) envSelectorView.findViewById(R.id.password_layout);
-        final TextInputEditText password = (TextInputEditText) envSelectorView.findViewById(R.id.password);
+        Toolbar toolbar = (Toolbar) envSelectorView.findViewById(R.id.toolbar);
+        toolbar.setTitle("Please Select Environment");
+        toolbar.inflateMenu(R.menu.environment_selector_dialog_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.finish_dialog:
+                        finishSelecting();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        envMyHomeGroup = (RadioGroup) envSelectorView.findViewById(R.id.env_myhome_radio_group);
+        envAmWellGroup = (RadioGroup) envSelectorView.findViewById(R.id.env_amwell_radio_group);
+        checkBox = (AppCompatCheckBox) envSelectorView.findViewById(R.id.checkbox_mutual_auth);
+        usernameLayout = (TextInputLayout) envSelectorView.findViewById(R.id.user_layout);
+        user = (TextInputEditText) envSelectorView.findViewById(R.id.user);
+        passwordLayout = (TextInputLayout) envSelectorView.findViewById(R.id.password_layout);
+        password = (TextInputEditText) envSelectorView.findViewById(R.id.password);
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -80,65 +109,62 @@ public class EnvironmentSelectorFragment extends DialogFragment {
             }
         });
 
-        acceptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (envMyHomeGroup.getCheckedRadioButtonId() == -1 || envAmWellGroup.getCheckedRadioButtonId() == -1) {
-                    Toast.makeText(getContext(), "You must chose an environment", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (!checkBox.isChecked()) {
-                    if((user.getText() == null || user.getText().toString().isEmpty()) || (password.getText() == null || password.getText().toString().isEmpty())){
-                        Toast.makeText(getContext(), "Please provide a user for AmWell", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                }
-
-                if (environmentSelectorInterface != null) {
-                    environmentSelectorInterface.attemptMutualAuth(checkBox.isChecked());
-
-                    if (user.getText() != null && password.getText() != null) {
-                        environmentSelectorInterface.hardcodedUser(user.getText().toString(), password.getText().toString());
-                    } else {
-
-                    }
-
-                    switch (envAmWellGroup.getCheckedRadioButtonId()) {
-                        case R.id.radio_amwell_dev:
-                            environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.DEV);
-                            break;
-                        case R.id.radio_amwell_iot:
-                            environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.IOT);
-                            break;
-                        case R.id.radio_amwell_prod:
-                            environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.PROD);
-                            break;
-                    }
-
-                    switch (envMyHomeGroup.getCheckedRadioButtonId()) {
-                        case R.id.radio_dev:
-                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.DEV);
-                            break;
-                        case R.id.radio_slot1:
-                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.SLOT1);
-                            break;
-                        case R.id.radio_stage:
-                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.STAGE);
-                            break;
-                        case R.id.radio_prod:
-                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.PROD);
-                            break;
-                        default:
-                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.PROD);
-                            break;
-                    }
-
-                    dismiss();
-                }
-            }
-        });
-
         return envSelectorView;
+    }
+
+    private void finishSelecting() {
+        if (envMyHomeGroup.getCheckedRadioButtonId() == -1 || envAmWellGroup.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(getContext(), "You must chose an environment", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!checkBox.isChecked()) {
+            if ((user.getText() == null || user.getText().toString().isEmpty()) || (password.getText() == null || password.getText().toString().isEmpty())) {
+                Toast.makeText(getContext(), "Please provide a user for AmWell", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+        if (environmentSelectorInterface != null) {
+            environmentSelectorInterface.attemptMutualAuth(checkBox.isChecked());
+
+            if (user.getText() != null && password.getText() != null) {
+                environmentSelectorInterface.hardcodedUser(user.getText().toString(), password.getText().toString());
+            } else {
+
+            }
+
+            switch (envAmWellGroup.getCheckedRadioButtonId()) {
+                case R.id.radio_amwell_dev:
+                    environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.DEV);
+                    break;
+                case R.id.radio_amwell_iot:
+                    environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.IOT);
+                    break;
+                case R.id.radio_amwell_prod:
+                    environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.PROD);
+                    break;
+            }
+
+            switch (envMyHomeGroup.getCheckedRadioButtonId()) {
+                case R.id.radio_dev:
+                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.DEV);
+                    break;
+                case R.id.radio_slot1:
+                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.SLOT1);
+                    break;
+                case R.id.radio_stage:
+                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.STAGE);
+                    break;
+                case R.id.radio_prod:
+                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.PROD);
+                    break;
+                default:
+                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.PROD);
+                    break;
+            }
+
+            dismiss();
+        }
     }
 }
