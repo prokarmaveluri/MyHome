@@ -11,6 +11,7 @@ import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.login.LoginActivity;
+import com.prokarma.myhome.features.login.endpoint.AmWellResponse;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -254,26 +255,25 @@ public class AuthManager {
             checkMyCareEligibility();
 
             if (hasMyCare()) {
-                //TODO KEVIN - once mutual auth is figured out, uncomment this so we can grab the AmWell token as early as possible
-//                NetworkManager.getInstance().getAmWellToken(bearerToken).enqueue(new Callback<AmWellResponse>() {
-//                    @Override
-//                    public void onResponse(Call<AmWellResponse> call, Response<AmWellResponse> response) {
-//                        if (response.isSuccessful() && response.body() != null && response.body().getValid()) {
-//                            Timber.d("Successful Response\n" + response);
-//                            AuthManager.getInstance().setAmWellToken(response.body().result);
-//                        } else {
-//                            Timber.e("getUsersAmWellToken. Response, but not successful?\n" + response);
-//                            AuthManager.getInstance().setAmWellToken(null);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<AmWellResponse> call, Throwable t) {
-//                        Timber.e("getUsersAmWellToken. Something failed! :/");
-//                        Timber.e("Throwable = " + t);
-//                        AuthManager.getInstance().setAmWellToken(null);
-//                    }
-//                });
+                NetworkManager.getInstance().getAmWellToken(bearerToken).enqueue(new Callback<AmWellResponse>() {
+                    @Override
+                    public void onResponse(Call<AmWellResponse> call, Response<AmWellResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getValid()) {
+                            Timber.d("Successful Response\n" + response);
+                            AuthManager.getInstance().setAmWellToken(response.body().result);
+                        } else {
+                            Timber.e("getUsersAmWellToken. Response, but not successful?\n" + response);
+                            AuthManager.getInstance().setAmWellToken(null);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AmWellResponse> call, Throwable t) {
+                        Timber.e("getUsersAmWellToken. Something failed! :/");
+                        Timber.e("Throwable = " + t);
+                        AuthManager.getInstance().setAmWellToken(null);
+                    }
+                });
 
                 if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
                     AwsNetworkManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, null);
