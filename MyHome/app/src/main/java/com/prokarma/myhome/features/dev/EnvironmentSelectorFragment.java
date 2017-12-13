@@ -58,32 +58,45 @@ public class EnvironmentSelectorFragment extends DialogFragment {
         getActivity().setTitle(getString(R.string.developer_settings));
 
         final RadioGroup envMyHomeGroup = (RadioGroup) envSelectorView.findViewById(R.id.env_myhome_radio_group);
+        final RadioGroup envAmWellGroup = (RadioGroup) envSelectorView.findViewById(R.id.env_amwell_radio_group);
 
         Button acceptButton = (Button) envSelectorView.findViewById(R.id.accept_button);
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (envMyHomeGroup.getCheckedRadioButtonId() == -1) {
+                if (envMyHomeGroup.getCheckedRadioButtonId() == -1 || envAmWellGroup.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(getContext(), "You must chose an environment", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 if (environmentSelectorInterface != null) {
+                    switch (envAmWellGroup.getCheckedRadioButtonId()) {
+                        case R.id.radio_amwell_dev:
+                            environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.DEV);
+                            break;
+                        case R.id.radio_amwell_iot:
+                            environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.IOT);
+                            break;
+                        case R.id.radio_amwell_prod:
+                            environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.PROD);
+                            break;
+                    }
+
                     switch (envMyHomeGroup.getCheckedRadioButtonId()) {
                         case R.id.radio_dev:
-                            environmentSelectorInterface.environmentSelected(EnviHandler.EnvType.DEV);
+                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.DEV);
                             break;
                         case R.id.radio_slot1:
-                            environmentSelectorInterface.environmentSelected(EnviHandler.EnvType.SLOT1);
+                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.SLOT1);
                             break;
                         case R.id.radio_stage:
-                            environmentSelectorInterface.environmentSelected(EnviHandler.EnvType.STAGE);
+                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.STAGE);
                             break;
                         case R.id.radio_prod:
-                            environmentSelectorInterface.environmentSelected(EnviHandler.EnvType.PROD);
+                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.PROD);
                             break;
                         default:
-                            environmentSelectorInterface.environmentSelected(EnviHandler.EnvType.PROD);
+                            environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.PROD);
                             break;
                     }
 

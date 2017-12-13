@@ -23,7 +23,6 @@ import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -31,6 +30,7 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.EnviHandler;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsConsumer;
@@ -164,7 +164,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             showLoading();
-            AwsNetworkManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, this);
+            AwsNetworkManager.getInstance().initializeAwsdk(EnviHandler.AWSDK_URL, EnviHandler.AWSDK_KEY, null, this);
         } else if (!AwsManager.getInstance().hasAuthenticated()) {
             showLoading();
             this.initializationComplete();
@@ -412,7 +412,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void initializationComplete() {
-        if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
+        if (EnviHandler.AWSDK_URL.equals(EnviHandler.AmWellEnvType.DEV)) {
             //Dev
             AwsNetworkManager.getInstance().getUsersAuthentication("jj@prokarma.com", "Pass123*", this);
         } else {

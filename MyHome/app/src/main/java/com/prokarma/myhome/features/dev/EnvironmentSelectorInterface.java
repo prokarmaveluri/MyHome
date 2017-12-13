@@ -7,5 +7,7 @@ import com.prokarma.myhome.utils.EnviHandler;
  */
 
 public interface EnvironmentSelectorInterface {
-    void environmentSelected(EnviHandler.EnvType envType);
+    void envAmWellSelected(EnviHandler.AmWellEnvType amWellType);
+
+    void envMyHomeSelected(EnviHandler.EnvType envType);
 }

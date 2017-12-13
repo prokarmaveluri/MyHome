@@ -12,7 +12,7 @@
         android:padding="12dp">
 
         <TextView
-            android:id="@+id/environment_label"
+            android:id="@+id/env_label"
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:id="@+id/env_myhome_radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/environment_label"
+            android:layout_below="@id/env_label"
             android:layout_margin="6dp">
 
             <RadioButton
@@ -53,6 +53,46 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/prod" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/env_amwell_label"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/env_myhome_radio_group"
+            android:layout_margin="6dp"
+            android:text="Environment - AmWell"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/env_amwell_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/env_amwell_label"
+            android:layout_margin="6dp">
+
+            <RadioButton
+                android:id="@+id/radio_amwell_dev"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dev" />
+
+            <RadioButton
+                android:id="@+id/radio_amwell_iot"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iot" />
+
+            <RadioButton
+                android:id="@+id/radio_amwell_prod"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
                 android:text="@string/prod" />
         </RadioGroup>
 

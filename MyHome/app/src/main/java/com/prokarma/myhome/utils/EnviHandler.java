@@ -38,9 +38,9 @@ public class EnviHandler {
 
     public static String AWSDK_KEY;
     public static String AWSDK_URL;
-    public static boolean ENABLE_AUTH;
-    public static String AUTH_TOKEN;
-    public static String AUTH_URL;
+
+    public static String AMWELL_USERNAME;
+    public static String AMWELL_PASSWORD;
 
     public static void initEnv(EnvType type) {
         switch (type) {
@@ -64,16 +64,16 @@ public class EnviHandler {
         }
     }
 
-    public static void initAmWellEnv(AmWellEnvType type){
+    public static void initAmWellEnv(AmWellEnvType type) {
         switch (type) {
             case DEV:
                 initAmWellDev();
                 break;
             case IOT:
-                //initAmWellIot();
+                initAmWellIot();
                 break;
             case PROD:
-                //initAmWellProd();
+                initAmWellProd();
                 break;
             default:
                 break;
@@ -162,10 +162,17 @@ public class EnviHandler {
     }
 
     private static void initAmWellDev() {
-//        AWSDK_KEY = BuildConfig.DEV_AWSDK_KEY;
-//        AWSDK_URL = BuildConfig.DEV_AWSDK_URL;
-//        ENABLE_AUTH = BuildConfig.;
-//        AUTH_TOKEN;
-//        AUTH_URL;
+        AWSDK_KEY = BuildConfig.D_AWSDK_KEY;
+        AWSDK_URL = BuildConfig.D_AWSDK_URL;
+    }
+
+    private static void initAmWellIot() {
+        AWSDK_KEY = BuildConfig.I_AWSDK_KEY;
+        AWSDK_URL = BuildConfig.I_AWSDK_URL;
+    }
+
+    private static void initAmWellProd() {
+        AWSDK_KEY = BuildConfig.P_AWSDK_KEY;
+        AWSDK_URL = BuildConfig.P_AWSDK_URL;
     }
 }

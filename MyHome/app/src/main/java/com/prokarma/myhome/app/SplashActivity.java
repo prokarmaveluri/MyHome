@@ -81,6 +81,7 @@ public class SplashActivity extends AppCompatActivity implements
     private TextView clickToRefresh;
     private boolean isGPSVerified = false;
     private boolean isVersionVerified = false;
+    private static EnviHandler.AmWellEnvType currentAmwellEnv = EnviHandler.AmWellEnvType.NONE;
     private static EnviHandler.EnvType currentEnv = EnviHandler.EnvType.NONE;
 
     //Location
@@ -778,21 +779,46 @@ public class SplashActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void environmentSelected(EnviHandler.EnvType envType) {
-        Timber.e(envType + " selected");
+    public void envAmWellSelected(EnviHandler.AmWellEnvType amWellType) {
+        Timber.i(amWellType + " selected");
 
-        if (envType.equals(EnviHandler.EnvType.DEV)) {
-            currentEnv = EnviHandler.EnvType.DEV;
-            EnviHandler.initEnv(EnviHandler.EnvType.DEV);
-        } else if (envType.equals(EnviHandler.EnvType.SLOT1)) {
-            currentEnv = EnviHandler.EnvType.SLOT1;
-            EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
-        } else if (envType.equals(EnviHandler.EnvType.STAGE)) {
-            currentEnv = EnviHandler.EnvType.STAGE;
-            EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
-        } else if (envType.equals(EnviHandler.EnvType.PROD)) {
-            currentEnv = EnviHandler.EnvType.PROD;
-            EnviHandler.initEnv(EnviHandler.EnvType.PROD);
+        switch (amWellType) {
+            case DEV:
+                currentAmwellEnv = EnviHandler.AmWellEnvType.DEV;
+                EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.DEV);
+                break;
+            case IOT:
+                currentAmwellEnv = EnviHandler.AmWellEnvType.IOT;
+                EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.IOT);
+                break;
+            case PROD:
+                currentAmwellEnv = EnviHandler.AmWellEnvType.PROD;
+                EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.PROD);
+                break;
+        }
+    }
+
+    @Override
+    public void envMyHomeSelected(EnviHandler.EnvType envType) {
+        Timber.i(envType + " selected");
+
+        switch (envType) {
+            case DEV:
+                currentEnv = EnviHandler.EnvType.DEV;
+                EnviHandler.initEnv(EnviHandler.EnvType.DEV);
+                break;
+            case SLOT1:
+                currentEnv = EnviHandler.EnvType.SLOT1;
+                EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
+                break;
+            case STAGE:
+                currentEnv = EnviHandler.EnvType.STAGE;
+                EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
+                break;
+            case PROD:
+                currentEnv = EnviHandler.EnvType.PROD;
+                EnviHandler.initEnv(EnviHandler.EnvType.PROD);
+                break;
         }
 
         progress.setVisibility(View.VISIBLE);
