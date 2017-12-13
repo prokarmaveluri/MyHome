@@ -57,7 +57,6 @@ public class AwsManager {
     private State hasAllergiesFilledOut = State.NOT_FILLED_OUT;
     private State hasConditionsFilledOut = State.NOT_FILLED_OUT;
     private boolean hasInitializedAwsdk;
-    private boolean hasAuthenticated;
     private boolean hasConsumer;
 
     public enum State {
@@ -108,6 +107,10 @@ public class AwsManager {
 
     public void setAuthentication(Authentication authentication) {
         this.authentication = authentication;
+    }
+
+    public boolean hasAuthenticated(){
+        return authentication != null;
     }
 
     public Consumer getConsumer() {
@@ -267,14 +270,6 @@ public class AwsManager {
 
     public void setHasInitializedAwsdk(boolean hasInitializedAwsdk) {
         this.hasInitializedAwsdk = hasInitializedAwsdk;
-    }
-
-    public boolean isHasAuthenticated() {
-        return hasAuthenticated;
-    }
-
-    public void setHasAuthenticated(boolean hasAuthenticated) {
-        this.hasAuthenticated = hasAuthenticated;
     }
 
     public boolean isHasConsumer() {

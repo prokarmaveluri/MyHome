@@ -291,13 +291,14 @@ public class AuthManager {
             List<String> groups = claim.asList(String.class);
             if (groups != null && groups.contains("Telehealth Users")) {
                 setHasMyCare(true);
+            } else {
+                setHasMyCare(false);
             }
         } catch (Exception e) {
             Timber.e(e);
             e.printStackTrace();
+            setHasMyCare(false);
         }
-        //temporarily showing MyCareNow to all users, until login & certain APIs are figured out
-        setHasMyCare(true);
     }
 
     private static class AuthHandler extends Handler {

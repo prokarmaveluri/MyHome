@@ -428,6 +428,10 @@ public class BookingSelectTimeFragment extends Fragment {
     }
 
     private void coachmarkTimeSlots(@NonNull View view) {
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+            return;
+        }
+
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.BOOKING_DATE_SKIP_COACH_MARKS);
         if (skip)
             return;

@@ -131,7 +131,6 @@ public class AwsNetworkManager {
                         if (sdkError == null) {
                             Timber.i("Authentication : " + authentication);
                             AwsManager.getInstance().setAuthentication(authentication);
-                            AwsManager.getInstance().setHasAuthenticated(true);
 
                             if (awsUserAuthentication != null) {
                                 awsUserAuthentication.authenticationComplete(authentication);
@@ -140,7 +139,6 @@ public class AwsNetworkManager {
                         } else {
                             Timber.e("getUsersAuthentication. Error + " + sdkError);
                             AwsManager.getInstance().setAuthentication(null);
-                            AwsManager.getInstance().setHasAuthenticated(false);
 
                             if (awsUserAuthentication != null) {
                                 awsUserAuthentication.authentciationFailed(sdkError.getMessage());
@@ -153,7 +151,6 @@ public class AwsNetworkManager {
                         Timber.e("getUsersAuthentication. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setAuthentication(null);
-                        AwsManager.getInstance().setHasAuthenticated(false);
 
                         if (awsUserAuthentication != null) {
                             awsUserAuthentication.authentciationFailed(throwable.getMessage());
@@ -175,7 +172,6 @@ public class AwsNetworkManager {
                         if (sdkError == null) {
                             Timber.i("Authentication : " + authentication);
                             AwsManager.getInstance().setAuthentication(authentication);
-                            AwsManager.getInstance().setHasAuthenticated(false);
 
                             if (awsUserAuthentication != null) {
                                 awsUserAuthentication.authenticationComplete(authentication);
@@ -183,7 +179,6 @@ public class AwsNetworkManager {
                         } else {
                             Timber.e("getUsersMutualAuthneticaion. Error + " + sdkError);
                             AwsManager.getInstance().setAuthentication(null);
-                            AwsManager.getInstance().setHasAuthenticated(false);
 
                             if (awsUserAuthentication != null) {
                                 awsUserAuthentication.authentciationFailed(sdkError.getMessage());
@@ -196,7 +191,6 @@ public class AwsNetworkManager {
                         Timber.e("getUsersMutualAuthneticaion. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
                         AwsManager.getInstance().setAuthentication(null);
-                        AwsManager.getInstance().setHasAuthenticated(false);
 
                         if (awsUserAuthentication != null) {
                             awsUserAuthentication.authentciationFailed(throwable.getMessage());
