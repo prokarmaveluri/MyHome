@@ -39,6 +39,7 @@ public class EnviHandler {
     public static String AWSDK_KEY;
     public static String AWSDK_URL;
 
+    public static boolean ATTEMPT_MUTUAL_AUTH;
     public static String AMWELL_USERNAME;
     public static String AMWELL_PASSWORD;
 
@@ -174,5 +175,29 @@ public class EnviHandler {
     private static void initAmWellProd() {
         AWSDK_KEY = BuildConfig.P_AWSDK_KEY;
         AWSDK_URL = BuildConfig.P_AWSDK_URL;
+    }
+
+    public static boolean isAttemptMutualAuth() {
+        return ATTEMPT_MUTUAL_AUTH;
+    }
+
+    public static void setAttemptMutualAuth(boolean attemptMutualAuth) {
+        ATTEMPT_MUTUAL_AUTH = attemptMutualAuth;
+    }
+
+    public static String getAmwellUsername() {
+        return AMWELL_USERNAME;
+    }
+
+    public static void setAmwellUsername(String amwellUsername) {
+        AMWELL_USERNAME = amwellUsername;
+    }
+
+    public static String getAmwellPassword() {
+        return AMWELL_PASSWORD;
+    }
+
+    public static void setAmwellPassword(String amwellPassword) {
+        AMWELL_PASSWORD = amwellPassword;
     }
 }

@@ -10,4 +10,9 @@ public interface EnvironmentSelectorInterface {
     void envAmWellSelected(EnviHandler.AmWellEnvType amWellType);
 
     void envMyHomeSelected(EnviHandler.EnvType envType);
+
+    void attemptMutualAuth(boolean attemptMutualAuth);
+
+    void hardcodedUser(String username, String password);
+
 }

@@ -829,4 +829,15 @@ public class SplashActivity extends AppCompatActivity implements
 
         startLocationFetch();
     }
+
+    @Override
+    public void attemptMutualAuth(boolean attemptMutualAuth) {
+        EnviHandler.setAttemptMutualAuth(attemptMutualAuth);
+    }
+
+    @Override
+    public void hardcodedUser(String user, String password) {
+        EnviHandler.setAmwellUsername(user);
+        EnviHandler.setAmwellPassword(password);
+    }
 }

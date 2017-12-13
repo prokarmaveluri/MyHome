@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -95,6 +96,66 @@
                 android:enabled="false"
                 android:text="@string/prod" />
         </RadioGroup>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_mutual_auth"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/env_amwell_radio_group"
+            android:layout_margin="6dp"
+            android:text="Attempt Sign-In with Mutual Auth" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/user_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/checkbox_mutual_auth"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/prompt_email"
+                android:hint="@string/prompt_email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:text="jj@prokarma.com" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_layout"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/hint_appearance"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/primary">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/prompt_password"
+                android:hint="@string/prompt_password"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Pass123*" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/accept_button"

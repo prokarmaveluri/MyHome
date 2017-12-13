@@ -412,17 +412,14 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void initializationComplete() {
-        if (EnviHandler.AWSDK_URL.equals(EnviHandler.AmWellEnvType.DEV)) {
-            //Dev
-            AwsNetworkManager.getInstance().getUsersAuthentication("jj@prokarma.com", "Pass123*", this);
-        } else {
-            //IoT
-            //TODO Clean this up once mutual auth is reliable
-            if(AuthManager.getAmWellToken() == null){
-                AwsNetworkManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
-            } else {
+        if (EnviHandler.isAttemptMutualAuth()){
+            if(AuthManager.getAmWellToken() != null){
                 AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken(), this);
+            } else {
+                Toast.makeText(getContext(), "No AmWell token found", Toast.LENGTH_LONG).show();
             }
+        } else {
+            AwsNetworkManager.getInstance().getUsersAuthentication(EnviHandler.getAmwellUsername(), EnviHandler.getAmwellPassword(), this);
         }
     }
 
