@@ -252,11 +252,15 @@ public class FeedbackFragment extends BaseFragment {
     private void sendFeedback() {
 
         if (visitSummary == null) {
-            Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-
+            Timber.e("sendVisitFeedback visitSummary is null. ");
+            Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+            goBackToDashboard();
+            return;
         } else if (visitSummary.getConsumerFeedbackQuestion() == null) {
-            Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-
+            Timber.e("sendVisitFeedback visitSummary.getConsumerFeedbackQuestion() is null. ");
+            Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+            goBackToDashboard();
+            return;
         } else if (visitSummary != null && visitSummary.getConsumerFeedbackQuestion() != null) {
             visitSummary.getConsumerFeedbackQuestion().setQuestionAnswer(getQuestionAnswer());
         }

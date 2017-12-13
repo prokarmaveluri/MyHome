@@ -1,13 +1,11 @@
 package com.televisit.cost;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,8 +96,17 @@ public class PrivacyPolicyFragment extends BaseFragment {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+
+                if (url.startsWith("tel:")) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                    return true;
+                } else if (url.toLowerCase().startsWith("http:") || url.toLowerCase().startsWith("https:")) {
+                    view.loadUrl(url);
+                    return true;
+                }
+                return false;
             }
 
             @Override
@@ -121,10 +128,7 @@ public class PrivacyPolicyFragment extends BaseFragment {
         webview.getSettings().setDefaultZoom(WebSettings.ZoomDensity.CLOSE);
         webview.getSettings().setMinimumFontSize(30);
 
-        Spannable sp = new SpannableString(content);
-        Linkify.addLinks(sp, Linkify.ALL);
-
-        webview.loadData(Html.toHtml(sp), "text/html", "UTF-8");
+        webview.loadData(content, "text/html", "UTF-8");
     }
 
 
