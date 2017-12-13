@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Appointment types" />
+        android:text="@string/appointment_types" />
 
     <LinearLayout
         android:id="@+id/appointment_type_layout"
