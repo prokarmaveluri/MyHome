@@ -77,22 +77,15 @@ android {
     def DEV_GRANT_TYPE_REFRESH = "\"refresh_token\""
 
     //AWSDK
-    def AWSDK_ENABLE_DEBUG_LOGGING = "awsdk_enable_debug_logging"
-    def SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN = "sdksample_show_server_fields_on_login"
-    // Note: if you set this, you should also set awsdk_video_force_portrait to the same value
-    def SDKSAMPLE_FORCE_PORTRAIT = "sdksample_force_portrait"
-    def AWSDKURL = "awsdkurl"
-    def AWSDKKEY = "awsdkkey"
-    def ENABLEAUTH = "use_third_party_auth"
-    def AUTHTOKEN = "third_party_auth_token"
-    def AUTHURL = "third_party_auth_url"
-
     def DEV_AWSDK_URL = "\"https://sdk.myonlinecare.com\""
     def DEV_AWSDK_KEY = "\"8ff96c2a\""
 
     def IOT_AWSDK_URL = "\"https://iot21.amwellintegration.com\""
     def IOT_AWSDK_KEY = "\"1b1ddea8\""
 
+    //TODO Replace these URLs with the prod ones
+    def PROD_AWSDK_URL = "\"https://iot21.amwellintegration.com\""
+    def PROD_AWSDK_KEY = "\"1b1ddea8\""
 
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
@@ -158,6 +151,24 @@ android {
         def APP_NAME_DEV = "\"My Home App - Digital Home - Dev\""
 
         def URL_PATH_CLIENT_ID = "URL_PATH_CLIENT_ID"
+
+        def D_AWSDK_URL = "D_AWSDK_URL"
+        def D_AWSDK_KEY = "D_AWSDK_KEY"
+
+        def I_AWSDK_URL = "I_AWSDK_URL"
+        def I_AWSDK_KEY = "I_AWSDK_KEY"
+
+        def P_AWSDK_URL = "P_AWSDK_URL"
+        def P_AWSDK_KEY = "P_AWSDK_KEY"
+
+        //AWSDK
+        def AWSDK_ENABLE_DEBUG_LOGGING = "awsdk_enable_debug_logging"
+        def SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN = "sdksample_show_server_fields_on_login"
+        // Note: if you set this, you should also set awsdk_video_force_portrait to the same value
+        def SDKSAMPLE_FORCE_PORTRAIT = "sdksample_force_portrait"
+        def ENABLEAUTH = "use_third_party_auth"
+        def AUTHTOKEN = "third_party_auth_token"
+        def AUTHURL = "third_party_auth_url"
 
         release {
 
@@ -227,8 +238,15 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", PROD_GRANT_TYPE_REFRESH
 
             //AWSDK
-            buildConfigField STRING, AWSDKURL, IOT_AWSDK_URL
-            buildConfigField STRING, AWSDKKEY, IOT_AWSDK_KEY
+            buildConfigField STRING, D_AWSDK_URL, DEV_AWSDK_URL
+            buildConfigField STRING, D_AWSDK_KEY, DEV_AWSDK_KEY
+
+            buildConfigField STRING, I_AWSDK_URL, IOT_AWSDK_URL
+            buildConfigField STRING, I_AWSDK_KEY, IOT_AWSDK_KEY
+
+            buildConfigField STRING, P_AWSDK_URL, PROD_AWSDK_URL
+            buildConfigField STRING, P_AWSDK_KEY, PROD_AWSDK_KEY
+
             buildConfigField BOOLEAN, ENABLEAUTH, FALSE
             buildConfigField STRING, AUTHTOKEN, "\"at1001\""
             buildConfigField STRING, AUTHURL, "\"api.samsungosp.com\""
@@ -309,8 +327,15 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", PROD_GRANT_TYPE_REFRESH
 
             //AWSDK
-            buildConfigField STRING, AWSDKURL, IOT_AWSDK_URL
-            buildConfigField STRING, AWSDKKEY, IOT_AWSDK_KEY
+            buildConfigField STRING, D_AWSDK_URL, DEV_AWSDK_URL
+            buildConfigField STRING, D_AWSDK_KEY, DEV_AWSDK_KEY
+
+            buildConfigField STRING, I_AWSDK_URL, IOT_AWSDK_URL
+            buildConfigField STRING, I_AWSDK_KEY, IOT_AWSDK_KEY
+
+            buildConfigField STRING, P_AWSDK_URL, PROD_AWSDK_URL
+            buildConfigField STRING, P_AWSDK_KEY, PROD_AWSDK_KEY
+
             buildConfigField BOOLEAN, ENABLEAUTH, FALSE
             buildConfigField STRING, AUTHTOKEN, "\"at1001\""
             buildConfigField STRING, AUTHURL, "\"api.samsungosp.com\""
@@ -392,10 +417,15 @@ android {
             buildConfigField STRING, "P_GRANT_TYPE_REFRESH", PROD_GRANT_TYPE_REFRESH
 
             //AWSDK
-            /*buildConfigField STRING, AWSDKURL, IOT_AWSDK_URL
-            buildConfigField STRING, AWSDKKEY, IOT_AWSDK_KEY*/
-            buildConfigField STRING, AWSDKURL, DEV_AWSDK_URL
-            buildConfigField STRING, AWSDKKEY, DEV_AWSDK_KEY
+            buildConfigField STRING, D_AWSDK_URL, DEV_AWSDK_URL
+            buildConfigField STRING, D_AWSDK_KEY, DEV_AWSDK_KEY
+
+            buildConfigField STRING, I_AWSDK_URL, IOT_AWSDK_URL
+            buildConfigField STRING, I_AWSDK_KEY, IOT_AWSDK_KEY
+
+            buildConfigField STRING, P_AWSDK_URL, PROD_AWSDK_URL
+            buildConfigField STRING, P_AWSDK_KEY, PROD_AWSDK_KEY
+
             buildConfigField BOOLEAN, ENABLEAUTH, FALSE
             buildConfigField STRING, AUTHTOKEN, "\"at1001\""
             buildConfigField STRING, AUTHURL, "\"api.samsungosp.com\""
