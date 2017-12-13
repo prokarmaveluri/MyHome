@@ -342,8 +342,6 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
     private void searchConditions(String searchText) {
 
-        Timber.d("MH. searchConditions. searchText = " + searchText);
-
         progressBar.setVisibility(View.VISIBLE);
 
         List<Condition> conditions = AwsManager.getInstance().getConditions();
@@ -354,7 +352,6 @@ public class MedicalHistoryFragment extends BaseFragment implements
                 searchConditions.add(c);
             }
         }
-        Timber.d("MH. searchConditions. all_size = " + conditions.size() + ". search_size = " + searchConditions.size());
 
         listConditions = searchConditions;
         setAdapter(true);
@@ -363,8 +360,6 @@ public class MedicalHistoryFragment extends BaseFragment implements
     }
 
     private void searchAllergies(String searchText) {
-
-        Timber.d("MH. searchAllergies. searchText = " + searchText);
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -376,7 +371,6 @@ public class MedicalHistoryFragment extends BaseFragment implements
                 searchAllergies.add(c);
             }
         }
-        Timber.d("MH. searchAllergies. all_size = " + allergies.size() + ". search_size = " + searchAllergies.size());
 
         listAllergies = searchAllergies;
         setAdapter(true);
@@ -459,31 +453,10 @@ public class MedicalHistoryFragment extends BaseFragment implements
             } else {
                 searchAllergies(s.toString().trim());
             }
+        } else {
+            setAdapter(false);
         }
     }
-
-    //work-in-progress
-    /*@Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            if (searchQuery.getText().toString().trim().length() > 0) {
-                if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == selectedGroup.getValue()) {
-                    searchConditions(searchQuery.getText().toString().trim());
-                } else {
-                    searchAllergies(searchQuery.getText().toString().trim());
-                }
-            } else {
-                if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == selectedGroup.getValue()) {
-                    showConditions();
-                } else {
-                    showAllergies();
-                }
-            }
-            return true;
-        }
-        return false;
-    }*/
 
     private void searchCancelClickEvent() {
         searchQuery.setOnTouchListener(new View.OnTouchListener() {
