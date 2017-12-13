@@ -17,12 +17,18 @@ public class EnviHandler {
         NONE
     }
 
+    public enum AmWellEnvType {
+        DEV,
+        IOT,
+        PROD,
+        NONE
+    }
+
     public static String VERSIONING_URL;
     public static String OKTA_BASE_URL;
     public static String CIAM_BASE_URL;
     public static String S2_BASE_URL;
     public static String SCHEDULING_BASE;
-
     public static String AUTH_CLIENT_ID;
     public static String CLIENT_ID;
     public static String AUTH_SCOPE;
@@ -30,8 +36,13 @@ public class EnviHandler {
     public static String GRANT_TYPE_AUTH;
     public static String GRANT_TYPE_REFRESH;
 
-    public static void initEnv(EnvType type) {
+    public static String AWSDK_KEY;
+    public static String AWSDK_URL;
+    public static boolean ENABLE_AUTH;
+    public static String AUTH_TOKEN;
+    public static String AUTH_URL;
 
+    public static void initEnv(EnvType type) {
         switch (type) {
             case DEV:
                 initDev();
@@ -47,6 +58,22 @@ public class EnviHandler {
                 break;
             case PROD:
                 initProd();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void initAmWellEnv(AmWellEnvType type){
+        switch (type) {
+            case DEV:
+                initAmWellDev();
+                break;
+            case IOT:
+                //initAmWellIot();
+                break;
+            case PROD:
+                //initAmWellProd();
                 break;
             default:
                 break;
@@ -132,5 +159,13 @@ public class EnviHandler {
         AUTH_REDIRECT_URI = BuildConfig.P_AUTH_REDIRECT_URI;
         GRANT_TYPE_AUTH = BuildConfig.P_GRANT_TYPE_AUTH;
         GRANT_TYPE_REFRESH = BuildConfig.P_GRANT_TYPE_REFRESH;
+    }
+
+    private static void initAmWellDev() {
+//        AWSDK_KEY = BuildConfig.DEV_AWSDK_KEY;
+//        AWSDK_URL = BuildConfig.DEV_AWSDK_URL;
+//        ENABLE_AUTH = BuildConfig.;
+//        AUTH_TOKEN;
+//        AUTH_URL;
     }
 }

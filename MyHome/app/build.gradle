@@ -77,16 +77,6 @@ android {
     def DEV_GRANT_TYPE_REFRESH = "\"refresh_token\""
 
     //AWSDK
-    def AWSDK_ENABLE_DEBUG_LOGGING = "awsdk_enable_debug_logging"
-    def SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN = "sdksample_show_server_fields_on_login"
-    // Note: if you set this, you should also set awsdk_video_force_portrait to the same value
-    def SDKSAMPLE_FORCE_PORTRAIT = "sdksample_force_portrait"
-    def AWSDKURL = "awsdkurl"
-    def AWSDKKEY = "awsdkkey"
-    def ENABLEAUTH = "use_third_party_auth"
-    def AUTHTOKEN = "third_party_auth_token"
-    def AUTHURL = "third_party_auth_url"
-
     def DEV_AWSDK_URL = "\"https://sdk.myonlinecare.com\""
     def DEV_AWSDK_KEY = "\"8ff96c2a\""
 
@@ -158,6 +148,17 @@ android {
         def APP_NAME_DEV = "\"My Home App - Digital Home - Dev\""
 
         def URL_PATH_CLIENT_ID = "URL_PATH_CLIENT_ID"
+
+        //AWSDK
+        def AWSDK_ENABLE_DEBUG_LOGGING = "awsdk_enable_debug_logging"
+        def SDKSAMPLE_SHOW_SERVER_FIELDS_ON_LOGIN = "sdksample_show_server_fields_on_login"
+        // Note: if you set this, you should also set awsdk_video_force_portrait to the same value
+        def SDKSAMPLE_FORCE_PORTRAIT = "sdksample_force_portrait"
+        def AWSDKURL = "awsdkurl"
+        def AWSDKKEY = "awsdkkey"
+        def ENABLEAUTH = "use_third_party_auth"
+        def AUTHTOKEN = "third_party_auth_token"
+        def AUTHURL = "third_party_auth_url"
 
         release {
 

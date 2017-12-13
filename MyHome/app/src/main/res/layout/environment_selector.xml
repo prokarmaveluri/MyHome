@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:ignore="HardcodedText">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/environment_label"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Environment - MyHome"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/env_myhome_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/environment_label"
+            android:layout_margin="6dp">
+
+            <RadioButton
+                android:id="@+id/radio_dev"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dev" />
+
+            <RadioButton
+                android:id="@+id/radio_slot1"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/slot1" />
+
+            <RadioButton
+                android:id="@+id/radio_stage"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stage" />
+
+            <RadioButton
+                android:id="@+id/radio_prod"
+                style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prod" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/accept_button"
+            style="@style/enableButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="6dp"
+            android:minHeight="40dp"
+            android:minWidth="120dp"
+            android:padding="12dp"
+            android:text="@string/finish" />
+
+    </RelativeLayout>
+</ScrollView>

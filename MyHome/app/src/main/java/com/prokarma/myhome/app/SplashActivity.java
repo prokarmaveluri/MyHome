@@ -41,6 +41,8 @@ import com.google.android.gms.tasks.Task;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.crypto.CryptoManager;
+import com.prokarma.myhome.features.dev.EnvironmentSelectorFragment;
+import com.prokarma.myhome.features.dev.EnvironmentSelectorInterface;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.login.LoginActivity;
@@ -72,7 +74,8 @@ import timber.log.Timber;
  */
 public class SplashActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        EnrollmentSuccessDialog.EnrollDialogAction {
+        EnrollmentSuccessDialog.EnrollDialogAction,
+        EnvironmentSelectorInterface {
 
     private ProgressBar progress;
     private TextView clickToRefresh;
@@ -148,36 +151,42 @@ public class SplashActivity extends AppCompatActivity implements
         }
 
         if (!BuildConfig.BUILD_TYPE.contains("release") && currentEnv == EnviHandler.EnvType.NONE) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.select_env)
-                    .setCancelable(false)
-                    .setItems(R.array.build_env, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                currentEnv = EnviHandler.EnvType.DEV;
-                                EnviHandler.initEnv(EnviHandler.EnvType.DEV);
-                            } else if (which == 1) {
-                                currentEnv = EnviHandler.EnvType.SLOT1;
-                                EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
-                            } else if (which == 2) {
-                                currentEnv = EnviHandler.EnvType.STAGE;
-                                EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
-                            } else if (which == 3) {
-                                currentEnv = EnviHandler.EnvType.PROD;
-                                EnviHandler.initEnv(EnviHandler.EnvType.PROD);
-                            }
-                            progress.setVisibility(View.VISIBLE);
-                            initApiClient();
+            EnvironmentSelectorFragment selectorDialog = new EnvironmentSelectorFragment();
+            selectorDialog.setEnvironmentSelectorInterface(this);
+            selectorDialog.setCancelable(false);
+            selectorDialog.show(getSupportFragmentManager(), EnvironmentSelectorFragment.ENVIRONMENT_SELECTOR_TAG);
+//            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle(R.string.select_env)
+//                    .setCancelable(false)
+//                    .setItems(R.array.build_env, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            if (which == 0) {
+//                                currentEnv = EnviHandler.EnvType.DEV;
+//                                EnviHandler.initEnv(EnviHandler.EnvType.DEV);
+//                            } else if (which == 1) {
+//                                currentEnv = EnviHandler.EnvType.SLOT1;
+//                                EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
+//                            } else if (which == 2) {
+//                                currentEnv = EnviHandler.EnvType.STAGE;
+//                                EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
+//                            } else if (which == 3) {
+//                                currentEnv = EnviHandler.EnvType.PROD;
+//                                EnviHandler.initEnv(EnviHandler.EnvType.PROD);
+//                            }
+//                            progress.setVisibility(View.VISIBLE);
+//                            initApiClient();
+//
+//                            //init retrofit service
+//                            NetworkManager.getInstance().initService();
+//
+//                            startLocationFetch();
+//                        }
+//                    });
+//            final AlertDialog alert = builder.create();
+//            alert.show();
 
-                            //init retrofit service
-                            NetworkManager.getInstance().initService();
 
-                            startLocationFetch();
-                        }
-                    });
-            final AlertDialog alert = builder.create();
-            alert.show();
         } else {
             initApiClient();
 
@@ -766,5 +775,32 @@ public class SplashActivity extends AppCompatActivity implements
 
         ActivityCompat.startActivityForResult(this, intentVerify, VERIFY_EMAIL, options.toBundle());
         finish();
+    }
+
+    @Override
+    public void environmentSelected(EnviHandler.EnvType envType) {
+        Timber.e(envType + " selected");
+
+        if (envType.equals(EnviHandler.EnvType.DEV)) {
+            currentEnv = EnviHandler.EnvType.DEV;
+            EnviHandler.initEnv(EnviHandler.EnvType.DEV);
+        } else if (envType.equals(EnviHandler.EnvType.SLOT1)) {
+            currentEnv = EnviHandler.EnvType.SLOT1;
+            EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
+        } else if (envType.equals(EnviHandler.EnvType.STAGE)) {
+            currentEnv = EnviHandler.EnvType.STAGE;
+            EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
+        } else if (envType.equals(EnviHandler.EnvType.PROD)) {
+            currentEnv = EnviHandler.EnvType.PROD;
+            EnviHandler.initEnv(EnviHandler.EnvType.PROD);
+        }
+
+        progress.setVisibility(View.VISIBLE);
+        initApiClient();
+
+        //init retrofit service
+        NetworkManager.getInstance().initService();
+
+        startLocationFetch();
     }
 }
