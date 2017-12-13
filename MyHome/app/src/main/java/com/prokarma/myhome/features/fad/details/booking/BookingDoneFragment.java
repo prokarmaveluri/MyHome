@@ -275,8 +275,9 @@ public class BookingDoneFragment extends Fragment {
     }
 
     private void coachmarkBookingDone() {
-        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
+        }
 
         if (shareIcon != null && shareIcon.getVisibility() != View.VISIBLE)
             return;

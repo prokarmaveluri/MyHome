@@ -843,8 +843,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     //FAD coach marks
 
     private void coachmarkRecent() {
-        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
+        }
 
         TapTargetView.showFor(
                 getActivity(),
@@ -871,8 +872,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private boolean isCoachMArksInProgress = false;
 
     private void coachmarkFilter() {
-        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
+        }
 
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.FAD_ACTIONBAR_SKIP_COACH_MARKS);
         if (skip || isCoachMArksInProgress || providerList.size() <= 0 ||
@@ -904,8 +906,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     private void coachmarkList() {
-        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
+        }
 
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.FAD_LIST_SKIP_COACH_MARKS);
         if (skip || providerList.size() <= 0 || currentPageSelection != 0) {
@@ -940,8 +943,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     }
 
     private void coachmarkListLocation() {
-        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
+        }
 
         if (null == ProvidersAdapter.coachMarkView)
             return;

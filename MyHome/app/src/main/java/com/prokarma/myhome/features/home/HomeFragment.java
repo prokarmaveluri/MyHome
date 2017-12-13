@@ -477,8 +477,9 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void coachmarkBookAppointment() {
-        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
+        }
 
         boolean skip = AppPreferences.getInstance().getBooleanPreference(Constants.HOME_SKIP_COACH_MARKS);
         if (skip) {
@@ -511,8 +512,9 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void coachmarkFindCare() {
-        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
+        }
 
         TapTargetView.showFor(
                 getActivity(),
@@ -536,8 +538,9 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void coachmarkNavigationBarProfile() {
-        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
+        }
 
         BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
         TapTargetView.showFor(
@@ -560,8 +563,9 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void coachmarkNavigationBarFad() {
-        if (CommonUtil.isAccessibilityEnabled(getActivity()))
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
+        }
 
         BottomNavigationViewEx bottomNavigationView = ((NavigationActivity) getActivity()).getBottomNavigationView();
         TapTargetView.showFor(
