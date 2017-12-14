@@ -134,7 +134,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
             visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
         }
-        Timber.d("visitsummary. visitReportPosition = " + visitReportPosition);
 
         if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
 
@@ -143,12 +142,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
         } else {
             Visit visit = AwsManager.getInstance().getVisit();
-
-            if (visit != null) {
-                Timber.d("visitsummary. VisitCost = " + visit.getVisitCost());
-            } else {
-                Timber.d("visitsummary. visit = NULL ");
-            }
             AwsNetworkManager.getInstance().getVisitSummary(visit, this);
         }
     }
@@ -353,8 +346,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
     @Override
     public void getVisitSummaryComplete(VisitSummary visitSummary) {
-
-        Timber.d("visitsummary. getVisitSummaryComplete = " + visitSummary.getPracticeName());
 
         progressBar.setVisibility(View.GONE);
 
