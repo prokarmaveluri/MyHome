@@ -649,6 +649,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
 
             case PREVIOUS_VISIT_SUMMARY:
+
                 if (getActivityTag() != ActivityTag.PREVIOUS_VISIT_SUMMARY) {
                     getSupportFragmentManager().executePendingTransactions();
                     SummaryFragment summaryFragment = SummaryFragment.newInstance();
@@ -700,7 +701,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 break;
 
             case VIDEO_VISIT_SUMMARY:
-                if (getActivityTag() != ActivityTag.VIDEO_VISIT_SUMMARY) {
+                /*if (getActivityTag() != ActivityTag.VIDEO_VISIT_SUMMARY) {
                     getSupportFragmentManager().executePendingTransactions();
                     VisitSummaryFragment visitSummaryFragment = VisitSummaryFragment.newInstance();
                     visitSummaryFragment.setArguments(bundle);
@@ -708,6 +709,22 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                             .replace(R.id.frame, visitSummaryFragment, VisitSummaryFragment.SUMMARY_TAG)
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+                    getSupportFragmentManager().executePendingTransactions();
+
+                    setActivityTag(Constants.ActivityTag.VIDEO_VISIT_SUMMARY);
+                }
+                break;*/
+
+                if (getActivityTag() != ActivityTag.VIDEO_VISIT_SUMMARY) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    SummaryFragment summaryFragment = SummaryFragment.newInstance();
+                    summaryFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                            .replace(R.id.frame, summaryFragment, SummaryFragment.SUMMARY_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();

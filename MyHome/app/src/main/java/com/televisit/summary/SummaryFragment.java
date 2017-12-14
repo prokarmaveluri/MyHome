@@ -19,18 +19,24 @@ import android.widget.Toast;
 
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.entity.visit.VisitRx;
+import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
+import com.televisit.AwsNetworkManager;
+import com.televisit.interfaces.AwsGetVisitSummary;
 import com.televisit.previousvisit.PrescriptionsAdapter;
 
 import org.apache.commons.io.IOUtils;
@@ -42,7 +48,7 @@ import java.util.Set;
 
 import timber.log.Timber;
 
-public class SummaryFragment extends Fragment {
+public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary {
     public static final String SUMMARY_TAG = "previous_visit_summary_tag";
     public static final String VISIT_LIST_POSITION = "visit_list_position";
 
@@ -97,8 +103,6 @@ public class SummaryFragment extends Fragment {
         doctorNotes = (TextView) view.findViewById(R.id.doctor_notes);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
-        Timber.d("onCreateView");
-
         return view;
     }
 
@@ -106,32 +110,52 @@ public class SummaryFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Timber.d("onActivityCreated");
-
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Timber.d("viewReport");
-                
-                Bundle bundle = new Bundle();
-                bundle.putString("FILENAME_WITH_PATH", reportNameWithPath);
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
+                Timber.d("visitsummary. reportNameWithPath = " + reportNameWithPath);
+
+                File f = null;
+                if (reportNameWithPath != null && !reportNameWithPath.isEmpty()) {
+                    f = new File(reportNameWithPath);
+                }
+
+                if (f != null && f.exists()) {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("FILENAME_WITH_PATH", reportNameWithPath);
+                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
+                }
             }
         });
 
+        visitReportPosition = -1;
         if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
             visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
-            if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
-                visitReport = AwsManager.getInstance().getVisitReports().get(visitReportPosition);
-                getVisitReportDetails(visitReport);
+        }
+        Timber.d("visitsummary. visitReportPosition = " + visitReportPosition);
+
+        if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
+
+            visitReport = AwsManager.getInstance().getVisitReports().get(visitReportPosition);
+            getVisitReportDetails(visitReport);
+
+        } else {
+            Visit visit = AwsManager.getInstance().getVisit();
+
+            if (visit != null) {
+                Timber.d("visitsummary. VisitCost = " + visit.getVisitCost());
+            } else {
+                Timber.d("visitsummary. visit = NULL ");
             }
+            AwsNetworkManager.getInstance().getVisitSummary(visit, this);
         }
     }
 
     private void updateDoctorImage() {
 
-        Timber.d("visit. Image available = " +
+        Timber.d("visitsummary. Image available = " +
                 (visitReportDetail != null
                         && visitReportDetail.getAssignedProviderInfo() != null
                         && visitReportDetail.getAssignedProviderInfo().hasImage()
@@ -149,6 +173,26 @@ public class SummaryFragment extends Fragment {
         }
     }
 
+    private void updateDoctorImage(VisitSummary visitSummary) {
+
+        Timber.d("visitsummary. visitSummary. Image available = " +
+                (visitSummary != null
+                        && visitSummary.getAssignedProviderInfo() != null
+                        && visitSummary.getAssignedProviderInfo().hasImage()
+                ));
+
+        if (visitSummary != null && visitSummary.getAssignedProviderInfo() != null) {
+
+            // preferred method for loading image
+            AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
+                    .newImageLoader(visitSummary.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
+                    .placeholder(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
+                    .error(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
+                    .build()
+                    .load();
+        }
+    }
+
     private void getVisitReportDetails(final VisitReport visitReport) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
@@ -157,12 +201,12 @@ public class SummaryFragment extends Fragment {
         }
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            Timber.d("visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
+            Timber.d("visitsummary VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
 
         if (!isAdded()) {
-            Timber.d("visits VisitReportDetails. isAdded: FALSE ");
+            Timber.d("visitsummary VisitReportDetails. isAdded: FALSE ");
             return;
         }
 
@@ -186,49 +230,14 @@ public class SummaryFragment extends Fragment {
                                 providerName.setText(visitReport.getProviderName() + ", MD");
                             }
 
-                            Timber.d("visit. ProviderName = " + visitReport.getProviderName());
-                            Timber.d("visit. Title = " + detail.getTitle());
-                            Timber.d("visit. PracticeName = " + detail.getPracticeName());
-
                             if (detail.getAssignedProviderInfo() != null) {
-                                Timber.d("visit. AssignedProvider Name = " + detail.getAssignedProviderInfo().getFullName() );
-                            }
-
-                            if (detail.getAssignedProviderInfo() != null && detail.getAssignedProviderInfo().getSpecialty() != null) {
-                                Timber.d("visit. AssignedProviderInfo = " + detail.getAssignedProviderInfo().getSpecialty().getName());
+                                Timber.d("visitsummary. AssignedProvider Name = " + detail.getAssignedProviderInfo().getFullName());
                             }
 
                             DecimalFormat amountFormat = new DecimalFormat("0.00");
                             costDesc.setText(getString(R.string.visit_total_cost_desc) + amountFormat.format(detail.getVisitCost().getExpectedConsumerCopayCost()));
 
-                            if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getName() == null) {
-                                pharmacyName.setVisibility(View.GONE);
-                            } else {
-                                pharmacyName.setVisibility(View.VISIBLE);
-                                pharmacyName.setText(visitReportDetail.getPharmacy().getName());
-
-                                if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getPhone() == null || visitReportDetail.getPharmacy().getPhone().isEmpty()) {
-                                    pharmacyPhoneLayout.setVisibility(View.GONE);
-                                } else {
-                                    pharmacyPhoneLayout.setVisibility(View.VISIBLE);
-                                    pharmacyPhone.setText(CommonUtil.constructPhoneNumberDots(visitReportDetail.getPharmacy().getPhone()));
-                                    pharmacyPhoneLayout.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + pharmacyPhone.getText().toString()));
-                                            intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(intentPhone);
-                                        }
-                                    });
-                                }
-
-                                if (visitReportDetail.getPharmacy() == null || visitReportDetail.getPharmacy().getAddress() == null) {
-                                    pharmacyAddress.setVisibility(View.GONE);
-                                } else {
-                                    pharmacyAddress.setVisibility(View.VISIBLE);
-                                    pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitReportDetail.getPharmacy()));
-                                }
-                            }
+                            displayPharmacyDetails(visitReportDetail.getPharmacy());
 
                             if (visitReportDetail.getProviderEntries() != null && visitReportDetail.getProviderEntries().getPrescriptions() != null) {
                                 displayPrescriptions(visitReportDetail.getProviderEntries().getPrescriptions());
@@ -245,7 +254,7 @@ public class SummaryFragment extends Fragment {
                     @Override
                     public void onFailure(Throwable throwable) {
                         if (throwable != null) {
-                            Timber.d("visit. getVisitReportDetail: " + throwable.getMessage());
+                            Timber.d("visitsummary. getVisitReportDetail: " + throwable.getMessage());
                         }
                         Timber.e(throwable);
                         progressBar.setVisibility(View.GONE);
@@ -257,10 +266,9 @@ public class SummaryFragment extends Fragment {
     private void getVisitReportAttachment(final VisitReport visitReport) {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            Timber.d("visits VisitReportDetails. isHasInitializedAwsdk: FALSE ");
+            Timber.d("visitsummary VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
-
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -294,7 +302,6 @@ public class SummaryFragment extends Fragment {
 
                                             canBeViewed = true;
                                             viewReport.setEnabled(true);
-                                            doctorNotes.setVisibility(View.GONE);
                                         }
                                     }
                                 }
@@ -304,8 +311,8 @@ public class SummaryFragment extends Fragment {
                             }
 
                             if (!canBeViewed) {
-                                viewReport.setEnabled(false);
-                                Toast.makeText(getContext(), "Visit report not available. ", Toast.LENGTH_LONG).show();
+                                doctorNotes.setVisibility(View.VISIBLE);
+                                viewReport.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -313,12 +320,12 @@ public class SummaryFragment extends Fragment {
                     @Override
                     public void onFailure(Throwable throwable) {
                         progressBar.setVisibility(View.GONE);
-                        viewReport.setEnabled(false);
+                        viewReport.setVisibility(View.GONE);
                         doctorNotes.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), "Visit report not available! ", Toast.LENGTH_LONG).show();
 
                         if (throwable != null) {
-                            Timber.d("visit. getVisitReportAttachment: " + throwable.getMessage());
+                            Timber.d("visitsummary. getVisitReportAttachment: " + throwable.getMessage());
                         }
                         Timber.e(throwable);
                     }
@@ -340,6 +347,82 @@ public class SummaryFragment extends Fragment {
             adapter.notifyDataSetChanged();
         } else {
             prescriptionsList.setVisibility(View.GONE);
+        }
+    }
+
+
+    @Override
+    public void getVisitSummaryComplete(VisitSummary visitSummary) {
+
+        Timber.d("visitsummary. getVisitSummaryComplete = " + visitSummary.getPracticeName());
+
+        progressBar.setVisibility(View.GONE);
+
+        if (visitSummary.getAssignedProviderInfo() != null) {
+            providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
+        }
+
+        DecimalFormat amountFormat = new DecimalFormat("0.00");
+        costDesc.setText(getString(R.string.visit_total_cost_desc) + amountFormat.format(visitSummary.getVisitCost().getExpectedConsumerCopayCost()));
+
+        updateDoctorImage(visitSummary);
+
+        displayPharmacyDetails(visitSummary.getPharmacy());
+
+        if (visitSummary.getProviderEntries() != null && visitSummary.getProviderEntries().getPrescriptions() != null) {
+            displayPrescriptions(visitSummary.getProviderEntries().getPrescriptions());
+        }
+
+        doctorNotes.setVisibility(View.VISIBLE);
+        viewReport.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void getVisitSummaryFailed(String errorMessage) {
+        Timber.d("visitsummary. getVisitSummaryFailed. errorMessage = " + errorMessage);
+
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(getContext(), "Sorry, Pulling up visit summary has failed. Please try again at later time", Toast.LENGTH_LONG).show();
+    }
+
+    private void displayPharmacyDetails(Pharmacy pharmacy) {
+
+        if (pharmacy == null || pharmacy.getName() == null) {
+            pharmacyName.setVisibility(View.GONE);
+        } else {
+            pharmacyName.setVisibility(View.VISIBLE);
+            pharmacyName.setText(pharmacy.getName());
+
+            if (pharmacy == null || pharmacy.getPhone() == null || pharmacy.getPhone().isEmpty()) {
+                pharmacyPhoneLayout.setVisibility(View.GONE);
+            } else {
+                pharmacyPhoneLayout.setVisibility(View.VISIBLE);
+                pharmacyPhone.setText(CommonUtil.constructPhoneNumberDots(pharmacy.getPhone()));
+                pharmacyPhoneLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + pharmacyPhone.getText().toString()));
+                        intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intentPhone);
+                    }
+                });
+            }
+
+            if (pharmacy == null || pharmacy.getAddress() == null) {
+                pharmacyAddress.setVisibility(View.GONE);
+            } else {
+                pharmacyAddress.setVisibility(View.VISIBLE);
+                pharmacyAddress.setText(CommonUtil.getPharmacyAddress(pharmacy));
+            }
+        }
+    }
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        if (visitReportPosition == -1) {
+            return Constants.ActivityTag.VIDEO_VISIT_SUMMARY;
+        }
+        else {
+            return Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY;
         }
     }
 }

@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -42,6 +43,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -53,7 +55,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import timber.log.Timber;
+
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 /**
@@ -678,14 +682,12 @@ public class CommonUtil {
 
     /**
      * Show Toast
-     *
      */
     public static void showToast(Context context, String message) {
         try {
             if (context != null) {
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-            }
-            else {
+            } else {
                 Timber.e("context is null. Could not show toast message.");
             }
         } catch (NullPointerException | IllegalStateException ex) {
@@ -752,6 +754,7 @@ public class CommonUtil {
 
     /**
      * update imageview fav icon
+     *
      * @param context
      * @param isFav
      * @param favProvider
@@ -1055,8 +1058,11 @@ public class CommonUtil {
     }
 
     public static boolean isAccessibilityEnabled(Context context) {
-        AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
-        return am.isEnabled();
+        if (context != null) {
+            AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
+            return am.isEnabled();
+        }
+        return false;
     }
 
     public static String stringToSpacesString(String string) {
