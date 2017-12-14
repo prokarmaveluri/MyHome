@@ -220,7 +220,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         expandableList.setVisibility(View.GONE);
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getConditions(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 new SDKCallback<List<Condition>, SDKError>() {
                     @Override
                     public void onResponse(List<Condition> conditions, SDKError sdkError) {
@@ -266,7 +266,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         reqCount++;
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getAllergies(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 new SDKCallback<List<Allergy>, SDKError>() {
                     @Override
                     public void onResponse(List<Allergy> allergies, SDKError sdkError) {
@@ -301,7 +301,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateConditions(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 AwsManager.getInstance().getConditions(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
@@ -322,7 +322,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
     private void updateAllergies() {
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateAllergies(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 AwsManager.getInstance().getAllergies(),
                 new SDKCallback<Void, SDKError>() {
                     @Override

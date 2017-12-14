@@ -148,7 +148,7 @@ public class PrivacyPolicyFragment extends BaseFragment {
             progressBar.setVisibility(View.VISIBLE);
 
             AwsManager.getInstance().getAWSDK().getVisitManager().getVisitContext(
-                    AwsManager.getInstance().getConsumer(),
+                    AwsManager.getInstance().getPatient(),
                     AwsManager.getInstance().getVisit().getAssignedProvider(),
                     new SDKCallback<VisitContext, SDKError>() {
                         @Override

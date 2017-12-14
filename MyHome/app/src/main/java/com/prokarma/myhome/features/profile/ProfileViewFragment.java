@@ -44,23 +44,33 @@ import timber.log.Timber;
 public class ProfileViewFragment extends BaseFragment {
     public static final String PROFILE_VIEW_TAG = "profile_view_tag";
 
-    View profileView;
-    TextView name;
-    TextView preferredName;
-    TextView gender;
-    TextView dateOfBirth;
-    TextView address;
-    TextView phone;
-    TextView email;
+    private View profileView;
 
-    TextView insurancePlan;
-    TextView memberId;
-    TextView group;
+    private TextView nameLabel;
+    private TextView name;
+    private TextView preferredNameLabel;
+    private TextView preferredName;
+    private TextView genderLabel;
+    private TextView gender;
+    private TextView dobLabel;
+    private TextView dateOfBirth;
+
+    private TextView address;
+    private TextView phone;
+    private TextView email;
+
+    private TextView insuranceLabel;
+    private TextView insurancePlan;
+    private TextView memberLabel;
+    private TextView memberId;
+    private TextView groupLabel;
+    private TextView group;
+
     private Button logout;
     private Button videoVisit;
-    ProgressBar progressBar;
-    TextView errorText;
-    LinearLayout viewProfile;
+    private ProgressBar progressBar;
+    private TextView errorText;
+    private LinearLayout viewProfile;
 
     public static ProfileViewFragment newInstance() {
         return new ProfileViewFragment();
@@ -69,7 +79,12 @@ public class ProfileViewFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+
+        if (AwsManager.getInstance().isDependent()) {
+            setHasOptionsMenu(false);
+        } else {
+            setHasOptionsMenu(true);
+        }
     }
 
     @Nullable
@@ -95,17 +110,29 @@ public class ProfileViewFragment extends BaseFragment {
             }
         }
 
+        nameLabel = (TextView) profileView.findViewById(R.id.nameLabel);
         name = (TextView) profileView.findViewById(R.id.name);
+
+        preferredNameLabel = (TextView) profileView.findViewById(R.id.preferredNameLabel);
         preferredName = (TextView) profileView.findViewById(R.id.preferred_name);
+
+        genderLabel = (TextView) profileView.findViewById(R.id.genderLabel);
         gender = (TextView) profileView.findViewById(R.id.gender);
+
+        dobLabel = (TextView) profileView.findViewById(R.id.dobLabel);
         dateOfBirth = (TextView) profileView.findViewById(R.id.dob);
+
         address = (TextView) profileView.findViewById(R.id.address);
         phone = (TextView) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
 
+        insuranceLabel = (TextView) profileView.findViewById(R.id.insuranceLabel);
         insurancePlan = (TextView) profileView.findViewById(R.id.plan);
+        memberLabel = (TextView) profileView.findViewById(R.id.memberLabel);
         memberId = (TextView) profileView.findViewById(R.id.id);
+        groupLabel = (TextView) profileView.findViewById(R.id.groupLabel);
         group = (TextView) profileView.findViewById(R.id.group);
+
         logout = (Button) profileView.findViewById(R.id.sign_out);
         videoVisit = (Button) profileView.findViewById(R.id.videoVisit);
         progressBar = (ProgressBar) profileView.findViewById(R.id.profile_view_progress);
@@ -144,6 +171,9 @@ public class ProfileViewFragment extends BaseFragment {
 //                startActivity(intent);
             }
         });
+
+        checkIfDependentAndUpdateUi(from);
+
         return profileView;
     }
 
@@ -303,6 +333,36 @@ public class ProfileViewFragment extends BaseFragment {
         if (profile.insuranceProvider != null && !CommonUtil.isEmptyString(profile.insuranceProvider.groupNumber)) {
             group.setText(profile.insuranceProvider.groupNumber);
             group.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkIfDependentAndUpdateUi(String from) {
+
+        if (AwsManager.getInstance().isDependent() || (from != null && from.equalsIgnoreCase("dashboard"))) {
+
+            name.setVisibility(View.VISIBLE);
+            gender.setVisibility(View.VISIBLE);
+            dateOfBirth.setVisibility(View.VISIBLE);
+
+            preferredNameLabel.setVisibility(View.GONE);
+            preferredName.setVisibility(View.GONE);
+
+            address.setVisibility(View.GONE);
+            phone.setVisibility(View.GONE);
+            email.setVisibility(View.GONE);
+
+
+            insuranceLabel.setVisibility(View.GONE);
+            insurancePlan.setVisibility(View.GONE);
+
+            memberLabel.setVisibility(View.GONE);
+            memberId.setVisibility(View.GONE);
+
+            groupLabel.setVisibility(View.GONE);
+            group.setVisibility(View.GONE);
+
+            logout.setVisibility(View.GONE);
+            videoVisit.setVisibility(View.GONE);
         }
     }
 }

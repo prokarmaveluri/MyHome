@@ -19,11 +19,19 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/nameLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="@string/name" />
+
+            <TextView
                 android:id="@+id/name"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:layout_marginTop="@dimen/profile_value_marginTop"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Kevin Welsh"
@@ -31,30 +39,54 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:id="@+id/preferredNameLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="@string/preferred_name_profile" />
+
+            <TextView
                 android:id="@+id/preferred_name"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:layout_marginTop="@dimen/profile_value_marginTop"
                 android:text="Kev"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/genderLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="@string/gender_profile" />
 
             <TextView
                 android:id="@+id/gender"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:layout_marginTop="@dimen/profile_value_marginTop"
                 android:text="@string/male"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/dobLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="@string/date_of_birth_profile" />
 
             <TextView
                 android:id="@+id/dob"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:layout_marginTop="@dimen/profile_value_marginTop"
                 android:text="1/12/1987"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
@@ -93,7 +125,8 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                style="@style/tradeGothicLTStdLight_14"
+                android:id="@+id/insuranceLabel"
+                style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -104,13 +137,15 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_value_marginTop"
                 android:text="Dignity Health"
                 android:textStyle="bold"
                 android:visibility="gone"
                 tools:ignore="HardcodedText" />
 
             <TextView
-                style="@style/tradeGothicLTStdLight_14"
+                android:id="@+id/memberLabel"
+                style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -121,13 +156,15 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_value_marginTop"
                 android:text="800-588-2300"
                 android:textStyle="bold"
                 android:visibility="gone"
                 tools:ignore="HardcodedText" />
 
             <TextView
-                style="@style/tradeGothicLTStdLight_14"
+                android:id="@+id/groupLabel"
+                style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
@@ -138,6 +175,7 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_value_marginTop"
                 android:text="230-2333"
                 android:textStyle="bold"
                 android:visibility="gone"

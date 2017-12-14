@@ -213,7 +213,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         progressBar.setVisibility(View.VISIBLE);
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReportDetail(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 visitReport,
                 new SDKCallback<VisitReportDetail, SDKError>() {
                     @Override
@@ -278,7 +278,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         progressBar.setVisibility(View.VISIBLE);
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReportAttachment(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 visitReport,
                 new SDKCallback<FileAttachment, SDKError>() {
                     @Override

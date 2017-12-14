@@ -144,7 +144,7 @@ public class PreviousVisitsFragment extends BaseFragment {
         final boolean scheduledOnly = false;
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReports(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 null, scheduledOnly,
                 new SDKCallback<List<VisitReport>, SDKError>() {
                     @Override

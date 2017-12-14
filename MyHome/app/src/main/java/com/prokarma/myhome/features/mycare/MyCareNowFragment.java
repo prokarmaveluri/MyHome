@@ -424,11 +424,13 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                     AwsManager.getInstance().setIsDependent(false);
                     AwsManager.getInstance().setPatient(AwsManager.getInstance().getConsumer());
                     infoAlmostComplete.setText(getContext().getString(R.string.your_profile_is_almost_complete));
+                    infoEdit.setText(getContext().getString(R.string.edit));
                 } else {
                     //Selected a Dependent - need to minus one due to adding yourself to the list
                     AwsManager.getInstance().setIsDependent(true);
                     AwsManager.getInstance().setPatient(AwsManager.getInstance().getConsumer().getDependents().get(position - 1));
                     infoAlmostComplete.setText(getContext().getString(R.string.your_profile_is_almost_complete_dependent));
+                    infoEdit.setText(getContext().getString(R.string.view));
                 }
                 refreshDashboard(true);
                 AwsManager.getInstance().setPatientNumber(position);
