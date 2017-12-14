@@ -43,6 +43,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
+import com.televisit.AwsManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -517,7 +518,11 @@ public class CommonUtil {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Timber.e(ex);
-            Toast.makeText(context, context.getString(R.string.no_app_share_appointments), Toast.LENGTH_LONG).show();
+            if (AwsManager.getInstance().isDependent()) {
+                Toast.makeText(context, context.getString(R.string.no_app_share_appointments_dependent), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, context.getString(R.string.no_app_share_appointments), Toast.LENGTH_LONG).show();
+            }
         }
     }
 

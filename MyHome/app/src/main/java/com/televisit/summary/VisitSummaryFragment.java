@@ -30,6 +30,8 @@ import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsGetVisitSummary;
 
+import java.text.DecimalFormat;
+
 public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSummary {
     public static final String SUMMARY_TAG = "summary_tag";
     public static final String VISIT_KEY = "visit_key";
@@ -159,7 +161,12 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             }
         });
 
-        costDesc.setText(getString(R.string.summary_cost_desc) + visitSummary.getVisitCost().getExpectedConsumerCopayCost());
+        DecimalFormat amountFormat = new DecimalFormat("0.00");
+        if (AwsManager.getInstance().isDependent()) {
+            costDesc.setText(getString(R.string.summary_cost_desc) + amountFormat.format(visitSummary.getVisitCost().getExpectedConsumerCopayCost()));
+        } else {
+            costDesc.setText(getString(R.string.summary_cost_desc) + amountFormat.format(visitSummary.getVisitCost().getExpectedConsumerCopayCost()));
+        }
     }
 
     @Override

@@ -35,6 +35,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -223,8 +224,13 @@ public class MyCareVisitCostFragment extends BaseFragment {
                         @Override
                         public void onResponse(Void aVoid, SDKError sdkError) {
                             if (sdkError == null && isAdded()) {
-                                costInfo.setText(getString(R.string.visit_cost_desc) +
-                                        AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
+                                if (AwsManager.getInstance().isDependent()) {
+                                    costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
+                                            AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
+                                } else {
+                                    costInfo.setText(getString(R.string.visit_cost_desc) +
+                                            AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
+                                }
                             } else {
                                 Timber.e("applyCouponCode. Something failed! :/");
                                 Timber.e("SDK Error: " + sdkError);
@@ -278,8 +284,15 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                             applyCoupon("Free");
 
-                            costInfo.setText(getString(R.string.visit_cost_desc) +
-                                    AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
+                            DecimalFormat amountFormat = new DecimalFormat("0.00");
+                            if (AwsManager.getInstance().isDependent()) {
+                                costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
+                                        amountFormat.format(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
+                            } else {
+                                costInfo.setText(getString(R.string.visit_cost_desc) +
+                                        amountFormat.format(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
+                            }
+
                             intakeLayout.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
 

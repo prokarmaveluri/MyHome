@@ -27,6 +27,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
+import com.televisit.AwsManager;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -110,6 +111,12 @@ public class ProfileViewFragment extends BaseFragment {
         progressBar = (ProgressBar) profileView.findViewById(R.id.profile_view_progress);
         errorText = (TextView) profileView.findViewById(R.id.profile_unavailable);
         viewProfile = (LinearLayout) profileView.findViewById(R.id.viewProfile);
+
+        if (AwsManager.getInstance().isDependent()) {
+            errorText.setText(getContext().getString(R.string.profile_unavailable_dependent));
+        } else {
+            errorText.setText(getContext().getString(R.string.profile_unavailable));
+        }
 
         if (ProfileManager.getProfile() == null) {
             viewProfile.setVisibility(View.INVISIBLE);

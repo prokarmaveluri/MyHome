@@ -14,6 +14,7 @@ import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.squareup.picasso.Picasso;
+import com.televisit.AwsManager;
 
 import java.util.ArrayList;
 
@@ -86,7 +87,11 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
 
             case VIEW_TYPE_EMPTY:
                 ViewHolderEmpty holderEmpty = (ViewHolderEmpty) genericHolder;
-                holderEmpty.text.setText(isPastAppointments ? context.getString(R.string.no_past_appointments) : context.getString(R.string.no_upcoming_appointments));
+                if (AwsManager.getInstance().isDependent()) {
+                    holderEmpty.text.setText(isPastAppointments ? context.getString(R.string.no_past_appointments_dependent) : context.getString(R.string.no_upcoming_appointments_dependent));
+                } else {
+                    holderEmpty.text.setText(isPastAppointments ? context.getString(R.string.no_past_appointments) : context.getString(R.string.no_upcoming_appointments));
+                }
                 break;
         }
     }
