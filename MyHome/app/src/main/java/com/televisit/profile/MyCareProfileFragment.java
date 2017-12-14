@@ -324,7 +324,12 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         AwsManager.getInstance().setPatient(consumer);
         AwsManager.getInstance().setConsumer(consumer);
 
-        Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+        if (AwsManager.getInstance().isDependent()) {
+            Toast.makeText(getActivity(), getString(R.string.profile_saved_dependent), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+        }
+
         getActivity().onBackPressed();
     }
 

@@ -58,6 +58,7 @@ public class AwsManager {
     private State hasConditionsFilledOut = State.NOT_FILLED_OUT;
     private boolean hasInitializedAwsdk;
     private boolean hasConsumer;
+    private boolean isDependent = false;
 
     public enum State {
         NOT_FILLED_OUT,
@@ -270,6 +271,14 @@ public class AwsManager {
 
     public void setHasInitializedAwsdk(boolean hasInitializedAwsdk) {
         this.hasInitializedAwsdk = hasInitializedAwsdk;
+    }
+
+    public boolean isDependent() {
+        return this.isDependent;
+    }
+
+    public void setIsDependent(boolean isDependent) {
+        this.isDependent = isDependent;
     }
 
     public boolean isHasConsumer() {

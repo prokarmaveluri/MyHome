@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,6 +58,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private TextView pharmacyPhone;
     private TextView pharmacyAddress;
     private TextView costDesc;
+    private TextView endDesc;
     private CircularImageView docImage;
     private RecyclerView prescriptionsList;
     private Button viewReport;
@@ -97,6 +97,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         pharmacyPhone = (TextView) view.findViewById(R.id.pharmacy_phone);
         pharmacyAddress = (TextView) view.findViewById(R.id.pharmacy_address);
 
+        endDesc = (TextView) view.findViewById(R.id.end_description);
         costDesc = (TextView) view.findViewById(R.id.cost_description);
         docImage = (CircularImageView) view.findViewById(R.id.doc_image);
         prescriptionsList = (RecyclerView) view.findViewById(R.id.prescriptions_list);
@@ -109,6 +110,12 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        if (AwsManager.getInstance().isDependent()) {
+            endDesc.setText(getContext().getString(R.string.your_visit_has_ended_dependent));
+        } else {
+            endDesc.setText(getContext().getString(R.string.your_visit_has_ended));
+        }
 
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,7 +235,12 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                             }
 
                             DecimalFormat amountFormat = new DecimalFormat("0.00");
-                            costDesc.setText(getString(R.string.visit_total_cost_desc) + amountFormat.format(detail.getVisitCost().getExpectedConsumerCopayCost()));
+
+                            if (AwsManager.getInstance().isDependent()) {
+                                costDesc.setText(getString(R.string.visit_total_cost_desc_dependent) + amountFormat.format(detail.getVisitCost().getExpectedConsumerCopayCost()));
+                            } else {
+                                costDesc.setText(getString(R.string.visit_total_cost_desc) + amountFormat.format(detail.getVisitCost().getExpectedConsumerCopayCost()));
+                            }
 
                             displayPharmacyDetails(visitReportDetail.getPharmacy());
 
@@ -354,7 +366,11 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
 
         DecimalFormat amountFormat = new DecimalFormat("0.00");
-        costDesc.setText(getString(R.string.visit_total_cost_desc) + amountFormat.format(visitSummary.getVisitCost().getExpectedConsumerCopayCost()));
+        if (AwsManager.getInstance().isDependent()) {
+            costDesc.setText(getString(R.string.visit_total_cost_desc_dependent) + amountFormat.format(visitSummary.getVisitCost().getExpectedConsumerCopayCost()));
+        } else {
+            costDesc.setText(getString(R.string.visit_total_cost_desc) + amountFormat.format(visitSummary.getVisitCost().getExpectedConsumerCopayCost()));
+        }
 
         updateDoctorImage(visitSummary);
 
@@ -407,12 +423,12 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             }
         }
     }
+
     @Override
     public Constants.ActivityTag setDrawerTag() {
         if (visitReportPosition == -1) {
             return Constants.ActivityTag.VIDEO_VISIT_SUMMARY;
-        }
-        else {
+        } else {
             return Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY;
         }
     }

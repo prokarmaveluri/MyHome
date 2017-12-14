@@ -198,7 +198,12 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
         AwsManager.getInstance().setPatient(consumer);
         AwsManager.getInstance().setHasConsumer(false); //force a refresh of the dashboard
 
-        Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+        if (AwsManager.getInstance().isDependent()) {
+            Toast.makeText(getActivity(), getString(R.string.profile_saved_dependent), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+        }
         getActivity().onBackPressed();
     }
 

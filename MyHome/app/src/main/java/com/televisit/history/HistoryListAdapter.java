@@ -117,7 +117,11 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                 holder.view.setChecked(conditions.get(position).isCurrent());
             } else {
                 if (position == 0) {
-                    holder.view.setText(mContext.getResources().getString(R.string.no_conditions));
+                    if (AwsManager.getInstance().isDependent()) {
+                        holder.view.setText(mContext.getResources().getString(R.string.no_conditions_dependent));
+                    } else {
+                        holder.view.setText(mContext.getResources().getString(R.string.no_conditions));
+                    }
 
                     if (donotHaveConditionsState != null) {
                         if (donotHaveConditionsState.equalsIgnoreCase("true")) {
@@ -146,7 +150,11 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                 holder.view.setChecked(allergies.get(position).isCurrent());
             } else {
                 if (position == 0) {
-                    holder.view.setText(mContext.getResources().getString(R.string.no_allergies));
+                    if (AwsManager.getInstance().isDependent()) {
+                        holder.view.setText(mContext.getResources().getString(R.string.no_allergies_dependent));
+                    } else {
+                        holder.view.setText(mContext.getResources().getString(R.string.no_allergies));
+                    }
 
                     if (donotHaveAllergiesState != null) {
                         if (donotHaveAllergiesState.equalsIgnoreCase("true")) {

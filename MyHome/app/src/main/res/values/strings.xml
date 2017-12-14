@@ -35,7 +35,9 @@
     <string name="book_an_appointment">Book an Appointment</string>
     <string name="book_appointment">Book Appointment</string>
     <string name="no_upcoming_appointments">You have no upcoming appointments.</string>
+    <string name="no_upcoming_appointments_dependent">Your child have no upcoming appointments.</string>
     <string name="no_past_appointments">You have no past appointments.</string>
+    <string name="no_past_appointments_dependent">Your child have no past appointments.</string>
 
     <!-- FAD -->
     <string name="fad_title">Care</string>
@@ -101,6 +103,7 @@
     <string name="member_id">Member ID</string>
     <string name="group_id">Group ID</string>
     <string name="profile_unavailable">We’re sorry, your profile is currently unavailable.</string>
+    <string name="profile_unavailable_dependent">We’re sorry, your child\'s profile is currently unavailable.</string>
     <string name="group">Group ID</string>
     <string name="edit">Edit</string>
     <string name="board_certifications">Board Certifications</string>
@@ -121,9 +124,14 @@
     <string name="accept">Accept</string>
     <string name="no_valid_session">For your security, please sign in again.</string>
     <string name="signed_out_successfully">You are now signed out.</string>
+
     <string name="profile_saved">Your profile is saved.</string>
+    <string name="profile_saved_dependent">Your child\'s profile is saved.</string>
+
     <string name="please_install_calendar_app">Keep track of your appointments by installing a calendar application.</string>
     <string name="no_app_share_appointments">Share your appointments by connecting a communications app.</string>
+    <string name="no_app_share_appointments_dependent">Share your child\'s appointments by connecting a communications app.</string>
+
     <string name="unknown_activity_tag">We didn’t catch that.</string>
     <string name="max_login_tries_reached">We\'re sorry, we need to reset. Take five and try again.</string>
     <string name="query_empty">Please enter a word or phrase to search.</string>
@@ -252,7 +260,6 @@
 
     <string name="filter_title">Filter</string>
     <string name="filter_apply">Apply</string>
-
     <string name="click_to_refresh">Retry</string>
 
     <string name="failure_msg">We\'re sorry, we\’ve hit a snag. Please try again or contact support at 844–274–8497.</string>
@@ -391,7 +398,9 @@
     <string name="allergies">Allergies</string>
     <string name="allergic_to">Allergic To:&#160;</string>
     <string name="no_conditions">I don\'t have any conditions</string>
+    <string name="no_conditions_dependent">Your child has no conditions</string>
     <string name="no_allergies">I don\'t have any allergies</string>
+    <string name="no_allergies_dependent">Your child has no allergies</string>
 
     <!-- Medications -->
 
@@ -443,15 +452,27 @@
     <string name="get_started">Get Started</string>
     <string name="personal_information">Personal Information</string>
     <string name="my_personal_information">Personal Information</string>
+
     <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
+    <string name="your_profile_is_almost_complete_dependent">Your child\'s profile is almost complete.</string>
+
     <string name="medical_history">Medical History</string>
     <string name="complete_your_medical_history">Complete your medical history.</string>
+    <string name="complete_your_medical_history_dependent">Complete your child\'s medical history.</string>
     <string name="complete_your_medical_conditions">Complete your conditions</string>
+    <string name="complete_your_medical_conditions_dependent">Complete your child\'s conditions</string>
     <string name="complete_your_medical_allergies">Complete your allergies</string>
+    <string name="complete_your_medical_allergies_dependent">Complete your child\'s allergies</string>
     <string name="no_medical_complications_listed">You have no medical complications</string>
+    <string name="no_medical_complications_listed_dependent">Your child has no medical complications</string>
+
     <string name="medications">Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
+    <string name="what_medications_are_you_taking_dependent">What medications is your child taking?</string>
     <string name="no_medications_listed">You have no medications</string>
+    <string name="no_medications_listed_dependent">Your child has no medications</string>
+
+
     <string name="pharmacy">Pharmacy</string>
     <string name="visit_summary">Visit Summary</string>
     <string name="feedback">Feedback</string>
@@ -461,6 +482,7 @@
     <string name="feedback_ratings_submission_failed">We\'re sorry, failed to submit ratings. Please try again</string>
     <string name="feedback_answers_submission_failed">We\'re sorry, failed to submit feedback. Please try again</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
+    <string name="choose_your_preferred_pharmacy_dependent">Choose your child\'s preferred pharmacy.</string>
     <string name="mycare_now">My Care Now</string>
     <string name="med_history">Medical History</string>
     <string name="pharmacy_search_hint">Search Zip Code</string>
@@ -482,15 +504,27 @@
     <string name="intake">Intake</string>
     <string name="my_care_privacy_policy">Privacy Policy</string>
     <string name="reason">Reason</string>
-    <string name="visit_cost_desc">Your total is $</string>
-    <string name="visit_total_cost_desc">Your total cost is $</string>
+
+    <string name="visit_cost_desc">Your visit total is $</string>
+    <string name="visit_cost_desc_dependent">Your child\'s visit total is $</string>
+
+    <string name="visit_total_cost_desc">Your visit total cost is $</string>
+    <string name="visit_total_cost_desc_dependent">Your child\'s visit total cost is $</string>
+
     <string name="summary_cost_desc">Your total cost for today\'s visit was $</string>
+    <string name="summary_cost_desc_dependent">Your child\'s total cost for today\'s visit was $</string>
+
     <string name="waiting_room_title">Waiting Room</string>
     <string name="view_previous_visits">View Previous Visits</string>
     <string name="review_and_complete">Review and complete the following details to enter the waiting room.</string>
+
     <string name="your_visit_has_ended">Your visit has ended.</string>
+    <string name="your_visit_has_ended_dependent">Your child\'s visit has ended.</string>
+
     <string name="previous_visit_summaries">Previous Visit Summaries</string>
     <string name="no_previous_visits">You have no previous visits.</string>
+    <string name="no_previous_visits_child">Your child has no previous visits.</string>
+
     <string name="field_must_be_completed">Field must be completed</string>
     <string name="enter_valid_phone_number">Enter valid phone number</string>
     <string name="enter_valid_reason_for_visit">Enter valid reason for visit</string>

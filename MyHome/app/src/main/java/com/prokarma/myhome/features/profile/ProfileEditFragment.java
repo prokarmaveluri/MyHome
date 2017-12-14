@@ -27,6 +27,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.prokarma.myhome.utils.TealiumUtil;
+import com.televisit.AwsManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -210,7 +211,13 @@ public class ProfileEditFragment extends BaseFragment {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
                         TealiumUtil.trackEvent(Constants.PROFILE_UPDATE_EVENT, null);
-                        Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+
+                        if (AwsManager.getInstance().isDependent()) {
+                            Toast.makeText(getActivity(), getString(R.string.profile_saved_dependent), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+                        }
+
                         getActivity().onBackPressed();
                     } else {
                         Timber.e("ProfileEdit. updateProfile. Response, but not successful?\n" + response);
