@@ -230,7 +230,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         }
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getMedications(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 new SDKCallback<List<Medication>, SDKError>() {
                     @Override
                     public void onResponse(List<Medication> medications, SDKError sdkError) {
@@ -258,7 +258,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     private void updateMedications() {
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateMedications(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 AwsManager.getInstance().getMedications(),
                 new SDKCallback<Void, SDKError>() {
                     @Override
@@ -281,7 +281,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().searchMedications(
-                AwsManager.getInstance().getConsumer(),
+                AwsManager.getInstance().getPatient(),
                 searchText,
                 new SDKValidatedCallback<List<Medication>, SDKError>() {
                     @Override
