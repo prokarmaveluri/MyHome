@@ -18,13 +18,13 @@ import android.widget.Toast;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
-import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.EnviHandler;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
@@ -156,7 +156,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(AwsManager.getInstance().getPatient());
 
         //TODO change this once login actually works
-        if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
+        if (EnviHandler.AWSDK_URL.equals(EnviHandler.AmWellEnvType.DEV)) {
             update.setPassword("Pass123*");
         } else {
             update.setPassword("Password1");

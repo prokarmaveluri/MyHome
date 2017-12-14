@@ -23,7 +23,6 @@ import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -31,6 +30,7 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.EnviHandler;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsConsumer;
@@ -164,7 +164,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             showLoading();
-            AwsNetworkManager.getInstance().initializeAwsdk(BuildConfig.awsdkurl, BuildConfig.awsdkkey, null, this);
+            AwsNetworkManager.getInstance().initializeAwsdk(EnviHandler.AWSDK_URL, EnviHandler.AWSDK_KEY, null, this);
         } else if (!AwsManager.getInstance().hasAuthenticated()) {
             showLoading();
             this.initializationComplete();
@@ -412,17 +412,14 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void initializationComplete() {
-        if (BuildConfig.awsdkurl.equals("https://sdk.myonlinecare.com")) {
-            //Dev
-            AwsNetworkManager.getInstance().getUsersAuthentication("jj@prokarma.com", "Pass123*", this);
-        } else {
-            //IoT
-            //TODO Clean this up once mutual auth is reliable
-            if(AuthManager.getAmWellToken() == null){
-                AwsNetworkManager.getInstance().getUsersAuthentication("jjjj@pk.com", "Password1", this);
-            } else {
+        if (EnviHandler.isAttemptMutualAuth()){
+            if(AuthManager.getAmWellToken() != null){
                 AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken(), this);
+            } else {
+                Toast.makeText(getContext(), "No AmWell token found", Toast.LENGTH_LONG).show();
             }
+        } else {
+            AwsNetworkManager.getInstance().getUsersAuthentication(EnviHandler.getAmwellUsername(), EnviHandler.getAmwellPassword(), this);
         }
     }
 

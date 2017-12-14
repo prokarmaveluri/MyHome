@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">My Home</string>
+    <string name="dev">Dev</string>
+    <string name="stage">Stage</string>
+    <string name="slot1">Slot1</string>
+    <string name="prod">Prod</string>
+    <string name="iot">IoT</string>
 
     <!-- Strings related to login & enrollment-->
     <string name="prompt_first_name">First Name</string>
