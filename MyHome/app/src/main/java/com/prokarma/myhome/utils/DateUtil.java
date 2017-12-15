@@ -37,10 +37,16 @@ public class DateUtil {
     public static final SimpleDateFormat SIMPLE_DATE_HYPHEN_FORMAT = new SimpleDateFormat(DATE_HYPHEN_FORMAT, Locale.getDefault());
     public static final String DATE_SLASH_FORMAT = "MM/dd/yyyy";
     public static final SimpleDateFormat SIMPLE_DATE_SLASH_FORMAT = new SimpleDateFormat(DATE_SLASH_FORMAT, Locale.getDefault());
+
     public static final String DATE_SHORT_WORDS_FORMAT = "EEE, MMM dd";
     public static final SimpleDateFormat SIMPLE_DATE_SHORT_WORDS_FORMAT = new SimpleDateFormat(DATE_SHORT_WORDS_FORMAT, Locale.getDefault());
-    public static final String DATE_LONG_WORDS_FORMAT = "EEEE, MMMM dd";
-    public static final SimpleDateFormat SIMPLE_DATE_LONG_WORDS_FORMAT = new SimpleDateFormat(DATE_LONG_WORDS_FORMAT, Locale.getDefault());
+
+    public static final String DATE_YEAR_SHORT_WORDS_FORMAT = "EEE, MMM dd yyyy";
+    public static final SimpleDateFormat SIMPLE_DATE_YEAR_SHORT_WORDS_FORMAT = new SimpleDateFormat(DATE_YEAR_SHORT_WORDS_FORMAT, Locale.getDefault());
+
+    public static final String DATE_YEAR_LONG_WORDS_FORMAT = "EEEE, MMMM dd yyyy";
+    public static final SimpleDateFormat SIMPLE_DATE_YEAR_LONG_WORDS_FORMAT = new SimpleDateFormat(DATE_YEAR_LONG_WORDS_FORMAT, Locale.getDefault());
+
     public static final String DATE_WORDS_1st_FORMAT = "MMMM d'st,' yyyy";   //Adds a "st" to the day (like 1st)
     public static final SimpleDateFormat SIMPLE_DATE_WORDS_1st_FORMAT = new SimpleDateFormat(DATE_WORDS_1st_FORMAT, Locale.getDefault());
     public static final String DATE_WORDS_2nd_FORMAT = "MMMM d'nd,' yyyy";   //Adds a "nd" to the day (like 2nd)
@@ -369,10 +375,20 @@ public class DateUtil {
      * Convert a Date object into a human-friendly format.
      *
      * @param date the date object. This object's date should already be set and finalized before making this call.
+     * @return a String representing the UTC Date (formatted like such: "EEE, MMM dd yyyy")
+     */
+    public static String convertDateYearToReadableShortWords(Date date) {
+        return SIMPLE_DATE_YEAR_SHORT_WORDS_FORMAT.format(date);
+    }
+
+    /**
+     * Convert a Date object into a human-friendly format.
+     *
+     * @param date the date object. This object's date should already be set and finalized before making this call.
      * @return a String representing the UTC Date (formatted like such: "EEEE, MMMM dd")
      */
-    public static String convertDateToReadableLongWords(Date date) {
-        return SIMPLE_DATE_LONG_WORDS_FORMAT.format(date);
+    public static String convertDateYearToReadableLongWords(Date date) {
+        return SIMPLE_DATE_YEAR_LONG_WORDS_FORMAT.format(date);
     }
 
     /**

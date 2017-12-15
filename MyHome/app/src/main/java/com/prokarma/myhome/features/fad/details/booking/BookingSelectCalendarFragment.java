@@ -104,7 +104,7 @@ public class BookingSelectCalendarFragment extends Fragment {
         leftArrow = (ImageView) dateHeader.findViewById(R.id.left_date_arrow);
         rightArrow = (ImageView) dateHeader.findViewById(R.id.right_date_arrow);
         monthLabel = (TextView) dateHeader.findViewById(R.id.date);
-        setMonthHeader(calendar.getSelectedDate());
+        setCalendarHeaderMonth(calendar.getSelectedDate());
 
         adjustArrowColors(bookingDate, false);
 
@@ -143,7 +143,7 @@ public class BookingSelectCalendarFragment extends Fragment {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 if (selected) {
-                    setMonthHeader(date);
+                    setCalendarHeaderDay(date);
                     monthLabel.callOnClick();
                 }
             }
@@ -192,11 +192,11 @@ public class BookingSelectCalendarFragment extends Fragment {
     }
 
 
-    public void setMonthHeader(CalendarDay calendarDay) {
+    public void setCalendarHeaderDay(CalendarDay calendarDay) {
         if (calendarDay != null) {
 
-            monthLabel.setText(DateUtil.convertDateToReadableShortWords(calendarDay.getDate()));
-            monthLabel.setContentDescription(DateUtil.convertDateToReadableLongWords(calendarDay.getDate()) + ", " + "Calendar expanded");
+            monthLabel.setText(DateUtil.convertDateYearToReadableShortWords(calendarDay.getDate()));
+            monthLabel.setContentDescription(DateUtil.convertDateYearToReadableLongWords(calendarDay.getDate()) + ", " + "Calendar expanded");
 
             if (selectTimeInterface != null) {
                 selectTimeInterface.onDateChanged(calendarDay.getDate());
@@ -204,7 +204,7 @@ public class BookingSelectCalendarFragment extends Fragment {
         }
     }
 
-    public void setMonthOnlyHeader(CalendarDay calendarDay) {
+    public void setCalendarHeaderMonth(CalendarDay calendarDay) {
         if (calendarDay != null) {
             monthLabel.setText(DateUtil.convertDateToMonthYearWords(calendarDay.getDate()));
             monthLabel.setContentDescription(DateUtil.convertDateToMonthYearWords(calendarDay.getDate()) + ", " + "Calendar expanded");
@@ -221,7 +221,7 @@ public class BookingSelectCalendarFragment extends Fragment {
             calendar.setSelectedDate(calendarDay);
             calendar.setDateSelected(calendarDay, true);
             calendar.setCurrentDate(calendarDay, true);
-            setMonthHeader(calendarDay);
+            setCalendarHeaderDay(calendarDay);
         }
     }
 
@@ -264,12 +264,12 @@ public class BookingSelectCalendarFragment extends Fragment {
             if (allowNavigationToPreviousMonth) {
                 calendar.goToPrevious();
                 calendar.setCurrentDate(calendarDay, true);
-                setMonthOnlyHeader(calendarDay);
+                setCalendarHeaderMonth(calendarDay);
             }
         } else {
             calendar.goToNext();
             calendar.setCurrentDate(calendarDay, true);
-            setMonthOnlyHeader(calendarDay);
+            setCalendarHeaderMonth(calendarDay);
         }
     }
 

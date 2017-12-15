@@ -87,11 +87,9 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
 
             case VIEW_TYPE_EMPTY:
                 ViewHolderEmpty holderEmpty = (ViewHolderEmpty) genericHolder;
-                if (AwsManager.getInstance().isDependent()) {
-                    holderEmpty.text.setText(isPastAppointments ? context.getString(R.string.no_past_appointments_dependent) : context.getString(R.string.no_upcoming_appointments_dependent));
-                } else {
-                    holderEmpty.text.setText(isPastAppointments ? context.getString(R.string.no_past_appointments) : context.getString(R.string.no_upcoming_appointments));
-                }
+
+                //as of now Dec2017, appointments are always shown for Primary, and not for dependents at anytime.
+                holderEmpty.text.setText(isPastAppointments ? context.getString(R.string.no_past_appointments) : context.getString(R.string.no_upcoming_appointments));
                 break;
         }
     }
