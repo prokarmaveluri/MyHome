@@ -359,7 +359,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         progressBar.setVisibility(View.GONE);
 
         if (searchConditions.size() == 0) {
-            Toast.makeText(getContext(), "No Medical Conditions found. \n\n we could'nt find any relevant results for " + searchText.trim(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No Medical Conditions found. \n\nWe could'nt find any relevant results for " + searchText.trim(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -382,7 +382,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         progressBar.setVisibility(View.GONE);
 
         if (searchAllergies.size() == 0) {
-            Toast.makeText(getContext(), "No Medical Allergies found. \n\n we could'nt find any relevant results for " + searchText.trim(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No Medical Allergies found. \n\nWe could'nt find any relevant results for " + searchText.trim(), Toast.LENGTH_SHORT).show();
         }
     }
 

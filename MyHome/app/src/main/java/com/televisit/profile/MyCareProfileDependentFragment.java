@@ -1,6 +1,5 @@
 package com.televisit.profile;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -39,17 +38,18 @@ import timber.log.Timber;
 public class MyCareProfileDependentFragment extends BaseFragment implements AwsUpdateDependent {
     public static final String MY_PROFILE_TAG = "my_profile_tag";
 
-    View profileView;
-    TextInputLayout firstNameLayout;
-    TextInputEditText firstName;
-    TextInputLayout lastNameLayout;
-    TextInputEditText lastName;
-    Spinner gender;
-    TextInputLayout dateOfBirthLayout;
-    TextInputEditText dateOfBirth;
-    TextView genderLabel;
+    private View profileView;
+    private TextInputLayout firstNameLayout;
+    private TextInputEditText firstName;
+    private TextInputLayout lastNameLayout;
+    private TextInputEditText lastName;
+    private Spinner gender;
+    private TextInputLayout dateOfBirthLayout;
+    private TextInputEditText dateOfBirth;
+    private TextView genderLabel;
+    private TextView genderValue;
 
-    ProgressBar progress;
+    private ProgressBar progress;
 
     public static MyCareProfileDependentFragment newInstance() {
         return new MyCareProfileDependentFragment();
@@ -71,6 +71,8 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
         lastNameLayout = (TextInputLayout) profileView.findViewById(R.id.last_name_layout);
         lastName = (TextInputEditText) profileView.findViewById(R.id.last_name);
         genderLabel = (TextView) profileView.findViewById(R.id.gender_label);
+        genderValue = (TextView) profileView.findViewById(R.id.gender_value);
+
         gender = (Spinner) profileView.findViewById(R.id.gender);
         dateOfBirthLayout = (TextInputLayout) profileView.findViewById(R.id.dob_layout);
         dateOfBirth = (TextInputEditText) profileView.findViewById(R.id.dob);
@@ -83,14 +85,19 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
             //For Dependents: as per Zeplin 'Save' button is not shown and also iOS is not displaying it. QA requested to hide the button
             setHasOptionsMenu(false);
 
-            gender.setEnabled(false);
-            gender.setFocusable(false);
-
             disableEditing(firstName);
             disableEditing(lastName);
             disableEditing(dateOfBirth);
-        }
-        else {
+
+            genderValue.setVisibility(View.VISIBLE);
+            gender.setVisibility(View.GONE);
+
+            /*gender.setFocusable(false);
+            gender.setClickable(false);
+            gender.setOnTouchListener(null);
+            gender.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);*/
+
+        } else {
             setHasOptionsMenu(true);
 
             dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
@@ -109,10 +116,8 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
 
     private void disableEditing(TextInputEditText editText) {
         editText.setFocusable(false);
-        //editText.setEnabled(false);
         editText.setCursorVisible(false);
         editText.setKeyListener(null);
-        //editText.setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
@@ -150,6 +155,7 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
         //Comment this back in once login works
         update.setFirstName(firstName.getText().toString().trim());
         update.setLastName(lastName.getText().toString().trim());
+
         update.setGender(gender.getSelectedItem().toString().trim());
         update.setDob(DateUtil.convertReadabletoDob(dateOfBirth.getText().toString().trim()));
 
@@ -171,12 +177,15 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
             //Loop through genders until we find a match, then set gender spinner selection
             for (int i = 0; i < gender.getAdapter().getCount(); i++) {
                 if (consumer.getGender().equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
+
+                    genderValue.setText(gender.getAdapter().getItem(i).toString());
                     gender.setSelection(i);
                     break;
                 }
             }
         } else {
             gender.setSelection(0);  //Placeholder is the first item in the array
+            genderValue.setText("");
         }
 
         if (consumer.getDob() != null) {
@@ -224,8 +233,7 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
 
         if (AwsManager.getInstance().isDependent()) {
             Toast.makeText(getActivity(), getString(R.string.profile_saved_dependent), Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
         }
         getActivity().onBackPressed();

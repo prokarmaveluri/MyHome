@@ -96,6 +96,15 @@
                 android:textColor="@color/text_darker"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/gender_value"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textColor="@color/text_darkest"
+                android:visibility="gone" />
+
             <Spinner
                 android:id="@+id/gender"
                 android:layout_width="wrap_content"

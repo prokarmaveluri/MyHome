@@ -203,18 +203,22 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
      * @param consumer the consumer that we're using to autopopulate the EditTexts
      */
     private void updateConsumerViews(Consumer consumer) {
-        if (consumer.getFirstName() != null) {
+
+        // to avoid error: java.lang.NullPointerException: Attempt to invoke interface method 'java.lang.String com.americanwell.sdk.entity.consumer.Consumer.getFirstName()' on a null object reference
+        // added null check
+
+        if (consumer != null && consumer.getFirstName() != null) {
             welcomeText.setText(getString(R.string.mcn_welcome_text_variable, consumer.getFirstName()));
             firstName.setText(consumer.getFirstName());
         } else {
             welcomeText.setText(getString(R.string.mcn_welcome_text));
         }
 
-        if (consumer.getLastName() != null) {
+        if (consumer != null && consumer.getLastName() != null) {
             lastName.setText(consumer.getLastName());
         }
 
-        if (consumer.getGender() != null) {
+        if (consumer != null && consumer.getGender() != null) {
 
             //Loop through genders until we find a match, then set gender spinner selection
             for (int i = 0; i < gender.getAdapter().getCount(); i++) {
@@ -227,23 +231,23 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             gender.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (consumer.getDob() != null) {
+        if (consumer != null && consumer.getDob() != null) {
             dateOfBirth.setText(DateUtil.convertDobtoReadable(consumer.getDob()));
         }
 
-        if (consumer.getAddress() != null && consumer.getAddress().getAddress1() != null) {
+        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getAddress1() != null) {
             address.setText(consumer.getAddress().getAddress1());
         }
 
-        if (consumer.getAddress() != null && consumer.getAddress().getAddress2() != null) {
+        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getAddress2() != null) {
             address2.setText(consumer.getAddress().getAddress2());
         }
 
-        if (consumer.getAddress() != null && consumer.getAddress().getCity() != null) {
+        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getCity() != null) {
             city.setText(consumer.getAddress().getCity());
         }
 
-        if (consumer.getAddress() != null && consumer.getAddress().getState() != null) {
+        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getState() != null) {
 
             //Loop through states until we find a match, then set state spinner selection
             for (int i = 0; i < state.getAdapter().getCount(); i++) {
@@ -256,16 +260,16 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             state.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (consumer.getAddress() != null && consumer.getAddress().getZipCode() != null) {
+        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getZipCode() != null) {
             zip.setText(consumer.getAddress().getZipCode().trim());
         }
 
-        if (consumer.getPhone() != null) {
+        if (consumer != null && consumer.getPhone() != null) {
             //phone.setText(profile.phoneNumber.replaceAll("\\.", "-"));
             phone.setText(CommonUtil.constructPhoneNumberDots(consumer.getPhone()));
         }
 
-        if (consumer.getEmail() != null) {
+        if (consumer != null && consumer.getEmail() != null) {
             email.setText(consumer.getEmail());
         }
     }

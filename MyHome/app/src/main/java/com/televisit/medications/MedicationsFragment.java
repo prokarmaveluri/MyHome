@@ -301,7 +301,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                             setSuggestionAdapter(getSuggestions(medications));
 
                             if (medications == null || medications.size() == 0) {
-                                Toast.makeText(getContext(), "No Medications found. \n\n we could'nt find any relevant results for " + searchText, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "No Medications found. \n\nWe could'nt find any relevant results for " + searchText, Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Timber.e("searchMedications. Error + " + sdkError);
