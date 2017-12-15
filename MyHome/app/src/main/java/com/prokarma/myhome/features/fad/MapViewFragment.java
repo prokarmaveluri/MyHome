@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -60,6 +61,7 @@ public class MapViewFragment extends Fragment implements
     private GoogleMap map;
     private Marker marker;
     private ProviderDetailsResponse provider;
+    private EditText pharmacySearch;
     private Button searchThisArea;
     private LatLng latlon;
     private LocationResponse location = null;
@@ -95,6 +97,10 @@ public class MapViewFragment extends Fragment implements
 
         View view = inflater.inflate(R.layout.fragment_map_view, container, false);
         searchThisArea = (Button) view.findViewById(R.id.searchThisArea);
+        pharmacySearch = (EditText) view.findViewById(R.id.pharmacySearch);
+        if (pharmacySearch != null) {
+            pharmacySearch.setVisibility(View.GONE);
+        }
 
         final SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.fragmentMapView);
