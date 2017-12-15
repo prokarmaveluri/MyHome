@@ -8,6 +8,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -103,6 +106,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         doctorNotes = (TextView) view.findViewById(R.id.doctor_notes);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -150,6 +154,23 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             Visit visit = AwsManager.getInstance().getVisit();
             AwsNetworkManager.getInstance().getVisitSummary(visit, this);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.visit_summary_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.done:
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VIDEO_VISIT_FEEDBACK, null);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void updateDoctorImage() {
