@@ -418,10 +418,11 @@
     <string name="visit_cost_coupon_code">Coupon Code</string>
     <string name="visit_cost_apply">Apply</string>
     <string name="payment">Payment</string>
+
     <string name="agree_privacy_policy_text1">I have read and agree to the&#160;</string>
     <string name="agree_privacy_policy_text2">Privacy</string>
     <string name="agree_privacy_policy_text3">Policy.</string>
-
+    <string name="agree_legal_dependent_text">I certify that I am the custodial parent or legal guardian of the minor indicated above and that I have authority to made medical decisions based on their behalf.</string>
 
     <!-- Payment Information -->
 
@@ -501,6 +502,7 @@
     <string name="my_care_reason_phone_sug">How can we call you back if we\'re disconnected?</string>
     <string name="my_care_reason_sug">Why are you visiting today?</string>
     <string name="my_care_privacy_policy_accept">Please accept privacy policy to proceed</string>
+    <string name="my_care_legal_dependent_accept">Please accept your child\'s legal authority</string>
     <string name="intake">Intake</string>
     <string name="my_care_privacy_policy">Privacy Policy</string>
     <string name="reason">Reason</string>

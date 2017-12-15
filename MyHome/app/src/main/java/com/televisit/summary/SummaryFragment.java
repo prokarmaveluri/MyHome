@@ -41,7 +41,6 @@ import com.televisit.previousvisit.PrescriptionsAdapter;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -234,12 +233,10 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                                 Timber.d("visitsummary. AssignedProvider Name = " + detail.getAssignedProviderInfo().getFullName());
                             }
 
-                            DecimalFormat amountFormat = new DecimalFormat("0.00");
-
                             if (AwsManager.getInstance().isDependent()) {
-                                costDesc.setText(getString(R.string.visit_total_cost_desc_dependent) + amountFormat.format(detail.getVisitCost().getExpectedConsumerCopayCost()));
+                                costDesc.setText(getString(R.string.visit_total_cost_desc_dependent) + CommonUtil.formatAmount(detail.getVisitCost().getExpectedConsumerCopayCost()));
                             } else {
-                                costDesc.setText(getString(R.string.visit_total_cost_desc) + amountFormat.format(detail.getVisitCost().getExpectedConsumerCopayCost()));
+                                costDesc.setText(getString(R.string.visit_total_cost_desc) + CommonUtil.formatAmount(detail.getVisitCost().getExpectedConsumerCopayCost()));
                             }
 
                             displayPharmacyDetails(visitReportDetail.getPharmacy());
@@ -365,11 +362,10 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
         }
 
-        DecimalFormat amountFormat = new DecimalFormat("0.00");
         if (AwsManager.getInstance().isDependent()) {
-            costDesc.setText(getString(R.string.visit_total_cost_desc_dependent) + amountFormat.format(visitSummary.getVisitCost().getExpectedConsumerCopayCost()));
+            costDesc.setText(getString(R.string.visit_total_cost_desc_dependent) + CommonUtil.formatAmount((visitSummary.getVisitCost().getExpectedConsumerCopayCost())));
         } else {
-            costDesc.setText(getString(R.string.visit_total_cost_desc) + amountFormat.format(visitSummary.getVisitCost().getExpectedConsumerCopayCost()));
+            costDesc.setText(getString(R.string.visit_total_cost_desc) + CommonUtil.formatAmount((visitSummary.getVisitCost().getExpectedConsumerCopayCost())));
         }
 
         updateDoctorImage(visitSummary);

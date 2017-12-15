@@ -29,14 +29,11 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public final Context context;
     public List<VisitReport> visitReports;
     private final RecyclerViewListener onItemClickListener;
-    private final DecimalFormat amountFormat;
-
 
     public PreviousVisitsAdapter(Context context, @Nullable List<VisitReport> visitReports, RecyclerViewListener onItemClickListener) {
         this.context = context;
         this.visitReports = visitReports;
         this.onItemClickListener = onItemClickListener;
-        amountFormat = new DecimalFormat("0.00"); // "##.##");
     }
 
     @Override
@@ -72,7 +69,7 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
 
                 //hardcoding for now, as per directions got.
-                //holder.cost.setText("$" + amountFormat.format(detail));
+                //holder.cost.setText("$" + CommonUtil.formatAmount((detail.visitCost));
                 holder.cost.setText("$ 0.00");
                 holder.visitReason.setText("I cut my hand on a peice of glass");
 

@@ -25,6 +25,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
+import com.google.android.flexbox.FlexboxLayout;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -61,6 +62,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private TextView privacyLink;
     private TextView policyLink;
     private AppCompatCheckBox agreePrivacyPolicyCheck;
+    private AppCompatCheckBox agreeLegalDependentCheck;
+    private FlexboxLayout agreeLegalDependentLayout;
 
     public MyCareVisitCostFragment() {
         // Required empty public constructor
@@ -101,6 +104,14 @@ public class MyCareVisitCostFragment extends BaseFragment {
         privacyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text2);
         policyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text3);
         agreePrivacyPolicyCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_privacy_policy_check);
+        agreeLegalDependentCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_legal_dependent_check);
+        agreeLegalDependentLayout = (FlexboxLayout) view.findViewById(R.id.agree_legal_dependent_layout);
+
+        if (AwsManager.getInstance().isDependent()) {
+            agreeLegalDependentLayout.setVisibility(View.VISIBLE);
+        } else {
+            agreeLegalDependentLayout.setVisibility(View.GONE);
+        }
 
         reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
         reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
@@ -188,6 +199,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     } else if (!agreePrivacyPolicyCheck.isChecked()) {
                         Toast.makeText(getActivity(), R.string.my_care_privacy_policy_accept, Toast.LENGTH_LONG).show();
 
+                    } else if (!agreeLegalDependentCheck.isChecked() && AwsManager.getInstance().isDependent()) {
+                        Toast.makeText(getActivity(), R.string.my_care_legal_dependent_accept, Toast.LENGTH_LONG).show();
+
                     } else if (CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())
                             && reasonForVisit.getText().toString().trim().length() > 0
                             && agreePrivacyPolicyCheck.isChecked()) {
@@ -226,10 +240,10 @@ public class MyCareVisitCostFragment extends BaseFragment {
                             if (sdkError == null && isAdded()) {
                                 if (AwsManager.getInstance().isDependent()) {
                                     costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
-                                            AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
+                                            CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
                                 } else {
                                     costInfo.setText(getString(R.string.visit_cost_desc) +
-                                            AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
+                                            CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
                                 }
                             } else {
                                 Timber.e("applyCouponCode. Something failed! :/");
@@ -284,13 +298,12 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                             applyCoupon("Free");
 
-                            DecimalFormat amountFormat = new DecimalFormat("0.00");
                             if (AwsManager.getInstance().isDependent()) {
                                 costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
-                                        amountFormat.format(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
+                                        CommonUtil.formatAmount((AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost())));
                             } else {
                                 costInfo.setText(getString(R.string.visit_cost_desc) +
-                                        amountFormat.format(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
+                                        CommonUtil.formatAmount((AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost())));
                             }
 
                             intakeLayout.setVisibility(View.VISIBLE);

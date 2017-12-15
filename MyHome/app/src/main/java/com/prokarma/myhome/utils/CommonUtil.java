@@ -49,6 +49,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1060,6 +1061,11 @@ public class CommonUtil {
             Timber.e(e);
         }
         return false;
+    }
+
+    public static String formatAmount(double cost) {
+        DecimalFormat amountFormat = new DecimalFormat("0.00");
+        return amountFormat.format(cost);
     }
 
     public static boolean isAccessibilityEnabled(Context context) {
