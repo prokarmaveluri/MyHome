@@ -1055,8 +1055,11 @@ public class CommonUtil {
     }
 
     public static boolean isAccessibilityEnabled(Context context) {
-        AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
-        return am.isEnabled();
+        if (null != context) {
+            AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
+            return am.isEnabled();
+        }
+        return false;
     }
 
     public static String stringToSpacesString(String string) {
