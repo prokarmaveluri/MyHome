@@ -1,5 +1,6 @@
 package com.televisit.profile;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -75,20 +76,43 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
         dateOfBirth = (TextInputEditText) profileView.findViewById(R.id.dob);
         progress = (ProgressBar) profileView.findViewById(R.id.profile_edit_progress);
 
-        dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
-
-        gender.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                CommonUtil.hideSoftKeyboard(getActivity());
-                return false;
-            }
-        });
-
         updateDependentViews(AwsManager.getInstance().getPatient());
 
-        setHasOptionsMenu(true);
+        if (AwsManager.getInstance().isDependent()) {
+
+            //For Dependents: as per Zeplin 'Save' button is not shown and also iOS is not displaying it. QA requested to hide the button
+            setHasOptionsMenu(false);
+
+            gender.setEnabled(false);
+            gender.setFocusable(false);
+
+            disableEditing(firstName);
+            disableEditing(lastName);
+            disableEditing(dateOfBirth);
+        }
+        else {
+            setHasOptionsMenu(true);
+
+            dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
+
+            gender.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    CommonUtil.hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
         return profileView;
+    }
+
+    private void disableEditing(TextInputEditText editText) {
+        editText.setFocusable(false);
+        //editText.setEnabled(false);
+        editText.setCursorVisible(false);
+        editText.setKeyListener(null);
+        //editText.setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override

@@ -168,8 +168,8 @@
     <string name="new_update_available">New Update Available!</string>
     <string name="no_recent_providers">No Recent Providers to show. Tap Find Care to start.</string>
     <!--Dashboard-->
-    <string name="db_text_one">Hit the Slopes: Mountain Safety Tips for Skiers and Snowboarders</string>
-    <string name="db_text_two">Moderate Drinking: How to Avoid Overindulging This Winter</string>
+    <string name="db_text_one">Understanding Seasonal Affective Disorder: How to Brighten Cold, Dark Days</string>
+    <string name="db_text_two">7 Stress-Relief Tips for the New Year</string>
     <string name="db_readmore">Read More</string>
     <string name="db_profile_alert_one">Don\'t have a saved Profile. Retrieving profile now…</string>
     <string name="db_profile_alert_two">Already have a Profile Singleton. Updating the view…</string>

@@ -201,7 +201,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
         switch (Id) {
             case R.id.personal_info_edit:
-                if (!AwsManager.getInstance().isPatientMainConsumer()) {
+                if (AwsManager.getInstance().isDependent()) {
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROFILE_DEPENDENT, null);
                 } else {
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROFILE, null);

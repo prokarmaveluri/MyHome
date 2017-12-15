@@ -122,8 +122,8 @@ public class Constants {
     public static final String CHANGED_PASSWORD_EVENT = "changePasswordSuccess";
     public static final String CHANGED_SECURITY_QUESTION_EVENT = "changeSecurityQuestionSuccess";
 
-    public static final String DID_YOU_KNOW_SEC1 = "https://dignityhealth.org/cm/content/pages/hit-the-slopes-mountain-safety-tips-for-skiers-and-snowboarders.asp";
-    public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/Articles/Moderate-Drinking-How-to-Avoid-Overindulging-This-Winter";
+    public static final String DID_YOU_KNOW_SEC1 = "https://www.dignityhealth.org/Articles/Understanding-Seasonal-Affective-Disorder-How-to-Brighten-Cold-Dark-Days";
+    public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/Articles/7-Stress-Relief-Tips-for-the-New-Year";
 
     public static final String TEL = "tel:";
     public static final String SUPPORT_EMAIL = "hello@dignityhealth.org";
