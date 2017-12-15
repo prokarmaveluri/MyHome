@@ -348,7 +348,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         List<Condition> searchConditions = new ArrayList<>();
         for (Condition c : conditions) {
-            if (c.getName() != null && c.getName().toLowerCase().contains(searchText.toLowerCase())) {
+            if (c.getName() != null && c.getName().toLowerCase().trim().contains(searchText.toLowerCase().trim())) {
                 searchConditions.add(c);
             }
         }
@@ -357,6 +357,10 @@ public class MedicalHistoryFragment extends BaseFragment implements
         setAdapter(true);
         adapter.notifyDataSetChanged();
         progressBar.setVisibility(View.GONE);
+
+        if (searchConditions.size() == 0) {
+            Toast.makeText(getContext(), "No Medical Conditions found. \n\n we could'nt find any relevant results for " + searchText.trim(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void searchAllergies(String searchText) {
@@ -367,7 +371,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         List<Allergy> searchAllergies = new ArrayList<>();
         for (Allergy c : allergies) {
-            if (c.getName() != null && c.getName().toLowerCase().contains(searchText.toLowerCase())) {
+            if (c.getName() != null && c.getName().toLowerCase().trim().contains(searchText.toLowerCase().trim())) {
                 searchAllergies.add(c);
             }
         }
@@ -376,6 +380,10 @@ public class MedicalHistoryFragment extends BaseFragment implements
         setAdapter(true);
         adapter.notifyDataSetChanged();
         progressBar.setVisibility(View.GONE);
+
+        if (searchAllergies.size() == 0) {
+            Toast.makeText(getContext(), "No Medical Allergies found. \n\n we could'nt find any relevant results for " + searchText.trim(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

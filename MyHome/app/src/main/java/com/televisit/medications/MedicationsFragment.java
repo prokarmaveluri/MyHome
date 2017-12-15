@@ -277,7 +277,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         );
     }
 
-    private void searchMedications(String searchText) {
+    private void searchMedications(final String searchText) {
 
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().searchMedications(
@@ -299,6 +299,10 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
                         if (sdkError == null) {
                             setSuggestionAdapter(getSuggestions(medications));
+
+                            if (medications == null || medications.size() == 0) {
+                                Toast.makeText(getContext(), "No Medications found. \n\n we could'nt find any relevant results for " + searchText, Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Timber.e("searchMedications. Error + " + sdkError);
                         }
