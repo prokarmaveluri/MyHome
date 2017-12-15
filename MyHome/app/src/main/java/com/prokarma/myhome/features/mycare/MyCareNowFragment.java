@@ -44,6 +44,8 @@ import com.televisit.interfaces.AwsUserAuthentication;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MyCareNowFragment#newInstance} factory method to
@@ -63,6 +65,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private TextView pharmacyDesc;
     private TextView pharmacyEdit;
     private ImageView pharmacyPin;
+    private TextView whoIsVisitingToday;
     private Spinner consumerSpinner;
     private ProgressBar progressBar;
     private RelativeLayout userLayout;
@@ -107,6 +110,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
         progressBar = (ProgressBar) view.findViewById(R.id.mcn_progressbar);
         userLayout = (RelativeLayout) view.findViewById(R.id.mcn_user_info);
+
+        whoIsVisitingToday = (TextView) view.findViewById(R.id.mcn_who_is_visiting);
         consumerSpinner = (Spinner) view.findViewById(R.id.mcn_dependents_spinner);
         waitingRoom = (Button) view.findViewById(R.id.waiting_room_button);
 
@@ -411,6 +416,15 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setDependentsSpinner(Consumer me, List<Consumer> dependents) {
+
+        Timber.d("home. dependents count = " + dependents.size());
+
+        if (dependents == null || dependents.size() == 0) {
+            whoIsVisitingToday.setVisibility(View.GONE);
+            consumerSpinner.setVisibility(View.GONE);
+            return;
+        }
+
         List<Consumer> consumers = new ArrayList(dependents);
         consumers.add(0, me);
         DependentsSpinnerAdapter dependentsSpinnerAdapter = new DependentsSpinnerAdapter(getContext(), R.layout.dependents_spinner_item, consumers);

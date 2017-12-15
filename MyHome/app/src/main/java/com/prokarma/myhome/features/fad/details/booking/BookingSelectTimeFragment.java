@@ -116,8 +116,17 @@ public class BookingSelectTimeFragment extends Fragment {
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Having the below condition will Not allow user to navigate back to today's date fro future date if NO appointments are available on today's date
+                // QA asked to allow user to navigate till today's date...irrespective of availability of appointments.
+
+                // removing the condition to allow user to navigate backward from future date until today's date
+                // and be able to see appointment info as back as current/today's date
+
+                //!DateUtil.isOnSameDay(bookingDate, firstAppointmentDate) && !DateUtil.isBefore(bookingDate, firstAppointmentDate)
+
                 //Adjust left arrow color and register click if in range
-                if (!DateUtil.isOnSameDay(bookingDate, firstAppointmentDate) && !DateUtil.isBefore(bookingDate, firstAppointmentDate)) {
+                if (!DateUtil.isBefore(bookingDate, Calendar.getInstance().getTime())) {
                     bookingDate = DateUtil.moveDate(bookingDate, -1);
                     setMonthHeader(bookingDate);
                     setupView();
@@ -378,10 +387,15 @@ public class BookingSelectTimeFragment extends Fragment {
 //    }
 
     private void adjustArrowColors() {
+
         //Adjust left arrow color and register click if in range
-        if (DateUtil.isOnSameDay(bookingDate, firstAppointmentDate) || DateUtil.isBefore(bookingDate, firstAppointmentDate)) {
+        if (DateUtil.isBefore(bookingDate, Calendar.getInstance().getTime())) {
             leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker));
-        } else {
+        }
+        /*else if (DateUtil.isOnSameDay(bookingDate, firstAppointmentDate) || DateUtil.isBefore(bookingDate, firstAppointmentDate)) {
+            leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker));
+        }*/
+        else {
             leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
         }
 
