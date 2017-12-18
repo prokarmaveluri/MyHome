@@ -27,7 +27,6 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.prokarma.myhome.utils.TealiumUtil;
-import com.televisit.AwsManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +37,7 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class ProfileEditFragment extends BaseFragment {
+public class ProfileEditFragment extends BaseFragment implements ProfileUpdateInterface {
     public static final String PROFILE_EDIT_TAG = "profile_edit_tag";
 
     View profileView;
@@ -161,7 +160,7 @@ public class ProfileEditFragment extends BaseFragment {
                 CommonUtil.hideSoftKeyboard(getActivity());
                 if (isValidProfile()) {
                     Profile currentProfile = ProfileManager.getProfile();
-                    sendUpdatedProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile));
+                    ProfileManager.updateProfile(AuthManager.getInstance().getBearerToken(), getProfileValues(currentProfile), this);
                 }
                 break;
         }
@@ -190,49 +189,6 @@ public class ProfileEditFragment extends BaseFragment {
             public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
                 if (isAdded()) {
                     Timber.e("ProfileEdit. getProfile. Something failed! :/");
-                    progress.setVisibility(View.GONE);
-                }
-            }
-        });
-    }
-
-    /**
-     * Sends the profile information to the server to update the values
-     *
-     * @param bearer         the bearer token needed to provide authentication
-     * @param updatedProfile the updated profile information being attempted
-     */
-    private void sendUpdatedProfile(String bearer, Profile updatedProfile) {
-        progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (isAdded()) {
-                    if (response.isSuccessful()) {
-                        Timber.d("Successful Response\n" + response);
-                        TealiumUtil.trackEvent(Constants.PROFILE_UPDATE_EVENT, null);
-
-                        if (AwsManager.getInstance().isDependent()) {
-                            Toast.makeText(getActivity(), getString(R.string.profile_saved_dependent), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
-                        }
-
-                        getActivity().onBackPressed();
-                    } else {
-                        Timber.e("ProfileEdit. updateProfile. Response, but not successful?\n" + response);
-                        ApiErrorUtil.getInstance().updateProfileError(getContext(), profileView, response);
-                    }
-
-                    progress.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                if (isAdded()) {
-                    Timber.e("ProfileEdit. updateProfile. Something failed! :/");
-                    ApiErrorUtil.getInstance().updateProfileFailed(getContext(), profileView, t);
                     progress.setVisibility(View.GONE);
                 }
             }
@@ -461,5 +417,21 @@ public class ProfileEditFragment extends BaseFragment {
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.PROFILE_EDIT;
+    }
+
+    @Override
+    public void profileUpdateComplete(Profile profile) {
+        if (isAdded()) {
+            progress.setVisibility(View.GONE);
+            TealiumUtil.trackEvent(Constants.PROFILE_UPDATE_EVENT, null);
+            Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+            getActivity().onBackPressed();
+        }
+    }
+
+    @Override
+    public void profileUpdateFailed(String errorMessage) {
+        progress.setVisibility(View.GONE);
+        ApiErrorUtil.getInstance().updateProfileFailed(getContext(), profileView, errorMessage);
     }
 }
