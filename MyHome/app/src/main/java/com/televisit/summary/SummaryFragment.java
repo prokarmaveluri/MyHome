@@ -3,7 +3,10 @@ package com.televisit.summary;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,12 +28,12 @@ import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
-import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.entity.visit.VisitRx;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -39,12 +44,16 @@ import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsGetVisitSummary;
+import com.televisit.previousvisit.EmailsAdapter;
 import com.televisit.previousvisit.PrescriptionsAdapter;
 
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import timber.log.Timber;
@@ -70,7 +79,14 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private VisitReport visitReport;
     private VisitReportDetail visitReportDetail;
     private String reportNameWithPath;
-    private File report;
+
+    private LinearLayout emailLayout;
+    private RecyclerView emailsList;
+    private RadioButton emailAgree;
+    private TextInputLayout newEmailLayout;
+    private TextInputEditText newEmail;
+    private TextView addEmail;
+    private List<EmailsAdapter.EmailSelection> emailObjects = null;
 
     public SummaryFragment() {
     }
@@ -106,6 +122,13 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         doctorNotes = (TextView) view.findViewById(R.id.doctor_notes);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
+        emailLayout = (LinearLayout) view.findViewById(R.id.email_layout);
+        emailsList = (RecyclerView) view.findViewById(R.id.email_list);
+        emailAgree = (RadioButton) view.findViewById(R.id.email_agree);
+        addEmail = (TextView) view.findViewById(R.id.add_additional_email);
+        newEmailLayout = (TextInputLayout) view.findViewById(R.id.new_email_layout);
+        newEmail = (TextInputEditText) view.findViewById(R.id.new_email);
+
         setHasOptionsMenu(true);
         return view;
     }
@@ -140,6 +163,50 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             }
         });
 
+        addEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String emailToAdd = newEmail.getText().toString().trim().toLowerCase();
+
+                Timber.d("visitsummary. addEmail = " + emailToAdd);
+
+                for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
+
+                    if (emailToAdd.equalsIgnoreCase(emailObject.getEmailId())) {
+
+                        if (emailObject.isSelected()) {
+                            Toast.makeText(getActivity(), R.string.email_already_added, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), R.string.email_already_added_notchecked, Toast.LENGTH_LONG).show();
+                        }
+                        return;
+                    }
+                }
+
+                boolean isValid = isValidEmail(emailToAdd);
+                if (!isValid) {
+                    return;
+                }
+                // As per BRs, we are allowing 5 email addresses to be added. One is the email address of the currently loggedin user.
+                // that makes it 6 in total
+                if (emailObjects.size() >= 6) {
+                    Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
+                emailObj.setEmailId(emailToAdd);
+                emailObj.setSelected(true);
+                emailObjects.add(emailObj);
+
+                displayEmails();
+
+                newEmail.setText("");
+                newEmail.clearFocus();
+            }
+        });
+
         visitReportPosition = -1;
         if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
             visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
@@ -150,10 +217,19 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             visitReport = AwsManager.getInstance().getVisitReports().get(visitReportPosition);
             getVisitReportDetails(visitReport);
 
+            emailLayout.setVisibility(View.VISIBLE);
+
         } else {
-            Visit visit = AwsManager.getInstance().getVisit();
-            AwsNetworkManager.getInstance().getVisitSummary(visit, this);
+            emailLayout.setVisibility(View.VISIBLE);
+            AwsNetworkManager.getInstance().getVisitSummary(AwsManager.getInstance().getVisit(), this);
         }
+
+        emailObjects = new ArrayList<>();
+        EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
+        emailObj.setEmailId(AwsManager.getInstance().getPatient().getEmail());
+        emailObj.setSelected(true);
+        emailObjects.add(emailObj);
+        displayEmails();
     }
 
     @Override
@@ -166,11 +242,19 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.done:
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VIDEO_VISIT_FEEDBACK, null);
+                if (emailLayout.getVisibility() == View.VISIBLE) {
+                    emailVisitSummaryReport();
+                } else {
+                    doneVisitSummary();
+                }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void doneVisitSummary() {
+        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VIDEO_VISIT_FEEDBACK, null);
     }
 
     private void updateDoctorImage() {
@@ -211,6 +295,103 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                     .build()
                     .load();
         }
+    }
+
+    private boolean isValidEmail(String emailAddress) {
+
+        if (emailAddress == null || emailAddress.isEmpty()) {
+            newEmailLayout.setError(getString(R.string.email_required));
+            newEmailLayout.requestFocus();
+            return false;
+        } else if (!CommonUtil.isValidEmail(emailAddress)) {
+            newEmailLayout.setError(getString(R.string.valid_email));
+            newEmailLayout.requestFocus();
+            return false;
+        } else {
+            newEmailLayout.setError(null);
+            return true;
+        }
+    }
+
+    private void emailVisitSummaryReport() {
+
+        if (!ConnectionUtil.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            Timber.d("emailVisitSummaryReport. isHasInitializedAwsdk: FALSE ");
+            return;
+        }
+
+        if (!emailAgree.isChecked()) {
+            Toast.makeText(getActivity(), R.string.email_agreement_missing, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Set<String> emailIds = new HashSet<>();
+        for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
+            if (emailObject.isSelected()) {
+                emailIds.add(emailObject.getEmailId());
+            }
+        }
+
+        if (emailIds == null || emailIds.size() == 0) {
+            //Toast.makeText(getActivity(), R.string.email_none_selected, Toast.LENGTH_LONG).show();
+            doneVisitSummary();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        AwsManager.getInstance().getAWSDK().getVisitManager().sendVisitSummaryReport(
+                AwsManager.getInstance().getVisit(), emailIds, true,
+                new SDKValidatedCallback<Void, SDKError>() {
+                    @Override
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
+                        Timber.d("emailVisitSummaryReport. ValidationFailure " + map.toString());
+
+                        Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onResponse(@Nullable Void aVoid, SDKError sdkError) {
+                        if (sdkError == null) {
+                            Timber.d("emailVisitSummaryReport. onResponse ");
+
+                            progressBar.setVisibility(View.GONE);
+
+                            if (sdkError == null) {
+                                Timber.d("emailVisitSummaryReport succeeded! ");
+                                Toast.makeText(getActivity(), R.string.visit_summary_email_completed, Toast.LENGTH_LONG).show();
+                                doneVisitSummary();
+
+                            } else {
+                                Timber.e("emailVisitSummaryReport failed! :/");
+                                Timber.e("SDK Error: " + sdkError);
+                                Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
+                            }
+
+                        } else {
+                            Timber.e("emailVisitSummaryReport. Something failed while sending visit summary report email! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            progressBar.setVisibility(View.GONE);
+                            CommonUtil.showToastFromSDKError(getContext(), sdkError);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("emailVisitSummaryReport. Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void getVisitReportDetails(final VisitReport visitReport) {
@@ -321,10 +502,9 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                                         File f = new File(fileNameWithEntirePath);
                                         if (f != null & f.exists()) {
                                             reportNameWithPath = fileNameWithEntirePath;
-                                            report = f;
 
                                             canBeViewed = true;
-                                            viewReport.setEnabled(true);
+                                            viewReport.setVisibility(View.VISIBLE);
                                         }
                                     }
                                 }
@@ -370,6 +550,23 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             adapter.notifyDataSetChanged();
         } else {
             prescriptionsList.setVisibility(View.GONE);
+        }
+    }
+
+    private void displayEmails() {
+
+        if (emailObjects != null && emailObjects.size() > 0) {
+
+            emailsList.setVisibility(View.VISIBLE);
+
+            EmailsAdapter adapter = new EmailsAdapter(emailObjects);
+            emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            //emailsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+            emailsList.setAdapter(adapter);
+
+            adapter.notifyDataSetChanged();
+        } else {
+            emailsList.setVisibility(View.GONE);
         }
     }
 
