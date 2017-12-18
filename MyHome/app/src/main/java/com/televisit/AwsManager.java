@@ -102,6 +102,27 @@ public class AwsManager {
         return awsdk;
     }
 
+    public void clearData(){
+        setAuthentication(null);
+        setHasInitializedAwsdk(false);
+        setConsumer(null);
+        setHasConsumer(false);
+        setPatient(null);
+        setPatientNumber(0);
+        setHasMedicationsFilledOut(false);
+        setHasAllergiesFilledOut(State.NOT_FILLED_OUT);
+        setHasAllergiesFilledOut(State.NOT_FILLED_OUT);
+        setMedications(null);
+        setAllergies(null);
+        setConditions(null);
+        setPharmacies(null);
+        setConsumerPharmacy(null);
+        setVisit(null);
+        setVisitContext(null);
+        setVisitReports(null);
+        setIsDependent(false);
+    }
+
     public Authentication getAuthentication() {
         return authentication;
     }

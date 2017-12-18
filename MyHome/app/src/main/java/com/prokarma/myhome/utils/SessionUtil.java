@@ -18,6 +18,7 @@ import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.televisit.AwsManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,10 +102,7 @@ public class SessionUtil {
      * Clear out all saved data in memory
      */
     public static void clearData() {
-        Timber.v("Clearing Memory: " +
-                "Bearer Token = " + AuthManager.getInstance().getBearerToken() +
-                "\nSession Token = " + AuthManager.getInstance().getSessionToken() +
-                "\nProfile = " + ProfileManager.getProfile());
+        Timber.v("Clearing Memory: Bearer Token = " + AuthManager.getInstance().getBearerToken());
 
         AppPreferences.getInstance().setPreference("auth_token", null);
         AppPreferences.getInstance().setPreference("auth_token_iv", null);
@@ -118,6 +116,7 @@ public class SessionUtil {
         ProfileManager.setProfile(null);
         ProfileManager.setFavoriteProviders(null);
         ProfileManager.setAppointments(null);
+        AwsManager.getInstance().clearData();
         FadFragment.providerList.clear();
         FadFragment.currentSearchQuery = "";
         RecentlyViewedDataSourceDB.getInstance().deleteTable();

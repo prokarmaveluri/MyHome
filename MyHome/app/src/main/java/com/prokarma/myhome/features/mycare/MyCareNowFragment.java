@@ -420,6 +420,10 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         Timber.d("home. dependents count = " + dependents.size());
 
         if (dependents == null || dependents.size() == 0) {
+            AwsManager.getInstance().setIsDependent(false);
+            AwsManager.getInstance().setPatient(AwsManager.getInstance().getConsumer());
+            refreshDashboard(true);
+            AwsManager.getInstance().setPatientNumber(0);
             whoIsVisitingToday.setVisibility(View.GONE);
             consumerSpinner.setVisibility(View.GONE);
             return;

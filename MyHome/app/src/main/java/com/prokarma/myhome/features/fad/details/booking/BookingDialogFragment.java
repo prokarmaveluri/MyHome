@@ -200,7 +200,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
         if (BookingManager.isBookingForMe() && !formsProfile.shouldAskToSave(ProfileManager.getProfile())) {
             //Not equal and all the data empty
-            ProfileManager.updateProfile(AuthManager.getInstance().getBearerToken(), savingProfile);
+            ProfileManager.updateProfile(AuthManager.getInstance().getBearerToken(), savingProfile, null);
             this.getDialog().dismiss();
         } else if (BookingManager.isBookingForMe() && formsProfile.shouldAskToSave(ProfileManager.getProfile())) {
             //Send the profile for saving, but without the booking info-specfic fields

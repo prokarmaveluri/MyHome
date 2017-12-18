@@ -97,6 +97,10 @@ public class ApiErrorUtil {
         genericError(context, view, true, throwable);
     }
 
+    public void updateProfileFailed(final Context context, final View view, final String errorMessage) {
+        genericError(context, view, true, errorMessage);
+    }
+
     public <T> void getProfileError(final Context context, final View view, final Response<T> response) {
         genericError(context, view, true, response);
     }
