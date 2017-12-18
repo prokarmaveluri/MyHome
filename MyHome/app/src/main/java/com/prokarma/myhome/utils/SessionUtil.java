@@ -18,6 +18,7 @@ import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.televisit.AwsManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -118,6 +119,7 @@ public class SessionUtil {
         ProfileManager.setProfile(null);
         ProfileManager.setFavoriteProviders(null);
         ProfileManager.setAppointments(null);
+        AwsManager.getInstance().clearData();
         FadFragment.providerList.clear();
         FadFragment.currentSearchQuery = "";
         RecentlyViewedDataSourceDB.getInstance().deleteTable();
