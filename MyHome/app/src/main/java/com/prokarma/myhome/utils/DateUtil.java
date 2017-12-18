@@ -61,10 +61,6 @@ public class DateUtil {
     public static final String DATE_FORMAT_UTC_TIMEZONE = "yyyy-MM-dd'T'HH:mm:ss";
     public static final String DATE_FORMAT_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
-    public static final String TIME_FORMAT_TIMEZONE = "hh:mm a z";
-    public static final SimpleDateFormat SIMPLE_TIME_FORMAT_TIMEZONE = new SimpleDateFormat(TIME_FORMAT_TIMEZONE, Locale.getDefault());
-
-
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC_TIMEZONE = new SimpleDateFormat(DATE_FORMAT_UTC_TIMEZONE, Locale.getDefault());
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC_NO_TIMEZONE = new SimpleDateFormat(DATE_FORMAT_UTC_TIMEZONE, Locale.getDefault());
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT_UTC = new SimpleDateFormat(DATE_FORMAT_UTC, Locale.getDefault());
@@ -265,7 +261,8 @@ public class DateUtil {
      * @return a String representing the Date (formatted like such: "hh:mm a z")
      */
     public static String getTimeTimezone(Date date) {
-        return SIMPLE_TIME_FORMAT_TIMEZONE.format(date);
+        SimpleDateFormat formatWithLocaleTimezone = new SimpleDateFormat("hh:mm a z", Locale.getDefault());
+        return formatWithLocaleTimezone.format(date);
     }
 
     /**
