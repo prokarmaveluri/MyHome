@@ -158,7 +158,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(AwsManager.getInstance().getPatient());
 
         //TODO change this once login actually works
-        if(EnviHandler.isAttemptMutualAuth()){
+        if (EnviHandler.isAttemptMutualAuth()) {
             //Not sure what to put here. We don't have users password....
         } else {
             update.setPassword(EnviHandler.getAmwellPassword());
@@ -327,6 +327,12 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
     @Override
     public void updateConsumerComplete(Consumer consumer) {
+
+        //added following condition to avoid error: java.lang.IllegalStateException: Fragment MyCareProfileFragment{501feb4} not attached to Activity
+        if (!isAdded()) {
+            return;
+        }
+
         AwsManager.getInstance().setPatient(consumer);
         AwsManager.getInstance().setConsumer(consumer);
 
@@ -337,7 +343,6 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         } else {
             Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
         }
-
         getActivity().onBackPressed();
     }
 
