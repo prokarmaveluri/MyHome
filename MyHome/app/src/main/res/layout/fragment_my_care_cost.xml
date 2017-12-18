@@ -126,9 +126,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:layout_marginBottom="18dp"
             android:layout_marginLeft="18dp"
             android:layout_marginRight="28dp"
-            android:layout_marginBottom="18dp"
             android:orientation="horizontal"
             app:alignContent="stretch"
             app:alignItems="stretch"
@@ -170,34 +170,29 @@
                 android:textStyle="bold" />
         </com.google.android.flexbox.FlexboxLayout> 
 
-        <com.google.android.flexbox.FlexboxLayout
+        <RelativeLayout
             android:id="@+id/agree_legal_dependent_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
             android:layout_marginLeft="18dp"
             android:layout_marginRight="28dp"
-            android:layout_marginBottom="18dp"
-            android:orientation="horizontal"
-            app:alignContent="space_between"
-            app:flexWrap="nowrap" >
+            android:layout_marginBottom="18dp">
 
             <android.support.v7.widget.AppCompatCheckBox
-                app:alignItems="flex_start"
                 android:id="@+id/agree_legal_dependent_check"
                 android:gravity="top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                app:alignItems="flex_end"
                 android:id="@+id/agree_legal_dependent_text"
+                android:layout_toRightOf="@+id/agree_legal_dependent_check"
                 android:labelFor="@+id/agree_legal_dependent_check"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/agree_legal_dependent_text" />
-        </com.google.android.flexbox.FlexboxLayout>
+        </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/cost_progress"

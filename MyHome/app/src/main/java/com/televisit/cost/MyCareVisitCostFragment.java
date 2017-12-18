@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
-import com.google.android.flexbox.FlexboxLayout;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -36,7 +36,6 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
 
-import java.text.DecimalFormat;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -63,7 +62,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private TextView policyLink;
     private AppCompatCheckBox agreePrivacyPolicyCheck;
     private AppCompatCheckBox agreeLegalDependentCheck;
-    private FlexboxLayout agreeLegalDependentLayout;
+    private RelativeLayout agreeLegalDependentLayout;
 
     public MyCareVisitCostFragment() {
         // Required empty public constructor
@@ -105,7 +104,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
         policyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text3);
         agreePrivacyPolicyCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_privacy_policy_check);
         agreeLegalDependentCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_legal_dependent_check);
-        agreeLegalDependentLayout = (FlexboxLayout) view.findViewById(R.id.agree_legal_dependent_layout);
+        agreeLegalDependentLayout = (RelativeLayout) view.findViewById(R.id.agree_legal_dependent_layout);
 
         if (AwsManager.getInstance().isDependent()) {
             agreeLegalDependentLayout.setVisibility(View.VISIBLE);
