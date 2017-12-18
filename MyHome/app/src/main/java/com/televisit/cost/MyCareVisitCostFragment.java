@@ -193,9 +193,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())) {
                         phoneLayout.setError(getString(R.string.field_must_be_completed));
 
-                    } else if (reasonForVisit.getText().toString().trim().length() <= 0) {
-                        reasonLayout.setError(getString(R.string.field_must_be_completed));
-
                     } else if (!agreePrivacyPolicyCheck.isChecked()) {
                         Toast.makeText(getActivity(), R.string.my_care_privacy_policy_accept, Toast.LENGTH_LONG).show();
 
@@ -203,7 +200,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
                         Toast.makeText(getActivity(), R.string.my_care_legal_dependent_accept, Toast.LENGTH_LONG).show();
 
                     } else if (CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())
-                            && reasonForVisit.getText().toString().trim().length() > 0
                             && agreePrivacyPolicyCheck.isChecked()) {
 
                         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);

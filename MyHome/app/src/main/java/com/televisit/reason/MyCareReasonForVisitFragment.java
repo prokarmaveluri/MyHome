@@ -121,8 +121,6 @@ public class MyCareReasonForVisitFragment extends BaseFragment {
                     }
                 } else if (reasonPhone.getText().toString().replace(".", "").trim().length() != 10) {
                     phoneLayout.setError(getString(R.string.field_must_be_completed));
-                } else if (reasonForVisit.getText().toString().length() <= 0) {
-                    reasonLayout.setError(getString(R.string.field_must_be_completed));
                 }
             }
         });

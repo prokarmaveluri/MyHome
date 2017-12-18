@@ -358,28 +358,21 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
                     @Override
                     public void onResponse(@Nullable Void aVoid, SDKError sdkError) {
+
+                        progressBar.setVisibility(View.GONE);
+
                         if (sdkError == null) {
-                            Timber.d("emailVisitSummaryReport. onResponse ");
+                            Timber.d("emailVisitSummaryReport succeeded! ");
+                            Toast.makeText(getActivity(), R.string.visit_summary_email_completed, Toast.LENGTH_LONG).show();
 
-                            progressBar.setVisibility(View.GONE);
-
-                            if (sdkError == null) {
-                                Timber.d("emailVisitSummaryReport succeeded! ");
-                                Toast.makeText(getActivity(), R.string.visit_summary_email_completed, Toast.LENGTH_LONG).show();
-                                doneVisitSummary();
-
-                            } else {
-                                Timber.e("emailVisitSummaryReport failed! :/");
-                                Timber.e("SDK Error: " + sdkError);
-                                Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
-                            }
+                            doneVisitSummary();
 
                         } else {
                             Timber.e("emailVisitSummaryReport. Something failed while sending visit summary report email! :/");
                             Timber.e("SDK Error: " + sdkError);
 
-                            progressBar.setVisibility(View.GONE);
                             CommonUtil.showToastFromSDKError(getContext(), sdkError);
+                            //Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
                         }
                     }
 
