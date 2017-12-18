@@ -21,6 +21,8 @@ import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
@@ -156,10 +158,10 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(AwsManager.getInstance().getPatient());
 
         //TODO change this once login actually works
-        if (EnviHandler.AWSDK_URL.equals(EnviHandler.AmWellEnvType.DEV)) {
-            update.setPassword("Pass123*");
+        if(EnviHandler.isAttemptMutualAuth()){
+            //Not sure what to put here. We don't have users password....
         } else {
-            update.setPassword("Password1");
+            update.setPassword(EnviHandler.getAmwellPassword());
         }
 
         //Comment this back in once login works
@@ -327,6 +329,8 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     public void updateConsumerComplete(Consumer consumer) {
         AwsManager.getInstance().setPatient(consumer);
         AwsManager.getInstance().setConsumer(consumer);
+
+        ProfileManager.updateProfileFromMcnData(AuthManager.getInstance().getBearerToken(), consumer);
 
         if (AwsManager.getInstance().isDependent()) {
             Toast.makeText(getActivity(), getString(R.string.profile_saved_dependent), Toast.LENGTH_SHORT).show();

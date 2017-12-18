@@ -1,7 +1,9 @@
 package com.prokarma.myhome.features.profile;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -83,8 +85,7 @@ public class ProfileManager {
 
             @Override
             public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
-                Timber.e("ProfileManager.getProfile. Something failed! :/");
-                Timber.e("Throwable = " + t);
+                Timber.e("Something failed!\n" + t);
             }
         });
     }
@@ -95,21 +96,106 @@ public class ProfileManager {
      * @param bearer         the bearer token needed to provide authentication
      * @param updatedProfile the updated profile information being attempted
      */
-    public static void updateProfile(final String bearer, final Profile updatedProfile) {
+    public static void updateProfile(@NonNull final String bearer, @NonNull final Profile updatedProfile, @Nullable final ProfileUpdateInterface profileUpdateInterface) {
         NetworkManager.getInstance().updateProfile(bearer, updatedProfile).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Successful Response\n" + response);
                     ProfileManager.setProfile(updatedProfile);
+
+                    if (AuthManager.getInstance().hasMyCare()) {
+                        //TODO Kevin, update AmWell Profile right here
+//                        AwsManager.getInstance().getAWSDK().getNewAddress();
+//
+//                        ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(AwsManager.getInstance().getPatient());
+//
+//                        //TODO change this once login actually works
+//                        if (EnviHandler.isAttemptMutualAuth()) {
+//                            //Not sure what to put here. We don't have users password....
+//                        } else {
+//                            update.setPassword(EnviHandler.getAmwellPassword());
+//                        }
+//
+//                        //Comment this back in once login works
+//                        update.setEmail(updatedProfile.email);
+//                        update.setFirstName(updatedProfile.firstName);
+//                        update.setLastName(updatedProfile.lastName);
+//                        update.setGender(updatedProfile.gender);
+//                        update.setPhone(CommonUtil.stripPhoneNumber(updatedProfile.phoneNumber));
+//                        update.setDob(DateUtil.convertReadabletoDob(updatedProfile.dateOfBirth));
+//
+//                        com.americanwell.sdk.entity.Address userAddress = AwsManager.getInstance().getAWSDK().getNewAddress();
+//
+//                        if (updatedProfile.address == null) {
+//                            updatedProfile.address = new Address();
+//                        }
+//
+//                        userAddress.setAddress1(updatedProfile.address.line1);
+//                        userAddress.setAddress2(updatedProfile.address.line2);
+//                        userAddress.setCity(updatedProfile.address.city);
+//                        userAddress.setState(AwsManager.getInstance().getState(updatedProfile.address.stateOrProvince));
+//                        userAddress.setZipCode(updatedProfile.address.zipCode);
+//
+//                        update.setAddress(userAddress);
+//
+//                        AwsNetworkManager.getInstance().updateConsumer(update, null);
+                    }
+
+                    if (profileUpdateInterface != null) {
+                        profileUpdateInterface.profileUpdateComplete(updatedProfile);
+                    }
                 } else {
                     Timber.e("ProfileManager. updateProfile. Response, but not successful?\n" + response);
+
+                    if (profileUpdateInterface != null) {
+                        profileUpdateInterface.profileUpdateFailed(response != null ? response.message() : "Response is null");
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Timber.e("ProfileManager. updateProfile. Something failed! :/");
+                Timber.e("Something failed!\n" + t);
+
+                if (profileUpdateInterface != null) {
+                    profileUpdateInterface.profileUpdateFailed(t.getMessage());
+                }
+            }
+        });
+    }
+
+    public static void updateProfileFromMcnData(final String bearer, final Consumer consumer) {
+        final Profile profile = Profile.copy(getProfile());
+        profile.firstName = consumer.getFirstName();
+        profile.lastName = consumer.getLastName();
+        profile.phoneNumber = consumer.getPhone();
+        profile.gender = consumer.getGender();
+
+        if (profile.address == null) {
+            profile.address = new Address();
+        }
+
+        profile.address.line1 = consumer.getAddress().getAddress1();
+        profile.address.line2 = consumer.getAddress().getAddress2();
+        profile.address.city = consumer.getAddress().getCity();
+        profile.address.stateOrProvince = consumer.getAddress().getState().getCode();
+        profile.address.zipCode = consumer.getAddress().getZipCode();
+
+        NetworkManager.getInstance().updateProfile(bearer, profile).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Successful Response\n" + response);
+                    ProfileManager.setProfile(profile);
+                } else {
+                    Timber.e("Response, but not successful?\n" + response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Timber.e("Something failed!\n" + t);
             }
         });
     }
