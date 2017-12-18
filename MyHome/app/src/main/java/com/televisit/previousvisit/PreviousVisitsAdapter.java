@@ -13,7 +13,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.DateUtil;
 
-import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
@@ -59,9 +59,9 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
 
                 try {
-                    if (visitReport.getDate() != null && visitReport.getDate().isValidDate()) {
-                        holder.visitDate.setText(DateUtil.convertDateToReadable(visitReport.getDate().toDate()));
-                        holder.visitTime.setText(DateUtil.getTimeTimezone(visitReport.getDate().toDate()));
+                    if (visitReport.getSchedule() != null && visitReport.getSchedule().getActualStartTime() != null) {
+                        holder.visitDate.setText(DateUtil.convertDateToReadable(new Date(visitReport.getSchedule().getActualStartTime())));
+                        holder.visitTime.setText(DateUtil.getTimeTimezone(new Date(visitReport.getSchedule().getActualStartTime())));
                     }
                 } catch (Exception e) {
                     Timber.e(e);

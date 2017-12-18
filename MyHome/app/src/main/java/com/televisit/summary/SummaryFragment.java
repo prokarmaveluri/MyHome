@@ -371,7 +371,8 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                             Timber.e("emailVisitSummaryReport. Something failed while sending visit summary report email! :/");
                             Timber.e("SDK Error: " + sdkError);
 
-                            CommonUtil.showToastFromSDKError(getContext(), sdkError);
+                            doneVisitSummary();
+                            //CommonUtil.showToastFromSDKError(getContext(), sdkError);
                             //Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
                         }
                     }
