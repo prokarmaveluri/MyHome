@@ -217,7 +217,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             visitReport = AwsManager.getInstance().getVisitReports().get(visitReportPosition);
             getVisitReportDetails(visitReport);
 
-            emailLayout.setVisibility(View.VISIBLE);
+            emailLayout.setVisibility(View.GONE);
 
         } else {
             emailLayout.setVisibility(View.VISIBLE);
