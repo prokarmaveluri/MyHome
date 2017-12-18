@@ -25,6 +25,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -1088,10 +1089,33 @@ public class CommonUtil {
     }
 
     public static void showToast(Context context, String message, int duration) {
+        if (context == null) {
+            return;
+        }
         if (CommonUtil.isAccessibilityEnabled(context)) {
             Toast.makeText(context, message, duration).show();
         } else {
             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void showToastFromSDKError(Context context, SDKError sdkError) {
+        if (context == null) {
+            return;
+        }
+        if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
+            Toast.makeText(context, sdkError.getMessage(), Toast.LENGTH_LONG).show();
+
+        } else if (sdkError.getSDKErrorReason() != null && !sdkError.getSDKErrorReason().isEmpty()) {
+            Toast.makeText(context, sdkError.getSDKErrorReason(), Toast.LENGTH_LONG).show();
+
+        } else if (sdkError.toString() != null && sdkError.toString().toLowerCase().contains("provider unavailable")) {
+            Toast.makeText(context, "Provider unavailable \nPlease select a different provider.", Toast.LENGTH_LONG).show();
+
+        } else if (sdkError.toString() != null && !sdkError.toString().isEmpty()) {
+            Toast.makeText(context, sdkError.toString(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -190,10 +190,12 @@ public class AwsManager {
         if (isHasConditionsFilledOut() == State.FILLED_OUT_HAVE_FEW) {
             setHasConditionsFilledOut(State.FILLED_OUT_HAVE_NONE);
         }
-        for (Condition condition : conditions) {
-            if (condition.isCurrent()) {
-                setHasConditionsFilledOut(State.FILLED_OUT_HAVE_FEW);
-                break;
+        if (conditions != null) {
+            for (Condition condition : conditions) {
+                if (condition.isCurrent()) {
+                    setHasConditionsFilledOut(State.FILLED_OUT_HAVE_FEW);
+                    break;
+                }
             }
         }
     }
@@ -208,10 +210,12 @@ public class AwsManager {
         if (isHasAllergiesFilledOut() == State.FILLED_OUT_HAVE_FEW) {
             setHasAllergiesFilledOut(State.FILLED_OUT_HAVE_NONE);
         }
-        for (Allergy allergy : allergies) {
-            if (allergy.isCurrent()) {
-                setHasAllergiesFilledOut(State.FILLED_OUT_HAVE_FEW);
-                break;
+        if (allergies != null) {
+            for (Allergy allergy : allergies) {
+                if (allergy.isCurrent()) {
+                    setHasAllergiesFilledOut(State.FILLED_OUT_HAVE_FEW);
+                    break;
+                }
             }
         }
     }
