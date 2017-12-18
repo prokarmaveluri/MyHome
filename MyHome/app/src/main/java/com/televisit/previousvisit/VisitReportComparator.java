@@ -1,11 +1,8 @@
 package com.televisit.previousvisit;
 
 import com.americanwell.sdk.entity.visit.VisitReport;
-import com.prokarma.myhome.utils.DateUtil;
 
-import java.text.ParseException;
 import java.util.Comparator;
-import java.util.Date;
 
 import timber.log.Timber;
 
@@ -26,11 +23,9 @@ public class VisitReportComparator implements Comparator<VisitReport> {
 
                 if (o1.getSchedule().getActualStartTime() > o2.getSchedule().getActualStartTime()) {
                     return -1;
-                }
-                else if (o1.getSchedule().getActualStartTime() < o2.getSchedule().getActualStartTime()) {
+                } else if (o1.getSchedule().getActualStartTime() < o2.getSchedule().getActualStartTime()) {
                     return 1;
-                }
-                else {
+                } else {
                     return 0;
                 }
             }
