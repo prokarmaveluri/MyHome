@@ -4,10 +4,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.CommonUtil;
+import com.prokarma.myhome.utils.DateUtil;
+import com.prokarma.myhome.utils.EnviHandler;
+import com.televisit.AwsManager;
+import com.televisit.AwsNetworkManager;
+import com.televisit.interfaces.AwsUpdateConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,42 +111,54 @@ public class ProfileManager {
                     Timber.d("Successful Response\n" + response);
                     ProfileManager.setProfile(updatedProfile);
 
-                    if (AuthManager.getInstance().hasMyCare()) {
-                        //TODO Kevin, update AmWell Profile right here
-//                        AwsManager.getInstance().getAWSDK().getNewAddress();
-//
-//                        ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(AwsManager.getInstance().getPatient());
-//
-//                        //TODO change this once login actually works
-//                        if (EnviHandler.isAttemptMutualAuth()) {
-//                            //Not sure what to put here. We don't have users password....
-//                        } else {
-//                            update.setPassword(EnviHandler.getAmwellPassword());
-//                        }
-//
-//                        //Comment this back in once login works
-//                        update.setEmail(updatedProfile.email);
-//                        update.setFirstName(updatedProfile.firstName);
-//                        update.setLastName(updatedProfile.lastName);
-//                        update.setGender(updatedProfile.gender);
-//                        update.setPhone(CommonUtil.stripPhoneNumber(updatedProfile.phoneNumber));
-//                        update.setDob(DateUtil.convertReadabletoDob(updatedProfile.dateOfBirth));
-//
-//                        com.americanwell.sdk.entity.Address userAddress = AwsManager.getInstance().getAWSDK().getNewAddress();
-//
-//                        if (updatedProfile.address == null) {
-//                            updatedProfile.address = new Address();
-//                        }
-//
-//                        userAddress.setAddress1(updatedProfile.address.line1);
-//                        userAddress.setAddress2(updatedProfile.address.line2);
-//                        userAddress.setCity(updatedProfile.address.city);
-//                        userAddress.setState(AwsManager.getInstance().getState(updatedProfile.address.stateOrProvince));
-//                        userAddress.setZipCode(updatedProfile.address.zipCode);
-//
-//                        update.setAddress(userAddress);
-//
-//                        AwsNetworkManager.getInstance().updateConsumer(update, null);
+                    if (AuthManager.getInstance().hasMyCare() && AwsManager.getInstance().isHasConsumer()) {
+                        AwsManager.getInstance().getAWSDK().getNewAddress();
+
+                        ConsumerUpdate update = AwsManager.getInstance().getAWSDK().getConsumerManager().getNewConsumerUpdate(AwsManager.getInstance().getPatient());
+
+                        if (EnviHandler.isAttemptMutualAuth()) {
+                            //Not sure what to put here. We don't have users password....
+                        } else {
+                            update.setPassword(EnviHandler.getAmwellPassword());
+                        }
+
+                        //Comment this back in once login works
+                        update.setEmail(updatedProfile.email);
+                        update.setFirstName(updatedProfile.firstName);
+                        update.setLastName(updatedProfile.lastName);
+                        update.setGender(updatedProfile.gender);
+                        update.setPhone(CommonUtil.stripPhoneNumber(updatedProfile.phoneNumber));
+                        update.setDob(DateUtil.convertReadabletoDob(updatedProfile.dateOfBirth));
+
+                        com.americanwell.sdk.entity.Address userAddress = AwsManager.getInstance().getAWSDK().getNewAddress();
+
+                        if (updatedProfile.address == null) {
+                            updatedProfile.address = new Address();
+                        }
+
+                        userAddress.setAddress1(updatedProfile.address.line1);
+                        userAddress.setAddress2(updatedProfile.address.line2);
+                        userAddress.setCity(updatedProfile.address.city);
+                        userAddress.setState(AwsManager.getInstance().getState(updatedProfile.address.stateOrProvince));
+                        userAddress.setZipCode(updatedProfile.address.zipCode);
+
+                        update.setAddress(userAddress);
+
+                        AwsNetworkManager.getInstance().updateConsumer(update, new AwsUpdateConsumer() {
+                            @Override
+                            public void updateConsumerComplete(Consumer consumer) {
+                                AwsManager.getInstance().setConsumer(consumer);
+
+                                if(AwsManager.getInstance().isPatientMainConsumer()){
+                                    AwsManager.getInstance().setPatient(consumer);
+                                }
+                            }
+
+                            @Override
+                            public void updateConsumerFailed(String errorMessage) {
+
+                            }
+                        });
                     }
 
                     if (profileUpdateInterface != null) {

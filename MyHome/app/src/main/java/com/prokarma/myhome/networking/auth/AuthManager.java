@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 
+import com.americanwell.sdk.entity.Authentication;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.prokarma.myhome.BuildConfig;
@@ -19,6 +21,9 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.EnviHandler;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
+import com.televisit.interfaces.AwsConsumer;
+import com.televisit.interfaces.AwsInitialization;
+import com.televisit.interfaces.AwsUserAuthentication;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -33,7 +38,7 @@ import timber.log.Timber;
  */
 
 @SuppressWarnings("unused")
-public class AuthManager {
+public class AuthManager implements AwsInitialization, AwsUserAuthentication, AwsConsumer {
 
     private static String expiresAt;
     private static Integer expiresIn;
@@ -262,6 +267,10 @@ public class AuthManager {
                         if (response.isSuccessful() && response.body() != null && response.body().getValid()) {
                             Timber.d("Successful Response\n" + response);
                             AuthManager.getInstance().setAmWellToken(response.body().result);
+
+                            if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+                                AwsNetworkManager.getInstance().initializeAwsdk(EnviHandler.AWSDK_URL, EnviHandler.AWSDK_KEY, null, AuthManager.this);
+                            }
                         } else {
                             Timber.e("getUsersAmWellToken. Response, but not successful?\n" + response);
                             AuthManager.getInstance().setAmWellToken(null);
@@ -275,11 +284,6 @@ public class AuthManager {
                         AuthManager.getInstance().setAmWellToken(null);
                     }
                 });
-
-                if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-                    AwsNetworkManager.getInstance().initializeAwsdk(EnviHandler.AWSDK_URL, EnviHandler.AWSDK_KEY, null, null);
-                }
-
             }
         }
     }
@@ -300,6 +304,47 @@ public class AuthManager {
             e.printStackTrace();
             setHasMyCare(false);
         }
+    }
+
+    @Override
+    public void initializationComplete() {
+        if (EnviHandler.isAttemptMutualAuth()) {
+            if (AuthManager.getAmWellToken() != null) {
+                AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken(), this);
+            } else {
+                Timber.w("No AmWell Token found");
+            }
+        } else {
+            AwsNetworkManager.getInstance().getUsersAuthentication(EnviHandler.getAmwellUsername(), EnviHandler.getAmwellPassword(), this);
+        }
+    }
+
+    @Override
+    public void initializationFailed(String errorMessage) {
+
+    }
+
+    @Override
+    public void authenticationComplete(Authentication authentication) {
+        AwsNetworkManager.getInstance().getConsumer(authentication, this);
+    }
+
+    @Override
+    public void authentciationFailed(String errorMessage) {
+
+    }
+
+    @Override
+    public void getConsumerComplete(Consumer consumer) {
+        AwsManager.getInstance().setConsumer(consumer);
+        AwsManager.getInstance().setPatient(AwsManager.getInstance().getConsumer());
+        AwsManager.getInstance().setPatientNumber(0);
+        AwsManager.getInstance().setIsDependent(false);
+    }
+
+    @Override
+    public void getConsumerFailed(String errorMessage) {
+
     }
 
     private static class AuthHandler extends Handler {

@@ -513,11 +513,11 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void getConsumerComplete(Consumer consumer) {
-        if (!isAdded()) {
-            return;
+        AwsManager.getInstance().setConsumer(consumer);
+        if (isAdded()) {
+            setDependentsSpinner(consumer, consumer.getDependents());
+            finishLoading();
         }
-        setDependentsSpinner(consumer, consumer.getDependents());
-        finishLoading();
     }
 
     @Override
