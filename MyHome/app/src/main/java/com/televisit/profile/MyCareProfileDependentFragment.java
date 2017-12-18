@@ -168,6 +168,10 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
      * @param consumer the consumer that we're using to autopopulate the EditTexts
      */
     private void updateDependentViews(Consumer consumer) {
+
+        if (consumer.getFirstName() != null) {
+            firstName.setText(consumer.getFirstName());
+        }
         if (consumer.getLastName() != null) {
             lastName.setText(consumer.getLastName());
         }
