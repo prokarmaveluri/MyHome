@@ -102,10 +102,7 @@ public class SessionUtil {
      * Clear out all saved data in memory
      */
     public static void clearData() {
-        Timber.v("Clearing Memory: " +
-                "Bearer Token = " + AuthManager.getInstance().getBearerToken() +
-                "\nSession Token = " + AuthManager.getInstance().getSessionToken() +
-                "\nProfile = " + ProfileManager.getProfile());
+        Timber.v("Clearing Memory: Bearer Token = " + AuthManager.getInstance().getBearerToken());
 
         AppPreferences.getInstance().setPreference("auth_token", null);
         AppPreferences.getInstance().setPreference("auth_token_iv", null);
