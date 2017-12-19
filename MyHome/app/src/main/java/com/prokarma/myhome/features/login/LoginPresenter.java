@@ -80,6 +80,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                         AppPreferences.getInstance().setLongPreference("IDLE_TIME", 0);
                         AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                        AuthManager.getInstance().getUsersAmWellToken();
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
@@ -94,7 +95,6 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                             mView.acceptTermsOfService(false);
 
                         } else {
-                            AuthManager.getInstance().getUsersAmWellToken();
                             mView.SignInSuccess();
                         }
                     } else {

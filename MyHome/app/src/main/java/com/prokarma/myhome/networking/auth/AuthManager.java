@@ -235,10 +235,9 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
                         AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
 //                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                        getUsersAmWellToken();
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                         CryptoManager.getInstance().saveToken();
-
-                        getUsersAmWellToken();
                     } catch (NullPointerException ex) {
                         Timber.e(ex);
                         ex.printStackTrace();

@@ -260,6 +260,7 @@ public class SplashActivity extends AppCompatActivity implements
 
                                 AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
                                 AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                                AuthManager.getInstance().getUsersAmWellToken();
                                 AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                                 NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
                                 CryptoManager.getInstance().saveToken();
@@ -279,8 +280,6 @@ public class SplashActivity extends AppCompatActivity implements
                                 } else {
                                     onRefreshSuccess();
                                 }
-
-                                AuthManager.getInstance().getUsersAmWellToken();
                             } catch (NullPointerException ex) {
                                 ex.printStackTrace();
                             }
@@ -709,6 +708,7 @@ public class SplashActivity extends AppCompatActivity implements
 
                         AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                        AuthManager.getInstance().getUsersAmWellToken();
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
@@ -726,8 +726,6 @@ public class SplashActivity extends AppCompatActivity implements
                         } else {
                             onRefreshSuccess();
                         }
-
-                        AuthManager.getInstance().getUsersAmWellToken();
                     } catch (NullPointerException ex) {
                         Timber.w(ex);
                     }
