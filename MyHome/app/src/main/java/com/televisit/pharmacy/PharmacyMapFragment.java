@@ -379,7 +379,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
                         progressBar.setVisibility(View.GONE);
 
                         if (pharmacies == null || pharmacies.size() == 0) {
-                            Toast.makeText(getContext(), "No Pharmacies found. \n\n we could'nt find any relevant results for " + zipCode, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "No Pharmacies found. \n\nWe could'nt find any relevant results for " + zipCode, Toast.LENGTH_SHORT).show();
                         }
 
                         if (null != getActivity()) {

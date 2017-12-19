@@ -418,8 +418,11 @@ public class SplashActivity extends AppCompatActivity implements
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             Location location = task.getResult();
-                            Timber.w("getLastLocation " + location.toString());
+
                             if (null != location) {
+
+                                Timber.d("getLastLocation " + location.toString());
+
                                 LocationResponse locObj = new LocationResponse();
                                 locObj.setLat(String.valueOf(location.getLatitude()));
                                 locObj.setLon(String.valueOf(location.getLongitude()));

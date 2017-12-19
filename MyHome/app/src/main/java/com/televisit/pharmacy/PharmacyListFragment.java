@@ -24,6 +24,8 @@ import com.americanwell.sdk.entity.pharmacy.PharmacyType;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.features.fad.FadManager;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -31,6 +33,8 @@ import com.televisit.AwsManager;
 
 import java.util.List;
 import java.util.Map;
+
+import timber.log.Timber;
 
 
 /**
@@ -84,6 +88,29 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         pharmacySearch = (EditText) view.findViewById(R.id.pharmacySearch);
         pharmacySearch.setOnEditorActionListener(this);
         searchCancelClickEvent();
+
+        if (FadManager.getInstance().getLocation() != null
+                && FadManager.getInstance().getLocation().getLat() != null
+                && !FadManager.getInstance().getLocation().getLat().isEmpty()
+                && FadManager.getInstance().getLocation().getLong() != null
+                && !FadManager.getInstance().getLocation().getLong().isEmpty()) {
+
+            Timber.d("Default search by user location_address = " + FadManager.getInstance().getLocation().toString());
+            getPharmacies(
+                    Float.valueOf(FadManager.getInstance().getLocation().getLat()),
+                    Float.valueOf(FadManager.getInstance().getLocation().getLong()), 50, true,
+                    AwsManager.getInstance().getPatient());
+
+        } else if (ProfileManager.getProfile() != null
+                && ProfileManager.getProfile().address != null
+                && ProfileManager.getProfile().address.zipCode != null
+                && !ProfileManager.getProfile().address.zipCode.isEmpty()) {
+
+            pharmacySearch.setText(ProfileManager.getProfile().address.zipCode);
+            getPharmaciesByZip(pharmacySearch.getText().toString().trim());
+
+            Timber.d("Default search by user profile location");
+        }
 
         //setListAdapter(AwsManager.getInstance().getPharmacies(), "");
         return view;
@@ -142,7 +169,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                         if (sdkError == null) {
 
                             AwsManager.getInstance().setPharmacies(pharmacies);
-                            setListAdapter(pharmacies, zipCode);
+                            setListAdapter(pharmacies);
 
                             SearchPharmacies object = new SearchPharmacies();
                             object.setPharmacies(pharmacies);
@@ -152,7 +179,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                         progressBar.setVisibility(View.GONE);
 
                         if (pharmacies == null || pharmacies.size() == 0) {
-                            Toast.makeText(getContext(), "No Pharmacies found. \n\n we could'nt find any relevant results for " + zipCode, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "No Pharmacies found. \n\nWe could'nt find any relevant results for " + zipCode, Toast.LENGTH_SHORT).show();
                         }
 
                         if (null != getActivity()) {
@@ -187,6 +214,23 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                     @Override
                     public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
                         progressBar.setVisibility(View.GONE);
+
+                        if (sdkError == null) {
+
+                            AwsManager.getInstance().setPharmacies(pharmacies);
+                            setListAdapter(pharmacies);
+
+                            SearchPharmacies object = new SearchPharmacies();
+                            object.setPharmacies(pharmacies);
+                            NavigationActivity.eventBus.post(object);
+                        }
+                        else {
+                            Timber.d("getPharmacies. sdkError = " + sdkError);
+                        }
+
+                        if (pharmacies == null || pharmacies.size() == 0) {
+                            Toast.makeText(getContext(), "No Pharmacies found. \n\nWe could'nt find any relevant results near to your current location. ", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -199,8 +243,8 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            if (pharmacySearch.getText().toString().length() == 5) {
-                getPharmaciesByZip(pharmacySearch.getText().toString());
+            if (pharmacySearch.getText().toString().trim().length() == 5) {
+                getPharmaciesByZip(pharmacySearch.getText().toString().trim());
             } else {
                 Toast.makeText(getContext(), "Invalid zip code", Toast.LENGTH_SHORT).show();
             }
@@ -209,7 +253,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         return false;
     }
 
-    private void setListAdapter(List<Pharmacy> pharmacies, final String zipCode) {
+    private void setListAdapter(List<Pharmacy> pharmacies) {
         if (null != getActivity() && isAdded() && pharmacies != null && pharmacies.size() > 0) {
             pharmacyList.setVisibility(View.VISIBLE);
             pharmacyList.setLayoutManager(new LinearLayoutManager(getActivity()));

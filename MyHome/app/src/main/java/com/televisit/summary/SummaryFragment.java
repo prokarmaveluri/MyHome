@@ -325,11 +325,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             return;
         }
 
-        if (!emailAgree.isChecked()) {
-            Toast.makeText(getActivity(), R.string.email_agreement_missing, Toast.LENGTH_LONG).show();
-            return;
-        }
-
         Set<String> emailIds = new HashSet<>();
         for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
             if (emailObject.isSelected()) {
@@ -340,6 +335,11 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         if (emailIds == null || emailIds.size() == 0) {
             //Toast.makeText(getActivity(), R.string.email_none_selected, Toast.LENGTH_LONG).show();
             doneVisitSummary();
+            return;
+        }
+
+        if (!emailAgree.isChecked()) {
+            Toast.makeText(getActivity(), R.string.email_agreement_missing, Toast.LENGTH_LONG).show();
             return;
         }
 
