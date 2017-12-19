@@ -170,7 +170,7 @@
                 android:text="@string/visit_summary_email"
                 android:textColor="@color/db_charcoal_grey" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/email_agree"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"

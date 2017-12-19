@@ -17,9 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,7 +82,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
     private LinearLayout emailLayout;
     private RecyclerView emailsList;
-    private RadioButton emailAgree;
+    private CheckBox emailAgree;
     private TextInputLayout newEmailLayout;
     private TextInputEditText newEmail;
     private TextView addEmail;
@@ -124,7 +124,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
         emailLayout = (LinearLayout) view.findViewById(R.id.email_layout);
         emailsList = (RecyclerView) view.findViewById(R.id.email_list);
-        emailAgree = (RadioButton) view.findViewById(R.id.email_agree);
+        emailAgree = (CheckBox) view.findViewById(R.id.email_agree);
         addEmail = (TextView) view.findViewById(R.id.add_additional_email);
         newEmailLayout = (TextInputLayout) view.findViewById(R.id.new_email_layout);
         newEmail = (TextInputEditText) view.findViewById(R.id.new_email);

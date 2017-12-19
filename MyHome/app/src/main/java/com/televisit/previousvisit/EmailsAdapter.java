@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
+import android.widget.CheckBox;
 
 import com.prokarma.myhome.R;
 
@@ -35,11 +35,11 @@ public class EmailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         myHolder.emailId.setText(emailsList.get(position).getEmailId().toLowerCase());
         myHolder.emailId.setChecked(emailsList.get(position).isSelected());
 
-        myHolder.emailId.setOnClickListener(new RadioButton.OnClickListener() {
+        myHolder.emailId.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                RadioButton rb = (RadioButton) view;
+                CheckBox rb = (CheckBox) view;
                 Timber.d("" + rb.getText() + ". state = " + rb.isChecked());
             }
         });
@@ -55,12 +55,12 @@ public class EmailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
-        public RadioButton emailId;
+        public CheckBox emailId;
 
         public ViewHolder(final View view) {
             super(view);
             this.view = view;
-            emailId = (RadioButton) view.findViewById(R.id.email_id);
+            emailId = (CheckBox) view.findViewById(R.id.email_id);
         }
     }
 
