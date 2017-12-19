@@ -89,13 +89,14 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         pharmacySearch.setOnEditorActionListener(this);
         searchCancelClickEvent();
 
-        if (FadManager.getInstance().getLocation() != null
+        if (CommonUtil.isGPSEnabled(this.getContext())
+                && FadManager.getInstance().getLocation() != null
                 && FadManager.getInstance().getLocation().getLat() != null
                 && !FadManager.getInstance().getLocation().getLat().isEmpty()
                 && FadManager.getInstance().getLocation().getLong() != null
                 && !FadManager.getInstance().getLocation().getLong().isEmpty()) {
 
-            Timber.d("Default search by user location_address = " + FadManager.getInstance().getLocation().toString());
+            Timber.d("Default search by user's current location = " + FadManager.getInstance().getLocation().toString());
             getPharmacies(
                     Float.valueOf(FadManager.getInstance().getLocation().getLat()),
                     Float.valueOf(FadManager.getInstance().getLocation().getLong()), 50, true,
@@ -109,10 +110,9 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
             pharmacySearch.setText(ProfileManager.getProfile().address.zipCode);
             getPharmaciesByZip(pharmacySearch.getText().toString().trim());
 
-            Timber.d("Default search by user profile location");
+            Timber.d("Default search by user's profile address zipcode = " + pharmacySearch.getText().toString().trim());
         }
 
-        //setListAdapter(AwsManager.getInstance().getPharmacies(), "");
         return view;
     }
 
@@ -223,8 +223,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                             SearchPharmacies object = new SearchPharmacies();
                             object.setPharmacies(pharmacies);
                             NavigationActivity.eventBus.post(object);
-                        }
-                        else {
+                        } else {
                             Timber.d("getPharmacies. sdkError = " + sdkError);
                         }
 

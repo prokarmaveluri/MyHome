@@ -58,6 +58,7 @@ import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
@@ -345,7 +346,7 @@ public class SplashActivity extends AppCompatActivity implements
             requestPermissions();
             return;
         }
-        if (!enableGPS()) {
+        if (!CommonUtil.isGPSEnabled(this)) {
             buildGpsAlert();
             return;
         }
@@ -445,13 +446,6 @@ public class SplashActivity extends AppCompatActivity implements
                         }
                     }
                 });
-    }
-
-    private boolean enableGPS() {
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        // getting GPS status
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     /**

@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CalendarContract;
@@ -61,6 +62,7 @@ import java.util.regex.Pattern;
 
 import timber.log.Timber;
 
+import static android.content.Context.LOCATION_SERVICE;
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 /**
@@ -1005,6 +1007,15 @@ public class CommonUtil {
         }
 
         return currentConditions;
+    }
+
+    public static boolean isGPSEnabled(Context context) {
+        if (context != null) {
+            LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+            // getting GPS status
+            return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }
+        return false;
     }
 
     public static boolean saveFileToStorage(Context context, String fileNameWithEntirePath, byte[] fileData) {
