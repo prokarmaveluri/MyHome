@@ -168,7 +168,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         checkNotNull(status);
 
         if (null != getActivity())
-            CommonUtil.showToast(getActivity(),status,Constants.TOAST_DURATION);
+            CommonUtil.showToast(getActivity(), status);
     }
 
     @Override
@@ -222,7 +222,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
 
                         }
                     } else {
-                        CommonUtil.showToast(getActivity(),getActivity().getString(R.string.no_network_msg),Constants.TOAST_DURATION);
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
                     }
                     break;
                 case R.id.forgot_password:
@@ -248,14 +248,14 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         }
 
         if (!CommonUtil.isValidPassword(binder.password.getText().toString())) {
-            CommonUtil.showToast(getActivity(),getString(R.string.valid_password),Constants.TOAST_DURATION);
+            CommonUtil.showToast(getActivity(), getString(R.string.valid_password));
             binder.password.requestFocus();
             return null;
         }
 
         if (AuthManager.getInstance().isMaxFailureAttemptsReached() &&
                 !AuthManager.getInstance().isTimeStampGreaterThan5Mins()) {
-            CommonUtil.showToast(getActivity(),getString(R.string.max_login_tries_reached),Constants.TOAST_DURATION);
+            CommonUtil.showToast(getActivity(), getString(R.string.max_login_tries_reached));
             return null;
         }
         LoginRequest.Options options = new LoginRequest.Options(true, true);
@@ -289,7 +289,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     if (isAdded()) {
                         showProgress(false);
                         AuthManager.getInstance().setBearerToken(null);
-                        CommonUtil.showToast(getActivity(),getString(R.string.failure_msg),Constants.TOAST_DURATION);
+                        CommonUtil.showToast(getActivity(), getString(R.string.failure_msg));
                     }
                     break;
             }

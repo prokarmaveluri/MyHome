@@ -336,7 +336,7 @@
     <string name="mandatory"> , is a mandatory field</string>
     <string name="appointment_me">this appointment for me</string>
     <string name="appointment_family_member">this appointment for family member</string>
-    <string name="enter_pass_for_sec_change">Enter Password for security question change</string>
+    <string name="enter_pass_for_sec_change">Double tap to enter Password to change security question and click on next</string>
 
     <!--AWSDK-->
 
@@ -563,4 +563,6 @@
     <string name="phone_number_des">Phone number, </string>
     <string name="fav_selected">selected favourite heart stroke </string>
     <string name="fav_unselected">not selected favourite heart stroke</string>
+    <string name="provider_info">Provider Info</string>
+    <string name="providers">Providers</string>
 </resources>
