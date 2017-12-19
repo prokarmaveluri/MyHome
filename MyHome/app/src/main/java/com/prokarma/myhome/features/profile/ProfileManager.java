@@ -4,17 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
-import com.prokarma.myhome.utils.CommonUtil;
-import com.prokarma.myhome.utils.DateUtil;
-import com.prokarma.myhome.utils.EnviHandler;
-import com.televisit.AwsManager;
-import com.televisit.AwsNetworkManager;
-import com.televisit.interfaces.AwsUpdateConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +104,8 @@ public class ProfileManager {
                     Timber.d("Successful Response\n" + response);
                     ProfileManager.setProfile(updatedProfile);
 
+                    /*
+                    TODO Only comment this out if we need to update AmWell Profile when changing CIAM
                     if (AuthManager.getInstance().hasMyCare() && AwsManager.getInstance().isHasConsumer()) {
                         AwsManager.getInstance().getAWSDK().getNewAddress();
 
@@ -160,6 +155,7 @@ public class ProfileManager {
                             }
                         });
                     }
+                    */
 
                     if (profileUpdateInterface != null) {
                         profileUpdateInterface.profileUpdateComplete(updatedProfile);
