@@ -268,7 +268,9 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
                             AuthManager.getInstance().setAmWellToken(response.body().result);
 
                             if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-                                AwsNetworkManager.getInstance().initializeAwsdk(EnviHandler.AWSDK_URL, EnviHandler.AWSDK_KEY, null, AuthManager.this);
+                                //We only want to initialize currently, so just report the listener as null. This will prevent any code from running after intialization
+                                //AwsNetworkManager.getInstance().initializeAwsdk(EnviHandler.AWSDK_URL, EnviHandler.AWSDK_KEY, null, AuthManager.this);
+                                AwsNetworkManager.getInstance().initializeAwsdk(EnviHandler.AWSDK_URL, EnviHandler.AWSDK_KEY, null, null);
                             }
                         } else {
                             Timber.e("getUsersAmWellToken. Response, but not successful?\n" + response);
