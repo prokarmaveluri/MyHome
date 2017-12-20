@@ -19,14 +19,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/nameLabel"
-                style="@style/tradeGothicLTStdLight_18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
-                android:text="@string/name" />
-
-            <TextView
                 android:id="@+id/name"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
@@ -39,14 +31,6 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/preferredNameLabel"
-                style="@style/tradeGothicLTStdLight_18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
-                android:text="@string/preferred_name_profile" />
-
-            <TextView
                 android:id="@+id/preferred_name"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
@@ -57,14 +41,6 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/genderLabel"
-                style="@style/tradeGothicLTStdLight_18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
-                android:text="@string/gender_profile" />
-
-            <TextView
                 android:id="@+id/gender"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
@@ -72,14 +48,6 @@
                 android:layout_marginTop="@dimen/profile_value_marginTop"
                 android:text="@string/male"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/dobLabel"
-                style="@style/tradeGothicLTStdLight_18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
-                android:text="@string/date_of_birth_profile" />
 
             <TextView
                 android:id="@+id/dob"
@@ -125,14 +93,6 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/insuranceLabel"
-                style="@style/tradeGothicLTStdLight_18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
-                android:text="@string/insurance_plan" />
-
-            <TextView
                 android:id="@+id/plan"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
@@ -144,14 +104,6 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/memberLabel"
-                style="@style/tradeGothicLTStdLight_18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
-                android:text="@string/member_id" />
-
-            <TextView
                 android:id="@+id/id"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
@@ -161,14 +113,6 @@
                 android:textStyle="bold"
                 android:visibility="gone"
                 tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/groupLabel"
-                style="@style/tradeGothicLTStdLight_18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/profile_label_marginTop"
-                android:text="@string/group" />
 
             <TextView
                 android:id="@+id/group"
@@ -196,10 +140,10 @@
                 style="@style/enableButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/profile_label_marginBottom"
-                android:text="Video Visit" />
+                android:text="Video Visit"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
