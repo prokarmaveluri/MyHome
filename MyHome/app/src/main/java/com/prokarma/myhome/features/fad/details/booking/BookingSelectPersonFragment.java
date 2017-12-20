@@ -6,8 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 
@@ -31,7 +31,6 @@ public class BookingSelectPersonFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         bookingView = inflater.inflate(R.layout.book_select_person, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
 
         final Button buttonMe = (Button) bookingView.findViewById(R.id.book_me);
         final Button buttonOther = (Button) bookingView.findViewById(R.id.book_other);
@@ -52,6 +51,11 @@ public class BookingSelectPersonFragment extends Fragment {
                 }
             }
         });
+
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
+        getActivity().getWindow().getDecorView()
+                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.provider_info));
 
         return bookingView;
     }

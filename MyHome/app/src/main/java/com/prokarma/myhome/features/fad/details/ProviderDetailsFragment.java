@@ -17,6 +17,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,7 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
@@ -77,7 +77,6 @@ import com.prokarma.myhome.utils.MapUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
-
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -85,7 +84,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -205,8 +203,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
-
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
+        getActivity().getWindow().getDecorView()
+                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.provider_info));
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
         myMap.getMapAsync(this);
 
@@ -936,7 +936,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().popBackStack(TIME_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return true;
         } else if (fragment != null && fragment instanceof BookingDoneFragment) {
-            ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
+            ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
+            getActivity().getWindow().getDecorView()
+                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+            getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.provider_info));
             BookingManager.clearBookingData(true);
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
@@ -951,7 +954,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().popBackStack();
             return true;
         } else if (getChildFragmentManager().getBackStackEntryCount() == 1) {
-            ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
+            ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
+            getActivity().getWindow().getDecorView()
+                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+            getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.provider_info));
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();
