@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -200,26 +201,33 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
     private boolean isValidConsumer() {
         boolean isValid = true;
 
-        if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().trim().isEmpty()) {
+        if (firstName.getText().toString().trim().isEmpty()) {
             isValid = false;
             firstNameLayout.setError(getString(R.string.first_name_required));
         } else {
             firstNameLayout.setError(null);
         }
 
-        if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().trim().isEmpty()) {
+        if (lastName.getText().toString().trim().isEmpty()) {
             isValid = false;
             lastNameLayout.setError(getString(R.string.last_name_required));
         } else {
             lastNameLayout.setError(null);
         }
 
-        if (dateOfBirth.getVisibility() == View.VISIBLE && (!DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) &&
-                !dateOfBirth.getText().toString().trim().isEmpty()) {
+        if (dateOfBirth.getText().toString().trim().isEmpty() || !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) {
             isValid = false;
             dateOfBirthLayout.setError(getString(R.string.date_of_birth_invalid));
         } else {
             dateOfBirthLayout.setError(null);
+        }
+
+        if (gender.getSelectedItemPosition() == 0) {
+            genderLabel.setText(getString(R.string.gender_required));
+            genderLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+        } else {
+            genderLabel.setText(getString(R.string.gender));
+            genderLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.text_darker));
         }
 
         return isValid;
