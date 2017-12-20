@@ -61,6 +61,7 @@ import timber.log.Timber;
 public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary {
     public static final String SUMMARY_TAG = "previous_visit_summary_tag";
     public static final String VISIT_LIST_POSITION = "visit_list_position";
+    private static int TOTAL_EMAIL_COUNT_ALLOWED = 5;
 
     private ProgressBar progressBar;
     private TextView providerName;
@@ -83,9 +84,12 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private LinearLayout emailLayout;
     private RecyclerView emailsList;
     private CheckBox emailAgree;
-    private TextInputLayout newEmailLayout;
-    private TextInputEditText newEmail;
+    private TextView addAdditionalEmail;
+    private RelativeLayout newEmailLayout;
+    private TextInputLayout newEmailTextInput;
+    private TextInputEditText newEmailEditText;
     private TextView addEmail;
+
     private List<EmailsAdapter.EmailSelection> emailObjects = null;
 
     public SummaryFragment() {
@@ -125,9 +129,12 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         emailLayout = (LinearLayout) view.findViewById(R.id.email_layout);
         emailsList = (RecyclerView) view.findViewById(R.id.email_list);
         emailAgree = (CheckBox) view.findViewById(R.id.email_agree);
-        addEmail = (TextView) view.findViewById(R.id.add_additional_email);
-        newEmailLayout = (TextInputLayout) view.findViewById(R.id.new_email_layout);
-        newEmail = (TextInputEditText) view.findViewById(R.id.new_email);
+        addAdditionalEmail = (TextView) view.findViewById(R.id.add_additional_email);
+
+        newEmailLayout = (RelativeLayout) view.findViewById(R.id.new_email_layout);
+        newEmailTextInput = (TextInputLayout) view.findViewById(R.id.new_email_textinput);
+        newEmailEditText = (TextInputEditText) view.findViewById(R.id.new_email_edittext);
+        addEmail = (TextView) view.findViewById(R.id.add_email);
 
         setHasOptionsMenu(true);
         return view;
@@ -163,47 +170,28 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             }
         });
 
-        addEmail.setOnClickListener(new View.OnClickListener() {
+        addAdditionalEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String emailToAdd = newEmail.getText().toString().trim().toLowerCase();
-
-                Timber.d("visitsummary. addEmail = " + emailToAdd);
-
-                for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
-
-                    if (emailToAdd.equalsIgnoreCase(emailObject.getEmailId())) {
-
-                        if (emailObject.isSelected()) {
-                            Toast.makeText(getActivity(), R.string.email_already_added, Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getActivity(), R.string.email_already_added_notchecked, Toast.LENGTH_LONG).show();
-                        }
-                        return;
+                if (newEmailLayout != null) {
+                    if (newEmailLayout.getVisibility() == View.VISIBLE) {
+                        newEmailLayout.setVisibility(View.GONE);
+                        newEmailTextInput.setVisibility(View.GONE);
+                        addEmail.setVisibility(View.GONE);
+                    } else {
+                        newEmailLayout.setVisibility(View.VISIBLE);
+                        newEmailTextInput.setVisibility(View.VISIBLE);
+                        addEmail.setVisibility(View.VISIBLE);
                     }
                 }
+            }
+        });
 
-                boolean isValid = isValidEmail(emailToAdd);
-                if (!isValid) {
-                    return;
-                }
-                // As per BRs, we are allowing 5 email addresses to be added. One is the email address of the currently loggedin user.
-                // that makes it 6 in total
-                if (emailObjects.size() >= 6) {
-                    Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
-                emailObj.setEmailId(emailToAdd);
-                emailObj.setSelected(true);
-                emailObjects.add(emailObj);
-
-                displayEmails();
-
-                newEmail.setText("");
-                newEmail.clearFocus();
+        addEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addEmailAddress();
             }
         });
 
@@ -253,6 +241,78 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         return super.onOptionsItemSelected(item);
     }
 
+    private void addEmailAddress() {
+
+        String emailToAdd = newEmailEditText.getText().toString().trim().toLowerCase();
+
+        if (emailObjects != null && emailObjects.size() > 0) {
+            for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
+
+                if (emailToAdd.equalsIgnoreCase(emailObject.getEmailId())) {
+
+                    if (emailObject.isSelected()) {
+                        Toast.makeText(getActivity(), R.string.email_already_added, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), R.string.email_already_added_notchecked, Toast.LENGTH_LONG).show();
+                    }
+                    return;
+                }
+            }
+        }
+
+        boolean isValid = isValidEmail(emailToAdd);
+        if (!isValid) {
+            return;
+        }
+
+        Timber.d("email. size = " + emailObjects.size() + ". allowed = " + TOTAL_EMAIL_COUNT_ALLOWED);
+
+        EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
+        emailObj.setEmailId(emailToAdd);
+        emailObj.setSelected(true);
+        emailObjects.add(emailObj);
+
+        displayEmails();
+
+        newEmailEditText.setText("");
+        newEmailEditText.clearFocus();
+
+        CommonUtil.hideSoftKeyboard(this.getActivity());
+        CommonUtil.hideSoftKeyboard(getContext(), newEmailEditText);
+
+        if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
+            addAdditionalEmail.setVisibility(View.GONE);
+            newEmailLayout.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), R.string.visit_summary_email_limit_reached, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void deleteEmailAddress(String emailId) {
+
+        int indexToDelete = -1;
+
+        int i = 0;
+        if (emailObjects != null && emailObjects.size() > 0) {
+            for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
+                if (emailId.equalsIgnoreCase(emailObject.getEmailId())) {
+                    indexToDelete = i;
+                    break;
+                }
+                i = i + 1;
+            }
+
+            if (indexToDelete >= 0 && indexToDelete < emailObjects.size()) {
+                emailObjects.remove(indexToDelete);
+            }
+        }
+
+        if (emailObjects == null || emailObjects.size() == 0 || emailObjects.size() < TOTAL_EMAIL_COUNT_ALLOWED) {
+            addAdditionalEmail.setVisibility(View.VISIBLE);
+        }
+
+        displayEmails();
+    }
+
     private void doneVisitSummary() {
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VIDEO_VISIT_FEEDBACK, null);
     }
@@ -300,15 +360,15 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private boolean isValidEmail(String emailAddress) {
 
         if (emailAddress == null || emailAddress.isEmpty()) {
-            newEmailLayout.setError(getString(R.string.email_required));
-            newEmailLayout.requestFocus();
+            newEmailTextInput.setError(getString(R.string.email_required));
+            newEmailTextInput.requestFocus();
             return false;
         } else if (!CommonUtil.isValidEmail(emailAddress)) {
-            newEmailLayout.setError(getString(R.string.valid_email));
-            newEmailLayout.requestFocus();
+            newEmailTextInput.setError(getString(R.string.valid_email));
+            newEmailTextInput.requestFocus();
             return false;
         } else {
-            newEmailLayout.setError(null);
+            newEmailTextInput.setError(null);
             return true;
         }
     }
@@ -326,14 +386,15 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
 
         Set<String> emailIds = new HashSet<>();
-        for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
-            if (emailObject.isSelected()) {
-                emailIds.add(emailObject.getEmailId());
+        if (emailObjects != null && emailObjects.size() > 0) {
+            for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
+                if (emailObject.isSelected()) {
+                    emailIds.add(emailObject.getEmailId());
+                }
             }
         }
 
         if (emailIds == null || emailIds.size() == 0) {
-            //Toast.makeText(getActivity(), R.string.email_none_selected, Toast.LENGTH_LONG).show();
             doneVisitSummary();
             return;
         }
@@ -342,6 +403,16 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             Toast.makeText(getActivity(), R.string.email_agreement_missing, Toast.LENGTH_LONG).show();
             return;
         }
+
+        if (AwsManager.getInstance().getAWSDK().getVisitManager() == null) {
+            Timber.d("emailVisitSummaryReport. VisitManager object is NULL ");
+            return;
+        }
+        if (AwsManager.getInstance().getVisit() == null) {
+            Timber.d("emailVisitSummaryReport. Visit object is NULL ");
+            return;
+        }
+
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -553,7 +624,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
             emailsList.setVisibility(View.VISIBLE);
 
-            EmailsAdapter adapter = new EmailsAdapter(emailObjects);
+            EmailsAdapter adapter = new EmailsAdapter(emailObjects, this);
             emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
             //emailsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
             emailsList.setAdapter(adapter);
