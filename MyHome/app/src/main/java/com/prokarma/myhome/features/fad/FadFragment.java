@@ -456,7 +456,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             clearFilters();
             AppPreferences.getInstance().setPreference("SORT_BY", ""); // default/best match search
             mPageIndex = 1;
-            searchForQuery(v.getText().toString(), RESTConstants.PROVIDER_DISTANCE);
+            searchForQuery(v.getText().toString(), RESTConstants.PROVIDER_DISTANCE_MILES);
             return true;
         }
         return false;
@@ -527,7 +527,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             binding.suggestionList.setVisibility(View.GONE);
             CommonUtil.hideSoftKeyboard(getActivity());
             mPageIndex = 1;
-            searchForQuery(query, RESTConstants.PROVIDER_DISTANCE);
+            searchForQuery(query, RESTConstants.PROVIDER_DISTANCE_MILES);
         }
     }
 
