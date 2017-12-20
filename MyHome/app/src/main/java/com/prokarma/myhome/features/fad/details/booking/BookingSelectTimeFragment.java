@@ -238,6 +238,7 @@ public class BookingSelectTimeFragment extends Fragment {
                             if (selectTimeInterface != null) {
                                 selectTimeInterface.onFrontArrowClicked();
                             }
+                            getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
                         } catch (ParseException e) {
                             Timber.e(e);
                             e.printStackTrace();
