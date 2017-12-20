@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
@@ -77,6 +78,7 @@ import com.prokarma.myhome.utils.MapUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
+
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -84,6 +86,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -839,8 +842,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         //We don't have next month's appointments. We should try to cache that...
-        if (!AppointmentManager.getInstance().isDateCached(DateUtil.addOneMonthToDate(date))) {
-            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(date)), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(date)), currentOffice.getAddresses().get(0).getAddressHash());
+        if (!AppointmentManager.getInstance().isDateCached(DateUtil.addOneMonthToDate(new Date()))) {
+            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentOffice.getAddresses().get(0).getAddressHash());
         }
     }
 
