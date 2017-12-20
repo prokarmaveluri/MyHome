@@ -303,9 +303,9 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             medicationsDesc.setText(medications.toString());
         } else {
             if (AwsManager.getInstance().isDependent()) {
-                medicationsDesc.setText(getString(R.string.no_medications_listed_dependent));
+                medicationsDesc.setText(getString(R.string.not_on_any_medications_dependent));
             } else {
-                medicationsDesc.setText(getString(R.string.no_medications_listed));
+                medicationsDesc.setText(getString(R.string.not_on_any_medications));
             }
         }
     }
