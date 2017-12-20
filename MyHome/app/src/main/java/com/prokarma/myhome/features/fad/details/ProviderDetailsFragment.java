@@ -757,7 +757,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         BookingManager.setIsBookingForMe(isBookingForMe);
 
-        if (AppointmentManager.getInstance().getNumberOfMonths() > 0) {
+        if(AppointmentManager.getInstance().getNumberOfMonths() > 0 &&
+                (AppointmentManager.getInstance().getAppointmentTypes() == null || AppointmentManager.getInstance().getAppointmentTypes().isEmpty())){
+            waitingForAppointmentTypes = false;
+            Toast.makeText(getContext(), "Couldn't find appointments for this location.\nPlease try another office", Toast.LENGTH_LONG).show();
+            restartSchedulingFlow();
+            expandableLinearLayout.collapse();
+            expandableLinearLayout.initLayout();
+        } else if (AppointmentManager.getInstance().getNumberOfMonths() > 0) {
             waitingForAppointmentTypes = false;
             BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(AppointmentManager.getInstance().getAppointmentTypes());
             bookingFragment.setSelectStatusInterface(this);
