@@ -27,7 +27,6 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
-import com.televisit.AwsManager;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -74,17 +73,6 @@ public class ProfileViewFragment extends BaseFragment {
 
     public static ProfileViewFragment newInstance() {
         return new ProfileViewFragment();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (AwsManager.getInstance().isDependent()) {
-            setHasOptionsMenu(false);
-        } else {
-            setHasOptionsMenu(true);
-        }
     }
 
     @Nullable
@@ -139,11 +127,7 @@ public class ProfileViewFragment extends BaseFragment {
         errorText = (TextView) profileView.findViewById(R.id.profile_unavailable);
         viewProfile = (LinearLayout) profileView.findViewById(R.id.viewProfile);
 
-        if (AwsManager.getInstance().isDependent()) {
-            errorText.setText(getContext().getString(R.string.profile_unavailable_dependent));
-        } else {
-            errorText.setText(getContext().getString(R.string.profile_unavailable));
-        }
+        errorText.setText(getContext().getString(R.string.profile_unavailable));
 
         if (ProfileManager.getProfile() == null) {
             viewProfile.setVisibility(View.INVISIBLE);
@@ -162,18 +146,7 @@ public class ProfileViewFragment extends BaseFragment {
             }
         });
 
-        videoVisit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO Are we launching Video visit from profile???
-//                AwsManager.getInstance().init(getActivity().getApplicationContext());
-//                Intent intent = new Intent(getActivity(), LoginActivity.class);
-//                startActivity(intent);
-            }
-        });
-
-        checkIfDependentAndUpdateUi(from);
-
+        setHasOptionsMenu(true);
         return profileView;
     }
 
@@ -308,7 +281,6 @@ public class ProfileViewFragment extends BaseFragment {
         }
 
         if (!CommonUtil.isEmptyString(profile.phoneNumber)) {
-            //phone.setText(CommonUtil.constructPhoneNumberHyphens(profile.phoneNumber).replaceAll("\\.", "-"));
             phone.setText(CommonUtil.constructPhoneNumberDots(profile.phoneNumber));
         } else {
             phone.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.phone_number_profile)));
@@ -333,36 +305,6 @@ public class ProfileViewFragment extends BaseFragment {
         if (profile.insuranceProvider != null && !CommonUtil.isEmptyString(profile.insuranceProvider.groupNumber)) {
             group.setText(profile.insuranceProvider.groupNumber);
             group.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void checkIfDependentAndUpdateUi(String from) {
-
-        if (AwsManager.getInstance().isDependent() || (from != null && from.equalsIgnoreCase("dashboard"))) {
-
-            name.setVisibility(View.VISIBLE);
-            gender.setVisibility(View.VISIBLE);
-            dateOfBirth.setVisibility(View.VISIBLE);
-
-            preferredNameLabel.setVisibility(View.GONE);
-            preferredName.setVisibility(View.GONE);
-
-            address.setVisibility(View.GONE);
-            phone.setVisibility(View.GONE);
-            email.setVisibility(View.GONE);
-
-
-            insuranceLabel.setVisibility(View.GONE);
-            insurancePlan.setVisibility(View.GONE);
-
-            memberLabel.setVisibility(View.GONE);
-            memberId.setVisibility(View.GONE);
-
-            groupLabel.setVisibility(View.GONE);
-            group.setVisibility(View.GONE);
-
-            logout.setVisibility(View.GONE);
-            videoVisit.setVisibility(View.GONE);
         }
     }
 }
