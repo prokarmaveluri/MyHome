@@ -151,6 +151,9 @@ public class MapViewFragment extends Fragment implements
     }
 
     private void updateMap() {
+        if (null == map) {
+            return;
+        }
         //map.setMyLocationEnabled(true);
         try {
             mClusterManager = new ClusterManager<>(getActivity(), map);
