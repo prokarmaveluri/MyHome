@@ -13,15 +13,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.view.accessibility.AccessibilityEvent;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.views.WrappingViewPager;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,7 +80,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, BookingManager.getBookingProfile() != null, autoPopulateInsurancePlan, BookingManager.getBookingProfile()));
 
         toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.find_care));
+        toolbar.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         toolbar.inflateMenu(R.menu.booking_dialog_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -101,10 +101,15 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             }
         });
         toolbar.setNavigationIcon(ContextCompat.getDrawable(getContext(), R.mipmap.xblue));
+        toolbar.setNavigationContentDescription(R.string.cancel);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDialog().dismiss();
+                ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.availability));
+                getActivity().getWindow().getDecorView()
+                        .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+                getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
             }
         });
 
@@ -146,6 +151,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                 if (toolbar != null && toolbar.getMenu() != null) {
                     toolbar.getMenu().findItem(R.id.next_page).setVisible(true);
                     toolbar.getMenu().findItem(R.id.finish_dialog).setVisible(false);
+                    toolbar.setTitle(getString(R.string.insurance_info));
                 }
                 break;
             case 1:
@@ -153,6 +159,8 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                 if (toolbar != null && toolbar.getMenu() != null) {
                     toolbar.getMenu().findItem(R.id.next_page).setVisible(false);
                     toolbar.getMenu().findItem(R.id.finish_dialog).setVisible(true);
+                    toolbar.setTitle(getString(R.string.personal_information));
+                    toolbar.announceForAccessibility(toolbar.getTitle());
                 }
                 break;
         }
@@ -225,8 +233,14 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     public void onBackPressed() {
         if (bookingViewPager.getCurrentItem() == 0) {
             this.dismiss();
+            ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.availability));
+            getActivity().getWindow().getDecorView()
+                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+            getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
         } else {
             bookingViewPager.setCurrentItem(bookingViewPager.getCurrentItem() - 1, true);
+            toolbar.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            toolbar.announceForAccessibility(toolbar.getTitle());
         }
     }
 }

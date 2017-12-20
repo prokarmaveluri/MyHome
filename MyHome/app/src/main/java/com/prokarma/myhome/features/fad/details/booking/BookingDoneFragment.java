@@ -6,10 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.gson.Gson;
@@ -27,7 +27,6 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -199,8 +198,10 @@ public class BookingDoneFragment extends Fragment {
                     if (response.isSuccessful()) {
                         Timber.d("Successful Response\n" + response);
                         Timber.i("Request JSON = " + gson.toJson(response.body()));
-                        ((NavigationActivity) getActivity()).setActionBarTitle("Appointment Confirmed");
-
+                        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.appointment_confirmed));
+                        getActivity().getWindow().getDecorView()
+                                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+                        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.appointment_confirmed));
                         updateVisibility(false);
                         date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().getTime()));
                         time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().getTime()) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingAppointment().getTime()));
@@ -214,7 +215,11 @@ public class BookingDoneFragment extends Fragment {
                     } else {
                         Timber.e("scheduleAppointment Response, but not successful?\n" + response);
                         ApiErrorUtil.getInstance().createAppointmentError(getContext(), bookingView, response);
-                        ((NavigationActivity) getActivity()).setActionBarTitle("Unable to book");
+                        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.unable_to_book));
+                        getActivity().getWindow().getDecorView()
+                                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+                        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.unable_to_book));
+
 
                         updateVisibility(false);
 
@@ -231,7 +236,11 @@ public class BookingDoneFragment extends Fragment {
                     Timber.e("scheduleAppointment Something failed! :/");
                     Timber.e("Throwable = " + t);
                     ApiErrorUtil.getInstance().createAppointmentFailed(getContext(), bookingView, t);
-                    ((NavigationActivity) getActivity()).setActionBarTitle("Unable to book");
+                    ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.unable_to_book));
+                    getActivity().getWindow().getDecorView()
+                            .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+                    getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.unable_to_book));
+
 
                     updateVisibility(false);
 

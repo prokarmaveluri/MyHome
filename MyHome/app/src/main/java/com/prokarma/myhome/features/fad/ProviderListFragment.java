@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -76,6 +77,10 @@ public class ProviderListFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_provider_list, container, false);
         recentlyViewed = RecentlyViewedDataSourceDB.getInstance().getAllEntry();
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.providers));
+        getActivity().getWindow().getDecorView()
+                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.providers));
 
         return binding.getRoot();
     }
