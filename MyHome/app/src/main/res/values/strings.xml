@@ -144,6 +144,7 @@
     <string name="password_criteria_number">At least one number</string>
     <string name="password_criteria_special_char"><![CDATA[At least one special character: !@#$%^&*]]></string>
     <string name="education">Education</string>
+    <string name="close">Close</string>
     <string name="done">Done</string>
     <string name="view">View</string>
     <string name="book_success">Your appointment is confirmed. We’ll see you then!</string>
@@ -475,6 +476,7 @@
 
 
     <string name="pharmacy">Pharmacy</string>
+    <string name="pharmacies_list">Pharmacies List</string>
     <string name="visit_summary">Visit Summary</string>
 
     <string name="visit_summary_email">Email me a confidential summary</string>
