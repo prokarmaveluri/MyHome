@@ -40,8 +40,6 @@
     <string name="no_past_appointments_dependent">Your child have no past appointments.</string>
 
     <!-- FAD -->
-    <string name="fad_title">Care</string>
-
     <string name="appointments">Appointments</string>
     <string name="home">Home</string>
     <string name="welcome_home">Welcome Home!</string>
@@ -565,4 +563,6 @@
     <string name="fav_unselected">not selected favourite heart stroke</string>
     <string name="provider_info">Provider Info</string>
     <string name="providers">Providers</string>
+    <string name="availability">Availability</string>
+    <string name="insurance_info">Insurance Information</string>
 </resources>
