@@ -18,7 +18,8 @@ public class RESTConstants {
 
     public static final String PROVIDER_PAGE_NO = "1";
     public static final String PROVIDER_PAGE_SIZE = "25";
-    public static final String PROVIDER_DISTANCE_MILES = "2";
+    public static final String PROVIDER_DISTANCE_MILES = "100";
+    public static final String PHARMACY_DISTANCE_MILES = "2";
 
 
     //v1.1 graphql requests
