@@ -465,14 +465,12 @@
     <string name="complete_your_medical_conditions_dependent">Complete your child\'s conditions</string>
     <string name="complete_your_medical_allergies">Complete your allergies</string>
     <string name="complete_your_medical_allergies_dependent">Complete your child\'s allergies</string>
-    <string name="no_medical_complications_listed">You have no medical complications</string>
+    <string name="no_medical_complications_listed">I have no medical complications</string>
     <string name="no_medical_complications_listed_dependent">Your child has no medical complications</string>
 
     <string name="medications">Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
     <string name="what_medications_are_you_taking_dependent">What medications is your child taking?</string>
-    <string name="no_medications_listed">You have no medications</string>
-    <string name="no_medications_listed_dependent">Your child has no medications</string>
 
 
     <string name="pharmacy">Pharmacy</string>
@@ -513,6 +511,8 @@
     <string name="choose_practice">Choose Practice</string>
     <string name="choose_doctor">Choose Doctor</string>
     <string name="not_on_any_medications">I\'m not on any medications</string>
+    <string name="not_on_any_medications_dependent">Your child is not any medications</string>
+
     <string name="next_available_provider">Next Available Provider</string>
     <string name="my_care_reason_guest_sug">Would you like to invite a guest to your visit?</string>
     <string name="my_care_reason_phone_sug">How can we call you back if we\'re disconnected?</string>

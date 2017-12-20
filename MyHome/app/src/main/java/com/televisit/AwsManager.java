@@ -53,7 +53,7 @@ public class AwsManager {
     private Consumer consumer;
     private Consumer patient;
     private int patientNumber;
-    private boolean hasMedicationsFilledOut;
+    private boolean hasMedicationsFilledOut = false;
     private State hasAllergiesFilledOut = State.NOT_FILLED_OUT;
     private State hasConditionsFilledOut = State.NOT_FILLED_OUT;
     private boolean hasInitializedAwsdk;
@@ -245,8 +245,6 @@ public class AwsManager {
 
         if (medications != null && !medications.isEmpty()) {
             setHasMedicationsFilledOut(true);
-        } else {
-            setHasMedicationsFilledOut(false);
         }
     }
 

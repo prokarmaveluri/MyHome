@@ -143,6 +143,16 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         noMedicationsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                Timber.d("Med. isChecked = " + isChecked);
+
+                if (isChecked) {
+                    AwsManager.getInstance().setHasMedicationsFilledOut(true);
+                } else {
+                    if (AwsManager.getInstance().getMedications() == null || AwsManager.getInstance().getMedications().size() == 0) {
+                        AwsManager.getInstance().setHasMedicationsFilledOut(false);
+                    }
+                }
                 setMedicationsAdapter(AwsManager.getInstance().getMedications());
             }
         });
@@ -171,6 +181,13 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     }
 
     private void setMedicationsAdapter(List<Medication> list) {
+
+        Timber.d("Med. MedicationsCheckbox = " + noMedicationsCheckbox.isChecked());
+
+        if ((list != null && list.size() > 0) || noMedicationsCheckbox.isChecked()) {
+            AwsManager.getInstance().setHasMedicationsFilledOut(true);
+        }
+
         if (list != null && list.size() > 0) {
 
             addAdditionalMedication.setVisibility(View.VISIBLE);
@@ -211,13 +228,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
             noMedicationsLayout.setVisibility(View.VISIBLE);
             medicationsList.setVisibility(View.GONE);
             divider.setVisibility(View.GONE);
-            noMedicationsCheckbox.setChecked(true);
-        }
-
-        if ((list != null && list.size() > 0) || noMedicationsCheckbox.isChecked()) {
-            AwsManager.getInstance().setHasMedicationsFilledOut(true);
-        } else {
-            AwsManager.getInstance().setHasMedicationsFilledOut(false);
+            noMedicationsCheckbox.setChecked(AwsManager.getInstance().isHasMedicationsFilledOut());
         }
     }
 
