@@ -95,8 +95,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 106001
-        versionName "1.6.1"
+        versionCode 105012
+        versionName "1.5.12"
         setProperty("archivesBaseName", "DignityHealth-MyHome-$versionName")
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
@@ -270,7 +270,7 @@ android {
             buildConfigField BOOLEAN, REPORT_LOGS, TRUE
             buildConfigField BOOLEAN, REPORT_CRASHES, TRUE
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
-            buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
+            buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
 
             buildConfigField STRING, S_OKTA_BASE_URL, DEV_OKTA_BASE_URL
