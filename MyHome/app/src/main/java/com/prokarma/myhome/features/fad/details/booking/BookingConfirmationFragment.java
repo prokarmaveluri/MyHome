@@ -6,10 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -36,7 +36,10 @@ public class BookingConfirmationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         bookingView = inflater.inflate(R.layout.book_confirmation, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle("Review your booking");
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.review_your_booking));
+        getActivity().getWindow().getDecorView()
+                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.review_your_booking));
 
         Button book = (Button) bookingView.findViewById(R.id.book_confirmed);
         book.setOnClickListener(new View.OnClickListener() {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,6 +53,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     TextInputEditText dateOfBirth;
     TextInputEditText address;
     TextInputEditText address2;
+    TextInputLayout cityLayout;
     TextInputEditText city;
     Spinner state;
     TextInputLayout zipLayout;
@@ -90,6 +92,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         dateOfBirth = (TextInputEditText) profileView.findViewById(R.id.dob);
         address = (TextInputEditText) profileView.findViewById(R.id.address);
         address2 = (TextInputEditText) profileView.findViewById(R.id.address2);
+        cityLayout = (TextInputLayout) profileView.findViewById(R.id.city_layout);
         city = (TextInputEditText) profileView.findViewById(R.id.city);
         state = (Spinner) profileView.findViewById(R.id.state);
         zipLayout = (TextInputLayout) profileView.findViewById(R.id.zip_layout);
@@ -279,42 +282,40 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     private boolean isValidConsumer() {
         boolean isValid = true;
 
-        if (firstNameLayout.getVisibility() == View.VISIBLE && firstName.getText().toString().trim().isEmpty()) {
+        if (firstName.getText().toString().trim().isEmpty()) {
             isValid = false;
             firstNameLayout.setError(getString(R.string.first_name_required));
         } else {
             firstNameLayout.setError(null);
         }
 
-        if (lastNameLayout.getVisibility() == View.VISIBLE && lastName.getText().toString().trim().isEmpty()) {
+        if (lastName.getText().toString().trim().isEmpty()) {
             isValid = false;
             lastNameLayout.setError(getString(R.string.last_name_required));
         } else {
             lastNameLayout.setError(null);
         }
 
-        if (dateOfBirth.getVisibility() == View.VISIBLE && (!DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) &&
-                !dateOfBirth.getText().toString().trim().isEmpty()) {
+        if (dateOfBirth.getText().toString().trim().isEmpty() || !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) {
             isValid = false;
             dateOfBirthLayout.setError(getString(R.string.date_of_birth_invalid));
         } else {
             dateOfBirthLayout.setError(null);
         }
 
-        if (zipLayout.getVisibility() == View.VISIBLE && (zip.getText().toString().trim().length() != 0 &&
-                zip.getText().toString().trim().length() != 5)) {
-            isValid = false;
-            zipLayout.setError(getString(R.string.zip_invalid));
+        if (gender.getSelectedItemPosition() == 0) {
+            genderLabel.setText(getString(R.string.gender_required));
+            genderLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
         } else {
-            zipLayout.setError(null);
+            genderLabel.setText(getString(R.string.gender));
+            genderLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.text_darker));
         }
 
-        if (phoneLayout.getVisibility() == View.VISIBLE && phone.getText().toString().trim().length() != 0 &&
-                !CommonUtil.isValidMobile(phone.getText().toString())) {
+        if (state.getSelectedItemPosition() == 0) {
             isValid = false;
-            phoneLayout.setError(getString(R.string.phone_number_invalid));
+            cityLayout.setError(getString(R.string.state_required));
         } else {
-            phoneLayout.setError(null);
+            cityLayout.setError(null);
         }
 
         return isValid;

@@ -13,13 +13,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
@@ -32,13 +32,11 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.views.FlowLayout;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-
 import timber.log.Timber;
 
 /**
@@ -97,7 +95,10 @@ public class BookingSelectTimeFragment extends Fragment {
         }
 
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.availability));
+        getActivity().getWindow().getDecorView()
+                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
 
         normalLayout = (LinearLayout) bookingView.findViewById(R.id.normal_layout);
         timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
@@ -237,6 +238,7 @@ public class BookingSelectTimeFragment extends Fragment {
                             if (selectTimeInterface != null) {
                                 selectTimeInterface.onFrontArrowClicked();
                             }
+                            getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
                         } catch (ParseException e) {
                             Timber.e(e);
                             e.printStackTrace();

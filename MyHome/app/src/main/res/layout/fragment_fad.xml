@@ -51,7 +51,7 @@
                 android:layout_marginLeft="4dp"
                 android:layout_toRightOf="@+id/fad_back"
                 android:padding="16dp"
-                android:text="@string/fad_title"
+                android:text="@string/providers"
                 android:textColor="@color/md_blue_grey_650"
                 android:textStyle="bold" />
 

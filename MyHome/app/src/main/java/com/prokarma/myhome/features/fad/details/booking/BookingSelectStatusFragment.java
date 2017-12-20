@@ -50,7 +50,7 @@ public class BookingSelectStatusFragment extends Fragment {
         appointmentTypes = args.getParcelableArrayList(APPOINTMENT_TYPE_KEY);
 
         bookingView = inflater.inflate(R.layout.book_select_status, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.fad_title));
+        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
 
         final TextView header = (TextView) bookingView.findViewById(R.id.status_header);
         final LinearLayout appointmentTypeLayout = (LinearLayout) bookingView.findViewById(R.id.appointment_type_layout);

@@ -50,7 +50,7 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.fad_title));
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.find_care));
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_fad_dashboard, container, false);
 
         binder.fadDashBoardViewall.setVisibility(View.GONE);
