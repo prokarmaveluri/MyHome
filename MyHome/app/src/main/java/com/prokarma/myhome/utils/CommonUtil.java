@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -695,7 +696,22 @@ public class CommonUtil {
     public static void showToast(Context context, String message) {
         try {
             if (context != null) {
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                if (CommonUtil.isAccessibilityEnabled(context)) {
+                    final Toast mToastToShow = Toast.makeText(context, message, Toast.LENGTH_LONG);
+                    CountDownTimer toastCountDown = new CountDownTimer(Constants.TOAST_DURATION, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            mToastToShow.show();
+                        }
+
+                        public void onFinish() {
+                            mToastToShow.cancel();
+                        }
+                    };
+                    mToastToShow.show();
+                    toastCountDown.start();
+                } else {
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                }
             } else {
                 Timber.e("context is null. Could not show toast message.");
             }
