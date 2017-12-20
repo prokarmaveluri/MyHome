@@ -99,7 +99,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
             Timber.d("Default search by user's current location = " + FadManager.getInstance().getLocation().toString());
             getPharmacies(
                     Float.valueOf(FadManager.getInstance().getLocation().getLat()),
-                    Float.valueOf(FadManager.getInstance().getLocation().getLong()), 50, true,
+                    Float.valueOf(FadManager.getInstance().getLocation().getLong()), 50,
                     AwsManager.getInstance().getPatient());
 
         } else if (ProfileManager.getProfile() != null
@@ -155,7 +155,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 AwsManager.getInstance().getConsumer(),
-                PharmacyType.RETAIL,
+                PharmacyType.MAIL_ORDER,
                 null,
                 null,
                 zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
@@ -197,9 +197,10 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     private void getPharmacies(@NonNull final float latitude,
                                @NonNull final float longitude,
                                @NonNull final int radius,
-                               @NonNull final boolean excludeMailOrder,
                                @NonNull final Consumer patient) {
         progressBar.setVisibility(View.VISIBLE);
+        final boolean excludeMailOrder = false; // true;
+
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 patient,
                 latitude,

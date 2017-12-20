@@ -1,8 +1,11 @@
 package com.televisit.pharmacy;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,15 +44,19 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.FadManager;
+import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.MapClusterItem;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
+import com.prokarma.myhome.utils.RESTConstants;
 import com.squareup.otto.Subscribe;
 import com.televisit.AwsManager;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -61,26 +69,33 @@ import timber.log.Timber;
  * Use the {@link PharmacyMapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
+public class PharmacyMapFragment extends Fragment implements
+        PharmacyListAdapter.IPharmacyClick,
+        OnMapReadyCallback,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveCanceledListener,
         ClusterManager.OnClusterClickListener<MapClusterItem>,
         GoogleMap.OnInfoWindowClickListener,
         TextView.OnEditorActionListener {
 
+    public static final String PHARMACIES_TAG = "pharmacies_tag";
+
+    public final static int MAP_CLUSTER_LIST = 100;
+    private final static int MAP_UPDATE_LOCATION = 200;
+    private final static int MAP_PHARMACY_DETAILS = 300;
+    private final static int MAP_ZOOM = 400;
+
+
     private EditText pharmacySearch;
     private ProgressBar progressBar;
     private GoogleMap map;
     private ClusterManager<MapClusterItem> mClusterManager;
 
-    public static final String PHARMACIES_TAG = "pharmacies_tag";
-
-    private final static int MAP_CLUSTER_LIST = 100;
-    private final static int MAP_UPDATE_LOCATION = 200;
-    private final static int MAP_PROVIDER_DETAILS = 300;
-    private final static int MAP_ZOOM = 400;
-
     private Marker marker;
+    private Pharmacy pharmacy;
+    private Button searchThisArea;
+    private LatLng latlon;
+    private LocationResponse location = null;
 
     public PharmacyMapFragment() {
         // Required empty public constructor
@@ -110,15 +125,35 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
         // Inflate the layout for this fragment
         getActivity().setTitle(getString(R.string.pharmacy));
         View view = inflater.inflate(R.layout.fragment_map_view, container, false);
+        searchThisArea = (Button) view.findViewById(R.id.searchThisArea);
         progressBar = (ProgressBar) view.findViewById(R.id.search_progress);
 
         pharmacySearch = (EditText) view.findViewById(R.id.pharmacySearch);
         pharmacySearch.setOnEditorActionListener(this);
         searchCancelClickEvent();
 
+        location = FadManager.getInstance().getLocation();
+
         final SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.fragmentMapView);
         map.getMapAsync(this);
+
+        searchThisArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchThisArea.setVisibility(View.INVISIBLE);
+                location = new LocationResponse();
+                location.setLat(String.valueOf(latlon.latitude));
+                location.setLon(String.valueOf(latlon.longitude));
+                location.setDisplayName("Map Search Location");
+                FadManager.getInstance().setLocation(location);
+                NavigationActivity.eventBus.post(latlon);
+            }
+        });
+
+        if (null != map) {
+            updateMap();
+        }
         return view;
     }
 
@@ -135,39 +170,64 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
     }
 
     @Override
-    public void onCameraMoveCanceled() {
+    public void onDestroy() {
+        super.onDestroy();
+        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.fragmentMapView);
+        if (map != null) {
+            getChildFragmentManager().beginTransaction().remove(map).commit();
+        }
+    }
 
+    @Override
+    public void onCameraMoveCanceled() {
+        Timber.d("map. onCameraMoveCanceled ");
     }
 
     @Override
     public void onCameraMove() {
-
+        if (map != null) {
+            Timber.d("map. Zoom " + map.getCameraPosition().zoom);
+            getHandler().removeMessages(MAP_UPDATE_LOCATION);
+            getHandler().sendEmptyMessageDelayed(MAP_UPDATE_LOCATION, 200);
+        }
     }
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Timber.i("onInfoWindowClick " + marker.getTitle());
+        Timber.d("map. onInfoWindowClick " + marker.getTitle());
         this.marker = marker;
 
         if (null != marker) {
-            getHandler().sendEmptyMessage(MAP_PROVIDER_DETAILS);
+            getHandler().sendEmptyMessage(MAP_PHARMACY_DETAILS);
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         if (null == map) {
+            Timber.d("map. onMapReady. map is NOT NULL ");
             map = googleMap;
+            updateMap();
+        } else {
+            Timber.d("map. onMapReady map is NULL ");
         }
-        updateMap();
     }
 
     @Override
     public boolean onClusterClick(Cluster<MapClusterItem> cluster) {
-        Timber.i("onClusterClick " + cluster.getItems().size());
+        Timber.d("map. onClusterClick " + cluster.getItems().size());
 
         if (cluster.getSize() <= 0) {
             return false;
+        }
+
+        if (isClusterSameLocation(cluster.getItems())) {
+            Timber.d("map. isClusterSameLocation = TRUE ");
+            startListDialog(cluster.getItems());
+            return false;
+        } else {
+            Timber.d("map. isClusterSameLocation = FALSE ");
         }
 
         //Zoom
@@ -175,22 +235,87 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),
                 map.getCameraPosition().zoom + 1.0f);
         map.animateCamera(update);
+        getHandler().sendEmptyMessage(MAP_ZOOM);
         return false;
     }
 
-    private void updateMap() {
+    private void startListDialog(Collection<MapClusterItem> cluster) {
         try {
-            //map.setMyLocationEnabled(true);
+            ArrayList<Pharmacy> list = new ArrayList<>();
+            PharmacyListDialog dialog = new PharmacyListDialog();
+            Bundle bundle = new Bundle();
+            for (MapClusterItem item : cluster) {
+                list.add((Pharmacy) item.getProvider());
+            }
+
+            bundle.putParcelableArrayList("PHARMACY_LIST", list);
+            bundle.putBoolean("IS_MAP_CLUSTER", true);
+            dialog.setArguments(bundle);
+
+            //dialog.setTargetFragment(this, MAP_CLUSTER_LIST);
+            dialog.show(getChildFragmentManager(), PharmacyListDialog.PHARMACY_LIST_DIALOG_TAG);
+
+        } catch (Exception ex) {
+            Timber.e(ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private boolean isClusterSameLocation(Collection<MapClusterItem> cluster) {
+        Location locCurr = null;
+        for (MapClusterItem item : cluster) {
+            if (null == locCurr) {
+                locCurr = new Location("curLocation");
+                locCurr.setLatitude(item.getPosition().latitude);
+                locCurr.setLongitude(item.getPosition().longitude);
+            } else {
+                Location loc = new Location("newLocation");
+                loc.setLatitude(item.getPosition().latitude);
+                loc.setLongitude(item.getPosition().longitude);
+                float distance = locCurr.distanceTo(loc);
+                if (distance > 0.0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void updateMap() {
+        if (map == null) {
+            return;
+        }
+        //map.setMyLocationEnabled(true);
+        try {
             mClusterManager = new ClusterManager<>(getActivity(), map);
             map.setOnCameraIdleListener(mClusterManager);
             map.setOnMarkerClickListener(mClusterManager);
-            mClusterManager.setRenderer(new PharmacyMapFragment.MapClusterRenderer(getActivity(), map, mClusterManager));
+            mClusterManager.setRenderer(new MapClusterRenderer(getActivity(), map, mClusterManager));
             mClusterManager.setOnClusterClickListener(this);
             map.setOnCameraMoveListener(this);
             addMarkers();
         } catch (NullPointerException | IllegalStateException ex) {
-            Timber.e(ex);
+            Timber.w(ex);
         }
+    }
+
+    private GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            handleMarkerClick(marker);
+            marker.showInfoWindow(); //Won't fit with the zoom if states apart
+            return true;
+        }
+    };
+
+    //Set address text, then make sure to change selected icon
+    private void handleMarkerClick(Marker marker) {
+
+    }
+
+    @Override
+    public void pharmacyClick(Pharmacy pharmacy) {
+
     }
 
     public class MapClusterRenderer extends DefaultClusterRenderer<MapClusterItem> {
@@ -214,12 +339,12 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
         protected void onBeforeClusterItemRendered(MapClusterItem item, MarkerOptions markerOptions) {
             super.onBeforeClusterItemRendered(item, markerOptions);
             try {
-                if (isAdded()) {
+                if (null != getActivity() && isAdded()) {
                     BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(getActivity(), R.mipmap.one_pin);
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawable.getBitmap()));
                 }
             } catch (NullPointerException ex) {
-                Timber.e(ex);
+                Timber.w(ex);
             }
         }
     }
@@ -259,18 +384,30 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
             map.moveCamera(cu);
             map.setOnInfoWindowClickListener(this);
             map.setOnCameraMoveCanceledListener(this);
+
         } catch (NullPointerException | NumberFormatException | IllegalStateException ex) {
             Timber.e(ex);
+            ex.printStackTrace();
         }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.fragmentMapView);
-        if (map != null) {
-            getChildFragmentManager().beginTransaction().remove(map).commit();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Timber.i("Dialog. onActivityResult. requestCode = " + requestCode + ". resultCode = " + resultCode);
+
+        if (requestCode == MAP_CLUSTER_LIST) {
+            if (resultCode == Activity.RESULT_OK) {
+                marker = null;
+                pharmacy = data.getExtras().getParcelable("PHARMACY");
+
+                if (pharmacy != null) {
+                    launchPharmacyDetails(pharmacy);
+                } else {
+                    getHandler().sendEmptyMessage(MAP_PHARMACY_DETAILS);
+                }
+            }
         }
     }
 
@@ -284,7 +421,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
                 + pharmacy.getAddress().getState().getCode() + " " + pharmacy.getAddress().getZipCode();
     }
 
-    private void launchPharmacyDetails(Pharmacy pharmacy) {
+    public void launchPharmacyDetails(Pharmacy pharmacy) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(PharmacyDetailsFragment.PHARMACY_KEY, pharmacy);
         ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_PHARMACY_DETAILS, bundle);
@@ -302,12 +439,47 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
             PharmacyMapFragment mapViewFragment = mMapViewFragment.get();
             if (mapViewFragment != null) {
                 switch (msg.what) {
-                    case MAP_PROVIDER_DETAILS:
+
+                    case MAP_UPDATE_LOCATION:
+                        if (mapViewFragment.map != null) {
+                            Timber.d("map. MAP_UPDATE_LOCATION to " + mapViewFragment.map.getCameraPosition().target);
+                            if (mapViewFragment.isLocationSearchable()) {
+                                mapViewFragment.latlon = mapViewFragment.map.getCameraPosition().target;
+                                mapViewFragment.searchThisArea.setVisibility(View.GONE);
+                            } else {
+                                mapViewFragment.searchThisArea.setVisibility(View.GONE);
+                            }
+                        } else if (mapViewFragment.map == null) {
+                            Timber.d("map. MAP_UPDATE_LOCATION. map object is NULL ");
+                        }
+                        break;
+
+                    case MAP_PHARMACY_DETAILS:
                         if (mapViewFragment.marker != null) {
+                            Timber.d("map. marker is NOT NULL ");
                             Pharmacy pharmacy = MapUtil.getPharmacy(mapViewFragment.marker, AwsManager.getInstance().getPharmacies());
                             if (pharmacy != null) {
+                                Timber.d("map. pharmacy is NOT NULL ");
                                 mapViewFragment.launchPharmacyDetails(pharmacy);
+                            } else {
+                                Timber.d("map. pharmacy is NULL ");
                             }
+                        } else {
+                            Timber.d("map. marker is NULL ");
+                        }
+                        break;
+
+                    case MAP_ZOOM:
+                        if (mapViewFragment.map != null && mapViewFragment.currClusterPosition != null) {
+
+                            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(
+                                    mapViewFragment.currClusterPosition,
+                                    mapViewFragment.map.getCameraPosition().zoom + 1.0f);
+                            mapViewFragment.map.animateCamera(update);
+                        } else if (mapViewFragment.map == null) {
+                            Timber.d("map. map object is NULL ");
+                        } else if (mapViewFragment.currClusterPosition == null) {
+                            Timber.d("map. MAP_ZOOM. currClusterPosition is NULL ");
                         }
                         break;
                 }
@@ -352,7 +524,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 AwsManager.getInstance().getConsumer(),
-                PharmacyType.RETAIL,
+                PharmacyType.MAIL_ORDER,
                 null,
                 null,
                 zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
@@ -364,6 +536,7 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
                     @Override
                     public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
                         if (sdkError == null) {
+
                             AwsManager.getInstance().setPharmacies(pharmacies);
 
                             PharmacyMapFragment.SearchPharmacies object = new PharmacyMapFragment.SearchPharmacies();
@@ -416,6 +589,28 @@ public class PharmacyMapFragment extends Fragment implements OnMapReadyCallback,
 
         public void setPharmacies(List<Pharmacy> pharmacies) {
             this.pharmacies = pharmacies;
+        }
+    }
+
+    static float DISTANCE_SEARCH_THIS_AREA =
+            Float.valueOf(RESTConstants.PROVIDER_DISTANCE) * 1609.34f; // PROVIDER_DISTANCE miles in meters
+
+    private boolean isLocationSearchable() {
+        try {
+            Location locCurr = new Location("curLocation");
+            locCurr.setLatitude(Double.valueOf(location.getLat()));
+            locCurr.setLongitude(Double.valueOf(location.getLong()));
+
+            Location newLoc = new Location("newLocation");
+            newLoc.setLatitude(map.getCameraPosition().target.latitude);
+            newLoc.setLongitude(map.getCameraPosition().target.longitude);
+            float distance = locCurr.distanceTo(newLoc); // distance in meters
+
+            Timber.d("map. isLocationSearchable = " + (distance >= DISTANCE_SEARCH_THIS_AREA) + ". location = " + location);
+
+            return distance >= DISTANCE_SEARCH_THIS_AREA;
+        } catch (NumberFormatException | NullPointerException | IllegalStateException ex) {
+            return false;
         }
     }
 }
