@@ -2,6 +2,7 @@ package com.televisit.providers;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
@@ -47,6 +49,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     private ProgressBar progressBar;
     private RecyclerView providerList;
     private Button nextAvailableProvider;
+    private TextView chooseText;
 
     public MyCareProvidersFragment() {
         // Required empty public constructor
@@ -77,9 +80,12 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.choose_doctor));
 
         View view = inflater.inflate(R.layout.fragment_my_care_providers, container, false);
+
+        chooseText = (TextView) view.findViewById(R.id.choose_text);
         progressBar = (ProgressBar) view.findViewById(R.id.providers_progress);
         nextAvailableProvider = (Button) view.findViewById(R.id.btn_next_avail_provider);
         providerList = (RecyclerView) view.findViewById(R.id.providerList);
+
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         providerList.addItemDecoration(itemDecoration);
 
@@ -87,6 +93,16 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
         getProviders();
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        chooseText.setText(AwsManager.getInstance().getPatient().getFirstName() + ", "
+                + getContext().getString(R.string.my_care_providers_desc));
+        
+        chooseText.setContentDescription(chooseText.getText());
     }
 
     private void getProviders() {

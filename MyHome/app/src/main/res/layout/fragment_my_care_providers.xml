@@ -6,6 +6,7 @@
     tools:context="com.televisit.services.MyCareServicesFragment">
 
     <TextView
+        android:id="@+id/choose_text"
         style="@style/tradeGothicLTStd_Dynamic20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
