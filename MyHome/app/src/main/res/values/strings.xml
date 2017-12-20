@@ -565,4 +565,7 @@
     <string name="providers">Providers</string>
     <string name="availability">Availability</string>
     <string name="insurance_info">Insurance Information</string>
+    <string name="appointment_confirmed">Appointment Confirmed</string>
+    <string name="unable_to_book">Unable to book</string>
+    <string name="review_your_booking">Review your booking</string>
 </resources>

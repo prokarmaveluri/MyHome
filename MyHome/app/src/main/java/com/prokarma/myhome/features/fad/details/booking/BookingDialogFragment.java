@@ -101,6 +101,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             }
         });
         toolbar.setNavigationIcon(ContextCompat.getDrawable(getContext(), R.mipmap.xblue));
+        toolbar.setNavigationContentDescription(R.string.cancel);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
