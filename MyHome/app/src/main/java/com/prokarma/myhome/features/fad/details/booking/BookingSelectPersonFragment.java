@@ -6,10 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.CommonUtil;
 
 /**
  * Created by kwelsh on 5/25/17.
@@ -52,11 +51,7 @@ public class BookingSelectPersonFragment extends Fragment {
             }
         });
 
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
-        getActivity().getWindow().getDecorView()
-                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
-        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.provider_info));
-
+        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
         return bookingView;
     }
 

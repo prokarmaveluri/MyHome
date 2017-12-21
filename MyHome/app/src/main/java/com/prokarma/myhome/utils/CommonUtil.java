@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ExpandableListView;
@@ -34,6 +35,7 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.Image;
@@ -1115,17 +1117,6 @@ public class CommonUtil {
         return spacesString;
     }
 
-    public static void showToast(Context context, String message, int duration) {
-        if (context == null) {
-            return;
-        }
-        if (CommonUtil.isAccessibilityEnabled(context)) {
-            Toast.makeText(context, message, duration).show();
-        } else {
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-        }
-    }
-
     public static void showToastFromSDKError(Context context, SDKError sdkError) {
         if (context == null) {
             return;
@@ -1143,6 +1134,19 @@ public class CommonUtil {
             Toast.makeText(context, sdkError.toString(), Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void setTitle(Activity activity, String title, boolean shouldAnnounce) {
+        if (activity == null || title == null) {
+            return;
+        }
+
+        ((NavigationActivity) activity).setActionBarTitle(title);
+        View decorView = activity.getWindow().getDecorView();
+        decorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+        if (shouldAnnounce) {
+            decorView.announceForAccessibility(title);
         }
     }
 }
