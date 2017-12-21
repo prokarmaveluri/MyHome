@@ -427,6 +427,7 @@
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/assistance_not_needed"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
