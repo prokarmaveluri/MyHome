@@ -209,6 +209,7 @@
     <string name="gender_required">Gender is required</string>
     <string name="email_required">Email is required</string>
     <string name="translator_language_required">Translator Language is required</string>
+    <string name="language_required">Language is required</string>
     <string name="reason_for_visit_required">Reason For Visit is required</string>
     <string name="phone_number_required">Phone Number is required</string>
     <string name="weeks_pregnant_too_large">Weeks Pregnant is too large</string>
