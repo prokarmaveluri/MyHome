@@ -21,6 +21,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -258,7 +259,12 @@ public class ProfileViewFragment extends BaseFragment {
 
         if (profile.address != null &&
                 (profile.address.line1 != null || profile.address.line2 != null || profile.address.city != null || profile.address.stateOrProvince != null || profile.address.zipCode != null)) {
+
             address.setText(CommonUtil.constructAddress(profile.address.line1, profile.address.line2, profile.address.city, profile.address.stateOrProvince, profile.address.zipCode));
+
+            String addressContentDescription = AddressUtil.getAddressForAccessibilityUser(profile.address);
+            address.setContentDescription(getString(R.string.location) + addressContentDescription);
+
         } else {
             address.setVisibility(View.GONE);
         }

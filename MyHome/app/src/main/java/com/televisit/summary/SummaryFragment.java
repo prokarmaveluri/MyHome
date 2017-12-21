@@ -37,6 +37,7 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -699,6 +700,12 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             } else {
                 pharmacyAddress.setVisibility(View.VISIBLE);
                 pharmacyAddress.setText(CommonUtil.getPharmacyAddress(pharmacy));
+
+                String addressContentDescription = pharmacy != null && pharmacy.getAddress() != null ?
+                        AddressUtil.getAddressForAccessibilityUser(pharmacy.getAddress())
+                        : getString(R.string.address_unknown);
+
+                pharmacyAddress.setContentDescription(getString(R.string.location) + addressContentDescription);
             }
         }
     }

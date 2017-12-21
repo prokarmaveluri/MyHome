@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -121,6 +123,11 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
                 return false;
             }
         });
+
+        if (CommonUtil.isAccessibilityEnabled(this.getContext())) {
+            ArrayAdapter<String> stateArrayAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.profile_states_unabbreviated));
+            state.setAdapter(stateArrayAdapter);
+        }
 
         state.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -258,9 +265,19 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
 
             //Loop through states until we find a match, then set state spinner selection
             for (int i = 0; i < state.getAdapter().getCount(); i++) {
-                if (profile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
-                    state.setSelection(i);
-                    break;
+
+                if (CommonUtil.isAccessibilityEnabled(this.getContext())) {
+                    String stateShort = AddressUtil.getStateNameShorter(state.getAdapter().getItem(i).toString());
+                    if (profile.address.stateOrProvince.equalsIgnoreCase(stateShort)) {
+                        state.setSelection(i);
+                        break;
+                    }
+                }
+                else {
+                    if (profile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
+                        state.setSelection(i);
+                        break;
+                    }
                 }
             }
         } else {
@@ -387,7 +404,12 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
         }
 
         if (state.getSelectedItemPosition() != 0) {
-            profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
+            if (CommonUtil.isAccessibilityEnabled(this.getContext())) {
+                profile.address.stateOrProvince = AddressUtil.getStateNameShorter(state.getSelectedItem().toString().trim());
+            }
+            else {
+                profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
+            }
         }
 
         if (zip.getText() != null) {
