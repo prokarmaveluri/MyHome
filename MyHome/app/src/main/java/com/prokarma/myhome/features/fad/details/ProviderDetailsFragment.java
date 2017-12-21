@@ -17,7 +17,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +36,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
-import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentManager;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentMonthDetails;
@@ -206,10 +204,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
-        getActivity().getWindow().getDecorView()
-                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
-        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.provider_info));
+        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
         myMap.getMapAsync(this);
 
@@ -945,10 +940,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().popBackStack(TIME_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return true;
         } else if (fragment != null && fragment instanceof BookingDoneFragment) {
-            ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
-            getActivity().getWindow().getDecorView()
-                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
-            getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.provider_info));
+            CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
             BookingManager.clearBookingData(true);
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
@@ -963,10 +955,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().popBackStack();
             return true;
         } else if (getChildFragmentManager().getBackStackEntryCount() == 1) {
-            ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
-            getActivity().getWindow().getDecorView()
-                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
-            getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.provider_info));
+            CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();
