@@ -39,7 +39,6 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
-import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentManager;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentMonthDetails;
 import com.prokarma.myhome.features.fad.details.booking.BookingBackButton;
@@ -630,9 +629,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     alertDialog.setMessage(getString(R.string.map_alert));
                     alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            if (model instanceof Office) {
-                                Office office = (Office) model;
-                                CommonUtil.getDirections(getActivity(), office.getAddress1(), office.getCity(), office.getState());
+                            if (model instanceof ProviderDetailsOffice) {
+                                ProviderDetailsOffice office = (ProviderDetailsOffice) model;
+                                CommonUtil.getDirections(getActivity(), office.getAddresses().get(0).getAddress(), office.getAddresses().get(0).getCity(), office.getAddresses().get(0).getState());
                             }
                         }
                     }).setNeutralButton(getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -757,8 +756,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         BookingManager.setIsBookingForMe(isBookingForMe);
 
-        if(AppointmentManager.getInstance().getNumberOfMonths() > 0 &&
-                (AppointmentManager.getInstance().getAppointmentTypes() == null || AppointmentManager.getInstance().getAppointmentTypes().isEmpty())){
+        if (AppointmentManager.getInstance().getNumberOfMonths() > 0 &&
+                (AppointmentManager.getInstance().getAppointmentTypes() == null || AppointmentManager.getInstance().getAppointmentTypes().isEmpty())) {
             waitingForAppointmentTypes = false;
             Toast.makeText(getContext(), "Couldn't find appointments for this location.\nPlease try another office", Toast.LENGTH_LONG).show();
             restartSchedulingFlow();
