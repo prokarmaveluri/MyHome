@@ -116,6 +116,7 @@ public class BookingSelectCalendarFragment extends Fragment {
                     selectTimeInterface.onBackArrowClicked();
                 }
                 moveSelectedMonth(-1);
+                progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -127,6 +128,7 @@ public class BookingSelectCalendarFragment extends Fragment {
                     selectTimeInterface.onFrontArrowClicked();
                 }
                 moveSelectedMonth(1);
+                progressBar.setVisibility(View.GONE);
             }
         });
 
