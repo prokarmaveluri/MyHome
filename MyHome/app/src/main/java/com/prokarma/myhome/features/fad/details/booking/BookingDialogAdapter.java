@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -32,6 +33,8 @@ import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.prokarma.myhome.utils.ValidationUtil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import timber.log.Timber;
@@ -242,6 +245,30 @@ public class BookingDialogAdapter extends PagerAdapter {
         dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
         phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
+
+        ArrayList<String> listStates = new ArrayList(Arrays.asList(context.getResources().getStringArray(R.array.profile_states)));
+        if (listStates != null && listStates.size() > 0) {
+            if (listStates.get(0).equalsIgnoreCase("state")) {
+                listStates.remove(0);
+            }
+        }
+
+        ArrayList<String> listGender = new ArrayList(Arrays.asList(context.getResources().getStringArray(R.array.profile_gender)));
+        if (listGender != null && listGender.size() > 0) {
+            if (listGender.get(0).equalsIgnoreCase("gender")) {
+                listGender.remove(0);
+            }
+        }
+
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, listGender);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderAdapter.notifyDataSetChanged();
+        gender.setAdapter(genderAdapter);
+
+        ArrayAdapter<String> stateAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, listStates);
+        stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        stateAdapter.notifyDataSetChanged();
+        state.setAdapter(stateAdapter);
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -766,8 +793,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);
-            }
-            else if (dateOfBirthLayout.getVisibility() == View.VISIBLE  && !dateOfBirth.getText().toString().isEmpty() && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString())) {
+            } else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && !dateOfBirth.getText().toString().isEmpty() && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString())) {
                 dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_invalid));
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();
