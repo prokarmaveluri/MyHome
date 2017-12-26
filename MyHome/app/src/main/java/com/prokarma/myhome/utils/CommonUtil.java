@@ -940,7 +940,11 @@ public class CommonUtil {
             office.setLat(providerOffice.getAddresses().get(0).getLatitude().toString());
             office.setLon(providerOffice.getAddresses().get(0).getLongitude().toString());
             office.setLatLongHash(providerOffice.getAddresses().get(0).getLatLongHash());
-            office.setPhone(providerOffice.getAddresses().get(0).getPhones().get(0));
+
+            if (providerOffice.getAddresses().get(0).getPhones() != null
+                    && providerOffice.getAddresses().get(0).getPhones().size() > 0) {
+                office.setPhone(providerOffice.getAddresses().get(0).getPhones().get(0));
+            }
 
             offices.add(office);
         }
