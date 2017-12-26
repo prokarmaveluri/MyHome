@@ -138,12 +138,20 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             providerList.clear();
             clearFilters();
         }
-        binding.suggestionList.setVisibility(View.VISIBLE);
+
+        // BUG-30340: Upon tapping search bar on Fad main screen
+        // Acutal: Search filter option is missing. The filter can be accessed by tapping on the search bar X-cancel button
+        // Expected: A Search Filter option is present
+
+        /*binding.suggestionList.setVisibility(View.VISIBLE);
         searchLayoutVisibility(true);
         binding.searchQuery.requestFocus();
         getSearchSuggestions("");
         CommonUtil.showSoftKeyboard(binding.searchQuery, getActivity());
-        updateSuggestionList(presenter.getQuickSearchSuggestions());
+        updateSuggestionList(presenter.getQuickSearchSuggestions()); */
+
+        searchLayoutVisibility(false);
+        binding.suggestionList.setVisibility(View.GONE);
 
         drawableClickEvent();
         return binding.getRoot();
@@ -740,7 +748,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                                 } catch (NullPointerException ex) {
                                     if (null != getActivity())
                                         CommonUtil.hideSoftKeyboard(getActivity());
-                                     searchLayoutVisibility(false);
+                                    searchLayoutVisibility(false);
                                     binding.suggestionList.setVisibility(View.GONE);
                                 }
                                 return true;
