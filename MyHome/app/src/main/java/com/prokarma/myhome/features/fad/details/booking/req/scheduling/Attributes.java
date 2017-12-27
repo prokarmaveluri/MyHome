@@ -1,7 +1,7 @@
 package com.prokarma.myhome.features.fad.details.booking.req.scheduling;
 
 import com.google.gson.annotations.SerializedName;
-import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsAddress;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.profile.Profile;
@@ -171,7 +171,7 @@ public class Attributes {
         this.isCreatedByCaregiver = isCreatedByCaregiver;
     }
 
-    public Attributes(String doctorName, String providerNpi, ProviderDetailsOffice office, Profile profile, AppointmentTime appointment, AppointmentType appointmentType, boolean isBookingForMe) {
+    public Attributes(String doctorName, String providerNpi, ProviderDetailsAddress location, Profile profile, AppointmentTime appointment, AppointmentType appointmentType, boolean isBookingForMe) {
         this.address = profile.address.line1;
         this.address2 = profile.address.line2;
         this.appointmentAt = appointment.getTime();
@@ -200,12 +200,12 @@ public class Attributes {
         this.zip = profile.address.zipCode;
         this.doctorName = doctorName;
         this.doctorNpi = providerNpi;
-        this.facilityName = office.getName();
-        this.facilityPhoneNumber = office.getAddresses() != null && office.getAddresses().get(0).getPhones() != null ? office.getAddresses().get(0).getPhones().get(0) : "";
-        this.facilityAddressLine1 = office.getAddresses() != null ? office.getAddresses().get(0).getAddress() : "";
-        this.facilityCity = office.getAddresses() != null ? office.getAddresses().get(0).getCity() : "";
-        this.facilityState = office.getAddresses() != null ? office.getAddresses().get(0).getState() : "";
-        this.facilityZip = office.getAddresses() != null ? office.getAddresses().get(0).getZip() : "";
+        this.facilityName = location.getName();
+        this.facilityPhoneNumber = location != null && location.getPhones() != null ? location.getPhones().get(0) : "";
+        this.facilityAddressLine1 = location != null ? location.getAddress() : "";
+        this.facilityCity = location != null ? location.getCity() : "";
+        this.facilityState = location != null ? location.getState() : "";
+        this.facilityZip = location != null ? location.getZip() : "";
         this.isCreatedByCaregiver = !isBookingForMe;
     }
 

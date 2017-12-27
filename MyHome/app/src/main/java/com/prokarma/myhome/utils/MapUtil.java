@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsAddress;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
 
 import java.security.MessageDigest;
@@ -66,16 +67,23 @@ public class MapUtil {
      */
     public static ArrayList<Marker> addMapMarkers(Context context, @NonNull GoogleMap googleMap, @NonNull List<ProviderDetailsOffice> offices, @NonNull BitmapDescriptor bitmapDescriptor, GoogleMap.OnMarkerClickListener listener) {
         ArrayList<Marker> markers = new ArrayList<>();
+        MarkerOptions markerOptions = new MarkerOptions();
         if (googleMap != null && offices != null) {
             for (ProviderDetailsOffice office : offices) {
-                markers.add(googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(office.getAddresses().get(0).getLatitude(), office.getAddresses().get(0).getLongitude()))
-                        .title(office.getName() != null ? office.getName() : office.getAddresses().get(0).getAddress())
-                        .snippet(office.getAddresses().get(0).getAddress() != null ? office.getAddresses().get(0).getAddress() : context.getString(R.string.address_unknown))
-                        .icon(bitmapDescriptor)));
+                for (ProviderDetailsAddress address : office.getAddresses()) {
+                    markerOptions = new MarkerOptions()
+                            .position(new LatLng(address.getLatitude(), address.getLongitude()))
+                            .title(office.getName() != null ? office.getName() : address.getAddress())
+                            .snippet(address.getAddress() != null ? CommonUtil.constructAddress(address.getAddress(), null, address.getCity(), address.getState(), address.getZip()) : context.getString(R.string.address_unknown))
+                            .icon(bitmapDescriptor);
 
-                if (listener != null) {
-                    googleMap.setOnMarkerClickListener(listener);
+                    Marker marker = googleMap.addMarker(markerOptions);
+                    marker.setTag(address);
+                    markers.add(marker);
+
+                    if (listener != null) {
+                        googleMap.setOnMarkerClickListener(listener);
+                    }
                 }
             }
         } else {
@@ -112,21 +120,6 @@ public class MapUtil {
         }
 
         return markers;
-    }
-
-    /**
-     * Compares address for office versus the address we formatted for the marker in MapUtil.addMapMarker
-     *
-     * @param office
-     * @param marker
-     * @return if the office has the same address as the marker, return true. Otherwise, return false.
-     */
-    public static boolean isOfficeSelected(ProviderDetailsOffice office, Marker marker) {
-        if ((office.getAddresses().get(0).getAddress()).equalsIgnoreCase(marker.getSnippet())) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -205,13 +198,13 @@ public class MapUtil {
     }
 
     @Nullable
-    public static Pharmacy getPharmacy(Marker marker, List<Pharmacy> pharmacies){
+    public static Pharmacy getPharmacy(Marker marker, List<Pharmacy> pharmacies) {
         LatLng pharmacyPosition;
 
         for (Pharmacy pharmacy : pharmacies) {
             pharmacyPosition = new LatLng(Double.valueOf(pharmacy.getLatitude()),
                     Double.valueOf(pharmacy.getLongitude()));
-            if(marker.getTitle().contains(pharmacy.getName()) && pharmacyPosition.equals(marker.getPosition())){
+            if (marker.getTitle().contains(pharmacy.getName()) && pharmacyPosition.equals(marker.getPosition())) {
                 return pharmacy;
             }
         }

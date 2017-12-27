@@ -66,17 +66,17 @@ public class BookingConfirmationFragment extends Fragment {
         TextView reason = (TextView) bookingView.findViewById(R.id.reason);
 
         date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().getTime()));
-        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().getTime()) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingAppointment().getTime()));
+        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().getTime()) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingLocation().getState(), BookingManager.getBookingAppointment().getTime()));
 
         address.setText(CommonUtil.constructAddress(
-                BookingManager.getBookingOffice().getAddresses().get(0).getAddress(),
+                BookingManager.getBookingLocation().getAddress(),
                 null,
-                BookingManager.getBookingOffice().getAddresses().get(0).getCity(),
-                BookingManager.getBookingOffice().getAddresses().get(0).getState(),
-                BookingManager.getBookingOffice().getAddresses().get(0).getZip()));
+                BookingManager.getBookingLocation().getCity(),
+                BookingManager.getBookingLocation().getState(),
+                BookingManager.getBookingLocation().getZip()));
 
-        String addressContentDescription = BookingManager.getBookingOffice().getAddresses() != null && BookingManager.getBookingOffice().getAddresses().get(0) != null ?
-                AddressUtil.getAddressForAccessibilityUser(BookingManager.getBookingOffice().getAddresses().get(0))
+        String addressContentDescription = BookingManager.getBookingLocation() != null ?
+                AddressUtil.getAddressForAccessibilityUser(BookingManager.getBookingLocation())
                 : getString(R.string.address_unknown);
         address.setContentDescription(getString(R.string.location) + addressContentDescription);
 

@@ -106,7 +106,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     private ProviderDetailsResult provider;
 
-    private ProviderDetailsOffice currentOffice;
+    private ProviderDetailsAddress currentLocation;
 
     private SupportMapFragment myMap;
     private View providerDetailsView;
@@ -276,10 +276,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         name.setText(provider.getDisplayName() != null ? provider.getDisplayName() : getString(R.string.name_unknown));
         speciality.setText(provider.getPrimarySpecialities() != null ? provider.getPrimarySpecialities().get(0) : getString(R.string.specialities_unknown));
         address.setText(provider.getOffices() != null ?
-                provider.getOffices().get(0).getAddresses().get(0).getAddress() + "\n" +
-                        provider.getOffices().get(0).getAddresses().get(0).getCity() + ", " +
-                        provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
-                        provider.getOffices().get(0).getAddresses().get(0).getZip()
+                CommonUtil.constructAddress(
+                provider.getOffices().get(0).getAddresses().get(0).getAddress(),
+                        null,
+                        provider.getOffices().get(0).getAddresses().get(0).getCity(),
+                        provider.getOffices().get(0).getAddresses().get(0).getState(),
+                        provider.getOffices().get(0).getAddresses().get(0).getZip())
                 : getString(R.string.address_unknown));
 
         String addressContentDescription = provider.getOffices() != null && provider.getOffices().get(0) != null ?
@@ -289,7 +291,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumberDots(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         phone.setContentDescription(provider.getOffices() != null ? getString(R.string.phone_number_des) + CommonUtil.stringToSpacesString(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
-        currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
+        currentLocation = provider.getOffices() != null ? provider.getOffices().get(0).getAddresses().get(0) : null;
 
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -421,23 +423,23 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
 
                         //Setup Booking
-                        currentOffice = provider.getOffices().get(0);
+                        currentLocation = provider.getOffices().get(0).getAddresses().get(0);
 
                         if (provider.getSupportsOnlineBooking()) {
                             AppointmentManager.getInstance().initializeAppointmentDetailsList(false);
-                            getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentOffice.getAddresses().get(0).getAddressHash());
+                            getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentLocation.getAddressHash());
                         }
 
                         bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
                         bookAppointment.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentOffice.getAddresses().get(0).getAddressHash());
+                                getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentLocation.getAddressHash());
 
                                 bookAppointment.setVisibility(View.GONE);
                                 BookingManager.setBookingProfile(null);
                                 BookingManager.setBookingProvider(provider);
-                                BookingManager.setBookingOffice(currentOffice);
+                                BookingManager.setBookingLocation(currentLocation);
 
                                 BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
                                 bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
@@ -516,14 +518,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     //Set address text, then make sure to change selected icon
     private void handleMarkerClick(Marker marker) {
         //set the current office
-        if (provider != null && provider.getOffices() != null) {
-            for (ProviderDetailsOffice office : provider.getOffices()) {
-                if (MapUtil.isOfficeSelected(office, marker)) {
-                    currentOffice = office;
-                    break;
-                }
-            }
-        }
+        currentLocation = (ProviderDetailsAddress) marker.getTag();
 
         bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
 
@@ -535,8 +530,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             expandableLinearLayout.initLayout();
         }
 
-        address.setText(marker.getSnippet());
-        phone.setText(CommonUtil.constructPhoneNumberDots(currentOffice.getAddresses().get(0).getPhones().get(0)));
+        address.setText(CommonUtil.constructAddress(currentLocation.getAddress(), null, currentLocation.getCity(), currentLocation.getState(), currentLocation.getZip()));
+        phone.setText(CommonUtil.constructPhoneNumberDots(currentLocation.getPhones().get(0)));
         MapUtil.setMarkerSelectedIcon(getContext(), markers, address.getText().toString());
     }
 
@@ -844,18 +839,18 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 isCalendarLoading = true;
             }
 
-            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(date), DateUtil.getEndOfTheMonthDate(date), currentOffice.getAddresses().get(0).getAddressHash());
+            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(date), DateUtil.getEndOfTheMonthDate(date), currentLocation.getAddressHash());
         }
 
         //We don't have next month's appointments. We should try to cache that...
         if (!AppointmentManager.getInstance().isDateCached(DateUtil.addOneMonthToDate(new Date()))) {
-            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentOffice.getAddresses().get(0).getAddressHash());
+            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentLocation.getAddressHash());
         }
     }
 
     @Override
     public void onPhoneNumberClicked() {
-        Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + currentOffice.getAddresses().get(0).getPhones().get(0)));
+        Intent intentPhone = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL + currentLocation.getPhones().get(0)));
         intentPhone.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intentPhone);
     }
@@ -888,7 +883,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void onClickBook() {
         BookingDoneFragment bookingFragment = BookingDoneFragment.newInstance(provider.getDisplayName(),
-                provider.getNpi(), currentOffice.getName(), currentOffice.getAddresses().get(0).getPhones().get(0));
+                provider.getNpi(), currentLocation.getName(), currentLocation.getPhones().get(0));
         bookingFragment.setDoneInterface(ProviderDetailsFragment.this);
         bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
         getChildFragmentManager()

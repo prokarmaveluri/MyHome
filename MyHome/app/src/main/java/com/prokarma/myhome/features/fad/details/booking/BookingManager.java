@@ -1,6 +1,6 @@
 package com.prokarma.myhome.features.fad.details.booking;
 
-import com.prokarma.myhome.features.fad.details.ProviderDetailsOffice;
+import com.prokarma.myhome.features.fad.details.ProviderDetailsAddress;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResult;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
@@ -14,7 +14,7 @@ import java.util.Date;
 
 public class BookingManager {
     private static ProviderDetailsResult bookingProvider;
-    private static ProviderDetailsOffice bookingOffice;
+    private static ProviderDetailsAddress bookingLocation;
     private static AppointmentType bookingAppointmentType;
     private static Profile bookingProfile;
     private static AppointmentTime bookingAppointment;
@@ -30,12 +30,12 @@ public class BookingManager {
         BookingManager.bookingProvider = bookingProvider;
     }
 
-    public static ProviderDetailsOffice getBookingOffice() {
-        return bookingOffice;
+    public static ProviderDetailsAddress getBookingLocation() {
+        return bookingLocation;
     }
 
-    public static void setBookingOffice(ProviderDetailsOffice bookingOffice) {
-        BookingManager.bookingOffice = bookingOffice;
+    public static void setBookingLocation(ProviderDetailsAddress bookingLocation) {
+        BookingManager.bookingLocation = bookingLocation;
     }
 
     public static Profile getBookingProfile() {
@@ -90,7 +90,7 @@ public class BookingManager {
         if (!keepProvider) {
             bookingProvider = null;
             scheduleId = null;
-            bookingOffice = null;
+            bookingLocation = null;
         }
 
         bookingProfile = null;

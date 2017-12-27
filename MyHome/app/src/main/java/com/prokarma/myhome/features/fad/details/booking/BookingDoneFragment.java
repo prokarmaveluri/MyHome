@@ -10,6 +10,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.gson.Gson;
@@ -27,6 +28,7 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -185,7 +187,7 @@ public class BookingDoneFragment extends Fragment {
     }
 
     private void scheduleAppointment() {
-        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, providerNpi, BookingManager.getScheduleId(), BookingManager.getBookingOffice(), BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.getBookingAppointmentType(), BookingManager.isBookingForMe());
+        CreateAppointmentRequest request = new CreateAppointmentRequest(doctorName, providerNpi, BookingManager.getScheduleId(), BookingManager.getBookingLocation(), BookingManager.getBookingProfile(), BookingManager.getBookingAppointment(), BookingManager.getBookingAppointmentType(), BookingManager.isBookingForMe());
 
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Timber.i("Request = " + request);
@@ -204,8 +206,8 @@ public class BookingDoneFragment extends Fragment {
                         getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.appointment_confirmed));
                         updateVisibility(false);
                         date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().getTime()));
-                        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().getTime()) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingAppointment().getTime()));
-                        address.setText(CommonUtil.constructAddress(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), null, BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip()));
+                        time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().getTime()) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingLocation().getState(), BookingManager.getBookingAppointment().getTime()));
+                        address.setText(CommonUtil.constructAddress(BookingManager.getBookingLocation().getAddress(), null, BookingManager.getBookingLocation().getCity(), BookingManager.getBookingLocation().getState(), BookingManager.getBookingLocation().getZip()));
 
                         if (doneInterface != null) {
                             doneInterface.onBookingSuccess();
@@ -256,7 +258,7 @@ public class BookingDoneFragment extends Fragment {
     public void onClickDirections() {
         CommonUtil.getDirections(
                 getActivity(),
-                new Address(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), null, BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip(), null)
+                new Address(BookingManager.getBookingLocation().getAddress(), null, BookingManager.getBookingLocation().getCity(), BookingManager.getBookingLocation().getState(), BookingManager.getBookingLocation().getZip(), null)
         );
     }
 
@@ -265,9 +267,9 @@ public class BookingDoneFragment extends Fragment {
                 getActivity(),
                 BookingManager.getBookingAppointment().getTime(),
                 BookingManager.getBookingProvider().getDisplayName(),
-                BookingManager.getBookingOffice().getName(),
-                new Address(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), "", BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip(), null),
-                BookingManager.getBookingOffice().getAddresses().get(0).getPhones().get(0),
+                BookingManager.getBookingLocation().getName(),
+                new Address(BookingManager.getBookingLocation().getAddress(), "", BookingManager.getBookingLocation().getCity(), BookingManager.getBookingLocation().getState(), BookingManager.getBookingLocation().getZip(), null),
+                BookingManager.getBookingLocation().getPhones().get(0),
                 BookingManager.getBookingProfile().reasonForVisit
         );
     }
@@ -277,8 +279,8 @@ public class BookingDoneFragment extends Fragment {
                 getActivity(),
                 BookingManager.getBookingAppointment().getTime(),
                 BookingManager.getBookingProvider().getDisplayName(),
-                new Address(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), "", BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip(), null),
-                BookingManager.getBookingOffice().getAddresses().get(0).getPhones().get(0),
+                new Address(BookingManager.getBookingLocation().getAddress(), "", BookingManager.getBookingLocation().getCity(), BookingManager.getBookingLocation().getState(), BookingManager.getBookingLocation().getZip(), null),
+                BookingManager.getBookingLocation().getPhones().get(0),
                 BookingManager.getBookingProfile().reasonForVisit
         );
     }
