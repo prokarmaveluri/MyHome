@@ -495,7 +495,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                     gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            if (position == 2) {
+                            if (gender.getSelectedItem().toString().equalsIgnoreCase(context.getString(R.string.female))) {
                                 //You're a female
 
                                 if (fields.contains(ValidationUtil.FIELD_PREGNANT)) {
