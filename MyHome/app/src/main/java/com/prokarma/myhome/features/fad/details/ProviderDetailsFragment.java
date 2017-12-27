@@ -754,10 +754,23 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         if (AppointmentManager.getInstance().getNumberOfMonths() > 0 &&
                 (AppointmentManager.getInstance().getAppointmentTypes() == null || AppointmentManager.getInstance().getAppointmentTypes().isEmpty())) {
             waitingForAppointmentTypes = false;
-            Toast.makeText(getContext(), "Couldn't find appointments for this location.\nPlease try another office", Toast.LENGTH_LONG).show();
-            restartSchedulingFlow();
-            expandableLinearLayout.collapse();
-            expandableLinearLayout.initLayout();
+//            Toast.makeText(getContext(), "Couldn't find appointments for this location.\nPlease try another office", Toast.LENGTH_LONG).show();
+//            restartSchedulingFlow();
+//            expandableLinearLayout.collapse();
+//            expandableLinearLayout.initLayout();
+
+            BookingManager.setBookingAppointmentType(null);
+            bookingSelectTimeFragment = BookingSelectTimeFragment.newInstance();
+            bookingSelectTimeFragment.setSelectTimeInterface(this);
+            bookingSelectTimeFragment.setRefreshInterface(this);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                    .replace(R.id.booking_frame, bookingSelectTimeFragment)
+                    .addToBackStack(TIME_TAG)
+                    .commit();
+            getChildFragmentManager().executePendingTransactions();
+
         } else if (AppointmentManager.getInstance().getNumberOfMonths() > 0) {
             waitingForAppointmentTypes = false;
             BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(AppointmentManager.getInstance().getAppointmentTypes());

@@ -108,7 +108,7 @@ public class AppointmentManager {
         Set<AppointmentAvailableTime> totalAvailableTimes = new HashSet<>();
 
         for (AppointmentMonthDetails monthDetails : appointmentDetailsList) {
-            if (monthDetails != null && monthDetails.getAppointmentTimeSlots() != null && monthDetails.getAppointmentTimeSlots().getData().get(0).getAttributes() != null) {
+            if (monthDetails != null && monthDetails.getAppointmentTimeSlots() != null && monthDetails.getAppointmentTimeSlots().getData().get(0).getAttributes() != null && monthDetails.getAppointmentTimeSlots().getData().get(0).getAttributes().getAvailableTimes() != null) {
                 totalAvailableTimes.addAll(monthDetails.getAppointmentTimeSlots().getData().get(0).getAttributes().getAvailableTimes());
             }
         }
