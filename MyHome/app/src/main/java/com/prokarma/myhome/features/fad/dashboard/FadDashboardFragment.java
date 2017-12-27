@@ -93,7 +93,7 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
 
     @Override
     public void providerClick(int position) {
-        if (ProfileManager.getFavoriteProviders() != null) {
+        if (ProfileManager.getFavoriteProviders() != null && !ProfileManager.getFavoriteProviders().isEmpty()) {
             providerDetails(ProfileManager.getFavoriteProviders().get(position).getNpi());
         }
     }
