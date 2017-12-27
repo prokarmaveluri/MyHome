@@ -24,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
@@ -35,6 +37,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.RecyclerViewListener;
+import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentManager;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentMonthDetails;
 import com.prokarma.myhome.features.fad.details.booking.BookingBackButton;
@@ -274,12 +277,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
                         provider.getOffices().get(0).getAddresses().get(0).getZip()
                 : getString(R.string.address_unknown));
-
-        String addressContentDescription = provider.getOffices() != null && provider.getOffices().get(0) != null ?
-                AddressUtil.getAddressForAccessibilityUser(provider.getOffices().get(0).getAddresses().get(0))
+        String addressCintentDescription = provider.getOffices() != null ?
+                provider.getOffices().get(0).getAddresses().get(0).getAddress() + "\n" +
+                        provider.getOffices().get(0).getAddresses().get(0).getCity() + ", " +
+                        provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
+                        CommonUtil.stringToSpacesString(provider.getOffices().get(0).getAddresses().get(0).getZip())
                 : getString(R.string.address_unknown);
-        address.setContentDescription(getString(R.string.location) + addressContentDescription);
-
+        address.setContentDescription(getString(R.string.location) + addressCintentDescription);
         phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumberDots(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         phone.setContentDescription(provider.getOffices() != null ? getString(R.string.phone_number_des) + CommonUtil.stringToSpacesString(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
