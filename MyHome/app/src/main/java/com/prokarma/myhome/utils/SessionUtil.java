@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.fad.FadFragment;
@@ -19,7 +17,6 @@ import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.televisit.AwsManager;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,8 +38,7 @@ public class SessionUtil {
             progressBar.setVisibility(View.VISIBLE);
         if (null == AuthManager.getInstance().getSid()) {
             Timber.i("AuthManager didn't have an Id Token for Sign Out.\nSending User to log in again...");
-            Toast.makeText(activity, activity.getString(R.string.no_valid_session),
-                    Toast.LENGTH_SHORT).show();
+            CommonUtil.showToast(activity, activity.getString(R.string.no_valid_session));
 
             clearData();
             if (null != progressBar)
@@ -67,8 +63,7 @@ public class SessionUtil {
 
                 if (response.isSuccessful() && response.body().getIsValid()) {
                     Timber.i("Response successful: " + response);
-                    Toast.makeText(activity, activity.getString(R.string.signed_out_successfully),
-                            Toast.LENGTH_SHORT).show();
+                    CommonUtil.showToast(activity, activity.getString(R.string.signed_out_successfully));
                 } else {
                     Timber.i("Response not successful: " + response);
                     ApiErrorUtil.getInstance().signOutError(activity.getApplicationContext(), activity.getCurrentFocus(), response);

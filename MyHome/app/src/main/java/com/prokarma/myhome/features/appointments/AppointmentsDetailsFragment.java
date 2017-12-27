@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
@@ -26,7 +24,6 @@ import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
-
 import timber.log.Timber;
 
 /**
@@ -116,7 +113,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                     NetworkManager.getInstance().updateFavDoctor(favDoc, appointment.provider.getNpi(),
                             favProvider, appointment.provider, false, getActivity(), appointmentsView);
                 } else {
-                    Toast.makeText(getActivity(), "Sorry we are unable to add at this time.", Toast.LENGTH_SHORT).show();
+                    CommonUtil.showToast(getActivity(),getString(R.string.unable_to_add_message));
                 }
             }
         });
@@ -146,7 +143,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (appointment == null || appointment.facilityAddress == null) {
-                    Toast.makeText(getContext(), getString(R.string.directions_not_found), Toast.LENGTH_LONG).show();
+                    CommonUtil.showToast(getContext(), getString(R.string.directions_not_found));
                 } else {
                     CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
                 }

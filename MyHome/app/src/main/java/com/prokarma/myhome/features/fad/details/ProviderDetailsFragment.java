@@ -24,7 +24,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
@@ -721,8 +720,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     //Launches the booking registration form
     private void launchRegistrationForms() {
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
 
@@ -901,7 +899,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         TealiumUtil.trackEvent(Constants.SCHEDULING_FAILED_EVENT, tealiumData);
 
         if (isAdded()) {
-            Toast.makeText(getActivity(), getString(R.string.booking_failed), Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.booking_failed));
 
             //Go to Time Fragment, then open up the Registration Forms Again
 

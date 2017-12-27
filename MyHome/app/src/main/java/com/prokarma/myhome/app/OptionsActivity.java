@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.care.MyCareFragment;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
@@ -21,8 +19,8 @@ import com.prokarma.myhome.features.settings.ChangeSecQuestionFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
 import com.prokarma.myhome.features.settings.TouchIDFragment;
 import com.prokarma.myhome.features.tos.TosFragment;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-
 import timber.log.Timber;
 
 /**
@@ -220,7 +218,7 @@ public class OptionsActivity extends BaseActivity {
                 break;
             default:
                 Timber.w("Options Activity found an activity tag that isn't being handled!");
-                Toast.makeText(this, getString(R.string.unknown_activity_tag), Toast.LENGTH_SHORT).show();
+                CommonUtil.showToast(this, getString(R.string.unknown_activity_tag));
                 break;
         }
 

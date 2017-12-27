@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
@@ -49,7 +48,6 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 import com.televisit.AwsManager;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -388,7 +386,7 @@ public class CommonUtil {
                 context.startActivity(intent);
             } catch (ActivityNotFoundException ex) {
                 Timber.e(ex);
-                Toast.makeText(context, context.getString(R.string.please_install_calendar_app), Toast.LENGTH_LONG).show();
+                CommonUtil.showToast(context, context.getString(R.string.please_install_calendar_app));
             }
         }
     }
@@ -434,7 +432,7 @@ public class CommonUtil {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Timber.e(ex);
-            Toast.makeText(context, context.getString(R.string.please_install_calendar_app), Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(context, context.getString(R.string.please_install_calendar_app));
         }
     }
 
@@ -526,9 +524,9 @@ public class CommonUtil {
         } catch (ActivityNotFoundException ex) {
             Timber.e(ex);
             if (AwsManager.getInstance().isDependent()) {
-                Toast.makeText(context, context.getString(R.string.no_app_share_appointments_dependent), Toast.LENGTH_LONG).show();
+                CommonUtil.showToast(context, context.getString(R.string.no_app_share_appointments_dependent));
             } else {
-                Toast.makeText(context, context.getString(R.string.no_app_share_appointments), Toast.LENGTH_LONG).show();
+                CommonUtil.showToast(context, context.getString(R.string.no_app_share_appointments));
             }
         }
     }
@@ -585,7 +583,7 @@ public class CommonUtil {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Timber.e(ex);
-            Toast.makeText(context, context.getString(R.string.no_app_share_appointments), Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(context,context.getString(R.string.no_app_share_appointments));
         }
     }
 
@@ -715,7 +713,7 @@ public class CommonUtil {
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Timber.e("context is null. Could not show toast message.");
+                Timber.e("context is null. Could not show toast message." + message);
             }
         } catch (NullPointerException | IllegalStateException ex) {
             Timber.w(ex);
@@ -1122,18 +1120,15 @@ public class CommonUtil {
             return;
         }
         if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
-            Toast.makeText(context, sdkError.getMessage(), Toast.LENGTH_LONG).show();
-
+            CommonUtil.showToast(context, sdkError.getMessage());
         } else if (sdkError.getSDKErrorReason() != null && !sdkError.getSDKErrorReason().isEmpty()) {
-            Toast.makeText(context, sdkError.getSDKErrorReason(), Toast.LENGTH_LONG).show();
-
+            CommonUtil.showToast(context, sdkError.getSDKErrorReason());
         } else if (sdkError.toString() != null && sdkError.toString().toLowerCase().contains("provider unavailable")) {
-            Toast.makeText(context, "Provider unavailable \nPlease select a different provider.", Toast.LENGTH_LONG).show();
-
+            CommonUtil.showToast(context, context.getString(R.string.provider_unavailable));
         } else if (sdkError.toString() != null && !sdkError.toString().isEmpty()) {
-            Toast.makeText(context, sdkError.toString(), Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(context, sdkError.toString());
         } else {
-            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(context, context.getString(R.string.something_went_wrong));
         }
     }
 

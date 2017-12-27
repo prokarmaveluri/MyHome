@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -424,7 +422,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
         if (isAdded()) {
             progress.setVisibility(View.GONE);
             TealiumUtil.trackEvent(Constants.PROFILE_UPDATE_EVENT, null);
-            Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.profile_saved));
             getActivity().onBackPressed();
         }
     }

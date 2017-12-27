@@ -22,8 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -46,16 +44,13 @@ import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsGetVisitSummary;
 import com.televisit.previousvisit.EmailsAdapter;
 import com.televisit.previousvisit.PrescriptionsAdapter;
-
 import org.apache.commons.io.IOUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import timber.log.Timber;
 
 public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary {
@@ -176,9 +171,9 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                     if (emailToAdd.equalsIgnoreCase(emailObject.getEmailId())) {
 
                         if (emailObject.isSelected()) {
-                            Toast.makeText(getActivity(), R.string.email_already_added, Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getActivity(), getString(R.string.email_already_added));
                         } else {
-                            Toast.makeText(getActivity(), R.string.email_already_added_notchecked, Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getActivity(), getString(R.string.email_already_added_notchecked));
                         }
                         return;
                     }
@@ -191,7 +186,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                 // As per BRs, we are allowing 5 email addresses to be added. One is the email address of the currently loggedin user.
                 // that makes it 6 in total
                 if (emailObjects.size() >= 6) {
-                    Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
+                    CommonUtil.showToast(getActivity(), getString(R.string.visit_summary_email_failed));
                     return;
                 }
 
@@ -316,7 +311,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private void emailVisitSummaryReport() {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
 
@@ -339,7 +334,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
 
         if (!emailAgree.isChecked()) {
-            Toast.makeText(getActivity(), R.string.email_agreement_missing, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.email_agreement_missing));
             return;
         }
 
@@ -351,8 +346,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                     @Override
                     public void onValidationFailure(@NonNull Map<String, String> map) {
                         Timber.d("emailVisitSummaryReport. ValidationFailure " + map.toString());
-
-                        Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getString(R.string.visit_summary_email_failed));
                         progressBar.setVisibility(View.GONE);
                     }
 
@@ -363,8 +357,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
                         if (sdkError == null) {
                             Timber.d("emailVisitSummaryReport succeeded! ");
-                            Toast.makeText(getActivity(), R.string.visit_summary_email_completed, Toast.LENGTH_LONG).show();
-
+                            CommonUtil.showToast(getActivity(), getString(R.string.visit_summary_email_completed));
                             doneVisitSummary();
 
                         } else {
@@ -383,7 +376,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                         Timber.e("Throwable = " + throwable);
 
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getString(R.string.visit_summary_email_failed));
                     }
                 });
     }
@@ -391,7 +384,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private void getVisitReportDetails(final VisitReport visitReport) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
 
@@ -519,8 +512,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                         progressBar.setVisibility(View.GONE);
                         viewReport.setVisibility(View.GONE);
                         doctorNotes.setVisibility(View.VISIBLE);
-                        Toast.makeText(getContext(), "Visit report not available! ", Toast.LENGTH_LONG).show();
-
+                        CommonUtil.showToast(getContext(),getString(R.string.visit_report_not_available));
                         if (throwable != null) {
                             Timber.d("visitsummary. getVisitReportAttachment: " + throwable.getMessage());
                         }
@@ -597,7 +589,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         Timber.d("visitsummary. getVisitSummaryFailed. errorMessage = " + errorMessage);
 
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(getContext(), "Sorry, Pulling up visit summary has failed. Please try again at later time", Toast.LENGTH_LONG).show();
+        CommonUtil.showToast(getContext(),getString(R.string.pulling_up_visit_summary_failed_message));
     }
 
     private void displayPharmacyDetails(Pharmacy pharmacy) {

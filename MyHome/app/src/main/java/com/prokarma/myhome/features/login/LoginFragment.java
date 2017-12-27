@@ -3,7 +3,6 @@ package com.prokarma.myhome.features.login;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -16,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -26,8 +24,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
@@ -44,11 +40,8 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
-
 import java.lang.ref.WeakReference;
-
 import timber.log.Timber;
-
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 public class LoginFragment extends Fragment implements LoginInteractor.View {
@@ -462,8 +455,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                             loginFragment.showProgress(false);
                             AuthManager.getInstance().setBearerToken(null);
                             AuthManager.getInstance().setAmWellToken(null);
-                            Toast.makeText(loginFragment.getActivity(), loginFragment.getString(R.string.failure_msg),
-                                    Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(loginFragment.getActivity(), loginFragment.getString(R.string.failure_msg));
                         }
                         break;
                 }
