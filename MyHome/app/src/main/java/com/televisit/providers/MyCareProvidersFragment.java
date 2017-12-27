@@ -161,10 +161,10 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
     @Override
     public void providerClick(ProviderInfo provider) {
-        if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
-            getVisitContext(provider);
-        } else if (providerInfo != null && provider.getVisibility() == ProviderVisibility.OFFLINE) {
+        if (providerInfo != null && provider.getVisibility() == ProviderVisibility.OFFLINE) {
             Toast.makeText(getActivity(), provider.getFullName() + " is not available", Toast.LENGTH_SHORT).show();
+        } else if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
+            getVisitContext(provider);
         }
     }
 

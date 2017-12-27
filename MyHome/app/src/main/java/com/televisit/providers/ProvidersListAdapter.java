@@ -80,16 +80,23 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                     .load();
 
             if (providerInfo.getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
+                binding.visibility.setVisibility(View.GONE);
+                binding.waitingCount.setVisibility(View.VISIBLE);
+
                 if (providerInfo.getWaitingRoomCount() > 0) {
                     binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
                 } else {
                     binding.waitingCount.setText("You are the Next Patient");
                 }
-                binding.visibility.setVisibility(View.GONE);
-                binding.waitingCount.setVisibility(View.VISIBLE);
             } else {
                 binding.visibility.setVisibility(View.VISIBLE);
                 binding.waitingCount.setVisibility(View.GONE);
+
+                if(providerInfo.getVisibility().equals(ProviderVisibility.WEB_BUSY)){
+                    binding.visibility.setText(context.getString(R.string.busy));
+                } else {
+                    binding.visibility.setText(context.getString(R.string.offline));
+                }
             }
             binding.executePendingBindings();
         }

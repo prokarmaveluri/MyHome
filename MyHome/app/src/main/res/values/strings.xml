@@ -574,4 +574,6 @@
     <string name="appointment_confirmed">Appointment Confirmed</string>
     <string name="unable_to_book">Unable to book</string>
     <string name="review_your_booking">Review your booking</string>
+    <string name="offline">Offline</string>
+    <string name="busy">Busy</string>
 </resources>

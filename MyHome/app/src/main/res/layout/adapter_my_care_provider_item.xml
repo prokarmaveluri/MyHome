@@ -64,7 +64,7 @@
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Offline" />
+                android:text="@string/offline" />
         </RelativeLayout>
 
         <ImageView
