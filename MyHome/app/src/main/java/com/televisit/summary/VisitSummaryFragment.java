@@ -23,6 +23,7 @@ import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.views.CircularImageView;
@@ -148,6 +149,12 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         pharmacyName.setText(visitSummary.getPharmacy().getName());
         pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitSummary.getPharmacy()));
+
+        String addressContentDescription = visitSummary.getPharmacy() != null && visitSummary.getPharmacy().getAddress() != null ?
+                AddressUtil.getAddressForAccessibilityUser(visitSummary.getPharmacy().getAddress())
+                : getString(R.string.address_unknown);
+
+        pharmacyAddress.setContentDescription(getString(R.string.location) + addressContentDescription);
 
         pharmacyPhone.setText(CommonUtil.constructPhoneNumberDots(visitSummary.getPharmacy().getPhone()));
         pharmacyPhoneLayout.setOnClickListener(new View.OnClickListener() {

@@ -853,7 +853,7 @@ public class BookingDialogAdapter extends PagerAdapter {
 
             if (translatorLanguageLayout.getVisibility() == View.VISIBLE &&
                     translatorLanguage.getText().toString().trim().isEmpty()) {
-                translatorLanguageLayout.setError(context.getString(R.string.translator_language_required));
+                translatorLanguageLayout.setError(context.getString(R.string.language_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) translatorLanguageLayout.getY();
                 translatorLanguageLayout.setFocusable(true);

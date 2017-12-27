@@ -35,7 +35,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.RecyclerViewListener;
-import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentManager;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentMonthDetails;
 import com.prokarma.myhome.features.fad.details.booking.BookingBackButton;
@@ -63,6 +62,7 @@ import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -74,6 +74,7 @@ import com.prokarma.myhome.utils.MapUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
+
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -272,13 +274,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
                         provider.getOffices().get(0).getAddresses().get(0).getZip()
                 : getString(R.string.address_unknown));
-        String addressCintentDescription = provider.getOffices() != null ?
-                provider.getOffices().get(0).getAddresses().get(0).getAddress() + "\n" +
-                        provider.getOffices().get(0).getAddresses().get(0).getCity() + ", " +
-                        provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
-                        CommonUtil.stringToSpacesString(provider.getOffices().get(0).getAddresses().get(0).getZip())
+
+        String addressContentDescription = provider.getOffices() != null && provider.getOffices().get(0) != null ?
+                AddressUtil.getAddressForAccessibilityUser(provider.getOffices().get(0).getAddresses().get(0))
                 : getString(R.string.address_unknown);
-        address.setContentDescription(getString(R.string.location) + addressCintentDescription);
+        address.setContentDescription(getString(R.string.location) + addressContentDescription);
+
         phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumberDots(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         phone.setContentDescription(provider.getOffices() != null ? getString(R.string.phone_number_des) + CommonUtil.stringToSpacesString(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
@@ -621,9 +622,9 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                     alertDialog.setMessage(getString(R.string.map_alert));
                     alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            if (model instanceof Office) {
-                                Office office = (Office) model;
-                                CommonUtil.getDirections(getActivity(), office.getAddress1(), office.getCity(), office.getState());
+                            if (model instanceof ProviderDetailsOffice) {
+                                ProviderDetailsOffice office = (ProviderDetailsOffice) model;
+                                CommonUtil.getDirections(getActivity(), office.getAddresses().get(0).getAddress(), office.getAddresses().get(0).getCity(), office.getAddresses().get(0).getState());
                             }
                         }
                     }).setNeutralButton(getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -747,7 +748,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         BookingManager.setIsBookingForMe(isBookingForMe);
 
-        if (AppointmentManager.getInstance().getNumberOfMonths() > 0) {
+        if (AppointmentManager.getInstance().getNumberOfMonths() > 0 &&
+                (AppointmentManager.getInstance().getAppointmentTypes() == null || AppointmentManager.getInstance().getAppointmentTypes().isEmpty())) {
+            waitingForAppointmentTypes = false;
+            Toast.makeText(getContext(), "Couldn't find appointments for this location.\nPlease try another office", Toast.LENGTH_LONG).show();
+            restartSchedulingFlow();
+            expandableLinearLayout.collapse();
+            expandableLinearLayout.initLayout();
+        } else if (AppointmentManager.getInstance().getNumberOfMonths() > 0) {
             waitingForAppointmentTypes = false;
             BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(AppointmentManager.getInstance().getAppointmentTypes());
             bookingFragment.setSelectStatusInterface(this);
@@ -832,8 +840,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         }
 
         //We don't have next month's appointments. We should try to cache that...
-        if (!AppointmentManager.getInstance().isDateCached(DateUtil.addOneMonthToDate(date))) {
-            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(date)), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(date)), currentOffice.getAddresses().get(0).getAddressHash());
+        if (!AppointmentManager.getInstance().isDateCached(DateUtil.addOneMonthToDate(new Date()))) {
+            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentOffice.getAddresses().get(0).getAddressHash());
         }
     }
 

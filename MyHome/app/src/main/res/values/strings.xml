@@ -209,6 +209,7 @@
     <string name="gender_required">Gender is required</string>
     <string name="email_required">Email is required</string>
     <string name="translator_language_required">Translator Language is required</string>
+    <string name="language_required">Language is required</string>
     <string name="reason_for_visit_required">Reason For Visit is required</string>
     <string name="phone_number_required">Phone Number is required</string>
     <string name="weeks_pregnant_too_large">Weeks Pregnant is too large</string>
@@ -479,6 +480,7 @@
     <string name="visit_summary_email_agree">I acknowledge I\'m sending confidential medical information through unsecure email</string>
     <string name="visit_summary_email_completed">Emailed visit summary successfully</string>
     <string name="visit_summary_email_failed">Emailing visit summary failed</string>
+    <string name="visit_summary_email_limit_reached">You have reached the limit of allowed number of email addresses</string>
     <string name="email_already_added">Email address already added</string>
     <string name="email_already_added_notchecked">Email address already added, please select it.</string>
     <string name="email_none_selected">Select Email addresses</string>
@@ -487,6 +489,8 @@
     <string name="email_agreement_missing">Please check email confidentiality agreement</string>
     <string name="email_total_reached">Please check email confidentiality agreement</string>
     <string name="add_additional_email">+&#160;Add Additional Email</string>
+    <string name="add">Add</string>
+    <string name="delete_cross">&#160;X&#160;</string>
 
     <string name="feedback">Feedback</string>
     <string name="feedback_choose_answer">Please select an answer to the survey</string>

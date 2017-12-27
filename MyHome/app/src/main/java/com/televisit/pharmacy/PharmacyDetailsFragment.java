@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.MapUtil;
@@ -87,6 +88,12 @@ public class PharmacyDetailsFragment extends BaseFragment implements OnMapReadyC
 
         TextView address = view.findViewById(R.id.pharmacy_address);
         address.setText(CommonUtil.getPharmacyAddress(pharmacy));
+
+        String addressContentDescription = pharmacy != null && pharmacy.getAddress() != null ?
+                AddressUtil.getAddressForAccessibilityUser(pharmacy.getAddress())
+                : getString(R.string.address_unknown);
+
+        address.setContentDescription(getString(R.string.location) + addressContentDescription);
 
         final TextView phone = view.findViewById(R.id.phone);
         ImageView phoneIcon = view.findViewById(R.id.phone_icon);

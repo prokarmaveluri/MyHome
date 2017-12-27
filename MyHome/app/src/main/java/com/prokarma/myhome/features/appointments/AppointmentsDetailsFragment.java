@@ -17,6 +17,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -93,6 +94,11 @@ public class AppointmentsDetailsFragment extends BaseFragment {
                     appointment.facilityAddress.city,
                     appointment.facilityAddress.stateOrProvince,
                     appointment.facilityAddress.zipCode));
+
+            String addressContentDescription = appointment.facilityAddress != null ?
+                    AddressUtil.getAddressForAccessibilityUser(appointment.facilityAddress)
+                    : getString(R.string.address_unknown);
+            facilityAddress.setContentDescription(getString(R.string.location) + addressContentDescription);
         } else {
             facilityAddress.setText(null);
         }

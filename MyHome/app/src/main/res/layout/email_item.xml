@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="4dp"
+    android:paddingRight="4dp"
     android:paddingTop="4dp">
 
-    <CheckBox
+    <TextView
         android:id="@+id/email_id"
         style="@style/tradeGothicLTStdLight_18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="-6dp"
-        android:textColor="@color/db_charcoal_grey"
-        tools:text="testaccount@gmail.com" />
+        android:layout_marginLeft="4dp"
+        android:text="testaccount@gmail.com"
+        android:textColor="@color/db_charcoal_grey" />
+
+    <TextView
+        android:id="@+id/delete_email"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@+id/email_id"
+        android:gravity="right"
+        android:text="@string/delete_cross"
+        android:textColor="@color/accent"
+        android:textStyle="bold" />
 </RelativeLayout>

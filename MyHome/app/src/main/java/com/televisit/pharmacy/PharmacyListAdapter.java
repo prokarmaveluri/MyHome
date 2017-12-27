@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterPharmacyListItemBinding;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.List;
@@ -70,6 +71,13 @@ public class PharmacyListAdapter extends RecyclerView.Adapter<PharmacyListAdapte
             binding.itemLayout.setTag(position);
             binding.pharmacyDisplayName.setText(pharmacy.getName());
             binding.pharmacyAddress.setText(CommonUtil.getPharmacyAddress(pharmacy));
+
+            String addressContentDescription = pharmacy != null && pharmacy.getAddress() != null ?
+                    AddressUtil.getAddressForAccessibilityUser(pharmacy.getAddress())
+                    : mContext.getString(R.string.address_unknown);
+
+            binding.pharmacyAddress.setContentDescription(mContext.getString(R.string.location) + addressContentDescription);
+
             binding.distance.setText(String.valueOf(pharmacy.getDistance()));
 
             binding.executePendingBindings();

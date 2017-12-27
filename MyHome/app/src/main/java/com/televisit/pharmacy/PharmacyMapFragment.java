@@ -590,7 +590,7 @@ public class PharmacyMapFragment extends Fragment implements
     }
 
     static float DISTANCE_SEARCH_THIS_AREA =
-            Float.valueOf(RESTConstants.PROVIDER_DISTANCE_MILES) * 1609.34f; // PROVIDER_DISTANCE miles in meters
+            Float.valueOf(RESTConstants.PHARMACY_DISTANCE_MILES) * 1609.34f; // convert miles in meters
 
     private boolean isLocationSearchable() {
         try {

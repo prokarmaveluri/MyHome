@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.DateUtil;
@@ -57,7 +59,19 @@ public class BookingConfirmationFragment extends Fragment {
 
         date.setText(DateUtil.getDateWords2FromUTC(BookingManager.getBookingAppointment().getTime()));
         time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().getTime()) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingAppointment().getTime()));
-        address.setText(CommonUtil.constructAddress(BookingManager.getBookingOffice().getAddresses().get(0).getAddress(), null, BookingManager.getBookingOffice().getAddresses().get(0).getCity(), BookingManager.getBookingOffice().getAddresses().get(0).getState(), BookingManager.getBookingOffice().getAddresses().get(0).getZip()));
+
+        address.setText(CommonUtil.constructAddress(
+                BookingManager.getBookingOffice().getAddresses().get(0).getAddress(),
+                null,
+                BookingManager.getBookingOffice().getAddresses().get(0).getCity(),
+                BookingManager.getBookingOffice().getAddresses().get(0).getState(),
+                BookingManager.getBookingOffice().getAddresses().get(0).getZip()));
+
+        String addressContentDescription = BookingManager.getBookingOffice().getAddresses() != null && BookingManager.getBookingOffice().getAddresses().get(0) != null ?
+                AddressUtil.getAddressForAccessibilityUser(BookingManager.getBookingOffice().getAddresses().get(0))
+                : getString(R.string.address_unknown);
+        address.setContentDescription(getString(R.string.location) + addressContentDescription);
+
         reason.setText(BookingManager.getBookingProfile().reasonForVisit);
 
         return bookingView;

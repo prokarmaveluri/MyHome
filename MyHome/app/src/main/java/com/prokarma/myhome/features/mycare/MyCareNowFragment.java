@@ -26,6 +26,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -314,6 +315,17 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         Pharmacy pharmacy = AwsManager.getInstance().getConsumerPharmacy();
         if (pharmacy != null) {
             pharmacyDesc.setText(pharmacy.getName() + "\n" + CommonUtil.getPharmacyAddress(pharmacy));
+
+            String addressContentDescription = pharmacy != null && pharmacy.getAddress() != null ?
+                    AddressUtil.getAddressUnAbbreveiated(pharmacy.getAddress().getAddress1()) + "\n" +
+                            pharmacy.getAddress().getCity() + ", " +
+                            AddressUtil.getStateNameLonger(pharmacy.getAddress().getState().getCode()) + " " +
+                            CommonUtil.stringToSpacesString(pharmacy.getAddress().getZipCode())
+                    : getString(R.string.address_unknown);
+
+            pharmacyDesc.setContentDescription(pharmacy.getName() + ", "
+                    + getString(R.string.location) + addressContentDescription);
+
         } else {
             if (AwsManager.getInstance().isDependent()) {
                 pharmacyDesc.setText(getString(R.string.choose_your_preferred_pharmacy_dependent));

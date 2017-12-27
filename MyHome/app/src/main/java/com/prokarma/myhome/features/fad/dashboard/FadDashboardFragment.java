@@ -134,10 +134,11 @@ public class FadDashboardFragment extends BaseFragment implements FavProvidersAd
         }
     }
 
+    //Don't use ChildFragmentManager - https://stackoverflow.com/a/45534994/2128921
     private void startFavProvidersDialog() {
         MyFavoritesDialog dialog = new MyFavoritesDialog();
         dialog.setTargetFragment(this, RECENT_PROVIDERS);
-        dialog.show(getChildFragmentManager(), "Favorites Dialog");
+        dialog.show(getFragmentManager(), "Favorites Dialog");
     }
 
     @Override

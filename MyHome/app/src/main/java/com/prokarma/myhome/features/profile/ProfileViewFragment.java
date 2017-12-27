@@ -21,6 +21,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -45,24 +46,17 @@ public class ProfileViewFragment extends BaseFragment {
 
     private View profileView;
 
-    private TextView nameLabel;
     private TextView name;
-    private TextView preferredNameLabel;
     private TextView preferredName;
-    private TextView genderLabel;
     private TextView gender;
-    private TextView dobLabel;
     private TextView dateOfBirth;
 
     private TextView address;
     private TextView phone;
     private TextView email;
 
-    private TextView insuranceLabel;
     private TextView insurancePlan;
-    private TextView memberLabel;
     private TextView memberId;
-    private TextView groupLabel;
     private TextView group;
 
     private Button logout;
@@ -98,27 +92,17 @@ public class ProfileViewFragment extends BaseFragment {
             }
         }
 
-        nameLabel = (TextView) profileView.findViewById(R.id.nameLabel);
         name = (TextView) profileView.findViewById(R.id.name);
-
-        preferredNameLabel = (TextView) profileView.findViewById(R.id.preferredNameLabel);
         preferredName = (TextView) profileView.findViewById(R.id.preferred_name);
-
-        genderLabel = (TextView) profileView.findViewById(R.id.genderLabel);
         gender = (TextView) profileView.findViewById(R.id.gender);
-
-        dobLabel = (TextView) profileView.findViewById(R.id.dobLabel);
         dateOfBirth = (TextView) profileView.findViewById(R.id.dob);
 
         address = (TextView) profileView.findViewById(R.id.address);
         phone = (TextView) profileView.findViewById(R.id.phone);
         email = (TextView) profileView.findViewById(R.id.email);
 
-        insuranceLabel = (TextView) profileView.findViewById(R.id.insuranceLabel);
         insurancePlan = (TextView) profileView.findViewById(R.id.plan);
-        memberLabel = (TextView) profileView.findViewById(R.id.memberLabel);
         memberId = (TextView) profileView.findViewById(R.id.id);
-        groupLabel = (TextView) profileView.findViewById(R.id.groupLabel);
         group = (TextView) profileView.findViewById(R.id.group);
 
         logout = (Button) profileView.findViewById(R.id.sign_out);
@@ -275,7 +259,12 @@ public class ProfileViewFragment extends BaseFragment {
 
         if (profile.address != null &&
                 (profile.address.line1 != null || profile.address.line2 != null || profile.address.city != null || profile.address.stateOrProvince != null || profile.address.zipCode != null)) {
+
             address.setText(CommonUtil.constructAddress(profile.address.line1, profile.address.line2, profile.address.city, profile.address.stateOrProvince, profile.address.zipCode));
+
+            String addressContentDescription = AddressUtil.getAddressForAccessibilityUser(profile.address);
+            address.setContentDescription(getString(R.string.location) + addressContentDescription);
+
         } else {
             address.setVisibility(View.GONE);
         }
