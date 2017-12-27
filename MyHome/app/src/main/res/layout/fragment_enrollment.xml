@@ -125,14 +125,13 @@
                         android:layout_toLeftOf="@+id/password_criteria"
                         app:errorEnabled="true"
                         app:errorTextAppearance="@style/error_appearance"
-                        app:hintTextAppearance="@style/hint_appearance"
-                        app:passwordToggleEnabled="true"
-                        app:passwordToggleTint="@color/primary">
+                        app:hintTextAppearance="@style/hint_appearance" >
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:longClickable="false"
                             android:contentDescription="@string/prompt_password"
                             android:drawableRight="@mipmap/hide_password"
                             android:hint="@string/prompt_password"
@@ -148,6 +147,7 @@
                         android:id="@+id/password_criteria"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:longClickable="false"
                         android:layout_alignBottom="@id/enPasswordLayout"
                         android:layout_alignParentRight="true"
                         android:layout_alignTop="@id/enPasswordLayout"
