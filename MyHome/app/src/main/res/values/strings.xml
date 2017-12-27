@@ -35,9 +35,9 @@
     <string name="book_an_appointment">Book an Appointment</string>
     <string name="book_appointment">Book Appointment</string>
     <string name="no_upcoming_appointments">You have no upcoming appointments.</string>
-    <string name="no_upcoming_appointments_dependent">Your child have no upcoming appointments.</string>
+    <string name="no_upcoming_appointments_dependent">Your child has no upcoming appointments.</string>
     <string name="no_past_appointments">You have no past appointments.</string>
-    <string name="no_past_appointments_dependent">Your child have no past appointments.</string>
+    <string name="no_past_appointments_dependent">Your child has no past appointments.</string>
 
     <!-- FAD -->
     <string name="appointments">Appointments</string>
@@ -151,7 +151,7 @@
     <string name="save_profile_message">Do you wish to save this information for later?</string>
     <string name="search_this_area">Search This Area</string>
     <string name="appointment_types">Please choose an appointment type</string>
-    <string name="no_appointments_available">There are no times available this month. Please try another month.</string>
+    <string name="no_appointments_available">No appointments available. Please try another month.</string>
     <string name="no_appointments_new_patients">There are no appointments available for new patients</string>
     <string name="next_available">Next Available</string>
     <string name="call_for_todays_appointmentss">Please call for today\'s appointments</string>
