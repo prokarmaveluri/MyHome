@@ -16,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -24,13 +23,12 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import timber.log.Timber;
 
 /**
@@ -124,8 +122,7 @@ public class FeedbackFragment extends BaseFragment {
 
                     feedbackLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), R.string.feedback_choose_answer, Toast.LENGTH_LONG).show();
-
+                    CommonUtil.showToast(getActivity(),getString(R.string.feedback_choose_answer));
                 } else if (getProviderRating() == 0 && getVisitRating() == 0) {
 
                     Timber.d("Feedback. User has not submitted both ProviderRating and VisitRating. ");

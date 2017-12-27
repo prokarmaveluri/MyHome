@@ -10,8 +10,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.databinding.FragmentChangePassowrdBinding;
@@ -22,7 +20,6 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -66,8 +63,7 @@ public class ChangePasswordFragment extends BaseFragment {
 
     public void changePassword() {
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
         ChangePasswordRequest request = getRequest();
@@ -82,8 +78,7 @@ public class ChangePasswordFragment extends BaseFragment {
 
                     if (response.body().getIsValid()) {
                         TealiumUtil.trackEvent(Constants.CHANGED_PASSWORD_EVENT, null);
-                        Toast.makeText(getActivity(), R.string.password_changed_successfully,
-                                Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getString(R.string.password_changed_successfully));
                         getActivity().finish();
                     } else {
                         Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);

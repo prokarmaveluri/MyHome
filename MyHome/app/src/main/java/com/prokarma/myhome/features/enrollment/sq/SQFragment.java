@@ -15,8 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentSecqBinding;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
@@ -31,11 +29,9 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -243,8 +239,7 @@ public class SQFragment extends Fragment {
 
     private void changeSecurityQuestion() {
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
             return;
         }
         if (!isAllInputsValid())
@@ -263,9 +258,7 @@ public class SQFragment extends Fragment {
                 if (response.isSuccessful()) {
 
                     if (response.body().getIsValid()) {
-                        Toast.makeText(getActivity(), R.string.sec_question_changed_successfully,
-                                Toast.LENGTH_LONG).show();
-
+                        CommonUtil.showToast(getActivity(),getActivity().getString(R.string.sec_question_changed_successfully));
                         TealiumUtil.trackEvent(Constants.CHANGED_SECURITY_QUESTION_EVENT, null);
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
