@@ -93,6 +93,14 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:id="@+id/insuranceLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="@string/insurance_plan" />
+
+            <TextView
                 android:id="@+id/plan"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
@@ -102,6 +110,22 @@
                 android:textStyle="bold"
                 android:visibility="gone"
                 tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/memberLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="@string/member_id" />
+
+            <TextView
+                android:id="@+id/groupLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="@string/group" />
 
             <TextView
                 android:id="@+id/id"
