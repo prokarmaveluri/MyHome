@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
@@ -45,6 +46,7 @@ public class FeedbackFragment extends BaseFragment {
     private RatingBar providerRating;
     private RatingBar experienceRating;
 
+    private TextView textQuestion3;
     private RadioGroup radioGroup;
     private String question1 = "";
     private String question2 = "";
@@ -78,6 +80,7 @@ public class FeedbackFragment extends BaseFragment {
         experienceRating = (RatingBar) view.findViewById(R.id.rate_experience);
 
         radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
+        textQuestion3 = (TextView) view.findViewById(R.id.text_question3);
 
         showLayout();
 
@@ -170,6 +173,19 @@ public class FeedbackFragment extends BaseFragment {
                     public void onResponse(VisitSummary visitSummaryObject, SDKError sdkError) {
                         if (sdkError == null) {
                             visitSummary = visitSummaryObject;
+                            if (visitSummary != null
+                                    && visitSummary.getConsumerFeedbackQuestion() != null
+                                    && !visitSummary.getConsumerFeedbackQuestion().getQuestionText().isEmpty()
+                                    && visitSummary.getConsumerFeedbackQuestion().getResponseOptions() != null
+                                    && visitSummary.getConsumerFeedbackQuestion().getResponseOptions().size() > 0) {
+
+                                question3 = visitSummary.getConsumerFeedbackQuestion().getQuestionText();
+
+                                question3Options.clear();
+                                question3Options = visitSummary.getConsumerFeedbackQuestion().getResponseOptions();
+
+                                displayDynamicQuestionAnswer();
+                            }
                         } else {
                             Timber.e("getVisitSummary failed! :/");
                             Timber.e("SDK Error: " + sdkError);
@@ -183,6 +199,33 @@ public class FeedbackFragment extends BaseFragment {
                     }
                 }
         );
+    }
+
+    private void displayDynamicQuestionAnswer() {
+
+        Timber.d("feedback. question3 = " + question3);
+
+        textQuestion3.setText(question3);
+        textQuestion3.setTextAppearance(this.getContext(), R.style.tradeGothicLTStd_Dynamic20);
+
+        radioGroup.removeAllViews();
+
+        int i = 0;
+        for (String questionAnswer : question3Options) {
+
+            i = i + 1;
+
+            Timber.d("feedback. answer " + i + " = " + questionAnswer);
+
+            RadioButton rbn = new RadioButton(this.getContext());
+            rbn.setId(i + 1000);
+            rbn.setText(questionAnswer);
+            rbn.setLayoutParams(new LinearLayout.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT, 1f));
+            rbn.setTextAppearance(this.getContext(), R.style.tradeGothicLTStd_Dynamic18);
+            radioGroup.addView(rbn);
+        }
+
+        radioGroup.requestLayout();
     }
 
     private int getProviderRating() {
@@ -202,6 +245,9 @@ public class FeedbackFragment extends BaseFragment {
 
             if (radioButtonIndex > -1 && radioButtonIndex < radioGroup.getChildCount()) {
                 RadioButton optionSelected = (RadioButton) radioGroup.getChildAt(radioButtonIndex);
+
+                Timber.d("feedback. answer selected = " + optionSelected.getText().toString());
+
                 return optionSelected.getText().toString();
             }
         }
