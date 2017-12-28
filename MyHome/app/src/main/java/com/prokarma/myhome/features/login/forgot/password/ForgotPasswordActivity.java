@@ -13,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.ActivityForgotPasswordBinding;
 import com.prokarma.myhome.features.login.LoginFragment;
@@ -22,7 +20,6 @@ import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,8 +77,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         break;
                     }
                     if (!ConnectionUtil.isConnected(getApplicationContext())) {
-                        Toast.makeText(getApplicationContext(), R.string.no_network_msg,
-                                Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getApplicationContext(), getApplicationContext().getString(R.string.no_network_msg));
                         break;
                     }
                     ForgotPasswordRequest request = new ForgotPasswordRequest(binding.email.getText().toString(),

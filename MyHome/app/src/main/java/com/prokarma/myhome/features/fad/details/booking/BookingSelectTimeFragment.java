@@ -93,7 +93,7 @@ public class BookingSelectTimeFragment extends Fragment {
         }
 
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
-        CommonUtil.setTitle(getActivity(), getString(R.string.availability), true);
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getString(R.string.availability) : getString(R.string.find_care), true);
         normalLayout = (LinearLayout) bookingView.findViewById(R.id.normal_layout);
         timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
         timeLayout.setGravity(Gravity.CENTER);
@@ -232,7 +232,11 @@ public class BookingSelectTimeFragment extends Fragment {
                             if (selectTimeInterface != null) {
                                 selectTimeInterface.onFrontArrowClicked();
                             }
-                            getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
+                            if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                                getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
+                            } else {
+                                CommonUtil.setTitle(getActivity(),getActivity().getString(R.string.find_care),true);
+                            }
                         } catch (ParseException e) {
                             Timber.e(e);
                             e.printStackTrace();

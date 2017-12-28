@@ -514,7 +514,7 @@ public class PharmacyMapFragment extends Fragment implements
     private void getPharmaciesByZip(final String zipCode) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
             return;
         }
 
@@ -570,7 +570,7 @@ public class PharmacyMapFragment extends Fragment implements
             if (pharmacySearch.getText().toString().length() == 5) {
                 getPharmaciesByZip(pharmacySearch.getText().toString());
             } else {
-                Toast.makeText(getContext(), "Invalid zip code", Toast.LENGTH_SHORT).show();
+                CommonUtil.showToast(getContext(),getContext().getString(R.string.zip_invalid));
             }
             return true;
         }

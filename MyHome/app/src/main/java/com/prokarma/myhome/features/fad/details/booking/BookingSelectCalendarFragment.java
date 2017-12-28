@@ -72,7 +72,8 @@ public class BookingSelectCalendarFragment extends Fragment {
         getAllAppointments();
 
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
-        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.availability), true);
+
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.availability) : getResources().getString(R.string.find_care), true);
         normalLayout = (LinearLayout) bookingView.findViewById(R.id.normal_layout);
         progressBar = (ProgressBar) bookingView.findViewById(R.id.loading_layout);
 

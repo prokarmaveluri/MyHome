@@ -76,7 +76,7 @@ public class ProviderListFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_provider_list, container, false);
         recentlyViewed = RecentlyViewedDataSourceDB.getInstance().getAllEntry();
-        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.providers), true);
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.providers) : getResources().getString(R.string.find_care), true);
         return binding.getRoot();
     }
 

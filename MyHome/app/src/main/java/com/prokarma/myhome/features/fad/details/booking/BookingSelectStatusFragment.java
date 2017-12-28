@@ -51,7 +51,7 @@ public class BookingSelectStatusFragment extends Fragment {
         appointmentTypes = args.getParcelableArrayList(APPOINTMENT_TYPE_KEY);
 
         bookingView = inflater.inflate(R.layout.book_select_status, container, false);
-        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.provider_info) : getResources().getString(R.string.find_care), true);
         final TextView header = (TextView) bookingView.findViewById(R.id.status_header);
         final LinearLayout appointmentTypeLayout = (LinearLayout) bookingView.findViewById(R.id.appointment_type_layout);
         final TextView noAppointments = (TextView) bookingView.findViewById(R.id.no_times_available);

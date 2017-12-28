@@ -24,8 +24,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
@@ -37,7 +35,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.RecyclerViewListener;
-import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentManager;
 import com.prokarma.myhome.features.fad.details.booking.AppointmentMonthDetails;
 import com.prokarma.myhome.features.fad.details.booking.BookingBackButton;
@@ -77,7 +74,6 @@ import com.prokarma.myhome.utils.MapUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
-
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -85,7 +81,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -205,7 +200,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
-        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.provider_info) : getResources().getString(R.string.find_care), true);
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
         myMap.getMapAsync(this);
 
@@ -277,13 +272,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                         provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
                         provider.getOffices().get(0).getAddresses().get(0).getZip()
                 : getString(R.string.address_unknown));
-        String addressCintentDescription = provider.getOffices() != null ?
-                provider.getOffices().get(0).getAddresses().get(0).getAddress() + "\n" +
-                        provider.getOffices().get(0).getAddresses().get(0).getCity() + ", " +
-                        provider.getOffices().get(0).getAddresses().get(0).getState() + " " +
-                        CommonUtil.stringToSpacesString(provider.getOffices().get(0).getAddresses().get(0).getZip())
+
+        String addressContentDescription = provider.getOffices() != null && provider.getOffices().get(0) != null ?
+                AddressUtil.getAddressForAccessibilityUser(provider.getOffices().get(0).getAddresses().get(0))
                 : getString(R.string.address_unknown);
-        address.setContentDescription(getString(R.string.location) + addressCintentDescription);
+        address.setContentDescription(getString(R.string.location) + addressContentDescription);
+
         phone.setText(provider.getOffices() != null ? CommonUtil.constructPhoneNumberDots(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         phone.setContentDescription(provider.getOffices() != null ? getString(R.string.phone_number_des) + CommonUtil.stringToSpacesString(provider.getOffices().get(0).getAddresses().get(0).getPhones().get(0)) : getString(R.string.phone_number_unknown));
         currentOffice = provider.getOffices() != null ? provider.getOffices().get(0) : null;
@@ -755,7 +749,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         if (AppointmentManager.getInstance().getNumberOfMonths() > 0 &&
                 (AppointmentManager.getInstance().getAppointmentTypes() == null || AppointmentManager.getInstance().getAppointmentTypes().isEmpty())) {
             waitingForAppointmentTypes = false;
-            Toast.makeText(getContext(), "Couldn't find appointments for this location.\nPlease try another office", Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getContext(),getContext().getString(R.string.could_not_find_appointments_for_location));
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();
@@ -941,7 +935,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().popBackStack(TIME_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return true;
         } else if (fragment != null && fragment instanceof BookingDoneFragment) {
-            CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
+            CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.provider_info) : getResources().getString(R.string.find_care), true);
             BookingManager.clearBookingData(true);
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
@@ -956,7 +950,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().popBackStack();
             return true;
         } else if (getChildFragmentManager().getBackStackEntryCount() == 1) {
-            CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
+            CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.provider_info) : getResources().getString(R.string.find_care), true);
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();

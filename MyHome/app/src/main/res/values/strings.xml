@@ -585,4 +585,12 @@
     <string name="unable_to_add_message">Sorry we are unable to add at this time.</string>
     <string name="no_pharmacies_found_for">No Pharmacies found. \\n\\nWe could\'nt find any relevant results for</string>
     <string name="no_pharmacies_found_for_current_location">No Pharmacies found. \\n\\nWe could\'nt find any relevant results near to your current location.</string>
+    <string name="no_amwell_token_found">No AmWell token found</string>
+    <string name="could_not_find_appointments_for_location">Couldn\'t find appointments for this location.\\nPlease try another office</string>
+    <string name="no_medications_found">No Medications found. \\n\\nWe could\'nt find any relevant results for</string>
+    <string name="error_saving_pharmacy">Error Saving Pharmacy\\n</string>
+    <string name="no_provider_is_available">No Provider is available.\\nPlease Try Again Later</string>
+    <string name="is_not_available">is not available</string>
+    <string name="secure_lock_screen_has_not_setup"><![CDATA[Secure lock screen hasn\'t set up.\\n\" \"Go to \'Settings -> Security -> Fingerprint\' to set up a fingerprint]]></string>
+    <string name="setting_to_fingerprint"><![CDATA[Go to \'Settings -> Security -> Fingerprint\' and register at least one fingerprint]]></string>
 </resources>

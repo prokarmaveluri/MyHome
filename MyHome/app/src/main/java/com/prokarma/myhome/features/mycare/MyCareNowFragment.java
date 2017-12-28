@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Allergy;
@@ -137,7 +136,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 if (pharmacy != null) {
                     CommonUtil.getDirections(getActivity(), pharmacy.getAddress().getAddress1(), pharmacy.getAddress().getCity(), pharmacy.getAddress().getState().getCode());
                 } else {
-                    Toast.makeText(getContext(), getString(R.string.directions_not_found), Toast.LENGTH_LONG).show();
+                    CommonUtil.showToast(getContext(), getContext().getString(R.string.directions_not_found));
                 }
             }
         });
@@ -496,7 +495,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             if (AuthManager.getAmWellToken() != null) {
                 AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken(), this);
             } else {
-                Toast.makeText(getContext(), "No AmWell token found", Toast.LENGTH_LONG).show();
+                CommonUtil.showToast(getContext(), getString(R.string.no_amwell_token_found));
             }
         } else {
             AwsNetworkManager.getInstance().getUsersAuthentication(EnviHandler.getAmwellUsername(), EnviHandler.getAmwellPassword(), this);
