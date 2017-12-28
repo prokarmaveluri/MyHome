@@ -2,8 +2,6 @@ package com.prokarma.myhome.features.login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.enrollment.EnrollmentActivity;
@@ -17,7 +15,6 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.DateUtil;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,8 +48,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
         mView.showProgress(true);
 
         if (!ConnectionUtil.isConnected(mContext)) {
-            Toast.makeText(mContext, R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(mContext, mContext.getString(R.string.no_network_msg));
             return;
         }
 

@@ -13,7 +13,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 import com.prokarma.myhome.utils.AppPreferences;
@@ -95,11 +93,7 @@ public class BookingSelectTimeFragment extends Fragment {
         }
 
         bookingView = inflater.inflate(R.layout.book_select_time, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.availability));
-        getActivity().getWindow().getDecorView()
-                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
-        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
-
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getString(R.string.availability) : getString(R.string.find_care), true);
         normalLayout = (LinearLayout) bookingView.findViewById(R.id.normal_layout);
         timeLayout = (FlowLayout) bookingView.findViewById(R.id.time_group);
         timeLayout.setGravity(Gravity.CENTER);
@@ -238,7 +232,11 @@ public class BookingSelectTimeFragment extends Fragment {
                             if (selectTimeInterface != null) {
                                 selectTimeInterface.onFrontArrowClicked();
                             }
-                            getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
+                            if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                                getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
+                            } else {
+                                CommonUtil.setTitle(getActivity(),getActivity().getString(R.string.find_care),true);
+                            }
                         } catch (ParseException e) {
                             Timber.e(e);
                             e.printStackTrace();

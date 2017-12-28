@@ -21,8 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -36,11 +34,9 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import timber.log.Timber;
 
 
@@ -236,7 +232,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
         if (!ConnectionUtil.isConnected(getActivity())) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
             return;
         }
 
@@ -312,7 +308,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                             setSuggestionAdapter(getSuggestions(medications));
 
                             if (medications == null || medications.size() == 0) {
-                                Toast.makeText(getContext(), "No Medications found. \n\nWe could'nt find any relevant results for " + searchText, Toast.LENGTH_SHORT).show();
+                                CommonUtil.showToast(getContext(), getContext().getString(R.string.no_medications_found) + searchText);
                             }
                         } else {
                             Timber.e("searchMedications. Error + " + sdkError);

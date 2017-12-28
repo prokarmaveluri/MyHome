@@ -16,17 +16,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentEnrollmentBinding;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
-
 import timber.log.Timber;
-
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 /*
@@ -125,8 +121,9 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
         checkNotNull(status);
 
-        if (null != getActivity())
-            Toast.makeText(getActivity(), status, Toast.LENGTH_LONG).show();
+        if (null != getActivity()) {
+            CommonUtil.showToast(getActivity(), status);
+        }
     }
 
     @Nullable
@@ -152,19 +149,17 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
 
         if (!CommonUtil.isValidPassword(binding.password.getText().toString(),
                 binding.firstName.getText().toString(), binding.lastName.getText().toString())) {
-            Toast.makeText(getActivity(), getString(R.string.valid_password),
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.valid_password));
             binding.password.requestFocus();
             return null;
         }
         if (!binding.password.getText().toString().equals(binding.reEnterPassword.getText().toString())) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.valid_password_match),
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getResources().getString(R.string.valid_password_match));
             binding.reEnterPassword.requestFocus();
             return null;
         }
         if (null != binding.emailLayout.getError() && binding.emailLayout.getError().length() > 0) {
-            Toast.makeText(getActivity(), getString(R.string.email_already_exists), Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.email_already_exists));
             binding.email.requestFocus();
             return null;
         }

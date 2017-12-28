@@ -14,8 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.ActivityVerifyBinding;
@@ -26,9 +24,9 @@ import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -143,16 +141,16 @@ public class EmailVerifyActivity extends AppCompatActivity {
                             // Notify the user.
                             buildAlert();
                         } else {
-                            Toast.makeText(getApplicationContext(),
-                                    getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getApplicationContext(),
+                                    getApplicationContext().getString(R.string.something_went_wrong));
                         }
                         binding.verifyProgress.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Call<CommonResponse> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),
-                                getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getApplicationContext(),
+                                getApplicationContext().getString(R.string.something_went_wrong));
                         binding.verifyProgress.setVisibility(View.GONE);
                     }
                 });

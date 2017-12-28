@@ -25,8 +25,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentFilterBinding;
 import com.prokarma.myhome.features.fad.CommonModel;
@@ -38,10 +36,8 @@ import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -319,8 +315,7 @@ public class FilterDialog extends DialogFragment implements SuggestionsAdapter.I
     private void getLocationSuggestions(String query) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
         NetworkManager.getInstance().getLocationSuggestions(query)

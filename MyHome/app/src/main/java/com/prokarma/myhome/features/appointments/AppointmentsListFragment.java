@@ -9,14 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
-
 import java.util.ArrayList;
 
 /**
@@ -74,7 +71,7 @@ public class AppointmentsListFragment extends Fragment {
                 Appointment appointment = (Appointment) model;
 
                 if (model == null || ((Appointment) model).facilityAddress == null) {
-                    Toast.makeText(getContext(), getString(R.string.directions_not_found), Toast.LENGTH_LONG).show();
+                    CommonUtil.showToast(getContext(), getString(R.string.directions_not_found));
                 } else {
                     CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
                 }

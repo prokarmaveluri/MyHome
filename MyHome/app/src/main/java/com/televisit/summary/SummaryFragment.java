@@ -252,9 +252,9 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                 if (emailToAdd.equalsIgnoreCase(emailObject.getEmailId())) {
 
                     if (emailObject.isSelected()) {
-                        Toast.makeText(getActivity(), R.string.email_already_added, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_already_added));
                     } else {
-                        Toast.makeText(getActivity(), R.string.email_already_added_notchecked, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_already_added_notchecked));
                     }
                     return;
                 }
@@ -284,7 +284,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
             addAdditionalEmail.setVisibility(View.GONE);
             newEmailLayout.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), R.string.visit_summary_email_limit_reached, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_limit_reached));
         }
     }
 
@@ -377,7 +377,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private void emailVisitSummaryReport() {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
             return;
         }
 
@@ -401,7 +401,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
 
         if (!emailAgree.isChecked()) {
-            Toast.makeText(getActivity(), R.string.email_agreement_missing, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_agreement_missing));
             return;
         }
 
@@ -423,8 +423,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                     @Override
                     public void onValidationFailure(@NonNull Map<String, String> map) {
                         Timber.d("emailVisitSummaryReport. ValidationFailure " + map.toString());
-
-                        Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_failed));
                         progressBar.setVisibility(View.GONE);
                     }
 
@@ -435,7 +434,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
                         if (sdkError == null) {
                             Timber.d("emailVisitSummaryReport succeeded! ");
-                            Toast.makeText(getActivity(), R.string.visit_summary_email_completed, Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_completed));
 
                             doneVisitSummary();
 
@@ -455,7 +454,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                         Timber.e("Throwable = " + throwable);
 
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_failed));
                     }
                 });
     }
@@ -463,7 +462,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private void getVisitReportDetails(final VisitReport visitReport) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
             return;
         }
 
@@ -591,7 +590,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                         progressBar.setVisibility(View.GONE);
                         viewReport.setVisibility(View.GONE);
                         doctorNotes.setVisibility(View.VISIBLE);
-                        Toast.makeText(getContext(), "Visit report not available! ", Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getContext(), getContext().getString(R.string.visit_report_not_available));
 
                         if (throwable != null) {
                             Timber.d("visitsummary. getVisitReportAttachment: " + throwable.getMessage());
@@ -669,7 +668,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         Timber.d("visitsummary. getVisitSummaryFailed. errorMessage = " + errorMessage);
 
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(getContext(), "Sorry, Pulling up visit summary has failed. Please try again at later time", Toast.LENGTH_LONG).show();
+        CommonUtil.showToast(getContext(), getContext().getString(R.string.pulling_up_visit_summary_failed_message));
     }
 
     private void displayPharmacyDetails(Pharmacy pharmacy) {

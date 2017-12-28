@@ -15,8 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Allergy;
@@ -41,10 +39,8 @@ import com.televisit.interfaces.AwsGetMedications;
 import com.televisit.interfaces.AwsGetPharmacy;
 import com.televisit.interfaces.AwsInitialization;
 import com.televisit.interfaces.AwsUserAuthentication;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import timber.log.Timber;
 
 /**
@@ -140,7 +136,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 if (pharmacy != null) {
                     CommonUtil.getDirections(getActivity(), pharmacy.getAddress().getAddress1(), pharmacy.getAddress().getCity(), pharmacy.getAddress().getState().getCode());
                 } else {
-                    Toast.makeText(getContext(), getString(R.string.directions_not_found), Toast.LENGTH_LONG).show();
+                    CommonUtil.showToast(getContext(), getContext().getString(R.string.directions_not_found));
                 }
             }
         });
@@ -166,7 +162,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         });
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
 
@@ -499,7 +495,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             if (AuthManager.getAmWellToken() != null) {
                 AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken(), this);
             } else {
-                Toast.makeText(getContext(), "No AmWell token found", Toast.LENGTH_LONG).show();
+                CommonUtil.showToast(getContext(), getString(R.string.no_amwell_token_found));
             }
         } else {
             AwsNetworkManager.getInstance().getUsersAuthentication(EnviHandler.getAmwellUsername(), EnviHandler.getAmwellPassword(), this);
