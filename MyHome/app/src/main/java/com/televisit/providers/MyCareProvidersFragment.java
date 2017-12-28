@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.legal.LegalText;
@@ -29,9 +27,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-
 import java.util.List;
-
 import timber.log.Timber;
 
 /**
@@ -153,7 +149,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                 if (provider != null) {
                     getVisitContext(provider);
                 } else {
-                    Toast.makeText(getContext(), "No Provider is available.\nPlease Try Again Later", Toast.LENGTH_LONG).show();
+                    CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available));
                 }
             }
         });
@@ -164,7 +160,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
             getVisitContext(provider);
         } else if (providerInfo != null && provider.getVisibility() == ProviderVisibility.OFFLINE) {
-            Toast.makeText(getActivity(), provider.getFullName() + " is not available", Toast.LENGTH_SHORT).show();
+            CommonUtil.showToast(getActivity(), provider.getFullName() +  " "+getActivity().getString(R.string.is_not_available));
         }
     }
 

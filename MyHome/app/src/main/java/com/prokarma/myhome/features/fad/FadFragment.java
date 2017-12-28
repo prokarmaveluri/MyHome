@@ -25,8 +25,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.gms.maps.model.LatLng;
@@ -55,13 +53,11 @@ import com.prokarma.myhome.utils.RESTConstants;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.squareup.otto.Subscribe;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -257,13 +253,11 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             return;
         }
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
             return;
         }
         if (null == FadManager.getInstance().getLocation()) {
-            Toast.makeText(getActivity(), getString(R.string.query_location_unavailable),
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.query_location_unavailable));
             binding.suggestionList.setVisibility(View.GONE);
             return;
         }
@@ -333,8 +327,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 dialog.show(this.getActivity().getSupportFragmentManager(), ProviderListDialog.PROVIDER_LIST_DIALOG_TAG);
             }
         } else {
-            Toast.makeText(getActivity(), getString(R.string.no_recent_providers),
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_recent_providers));
         }
     }
 
@@ -558,17 +551,15 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
     private void searchForQuery(String query, String distanceRange) {
         try {
             if (query.length() <= 0) {
-                Toast.makeText(getActivity(), getString(R.string.query_empty), Toast.LENGTH_LONG).show();
+                CommonUtil.showToast(getActivity(), getActivity().getString(R.string.query_empty));
                 return;
             }
             if (null == FadManager.getInstance().getLocation()) {
-                Toast.makeText(getActivity(), getString(R.string.query_location_unavailable),
-                        Toast.LENGTH_LONG).show();
+                CommonUtil.showToast(getActivity(), getActivity().getString(R.string.query_location_unavailable));
                 return;
             }
             if (!ConnectionUtil.isConnected(getActivity())) {
-                Toast.makeText(getActivity(), R.string.no_network_msg,
-                        Toast.LENGTH_LONG).show();
+                CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
                 return;
             }
             fadAnalytics(query);

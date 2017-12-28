@@ -128,8 +128,7 @@ public class TosActivity extends BaseActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), R.string.enrollment_success,
-                            Toast.LENGTH_LONG).show();
+                    CommonUtil.showToast(getApplicationContext(), getApplicationContext().getString(R.string.enrollment_success));
                     startLoginPage(request.getEmail(), request.getPassword());
                 } else {
                     ApiErrorUtil.getInstance().registerError(getApplicationContext(), findViewById(android.R.id.content), response);

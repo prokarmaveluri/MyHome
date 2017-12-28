@@ -24,8 +24,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
@@ -76,7 +74,6 @@ import com.prokarma.myhome.utils.MapUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
-
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -84,7 +81,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -753,7 +749,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         if (AppointmentManager.getInstance().getNumberOfMonths() > 0 &&
                 (AppointmentManager.getInstance().getAppointmentTypes() == null || AppointmentManager.getInstance().getAppointmentTypes().isEmpty())) {
             waitingForAppointmentTypes = false;
-            Toast.makeText(getContext(), "Couldn't find appointments for this location.\nPlease try another office", Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getContext(),getContext().getString(R.string.could_not_find_appointments_for_location));
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();

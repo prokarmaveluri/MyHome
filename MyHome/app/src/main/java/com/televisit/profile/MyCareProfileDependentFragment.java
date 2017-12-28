@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.DependentUpdate;
 import com.prokarma.myhome.R;
@@ -29,7 +27,6 @@ import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateDependent;
-
 import timber.log.Timber;
 
 /**
@@ -244,9 +241,9 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
         AwsManager.getInstance().setHasConsumer(false); //force a refresh of the dashboard
 
         if (AwsManager.getInstance().isDependent()) {
-            Toast.makeText(getActivity(), getString(R.string.profile_saved_dependent), Toast.LENGTH_SHORT).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.profile_saved_dependent));
         } else {
-            Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.profile_saved));
         }
         getActivity().onBackPressed();
     }
@@ -254,7 +251,7 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
     @Override
     public void updateDependentFailed(String errorMessage) {
         Timber.e(errorMessage);
-        Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.something_went_wrong));
         getActivity().onBackPressed();
     }
 }
