@@ -79,6 +79,9 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
         bookingViewPager.setAdapter(new BookingDialogAdapter(getActivity(), this, BookingManager.getBookingProfile() != null, autoPopulateInsurancePlan, BookingManager.getBookingProfile()));
 
         toolbar = (Toolbar) bookingView.findViewById(R.id.toolbar);
+        if (!CommonUtil.isAccessibilityEnabled(getActivity())) {
+            toolbar.setTitle(getString(R.string.find_care));
+        }
         toolbar.inflateMenu(R.menu.booking_dialog_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -104,7 +107,9 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
             @Override
             public void onClick(View v) {
                 getDialog().dismiss();
-                CommonUtil.setTitle(getActivity(), getResources().getString(R.string.availability), true);
+                if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                    CommonUtil.setTitle(getActivity(), getResources().getString(R.string.availability), true);
+                }
             }
         });
 
@@ -146,9 +151,11 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                 if (toolbar != null && toolbar.getMenu() != null) {
                     toolbar.getMenu().findItem(R.id.next_page).setVisible(true);
                     toolbar.getMenu().findItem(R.id.finish_dialog).setVisible(false);
-                    toolbar.setTitle(getString(R.string.insurance_info));
-                    toolbar.announceForAccessibility(toolbar.getTitle());
-                    toolbar.requestFocus();
+                    if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                        toolbar.setTitle(getString(R.string.insurance_info));
+                        toolbar.announceForAccessibility(toolbar.getTitle());
+                        toolbar.requestFocus();
+                    }
                 }
                 break;
             case 1:
@@ -156,8 +163,10 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                 if (toolbar != null && toolbar.getMenu() != null) {
                     toolbar.getMenu().findItem(R.id.next_page).setVisible(false);
                     toolbar.getMenu().findItem(R.id.finish_dialog).setVisible(true);
-                    toolbar.setTitle(getString(R.string.personal_information));
-                    toolbar.announceForAccessibility(toolbar.getTitle());
+                    if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                        toolbar.setTitle(getString(R.string.personal_information));
+                        toolbar.announceForAccessibility(toolbar.getTitle());
+                    }
                 }
                 break;
         }
@@ -230,11 +239,15 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     public void onBackPressed() {
         if (bookingViewPager.getCurrentItem() == 0) {
             this.dismiss();
-            CommonUtil.setTitle(getActivity(), getResources().getString(R.string.availability), true);
+            if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                CommonUtil.setTitle(getActivity(), getResources().getString(R.string.availability), true);
+            }
         } else {
             bookingViewPager.setCurrentItem(bookingViewPager.getCurrentItem() - 1, true);
-            toolbar.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-            toolbar.announceForAccessibility(toolbar.getTitle());
+            if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                toolbar.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                toolbar.announceForAccessibility(toolbar.getTitle());
+            }
         }
     }
 }

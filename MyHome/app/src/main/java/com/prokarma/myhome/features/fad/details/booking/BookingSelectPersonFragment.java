@@ -51,7 +51,7 @@ public class BookingSelectPersonFragment extends Fragment {
             }
         });
 
-        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.provider_info) : getResources().getString(R.string.find_care), true);
         return bookingView;
     }
 

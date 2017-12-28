@@ -142,6 +142,9 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
         updateSuggestionList(presenter.getQuickSearchSuggestions());
 
         drawableClickEvent();
+        if (!CommonUtil.isAccessibilityEnabled(getActivity())) {
+            binding.fadScreenTitle.setText(getActivity().getString(R.string.find_care));
+        }
         return binding.getRoot();
     }
 

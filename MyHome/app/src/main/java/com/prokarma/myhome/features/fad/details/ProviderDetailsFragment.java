@@ -200,7 +200,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         providerDetailsView = inflater.inflate(R.layout.fragment_provider_details, container, false);
-        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.provider_info) : getResources().getString(R.string.find_care), true);
         myMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.provider_map));
         myMap.getMapAsync(this);
 
@@ -935,7 +935,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().popBackStack(TIME_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return true;
         } else if (fragment != null && fragment instanceof BookingDoneFragment) {
-            CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
+            CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.provider_info) : getResources().getString(R.string.find_care), true);
             BookingManager.clearBookingData(true);
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
@@ -950,7 +950,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             getChildFragmentManager().popBackStack();
             return true;
         } else if (getChildFragmentManager().getBackStackEntryCount() == 1) {
-            CommonUtil.setTitle(getActivity(), getResources().getString(R.string.provider_info), true);
+            CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.provider_info) : getResources().getString(R.string.find_care), true);
             restartSchedulingFlow();
             expandableLinearLayout.collapse();
             expandableLinearLayout.initLayout();
