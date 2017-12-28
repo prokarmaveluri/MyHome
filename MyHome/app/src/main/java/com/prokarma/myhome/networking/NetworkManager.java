@@ -639,7 +639,6 @@ public class NetworkManager {
      * @param id the Provider ID
      * @return a More in-depth look of the provider
      */
-    //TODO: Kevin, make sure this is the correct FINAL URL for new Provider Details
     public Call<ProviderDetails> getNewProviderDetails(String id) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
             return service.getNewProviderDetails(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/providers/full", id);
