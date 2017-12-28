@@ -449,7 +449,7 @@
 
     <!--TechCheck-->
     <string name="welcome">Welcome!</string>
-    <string name="mycare_desc">Video visits are a convenient way to get immediate care and questions answered.</string>
+    <string name="mycare_desc">Video visits are a convenient way to see a doctor from home.</string>
     <string name="get_started">Get Started</string>
     <string name="personal_information">Personal Information</string>
     <string name="my_personal_information">Personal Information</string>
