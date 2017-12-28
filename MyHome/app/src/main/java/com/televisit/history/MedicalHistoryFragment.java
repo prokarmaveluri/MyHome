@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
@@ -30,10 +28,8 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import timber.log.Timber;
 
@@ -254,7 +250,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
     private void getAllergies() {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
 
@@ -295,7 +291,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
     private void updateConditions() {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
 
@@ -359,7 +355,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         progressBar.setVisibility(View.GONE);
 
         if (searchConditions.size() == 0) {
-            Toast.makeText(getContext(), "No Medical Conditions found. \n\nWe could'nt find any relevant results for " + searchText.trim(), Toast.LENGTH_SHORT).show();
+            CommonUtil.showToast(getContext(), getString(R.string.no_medical_conditions) + searchText.trim());
         }
     }
 
@@ -382,7 +378,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         progressBar.setVisibility(View.GONE);
 
         if (searchAllergies.size() == 0) {
-            Toast.makeText(getContext(), "No Medical Allergies found. \n\nWe could'nt find any relevant results for " + searchText.trim(), Toast.LENGTH_SHORT).show();
+            CommonUtil.showToast(getContext(), getString(R.string.no_medical_allergies) + searchText.trim());
         }
     }
 

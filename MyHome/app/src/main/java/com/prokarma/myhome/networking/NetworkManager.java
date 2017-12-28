@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
@@ -721,8 +719,7 @@ public class NetworkManager {
                                 final Context context, final View parentView) {
 
         if (!ConnectionUtil.isConnected(context)) {
-            Toast.makeText(context, R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(context, context.getString(R.string.no_network_msg));
             return;
         }
         if (isSave) {

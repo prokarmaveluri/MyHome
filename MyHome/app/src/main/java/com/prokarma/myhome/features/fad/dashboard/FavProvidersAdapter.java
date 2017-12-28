@@ -6,19 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterFavListItemBinding;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.networking.NetworkManager;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import timber.log.Timber;
 
 /**
@@ -116,8 +113,7 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
             switch (id) {
                 case R.id.itemLayout:
                     if (!ConnectionUtil.isConnected(mContext)) {
-                        Toast.makeText(mContext, R.string.no_network_msg,
-                                Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(mContext, mContext.getString(R.string.no_network_msg));
                         return;
                     }
                     Timber.i("Click " + view.getTag());
@@ -126,8 +122,7 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                 case R.id.fadDashBoardFav:
                     try {
                         if (!ConnectionUtil.isConnected(mContext)) {
-                            Toast.makeText(mContext, R.string.no_network_msg,
-                                    Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(mContext, mContext.getString(R.string.no_network_msg));
                             return;
                         }
                         int position = (int) view.getTag();

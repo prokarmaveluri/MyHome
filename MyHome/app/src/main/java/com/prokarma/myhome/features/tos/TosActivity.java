@@ -13,17 +13,16 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -107,9 +106,7 @@ public class TosActivity extends BaseActivity {
 
     private void acceptTerms() {
         if (!ConnectionUtil.isConnected(getApplicationContext())) {
-            Toast.makeText(getApplicationContext(),
-                    R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getApplicationContext(), getString(R.string.no_network_msg));
         } else if (enrollmentRequest != null) {
             enrollmentRequest.setHasAcceptedTerms(true);
             enrollmentRequest.setSkipVerification(true); // need to discuss about the skip.
@@ -123,9 +120,7 @@ public class TosActivity extends BaseActivity {
 
     private void registerUser(final EnrollmentRequest request) {
         if (!ConnectionUtil.isConnected(this)) {
-            Toast.makeText(this,
-                    R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(this, getString(R.string.no_network_msg));
             return;
         }
         showProgress(true);
@@ -133,8 +128,7 @@ public class TosActivity extends BaseActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), R.string.enrollment_success,
-                            Toast.LENGTH_LONG).show();
+                    CommonUtil.showToast(getApplicationContext(), getApplicationContext().getString(R.string.enrollment_success));
                     startLoginPage(request.getEmail(), request.getPassword());
                 } else {
                     ApiErrorUtil.getInstance().registerError(getApplicationContext(), findViewById(android.R.id.content), response);

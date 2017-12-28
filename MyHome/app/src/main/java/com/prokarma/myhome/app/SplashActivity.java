@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,8 +22,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -64,7 +61,6 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.EnviHandler;
 import com.prokarma.myhome.utils.TealiumUtil;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -245,8 +241,7 @@ public class SplashActivity extends AppCompatActivity implements
      */
     private void refreshAccessToken(final String refreshToken) {
         if (!ConnectionUtil.isConnected(this)) {
-            Toast.makeText(this, R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(this, this.getString(R.string.no_network_msg));
             progress.setVisibility(View.GONE);
             return;
         }
@@ -613,8 +608,7 @@ public class SplashActivity extends AppCompatActivity implements
     private void versionCheck(final boolean isGPSVerified) {
         isVersionVerified = false;
         if (!ConnectionUtil.isConnected(this)) {
-            Toast.makeText(this, R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(this, getString(R.string.no_network_msg));
             progress.setVisibility(View.GONE);
             return;
         }
@@ -683,8 +677,7 @@ public class SplashActivity extends AppCompatActivity implements
      */
     private void login(final SignInRequest request) {
         if (!ConnectionUtil.isConnected(this)) {
-            Toast.makeText(this, R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(this, getString(R.string.no_network_msg));
             progress.setVisibility(View.GONE);
             return;
         }

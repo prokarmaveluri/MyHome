@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 
 import java.util.ArrayList;
@@ -50,8 +51,7 @@ public class BookingSelectStatusFragment extends Fragment {
         appointmentTypes = args.getParcelableArrayList(APPOINTMENT_TYPE_KEY);
 
         bookingView = inflater.inflate(R.layout.book_select_status, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.provider_info));
-
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.provider_info) : getResources().getString(R.string.find_care), true);
         final TextView header = (TextView) bookingView.findViewById(R.id.status_header);
         final LinearLayout appointmentTypeLayout = (LinearLayout) bookingView.findViewById(R.id.appointment_type_layout);
         final TextView noAppointments = (TextView) bookingView.findViewById(R.id.no_times_available);

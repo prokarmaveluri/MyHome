@@ -20,8 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -35,9 +33,7 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
-
 import java.util.Map;
-
 import timber.log.Timber;
 
 /**
@@ -186,18 +182,14 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 if (isAdded() && AwsManager.getInstance().getVisit() != null) {
 
                     if (AwsManager.getInstance().getVisit().getVisitCost() != null && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
-
-                        Toast.makeText(getContext(), "Your cost isn't free\nYou might want to apply a coupon...", Toast.LENGTH_LONG).show();
-
+                        CommonUtil.showToast(getContext(), getString(R.string.your_cost_is_not_free));
                     } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())) {
                         phoneLayout.setError(getString(R.string.field_must_be_completed));
-
                     } else if (!agreePrivacyPolicyCheck.isChecked()) {
-                        Toast.makeText(getActivity(), R.string.my_care_privacy_policy_accept, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getString(R.string.my_care_privacy_policy_accept));
 
                     } else if (!agreeLegalDependentCheck.isChecked() && AwsManager.getInstance().isDependent()) {
-                        Toast.makeText(getActivity(), R.string.my_care_legal_dependent_accept, Toast.LENGTH_LONG).show();
-
+                        CommonUtil.showToast(getActivity(), getString(R.string.my_care_legal_dependent_accept));
                     } else if (CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())
                             && agreePrivacyPolicyCheck.isChecked()) {
 
@@ -214,7 +206,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private void applyCoupon(String couponCode) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
 
@@ -268,7 +260,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private void createVisit() {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
 
@@ -312,18 +304,15 @@ public class MyCareVisitCostFragment extends BaseFragment {
                             progressBar.setVisibility(View.GONE);
 
                             if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
-                                Toast.makeText(getContext(), sdkError.getMessage(), Toast.LENGTH_LONG).show();
-
+                                CommonUtil.showToast(getContext(), sdkError.getMessage());
                             } else if (sdkError.getSDKErrorReason() != null && !sdkError.getSDKErrorReason().isEmpty()) {
-                                Toast.makeText(getContext(), sdkError.getSDKErrorReason(), Toast.LENGTH_LONG).show();
-
+                                CommonUtil.showToast(getContext(), sdkError.getSDKErrorReason());
                             } else if (sdkError.toString() != null && sdkError.toString().toLowerCase().contains("provider unavailable")) {
-                                Toast.makeText(getContext(), "Provider unavailable \nPlease select a different provider.", Toast.LENGTH_LONG).show();
-
+                                CommonUtil.showToast(getContext(), getString(R.string.provider_unavailable));
                             } else if (sdkError.toString() != null && !sdkError.toString().isEmpty()) {
-                                Toast.makeText(getContext(), sdkError.toString(), Toast.LENGTH_LONG).show();
+                                CommonUtil.showToast(getContext(), sdkError.toString());
                             } else {
-                                Toast.makeText(getContext(), getContext().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                                CommonUtil.showToast(getContext(), getContext().getString(R.string.something_went_wrong));
                             }
                         }
                     }

@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,7 +29,6 @@ import com.prokarma.myhome.utils.MapUtil;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdatePharmacy;
-
 import java.util.ArrayList;
 
 
@@ -165,7 +162,7 @@ public class PharmacyDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void pharmacyUpdateFailed(String errorMessage) {
-        Toast.makeText(getContext(), "Error Saving Pharmacy\n" + errorMessage, Toast.LENGTH_LONG).show();
+        CommonUtil.showToast(getContext(), getContext().getString(R.string.error_saving_pharmacy)+ errorMessage);
     }
 
     @Override

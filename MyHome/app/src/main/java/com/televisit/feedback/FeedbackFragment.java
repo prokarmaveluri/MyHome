@@ -17,7 +17,6 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -25,13 +24,12 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import timber.log.Timber;
 
 /**
@@ -127,8 +125,7 @@ public class FeedbackFragment extends BaseFragment {
 
                     feedbackLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), R.string.feedback_choose_answer, Toast.LENGTH_LONG).show();
-
+                    CommonUtil.showToast(getActivity(),getString(R.string.feedback_choose_answer));
                 } else if (getProviderRating() == 0 && getVisitRating() == 0) {
 
                     Timber.d("Feedback. User has not submitted both ProviderRating and VisitRating. ");
@@ -279,7 +276,7 @@ public class FeedbackFragment extends BaseFragment {
                                 Timber.e("sendRatings failed! :/");
                                 Timber.e("SDK Error: " + sdkError);
                                 sendFeedback();
-                                Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
+                                CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_ratings_submission_failed));
                             }
                         }
 
@@ -288,7 +285,7 @@ public class FeedbackFragment extends BaseFragment {
                             Timber.e("sendRatings failed! :/");
                             Timber.e("Throwable = " + throwable);
                             sendFeedback();
-                            Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_ratings_submission_failed));
                         }
                     }
             );
@@ -299,12 +296,12 @@ public class FeedbackFragment extends BaseFragment {
 
         if (visitSummary == null) {
             Timber.e("sendVisitFeedback visitSummary is null. ");
-            Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
             goBackToDashboard();
             return;
         } else if (visitSummary.getConsumerFeedbackQuestion() == null) {
             Timber.e("sendVisitFeedback visitSummary.getConsumerFeedbackQuestion() is null. ");
-            Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
             goBackToDashboard();
             return;
         } else if (visitSummary != null && visitSummary.getConsumerFeedbackQuestion() != null) {
@@ -320,7 +317,7 @@ public class FeedbackFragment extends BaseFragment {
 
                         Timber.e("sendVisitFeedback Validation failed! :/");
                         Timber.e("Map: " + map);
-                        Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
                     }
 
                     @Override
@@ -328,13 +325,13 @@ public class FeedbackFragment extends BaseFragment {
 
                         if (sdkError == null) {
                             Timber.d("sendVisitFeedback succeeded! ");
-                            Toast.makeText(getActivity(), R.string.feedback_completed, Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_completed));
                             goBackToDashboard();
 
                         } else {
                             Timber.e("sendVisitFeedback failed! :/");
                             Timber.e("SDK Error: " + sdkError);
-                            Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
                         }
                     }
 
@@ -342,7 +339,7 @@ public class FeedbackFragment extends BaseFragment {
                     public void onFailure(@NonNull Throwable throwable) {
                         Timber.e("sendVisitFeedback failed! :/");
                         Timber.e("Throwable = " + throwable);
-                        Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
                     }
                 }
         );
