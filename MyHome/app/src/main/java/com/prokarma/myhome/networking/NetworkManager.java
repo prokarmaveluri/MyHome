@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.appointments.Appointment;
@@ -641,9 +642,9 @@ public class NetworkManager {
     //TODO: Kevin, make sure this is the correct FINAL URL for new Provider Details
     public Call<ProviderDetails> getNewProviderDetails(String id) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
-            return service.getNewProviderDetails("https://web-usw1-fad-dev.azurewebsites.net/".concat("messUpUrl123") + "api/providers/full", id);
+            return service.getNewProviderDetails(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/providers/full", id);
         } else {
-            return service.getNewProviderDetails("https://web-usw1-fad-dev.azurewebsites.net/" + "api/providers/full", id);
+            return service.getNewProviderDetails(EnviHandler.S2_BASE_URL + "api/providers/full", id);
         }
     }
 
