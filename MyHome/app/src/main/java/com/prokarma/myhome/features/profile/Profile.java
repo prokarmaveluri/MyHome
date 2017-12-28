@@ -14,28 +14,28 @@ public class Profile implements Parcelable {
     //New Values from API change 6-12-2017
     public String userId;
     public String userName;
-    public String idLevel;
+    //public String idLevel;
     public boolean isVerified;
     public String createdDate;
 
-    public String firstName;
-    public String middleInitial;
-    public String lastName;
-    public String preferredName;
-    public String gender;
-    public String dateOfBirth;
-    public Address address;
+    //public String firstName;
+    //public String middleInitial;
+    //public String lastName;
+    //public String preferredName;
+    //public String gender;
+    //public String dateOfBirth;
+    //public Address address;
     public String phoneNumber;
     public String phoneNumberType;
     public String contactName;
     public String contactPhoneNumber;
     public String primaryCaregiverName;
-    public boolean isPregnant;
-    public String weeksPregnant;
-    public InsuranceProvider insuranceProvider;
+    //public boolean isPregnant;
+    //public String weeksPregnant;
+    //public InsuranceProvider insuranceProvider;
     public String clientID;
     public String remoteID;
-    public String email;
+    //public String email;
     public String reasonForVisit;
     public boolean translationNeeded;
     public String translatorLanguage;
@@ -57,27 +57,27 @@ public class Profile implements Parcelable {
     public Profile(String userId, String userName, String idLevel, boolean isVerified, String createdDate, String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email, String reasonForVisit, boolean translationNeeded, String translatorLanguage, boolean assistanceNeeded) {
         this.userId = userId;
         this.userName = userName;
-        this.idLevel = idLevel;
+        //this.idLevel = idLevel;
         this.isVerified = isVerified;
         this.createdDate = createdDate;
-        this.firstName = firstName;
+        /*this.firstName = firstName;
         this.middleInitial = middleInitial;
         this.lastName = lastName;
         this.preferredName = preferredName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
-        this.address = address;
+        this.address = address;*/
         this.phoneNumber = phoneNumber;
         this.phoneNumberType = phoneNumberType;
         this.contactName = contactName;
         this.contactPhoneNumber = contactPhoneNumber;
         this.primaryCaregiverName = primaryCaregiverName;
-        this.isPregnant = isPregnant;
+        /*this.isPregnant = isPregnant;
         this.weeksPregnant = weeksPregnant;
-        this.insuranceProvider = insuranceProvider;
+        this.insuranceProvider = insuranceProvider;*/
         this.clientID = clientID;
         this.remoteID = remoteID;
-        this.email = email;
+        //this.email = email;
         this.reasonForVisit = reasonForVisit;
         this.translationNeeded = translationNeeded;
         this.translatorLanguage = translatorLanguage;
@@ -87,27 +87,27 @@ public class Profile implements Parcelable {
     public Profile(String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email, String reasonForVisit, boolean translationNeeded, String translatorLanguage, boolean assistanceNeeded) {
         this.userId = null;
         this.userName = null;
-        this.idLevel = null;
+        //this.idLevel = null;
         this.isVerified = false;
         this.createdDate = null;
-        this.firstName = firstName;
+        /*this.firstName = firstName;
         this.middleInitial = middleInitial;
         this.lastName = lastName;
         this.preferredName = preferredName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
-        this.address = address;
+        this.address = address;*/
         this.phoneNumber = phoneNumber;
         this.phoneNumberType = phoneNumberType;
         this.contactName = contactName;
         this.contactPhoneNumber = contactPhoneNumber;
         this.primaryCaregiverName = primaryCaregiverName;
-        this.isPregnant = isPregnant;
+        /*this.isPregnant = isPregnant;
         this.weeksPregnant = weeksPregnant;
-        this.insuranceProvider = insuranceProvider;
+        this.insuranceProvider = insuranceProvider;*/
         this.clientID = clientID;
         this.remoteID = remoteID;
-        this.email = email;
+        //this.email = email;
         this.reasonForVisit = reasonForVisit;
         this.translationNeeded = translationNeeded;
         this.translatorLanguage = translatorLanguage;
