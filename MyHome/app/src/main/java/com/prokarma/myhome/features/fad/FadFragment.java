@@ -585,11 +585,14 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             showProgress(true);
             currentSearchQuery = query;
             binding.suggestionList.setVisibility(View.GONE);
+
+            String zipCode = FadManager.getInstance().getLocation().getZipCode() == null ? "" : FadManager.getInstance().getLocation().getZipCode();
+
             presenter.getProviderList(query,
                     FadManager.getInstance().getLocation().getLat(),
                     FadManager.getInstance().getLocation().getLong(),
                     FadManager.getInstance().getLocation().getDisplayName(),
-                    FadManager.getInstance().getLocation().getZipCode(),
+                    zipCode,
                     String.valueOf(mPageIndex),
                     RESTConstants.PROVIDER_PAGE_SIZE,
                     distanceRange,
