@@ -81,7 +81,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
         profileView = inflater.inflate(R.layout.profile_edit, container, false);
 
         if (getActivity() instanceof NavigationActivity) {
-            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.my_personal_information));
+            ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.profile));
         } else {
             getActivity().setTitle(getString(R.string.my_personal_information));
         }
