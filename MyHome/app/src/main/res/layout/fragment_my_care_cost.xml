@@ -129,10 +129,8 @@
             android:layout_marginBottom="18dp"
             android:layout_marginLeft="18dp"
             android:layout_marginRight="28dp"
-            android:orientation="horizontal"
-            app:alignContent="stretch"
-            app:alignItems="stretch"
-            app:flexWrap="wrap">
+            app:flexWrap="wrap"
+            android:orientation="horizontal" >
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/agree_privacy_policy_check"
@@ -142,6 +140,7 @@
 
             <TextView
                 android:id="@+id/agree_privacy_policy_text1"
+                android:layout_toRightOf="@+id/agree_privacy_policy_check"
                 android:labelFor="@+id/agree_privacy_policy_check"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
@@ -150,6 +149,7 @@
 
             <TextView
                 android:id="@+id/agree_privacy_policy_text2"
+                android:layout_toRightOf="@+id/agree_privacy_policy_text1"
                 android:labelFor="@+id/agree_privacy_policy_check"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
@@ -157,18 +157,7 @@
                 android:text="@string/agree_privacy_policy_text2"
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/agree_privacy_policy_text3"
-                android:labelFor="@+id/agree_privacy_policy_check"
-                style="@style/tradeGothicLTStd_Dynamic18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="31dp"
-                android:text="@string/agree_privacy_policy_text3"
-                android:textColor="@color/accent"
-                android:textStyle="bold" />
-        </com.google.android.flexbox.FlexboxLayout> 
+        </com.google.android.flexbox.FlexboxLayout>
 
         <RelativeLayout
             android:id="@+id/agree_legal_dependent_layout"

@@ -420,8 +420,7 @@
     <string name="payment">Payment</string>
 
     <string name="agree_privacy_policy_text1">I have read and agree to the&#160;</string>
-    <string name="agree_privacy_policy_text2">Privacy</string>
-    <string name="agree_privacy_policy_text3">Policy.</string>
+    <string name="agree_privacy_policy_text2">Privacy Policy.</string>
     <string name="agree_legal_dependent_text">I certify that I am the custodial parent or legal guardian of the minor indicated above and that I have authority to made medical decisions based on their behalf.</string>
 
     <!-- Payment Information -->

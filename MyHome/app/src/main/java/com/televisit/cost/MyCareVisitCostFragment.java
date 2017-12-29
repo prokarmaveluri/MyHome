@@ -55,7 +55,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private TextInputLayout reasonLayout;
     private TextInputLayout phoneLayout;
     private TextView privacyLink;
-    private TextView policyLink;
     private AppCompatCheckBox agreePrivacyPolicyCheck;
     private AppCompatCheckBox agreeLegalDependentCheck;
     private RelativeLayout agreeLegalDependentLayout;
@@ -97,7 +96,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
         reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
         phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
         privacyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text2);
-        policyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text3);
         agreePrivacyPolicyCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_privacy_policy_check);
         agreeLegalDependentCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_legal_dependent_check);
         agreeLegalDependentLayout = (RelativeLayout) view.findViewById(R.id.agree_legal_dependent_layout);
@@ -132,15 +130,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
         });
 
         privacyLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() instanceof NavigationActivity) {
-                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PRIVACY_POLICY, null);
-                }
-            }
-        });
-
-        policyLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (getActivity() instanceof NavigationActivity) {
