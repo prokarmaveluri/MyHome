@@ -956,22 +956,24 @@ public class CommonUtil {
         ArrayList<AppointmentAvailableTime> appointmentTimes = new ArrayList<>();
         AppointmentAvailableTime appointmentAvailableTime = new AppointmentAvailableTime();
 
-        for (AppointmentAvailableTime availableTime : appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes()) {
-            appointmentAvailableTime = new AppointmentAvailableTime();
-            appointmentAvailableTime.setDate(availableTime.getDate());
-            appointmentAvailableTime.setTimes(new ArrayList<AppointmentTime>());
+        if (appointmentType != null) {
+            for (AppointmentAvailableTime availableTime : appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes()) {
+                appointmentAvailableTime = new AppointmentAvailableTime();
+                appointmentAvailableTime.setDate(availableTime.getDate());
+                appointmentAvailableTime.setTimes(new ArrayList<AppointmentTime>());
 
-            for (AppointmentTime appointmentTime : availableTime.getTimes()) {
-                for (AppointmentType type : appointmentTime.getAppointmentTypes()) {
-                    if (type.getId().equals(appointmentType.getId())) {
-                        appointmentAvailableTime.getTimes().add(appointmentTime);
-                        break;
+                for (AppointmentTime appointmentTime : availableTime.getTimes()) {
+                    for (AppointmentType type : appointmentTime.getAppointmentTypes()) {
+                        if (type.getId().equals(appointmentType.getId())) {
+                            appointmentAvailableTime.getTimes().add(appointmentTime);
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (!appointmentAvailableTime.getTimes().isEmpty()) {
-                appointmentTimes.add(appointmentAvailableTime);
+                if (!appointmentAvailableTime.getTimes().isEmpty()) {
+                    appointmentTimes.add(appointmentAvailableTime);
+                }
             }
         }
 
