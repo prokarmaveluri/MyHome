@@ -80,7 +80,7 @@ public class ProfileViewFragment extends BaseFragment {
         }
         if (from != null && from.equalsIgnoreCase("dashboard")) {
             if (getActivity() instanceof NavigationActivity) {
-                ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.personal_information));
+                ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.profile));
             } else {
                 getActivity().setTitle(getString(R.string.personal_information));
             }

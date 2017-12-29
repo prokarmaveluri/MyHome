@@ -93,7 +93,7 @@ public class FavProvidersAdapter extends RecyclerView.Adapter<FavProvidersAdapte
                 binding.fadDashBoardFav.setTag(position);
                 binding.docDisplayName.setText(provider.getDisplayName());
                 binding.docSpeciality.setText(provider.getPrimarySpecialities().get(0));
-
+                CommonUtil.updateFavView(mContext, true, binding.fadDashBoardFav);
                 String url = provider.getImages().get(2).getUrl();
                 url = url.replace(DeviceDisplayManager.W60H80, DeviceDisplayManager.W120H160);
 
