@@ -76,6 +76,7 @@ public class BookingSaveProfileDialog extends DialogFragment {
                         if (saveProfileInterface != null) {
                             saveProfileInterface.onPromptDismissed(true);
                         }
+                        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.review_your_booking));
                     }
                 })
                 .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -85,6 +86,7 @@ public class BookingSaveProfileDialog extends DialogFragment {
                         if (saveProfileInterface != null) {
                             saveProfileInterface.onPromptDismissed(false);
                         }
+                        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.review_your_booking));
                     }
                 });
 

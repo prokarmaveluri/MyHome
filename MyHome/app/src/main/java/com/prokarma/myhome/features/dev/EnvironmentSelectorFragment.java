@@ -16,9 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.EnviHandler;
 
 /**
@@ -114,13 +113,13 @@ public class EnvironmentSelectorFragment extends DialogFragment {
 
     private void finishSelecting() {
         if (envMyHomeGroup.getCheckedRadioButtonId() == -1 || envAmWellGroup.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(getContext(), "You must chose an environment", Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getContext(), getString(R.string.you_must_chose_an_environment));
             return;
         }
 
         if (!checkBox.isChecked()) {
             if ((user.getText() == null || user.getText().toString().isEmpty()) || (password.getText() == null || password.getText().toString().isEmpty())) {
-                Toast.makeText(getContext(), "Please provide a user for AmWell", Toast.LENGTH_LONG).show();
+                CommonUtil.showToast(getContext(),getString(R.string.please_provide_user_for_AmWell));
                 return;
             }
         }

@@ -15,8 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -24,13 +24,12 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import timber.log.Timber;
 
 /**
@@ -45,6 +44,7 @@ public class FeedbackFragment extends BaseFragment {
     private RatingBar providerRating;
     private RatingBar experienceRating;
 
+    private TextView textQuestion3;
     private RadioGroup radioGroup;
     private String question1 = "";
     private String question2 = "";
@@ -78,6 +78,7 @@ public class FeedbackFragment extends BaseFragment {
         experienceRating = (RatingBar) view.findViewById(R.id.rate_experience);
 
         radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
+        textQuestion3 = (TextView) view.findViewById(R.id.text_question3);
 
         showLayout();
 
@@ -124,8 +125,7 @@ public class FeedbackFragment extends BaseFragment {
 
                     feedbackLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), R.string.feedback_choose_answer, Toast.LENGTH_LONG).show();
-
+                    CommonUtil.showToast(getActivity(),getString(R.string.feedback_choose_answer));
                 } else if (getProviderRating() == 0 && getVisitRating() == 0) {
 
                     Timber.d("Feedback. User has not submitted both ProviderRating and VisitRating. ");
@@ -170,6 +170,19 @@ public class FeedbackFragment extends BaseFragment {
                     public void onResponse(VisitSummary visitSummaryObject, SDKError sdkError) {
                         if (sdkError == null) {
                             visitSummary = visitSummaryObject;
+                            if (visitSummary != null
+                                    && visitSummary.getConsumerFeedbackQuestion() != null
+                                    && !visitSummary.getConsumerFeedbackQuestion().getQuestionText().isEmpty()
+                                    && visitSummary.getConsumerFeedbackQuestion().getResponseOptions() != null
+                                    && visitSummary.getConsumerFeedbackQuestion().getResponseOptions().size() > 0) {
+
+                                question3 = visitSummary.getConsumerFeedbackQuestion().getQuestionText();
+
+                                question3Options.clear();
+                                question3Options = visitSummary.getConsumerFeedbackQuestion().getResponseOptions();
+
+                                displayDynamicQuestionAnswer();
+                            }
                         } else {
                             Timber.e("getVisitSummary failed! :/");
                             Timber.e("SDK Error: " + sdkError);
@@ -183,6 +196,33 @@ public class FeedbackFragment extends BaseFragment {
                     }
                 }
         );
+    }
+
+    private void displayDynamicQuestionAnswer() {
+
+        Timber.d("feedback. question3 = " + question3);
+
+        textQuestion3.setText(question3);
+        textQuestion3.setTextAppearance(this.getContext(), R.style.tradeGothicLTStd_Dynamic20);
+
+        radioGroup.removeAllViews();
+
+        int i = 0;
+        for (String questionAnswer : question3Options) {
+
+            i = i + 1;
+
+            Timber.d("feedback. answer " + i + " = " + questionAnswer);
+
+            RadioButton rbn = new RadioButton(this.getContext());
+            rbn.setId(i + 1000);
+            rbn.setText(questionAnswer);
+            rbn.setLayoutParams(new LinearLayout.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT, 1f));
+            rbn.setTextAppearance(this.getContext(), R.style.tradeGothicLTStd_Dynamic18);
+            radioGroup.addView(rbn);
+        }
+
+        radioGroup.requestLayout();
     }
 
     private int getProviderRating() {
@@ -202,6 +242,9 @@ public class FeedbackFragment extends BaseFragment {
 
             if (radioButtonIndex > -1 && radioButtonIndex < radioGroup.getChildCount()) {
                 RadioButton optionSelected = (RadioButton) radioGroup.getChildAt(radioButtonIndex);
+
+                Timber.d("feedback. answer selected = " + optionSelected.getText().toString());
+
                 return optionSelected.getText().toString();
             }
         }
@@ -233,7 +276,7 @@ public class FeedbackFragment extends BaseFragment {
                                 Timber.e("sendRatings failed! :/");
                                 Timber.e("SDK Error: " + sdkError);
                                 sendFeedback();
-                                Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
+                                CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_ratings_submission_failed));
                             }
                         }
 
@@ -242,7 +285,7 @@ public class FeedbackFragment extends BaseFragment {
                             Timber.e("sendRatings failed! :/");
                             Timber.e("Throwable = " + throwable);
                             sendFeedback();
-                            Toast.makeText(getActivity(), R.string.feedback_ratings_submission_failed, Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_ratings_submission_failed));
                         }
                     }
             );
@@ -253,12 +296,12 @@ public class FeedbackFragment extends BaseFragment {
 
         if (visitSummary == null) {
             Timber.e("sendVisitFeedback visitSummary is null. ");
-            Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
             goBackToDashboard();
             return;
         } else if (visitSummary.getConsumerFeedbackQuestion() == null) {
             Timber.e("sendVisitFeedback visitSummary.getConsumerFeedbackQuestion() is null. ");
-            Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
             goBackToDashboard();
             return;
         } else if (visitSummary != null && visitSummary.getConsumerFeedbackQuestion() != null) {
@@ -274,7 +317,7 @@ public class FeedbackFragment extends BaseFragment {
 
                         Timber.e("sendVisitFeedback Validation failed! :/");
                         Timber.e("Map: " + map);
-                        Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
                     }
 
                     @Override
@@ -282,13 +325,13 @@ public class FeedbackFragment extends BaseFragment {
 
                         if (sdkError == null) {
                             Timber.d("sendVisitFeedback succeeded! ");
-                            Toast.makeText(getActivity(), R.string.feedback_completed, Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_completed));
                             goBackToDashboard();
 
                         } else {
                             Timber.e("sendVisitFeedback failed! :/");
                             Timber.e("SDK Error: " + sdkError);
-                            Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+                            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
                         }
                     }
 
@@ -296,7 +339,7 @@ public class FeedbackFragment extends BaseFragment {
                     public void onFailure(@NonNull Throwable throwable) {
                         Timber.e("sendVisitFeedback failed! :/");
                         Timber.e("Throwable = " + throwable);
-                        Toast.makeText(getActivity(), R.string.feedback_answers_submission_failed, Toast.LENGTH_LONG).show();
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_answers_submission_failed));
                     }
                 }
         );

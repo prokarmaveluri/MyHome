@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
@@ -640,12 +639,11 @@ public class NetworkManager {
      * @param id the Provider ID
      * @return a More in-depth look of the provider
      */
-    //TODO: Kevin, make sure this is the correct FINAL URL for new Provider Details
     public Call<ProviderDetails> getNewProviderDetails(String id) {
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
-            return service.getNewProviderDetails("https://web-usw1-fad-dev.azurewebsites.net/".concat("messUpUrl123") + "api/providers/full", id);
+            return service.getNewProviderDetails(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/providers/full", id);
         } else {
-            return service.getNewProviderDetails("https://web-usw1-fad-dev.azurewebsites.net/" + "api/providers/full", id);
+            return service.getNewProviderDetails(EnviHandler.S2_BASE_URL + "api/providers/full", id);
         }
     }
 
@@ -721,8 +719,7 @@ public class NetworkManager {
                                 final Context context, final View parentView) {
 
         if (!ConnectionUtil.isConnected(context)) {
-            Toast.makeText(context, R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(context, context.getString(R.string.no_network_msg));
             return;
         }
         if (isSave) {

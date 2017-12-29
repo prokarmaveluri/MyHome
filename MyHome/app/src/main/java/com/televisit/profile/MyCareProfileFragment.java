@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.prokarma.myhome.R;
@@ -32,7 +30,6 @@ import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateConsumer;
-
 import timber.log.Timber;
 
 /**
@@ -340,9 +337,9 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         ProfileManager.updateProfileFromMcnData(AuthManager.getInstance().getBearerToken(), consumer);
 
         if (AwsManager.getInstance().isDependent()) {
-            Toast.makeText(getActivity(), getString(R.string.profile_saved_dependent), Toast.LENGTH_SHORT).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.profile_saved_dependent));
         } else {
-            Toast.makeText(getActivity(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.profile_saved));
         }
         getActivity().onBackPressed();
     }
@@ -350,7 +347,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     @Override
     public void updateConsumerFailed(String errorMessage) {
         Timber.e(errorMessage);
-        Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+        CommonUtil.showToast(getActivity(), getString(R.string.something_went_wrong));
         getActivity().onBackPressed();
     }
 }

@@ -15,8 +15,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -30,10 +28,8 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
-
 import java.util.List;
 import java.util.Map;
-
 import timber.log.Timber;
 
 
@@ -148,7 +144,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
     private void getPharmaciesByZip(final String zipCode) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg, Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
             return;
         }
 
@@ -179,7 +175,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                         progressBar.setVisibility(View.GONE);
 
                         if (pharmacies == null || pharmacies.size() == 0) {
-                            Toast.makeText(getContext(), "No Pharmacies found. \n\nWe could'nt find any relevant results for " + zipCode, Toast.LENGTH_SHORT).show();
+                            CommonUtil.showToast(getContext(), getString(R.string.no_pharmacies_found_for) + zipCode);
                         }
 
                         if (null != getActivity()) {
@@ -229,7 +225,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                         }
 
                         if (pharmacies == null || pharmacies.size() == 0) {
-                            Toast.makeText(getContext(), "No Pharmacies found. \n\nWe could'nt find any relevant results near to your current location. ", Toast.LENGTH_SHORT).show();
+                            CommonUtil.showToast(getContext(),getString(R.string.no_pharmacies_found_for_current_location));
                         }
                     }
 
@@ -246,7 +242,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
             if (pharmacySearch.getText().toString().trim().length() == 5) {
                 getPharmaciesByZip(pharmacySearch.getText().toString().trim());
             } else {
-                Toast.makeText(getContext(), "Invalid zip code", Toast.LENGTH_SHORT).show();
+                CommonUtil.showToast(getContext(),getString(R.string.zip_invalid));
             }
             return true;
         }

@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.FragmentSecqBinding;
@@ -243,8 +242,7 @@ public class SQFragment extends Fragment {
 
     private void changeSecurityQuestion() {
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.no_network_msg));
             return;
         }
         if (!isAllInputsValid())
@@ -254,35 +252,26 @@ public class SQFragment extends Fragment {
                         binding.answer.getText().toString());
 
         binding.changeSecProgress.setVisibility(View.VISIBLE);
+
         ChangeSecurityQuestionRequest request = new ChangeSecurityQuestionRequest(password, question);
-        NetworkManager.getInstance().changeSecurityQuestion(AuthManager.getInstance().getBearerToken(),
-                request).enqueue(new Callback<CommonResponse>() {
+        NetworkManager.getInstance().changeSecurityQuestion(AuthManager.getInstance().getBearerToken(), request).enqueue(new Callback<CommonResponse>() {
             @Override
-            public void onResponse(Call<CommonResponse> call,
-                                   Response<CommonResponse> response) {
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 if (response.isSuccessful()) {
-
                     if (response.body().getIsValid()) {
-                        Toast.makeText(getActivity(), R.string.sec_question_changed_successfully,
-                                Toast.LENGTH_LONG).show();
-
+                        CommonUtil.showToast(getActivity(),getActivity().getString(R.string.sec_question_changed_successfully));
                         TealiumUtil.trackEvent(Constants.CHANGED_SECURITY_QUESTION_EVENT, null);
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                     } else {
-                        Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
-                        try {
-//                            String message = response.body().getErrors().get(0).getMessage();
-//                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-                            ApiErrorUtil.getInstance().changeSecurityQuestionError(getContext(), getView(), response);
-                        } catch (NullPointerException | IndexOutOfBoundsException ex) {
-                            ApiErrorUtil.getInstance().changeSecurityQuestionError(getContext(), getView(), response);
-                        }
+                        Timber.w("Response not valid\n" + response);
+                        CommonUtil.showToast(getContext(), getString(R.string.something_went_wrong));
                     }
                 } else {
                     Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
                     ApiErrorUtil.getInstance().changeSecurityQuestionError(getContext(), getView(), response);
                 }
+
                 binding.changeSecProgress.setVisibility(View.GONE);
             }
 

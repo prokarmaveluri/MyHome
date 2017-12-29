@@ -8,16 +8,14 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,9 +69,7 @@ public class TosFragment extends BaseFragment {
     private void getTosInfo(String bearer) {
         webView.setVisibility(View.GONE);
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(),
-                    R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
         progress.setVisibility(View.VISIBLE);
@@ -112,9 +108,7 @@ public class TosFragment extends BaseFragment {
 
     private void acceptTerms(String bearer) {
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(),
-                    R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
         } else {
             progress.setVisibility(View.VISIBLE);
             NetworkManager.getInstance().acceptTos(bearer).enqueue(new Callback<Tos>() {

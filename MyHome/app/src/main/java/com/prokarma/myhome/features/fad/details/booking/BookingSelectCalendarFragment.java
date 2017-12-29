@@ -8,14 +8,12 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
@@ -74,10 +72,8 @@ public class BookingSelectCalendarFragment extends Fragment {
         getAllAppointments();
 
         bookingView = inflater.inflate(R.layout.book_calendar, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.availability));
-        getActivity().getWindow().getDecorView()
-                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
-        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.availability));
+
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.availability) : getResources().getString(R.string.find_care), true);
         normalLayout = (LinearLayout) bookingView.findViewById(R.id.normal_layout);
         progressBar = (ProgressBar) bookingView.findViewById(R.id.loading_layout);
 

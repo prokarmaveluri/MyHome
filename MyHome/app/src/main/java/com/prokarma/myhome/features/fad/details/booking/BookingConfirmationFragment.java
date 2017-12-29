@@ -6,11 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.AddressUtil;
@@ -38,20 +35,15 @@ public class BookingConfirmationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         bookingView = inflater.inflate(R.layout.book_confirmation, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.review_your_booking));
-        getActivity().getWindow().getDecorView()
-                .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
-        getActivity().getWindow().getDecorView().announceForAccessibility(getResources().getString(R.string.review_your_booking));
-
+        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.review_your_booking), true);
         Button book = (Button) bookingView.findViewById(R.id.book_confirmed);
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (!ConnectionUtil.isConnected(getActivity())) {
-                    Toast.makeText(getActivity(),
-                            R.string.no_network_msg,
-                            Toast.LENGTH_LONG).show();
+                    CommonUtil.showToast(getActivity(),
+                            getString(R.string.no_network_msg));
                     return;
                 }
                 if (confirmationInterface != null) {

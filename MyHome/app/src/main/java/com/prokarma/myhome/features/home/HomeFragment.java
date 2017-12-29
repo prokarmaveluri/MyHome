@@ -21,8 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.gson.Gson;
@@ -49,11 +47,9 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -184,8 +180,7 @@ public class HomeFragment extends BaseFragment {
             if (progressStatus == 0)
                 coachmarkBookAppointment();
         } else {
-            Toast.makeText(getActivity(), R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             binding.appointmentItemLayout.setVisibility(View.GONE);
         }
     }
@@ -228,8 +223,7 @@ public class HomeFragment extends BaseFragment {
     private void getProfileInfo(String bearer) {
         Timber.i(getString(R.string.db_session_bearer) + " " + bearer);
         if (!ConnectionUtil.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), R.string.no_network_msg,
-                    Toast.LENGTH_LONG).show();
+            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             progressStatus--;
             return;
         }
