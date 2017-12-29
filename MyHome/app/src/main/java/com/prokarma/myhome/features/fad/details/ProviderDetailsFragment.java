@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
@@ -74,6 +75,7 @@ import com.prokarma.myhome.utils.MapUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
+
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -81,6 +83,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -510,6 +513,13 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private void handleMarkerClick(Marker marker) {
         //set the current office
         currentLocation = (ProviderDetailsAddress) marker.getTag();
+
+        //clear cache if currentlocation isn't what we have in Booking Manager
+        if(!currentLocation.equals(BookingManager.getBookingLocation())){
+            AppointmentManager.getInstance().clearAppointmentDetails();
+            AppointmentManager.getInstance().initializeAppointmentDetailsList(false);
+            getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentLocation.getAddressHash());
+        }
 
         bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
 
