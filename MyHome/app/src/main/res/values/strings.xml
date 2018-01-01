@@ -469,6 +469,7 @@
     <string name="medications">Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
     <string name="what_medications_are_you_taking_dependent">What medications is your child taking?</string>
+    <string name="no_results">No results found. Please adjust your search.</string>
 
 
     <string name="pharmacy">Pharmacy</string>
