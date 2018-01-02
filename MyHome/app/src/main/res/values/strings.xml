@@ -22,6 +22,7 @@
     <string name="valid_first_name">Please enter a valid first name.</string>
     <string name="valid_last_name">Please enter a valid last name.</string>
     <string name="valid_email">Please enter a valid email.</string>
+    <string name="invalid_password_criteria">Invalid password criteria</string>
     <string name="valid_password">Please enter a valid password.</string>
     <string name="valid_password_match">Please match your password entries.</string>
     <string name="valid_password_same">New and existing passwords cannot be same.</string>
