@@ -838,7 +838,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 addressLayout.setError(null);
             }
 
-            if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty() && state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
+            if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty() && state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() < 0) {
                 cityLayout.setError(context.getString(R.string.city_and_state_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();
@@ -848,7 +848,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();
                 cityLayout.setFocusable(true);
-            } else if (state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
+            } else if (state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() < 0) {
                 cityLayout.setError(context.getString(R.string.state_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();
