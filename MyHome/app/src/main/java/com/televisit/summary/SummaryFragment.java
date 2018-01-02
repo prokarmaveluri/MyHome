@@ -153,12 +153,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
         endDesc.setContentDescription(endDesc.getText());
 
-        if (CommonUtil.isAccessibilityEnabled(getContext())) {
-            providerName.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
-            providerName.setFocusable(true);
-            providerName.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-        }
-
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,10 +233,10 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.done:
-                if (emailLayout.getVisibility() == View.VISIBLE) {
+                if (emailLayout != null && emailLayout.getVisibility() == View.VISIBLE) {
                     emailVisitSummaryReport();
                 } else {
-                    doneVisitSummary();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
                 break;
         }

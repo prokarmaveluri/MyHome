@@ -1125,7 +1125,9 @@ public class CommonUtil {
     public static boolean isAccessibilityEnabled(Context context) {
         if (context != null) {
             AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
-            return am.isEnabled();
+            if (am != null) {
+                return am.isEnabled();
+            }
         }
         return false;
     }
