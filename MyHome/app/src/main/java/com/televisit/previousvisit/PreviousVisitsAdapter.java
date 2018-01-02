@@ -56,12 +56,16 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 if (visitReport.getProviderName() != null && !visitReport.getProviderName().isEmpty()) {
                     holder.doctorName.setText(visitReport.getProviderName());
+                    holder.doctorName.setContentDescription(visitReport.getProviderName());
                 }
 
                 try {
                     if (visitReport.getSchedule() != null && visitReport.getSchedule().getActualStartTime() != null) {
                         holder.visitDate.setText(DateUtil.convertDateToReadable(new Date(visitReport.getSchedule().getActualStartTime())));
                         holder.visitTime.setText(DateUtil.getTimeTimezone(new Date(visitReport.getSchedule().getActualStartTime())));
+
+                        holder.visitDate.setContentDescription(DateUtil.convertDateToReadable(new Date(visitReport.getSchedule().getActualStartTime())));
+                        holder.visitTime.setContentDescription(DateUtil.getTimeTimezone(new Date(visitReport.getSchedule().getActualStartTime())));
                     }
                 } catch (Exception e) {
                     Timber.e(e);
@@ -71,7 +75,7 @@ public class PreviousVisitsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 //hardcoding for now, as per directions got.
                 //holder.cost.setText("$" + CommonUtil.formatAmount((detail.visitCost));
                 holder.cost.setText("$ 0.00");
-                holder.visitReason.setText("I cut my hand on a peice of glass");
+                holder.cost.setContentDescription("Cost, " + holder.cost.getText());
 
                 holder.viewLink.setTag(position);
                 holder.viewLink.setOnClickListener(new View.OnClickListener() {
