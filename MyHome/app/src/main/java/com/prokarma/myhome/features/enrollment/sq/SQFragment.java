@@ -259,7 +259,7 @@ public class SQFragment extends Fragment {
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getIsValid()) {
-                        CommonUtil.showToast(getActivity(),getActivity().getString(R.string.sec_question_changed_successfully));
+                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.sec_question_changed_successfully));
                         TealiumUtil.trackEvent(Constants.CHANGED_SECURITY_QUESTION_EVENT, null);
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
@@ -297,14 +297,19 @@ public class SQFragment extends Fragment {
                                 int[] locationOnScreen = new int[2];
                                 binding.answer.getLocationOnScreen(locationOnScreen);
                                 int touchXCoordinate = (int) event.getRawX() - locationOnScreen[0];
+
                                 Timber.i("OnTouch " + (binding.answer.getRight() - binding.answer.getTotalPaddingRight()));
                                 Timber.i("OnTouch  " + (binding.answer.getRight() - binding.answer.getPaddingRight()));
                                 Timber.i("touchXCoordinate  " + touchXCoordinate);
+
                                 if (touchXCoordinate >= (binding.answer.getRight() - binding.answer.getTotalPaddingRight()) &&
                                         touchXCoordinate <= (binding.answer.getRight() - binding.answer.getPaddingRight())) {
+
                                     CommonUtil.displayPopupWindow(getActivity(), binding.answer,
                                             CommonUtil.getBulletPoints(CommonUtil.getSecurityAnswerCriteria(getActivity())));
+
                                     getHandler().sendEmptyMessageDelayed(0, 500);
+                                    return true;
                                 } else {
                                     CommonUtil.showSoftKeyboard(binding.answer, getActivity());
                                 }

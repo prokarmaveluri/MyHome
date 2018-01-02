@@ -166,6 +166,8 @@ public class CommonUtil {
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.showAtLocation(anchorView, Gravity.CENTER, 0, 0);
 
+        CommonUtil.hideSoftKeyboard(activity, anchorView);
+        CommonUtil.hideSoftKeyboard(activity);
     }
 
     public static String getBulletPoints(List<String> list) {
