@@ -33,7 +33,6 @@
 
                 <TextView
                     android:id="@+id/provider_name"
-                    android:focusable="true"
                     style="@style/tradeGothicLTStdLight_22"
                     android:layout_width="wrap_content"
                     android:layout_height="70dp"
@@ -205,7 +204,7 @@
                 android:gravity="left"
                 android:paddingTop="4dp"
                 android:text="@string/add_additional_email"
-                android:contentDescription="@string/add_additional_email"
+                android:contentDescription="@string/add_additional_email_content_desc"
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
 

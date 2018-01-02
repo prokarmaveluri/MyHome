@@ -16,14 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
@@ -91,6 +89,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private TextInputLayout newEmailTextInput;
     private TextInputEditText newEmailEditText;
     private TextView addEmail;
+    private TextView emailConfidentialityText;
 
     private List<EmailsAdapter.EmailSelection> emailObjects = null;
 
@@ -111,7 +110,9 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.visit_summary));
         View view = inflater.inflate(R.layout.visit_summary, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.visit_summary));
+        //((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.visit_summary));
+
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.visit_summary) : getResources().getString(R.string.visit_summary), true);
 
         progressBar = (ProgressBar) view.findViewById(R.id.summary_progress);
         providerName = (TextView) view.findViewById(R.id.provider_name);
@@ -138,7 +139,10 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         newEmailEditText = (TextInputEditText) view.findViewById(R.id.new_email_edittext);
         addEmail = (TextView) view.findViewById(R.id.add_email);
 
+        emailConfidentialityText = (TextView) view.findViewById(R.id.email_text);
+
         setHasOptionsMenu(true);
+
         return view;
     }
 
@@ -242,6 +246,48 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void readOutWhenAccessibilityEnabled() {
+
+        if (!CommonUtil.isAccessibilityEnabled(getContext())) {
+            return;
+        }
+
+        providerName.announceForAccessibility(providerName.getContentDescription());
+        endDesc.announceForAccessibility(endDesc.getContentDescription());
+        costDesc.announceForAccessibility(costDesc.getContentDescription());
+
+        if (pharmacyName.getVisibility() == View.VISIBLE) {
+            pharmacyName.announceForAccessibility(pharmacyName.getContentDescription());
+        }
+        if (pharmacyAddress.getVisibility() == View.VISIBLE) {
+            pharmacyAddress.announceForAccessibility(pharmacyAddress.getContentDescription());
+        }
+        if (pharmacyPhone.getVisibility() == View.VISIBLE) {
+            pharmacyPhone.announceForAccessibility(pharmacyPhone.getContentDescription());
+        }
+
+        if (prescriptionsList.getVisibility() == View.VISIBLE) {
+            prescriptionsList.setContentDescription("Prescriptions");
+            prescriptionsList.announceForAccessibility(prescriptionsList.getContentDescription());
+        }
+
+        if (viewReport.getVisibility() == View.VISIBLE) {
+            viewReport.setContentDescription(viewReport.getText());
+            viewReport.announceForAccessibility(viewReport.getContentDescription());
+        }
+
+        if (emailLayout.getVisibility() == View.VISIBLE) {
+
+            emailConfidentialityText.announceForAccessibility(emailConfidentialityText.getContentDescription());
+            emailAgree.announceForAccessibility(emailAgree.getContentDescription());
+
+            emailsList.setContentDescription("Email addresses to send visit report");
+            emailsList.announceForAccessibility(emailsList.getContentDescription());
+
+            addAdditionalEmail.announceForAccessibility(addAdditionalEmail.getContentDescription());
+        }
     }
 
     private void addEmailAddress() {
@@ -521,6 +567,8 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                             getVisitReportAttachment(visitReport);
 
                             progressBar.setVisibility(View.GONE);
+
+                            readOutWhenAccessibilityEnabled();
                         }
                     }
 

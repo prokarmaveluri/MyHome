@@ -490,6 +490,7 @@
     <string name="email_agreement_missing">Please check email confidentiality agreement</string>
     <string name="email_total_reached">Please check email confidentiality agreement</string>
     <string name="add_additional_email">+&#160;Add Additional Email</string>
+    <string name="add_additional_email_content_desc">Add Additional Email</string>
     <string name="add">Add</string>
     <string name="delete_cross">&#160;X&#160;</string>
     <string name="delete">Delete</string>
