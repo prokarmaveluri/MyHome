@@ -116,6 +116,12 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         searchLayout = (RelativeLayout) view.findViewById(R.id.searchLayout);
         progressBar = (ProgressBar) view.findViewById(R.id.medications_progress);
 
+        medicationsList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.list_divider));
+        medicationsList.addItemDecoration(itemDecoration);
+
         medicationsListToSave = new ArrayList<>();
         setHasOptionsMenu(true);
         return view;
@@ -239,12 +245,6 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                     }
                 }
             });
-
-            medicationsList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
-            DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-            itemDecoration.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.list_divider));
-            medicationsList.addItemDecoration(itemDecoration);
 
             medicationsList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
