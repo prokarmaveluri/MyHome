@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -149,6 +150,13 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             endDesc.setText(getContext().getString(R.string.your_visit_has_ended_dependent));
         } else {
             endDesc.setText(getContext().getString(R.string.your_visit_has_ended));
+        }
+        endDesc.setContentDescription(endDesc.getText());
+
+        if (CommonUtil.isAccessibilityEnabled(getContext())) {
+            providerName.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+            providerName.setFocusable(true);
+            providerName.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
         }
 
         viewReport.setOnClickListener(new View.OnClickListener() {
@@ -494,6 +502,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
                             if (visitReport.getProviderName() != null && !visitReport.getProviderName().isEmpty()) {
                                 providerName.setText(visitReport.getProviderName() + ", MD");
+                                providerName.setContentDescription(providerName.getText());
                             }
 
                             if (detail.getAssignedProviderInfo() != null) {
@@ -505,6 +514,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                             } else {
                                 costDesc.setText(getString(R.string.visit_total_cost_desc) + CommonUtil.formatAmount(detail.getVisitCost().getExpectedConsumerCopayCost()));
                             }
+                            costDesc.setContentDescription(costDesc.getText());
 
                             displayPharmacyDetails(visitReportDetail.getPharmacy());
 
@@ -643,6 +653,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
         if (visitSummary.getAssignedProviderInfo() != null) {
             providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
+            providerName.setContentDescription(providerName.getText());
         }
 
         if (AwsManager.getInstance().isDependent()) {
@@ -650,6 +661,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         } else {
             costDesc.setText(getString(R.string.visit_total_cost_desc) + CommonUtil.formatAmount((visitSummary.getVisitCost().getExpectedConsumerCopayCost())));
         }
+        costDesc.setContentDescription(costDesc.getText());
 
         updateDoctorImage(visitSummary);
 
@@ -678,12 +690,16 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         } else {
             pharmacyName.setVisibility(View.VISIBLE);
             pharmacyName.setText(pharmacy.getName());
+            pharmacyName.setContentDescription("Pharmacy, " + pharmacyName.getText());
 
             if (pharmacy == null || pharmacy.getPhone() == null || pharmacy.getPhone().isEmpty()) {
                 pharmacyPhoneLayout.setVisibility(View.GONE);
             } else {
                 pharmacyPhoneLayout.setVisibility(View.VISIBLE);
+
                 pharmacyPhone.setText(CommonUtil.constructPhoneNumberDots(pharmacy.getPhone()));
+                pharmacyPhone.setContentDescription("Phone, " + CommonUtil.constructPhoneNumberDotsAccessibility(pharmacy.getPhone()));
+
                 pharmacyPhoneLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -34,39 +34,46 @@ public class PrescriptionsAdapter extends RecyclerView.Adapter<RecyclerView.View
         VisitRx prescription = prescriptionsList.get(position);
 
         myHolder.prescriptionName.setText("Prescription: " + prescription.getName());
+        myHolder.prescriptionName.setContentDescription("Prescription, " + prescription.getName());
 
         if (prescription.getCreateDate() != null) {
             myHolder.prescriptionDate.setText(DateUtil.convertDobtoReadable(prescription.getCreateDate()));
+            myHolder.prescriptionDate.setContentDescription(myHolder.prescriptionDate.getText());
         } else {
             myHolder.prescriptionDate.setVisibility(View.GONE);
         }
 
         if (prescription.getDescription() != null) {
             myHolder.prescriptionDesc.setText("Description: " + prescription.getDescription());
+            myHolder.prescriptionDesc.setContentDescription("Description, " + prescription.getDescription());
         } else {
             myHolder.prescriptionDesc.setVisibility(View.GONE);
         }
 
         if (prescription.getDosage() != null) {
             myHolder.prescriptionDose.setText("Dosage: " + prescription.getDosage());
+            myHolder.prescriptionDose.setContentDescription("Dosage, " + prescription.getDosage());
         } else {
             myHolder.prescriptionDose.setVisibility(View.GONE);
         }
 
         if (prescription.getDuration() != null) {
             myHolder.prescriptionDuration.setText("Duration: " + prescription.getDuration());
+            myHolder.prescriptionDuration.setContentDescription("Duration, " + prescription.getDuration());
         } else {
             myHolder.prescriptionDuration.setVisibility(View.GONE);
         }
 
         if (prescription.getFrequency() != null) {
             myHolder.prescriptionFrequency.setText("Frequency: " + prescription.getFrequency());
+            myHolder.prescriptionFrequency.setContentDescription("Frequency, " + prescription.getFrequency());
         } else {
             myHolder.prescriptionFrequency.setVisibility(View.GONE);
         }
 
         if (prescription.getInstructions() != null) {
             myHolder.prescriptionInstructions.setText("Instructions: " + prescription.getInstructions());
+            myHolder.prescriptionInstructions.setContentDescription("Instructions, " + prescription.getInstructions());
         } else {
             myHolder.prescriptionInstructions.setVisibility(View.GONE);
         }

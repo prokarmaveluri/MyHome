@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingBottom="4dp"
     android:paddingRight="4dp"
     android:paddingTop="4dp">
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="4dp"
-        android:text="testaccount@gmail.com"
+        tools:text="testaccount@gmail.com"
         android:textColor="@color/db_charcoal_grey" />
 
     <TextView
@@ -26,6 +27,7 @@
         android:layout_toRightOf="@+id/email_id"
         android:gravity="right"
         android:text="@string/delete_cross"
+        android:contentDescription="@string/delete"
         android:textColor="@color/accent"
         android:textStyle="bold" />
 </RelativeLayout>

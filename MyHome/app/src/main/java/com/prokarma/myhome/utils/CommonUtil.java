@@ -338,6 +338,26 @@ public class CommonUtil {
         return phoneNumber.trim();
     }
 
+    public static String constructPhoneNumberDotsAccessibility(@NonNull String number) {
+        String phoneNumber = "";
+
+        if (number == null || number.trim().isEmpty())
+            return "";
+
+        phoneNumber = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+        phoneNumber = phoneNumber.replaceAll("\\(", "");
+        phoneNumber = phoneNumber.replaceAll("\\)", "");
+        phoneNumber = phoneNumber.replaceAll(" ", "");
+        phoneNumber = phoneNumber.replaceAll("-", "");
+
+        if (phoneNumber.length() == 10) {
+            phoneNumber = phoneNumber.substring(0, 3) + "," + phoneNumber.substring(3, 6) + "," + phoneNumber.substring(6, 10);
+        }
+        phoneNumber = phoneNumber.replace("", " ").trim();
+
+        return phoneNumber.trim();
+    }
+
     /**
      * Strip the phone number of any hyphens or parenthesis
      *

@@ -146,8 +146,11 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         updateDoctorImage(visitSummary);
 
         providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
+        providerName.setContentDescription(providerName.getText());
 
         pharmacyName.setText(visitSummary.getPharmacy().getName());
+        pharmacyName.setContentDescription("Pharmacy, " + pharmacyName.getText());
+
         pharmacyAddress.setText(CommonUtil.getPharmacyAddress(visitSummary.getPharmacy()));
 
         String addressContentDescription = visitSummary.getPharmacy() != null && visitSummary.getPharmacy().getAddress() != null ?
@@ -157,6 +160,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         pharmacyAddress.setContentDescription(getString(R.string.location) + addressContentDescription);
 
         pharmacyPhone.setText(CommonUtil.constructPhoneNumberDots(visitSummary.getPharmacy().getPhone()));
+        pharmacyPhone.setContentDescription("Phone, " + CommonUtil.constructPhoneNumberDotsAccessibility(visitSummary.getPharmacy().getPhone()));
+
         pharmacyPhoneLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,6 +176,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         } else {
             costDesc.setText(getString(R.string.summary_cost_desc) + CommonUtil.formatAmount((visitSummary.getVisitCost().getExpectedConsumerCopayCost())));
         }
+        costDesc.setContentDescription(costDesc.getText());
     }
 
     @Override
