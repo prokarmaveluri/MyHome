@@ -77,6 +77,10 @@ public class MapUtil {
                             .snippet(address.getAddress() != null ? CommonUtil.constructAddress(address.getAddress(), null, address.getCity(), address.getState(), address.getZip()) : context.getString(R.string.address_unknown))
                             .icon(bitmapDescriptor);
 
+                    if(address.getName() == null){
+                        address.setName(office.getName());
+                    }
+
                     Marker marker = googleMap.addMarker(markerOptions);
                     marker.setTag(address);
                     markers.add(marker);

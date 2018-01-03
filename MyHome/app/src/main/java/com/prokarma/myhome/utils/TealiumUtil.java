@@ -102,7 +102,7 @@ public final class TealiumUtil {
             tealiumData.put(KEY_TEALIUM_APP_ID, "my-home-app-digital-home");
             tealiumData.put(KEY_TEALIUM_APP_VERSION, BuildConfig.VERSION_NAME);
             tealiumData.put(KEY_TEALIUM_SCREEN_NAME, screenName);
-            tealiumData.put(KEY_TEALIUM_DHOME_ID, userProfile != null ? userProfile.selfId : "Unknown"); //DHOME ID is pointing to selfId now. Reference: user story 25349
+            tealiumData.put(KEY_TEALIUM_DHOME_ID, userProfile != null ? userProfile.userId : "Unknown");
             tealiumData.put(KEY_TEALIUM_USER_STATE, userProfile != null ? userProfile.idLevel : "Unknown");
 
             if (data != null) {
@@ -126,7 +126,7 @@ public final class TealiumUtil {
             tealiumData.put(KEY_TEALIUM_APP_ID, "my-home-app-digital-home");
             tealiumData.put(KEY_TEALIUM_APP_VERSION, BuildConfig.VERSION_NAME);
             tealiumData.put(KEY_TEALIUM_SCREEN_NAME, Constants.HOME_SCREEN);    //TODO KEVIN - This doesn't make sense, but the document has this value never changing...
-            tealiumData.put(KEY_TEALIUM_DHOME_ID, userProfile != null ? userProfile.selfId : "Unknown"); //DHOME ID is pointing to selfId now. Reference: user story 25349
+            tealiumData.put(KEY_TEALIUM_DHOME_ID, userProfile != null ? userProfile.userId : "Unknown");
             tealiumData.put(KEY_TEALIUM_USER_STATE, userProfile != null ? userProfile.idLevel : "Unknown");
 
             if (data != null) {

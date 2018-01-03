@@ -312,6 +312,7 @@
                     android:layout_below="@+id/pharmacy_edit"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/pharmacy_edit"
+                    android:contentDescription="@string/pharmacy_show_in_map"
                     android:src="@mipmap/map_blue" />
             </RelativeLayout>
         </RelativeLayout>

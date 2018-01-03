@@ -338,6 +338,7 @@
     <string name="appointment_me">this appointment for me</string>
     <string name="appointment_family_member">this appointment for family member</string>
     <string name="enter_pass_for_sec_change">Double tap to enter Password to change security question and click on next</string>
+    <string name="pharmacy_show_in_map">Pharmacy location show in the map</string>
 
     <!--AWSDK-->
 

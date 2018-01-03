@@ -393,7 +393,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             gender.setSelection(0);  //Placeholder is the first item in the array
         }*/
 
-        if (formsProfile.gender != null && formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))) {
+        if (formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))) {
             areYouPregnantLabel.setVisibility(View.VISIBLE);
             areYouPregnantGroup.setVisibility(View.VISIBLE);
         }
@@ -542,6 +542,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                             switch (checkedId) {
                                 case R.id.radio_not_pregnant:
                                     weeksPregnantLayout.setVisibility(View.GONE);
+                                    weeksPregnant.setText("");
                                     break;
 
                                 case R.id.radio_pregnant:
@@ -694,7 +695,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (insurancePhone.getVisibility() == View.VISIBLE && insurancePhone.getText() != null) {
-            formsProfile.insuranceProvider.insurancePhoneNumber = insurancePhone.getText().toString().trim();
+            formsProfile.insuranceProvider.insurancePhoneNumber = CommonUtil.stripPhoneNumber(insurancePhone.getText().toString().trim());
         }
 
         if (translatorGroup.getVisibility() == View.VISIBLE) {
