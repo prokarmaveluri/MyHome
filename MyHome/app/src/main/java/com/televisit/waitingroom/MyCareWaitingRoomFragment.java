@@ -81,8 +81,10 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         patient = AwsManager.getInstance().getPatient() != null ? AwsManager.getInstance().getPatient() : AwsManager.getInstance().getConsumer();
         isVisitEnd = false;
 
-        //Intent intent = new Intent(getContext(), SummaryActivity.class);
-        startVisit(patient.getAddress(), null);
+        if (patient != null) {
+            startVisit(patient.getAddress(), null);
+        }
+
         return view;
     }
 
@@ -129,12 +131,26 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     public void abandonVisit() {
 
+        //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
+        //after that error, SDK throws following: IllegalArgumentException: sdk initialization is missing
+
+        if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
+
         // called by onDestroy()
         // this is to ensure we don't have any polling hanging out when it shouldn't be
         AwsManager.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
     }
 
     public void cancelVisit() {
+
+        //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
+        //after that error, SDK throws following: IllegalArgumentException: sdk initialization is missing
+
+        if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
 
         if (AwsManager.getInstance().getVisit() != null) {
 
@@ -202,18 +218,23 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     @Override
     public void onValidationFailure(@NonNull Map<String, String> map) {
-
+        Timber.d("waitingroom. onValidationFailure. " );
     }
 
     @Override
     public void onProviderEntered(@NonNull Intent intent) {
         if (intent != null) {
+            Timber.d("waitingroom. onProviderEntered. " );
             setVisitIntent(intent);
+        }
+        else {
+            Timber.d("waitingroom. onProviderEntered. intent is NULL " );
         }
     }
 
     @Override
     public void onStartVisitEnded(@NonNull String s) {
+        Timber.d("waitingroom. onStartVisitEnded. s = " + s);
 //                        if (isAdded()) {
 //                            Bundle bundle = new Bundle();
 //                            bundle.putSerializable(SummaryFragment.VISIT_END_REASON_KEY, visitEndReason);
@@ -223,31 +244,33 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     @Override
     public void onPatientsAheadOfYouCountChanged(int i) {
-
+        Timber.d("waitingroom. onPatientsAheadOfYouCountChanged. i = " + i);
     }
 
     @Override
     public void onSuggestedTransfer() {
-
+        Timber.d("waitingroom. onSuggestedTransfer " );
     }
 
     @Override
     public void onChat(@NonNull ChatReport chatReport) {
-
+        Timber.d("waitingroom. onPollFailure " + chatReport.toString());
     }
 
     @Override
     public void onPollFailure(@NonNull Throwable throwable) {
-
+        Timber.d("waitingroom. onPollFailure " + throwable.getMessage());
+        throwable.printStackTrace();
     }
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
-
+        Timber.d("waitingroom. onResponse " + sdkError);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-
+        Timber.d("waitingroom. onFailure " + throwable.getMessage());
+        throwable.printStackTrace();
     }
 }

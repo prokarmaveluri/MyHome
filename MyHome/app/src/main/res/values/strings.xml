@@ -424,6 +424,14 @@
     <string name="agree_privacy_policy_text2">Privacy Policy.</string>
     <string name="agree_legal_dependent_text">I certify that I am the custodial parent or legal guardian of the minor indicated above and that I have authority to made medical decisions based on their behalf.</string>
 
+
+    <string name="permissions_title">Permissions</string>
+    <string name="permissions_following">Following permissions are required:</string>
+    <string name="permissions_settings_open">Open settings to accept</string>
+    <string name="permissions_decline">Decline</string>
+    <string name="permissions_insufficient">Insufficient permissions to continue with video visit.</string>
+
+
     <!-- Payment Information -->
 
     <!-- Add Credit Card -->
@@ -499,7 +507,7 @@
     <string name="feedback">Feedback</string>
     <string name="feedback_choose_answer">Please select an answer to the survey</string>
     <string name="feedback_completed">Feedback completed successfully</string>
-    <string name="visit_completed">Visit completed successfully</string>
+    <string name="visit_completed">Visit completed.</string>
     <string name="feedback_ratings_submission_failed">We\'re sorry, failed to submit ratings. Please try again</string>
     <string name="feedback_answers_submission_failed">We\'re sorry, failed to submit feedback. Please try again</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>

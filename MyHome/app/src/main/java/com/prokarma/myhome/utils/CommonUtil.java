@@ -1174,4 +1174,28 @@ public class CommonUtil {
             decorView.announceForAccessibility(title);
         }
     }
+
+    public static String getReadablePermissionString(String requiredPermission) {
+        if (requiredPermission == null) {
+            return "";
+        }
+
+        if (requiredPermission.equalsIgnoreCase("android.permission.camera")) {
+            return "Camera";
+        } else if (requiredPermission.equalsIgnoreCase("android.permission.record_audio")) {
+            return "Microphone";
+        } else if (requiredPermission.equalsIgnoreCase("android.permission.read_phone_state")) {
+            return "Phone"; //Phone (read phone state)";
+        } else if (requiredPermission.equalsIgnoreCase("android.permission.call_phone")) {
+            return "Phone"; //"Phone (make phone calls)";
+        } else if (requiredPermission.equalsIgnoreCase("android.permission.read_call_log")) {
+            return "Phone"; //"Phone (read call log)";
+        } else if (requiredPermission.equalsIgnoreCase("android.permission.write_call_log")) {
+            return "Phone"; //"Phone (write to call log)";
+        }
+        String permissionText = requiredPermission.toLowerCase().replace("android.permission.", "");
+        permissionText = permissionText.replaceAll("_", " ");
+
+        return permissionText;
+    }
 }

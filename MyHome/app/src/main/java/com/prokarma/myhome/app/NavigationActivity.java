@@ -1,6 +1,7 @@
 package com.prokarma.myhome.app;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -72,7 +74,6 @@ import com.televisit.profile.MyCareProfileFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.SummaryFragment;
-import com.televisit.summary.VisitSummaryFragment;
 import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
 import java.util.TimeZone;
@@ -1042,4 +1043,33 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     public BottomNavigationViewEx getBottomNavigationView() {
         return bottomNavigationView;
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        Timber.i("visit. ACTIVITY. onRequestPermissionsResult. requestCode = " + requestCode);
+
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
+        if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
+            ((MyCareVisitCostFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Timber.i("visit. ACTIVITY. onActivityResult. requestCode = " + requestCode + ". resultCode = " + resultCode);
+
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
+        if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
+            ((MyCareVisitCostFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 }

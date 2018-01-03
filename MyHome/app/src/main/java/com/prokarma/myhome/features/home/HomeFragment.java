@@ -229,6 +229,11 @@ public class HomeFragment extends BaseFragment {
         }
         Timber.i("Session bearer " + bearer);
         showLoading();
+
+        if (NetworkManager.getInstance().getProfile(bearer) == null) {
+            return;
+        }
+
         NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileGraphqlResponse>() {
             @Override
             public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
@@ -282,8 +287,16 @@ public class HomeFragment extends BaseFragment {
     public void getMyAppointments() {
         showLoading();
         binding.appointmentItemLayout.setVisibility(View.GONE);
-        NetworkManager.getInstance().getMyAppointments(AuthManager.getInstance().getBearerToken(),
-                new MyAppointmentsRequest()).enqueue(new Callback<MyAppointmentsResponse>() {
+
+        Call<MyAppointmentsResponse> retrofitCallObject = NetworkManager.getInstance().getMyAppointments(AuthManager.getInstance().getBearerToken(),
+                new MyAppointmentsRequest());
+
+        //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
+        if (retrofitCallObject == null) {
+            return;
+        }
+
+        retrofitCallObject.enqueue(new Callback<MyAppointmentsResponse>() {
             @Override
             public void onResponse(Call<MyAppointmentsResponse> call, retrofit2.Response<MyAppointmentsResponse> response) {
                 if (response.isSuccessful()) {

@@ -78,6 +78,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.choose_doctor));
 
         CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.choose_doctor) : getResources().getString(R.string.choose_doctor), true);
 
@@ -101,10 +103,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        chooseText.setText(AwsManager.getInstance().getPatient().getFirstName() + ", "
-                + getContext().getString(R.string.my_care_providers_desc));
-
-        chooseText.setContentDescription(chooseText.getText());
+        if (AwsManager.getInstance().getPatient() != null) {
+            chooseText.setText(AwsManager.getInstance().getPatient().getFirstName() + ", "
+                    + getContext().getString(R.string.my_care_providers_desc));
+            chooseText.setContentDescription(chooseText.getText());
+        }
 
         refreshPeriodically();
     }
@@ -137,37 +140,50 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     private void getProviders() {
+        try {
+            Timber.d("****************************** Refresh. Loading Providers");
 
-        Timber.d("****************************** Refresh. Loading Providers");
+            showLoading();
 
-        showLoading();
-        AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
-                patient,
-                practiceInfo,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                new SDKCallback<List<ProviderInfo>, SDKError>() {
-                    @Override
-                    public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
-                        if (sdkError == null) {
-                            providerInfo = providerInfos;
-                            setNextAvailableProviderButton();
-                            setListAdapter(providerInfo);
+            //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
+            //after that error, SDK throws following: IllegalArgumentException: sdk initialization is missing
+
+            if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
+                return;
+            }
+
+            AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
+                    patient,
+                    practiceInfo,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    new SDKCallback<List<ProviderInfo>, SDKError>() {
+                        @Override
+                        public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
+                            if (sdkError == null) {
+                                providerInfo = providerInfos;
+                                setNextAvailableProviderButton();
+                                setListAdapter(providerInfo);
+                            }
+                            showList();
                         }
-                        showList();
-                    }
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        showList();
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            showList();
+                        }
                     }
-                }
-        );
+            );
+
+        } catch (Exception ex) {
+            Timber.e(ex);
+            ex.printStackTrace();
+        }
     }
 
     private void setListAdapter(List<ProviderInfo> providers) {

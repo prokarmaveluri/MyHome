@@ -73,6 +73,11 @@ public class AwsNetworkManager {
         initParams.put(AWSDK.InitParam.LaunchIntentData, launchUri);
 
         try {
+            //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
+            //java.lang.NullPointerException: Attempt to invoke virtual method 'int java.lang.String.length()' on a null object reference
+            if (AwsManager.getInstance().getAWSDK() == null) {
+                return;
+            }
             AwsManager.getInstance().getAWSDK().initialize(
                     initParams,
                     new SDKCallback<Void, SDKError>() {

@@ -97,7 +97,10 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                 binding.visibility.setVisibility(View.VISIBLE);
                 binding.waitingCount.setVisibility(View.GONE);
 
-                if(providerInfo.getVisibility().equals(ProviderVisibility.WEB_BUSY)){
+                //fix 28545: not able to see the queue status waiting line when provider is busy
+                if (providerInfo.getWaitingRoomCount() > 0) {
+                    binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
+                } else if (providerInfo.getVisibility().equals(ProviderVisibility.WEB_BUSY)) {
                     binding.visibility.setText(context.getString(R.string.busy));
                 } else {
                     binding.visibility.setText(context.getString(R.string.offline));

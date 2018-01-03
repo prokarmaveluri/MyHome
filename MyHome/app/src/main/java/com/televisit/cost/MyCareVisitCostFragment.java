@@ -1,12 +1,21 @@
 package com.televisit.cost;
 
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -33,7 +43,10 @@ import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
+
+import java.util.ArrayList;
 import java.util.Map;
+
 import timber.log.Timber;
 
 /**
@@ -58,6 +71,15 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private AppCompatCheckBox agreePrivacyPolicyCheck;
     private AppCompatCheckBox agreeLegalDependentCheck;
     private RelativeLayout agreeLegalDependentLayout;
+
+    public static final int REQUEST_CHECK_SETTINGS = 200;
+    public static final int REQUEST_PERMISSIONS_REQUEST_CODE = 100;
+
+    private ArrayList<String> missingPermissions = new ArrayList<>();
+    private ArrayList<String> missingPermissionsText = new ArrayList<>();
+    private StringBuilder sbMissingPermissionsText = new StringBuilder();
+    private AlertDialog.Builder alertDialogBuilder;
+    private AlertDialog alertDialog = null;
 
     public MyCareVisitCostFragment() {
         // Required empty public constructor
@@ -107,7 +129,10 @@ public class MyCareVisitCostFragment extends BaseFragment {
         }
 
         reasonPhone.addTextChangedListener(new PhoneAndDOBFormatter(reasonPhone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
-        reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
+
+        if (ProfileManager.getProfile() != null) {
+            reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
+        }
 
         setHasOptionsMenu(true);
         return view;
@@ -165,32 +190,187 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 break;
 
             case R.id.next:
-                phoneLayout.setError(null);
-                reasonLayout.setError(null);
-
-                if (isAdded() && AwsManager.getInstance().getVisit() != null) {
-
-                    if (AwsManager.getInstance().getVisit().getVisitCost() != null && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
-                        CommonUtil.showToast(getContext(), getString(R.string.your_cost_is_not_free));
-                    } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())) {
-                        phoneLayout.setError(getString(R.string.field_must_be_completed));
-                    } else if (!agreePrivacyPolicyCheck.isChecked()) {
-                        CommonUtil.showToast(getActivity(), getString(R.string.my_care_privacy_policy_accept));
-
-                    } else if (!agreeLegalDependentCheck.isChecked() && AwsManager.getInstance().isDependent()) {
-                        CommonUtil.showToast(getActivity(), getString(R.string.my_care_legal_dependent_accept));
-                    } else if (CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())
-                            && agreePrivacyPolicyCheck.isChecked()) {
-
-                        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
-                    }
-                }
+                nextClick();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void nextClick() {
+        if (alertDialog != null) {
+            alertDialog.cancel();
+        }
+        phoneLayout.setError(null);
+        reasonLayout.setError(null);
+
+        if (isAdded() && AwsManager.getInstance().getVisit() != null) {
+
+            if (AwsManager.getInstance().getVisit().getVisitCost() != null && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
+                CommonUtil.showToast(getContext(), getString(R.string.your_cost_is_not_free));
+
+            } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())) {
+                phoneLayout.setError(getString(R.string.field_must_be_completed));
+
+            } else if (!agreePrivacyPolicyCheck.isChecked()) {
+                CommonUtil.showToast(getActivity(), getString(R.string.my_care_privacy_policy_accept));
+
+            } else if (!agreeLegalDependentCheck.isChecked() && AwsManager.getInstance().isDependent()) {
+                CommonUtil.showToast(getActivity(), getString(R.string.my_care_legal_dependent_accept));
+
+
+            } else if (!hasPermissionsForVideoVisit()) {
+
+            } else if (CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())
+                    && agreePrivacyPolicyCheck.isChecked()) {
+
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+            }
+        }
+    }
+
+    private boolean hasPermissionsForVideoVisit() {
+
+        boolean showDialog = false;
+        missingPermissions = new ArrayList<>();
+        missingPermissionsText = new ArrayList<>();
+        sbMissingPermissionsText = new StringBuilder();
+        String permissionText = "";
+
+        String[] requiredPermissions = AwsManager.getInstance().getAWSDK().getRequiredPermissions();
+
+        if (requiredPermissions != null && requiredPermissions.length != 0) {
+
+            for (String requiredPermission : requiredPermissions) {
+
+                if (ContextCompat.checkSelfPermission(getContext(), requiredPermission) != PackageManager.PERMISSION_GRANTED) {
+
+                    missingPermissions.add(requiredPermission);
+
+                    permissionText = CommonUtil.getReadablePermissionString(requiredPermission);
+
+                    if (!missingPermissionsText.contains(permissionText)) {
+                        missingPermissionsText.add(permissionText);
+                        sbMissingPermissionsText.append("\n" + permissionText);
+                    }
+
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), requiredPermission)) {
+                        showDialog = true;
+                        Timber.d("visit. permission " + requiredPermission.toString() + " is NOT granted ");
+                    }
+                }
+            }
+        }
+
+        if (missingPermissions.isEmpty()) {
+            return true;
+        }
+
+        String[] perms = missingPermissions.toArray(new String[missingPermissions.size()]);
+        ActivityCompat.requestPermissions(getActivity(), perms, REQUEST_PERMISSIONS_REQUEST_CODE);
+
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        Timber.i("visit. FRAGMENT. onRequestPermissionsResult. requestCode = " + requestCode);
+
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+
+            if (grantResults.length <= 0) {
+                // If user interaction was interrupted, the permission request is cancelled and you receive empty arrays.
+                Timber.d("visit. User interaction was cancelled.");
+            }
+
+            boolean allGranted = true;
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    allGranted = false;
+                }
+            }
+
+            if (allGranted) {
+                Timber.d("visit. onRequestPermissionResult granted all ");
+
+                if (alertDialog != null) {
+                    alertDialog.cancel();
+                }
+                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+            } else {
+                Timber.d("visit. onRequestPermissionResult denied. ");
+                showPermissionSettingsDialog();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Timber.i("visit. FRAGMENT. onActivityResult. requestCode = " + requestCode + ". resultCode = " + resultCode);
+
+        switch (requestCode) {
+            case REQUEST_CHECK_SETTINGS:
+                if (resultCode == Activity.RESULT_OK) {
+                    nextClick();
+                }
+                break;
+        }
+    }
+
+    private void showPermissionSettingsDialog() {
+
+        alertDialogBuilder = new AlertDialog.Builder(getContext());
+
+        alertDialogBuilder.setTitle(getString(R.string.permissions_title));
+        alertDialogBuilder.setMessage(getString(R.string.permissions_following) + "\n" + sbMissingPermissionsText);
+
+        alertDialogBuilder.setPositiveButton(getString(R.string.permissions_settings_open), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.setData(Uri.fromParts("package", getActivity().getPackageName(), null));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().startActivityForResult(intent, REQUEST_CHECK_SETTINGS);
+            }
+        });
+        alertDialogBuilder.setNeutralButton(getString(R.string.permissions_decline), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                goBackToDashboard();
+            }
+        });
+
+        alertDialogBuilder.setCancelable(false);
+        alertDialog = alertDialogBuilder.show();
+    }
+
+    private void goBackToDashboard() {
+
+        if (alertDialog != null) {
+            alertDialog.cancel();
+        }
+
+        //fix 29231: When permissions to Camera/Mic are denied user must return to MCN start screen
+
+        getActivity().getSupportFragmentManager().popBackStack();  //Intake accept privacy policy fragment
+        getActivity().getSupportFragmentManager().popBackStack();  //Choose_Doctor fragment
+
+        CommonUtil.showToast(getContext(), getResources().getString(R.string.permissions_insufficient));
+    }
 
     private void applyCoupon(String couponCode) {
 
@@ -269,7 +449,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     @Override
                     public void onResponse(Visit visit, SDKError sdkError) {
                         if (sdkError == null) {
-                            Timber.d("createOrUpdateVisit. onResponse " + visit.getEndReason());
+                            Timber.d("createOrUpdateVisit. onResponse. EndReason = " + visit.getEndReason());
                             AwsManager.getInstance().setVisit(visit);
 
                             applyCoupon("Free");

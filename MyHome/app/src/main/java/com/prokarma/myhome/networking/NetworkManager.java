@@ -423,6 +423,13 @@ public class NetworkManager {
 
     public Call<MyAppointmentsResponse> getMyAppointments(String bearerToken,
                                                           MyAppointmentsRequest request) {
+        if (EnviHandler.CIAM_BASE_URL == null) {
+            return null;
+        }
+        if (service == null) {
+            return null;
+        }
+
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_MY_APPOINTMENTS_FORCE_ERROR)) {
             return service.getMyAppointments(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/query",
                     BEARER + bearerToken, request);
@@ -463,6 +470,12 @@ public class NetworkManager {
      * @return a Profile object of the user
      */
     public Call<ProfileGraphqlResponse> getProfile(String bearer) {
+        if (EnviHandler.CIAM_BASE_URL == null) {
+            return null;
+        }
+        if (service == null) {
+            return null;
+        }
         if (AppPreferences.getInstance().getBooleanPreference(Constants.API_PROFILE_GET_FORCE_ERROR)) {
             return service.getUserProfile(EnviHandler.CIAM_BASE_URL.concat("messUpUrl123") + "api/users/query",
                     BEARER + bearer, new MyProfileRequest());
