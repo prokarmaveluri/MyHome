@@ -220,8 +220,6 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                             SearchPharmacies object = new SearchPharmacies();
                             object.setPharmacies(pharmacies);
                             NavigationActivity.eventBus.post(object);
-                        } else {
-                            Timber.d("getPharmacies. sdkError = " + sdkError);
                         }
 
                         if (pharmacies == null || pharmacies.size() == 0) {

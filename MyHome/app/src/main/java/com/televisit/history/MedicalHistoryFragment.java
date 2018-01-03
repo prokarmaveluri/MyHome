@@ -201,17 +201,14 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == selectedGroup.getValue()) {
             expandableList.setIndexBarVisibility(true);
-            Timber.d("MH. adapter. conditions size = " + listConditions.size());
         } else {
             expandableList.setIndexBarVisibility(false);
-            Timber.d("MH. adapter. allergies size = " + listAllergies.size());
         }
     }
 
     private void getConditions() {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            Timber.d("MH. getConditions. isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -260,7 +257,6 @@ public class MedicalHistoryFragment extends BaseFragment implements
         }
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            Timber.d("MH. getAllergies. isHasInitializedAwsdk: FALSE ");
             return;
         }
 

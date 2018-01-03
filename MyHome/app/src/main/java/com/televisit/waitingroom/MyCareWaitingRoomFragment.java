@@ -102,7 +102,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     @Override
     public void onDestroyView() {
         try {
-            Timber.d("waitingroom. onDestroyView. abandonVisit ");
             abandonVisit();
         } catch (Exception ex) {
             Timber.e(ex);
@@ -218,7 +217,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     @Override
     public void onValidationFailure(@NonNull Map<String, String> map) {
-        Timber.d("waitingroom. onValidationFailure. " );
     }
 
     @Override
@@ -226,9 +224,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         if (intent != null) {
             Timber.d("waitingroom. onProviderEntered. " );
             setVisitIntent(intent);
-        }
-        else {
-            Timber.d("waitingroom. onProviderEntered. intent is NULL " );
         }
     }
 
@@ -244,7 +239,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     @Override
     public void onPatientsAheadOfYouCountChanged(int i) {
-        Timber.d("waitingroom. onPatientsAheadOfYouCountChanged. i = " + i);
     }
 
     @Override
@@ -254,23 +248,17 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     @Override
     public void onChat(@NonNull ChatReport chatReport) {
-        Timber.d("waitingroom. onPollFailure " + chatReport.toString());
     }
 
     @Override
     public void onPollFailure(@NonNull Throwable throwable) {
-        Timber.d("waitingroom. onPollFailure " + throwable.getMessage());
-        throwable.printStackTrace();
     }
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
-        Timber.d("waitingroom. onResponse " + sdkError);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        Timber.d("waitingroom. onFailure " + throwable.getMessage());
-        throwable.printStackTrace();
     }
 }

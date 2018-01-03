@@ -261,7 +261,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                     if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), requiredPermission)) {
                         showDialog = true;
-                        Timber.d("visit. permission " + requiredPermission.toString() + " is NOT granted ");
                     }
                 }
             }
@@ -288,7 +287,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
             if (grantResults.length <= 0) {
                 // If user interaction was interrupted, the permission request is cancelled and you receive empty arrays.
-                Timber.d("visit. User interaction was cancelled.");
+                return;
             }
 
             boolean allGranted = true;
@@ -299,14 +298,11 @@ public class MyCareVisitCostFragment extends BaseFragment {
             }
 
             if (allGranted) {
-                Timber.d("visit. onRequestPermissionResult granted all ");
-
                 if (alertDialog != null) {
                     alertDialog.cancel();
                 }
                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
             } else {
-                Timber.d("visit. onRequestPermissionResult denied. ");
                 showPermissionSettingsDialog();
             }
         }
@@ -315,9 +311,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Timber.i("visit. FRAGMENT. onActivityResult. requestCode = " + requestCode + ". resultCode = " + resultCode);
-
         switch (requestCode) {
             case REQUEST_CHECK_SETTINGS:
                 if (resultCode == Activity.RESULT_OK) {
@@ -441,7 +434,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
                 new SDKValidatedCallback<Visit, SDKError>() {
                     @Override
                     public void onValidationFailure(@NonNull Map<String, String> map) {
-                        Timber.d("createOrUpdateVisit. ValidationFailure " + map.toString());
                         intakeLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     }
@@ -449,7 +441,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     @Override
                     public void onResponse(Visit visit, SDKError sdkError) {
                         if (sdkError == null) {
-                            Timber.d("createOrUpdateVisit. onResponse. EndReason = " + visit.getEndReason());
                             AwsManager.getInstance().setVisit(visit);
 
                             applyCoupon("Free");

@@ -95,8 +95,6 @@ public class PreviousVisitsFragment extends BaseFragment {
                     Bundle bundle = new Bundle();
                     bundle.putInt(VISIT_LIST_POSITION, position);
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY, bundle);
-                } else {
-                    Timber.d("PreviousVisits: position out of bounds index. ");
                 }
             }
 
@@ -128,7 +126,6 @@ public class PreviousVisitsFragment extends BaseFragment {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
             progressBar.setVisibility(View.GONE);
-            Timber.d("visits isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -151,9 +148,6 @@ public class PreviousVisitsFragment extends BaseFragment {
                             AwsManager.getInstance().setVisitReports(visitReports);
                             setAdapter();
                             adapter.notifyDataSetChanged();
-                        } else {
-                            Timber.d("visits. sdkError not NULL. getMessage = " + sdkError.getMessage());
-                            Timber.d("visits. sdkError not NULL. getSDKErrorReason = " + sdkError.getSDKErrorReason());
                         }
 
                         reqCount--;

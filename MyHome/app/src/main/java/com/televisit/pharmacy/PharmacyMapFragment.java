@@ -203,11 +203,8 @@ public class PharmacyMapFragment extends Fragment implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         if (null == map) {
-            Timber.d("map. onMapReady. map is NOT NULL ");
             map = googleMap;
             updateMap();
-        } else {
-            Timber.d("map. onMapReady map is NULL ");
         }
     }
 
@@ -220,11 +217,8 @@ public class PharmacyMapFragment extends Fragment implements
         }
 
         if (isClusterSameLocation(cluster.getItems())) {
-            Timber.d("map. isClusterSameLocation = TRUE ");
             startListDialog(cluster.getItems());
             return false;
-        } else {
-            Timber.d("map. isClusterSameLocation = FALSE ");
         }
 
         //Zoom
@@ -439,30 +433,21 @@ public class PharmacyMapFragment extends Fragment implements
 
                     case MAP_UPDATE_LOCATION:
                         if (mapViewFragment.map != null) {
-                            Timber.d("map. MAP_UPDATE_LOCATION to " + mapViewFragment.map.getCameraPosition().target);
                             if (mapViewFragment.isLocationSearchable()) {
                                 mapViewFragment.latlon = mapViewFragment.map.getCameraPosition().target;
                                 mapViewFragment.searchThisArea.setVisibility(View.GONE);
                             } else {
                                 mapViewFragment.searchThisArea.setVisibility(View.GONE);
                             }
-                        } else if (mapViewFragment.map == null) {
-                            Timber.d("map. MAP_UPDATE_LOCATION. map object is NULL ");
                         }
                         break;
 
                     case MAP_PHARMACY_DETAILS:
                         if (mapViewFragment.marker != null) {
-                            Timber.d("map. marker is NOT NULL ");
                             Pharmacy pharmacy = MapUtil.getPharmacy(mapViewFragment.marker, AwsManager.getInstance().getPharmacies());
                             if (pharmacy != null) {
-                                Timber.d("map. pharmacy is NOT NULL ");
                                 mapViewFragment.launchPharmacyDetails(pharmacy);
-                            } else {
-                                Timber.d("map. pharmacy is NULL ");
                             }
-                        } else {
-                            Timber.d("map. marker is NULL ");
                         }
                         break;
 
@@ -473,10 +458,6 @@ public class PharmacyMapFragment extends Fragment implements
                                     mapViewFragment.currClusterPosition,
                                     mapViewFragment.map.getCameraPosition().zoom + 1.0f);
                             mapViewFragment.map.animateCamera(update);
-                        } else if (mapViewFragment.map == null) {
-                            Timber.d("map. map object is NULL ");
-                        } else if (mapViewFragment.currClusterPosition == null) {
-                            Timber.d("map. MAP_ZOOM. currClusterPosition is NULL ");
                         }
                         break;
                 }
@@ -602,8 +583,6 @@ public class PharmacyMapFragment extends Fragment implements
             newLoc.setLatitude(map.getCameraPosition().target.latitude);
             newLoc.setLongitude(map.getCameraPosition().target.longitude);
             float distance = locCurr.distanceTo(newLoc); // distance in meters
-
-            Timber.d("map. isLocationSearchable = " + (distance >= DISTANCE_SEARCH_THIS_AREA) + ". location = " + location);
 
             return distance >= DISTANCE_SEARCH_THIS_AREA;
         } catch (NumberFormatException | NullPointerException | IllegalStateException ex) {

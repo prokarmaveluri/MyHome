@@ -160,8 +160,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             @Override
             public void onClick(View v) {
 
-                Timber.d("visitsummary. reportNameWithPath = " + reportNameWithPath);
-
                 File f = null;
                 if (reportNameWithPath != null && !reportNameWithPath.isEmpty()) {
                     f = new File(reportNameWithPath);
@@ -313,8 +311,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             return;
         }
 
-        Timber.d("email. size = " + emailObjects.size() + ". allowed = " + TOTAL_EMAIL_COUNT_ALLOWED);
-
         EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
         emailObj.setEmailId(emailToAdd);
         emailObj.setSelected(true);
@@ -367,12 +363,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
     private void updateDoctorImage() {
 
-        Timber.d("visitsummary. Image available = " +
-                (visitReportDetail != null
-                        && visitReportDetail.getAssignedProviderInfo() != null
-                        && visitReportDetail.getAssignedProviderInfo().hasImage()
-                ));
-
         if (visitReportDetail != null && visitReportDetail.getAssignedProviderInfo() != null) {
 
             // preferred method for loading image
@@ -386,12 +376,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     }
 
     private void updateDoctorImage(VisitSummary visitSummary) {
-
-        Timber.d("visitsummary. visitSummary. Image available = " +
-                (visitSummary != null
-                        && visitSummary.getAssignedProviderInfo() != null
-                        && visitSummary.getAssignedProviderInfo().hasImage()
-                ));
 
         if (visitSummary != null && visitSummary.getAssignedProviderInfo() != null) {
 
@@ -453,11 +437,9 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
 
         if (AwsManager.getInstance().getAWSDK().getVisitManager() == null) {
-            Timber.d("emailVisitSummaryReport. VisitManager object is NULL ");
             return;
         }
         if (AwsManager.getInstance().getVisit() == null) {
-            Timber.d("emailVisitSummaryReport. Visit object is NULL ");
             return;
         }
 
@@ -469,7 +451,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                 new SDKValidatedCallback<Void, SDKError>() {
                     @Override
                     public void onValidationFailure(@NonNull Map<String, String> map) {
-                        Timber.d("emailVisitSummaryReport. ValidationFailure " + map.toString());
                         CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_failed));
                         progressBar.setVisibility(View.GONE);
                     }
@@ -480,7 +461,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                         progressBar.setVisibility(View.GONE);
 
                         if (sdkError == null) {
-                            Timber.d("emailVisitSummaryReport succeeded! ");
                             CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_completed));
 
                             doneVisitSummary();
@@ -514,12 +494,10 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            Timber.d("visitsummary VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
 
         if (!isAdded()) {
-            Timber.d("visitsummary VisitReportDetails. isAdded: FALSE ");
             return;
         }
 
@@ -542,10 +520,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                             if (visitReport.getProviderName() != null && !visitReport.getProviderName().isEmpty()) {
                                 providerName.setText(visitReport.getProviderName() + ", MD");
                                 providerName.setContentDescription(providerName.getText());
-                            }
-
-                            if (detail.getAssignedProviderInfo() != null) {
-                                Timber.d("visitsummary. AssignedProvider Name = " + detail.getAssignedProviderInfo().getFullName());
                             }
 
                             if (AwsManager.getInstance().isDependent()) {
@@ -573,9 +547,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        if (throwable != null) {
-                            Timber.d("visitsummary. getVisitReportDetail: " + throwable.getMessage());
-                        }
                         Timber.e(throwable);
                         progressBar.setVisibility(View.GONE);
                     }
@@ -586,7 +557,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private void getVisitReportAttachment(final VisitReport visitReport) {
 
         if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
-            Timber.d("visitsummary VisitReportDetails. isHasInitializedAwsdk: FALSE ");
             return;
         }
 
@@ -718,8 +688,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
     @Override
     public void getVisitSummaryFailed(String errorMessage) {
-        Timber.d("visitsummary. getVisitSummaryFailed. errorMessage = " + errorMessage);
-
         progressBar.setVisibility(View.GONE);
         CommonUtil.showToast(getContext(), getContext().getString(R.string.pulling_up_visit_summary_failed_message));
     }

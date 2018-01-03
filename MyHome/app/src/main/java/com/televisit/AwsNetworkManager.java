@@ -473,7 +473,6 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onChat(@NonNull ChatReport chatReport) {
-                        Timber.d("startVideoVisit. onChat " + chatReport);
 
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onChat(chatReport);
@@ -491,8 +490,6 @@ public class AwsNetworkManager {
 
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
-                        Timber.d("startVideoVisit. onResponse " + aVoid + " " + sdkError);
-
                         if (awsStartVideoVisit != null) {
                             awsStartVideoVisit.onResponse(aVoid, sdkError);
                         }

@@ -136,12 +136,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     public void onDestroy() {
         super.onDestroy();
         refreshHandler = null;
-        Timber.d("****************************** Refresh. refreshHandler is NULL ");
     }
 
     private void getProviders() {
         try {
-            Timber.d("****************************** Refresh. Loading Providers");
+            Timber.d("Refresh. Loading Providers");
 
             showLoading();
 

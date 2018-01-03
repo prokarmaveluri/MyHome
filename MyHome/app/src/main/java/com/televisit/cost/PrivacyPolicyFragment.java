@@ -89,8 +89,6 @@ public class PrivacyPolicyFragment extends BaseFragment {
 
     private void loadWebview(String content) {
 
-        Timber.d("visit. loadWebview. content = " + content);
-
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -161,8 +159,6 @@ public class PrivacyPolicyFragment extends BaseFragment {
                                             break;
                                         }
                                     }
-                                } else {
-                                    Timber.d("PrivacyPolicy. getLegalTexts is NULL");
                                 }
                                 loadWebview(legalTextData);
 
