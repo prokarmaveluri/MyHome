@@ -363,6 +363,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             @Override
             public void onFailure(Call<AppointmentTimeSlots> call, Throwable t) {
                 if (isAdded()) {
+                    if(call.isCanceled()){
+                        return;
+                    }
+
                     Timber.e("getAppointmentDetails. Something failed! :/");
                     Timber.e("Throwable = " + t);
                     ApiErrorUtil.getInstance().getProviderAppointmentsFailed(getContext(), providerDetailsView, t);
@@ -716,9 +720,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private void restartSchedulingFlow() {
         if (isAdded()) {
             FragmentManager fragmentManager = getChildFragmentManager();
-            if (fragmentManager != null) {
+            Fragment bookingFragment = fragmentManager.findFragmentById(R.id.booking_frame);
+            if (fragmentManager != null && bookingFragment != null) {
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fragmentManager.beginTransaction().remove(fragmentManager.findFragmentById(R.id.booking_frame)).commit();
+                fragmentManager.beginTransaction().remove(bookingFragment).commit();
             }
 
             bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
