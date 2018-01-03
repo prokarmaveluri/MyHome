@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
@@ -90,6 +89,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private TextInputLayout newEmailTextInput;
     private TextInputEditText newEmailEditText;
     private TextView addEmail;
+    private TextView emailConfidentialityText;
 
     private List<EmailsAdapter.EmailSelection> emailObjects = null;
 
@@ -110,7 +110,8 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.visit_summary));
         View view = inflater.inflate(R.layout.visit_summary, container, false);
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.visit_summary));
+
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.visit_summary) : getResources().getString(R.string.visit_summary), true);
 
         progressBar = (ProgressBar) view.findViewById(R.id.summary_progress);
         providerName = (TextView) view.findViewById(R.id.provider_name);
@@ -137,7 +138,10 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         newEmailEditText = (TextInputEditText) view.findViewById(R.id.new_email_edittext);
         addEmail = (TextView) view.findViewById(R.id.add_email);
 
+        emailConfidentialityText = (TextView) view.findViewById(R.id.email_text);
+
         setHasOptionsMenu(true);
+
         return view;
     }
 
@@ -150,6 +154,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         } else {
             endDesc.setText(getContext().getString(R.string.your_visit_has_ended));
         }
+        endDesc.setContentDescription(endDesc.getText());
 
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,15 +236,57 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.done:
-                if (emailLayout.getVisibility() == View.VISIBLE) {
+                if (emailLayout != null && emailLayout.getVisibility() == View.VISIBLE) {
                     emailVisitSummaryReport();
                 } else {
-                    doneVisitSummary();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void readOutWhenAccessibilityEnabled() {
+
+        if (!CommonUtil.isAccessibilityEnabled(getContext())) {
+            return;
+        }
+
+        providerName.announceForAccessibility(providerName.getContentDescription());
+        endDesc.announceForAccessibility(endDesc.getContentDescription());
+        costDesc.announceForAccessibility(costDesc.getContentDescription());
+
+        if (pharmacyName.getVisibility() == View.VISIBLE) {
+            pharmacyName.announceForAccessibility(pharmacyName.getContentDescription());
+        }
+        if (pharmacyAddress.getVisibility() == View.VISIBLE) {
+            pharmacyAddress.announceForAccessibility(pharmacyAddress.getContentDescription());
+        }
+        if (pharmacyPhone.getVisibility() == View.VISIBLE) {
+            pharmacyPhone.announceForAccessibility(pharmacyPhone.getContentDescription());
+        }
+
+        if (prescriptionsList.getVisibility() == View.VISIBLE) {
+            prescriptionsList.setContentDescription("Prescriptions");
+            prescriptionsList.announceForAccessibility(prescriptionsList.getContentDescription());
+        }
+
+        if (viewReport.getVisibility() == View.VISIBLE) {
+            viewReport.setContentDescription(viewReport.getText());
+            viewReport.announceForAccessibility(viewReport.getContentDescription());
+        }
+
+        if (emailLayout.getVisibility() == View.VISIBLE) {
+
+            emailConfidentialityText.announceForAccessibility(emailConfidentialityText.getContentDescription());
+            emailAgree.announceForAccessibility(emailAgree.getContentDescription());
+
+            emailsList.setContentDescription("Email addresses to send visit report");
+            emailsList.announceForAccessibility(emailsList.getContentDescription());
+
+            addAdditionalEmail.announceForAccessibility(addAdditionalEmail.getContentDescription());
+        }
     }
 
     private void addEmailAddress() {
@@ -494,6 +541,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
                             if (visitReport.getProviderName() != null && !visitReport.getProviderName().isEmpty()) {
                                 providerName.setText(visitReport.getProviderName() + ", MD");
+                                providerName.setContentDescription(providerName.getText());
                             }
 
                             if (detail.getAssignedProviderInfo() != null) {
@@ -505,6 +553,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                             } else {
                                 costDesc.setText(getString(R.string.visit_total_cost_desc) + CommonUtil.formatAmount(detail.getVisitCost().getExpectedConsumerCopayCost()));
                             }
+                            costDesc.setContentDescription(costDesc.getText());
 
                             displayPharmacyDetails(visitReportDetail.getPharmacy());
 
@@ -517,6 +566,8 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                             getVisitReportAttachment(visitReport);
 
                             progressBar.setVisibility(View.GONE);
+
+                            readOutWhenAccessibilityEnabled();
                         }
                     }
 
@@ -643,6 +694,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
         if (visitSummary.getAssignedProviderInfo() != null) {
             providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
+            providerName.setContentDescription(providerName.getText());
         }
 
         if (AwsManager.getInstance().isDependent()) {
@@ -650,6 +702,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         } else {
             costDesc.setText(getString(R.string.visit_total_cost_desc) + CommonUtil.formatAmount((visitSummary.getVisitCost().getExpectedConsumerCopayCost())));
         }
+        costDesc.setContentDescription(costDesc.getText());
 
         updateDoctorImage(visitSummary);
 
@@ -678,12 +731,15 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         } else {
             pharmacyName.setVisibility(View.VISIBLE);
             pharmacyName.setText(pharmacy.getName());
+            pharmacyName.setContentDescription("Pharmacy, " + pharmacyName.getText());
 
             if (pharmacy == null || pharmacy.getPhone() == null || pharmacy.getPhone().isEmpty()) {
                 pharmacyPhoneLayout.setVisibility(View.GONE);
             } else {
                 pharmacyPhoneLayout.setVisibility(View.VISIBLE);
+
                 pharmacyPhone.setText(CommonUtil.constructPhoneNumberDots(pharmacy.getPhone()));
+
                 String phoneContentDescription =
                         CommonUtil.stringToSpacesString(CommonUtil.constructPhoneNumberDots(pharmacy.getPhone()));
                 pharmacyPhone.setContentDescription(getString(R.string.phone_description) + phoneContentDescription);

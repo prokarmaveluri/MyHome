@@ -12,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -34,9 +38,11 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import timber.log.Timber;
 
 
@@ -49,6 +55,7 @@ import timber.log.Timber;
 public class MedicationsFragment extends BaseFragment implements TextWatcher, SuggestionsAdapter.ISuggestionClick {
 
     private RecyclerView searchSuggestions;
+    private TextView noResults;
     private TextView medicationDesc;
     private TextView addAdditionalMedication;
     private RecyclerView medicationsList;
@@ -60,6 +67,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     private ProgressBar progressBar;
 
     private List<Medication> searchList;
+    private List<Medication> medicationsListToSave;
 
     public static final String MEDICATIONS_TAG = "medications_tag";
 
@@ -97,6 +105,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
         searchQuery = (EditText) view.findViewById(R.id.searchQuery);
 
+        noResults = (TextView) view.findViewById(R.id.no_results);
         medicationDesc = (TextView) view.findViewById(R.id.medicationDesc);
         addAdditionalMedication = (TextView) view.findViewById(R.id.add_additional_medication);
         searchSuggestions = (RecyclerView) view.findViewById(R.id.searchSuggestions);
@@ -107,7 +116,34 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         searchLayout = (RelativeLayout) view.findViewById(R.id.searchLayout);
         progressBar = (ProgressBar) view.findViewById(R.id.medications_progress);
 
+        medicationsList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.list_divider));
+        medicationsList.addItemDecoration(itemDecoration);
+
+        medicationsListToSave = new ArrayList<>();
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.medications_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.save_medications:
+                saveMedications();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -149,7 +185,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                         AwsManager.getInstance().setHasMedicationsFilledOut(false);
                     }
                 }
-                setMedicationsAdapter(AwsManager.getInstance().getMedications());
+                setMedicationsAdapter(medicationsListToSave);
             }
         });
 
@@ -184,6 +220,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
             AwsManager.getInstance().setHasMedicationsFilledOut(true);
         }
 
+        noResults.setVisibility(View.GONE);
         if (list != null && list.size() > 0) {
 
             addAdditionalMedication.setVisibility(View.VISIBLE);
@@ -202,21 +239,12 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
                 @Override
                 public void onDeleteClick(Object model, int position) {
-                    List<Medication> medications = AwsManager.getInstance().getMedications();
-                    if (medications == null)
-                        medications = new ArrayList<>();
                     if (model != null) {
-                        medications.remove((Medication) model);
-                        updateMedications();
+                        medicationsListToSave.remove((Medication) model);
+                        bindMedications();
                     }
                 }
             });
-
-            medicationsList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
-            DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-            itemDecoration.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.list_divider));
-            medicationsList.addItemDecoration(itemDecoration);
 
             medicationsList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
@@ -226,6 +254,12 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
             divider.setVisibility(View.GONE);
             noMedicationsCheckbox.setChecked(AwsManager.getInstance().isHasMedicationsFilledOut());
         }
+    }
+
+    private void bindMedications() {
+        searchLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        setMedicationsAdapter(medicationsListToSave);
     }
 
     private void getMedications() {
@@ -243,6 +277,9 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                     public void onResponse(List<Medication> medications, SDKError sdkError) {
                         if (sdkError == null) {
                             AwsManager.getInstance().setMedications(medications);
+
+                            medicationsListToSave.clear();
+                            medicationsListToSave.addAll(medications);
                         }
                         searchLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
@@ -262,16 +299,24 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         );
     }
 
-    private void updateMedications() {
+    private void saveMedications() {
+        Timber.d("");
+
+        if (noMedicationsCheckbox.isChecked()) {
+            medicationsListToSave.clear();
+        }
+
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().updateMedications(
                 AwsManager.getInstance().getPatient(),
-                AwsManager.getInstance().getMedications(),
+                medicationsListToSave,
                 new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
                         progressBar.setVisibility(View.GONE);
-                        getMedications();
+
+                        AwsManager.getInstance().setMedications(medicationsListToSave);
+                        getActivity().getSupportFragmentManager().popBackStack();
                     }
 
                     @Override
@@ -301,14 +346,18 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                     @Override
                     public void onResponse(List<Medication> medications, SDKError sdkError) {
                         searchList = medications;
-                        searchSuggestions.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
 
                         if (sdkError == null) {
                             setSuggestionAdapter(getSuggestions(medications));
 
                             if (medications == null || medications.size() == 0) {
-                                CommonUtil.showToast(getContext(), getContext().getString(R.string.no_medications_found) + searchText);
+                                noResults.setVisibility(View.VISIBLE);
+                                searchSuggestions.setVisibility(View.GONE);
+                                showSearchView();
+                            } else {
+                                noResults.setVisibility(View.GONE);
+                                searchSuggestions.setVisibility(View.VISIBLE);
                             }
                         } else {
                             Timber.e("searchMedications. Error + " + sdkError);
@@ -344,7 +393,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         if (s.toString().trim().length() > 0) {
             searchMedications(s.toString().trim());
         } else {
-            setMedicationsAdapter(AwsManager.getInstance().getMedications());
+            setMedicationsAdapter(medicationsListToSave);
         }
     }
 
@@ -353,14 +402,15 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         searchSuggestions.setVisibility(View.GONE);
         CommonUtil.hideSoftKeyboard(getActivity());
 
-        List<Medication> medications = AwsManager.getInstance().getMedications();
-        if (medications == null) {
-            medications = new ArrayList<>();
+        if (medicationsListToSave == null) {
+            medicationsListToSave = new ArrayList<>();
         }
         if (searchList != null && searchList.size() > position) {
-            medications.add(searchList.get(position));
+            if (!medicationsListToSave.contains(searchList.get(position))) {
+                medicationsListToSave.add(searchList.get(position));
+            }
             searchQuery.setText("");
-            updateMedications();
+            bindMedications();
         }
     }
 
@@ -390,11 +440,12 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
                         searchQuery.setText("");
 
+                        noResults.setVisibility(View.GONE);
                         addAdditionalMedication.setVisibility(View.VISIBLE);
                         medicationDesc.setVisibility(View.VISIBLE);
                         searchLayout.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
-                        setMedicationsAdapter(AwsManager.getInstance().getMedications());
+                        setMedicationsAdapter(medicationsListToSave);
 
                         CommonUtil.hideSoftKeyboard(getActivity());
                         return true;

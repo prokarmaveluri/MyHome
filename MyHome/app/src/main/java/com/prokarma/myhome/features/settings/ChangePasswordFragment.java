@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.databinding.FragmentChangePassowrdBinding;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
@@ -126,6 +127,13 @@ public class ChangePasswordFragment extends BaseFragment {
     private ChangePasswordRequest getRequest() {
         if (!CommonUtil.isValidPassword(binding.existingPassword.getText().toString())) {
             binding.existingPasswordLayout.setError(getString(R.string.valid_password));
+            return null;
+        }
+        if (ProfileManager.getProfile() != null
+                && ProfileManager.getProfile().email != null
+                && !ProfileManager.getProfile().email.isEmpty()
+                && binding.newPassword.getText().toString().equalsIgnoreCase(ProfileManager.getProfile().email)) {
+            binding.newPasswordLayout.setError(getString(R.string.invalid_password_criteria));
             return null;
         }
         if (!CommonUtil.isValidPassword(binding.newPassword.getText().toString())) {

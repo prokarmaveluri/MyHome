@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
@@ -28,8 +30,10 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import timber.log.Timber;
 
@@ -42,6 +46,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         HistoryListAdapter.GroupSelectionListener,
         TextWatcher {
 
+    private TextView noResults;
     private LinearLayout searchLayout;
     private EditText searchQuery;
     private IndexFastScrollRecyclerView expandableList;
@@ -86,7 +91,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         searchQuery = (EditText) view.findViewById(R.id.searchQuery);
         expandableList = (IndexFastScrollRecyclerView) view.findViewById(R.id.expandableList);
         progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
-
+        noResults = (TextView) view.findViewById(R.id.no_results);
 
         setHasOptionsMenu(true);
         return view;
@@ -355,7 +360,10 @@ public class MedicalHistoryFragment extends BaseFragment implements
         progressBar.setVisibility(View.GONE);
 
         if (searchConditions.size() == 0) {
-            CommonUtil.showToast(getContext(), getString(R.string.no_medical_conditions) + searchText.trim());
+            noResults.setVisibility(View.VISIBLE);
+            //CommonUtil.showToast(getContext(), getString(R.string.no_medical_conditions) + searchText.trim());
+        } else {
+            noResults.setVisibility(View.GONE);
         }
     }
 
@@ -378,7 +386,10 @@ public class MedicalHistoryFragment extends BaseFragment implements
         progressBar.setVisibility(View.GONE);
 
         if (searchAllergies.size() == 0) {
-            CommonUtil.showToast(getContext(), getString(R.string.no_medical_allergies) + searchText.trim());
+            noResults.setVisibility(View.VISIBLE);
+            //CommonUtil.showToast(getContext(), getString(R.string.no_medical_allergies) + searchText.trim());
+        } else {
+            noResults.setVisibility(View.GONE);
         }
     }
 

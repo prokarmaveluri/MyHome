@@ -2,6 +2,7 @@ package com.televisit.providers;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.legal.LegalText;
@@ -27,7 +29,9 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+
 import java.util.List;
+
 import timber.log.Timber;
 
 /**
@@ -46,6 +50,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     private RecyclerView providerList;
     private Button nextAvailableProvider;
     private TextView chooseText;
+    private final int REFRESH_INTERVAL_SECONDS = 5 * 60;
+    private Handler refreshHandler;
 
     public MyCareProvidersFragment() {
         // Required empty public constructor
@@ -72,8 +78,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.choose_doctor));
+
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.choose_doctor) : getResources().getString(R.string.choose_doctor), true);
 
         View view = inflater.inflate(R.layout.fragment_my_care_providers, container, false);
 
@@ -97,11 +103,43 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
         chooseText.setText(AwsManager.getInstance().getPatient().getFirstName() + ", "
                 + getContext().getString(R.string.my_care_providers_desc));
-        
+
         chooseText.setContentDescription(chooseText.getText());
+
+        refreshPeriodically();
+    }
+
+    private void refreshPeriodically() {
+
+        refreshHandler = new Handler();
+        refreshHandler.postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        if (refreshHandler != null) {
+
+                            if (isAdded()) {
+                                getProviders();
+                            } else {
+                                Timber.d("Refresh. fragment not attached yet.");
+                            }
+                            refreshHandler.postDelayed(this, REFRESH_INTERVAL_SECONDS * 1000);
+                        }
+                    }
+                }, REFRESH_INTERVAL_SECONDS * 1000);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        refreshHandler = null;
+        Timber.d("****************************** Refresh. refreshHandler is NULL ");
     }
 
     private void getProviders() {
+
+        Timber.d("****************************** Refresh. Loading Providers");
+
         showLoading();
         AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
                 patient,
@@ -158,7 +196,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     @Override
     public void providerClick(ProviderInfo provider) {
         if (providerInfo != null && provider.getVisibility() == ProviderVisibility.OFFLINE) {
-            CommonUtil.showToast(getActivity(), provider.getFullName() +  " "+getActivity().getString(R.string.is_not_available));
+            CommonUtil.showToast(getActivity(), provider.getFullName() + " " + getActivity().getString(R.string.is_not_available));
         } else if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
             getVisitContext(provider);
         }

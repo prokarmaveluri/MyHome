@@ -93,6 +93,7 @@ public class BookingDialogAdapter extends PagerAdapter {
     RadioGroup assistanceGroup;
     TextInputLayout reasonForVisitLayout;
     TextInputEditText reasonForVisit;
+    LinearLayout linearMain;
 
     TextView planLabel;
     Spinner plan;
@@ -240,7 +241,16 @@ public class BookingDialogAdapter extends PagerAdapter {
         assistanceGroup = (RadioGroup) personalLayout.findViewById(R.id.group_assistance);
         reasonForVisitLayout = (TextInputLayout) personalLayout.findViewById(R.id.booking_reason_layout);
         reasonForVisit = (TextInputEditText) personalLayout.findViewById(R.id.booking_reason);
+
         reasonForVisit.setHint(context.getString(R.string.booking_reason_hint));
+        linearMain = (LinearLayout) personalLayout.findViewById(R.id.linear_main);
+        linearMain.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                reasonForVisit.setHint(context.getString(R.string.booking_reason_hint));
+                return false;
+            }
+        });
 
         dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
@@ -311,12 +321,20 @@ public class BookingDialogAdapter extends PagerAdapter {
                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
                         case MotionEvent.ACTION_UP:
                             v.getParent().requestDisallowInterceptTouchEvent(false);
+                            reasonForVisit.setHint("");
                             break;
                     }
                 }
                 return false;
             }
         });
+        /*reasonForVisit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    reasonForVisit.setHint(context.getString(R.string.booking_reason_hint));
+                }
+            }
+        });*/
     }
 
     /**
@@ -524,6 +542,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                             switch (checkedId) {
                                 case R.id.radio_not_pregnant:
                                     weeksPregnantLayout.setVisibility(View.GONE);
+                                    weeksPregnant.setText("");
                                     break;
 
                                 case R.id.radio_pregnant:
@@ -676,7 +695,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (insurancePhone.getVisibility() == View.VISIBLE && insurancePhone.getText() != null) {
-            formsProfile.insuranceProvider.insurancePhoneNumber = insurancePhone.getText().toString().trim();
+            formsProfile.insuranceProvider.insurancePhoneNumber = CommonUtil.stripPhoneNumber(insurancePhone.getText().toString().trim());
         }
 
         if (translatorGroup.getVisibility() == View.VISIBLE) {
@@ -774,8 +793,8 @@ public class BookingDialogAdapter extends PagerAdapter {
                     scrollPosition = (int) genderLabel.getY();
                 genderLabel.setFocusable(true);
             } else {*/
-                genderLabel.setText(context.getString(R.string.gender));
-                genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
+            genderLabel.setText(context.getString(R.string.gender));
+            genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
             //}
 
             if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {
@@ -820,7 +839,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 addressLayout.setError(null);
             }
 
-            if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty() && state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
+            if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty() && state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() < 0) {
                 cityLayout.setError(context.getString(R.string.city_and_state_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();
@@ -830,7 +849,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();
                 cityLayout.setFocusable(true);
-            } else if (state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
+            } else if (state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() < 0) {
                 cityLayout.setError(context.getString(R.string.state_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();

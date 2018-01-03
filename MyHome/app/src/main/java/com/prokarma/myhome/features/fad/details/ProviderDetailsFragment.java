@@ -151,6 +151,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     private boolean isTimeSlotsLoading = false;
     private boolean isCalendarLoading = false;
 
+    private Call<AppointmentTimeSlots> appointmentTimeSlotsCall;
+
     boolean fav = false;
 
     //Booking
@@ -298,7 +300,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
     }
 
     private void getAppointmentDetails(String providerNpi, final String fromDate, final String toDate, String addressHash) {
-        NetworkManager.getInstance().getProviderAppointments(providerNpi, fromDate, toDate, addressHash).enqueue(new Callback<AppointmentTimeSlots>() {
+        appointmentTimeSlotsCall = NetworkManager.getInstance().getProviderAppointments(providerNpi, fromDate, toDate, addressHash);
+        appointmentTimeSlotsCall.enqueue(new Callback<AppointmentTimeSlots>() {
             @Override
             public void onResponse(Call<AppointmentTimeSlots> call, Response<AppointmentTimeSlots> response) {
                 if (isAdded()) {
@@ -516,6 +519,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         //clear cache if currentlocation isn't what we have in Booking Manager
         if(!currentLocation.equals(BookingManager.getBookingLocation())){
+            appointmentTimeSlotsCall.cancel();
             AppointmentManager.getInstance().clearAppointmentDetails();
             AppointmentManager.getInstance().initializeAppointmentDetailsList(false);
             getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentLocation.getAddressHash());

@@ -166,6 +166,8 @@ public class CommonUtil {
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.showAtLocation(anchorView, Gravity.CENTER, 0, 0);
 
+        CommonUtil.hideSoftKeyboard(activity, anchorView);
+        CommonUtil.hideSoftKeyboard(activity);
     }
 
     public static String getBulletPoints(List<String> list) {
@@ -335,6 +337,26 @@ public class CommonUtil {
 
         if (phoneNumber.length() == 10)
             phoneNumber = phoneNumber.substring(0, 3) + "." + phoneNumber.substring(3, 6) + "." + phoneNumber.substring(6, 10);
+        return phoneNumber.trim();
+    }
+
+    public static String constructPhoneNumberDotsAccessibility(@NonNull String number) {
+        String phoneNumber = "";
+
+        if (number == null || number.trim().isEmpty())
+            return "";
+
+        phoneNumber = PhoneNumberUtils.formatNumber(number, Locale.getDefault().getCountry());
+        phoneNumber = phoneNumber.replaceAll("\\(", "");
+        phoneNumber = phoneNumber.replaceAll("\\)", "");
+        phoneNumber = phoneNumber.replaceAll(" ", "");
+        phoneNumber = phoneNumber.replaceAll("-", "");
+
+        if (phoneNumber.length() == 10) {
+            phoneNumber = phoneNumber.substring(0, 3) + "," + phoneNumber.substring(3, 6) + "," + phoneNumber.substring(6, 10);
+        }
+        phoneNumber = phoneNumber.replace("", " ").trim();
+
         return phoneNumber.trim();
     }
 
@@ -956,22 +978,24 @@ public class CommonUtil {
         ArrayList<AppointmentAvailableTime> appointmentTimes = new ArrayList<>();
         AppointmentAvailableTime appointmentAvailableTime = new AppointmentAvailableTime();
 
-        for (AppointmentAvailableTime availableTime : appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes()) {
-            appointmentAvailableTime = new AppointmentAvailableTime();
-            appointmentAvailableTime.setDate(availableTime.getDate());
-            appointmentAvailableTime.setTimes(new ArrayList<AppointmentTime>());
+        if (appointmentType != null) {
+            for (AppointmentAvailableTime availableTime : appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes()) {
+                appointmentAvailableTime = new AppointmentAvailableTime();
+                appointmentAvailableTime.setDate(availableTime.getDate());
+                appointmentAvailableTime.setTimes(new ArrayList<AppointmentTime>());
 
-            for (AppointmentTime appointmentTime : availableTime.getTimes()) {
-                for (AppointmentType type : appointmentTime.getAppointmentTypes()) {
-                    if (type.getId().equals(appointmentType.getId())) {
-                        appointmentAvailableTime.getTimes().add(appointmentTime);
-                        break;
+                for (AppointmentTime appointmentTime : availableTime.getTimes()) {
+                    for (AppointmentType type : appointmentTime.getAppointmentTypes()) {
+                        if (type.getId().equals(appointmentType.getId())) {
+                            appointmentAvailableTime.getTimes().add(appointmentTime);
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (!appointmentAvailableTime.getTimes().isEmpty()) {
-                appointmentTimes.add(appointmentAvailableTime);
+                if (!appointmentAvailableTime.getTimes().isEmpty()) {
+                    appointmentTimes.add(appointmentAvailableTime);
+                }
             }
         }
 
@@ -1103,7 +1127,9 @@ public class CommonUtil {
     public static boolean isAccessibilityEnabled(Context context) {
         if (context != null) {
             AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
-            return am.isEnabled();
+            if (am != null) {
+                return am.isEnabled();
+            }
         }
         return false;
     }

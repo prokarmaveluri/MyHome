@@ -111,6 +111,15 @@
         android:background="@color/white"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/no_results"
+        style="@style/tradeGothicLTStd_Dynamic16_grey"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/no_results"
+        android:visibility="gone" />
+
     <ProgressBar
         android:id="@+id/medications_progress"
         android:layout_width="wrap_content"

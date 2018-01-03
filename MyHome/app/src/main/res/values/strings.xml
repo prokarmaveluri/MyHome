@@ -22,6 +22,7 @@
     <string name="valid_first_name">Please enter a valid first name.</string>
     <string name="valid_last_name">Please enter a valid last name.</string>
     <string name="valid_email">Please enter a valid email.</string>
+    <string name="invalid_password_criteria">Invalid password criteria</string>
     <string name="valid_password">Please enter a valid password.</string>
     <string name="valid_password_match">Please match your password entries.</string>
     <string name="valid_password_same">New and existing passwords cannot be same.</string>
@@ -470,6 +471,7 @@
     <string name="medications">Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
     <string name="what_medications_are_you_taking_dependent">What medications is your child taking?</string>
+    <string name="no_results">No results found. Please adjust your search.</string>
 
 
     <string name="pharmacy">Pharmacy</string>
@@ -489,8 +491,11 @@
     <string name="email_agreement_missing">Please check email confidentiality agreement</string>
     <string name="email_total_reached">Please check email confidentiality agreement</string>
     <string name="add_additional_email">+&#160;Add Additional Email</string>
+    <string name="add_additional_email_content_desc">Add Additional Email</string>
     <string name="add">Add</string>
     <string name="delete_cross">&#160;X&#160;</string>
+    <string name="delete">Delete</string>
+    <string name="view_visit_report">View Visit Report</string>
 
     <string name="feedback">Feedback</string>
     <string name="feedback_choose_answer">Please select an answer to the survey</string>

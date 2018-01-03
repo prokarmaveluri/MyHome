@@ -35,7 +35,8 @@
         android:layout_marginLeft="12dp"
         android:gravity="center"
         android:maxWidth="285dp"
-        android:text="@string/view" />
+        android:text="@string/view"
+        android:contentDescription="@string/view" />
 
     <TextView
         android:id="@+id/doctor_name"

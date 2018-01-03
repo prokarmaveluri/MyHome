@@ -42,6 +42,9 @@ public class EmailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         myHolder.emailId.setText(emailsList.get(position).getEmailId().toLowerCase());
         myHolder.deleteEmail.setTag(emailsList.get(position).getEmailId().toLowerCase());
 
+        myHolder.emailId.setContentDescription(myHolder.emailId.getText());
+        myHolder.deleteEmail.setContentDescription(fragment.getContext().getResources().getString(R.string.delete) + ", Email address, " + myHolder.emailId.getText());
+
         myHolder.deleteEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
