@@ -78,8 +78,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.choose_doctor));
+
+        CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.choose_doctor) : getResources().getString(R.string.choose_doctor), true);
 
         View view = inflater.inflate(R.layout.fragment_my_care_providers, container, false);
 

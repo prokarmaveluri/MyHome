@@ -110,7 +110,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.visit_summary));
         View view = inflater.inflate(R.layout.visit_summary, container, false);
-        //((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.visit_summary));
 
         CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.visit_summary) : getResources().getString(R.string.visit_summary), true);
 

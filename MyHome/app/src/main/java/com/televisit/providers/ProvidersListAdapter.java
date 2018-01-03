@@ -70,8 +70,12 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
 
         public void bind(ProviderInfo providerInfo, int position) {
             binding.itemLayout.setTag(position);
+
             binding.displayName.setText(providerInfo.getFullName());
+            binding.displayName.setContentDescription(binding.displayName.getText());
+
             binding.displaySpeciality.setText(providerInfo.getSpecialty().getName());
+            binding.displaySpeciality.setContentDescription(binding.displaySpeciality.getText());
 
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(providerInfo, binding.providerImage, ProviderImageSize.EXTRA_EXTRA_LARGE)
@@ -88,6 +92,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                 } else {
                     binding.waitingCount.setText("You are the Next Patient");
                 }
+                binding.waitingCount.setContentDescription(binding.waitingCount.getText());
             } else {
                 binding.visibility.setVisibility(View.VISIBLE);
                 binding.waitingCount.setVisibility(View.GONE);
@@ -97,6 +102,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                 } else {
                     binding.visibility.setText(context.getString(R.string.offline));
                 }
+                binding.visibility.setContentDescription(binding.visibility.getText());
             }
             binding.executePendingBindings();
         }
