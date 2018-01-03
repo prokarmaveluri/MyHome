@@ -117,18 +117,12 @@ public class FeedbackFragment extends BaseFragment {
 
                 String answer = getQuestionAnswer();
 
-                Timber.d("feedback finish. ProviderRating = " + getProviderRating() + " out of " + providerRating.getNumStars());
-                Timber.d("feedback finish. VisitRating = " + getVisitRating() + " out of " + experienceRating.getNumStars());
-                Timber.d("feedback finish. answer = " + answer);
-
                 if (answer == null || answer.isEmpty()) {
 
                     feedbackLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                     CommonUtil.showToast(getActivity(),getString(R.string.feedback_choose_answer));
                 } else if (getProviderRating() == 0 && getVisitRating() == 0) {
-
-                    Timber.d("Feedback. User has not submitted both ProviderRating and VisitRating. ");
 
                     sendFeedback();
 
@@ -200,8 +194,6 @@ public class FeedbackFragment extends BaseFragment {
 
     private void displayDynamicQuestionAnswer() {
 
-        Timber.d("feedback. question3 = " + question3);
-
         textQuestion3.setText(question3);
         textQuestion3.setTextAppearance(this.getContext(), R.style.tradeGothicLTStd_Dynamic20);
 
@@ -211,8 +203,6 @@ public class FeedbackFragment extends BaseFragment {
         for (String questionAnswer : question3Options) {
 
             i = i + 1;
-
-            Timber.d("feedback. answer " + i + " = " + questionAnswer);
 
             RadioButton rbn = new RadioButton(this.getContext());
             rbn.setId(i + 1000);
@@ -243,8 +233,6 @@ public class FeedbackFragment extends BaseFragment {
             if (radioButtonIndex > -1 && radioButtonIndex < radioGroup.getChildCount()) {
                 RadioButton optionSelected = (RadioButton) radioGroup.getChildAt(radioButtonIndex);
 
-                Timber.d("feedback. answer selected = " + optionSelected.getText().toString());
-
                 return optionSelected.getText().toString();
             }
         }
@@ -269,7 +257,6 @@ public class FeedbackFragment extends BaseFragment {
                         public void onResponse(Void voida, SDKError sdkError) {
 
                             if (sdkError == null) {
-                                Timber.d("sendRatings succeeded! ");
                                 sendFeedback();
 
                             } else {
@@ -324,7 +311,6 @@ public class FeedbackFragment extends BaseFragment {
                     public void onResponse(@Nullable Void aVoid, @Nullable SDKError sdkError) {
 
                         if (sdkError == null) {
-                            Timber.d("sendVisitFeedback succeeded! ");
                             CommonUtil.showToast(getActivity(), getActivity().getString(R.string.feedback_completed));
                             goBackToDashboard();
 

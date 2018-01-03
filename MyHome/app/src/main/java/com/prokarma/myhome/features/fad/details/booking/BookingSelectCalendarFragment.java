@@ -165,23 +165,18 @@ public class BookingSelectCalendarFragment extends Fragment {
 
             Date today = Calendar.getInstance().getTime();
 
-            Timber.d("calendar. today = " + DateUtil.convertDateToReadableShort(today) + ". date = " + DateUtil.convertDateToReadableShort(date));
-
             if (DateUtil.getMonthFromDate(date) == DateUtil.getMonthFromDate(today)) {
 
-                Timber.d("calendar. leftArrow grey  ");
                 leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker));
                 return false;
 
             } else if (DateUtil.isOnSameDay(date, today) || DateUtil.isBefore(date, today)) {
 
-                Timber.d("calendar. leftArrow grey  ");
                 leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.text_darker));
                 return false;
 
             } else {
 
-                Timber.d("calendar. leftArrow blue  ");
                 leftArrow.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
                 return true;
             }

@@ -176,8 +176,6 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                Timber.d("Med. isChecked = " + isChecked);
-
                 if (isChecked) {
                     AwsManager.getInstance().setHasMedicationsFilledOut(true);
                 } else {
@@ -213,8 +211,6 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     }
 
     private void setMedicationsAdapter(List<Medication> list) {
-
-        Timber.d("Med. MedicationsCheckbox = " + noMedicationsCheckbox.isChecked());
 
         if ((list != null && list.size() > 0) || noMedicationsCheckbox.isChecked()) {
             AwsManager.getInstance().setHasMedicationsFilledOut(true);
@@ -300,7 +296,6 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
     }
 
     private void saveMedications() {
-        Timber.d("");
 
         if (noMedicationsCheckbox.isChecked()) {
             medicationsListToSave.clear();
@@ -340,7 +335,6 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                     public void onValidationFailure(@NonNull Map<String, String> map) {
                         searchSuggestions.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
-                        Timber.d("searchMedications. ValidationFailure ");
                     }
 
                     @Override

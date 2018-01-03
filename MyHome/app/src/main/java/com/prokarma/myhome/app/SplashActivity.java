@@ -365,10 +365,7 @@ public class SplashActivity extends AppCompatActivity implements
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
             for (String permission : permissions) {
                 if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    Timber.d("permission " + permission.toString() + " not granted. ");
                     return false;
-                } else {
-                    Timber.d("permission " + permission.toString() + " is granted. ");
                 }
             }
         }
@@ -415,8 +412,6 @@ public class SplashActivity extends AppCompatActivity implements
                             Location location = task.getResult();
 
                             if (null != location) {
-
-                                Timber.d("getLastLocation " + location.toString());
 
                                 LocationResponse locObj = new LocationResponse();
                                 locObj.setLat(String.valueOf(location.getLatitude()));

@@ -859,7 +859,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             } else if (activityTag == ActivityTag.MY_CARE_WAITING_ROOM) {
                 MyCareWaitingRoomFragment frag = ((MyCareWaitingRoomFragment) fm.findFragmentByTag(MyCareWaitingRoomFragment.MY_CARE_WAITING_TAG));
                 if (frag != null) {
-                    Timber.d("waitingroom. navigationActivity. cancelVisit ");
                     frag.cancelVisit();
                     fm.popBackStack();
                 }
@@ -899,13 +898,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (toolbarLine != null) {
             if (visisble) {
                 toolbarLine.setVisibility(View.VISIBLE);
-                Timber.d("toolbarLine visibility set to visible ");
             } else {
                 toolbarLine.setVisibility(View.GONE);
-                Timber.d("toolbarLine visibility set to gone ");
             }
-        } else {
-            Timber.d("toolbarLine is NULL ");
         }
     }
 
