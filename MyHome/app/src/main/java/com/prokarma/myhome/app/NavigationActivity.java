@@ -1047,8 +1047,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        Timber.i("visit. ACTIVITY. onRequestPermissionsResult. requestCode = " + requestCode);
-
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
             ((MyCareVisitCostFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -1058,8 +1056,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Timber.i("visit. ACTIVITY. onActivityResult. requestCode = " + requestCode + ". resultCode = " + resultCode);
 
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {

@@ -262,13 +262,13 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                 });
     }
 
-    public void setLegalTextsAccepted(boolean accepted, VisitContext visitContext) {
+    private void setLegalTextsAccepted(boolean accepted, VisitContext visitContext) {
         for (LegalText legalText : visitContext.getLegalTexts()) {
             legalText.setAccepted(accepted);
         }
     }
 
-    public void setShareHealthSummary(VisitContext visitContext) {
+    private void setShareHealthSummary(VisitContext visitContext) {
         visitContext.setShareHealthSummary(true);
     }
 }

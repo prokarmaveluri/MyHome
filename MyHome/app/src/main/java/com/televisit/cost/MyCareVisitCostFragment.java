@@ -281,8 +281,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
-        Timber.i("visit. FRAGMENT. onRequestPermissionsResult. requestCode = " + requestCode);
-
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
 
             if (grantResults.length <= 0) {
