@@ -21,10 +21,18 @@ public class AppointmentManager {
     private static ArrayList<AppointmentMonthDetails> appointmentDetailsList;
 
     public static AppointmentManager getInstance() {
-        if(ourInstance == null){
+        if (ourInstance == null) {
             ourInstance = new AppointmentManager();
         }
         return ourInstance;
+    }
+
+    public static boolean hasAvailabiltiy() {
+        if (appointmentDetailsList != null && !appointmentDetailsList.isEmpty() && appointmentDetailsList.get(0).getAppointmentTimeSlots().getData() != null && appointmentDetailsList.get(0).getAppointmentTimeSlots().getData().get(0).getAttributes().getHasAvailability() != null) {
+            return appointmentDetailsList.get(0).getAppointmentTimeSlots().getData().get(0).getAttributes().getHasAvailability();
+        } else {
+            return false;
+        }
     }
 
     public static ArrayList<AppointmentMonthDetails> getAppointmentDetailsList() {
@@ -46,7 +54,7 @@ public class AppointmentManager {
     }
 
     public void addMonthsAppointmentDetails(AppointmentMonthDetails monthDetails) {
-        if(monthDetails != null && !isDateCached(monthDetails.getFromDate())){
+        if (monthDetails != null && !isDateCached(monthDetails.getFromDate())) {
             appointmentDetailsList.add(monthDetails);
         }
     }
@@ -72,11 +80,11 @@ public class AppointmentManager {
         return appointmentDetailsList != null ? appointmentDetailsList.get(0).getAppointmentTimeSlots().getData().get(0).getAttributes().getAppointmentTypes() : new ArrayList<AppointmentType>();
     }
 
-    public boolean isDateCached(Date date){
-        if(appointmentDetailsList != null && !appointmentDetailsList.isEmpty()){
+    public boolean isDateCached(Date date) {
+        if (appointmentDetailsList != null && !appointmentDetailsList.isEmpty()) {
 
             for (AppointmentMonthDetails monthDetails : appointmentDetailsList) {
-                if(DateUtil.isDateAfterOrEqual(date, monthDetails.getFromDate()) && DateUtil.isDateBeforeOrEqual(date, monthDetails.getToDate())){
+                if (DateUtil.isDateAfterOrEqual(date, monthDetails.getFromDate()) && DateUtil.isDateBeforeOrEqual(date, monthDetails.getToDate())) {
                     return true;
                 }
             }
@@ -87,16 +95,16 @@ public class AppointmentManager {
         }
     }
 
-    public boolean hasAvailabilityForMonth(Date date){
+    public boolean hasAvailabilityForMonth(Date date) {
         AppointmentTimeSlots appointmentTimeSlots = getAppointmentTimeSlotsForMonth(date);
 
         return appointmentTimeSlots != null && !appointmentTimeSlots.getData().get(0).getAttributes().getAvailableTimes().isEmpty();
     }
 
     @Nullable
-    public AppointmentTimeSlots getAppointmentTimeSlotsForMonth(Date date){
+    public AppointmentTimeSlots getAppointmentTimeSlotsForMonth(Date date) {
         for (AppointmentMonthDetails monthDetails : appointmentDetailsList) {
-            if(DateUtil.isDateAfterOrEqual(date, monthDetails.getFromDate()) && DateUtil.isDateBeforeOrEqual(date, monthDetails.getToDate())){
+            if (DateUtil.isDateAfterOrEqual(date, monthDetails.getFromDate()) && DateUtil.isDateBeforeOrEqual(date, monthDetails.getToDate())) {
                 return monthDetails.getAppointmentTimeSlots();
             }
         }
