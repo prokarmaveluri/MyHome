@@ -56,6 +56,27 @@ public class MapUtil {
     }
 
     /**
+     * Gives all the addresses of all the offices of a provider
+     *
+     * @param offices
+     * @return
+     */
+    public static ArrayList<ProviderDetailsAddress> getAddresses(@NonNull final List<ProviderDetailsOffice> offices) {
+        ArrayList<ProviderDetailsAddress> addresses = new ArrayList<>();
+        for (ProviderDetailsOffice office : offices) {
+            for (ProviderDetailsAddress address : office.getAddresses()) {
+                if (address.getName() == null) {
+                    address.setName(office.getName());
+                }
+
+                addresses.add(address);
+            }
+        }
+
+        return addresses;
+    }
+
+    /**
      * Adds Map Markers for Offices
      *
      * @param context
@@ -77,7 +98,7 @@ public class MapUtil {
                             .snippet(address.getAddress() != null ? CommonUtil.constructAddress(address.getAddress(), null, address.getCity(), address.getState(), address.getZip()) : context.getString(R.string.address_unknown))
                             .icon(bitmapDescriptor);
 
-                    if(address.getName() == null){
+                    if (address.getName() == null) {
                         address.setName(office.getName());
                     }
 

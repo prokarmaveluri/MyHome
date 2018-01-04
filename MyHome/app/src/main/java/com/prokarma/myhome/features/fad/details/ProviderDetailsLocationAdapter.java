@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
+import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.List;
 
@@ -23,10 +24,10 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
     private final int VIEW_TYPE_NORMAL = 1;
 
     public final Context context;
-    public List<ProviderDetailsOffice> locations;
+    public List<ProviderDetailsAddress> locations;
     private final RecyclerViewListener onItemClickListener;
 
-    public ProviderDetailsLocationAdapter(Context context, @Nullable List<ProviderDetailsOffice> locations, @Nullable RecyclerViewListener onItemClickListener) {
+    public ProviderDetailsLocationAdapter(Context context, @Nullable List<ProviderDetailsAddress> locations, @Nullable RecyclerViewListener onItemClickListener) {
         this.context = context;
         this.locations = locations;
         this.onItemClickListener = onItemClickListener;
@@ -48,10 +49,10 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
         switch (genericHolder.getItemViewType()) {
             case VIEW_TYPE_NORMAL:
                 ViewHolder holder = (ViewHolder) genericHolder;
-                ProviderDetailsOffice office = locations.get(position);
-                holder.locationText.setText(locations.get(position).toString());
-                holder.pinImage.setContentDescription(locations.get(position).getName()+ ", " + context.getString(R.string.show_in_map));
-                holder.setOnPinClickListener(office, onItemClickListener);
+                ProviderDetailsAddress address = locations.get(position);
+                holder.locationText.setText(address.getAddress() != null ? address.getName() + "\n" + CommonUtil.constructAddress(address.getAddress(), null, address.getCity(), address.getState(), address.getZip()) : context.getString(R.string.address_unknown));
+                holder.pinImage.setContentDescription(address.getName() + ", " + context.getString(R.string.show_in_map));
+                holder.setOnPinClickListener(address, onItemClickListener);
                 break;
 
             case VIEW_TYPE_EMPTY:
@@ -79,7 +80,7 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
         }
     }
 
-    public void setLocations(List<ProviderDetailsOffice> locations) {
+    public void setLocations(List<ProviderDetailsAddress> locations) {
         this.locations = locations;
         notifyDataSetChanged();
     }
@@ -98,11 +99,11 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
             pinImage = (ImageView) view.findViewById(R.id.pin_icon);
         }
 
-        public void setOnPinClickListener(final ProviderDetailsOffice office, final RecyclerViewListener onItemClickListener) {
+        public void setOnPinClickListener(final ProviderDetailsAddress address, final RecyclerViewListener onItemClickListener) {
             pinImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onPinClick(office, getAdapterPosition());
+                    onItemClickListener.onPinClick(address, getAdapterPosition());
                 }
             });
         }
