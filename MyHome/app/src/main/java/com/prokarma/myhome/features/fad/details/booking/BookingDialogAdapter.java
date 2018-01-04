@@ -396,16 +396,21 @@ public class BookingDialogAdapter extends PagerAdapter {
         if (formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))) {
             areYouPregnantLabel.setVisibility(View.VISIBLE);
             areYouPregnantGroup.setVisibility(View.VISIBLE);
+        } else {
+            areYouPregnantLabel.setVisibility(View.GONE);
+            areYouPregnantGroup.setVisibility(View.GONE);
         }
 
         if (formsProfile.isPregnant) {
             areYouPregnantGroup.check(R.id.radio_pregnant);
-        }
 
-        if (formsProfile.weeksPregnant != null && Integer.parseInt(formsProfile.weeksPregnant) != 0) {
-            weeksPregnantLayout.setVisibility(View.VISIBLE);
-            weeksPregnant.setVisibility(View.VISIBLE);
-            weeksPregnant.setText(formsProfile.weeksPregnant);
+            if (formsProfile.weeksPregnant != null && Integer.parseInt(formsProfile.weeksPregnant) != 0) {
+                weeksPregnantLayout.setVisibility(View.VISIBLE);
+                weeksPregnant.setVisibility(View.VISIBLE);
+                weeksPregnant.setText(formsProfile.weeksPregnant);
+            }
+        } else {
+            areYouPregnantGroup.check(R.id.radio_not_pregnant);
         }
 
         if (formsProfile.dateOfBirth != null) {
@@ -639,7 +644,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         //Need to make sure weeks pregnant is sent as null (empty causes issues with API)
-        if (weeksPregnant.getVisibility() == View.VISIBLE && weeksPregnant.getText() != null &&
+        if (weeksPregnant.getVisibility() == View.VISIBLE && areYouPregnantGroup.getCheckedRadioButtonId() == R.id.radio_pregnant && weeksPregnant.getText() != null &&
                 !weeksPregnant.getText().toString().isEmpty()) {
             formsProfile.weeksPregnant = weeksPregnant.getText().toString().trim();
         } else {

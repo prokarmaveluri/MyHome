@@ -659,7 +659,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
 
         if (providerDetailsResult != null && providerDetailsResult.getOffices() != null) {
-            locations.setAdapter(new ProviderDetailsLocationAdapter(getActivity(), providerDetailsResult.getOffices(), new RecyclerViewListener() {
+            locations.setAdapter(new ProviderDetailsLocationAdapter(getActivity(), MapUtil.getAddresses(providerDetailsResult.getOffices()), new RecyclerViewListener() {
                 @Override
                 public void onItemClick(Object model, int position) {
                     //Do nothing on location item click...

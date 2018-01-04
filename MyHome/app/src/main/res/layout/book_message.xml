@@ -12,6 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="No appointments available at this location." />
+        android:text="@string/no_appointments_for_this_location" />
 
 </LinearLayout>
