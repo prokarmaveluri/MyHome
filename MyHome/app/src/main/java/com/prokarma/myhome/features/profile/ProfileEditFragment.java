@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -325,8 +326,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
             lastNameLayout.setError(null);
         }
 
-        if (dateOfBirth.getVisibility() == View.VISIBLE && (!DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) &&
-                !dateOfBirth.getText().toString().trim().isEmpty()) {
+        if (dateOfBirth.getVisibility() == View.VISIBLE && (!DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim(), false))) {
             isValid = false;
             dateOfBirthLayout.setError(getString(R.string.date_of_birth_invalid));
         } else {

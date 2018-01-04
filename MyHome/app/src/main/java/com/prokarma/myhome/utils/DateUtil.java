@@ -271,10 +271,14 @@ public class DateUtil {
      * @param readableDate
      * @return
      */
-    public static boolean isValidDateOfBirth(String readableDate) {
-        if (CommonUtil.isEmptyString(readableDate)) {
+    public static boolean isValidDateOfBirth(String readableDate, boolean allowBlank) {
+        if (CommonUtil.isEmptyString(readableDate) && !allowBlank) {
             return false;
+        } else if (CommonUtil.isEmptyString(readableDate) && allowBlank){
+            return true;
         }
+
+
         try {
             SIMPLE_DATE_SLASH_FORMAT.setLenient(false);
             Date date = SIMPLE_DATE_SLASH_FORMAT.parse(readableDate);
