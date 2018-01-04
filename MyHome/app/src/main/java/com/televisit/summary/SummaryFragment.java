@@ -710,7 +710,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
                 String phoneContentDescription =
                         CommonUtil.stringToSpacesString(CommonUtil.constructPhoneNumberDots(pharmacy.getPhone()));
-                pharmacyPhone.setContentDescription(getString(R.string.phone_description) + phoneContentDescription);
+                pharmacyPhone.setContentDescription(getString(R.string.phone_number_des) + phoneContentDescription);
 
                 pharmacyPhoneLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
