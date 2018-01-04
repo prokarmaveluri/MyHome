@@ -324,7 +324,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
 
             pharmacyDesc.setContentDescription(pharmacy.getName() + ", "
                     + getString(R.string.location) + addressContentDescription);
-
+            pharmacyPin.setVisibility(View.VISIBLE);
         } else {
             if (AwsManager.getInstance().isDependent()) {
                 pharmacyDesc.setText(getString(R.string.choose_your_preferred_pharmacy_dependent));
