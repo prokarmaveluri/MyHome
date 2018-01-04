@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.prokarma.myhome.R;
@@ -30,6 +31,7 @@ import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateConsumer;
+
 import timber.log.Timber;
 
 /**
@@ -293,7 +295,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             lastNameLayout.setError(null);
         }
 
-        if (dateOfBirth.getText().toString().trim().isEmpty() || !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim())) {
+        if (dateOfBirth.getText().toString().trim().isEmpty() || !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString().trim(), false)) {
             isValid = false;
             dateOfBirthLayout.setError(getString(R.string.date_of_birth_invalid));
         } else {

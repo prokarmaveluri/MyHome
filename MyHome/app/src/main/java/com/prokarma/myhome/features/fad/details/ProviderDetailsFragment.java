@@ -47,6 +47,7 @@ import com.prokarma.myhome.features.fad.details.booking.BookingDialogInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingDoneFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingDoneInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingManager;
+import com.prokarma.myhome.features.fad.details.booking.BookingMessageFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingRefreshInterface;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectCalendarFragment;
 import com.prokarma.myhome.features.fad.details.booking.BookingSelectPersonFragment;
@@ -273,7 +274,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         speciality.setText(provider.getPrimarySpecialities() != null ? provider.getPrimarySpecialities().get(0) : getString(R.string.specialities_unknown));
         address.setText(provider.getOffices() != null ?
                 CommonUtil.constructAddress(
-                provider.getOffices().get(0).getAddresses().get(0).getAddress(),
+                        provider.getOffices().get(0).getAddresses().get(0).getAddress(),
                         null,
                         provider.getOffices().get(0).getAddresses().get(0).getCity(),
                         provider.getOffices().get(0).getAddresses().get(0).getState(),
@@ -299,7 +300,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
     }
 
-    private void getAppointmentDetails(String providerNpi, final String fromDate, final String toDate, String addressHash) {
+    private void getAppointmentDetails(final String providerNpi, final String fromDate, final String toDate, final String addressHash) {
         appointmentTimeSlotsCall = NetworkManager.getInstance().getProviderAppointments(providerNpi, fromDate, toDate, addressHash);
         appointmentTimeSlotsCall.enqueue(new Callback<AppointmentTimeSlots>() {
             @Override
@@ -314,8 +315,31 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                             checkCache(DateUtil.getDateFromSlashes(fromDate));
 
-                            if (waitingForAppointmentTypes) {
-                                onPersonSelected(BookingManager.isBookingForMe());
+                            if (waitingForAppointmentTypes && !AppointmentManager.getInstance().hasAvailabiltiy()) {
+                                waitingForAppointmentTypes = false;
+                                BookingMessageFragment bookingFragment = BookingMessageFragment.newInstance();
+                                bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                                getChildFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.booking_frame, bookingFragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                                getChildFragmentManager().executePendingTransactions();
+                            } else if(waitingForAppointmentTypes) {
+                                waitingForAppointmentTypes = false;
+                                BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+                                bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+                                bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                                getChildFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.booking_frame, bookingFragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                                getChildFragmentManager().executePendingTransactions();
+
+                                Map<String, Object> tealiumData = new HashMap<>();
+                                tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
+                                TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
                             }
 
                             if (isTimeSlotsLoading && bookingSelectTimeFragment != null) {
@@ -342,8 +366,6 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                             expandableLinearLayout.collapse();
                             expandableLinearLayout.initLayout();
                         }
-
-
                     } else {
                         Timber.e("getAppointmentDetails. Response, but not successful?\n" + response);
                         ApiErrorUtil.getInstance().getProviderAppointmentsError(getContext(), providerDetailsView, response);
@@ -363,7 +385,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
             @Override
             public void onFailure(Call<AppointmentTimeSlots> call, Throwable t) {
                 if (isAdded()) {
-                    if(call.isCanceled()){
+                    if (call.isCanceled()) {
                         return;
                     }
 
@@ -442,19 +464,35 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                 BookingManager.setBookingProvider(provider);
                                 BookingManager.setBookingLocation(currentLocation);
 
-                                BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
-                                bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
-                                bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
-                                getChildFragmentManager()
-                                        .beginTransaction()
-                                        .replace(R.id.booking_frame, bookingFragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                                getChildFragmentManager().executePendingTransactions();
+                                if (AppointmentManager.getInstance().getNumberOfMonths() > 0 && !AppointmentManager.getInstance().hasAvailabiltiy()) {
+                                    waitingForAppointmentTypes = false;
+                                    BookingMessageFragment bookingFragment = BookingMessageFragment.newInstance();
+                                    bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                                    getChildFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.booking_frame, bookingFragment)
+                                            .addToBackStack(null)
+                                            .commit();
+                                    getChildFragmentManager().executePendingTransactions();
+                                } else if (AppointmentManager.getInstance().getNumberOfMonths() > 0 && AppointmentManager.getInstance().hasAvailabiltiy()) {
+                                    waitingForAppointmentTypes = false;
+                                    BookingSelectPersonFragment bookingFragment = BookingSelectPersonFragment.newInstance();
+                                    bookingFragment.setSelectPersonInterface(ProviderDetailsFragment.this);
+                                    bookingFragment.setRefreshInterface(ProviderDetailsFragment.this);
+                                    getChildFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.booking_frame, bookingFragment)
+                                            .addToBackStack(null)
+                                            .commit();
+                                    getChildFragmentManager().executePendingTransactions();
 
-                                Map<String, Object> tealiumData = new HashMap<>();
-                                tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
-                                TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
+                                    Map<String, Object> tealiumData = new HashMap<>();
+                                    tealiumData.put(Constants.FAD_PROVIDER_NPI, provider != null ? provider.getNpi() : providerNpi);
+                                    TealiumUtil.trackEvent(Constants.SCHEDULING_STARTED_EVENT, tealiumData);
+                                } else {
+                                    waitingForAppointmentTypes = true;
+                                    //TODO Kevin, possibly add loading screen here???
+                                }
                             }
                         });
 
@@ -522,7 +560,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         currentLocation = (ProviderDetailsAddress) marker.getTag();
 
         //clear cache if currentlocation isn't what we have in Booking Manager
-        if(!currentLocation.equals(BookingManager.getBookingLocation())){
+        if (!currentLocation.equals(BookingManager.getBookingLocation())) {
             appointmentTimeSlotsCall.cancel();
             AppointmentManager.getInstance().clearAppointmentDetails();
             AppointmentManager.getInstance().initializeAppointmentDetailsList(false);
@@ -760,42 +798,16 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         BookingManager.setIsBookingForMe(isBookingForMe);
 
-        if (AppointmentManager.getInstance().getNumberOfMonths() > 0 &&
-                (AppointmentManager.getInstance().getAppointmentTypes() == null || AppointmentManager.getInstance().getAppointmentTypes().isEmpty())) {
-            waitingForAppointmentTypes = false;
-
-            //            Toast.makeText(getContext(), "Couldn't find appointments for this location.\nPlease try another office", Toast.LENGTH_LONG).show();
-//            restartSchedulingFlow();
-//            expandableLinearLayout.collapse();
-//            expandableLinearLayout.initLayout();
-
-            BookingManager.setBookingAppointmentType(null);
-            bookingSelectTimeFragment = BookingSelectTimeFragment.newInstance();
-            bookingSelectTimeFragment.setSelectTimeInterface(this);
-            bookingSelectTimeFragment.setRefreshInterface(this);
-            getChildFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                    .replace(R.id.booking_frame, bookingSelectTimeFragment)
-                    .addToBackStack(TIME_TAG)
-                    .commit();
-            getChildFragmentManager().executePendingTransactions();
-        } else if (AppointmentManager.getInstance().getNumberOfMonths() > 0) {
-            waitingForAppointmentTypes = false;
-            BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(AppointmentManager.getInstance().getAppointmentTypes());
-            bookingFragment.setSelectStatusInterface(this);
-            bookingFragment.setRefreshInterface(this);
-            getChildFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                    .replace(R.id.booking_frame, bookingFragment)
-                    .addToBackStack(null)
-                    .commit();
-            getChildFragmentManager().executePendingTransactions();
-        } else {
-            waitingForAppointmentTypes = true;
-            //TODO Kevin, possibly add loading screen here???
-        }
+        BookingSelectStatusFragment bookingFragment = BookingSelectStatusFragment.newInstance(AppointmentManager.getInstance().getAppointmentTypes());
+        bookingFragment.setSelectStatusInterface(this);
+        bookingFragment.setRefreshInterface(this);
+        getChildFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                .replace(R.id.booking_frame, bookingFragment)
+                .addToBackStack(null)
+                .commit();
+        getChildFragmentManager().executePendingTransactions();
     }
 
     @Override

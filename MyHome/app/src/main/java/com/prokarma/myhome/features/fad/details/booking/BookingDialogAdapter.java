@@ -816,7 +816,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();
                 dateOfBirthLayout.setFocusable(true);
-            } else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && !dateOfBirth.getText().toString().isEmpty() && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString())) {
+            } else if (dateOfBirthLayout.getVisibility() == View.VISIBLE && !dateOfBirth.getText().toString().isEmpty() && !DateUtil.isValidDateOfBirth(dateOfBirth.getText().toString(), false)) {
                 dateOfBirthLayout.setError(context.getString(R.string.date_of_birth_invalid));
                 if (scrollPosition == -1)
                     scrollPosition = (int) dateOfBirthLayout.getY();
