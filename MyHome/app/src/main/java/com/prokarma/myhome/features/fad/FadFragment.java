@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.gms.maps.model.LatLng;
@@ -53,11 +54,13 @@ import com.prokarma.myhome.utils.RESTConstants;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.squareup.otto.Subscribe;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -284,7 +287,10 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                                 binding.suggestionList.setVisibility(View.VISIBLE);
                         } else {
                             Timber.e("getSearchSuggestions. Response, but not successful?\n" + response);
-                            ApiErrorUtil.getInstance().getSearchSuggestionError(getContext(), getView(), response);
+                            if(response.errorBody() != null){
+                                ApiErrorUtil.getInstance().getSearchSuggestionError(getContext(), getView(), response);
+                            }
+
                             binding.suggestionList.setVisibility(View.GONE);
                             isSugShow = false;
                         }
