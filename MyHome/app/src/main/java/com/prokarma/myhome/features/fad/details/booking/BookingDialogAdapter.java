@@ -448,7 +448,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (formsProfile.phoneNumber != null) {
-            phone.setText(formsProfile.phoneNumber.replaceAll("\\.", "-"));
+            phone.setText(CommonUtil.constructPhoneNumberDots(formsProfile.phoneNumber));
         }
 
         if (formsProfile.email != null) {
