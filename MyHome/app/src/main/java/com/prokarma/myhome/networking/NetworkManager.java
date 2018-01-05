@@ -252,14 +252,14 @@ public class NetworkManager {
                     lat,
                     lon,
                     displayName,
-                    zipCode);
+                    zipCode != null ? zipCode : "");
         } else {
             return service.getSearchSuggestions(EnviHandler.S2_BASE_URL + "api/suggestion",
                     queryString,
                     lat,
                     lon,
                     displayName,
-                    zipCode);
+                    zipCode != null ? zipCode : "");
         }
     }
 
