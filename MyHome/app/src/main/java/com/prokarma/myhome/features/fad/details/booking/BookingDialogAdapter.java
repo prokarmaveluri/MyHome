@@ -359,7 +359,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         }
 
         if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.insurancePhoneNumber != null) {
-            insurancePhone.setText(formsProfile.insuranceProvider.insurancePhoneNumber);
+            insurancePhone.setText(CommonUtil.constructPhoneNumberDots(formsProfile.insuranceProvider.insurancePhoneNumber));
         }
     }
 
