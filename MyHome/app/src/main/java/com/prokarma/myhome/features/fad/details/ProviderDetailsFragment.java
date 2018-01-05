@@ -562,7 +562,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
         //clear cache if currentlocation isn't what we have in Booking Manager
         if (!currentLocation.equals(AppointmentManager.getInstance().getAddress())) {
-            appointmentTimeSlotsCall.cancel();
+            if (appointmentTimeSlotsCall != null) {
+                appointmentTimeSlotsCall.cancel();
+            }
+
             AppointmentManager.getInstance().clearAppointmentDetails();
             AppointmentManager.getInstance().initializeAppointmentDetailsList(false);
             getAppointmentDetails(currentLocation, providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentLocation.getAddressHash());
