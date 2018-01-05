@@ -2,6 +2,7 @@ package com.prokarma.myhome.features.fad.details.booking;
 
 import android.support.annotation.Nullable;
 
+import com.prokarma.myhome.features.fad.details.ProviderDetailsAddress;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentAvailableTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 public class AppointmentManager {
     private static AppointmentManager ourInstance;
+    private static ProviderDetailsAddress address;
     private static ArrayList<AppointmentMonthDetails> appointmentDetailsList;
 
     public static AppointmentManager getInstance() {
@@ -25,6 +27,14 @@ public class AppointmentManager {
             ourInstance = new AppointmentManager();
         }
         return ourInstance;
+    }
+
+    public static ProviderDetailsAddress getAddress() {
+        return address;
+    }
+
+    public static void setAddress(ProviderDetailsAddress address) {
+        AppointmentManager.address = address;
     }
 
     public static boolean hasAvailabiltiy() {
@@ -50,6 +60,7 @@ public class AppointmentManager {
     }
 
     public void clearAppointmentDetails() {
+        address = null;
         appointmentDetailsList = null;
     }
 
