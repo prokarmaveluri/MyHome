@@ -300,7 +300,8 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
     }
 
-    private void getAppointmentDetails(final String providerNpi, final String fromDate, final String toDate, final String addressHash) {
+    private void getAppointmentDetails(final ProviderDetailsAddress address, final String providerNpi, final String fromDate, final String toDate, final String addressHash) {
+        AppointmentManager.getInstance().setAddress(address);
         appointmentTimeSlotsCall = NetworkManager.getInstance().getProviderAppointments(providerNpi, fromDate, toDate, addressHash);
         appointmentTimeSlotsCall.enqueue(new Callback<AppointmentTimeSlots>() {
             @Override
@@ -450,14 +451,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
                         if (provider.getSupportsOnlineBooking()) {
                             AppointmentManager.getInstance().initializeAppointmentDetailsList(false);
-                            getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentLocation.getAddressHash());
+                            getAppointmentDetails(currentLocation, providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentLocation.getAddressHash());
                         }
 
                         bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
                         bookAppointment.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentLocation.getAddressHash());
+                                getAppointmentDetails(currentLocation, providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentLocation.getAddressHash());
 
                                 bookAppointment.setVisibility(View.GONE);
                                 BookingManager.setBookingProfile(null);
@@ -560,11 +561,11 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         currentLocation = (ProviderDetailsAddress) marker.getTag();
 
         //clear cache if currentlocation isn't what we have in Booking Manager
-        if (!currentLocation.equals(BookingManager.getBookingLocation())) {
+        if (!currentLocation.equals(AppointmentManager.getInstance().getAddress())) {
             appointmentTimeSlotsCall.cancel();
             AppointmentManager.getInstance().clearAppointmentDetails();
             AppointmentManager.getInstance().initializeAppointmentDetailsList(false);
-            getAppointmentDetails(providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentLocation.getAddressHash());
+            getAppointmentDetails(currentLocation, providerNpi, DateUtil.getTodayDate(), DateUtil.getEndOfTheMonthDate(new Date()), currentLocation.getAddressHash());
         }
 
         bookAppointment.setVisibility(provider != null && provider.getSupportsOnlineBooking() ? View.VISIBLE : View.GONE);
@@ -659,7 +660,7 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
         });
 
         if (providerDetailsResult != null && providerDetailsResult.getOffices() != null) {
-            locations.setAdapter(new ProviderDetailsLocationAdapter(getActivity(), providerDetailsResult.getOffices(), new RecyclerViewListener() {
+            locations.setAdapter(new ProviderDetailsLocationAdapter(getActivity(), MapUtil.getAddresses(providerDetailsResult.getOffices()), new RecyclerViewListener() {
                 @Override
                 public void onItemClick(Object model, int position) {
                     //Do nothing on location item click...
@@ -873,12 +874,12 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                 isCalendarLoading = true;
             }
 
-            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(date), DateUtil.getEndOfTheMonthDate(date), currentLocation.getAddressHash());
+            getAppointmentDetails(currentLocation, providerNpi, DateUtil.getFirstOfTheMonthDate(date), DateUtil.getEndOfTheMonthDate(date), currentLocation.getAddressHash());
         }
 
         //We don't have next month's appointments. We should try to cache that...
         if (!AppointmentManager.getInstance().isDateCached(DateUtil.addOneMonthToDate(new Date()))) {
-            getAppointmentDetails(providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentLocation.getAddressHash());
+            getAppointmentDetails(currentLocation, providerNpi, DateUtil.getFirstOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), DateUtil.getEndOfTheMonthDate(DateUtil.addOneMonthToDate(new Date())), currentLocation.getAddressHash());
         }
     }
 

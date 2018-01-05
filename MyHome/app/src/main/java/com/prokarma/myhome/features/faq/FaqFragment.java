@@ -1,10 +1,16 @@
 package com.prokarma.myhome.features.faq;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -14,6 +20,7 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
@@ -54,10 +61,51 @@ public class FaqFragment extends BaseFragment {
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
         webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                if (url.toLowerCase().endsWith(".pdf")) {
+                    CommonUtil.loadPdf(getContext(), view, url);
+                    return true;
+                } else if (url.startsWith("tel:")) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                    return true;
+
+                } else if (url.toLowerCase().startsWith("http:") || url.toLowerCase().startsWith("https:")) {
+                    view.loadUrl(url);
+                    return true;
+                }
+                return false;
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                webView.loadUrl(request.getUrl().toString());
-                return super.shouldOverrideUrlLoading(view, request);
+
+                if (request.getUrl().toString().toLowerCase().endsWith(".pdf")) {
+
+                    CommonUtil.loadPdf(getContext(), view, request.getUrl().toString());
+                    return true;
+
+                } else if (request.getUrl().toString().startsWith("tel:")) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(request.getUrl().toString()));
+                    startActivity(intent);
+                    return true;
+
+                } else if (request.getUrl().toString().toLowerCase().startsWith("http:") || request.getUrl().toString().toLowerCase().startsWith("https:")) {
+                    view.loadUrl(request.getUrl().toString());
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                webProgress.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -67,8 +115,20 @@ public class FaqFragment extends BaseFragment {
             }
 
             @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed(); // Ignore SSL certificate errors
+            }
+
+            @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
+                webProgress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onReceivedError(final WebView view, int errorCode, String description,
+                                        final String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
                 webProgress.setVisibility(View.GONE);
             }
         });

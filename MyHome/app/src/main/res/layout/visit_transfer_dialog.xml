@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/you_are_being_transferred" />
+
+        <RelativeLayout
+            android:id="@+id/doc_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.prokarma.myhome.views.CircularImageView
+                android:id="@+id/doc_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="20dp"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/provider_name"
+                style="@style/tradeGothicLTStdLight_22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/doc_image"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:paddingTop="18dp"
+                android:textStyle="bold"
+                tools:text="Richard Paul, MD" />
+
+            <TextView
+                android:id="@+id/provider_speciality"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/doc_image"
+                android:layout_below="@+id/provider_name"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:textStyle="bold"
+                tools:text="Speciality" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/waiting_count"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/you_are_next_patient" />
+
+        <LinearLayout
+            android:id="@+id/action_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/cancel_transfer"
+                style="@style/primaryButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="15dp"
+                android:contentDescription="@string/cancel"
+                android:paddingLeft="22dp"
+                android:paddingRight="22dp"
+                android:text="@string/cancel"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/continue_transfer"
+                style="@style/primaryButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:contentDescription="@string/continue_text"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/continue_text"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

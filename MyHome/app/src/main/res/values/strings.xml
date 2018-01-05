@@ -437,7 +437,14 @@
 
     <!-- Add Credit Card -->
 
-    <!-- Waiting Room -->
+    <!-- Waiting Room Visit Transfer -->
+    <string name="visit_transfer">Visit Transfer</string>
+    <string name="visit_quick_transfer">Quick Transfer</string>
+    <string name="visit_transferred">You are being transferred</string>
+    <string name="you_are_next_patient">You are the Next Patient</string>
+    <string name="you_are_being_transferred">You are being transferred to another doctor.</string>
+    <string name="visit_transferred_waiting_for">Successfully transferred. \nYou are now waiting for</string>
+    <string name="continue_text">Continue</string>
 
 
     <!--IVR Activity-->
@@ -608,4 +615,5 @@
     <string name="is_not_available">is not available</string>
     <string name="secure_lock_screen_has_not_setup"><![CDATA[Secure lock screen hasn\'t set up.\n\" \"Go to \'Settings -> Security -> Fingerprint\' to set up a fingerprint]]></string>
     <string name="setting_to_fingerprint"><![CDATA[Go to \'Settings -> Security -> Fingerprint\' and register at least one fingerprint]]></string>
+    <string name="no_appointments_for_this_location">Please call the office directly to book appointments for this location</string>
 </resources>

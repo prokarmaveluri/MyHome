@@ -36,5 +36,14 @@
             android:lineSpacingExtra="8sp"
             android:text="Thank you for your patience, your care provider is currently reviewing your health history for your virtual visit. Take a few moments to think about the questions you would like to ask. Once your doctor appears on the screen, you will be able to have a confidential conversation, just as you would at the office or clinic. \n\nThanks for calling in today! We look forward to connecting with you soon." />
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="8dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>
