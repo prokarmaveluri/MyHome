@@ -436,6 +436,7 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
                 startFilterDialog();
                 break;
             case R.id.fad_search:
+                ApiErrorUtil.getInstance().clearErrorMessage();
                 searchLayoutVisibility(true);
                 getSearchSuggestions(currentSearchQuery);
                 binding.searchQuery.requestFocus();
