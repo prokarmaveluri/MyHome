@@ -219,9 +219,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
                     }
                     break;
                 case R.id.forgot_password:
-                    if (ConnectionUtil.isConnected(getActivity())) {
-                        startForgotPasswordActivity();
-                    }
+                    startForgotPasswordActivity();
                     break;
                 case R.id.login_help:
                     startContactUsActivity();

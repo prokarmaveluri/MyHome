@@ -712,6 +712,28 @@ public class CommonUtil {
         }
     }
 
+    public static void loadPdf(Context context, View view, String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(url), "application/pdf");
+
+        boolean foundAppToLoadPdf = true;
+        try {
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                view.getContext().startActivity(intent);
+            } else {
+                foundAppToLoadPdf = false;
+            }
+
+        } catch (ActivityNotFoundException e) {
+            //user does not have a pdf viewer installed
+            foundAppToLoadPdf = false;
+        }
+
+        if (!foundAppToLoadPdf) {
+            CommonUtil.showToast(context, "No Application found to view PDF files.");
+        }
+    }
+
     /**
      * Show Toast
      */
