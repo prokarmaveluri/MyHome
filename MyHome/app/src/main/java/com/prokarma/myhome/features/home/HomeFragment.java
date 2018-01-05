@@ -519,6 +519,14 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void coachmarkFindCare() {
+
+        // added condition to fix coachmarkFindCare() line 528 throwing following error, if fragment is not attached
+        // java.lang.IllegalStateException: Fragment HomeFragment{af56f92} not attached to Activity
+
+        if (!isAdded()) {
+            return;
+        }
+
         if (CommonUtil.isAccessibilityEnabled(getActivity())) {
             return;
         }

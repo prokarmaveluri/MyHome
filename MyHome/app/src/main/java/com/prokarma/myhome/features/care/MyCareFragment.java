@@ -1,7 +1,7 @@
 package com.prokarma.myhome.features.care;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -35,6 +35,8 @@ public class MyCareFragment extends BaseFragment {
     public static final String MY_CARE_URL = "https://www.dignityhealth.org/my-home/my-care-dignity-health";
 
     private WebView webView;
+    private ProgressBar webProgress;
+    private TextView error;
 
     public static MyCareFragment newInstance() {
         return new MyCareFragment();
@@ -54,9 +56,11 @@ public class MyCareFragment extends BaseFragment {
             faqView = inflater.inflate(R.layout.faq, container, false);
 
             getActivity().setTitle(getString(R.string.my_care_title));
+
             webView = (WebView) faqView.findViewById(R.id.faq_webview);
-            TextView error = (TextView) faqView.findViewById(R.id.faqError);
-            final ProgressBar webProgress = (ProgressBar) faqView.findViewById(R.id.webProgress);
+            error = (TextView) faqView.findViewById(R.id.faqError);
+            webProgress = (ProgressBar) faqView.findViewById(R.id.webProgress);
+
             webView.loadUrl(MY_CARE_URL);
 
             webView.getSettings().setJavaScriptEnabled(true);
@@ -67,10 +71,9 @@ public class MyCareFragment extends BaseFragment {
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    Timber.d("mycare. override url = " + url);
 
                     if (url.toLowerCase().endsWith(".pdf")) {
-                        loadPdf(view, url);
+                        CommonUtil.loadPdf(getContext(), view, url);
                         return true;
                     } else if (url.startsWith("tel:")) {
                         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -87,11 +90,10 @@ public class MyCareFragment extends BaseFragment {
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                    Timber.d("mycare. override request url = " + request.getUrl().toString());
 
                     if (request.getUrl().toString().toLowerCase().endsWith(".pdf")) {
 
-                        loadPdf(view, request.getUrl().toString());
+                        CommonUtil.loadPdf(getContext(), view, request.getUrl().toString());
                         return true;
 
                     } else if (request.getUrl().toString().startsWith("tel:")) {
@@ -108,15 +110,19 @@ public class MyCareFragment extends BaseFragment {
                 }
 
                 @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    super.onPageStarted(view, url, favicon);
+                    webProgress.setVisibility(View.VISIBLE);
+                }
+
+                @Override
                 public void onPageFinished(WebView view, String url) {
-                    Timber.d("mycare. onPageFinished = " + url);
                     super.onPageFinished(view, url);
                     webProgress.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                    Timber.d("mycare. onReceivedSslError = " + error);
                     handler.proceed(); // Ignore SSL certificate errors
                 }
 
@@ -124,7 +130,6 @@ public class MyCareFragment extends BaseFragment {
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                     super.onReceivedError(view, request, error);
                     webProgress.setVisibility(View.GONE);
-                    Timber.d("mycare. onReceivedError = " + error);
                 }
 
                 @Override
@@ -132,7 +137,6 @@ public class MyCareFragment extends BaseFragment {
                                             final String failingUrl) {
                     super.onReceivedError(view, errorCode, description, failingUrl);
                     webProgress.setVisibility(View.GONE);
-                    Timber.d("mycare. onReceivedError = " + description);
                 }
             });
 
@@ -149,28 +153,6 @@ public class MyCareFragment extends BaseFragment {
             ex.printStackTrace();
         }
         return faqView;
-    }
-
-    private void loadPdf(View view, String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse(url), "application/pdf");
-
-        boolean foundAppToLoadPdf = true;
-        try {
-            if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-                view.getContext().startActivity(intent);
-            } else {
-                foundAppToLoadPdf = false;
-            }
-
-        } catch (ActivityNotFoundException e) {
-            //user does not have a pdf viewer installed
-            foundAppToLoadPdf = false;
-        }
-
-        if (!foundAppToLoadPdf) {
-            CommonUtil.showToast(getContext(), "No Application found to view PDF files.");
-        }
     }
 
     @Override
