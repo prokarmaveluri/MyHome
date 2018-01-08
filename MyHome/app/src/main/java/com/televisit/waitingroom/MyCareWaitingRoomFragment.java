@@ -190,7 +190,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                         CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
             }
             costInfo.setContentDescription(costInfo.getText());
-            costInfo.setVisibility(View.VISIBLE);
+            costInfo.setVisibility(View.GONE);
         }
     }
 
