@@ -50,18 +50,22 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/displayName"
             android:layout_below="@+id/displaySpeciality"
-            android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/providerImage">
 
             <TextView
                 android:id="@+id/waitingCount"
                 style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                tools:text="@string/you_are_next_patient"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/visibility"
+                android:layout_below="@+id/waitingCount"
                 style="@style/tradeGothicLTStd_Dynamic18"
+                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/offline" />

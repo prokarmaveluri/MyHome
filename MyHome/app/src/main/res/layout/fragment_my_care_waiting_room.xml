@@ -28,6 +28,30 @@
             android:src="@mipmap/waiting_room" />
 
         <TextView
+            android:id="@+id/cost_info"
+            style="@style/tradeGothicLTStd_Dynamic20"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp"
+            android:lineSpacingExtra="8sp"
+            tools:text="Your visit total is $ 0.00"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/waiting_count"
+            style="@style/tradeGothicLTStd_Dynamic20"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp"
+            android:lineSpacingExtra="8sp"
+            tools:text="@string/you_are_next_patient"
+            android:visibility="gone" />
+
+        <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

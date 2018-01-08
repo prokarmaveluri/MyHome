@@ -66,7 +66,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     private AlertDialog transferAlertDialog = null;
     private String transferType;
     private boolean transferAccepted = false;
-
+    private TextView costInfo;
+    private TextView waitingCount;
     private ProgressBar progressBar;
 
     public MyCareWaitingRoomFragment() {
@@ -80,15 +81,12 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
      * @return A new instance of fragment MyCareServicesFragment.
      */
     public static MyCareWaitingRoomFragment newInstance() {
-        MyCareWaitingRoomFragment fragment = new MyCareWaitingRoomFragment();
-        return fragment;
+        return new MyCareWaitingRoomFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -100,6 +98,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.waiting_room_title));
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        costInfo = (TextView) view.findViewById(R.id.cost_info);
+        waitingCount = (TextView) view.findViewById(R.id.waiting_count);
 
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -180,6 +180,18 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         TealiumUtil.trackEvent(Constants.VIDEO_VISIT_START_EVENT, null);
 
         progressBar.setVisibility(View.GONE);
+
+        if (AwsManager.getInstance().getVisit() != null && AwsManager.getInstance().getVisit().getVisitCost() != null) {
+            if (AwsManager.getInstance().isDependent()) {
+                costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
+                        CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
+            } else {
+                costInfo.setText(getString(R.string.visit_cost_desc) +
+                        CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
+            }
+            costInfo.setContentDescription(costInfo.getText());
+            costInfo.setVisibility(View.GONE);
+        }
     }
 
     public void abandonVisit() {
@@ -307,6 +319,24 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     @Override
     public void onPatientsAheadOfYouCountChanged(int i) {
+
+        if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getAssignedProvider() == null) {
+            return;
+        }
+
+        if (AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() != null
+                && AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() > 0) {
+            waitingCount.setText(AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() + " patients ahead");
+
+        } else if (AwsManager.getInstance().getVisit().getAssignedProvider().getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
+            waitingCount.setText(getString(R.string.you_are_next_patient));
+
+        } else if (AwsManager.getInstance().getVisit().getAssignedProvider().getVisibility().equals(ProviderVisibility.WEB_BUSY)) {
+            waitingCount.setText("Currently " + getString(R.string.busy));
+        }
+        waitingCount.setContentDescription(waitingCount.getText());
+        waitingCount.invalidate();
+        waitingCount.setVisibility(View.GONE); //this requirement approval is pending, as to weather waiting queue info needs to be shown or not.
     }
 
     @Override

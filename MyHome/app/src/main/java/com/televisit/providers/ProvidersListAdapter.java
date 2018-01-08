@@ -16,6 +16,8 @@ import com.televisit.AwsManager;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by cmajji on 5/12/17.
  * <p>
@@ -92,21 +94,24 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                 } else {
                     binding.waitingCount.setText(context.getString(R.string.you_are_next_patient));
                 }
-                binding.waitingCount.setContentDescription(binding.waitingCount.getText());
             } else {
                 binding.visibility.setVisibility(View.VISIBLE);
                 binding.waitingCount.setVisibility(View.GONE);
 
                 //fix 28545: not able to see the queue status waiting line when provider is busy
-                if (providerInfo.getWaitingRoomCount() != null && providerInfo.getWaitingRoomCount() > 0) {
-                    binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
-                } else if (providerInfo.getVisibility().equals(ProviderVisibility.WEB_BUSY)) {
+                if (providerInfo.getVisibility().equals(ProviderVisibility.WEB_BUSY)) {
                     binding.visibility.setText(context.getString(R.string.busy));
+
+                    if (providerInfo.getWaitingRoomCount() != null && providerInfo.getWaitingRoomCount() > 0) {
+                        binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
+                        binding.waitingCount.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     binding.visibility.setText(context.getString(R.string.offline));
                 }
-                binding.visibility.setContentDescription(binding.visibility.getText());
             }
+            binding.visibility.setContentDescription(binding.visibility.getText());
+            binding.visibility.setContentDescription(binding.waitingCount.getText());
             binding.executePendingBindings();
         }
     }
