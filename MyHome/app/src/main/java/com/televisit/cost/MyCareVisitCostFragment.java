@@ -71,6 +71,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private AppCompatCheckBox agreePrivacyPolicyCheck;
     private AppCompatCheckBox agreeLegalDependentCheck;
     private RelativeLayout agreeLegalDependentLayout;
+    private boolean providerUnavailable = false;
 
     public static final int REQUEST_CHECK_SETTINGS = 200;
     public static final int REQUEST_PERMISSIONS_REQUEST_CODE = 100;
@@ -208,6 +209,11 @@ public class MyCareVisitCostFragment extends BaseFragment {
         }
         phoneLayout.setError(null);
         reasonLayout.setError(null);
+
+        if (providerUnavailable) {
+            CommonUtil.showToast(getContext(), getString(R.string.provider_unavailable));
+            return;
+        }
 
         if (isAdded() && AwsManager.getInstance().getVisit() != null) {
 
@@ -385,13 +391,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                         @Override
                         public void onResponse(Void aVoid, SDKError sdkError) {
                             if (sdkError == null && isAdded()) {
-                                if (AwsManager.getInstance().isDependent()) {
-                                    costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
-                                            CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
-                                } else {
-                                    costInfo.setText(getString(R.string.visit_cost_desc) +
-                                            CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
-                                }
+                                updateVisitCost();
                             } else {
                                 Timber.e("applyCouponCode. Something failed! :/");
                                 Timber.e("SDK Error: " + sdkError);
@@ -419,6 +419,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
     private void createVisit() {
 
+        providerUnavailable = false;
+
         if (!ConnectionUtil.isConnected(getActivity())) {
             CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
@@ -442,14 +444,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                             AwsManager.getInstance().setVisit(visit);
 
                             applyCoupon("Free");
-
-                            if (AwsManager.getInstance().isDependent()) {
-                                costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
-                                        CommonUtil.formatAmount((AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost())));
-                            } else {
-                                costInfo.setText(getString(R.string.visit_cost_desc) +
-                                        CommonUtil.formatAmount((AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost())));
-                            }
+                            updateVisitCost();
 
                             intakeLayout.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
@@ -461,12 +456,22 @@ public class MyCareVisitCostFragment extends BaseFragment {
                             intakeLayout.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
 
-                            if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
+                            if (sdkError != null && sdkError.toString() != null && sdkError.toString().toLowerCase().contains("consumer_already_in_visit")) {
+
+                                updateVisitCost();
+                                intakeLayout.setVisibility(View.VISIBLE);
+
+                            } else if (sdkError != null && sdkError.toString() != null && sdkError.toString().toLowerCase().contains("provider unavailable")) {
+                                intakeLayout.setVisibility(View.VISIBLE);
+                                providerUnavailable = true;
+                                CommonUtil.showToast(getContext(), getString(R.string.provider_unavailable));
+
+                            } else if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
                                 CommonUtil.showToast(getContext(), sdkError.getMessage());
+
                             } else if (sdkError.getSDKErrorReason() != null && !sdkError.getSDKErrorReason().isEmpty()) {
                                 CommonUtil.showToast(getContext(), sdkError.getSDKErrorReason());
-                            } else if (sdkError.toString() != null && sdkError.toString().toLowerCase().contains("provider unavailable")) {
-                                CommonUtil.showToast(getContext(), getString(R.string.provider_unavailable));
+
                             } else if (sdkError.toString() != null && !sdkError.toString().isEmpty()) {
                                 CommonUtil.showToast(getContext(), sdkError.toString());
                             } else {
@@ -484,5 +489,20 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     }
                 }
         );
+    }
+
+    private void updateVisitCost() {
+
+        if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getVisitCost() == null) {
+            return;
+        }
+
+        if (AwsManager.getInstance().isDependent()) {
+            costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
+                    CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
+        } else {
+            costInfo.setText(getString(R.string.visit_cost_desc) +
+                    CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
+        }
     }
 }

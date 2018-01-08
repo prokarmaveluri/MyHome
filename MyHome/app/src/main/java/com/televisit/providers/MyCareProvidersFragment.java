@@ -1,6 +1,7 @@
 package com.televisit.providers;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -50,7 +51,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     private RecyclerView providerList;
     private Button nextAvailableProvider;
     private TextView chooseText;
-    private final int REFRESH_INTERVAL_SECONDS = 5 * 60;
+    private final int REFRESH_INTERVAL_SECONDS = 3; //5 * 60;
     private Handler refreshHandler;
 
     public MyCareProvidersFragment() {
@@ -108,9 +109,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     + getContext().getString(R.string.my_care_providers_desc));
             chooseText.setContentDescription(chooseText.getText());
         }
-
-        refreshPeriodically();
     }
+
 
     private void refreshPeriodically() {
 
@@ -121,15 +121,23 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     public void run() {
                         if (refreshHandler != null) {
 
-                            if (isAdded()) {
-                                getProviders();
-                            } else {
-                                Timber.d("Refresh. fragment not attached yet.");
-                            }
+                            getProviders();
                             refreshHandler.postDelayed(this, REFRESH_INTERVAL_SECONDS * 1000);
                         }
                     }
                 }, REFRESH_INTERVAL_SECONDS * 1000);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshPeriodically();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        refreshHandler = null;
     }
 
     @Override
@@ -148,6 +156,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
             //after that error, SDK throws following: IllegalArgumentException: sdk initialization is missing
 
             if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
+                return;
+            }
+
+            if (!isAdded()) {
+                Timber.d("Refresh. fragment not attached yet.");
                 return;
             }
 
