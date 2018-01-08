@@ -101,6 +101,7 @@ public class Constants {
     public static final String PROVIDER_DETAILS_SCREEN = "my home|doctor details";
     public static final String HOME_DID_YOU_KNOW_SCREEN = "my home|home, did you know";
     public static final String RESEND_EMAIL = "my home|resendEmail";
+    public static final String MY_CARE_NOW = "my home|my care now";
 
     // events
     public static final String SIGN_IN_EVENT = "loginSuccess";
@@ -121,6 +122,9 @@ public class Constants {
     public static final String TOUCH_ID_DISABLED_EVENT = "touchIdDisabled";
     public static final String CHANGED_PASSWORD_EVENT = "changePasswordSuccess";
     public static final String CHANGED_SECURITY_QUESTION_EVENT = "changeSecurityQuestionSuccess";
+    public static final String VIDEO_VISIT_START_EVENT = "myCareNowStart";
+    public static final String VIDEO_VISIT_END_EVENT = "myCareNowComplete";
+    public static final String VIDEO_VISIT_CANCELED_EVENT = "myCareNowCanceled";
 
     public static final String DID_YOU_KNOW_SEC1 = "https://www.dignityhealth.org/Articles/Understanding-Seasonal-Affective-Disorder-How-to-Brighten-Cold-Dark-Days";
     public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/Articles/7-Stress-Relief-Tips-for-the-New-Year";
