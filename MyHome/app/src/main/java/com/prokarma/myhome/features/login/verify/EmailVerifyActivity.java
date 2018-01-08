@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.ActivityVerifyBinding;
@@ -27,6 +28,7 @@ import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -116,7 +118,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        TealiumUtil.trackView(Constants.RESEND_EMAIL, null);
+        TealiumUtil.trackView(Constants.RESEND_EMAIL_SCREEN, null);
         if (!isCreated) {
             getProfileInfo();
         }

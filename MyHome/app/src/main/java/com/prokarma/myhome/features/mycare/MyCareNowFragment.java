@@ -191,7 +191,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
         refreshDashboard(false);
-        TealiumUtil.trackView(Constants.MY_CARE_NOW, null);
+        TealiumUtil.trackView(Constants.MY_CARE_NOW_SCREEN, null);
     }
 
     @Override

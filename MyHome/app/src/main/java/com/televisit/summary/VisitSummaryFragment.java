@@ -26,6 +26,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
@@ -92,6 +93,12 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         showLoading();
         AwsNetworkManager.getInstance().getVisitSummary(visit, this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.MCN_SUMMARY_SCREEN, null);
     }
 
     @Override

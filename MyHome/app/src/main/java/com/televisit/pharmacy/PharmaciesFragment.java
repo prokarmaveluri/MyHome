@@ -12,6 +12,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 
 /**
@@ -62,6 +63,12 @@ public class PharmaciesFragment extends BaseFragment {
         pharmacyPager = (ViewPager) view.findViewById(R.id.pharmacyPager);
         setPager();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.MCN_PHARMACY_SCREEN, null);
     }
 
     @Override

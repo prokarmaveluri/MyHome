@@ -42,6 +42,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 
 import java.util.ArrayList;
@@ -200,6 +201,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        TealiumUtil.trackView(Constants.MCN_INTAKE_SCREEN, null);
     }
 
     private void nextClick() {

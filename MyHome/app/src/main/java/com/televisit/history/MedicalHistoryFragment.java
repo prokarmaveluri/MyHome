@@ -29,13 +29,13 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,6 +95,12 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.MCN_MEDICAL_HISTORY_SCREEN, null);
     }
 
     @Override

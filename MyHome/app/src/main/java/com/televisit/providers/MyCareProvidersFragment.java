@@ -28,6 +28,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 
 import java.util.List;
@@ -97,6 +98,12 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
         getProviders();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.MCN_PROVIDERS_SCREEN, null);
     }
 
     @Override

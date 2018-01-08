@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 import es.voghdev.pdfviewpager.library.PDFViewPagerZoom;
 import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
@@ -30,6 +32,12 @@ public class PdfRendererZoomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_pdf_zoom, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.MCN_PDF_REPORT_SCREEN, null);
     }
 
     @Override
