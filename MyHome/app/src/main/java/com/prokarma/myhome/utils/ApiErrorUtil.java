@@ -47,8 +47,7 @@ public class ApiErrorUtil {
             });
         }
 
-        if (!BuildConfig.FLAVOR.equals("release") && (!AppPreferences.getInstance().getBooleanPreference(Constants.API_HIDE_API_ERROR_INFO) || BuildConfig.FLAVOR.equals("developer"))) {
-
+        if (!BuildConfig.BUILD_TYPE.contains("release") && (!AppPreferences.getInstance().getBooleanPreference(Constants.API_HIDE_API_ERROR_INFO) || BuildConfig.BUILD_TYPE.contains("developer"))) {
             // To avoid this error: android.util.AndroidRuntimeException: Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag.
             // adding FLAG_ACTIVITY_NEW_TASK
             snackbar.setAction("Details", new View.OnClickListener() {
