@@ -1,7 +1,6 @@
 package com.televisit.providers;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -102,12 +101,6 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        TealiumUtil.trackView(Constants.MCN_PROVIDERS_SCREEN, null);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -139,6 +132,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     public void onResume() {
         super.onResume();
         refreshPeriodically();
+        TealiumUtil.trackView(Constants.MCN_PROVIDERS_SCREEN, null);
     }
 
     @Override
