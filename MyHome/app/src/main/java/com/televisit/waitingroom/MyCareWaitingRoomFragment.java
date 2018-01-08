@@ -39,6 +39,7 @@ import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.views.CircularImageView;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
@@ -119,6 +120,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_completed));
 
             //Put in handler to avoid IllegalStateException: https://stackoverflow.com/a/41953519/2128921
+            TealiumUtil.trackEvent(Constants.VIDEO_VISIT_END_EVENT, null);
             goToVisitSummary();
         }
     }
@@ -175,6 +177,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
         Timber.d("Starting visit....");
         AwsNetworkManager.getInstance().startVideoVisit(AwsManager.getInstance().getVisit(), location, visitFinishedIntent, this);
+        TealiumUtil.trackEvent(Constants.VIDEO_VISIT_START_EVENT, null);
 
         progressBar.setVisibility(View.GONE);
     }
@@ -240,6 +243,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                             Timber.e("Throwable = " + throwable);
                         }
                     });
+
+            TealiumUtil.trackEvent(Constants.VIDEO_VISIT_CANCELED_EVENT, null);
         }
 
         abandonVisit();

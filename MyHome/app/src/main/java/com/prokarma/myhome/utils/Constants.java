@@ -122,6 +122,9 @@ public class Constants {
     public static final String TOUCH_ID_DISABLED_EVENT = "touchIdDisabled";
     public static final String CHANGED_PASSWORD_EVENT = "changePasswordSuccess";
     public static final String CHANGED_SECURITY_QUESTION_EVENT = "changeSecurityQuestionSuccess";
+    public static final String VIDEO_VISIT_START_EVENT = "myCareNowStart";
+    public static final String VIDEO_VISIT_END_EVENT = "myCareNowComplete";
+    public static final String VIDEO_VISIT_CANCELED_EVENT = "myCareNowCanceled";
 
     public static final String DID_YOU_KNOW_SEC1 = "https://www.dignityhealth.org/Articles/Understanding-Seasonal-Affective-Disorder-How-to-Brighten-Cold-Dark-Days";
     public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/Articles/7-Stress-Relief-Tips-for-the-New-Year";
