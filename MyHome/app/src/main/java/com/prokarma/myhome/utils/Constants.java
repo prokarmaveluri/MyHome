@@ -101,6 +101,7 @@ public class Constants {
     public static final String PROVIDER_DETAILS_SCREEN = "my home|doctor details";
     public static final String HOME_DID_YOU_KNOW_SCREEN = "my home|home, did you know";
     public static final String RESEND_EMAIL = "my home|resendEmail";
+    public static final String MY_CARE_NOW = "my home|my care now";
 
     // events
     public static final String SIGN_IN_EVENT = "loginSuccess";

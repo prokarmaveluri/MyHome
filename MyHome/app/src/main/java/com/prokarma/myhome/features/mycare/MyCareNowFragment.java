@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Allergy;
@@ -30,6 +31,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.EnviHandler;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsConsumer;
@@ -39,8 +41,10 @@ import com.televisit.interfaces.AwsGetMedications;
 import com.televisit.interfaces.AwsGetPharmacy;
 import com.televisit.interfaces.AwsInitialization;
 import com.televisit.interfaces.AwsUserAuthentication;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import timber.log.Timber;
 
 /**
@@ -187,6 +191,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
         refreshDashboard(false);
+        TealiumUtil.trackView(Constants.MY_CARE_NOW, null);
     }
 
     @Override
