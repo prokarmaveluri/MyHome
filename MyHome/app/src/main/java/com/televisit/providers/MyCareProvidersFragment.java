@@ -51,7 +51,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     private RecyclerView providerList;
     private Button nextAvailableProvider;
     private TextView chooseText;
-    private final int REFRESH_INTERVAL_SECONDS = 3; //5 * 60;
+    private final int REFRESH_INTERVAL_SECONDS = 5 * 60;
     private Handler refreshHandler;
 
     public MyCareProvidersFragment() {
