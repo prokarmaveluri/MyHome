@@ -100,7 +100,21 @@ public class Constants {
     public static final String TOUCH_ID_SETTINGS_SCREEN = "my home|touch id settings";
     public static final String PROVIDER_DETAILS_SCREEN = "my home|doctor details";
     public static final String HOME_DID_YOU_KNOW_SCREEN = "my home|home, did you know";
-    public static final String RESEND_EMAIL = "my home|resendEmail";
+    public static final String RESEND_EMAIL_SCREEN = "my home|resendEmail";
+    public static final String MY_CARE_NOW_SCREEN = "my home|my care now";
+    public static final String MCN_PROFILE_SCREEN = "my home|my personal information";
+    public static final String MCN_PROFILE_DEPENDENT_SCREEN = "my home|my dependent personal information";
+    public static final String MCN_MEDICATIONS_SCREEN = "my home|my medications";
+    public static final String MCN_FEEDBACK_SCREEN = "my home|visit feedback";
+    public static final String MCN_PROVIDERS_SCREEN = "my home|available providers";
+    public static final String MCN_MEDICAL_HISTORY_SCREEN = "my home|my medical history";
+    public static final String MCN_ALLERGIES_SCREEN = "my home|my allergies"; //Android is just using the broad "Medical History" currently
+    public static final String MCN_PHARMACY_SCREEN = "my home|my pharmacy";
+    public static final String MCN_PHARMACY_DETAILS_SCREEN = "my home|my pharmacy details";
+    public static final String MCN_INTAKE_SCREEN = "my home|intake";
+    public static final String MCN_SUMMARY_SCREEN = "my home|my visit summary";
+    public static final String MCN_PDF_REPORT_SCREEN = "my home|my visit report";
+    public static final String MCN_PRIVACY_POLICY_SCREEN = "my home|privacy policy";
 
     // events
     public static final String SIGN_IN_EVENT = "loginSuccess";
@@ -121,6 +135,9 @@ public class Constants {
     public static final String TOUCH_ID_DISABLED_EVENT = "touchIdDisabled";
     public static final String CHANGED_PASSWORD_EVENT = "changePasswordSuccess";
     public static final String CHANGED_SECURITY_QUESTION_EVENT = "changeSecurityQuestionSuccess";
+    public static final String VIDEO_VISIT_START_EVENT = "myCareNowStart";
+    public static final String VIDEO_VISIT_END_EVENT = "myCareNowComplete";
+    public static final String VIDEO_VISIT_CANCELED_EVENT = "myCareNowCanceled";
 
     public static final String DID_YOU_KNOW_SEC1 = "https://www.dignityhealth.org/Articles/Understanding-Seasonal-Affective-Disorder-How-to-Brighten-Cold-Dark-Days";
     public static final String DID_YOU_KNOW_SEC2 = "https://www.dignityhealth.org/Articles/7-Stress-Relief-Tips-for-the-New-Year";

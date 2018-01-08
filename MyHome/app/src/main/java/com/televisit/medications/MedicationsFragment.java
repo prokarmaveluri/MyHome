@@ -37,6 +37,7 @@ import com.prokarma.myhome.features.fad.suggestions.SuggestionsAdapter;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 
 import java.util.ArrayList;
@@ -132,6 +133,12 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.medications_menu, menu);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.MCN_MEDICATIONS_SCREEN, null);
     }
 
     @Override

@@ -28,6 +28,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.EnviHandler;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateConsumer;
@@ -125,6 +126,12 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
         setHasOptionsMenu(true);
         return profileView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.MCN_PROFILE_SCREEN, null);
     }
 
     @Override

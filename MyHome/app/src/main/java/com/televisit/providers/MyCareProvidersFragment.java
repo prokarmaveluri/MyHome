@@ -1,6 +1,7 @@
 package com.televisit.providers;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 
 import java.util.List;
@@ -100,6 +102,12 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.MCN_PROVIDERS_SCREEN, null);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -108,9 +116,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     + getContext().getString(R.string.my_care_providers_desc));
             chooseText.setContentDescription(chooseText.getText());
         }
-
-        refreshPeriodically();
     }
+
 
     private void refreshPeriodically() {
 
@@ -121,15 +128,23 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     public void run() {
                         if (refreshHandler != null) {
 
-                            if (isAdded()) {
-                                getProviders();
-                            } else {
-                                Timber.d("Refresh. fragment not attached yet.");
-                            }
+                            getProviders();
                             refreshHandler.postDelayed(this, REFRESH_INTERVAL_SECONDS * 1000);
                         }
                     }
                 }, REFRESH_INTERVAL_SECONDS * 1000);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshPeriodically();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        refreshHandler = null;
     }
 
     @Override
@@ -148,6 +163,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
             //after that error, SDK throws following: IllegalArgumentException: sdk initialization is missing
 
             if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
+                return;
+            }
+
+            if (!isAdded()) {
+                Timber.d("Refresh. fragment not attached yet.");
                 return;
             }
 

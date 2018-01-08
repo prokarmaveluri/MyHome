@@ -25,6 +25,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
+import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateDependent;
@@ -118,6 +119,12 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
         editText.setFocusable(false);
         editText.setCursorVisible(false);
         editText.setKeyListener(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TealiumUtil.trackView(Constants.MCN_PROFILE_DEPENDENT_SCREEN, null);
     }
 
     @Override

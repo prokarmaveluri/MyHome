@@ -209,8 +209,24 @@ public class SQFragment extends Fragment {
                     binding.answerLayout.setError(getString(R.string.sq_criteria_password));
                     return false;
                 }
-                if (ProfileManager.getProfile() != null &&
-                        ProfileManager.getProfile().email.contains(binding.answer.getText().toString().trim())) {
+                if (ProfileManager.getProfile() != null
+                        && ProfileManager.getProfile().email != null
+                        && !ProfileManager.getProfile().email.isEmpty()
+                        && binding.answer.getText().toString().toLowerCase().contains(ProfileManager.getProfile().email.toLowerCase())) {
+                    binding.answerLayout.setError(getString(R.string.sq_criteria_username));
+                    return false;
+                }
+                if (ProfileManager.getProfile() != null
+                        && ProfileManager.getProfile().firstName != null
+                        && !ProfileManager.getProfile().firstName.isEmpty()
+                        && binding.answer.getText().toString().toLowerCase().contains(ProfileManager.getProfile().firstName.toLowerCase())) {
+                    binding.answerLayout.setError(getString(R.string.sq_criteria_username));
+                    return false;
+                }
+                if (ProfileManager.getProfile() != null
+                        && ProfileManager.getProfile().lastName != null
+                        && !ProfileManager.getProfile().lastName.isEmpty()
+                        && binding.answer.getText().toString().toLowerCase().contains(ProfileManager.getProfile().lastName.toLowerCase())) {
                     binding.answerLayout.setError(getString(R.string.sq_criteria_username));
                     return false;
                 }

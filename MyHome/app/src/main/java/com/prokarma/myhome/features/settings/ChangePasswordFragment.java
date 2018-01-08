@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.databinding.FragmentChangePassowrdBinding;
@@ -21,6 +22,7 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -132,7 +134,21 @@ public class ChangePasswordFragment extends BaseFragment {
         if (ProfileManager.getProfile() != null
                 && ProfileManager.getProfile().email != null
                 && !ProfileManager.getProfile().email.isEmpty()
-                && binding.newPassword.getText().toString().equalsIgnoreCase(ProfileManager.getProfile().email)) {
+                && binding.newPassword.getText().toString().toLowerCase().contains(ProfileManager.getProfile().email.toLowerCase())) {
+            binding.newPasswordLayout.setError(getString(R.string.invalid_password_criteria));
+            return null;
+        }
+        if (ProfileManager.getProfile() != null
+                && ProfileManager.getProfile().firstName != null
+                && !ProfileManager.getProfile().firstName.isEmpty()
+                && binding.newPassword.getText().toString().toLowerCase().contains(ProfileManager.getProfile().firstName.toLowerCase())) {
+            binding.newPasswordLayout.setError(getString(R.string.invalid_password_criteria));
+            return null;
+        }
+        if (ProfileManager.getProfile() != null
+                && ProfileManager.getProfile().lastName != null
+                && !ProfileManager.getProfile().lastName.isEmpty()
+                && binding.newPassword.getText().toString().toLowerCase().contains(ProfileManager.getProfile().lastName.toLowerCase())) {
             binding.newPasswordLayout.setError(getString(R.string.invalid_password_criteria));
             return null;
         }

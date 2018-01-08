@@ -679,6 +679,10 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
                                 ProviderDetailsOffice office = (ProviderDetailsOffice) model;
                                 CommonUtil.getDirections(getActivity(), office.getAddresses().get(0).getAddress(), office.getAddresses().get(0).getCity(), office.getAddresses().get(0).getState());
                             }
+                            else if (model instanceof ProviderDetailsAddress) {
+                                ProviderDetailsAddress address = (ProviderDetailsAddress) model;
+                                CommonUtil.getDirections(getActivity(), address.getAddress(), address.getCity(), address.getState());
+                            }
                         }
                     }).setNeutralButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
