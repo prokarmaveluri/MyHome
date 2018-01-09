@@ -326,7 +326,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
         if (AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() != null
                 && AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() > 0) {
-            waitingCount.setText(AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() + " patients ahead");
+            waitingCount.setText("There are " + AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() + " patients ahead of you.");
 
         } else if (AwsManager.getInstance().getVisit().getAssignedProvider().getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
             waitingCount.setText(getString(R.string.you_are_next_patient));
@@ -336,7 +336,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         }
         waitingCount.setContentDescription(waitingCount.getText());
         waitingCount.invalidate();
-        waitingCount.setVisibility(View.GONE); //this requirement approval is pending, as to weather waiting queue info needs to be shown or not.
+        waitingCount.setVisibility(View.VISIBLE);
     }
 
     @Override
