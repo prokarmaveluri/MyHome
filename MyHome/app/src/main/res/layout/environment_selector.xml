@@ -61,7 +61,8 @@
                     style="@style/tradeGothicLTStd_Dynamic18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/slot1" />
+                    android:text="@string/slot1"
+                    android:checked="true" />
 
                 <RadioButton
                     android:id="@+id/radio_stage"
@@ -101,6 +102,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dev" />
+
+                <RadioButton
+                    android:id="@+id/radio_amwell_stage"
+                    style="@style/tradeGothicLTStd_Dynamic18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stage"
+                    android:checked="true" />
 
                 <RadioButton
                     android:id="@+id/radio_amwell_iot"
@@ -148,7 +157,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:singleLine="true"
-                    android:text="jj@prokarma.com" />
+                    android:text="jjonnalagadda@prokarma.com" />
 
             </android.support.design.widget.TextInputLayout>
 

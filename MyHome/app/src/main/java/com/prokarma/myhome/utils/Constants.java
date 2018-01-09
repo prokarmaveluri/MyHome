@@ -5,6 +5,13 @@ package com.prokarma.myhome.utils;
  */
 
 public class Constants {
+
+    public static String ENV_AMWELL = "ENV_AMWELL";
+    public static String ENV_MYHOME = "ENV_MYHOME";
+    public static String ENV_MUTUAL_AUTH = "ENV_MUTUAL_AUTH";
+    public static String ENV_AMWELL_USERNAME = "ENV_AMWELL_USERNAME";
+    public static String ENV_AMWELL_PASSWORD = "ENV_AMWELL_PASSWORD";
+
     public enum ActivityTag {
         NONE,
         HOME,
