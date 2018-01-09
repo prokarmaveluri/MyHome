@@ -140,7 +140,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.next:
-
+                noResults.setVisibility(View.GONE);
                 if (selectedGroup == HistoryListAdapter.GROUP.CONDITIONS) {
                     //if user is viewing conditions, then display Allergies
                     showAllergies();
