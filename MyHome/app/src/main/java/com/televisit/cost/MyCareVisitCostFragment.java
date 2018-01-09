@@ -445,7 +445,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
                         if (sdkError == null) {
                             AwsManager.getInstance().setVisit(visit);
 
+                            //29194 and 29111: Android: Remove the 'Free" coupon code before going to the Production Environment
                             applyCoupon("Free");
+
                             updateVisitCost();
 
                             intakeLayout.setVisibility(View.VISIBLE);
