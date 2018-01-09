@@ -61,8 +61,7 @@
                     style="@style/tradeGothicLTStd_Dynamic18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/slot1"
-                    android:checked="true" />
+                    android:text="@string/slot1" />
 
                 <RadioButton
                     android:id="@+id/radio_stage"
@@ -108,8 +107,7 @@
                     style="@style/tradeGothicLTStd_Dynamic18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/stage"
-                    android:checked="true" />
+                    android:text="@string/stage" />
 
                 <RadioButton
                     android:id="@+id/radio_amwell_iot"
