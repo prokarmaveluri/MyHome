@@ -80,6 +80,9 @@ android {
     def DEV_AWSDK_URL = "\"https://sdk.myonlinecare.com\""
     def DEV_AWSDK_KEY = "\"8ff96c2a\""
 
+    def STAGE_AWSDK_URL = "\"https://staging.dignityhealth.care\""
+    def STAGE_AWSDK_KEY = "\"a8317179\""
+
     def IOT_AWSDK_URL = "\"https://iot21.amwellintegration.com\""
     def IOT_AWSDK_KEY = "\"1b1ddea8\""
 
@@ -95,8 +98,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 106003
-        versionName "1.6.3"
+        versionCode 106004
+        versionName "1.6.4"
         setProperty("archivesBaseName", "DignityHealth-MyHome-$versionName")
 
         manifestPlaceholders = [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID]
@@ -154,6 +157,9 @@ android {
 
         def D_AWSDK_URL = "D_AWSDK_URL"
         def D_AWSDK_KEY = "D_AWSDK_KEY"
+
+        def S_AWSDK_URL = "S_AWSDK_URL"
+        def S_AWSDK_KEY = "S_AWSDK_KEY"
 
         def I_AWSDK_URL = "I_AWSDK_URL"
         def I_AWSDK_KEY = "I_AWSDK_KEY"
@@ -240,6 +246,9 @@ android {
             //AWSDK
             buildConfigField STRING, D_AWSDK_URL, DEV_AWSDK_URL
             buildConfigField STRING, D_AWSDK_KEY, DEV_AWSDK_KEY
+
+            buildConfigField STRING, S_AWSDK_URL, STAGE_AWSDK_URL
+            buildConfigField STRING, S_AWSDK_KEY, STAGE_AWSDK_KEY
 
             buildConfigField STRING, I_AWSDK_URL, IOT_AWSDK_URL
             buildConfigField STRING, I_AWSDK_KEY, IOT_AWSDK_KEY
@@ -330,6 +339,9 @@ android {
             buildConfigField STRING, D_AWSDK_URL, DEV_AWSDK_URL
             buildConfigField STRING, D_AWSDK_KEY, DEV_AWSDK_KEY
 
+            buildConfigField STRING, S_AWSDK_URL, STAGE_AWSDK_URL
+            buildConfigField STRING, S_AWSDK_KEY, STAGE_AWSDK_KEY
+
             buildConfigField STRING, I_AWSDK_URL, IOT_AWSDK_URL
             buildConfigField STRING, I_AWSDK_KEY, IOT_AWSDK_KEY
 
@@ -419,6 +431,9 @@ android {
             //AWSDK
             buildConfigField STRING, D_AWSDK_URL, DEV_AWSDK_URL
             buildConfigField STRING, D_AWSDK_KEY, DEV_AWSDK_KEY
+
+            buildConfigField STRING, S_AWSDK_URL, STAGE_AWSDK_URL
+            buildConfigField STRING, S_AWSDK_KEY, STAGE_AWSDK_KEY
 
             buildConfigField STRING, I_AWSDK_URL, IOT_AWSDK_URL
             buildConfigField STRING, I_AWSDK_KEY, IOT_AWSDK_KEY

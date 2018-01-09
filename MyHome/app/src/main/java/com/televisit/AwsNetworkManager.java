@@ -61,13 +61,37 @@ public class AwsNetworkManager {
         return instance;
     }
 
-
     public void initializeAwsdk(@NonNull final String baseServiceUrl, @NonNull final String clientKey, @Nullable final String launchUri) {
         initializeAwsdk(baseServiceUrl, clientKey, launchUri, null);
     }
 
-    public void initializeAwsdk(@NonNull final String baseServiceUrl, @NonNull final String clientKey, @Nullable final String launchUri, @Nullable final AwsInitialization awsInitialization) {
-        final Map<Integer, Object> initParams = new HashMap<>();
+    public void initializeAwsdk(@NonNull String baseServiceUrl, @NonNull String clientKey, @Nullable final String launchUri, @Nullable final AwsInitialization awsInitialization) {
+
+        //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
+        /*if (baseServiceUrl == null
+                && clientKey == null) {
+            Intent intentHome = new Intent(AuthManager.getInstance().getContext(), LoginActivity.class);
+            intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(AuthManager.getInstance().getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+            ActivityCompat.startActivity(AuthManager.getInstance().getContext(), intentHome, options.toBundle());
+        }*/
+        /*if (baseServiceUrl == null
+                && clientKey == null
+                && AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL) != null
+                && !AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL).isEmpty()) {
+
+            EnviHandler.initEnv(EnviHandler.EnvType.toEnvType(AppPreferences.getInstance().getPreference(Constants.ENV_MYHOME)));
+            EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.toAmWellEnvType(AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL)));
+
+            EnviHandler.setAttemptMutualAuth(AppPreferences.getInstance().getBooleanPreference(Constants.ENV_MUTUAL_AUTH));
+            EnviHandler.setAmwellUsername(AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL_USERNAME));
+            EnviHandler.setAmwellPassword(AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL_PASSWORD));
+
+            baseServiceUrl = EnviHandler.AWSDK_URL;
+            clientKey = EnviHandler.AWSDK_KEY;
+        }*/
+
+        Map<Integer, Object> initParams = new HashMap<>();
         initParams.put(AWSDK.InitParam.BaseServiceUrl, baseServiceUrl);
         initParams.put(AWSDK.InitParam.ApiKey, clientKey);
         initParams.put(AWSDK.InitParam.LaunchIntentData, launchUri);

@@ -14,14 +14,33 @@ public class EnviHandler {
         STAGE,
         PROD,
         TEST,
-        NONE
+        NONE;
+
+        public static EnvType toEnvType(String enumString) {
+            try {
+                return valueOf(enumString);
+            } catch (Exception ex) {
+                // For error cases
+                return NONE;
+            }
+        }
     }
 
     public enum AmWellEnvType {
         DEV,
+        STAGE,
         IOT,
         PROD,
-        NONE
+        NONE;
+
+        public static AmWellEnvType toAmWellEnvType(String enumString) {
+            try {
+                return valueOf(enumString);
+            } catch (Exception ex) {
+                // For error cases
+                return NONE;
+            }
+        }
     }
 
     public static String VERSIONING_URL;
@@ -69,6 +88,9 @@ public class EnviHandler {
         switch (type) {
             case DEV:
                 initAmWellDev();
+                break;
+            case STAGE:
+                initAmWellStage();
                 break;
             case IOT:
                 initAmWellIot();
@@ -165,6 +187,11 @@ public class EnviHandler {
     private static void initAmWellDev() {
         AWSDK_KEY = BuildConfig.D_AWSDK_KEY;
         AWSDK_URL = BuildConfig.D_AWSDK_URL;
+    }
+
+    private static void initAmWellStage() {
+        AWSDK_KEY = BuildConfig.S_AWSDK_KEY;
+        AWSDK_URL = BuildConfig.S_AWSDK_URL;
     }
 
     private static void initAmWellIot() {
