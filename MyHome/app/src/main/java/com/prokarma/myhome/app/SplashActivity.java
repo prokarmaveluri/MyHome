@@ -763,12 +763,16 @@ public class SplashActivity extends AppCompatActivity implements
 
     @Override
     public void envAmWellSelected(EnviHandler.AmWellEnvType amWellType) {
-        Timber.i(amWellType + " selected");
+        Timber.i("Environment: Amwell " + amWellType + " selected");
 
         switch (amWellType) {
             case DEV:
                 currentAmwellEnv = EnviHandler.AmWellEnvType.DEV;
                 EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.DEV);
+                break;
+            case STAGE:
+                currentAmwellEnv = EnviHandler.AmWellEnvType.STAGE;
+                EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.STAGE);
                 break;
             case IOT:
                 currentAmwellEnv = EnviHandler.AmWellEnvType.IOT;
@@ -779,11 +783,12 @@ public class SplashActivity extends AppCompatActivity implements
                 EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.PROD);
                 break;
         }
+        AppPreferences.getInstance().setPreference(Constants.ENV_AMWELL, currentAmwellEnv.toString());
     }
 
     @Override
     public void envMyHomeSelected(EnviHandler.EnvType envType) {
-        Timber.i(envType + " selected");
+        Timber.i("Environment: " + envType + " selected");
 
         switch (envType) {
             case DEV:
@@ -803,6 +808,7 @@ public class SplashActivity extends AppCompatActivity implements
                 EnviHandler.initEnv(EnviHandler.EnvType.PROD);
                 break;
         }
+        AppPreferences.getInstance().setPreference(Constants.ENV_MYHOME, currentEnv.toString());
 
         progress.setVisibility(View.VISIBLE);
         initApiClient();
@@ -815,12 +821,17 @@ public class SplashActivity extends AppCompatActivity implements
 
     @Override
     public void attemptMutualAuth(boolean attemptMutualAuth) {
+        Timber.i("Environment: attemptMutualAuth = " + attemptMutualAuth);
         EnviHandler.setAttemptMutualAuth(attemptMutualAuth);
+        AppPreferences.getInstance().setBooleanPreference(Constants.ENV_MUTUAL_AUTH, attemptMutualAuth);
     }
 
     @Override
     public void hardcodedUser(String user, String password) {
+        Timber.i("Environment: hardcodedUser. username = " + user);
         EnviHandler.setAmwellUsername(user);
         EnviHandler.setAmwellPassword(password);
+        AppPreferences.getInstance().setPreference(Constants.ENV_AMWELL_USERNAME, user);
+        AppPreferences.getInstance().setPreference(Constants.ENV_AMWELL_PASSWORD, password);
     }
 }

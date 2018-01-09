@@ -137,6 +137,9 @@ public class EnvironmentSelectorFragment extends DialogFragment {
                 case R.id.radio_amwell_dev:
                     environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.DEV);
                     break;
+                case R.id.radio_amwell_stage:
+                    environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.STAGE);
+                    break;
                 case R.id.radio_amwell_iot:
                     environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.IOT);
                     break;
