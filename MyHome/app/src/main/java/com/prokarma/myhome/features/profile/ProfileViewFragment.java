@@ -113,16 +113,6 @@ public class ProfileViewFragment extends BaseFragment {
 
         errorText.setText(getContext().getString(R.string.profile_unavailable));
 
-        if (ProfileManager.getProfile() == null) {
-            viewProfile.setVisibility(View.INVISIBLE);
-            Timber.i("Don't have a saved Profile. Retrieving profile now...");
-            getProfileInfo(AuthManager.getInstance().getBearerToken());
-        } else {
-            viewProfile.setVisibility(View.VISIBLE);
-            Timber.i("Already have a Profile Singleton. Updating the view...");
-            updateProfileViews(ProfileManager.getProfile());
-        }
-
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,12 +159,26 @@ public class ProfileViewFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        loadProfileInfo();
         TealiumUtil.trackView(Constants.PROFILE_SCREEN, null);
     }
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.PROFILE_VIEW;
+    }
+
+    private void loadProfileInfo() {
+
+        if (ProfileManager.getProfile() == null) {
+            viewProfile.setVisibility(View.INVISIBLE);
+            Timber.i("Don't have a saved Profile. Retrieving profile now...");
+            getProfileInfo(AuthManager.getInstance().getBearerToken());
+        } else {
+            viewProfile.setVisibility(View.VISIBLE);
+            Timber.i("Already have a Profile Singleton. Updating the view...");
+            updateProfileViews(ProfileManager.getProfile());
+        }
     }
 
     private void getProfileInfo(String bearer) {

@@ -138,7 +138,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
 
         if (ProfileManager.getProfile() == null) {
             Timber.i("Don't have a saved Profile. Retrieving profile now...");
-            getProfileInfo(AuthManager.getInstance().getBearerToken());
+            getProfileInfo(false);
         } else {
             Timber.i("Already have a Profile Singleton. Updating the view...");
             updateProfileViews(ProfileManager.getProfile());
@@ -174,28 +174,48 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
         return super.onOptionsItemSelected(item);
     }
 
-    private void getProfileInfo(String bearer) {
-        progress.setVisibility(View.VISIBLE);
-        NetworkManager.getInstance().getProfile(bearer).enqueue(new Callback<ProfileGraphqlResponse>() {
+    private void getProfileInfo(final boolean fromSave) {
+
+        if (isAdded()) {
+            progress.setVisibility(View.VISIBLE);
+        }
+
+        NetworkManager.getInstance().getProfile(AuthManager.getInstance().getBearerToken()).enqueue(new Callback<ProfileGraphqlResponse>() {
             @Override
             public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
-                if (isAdded()) {
-                    if (response.isSuccessful()) {
-                        Timber.d("Successful Response\n" + response);
-                        ProfileManager.setProfile(response.body().getData().getUser());
+
+                if (response.isSuccessful()) {
+                    Timber.d("ProfileEdit. Successful Response\n" + response);
+
+                    ProfileManager.setProfile(response.body().getData().getUser());
+
+                    if (isAdded()) {
                         updateProfileViews(response.body().getData().getUser());
-                    } else {
-                        Timber.e("ProfileEdit. getProfile. Response, but not successful?\n" + response);
                     }
+                } else {
+                    Timber.e("ProfileEdit. getProfile. Response, but not successful?\n" + response);
+                }
+
+                if (isAdded()) {
                     progress.setVisibility(View.GONE);
+                }
+
+                if (fromSave && isAdded()) {
+                    CommonUtil.showToast(getActivity(), getString(R.string.profile_saved));
+                }
+                if (fromSave && getActivity() != null) {
+                    getActivity().onBackPressed();
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
+                Timber.e("ProfileEdit. getProfile. Something failed! :/");
                 if (isAdded()) {
-                    Timber.e("ProfileEdit. getProfile. Something failed! :/");
                     progress.setVisibility(View.GONE);
+                }
+                if (fromSave && getActivity() != null) {
+                    getActivity().onBackPressed();
                 }
             }
         });
@@ -271,8 +291,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
                         state.setSelection(i);
                         break;
                     }
-                }
-                else {
+                } else {
                     if (profile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
                         state.setSelection(i);
                         break;
@@ -404,8 +423,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
         if (state.getSelectedItemPosition() != 0) {
             if (CommonUtil.isAccessibilityEnabled(this.getContext())) {
                 profile.address.stateOrProvince = AddressUtil.getStateNameShorter(state.getSelectedItem().toString().trim());
-            }
-            else {
+            } else {
                 profile.address.stateOrProvince = state.getSelectedItem().toString().trim();
             }
         }
@@ -441,12 +459,10 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
 
     @Override
     public void profileUpdateComplete(Profile profile) {
-        if (isAdded()) {
-            progress.setVisibility(View.GONE);
-            TealiumUtil.trackEvent(Constants.PROFILE_UPDATE_EVENT, null);
-            CommonUtil.showToast(getActivity(), getString(R.string.profile_saved));
-            getActivity().onBackPressed();
-        }
+        TealiumUtil.trackEvent(Constants.PROFILE_UPDATE_EVENT, null);
+
+        //refetch the saved data
+        getProfileInfo(true);
     }
 
     @Override

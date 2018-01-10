@@ -8,6 +8,7 @@ import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,8 +181,9 @@ public class ProfileManager {
         });
     }
 
-    public static void updateProfileFromMcnData(final String bearer, final Consumer consumer) {
-        final Profile profile = Profile.copy(getProfile());
+    public static Profile getProfileFromConsumerObject(final Consumer consumer) {
+
+        Profile profile = Profile.copy(getProfile());
         profile.firstName = consumer.getFirstName();
         profile.lastName = consumer.getLastName();
         profile.phoneNumber = consumer.getPhone();
@@ -197,20 +199,37 @@ public class ProfileManager {
         profile.address.stateOrProvince = consumer.getAddress().getState().getCode();
         profile.address.zipCode = consumer.getAddress().getZipCode();
 
+        profile.dateOfBirth = DateUtil.convertReadableToUTC(DateUtil.convertDobtoReadable(consumer.getDob()));
+
+        profile.preferredName = getProfile().preferredName;
+
+        profile.insuranceProvider = getProfile().insuranceProvider;
+        if (getProfile().insuranceProvider != null) {
+            profile.insuranceProvider.insurancePlan = getProfile().insuranceProvider.insurancePlan;
+            profile.insuranceProvider.memberNumber = getProfile().insuranceProvider.memberNumber;
+            profile.insuranceProvider.groupNumber = getProfile().insuranceProvider.groupNumber;
+        }
+
+        return profile;
+    }
+
+    public static void updateProfileFromMcnData(final String bearer, final Consumer consumer) {
+        final Profile profile = getProfileFromConsumerObject(consumer);
+
         NetworkManager.getInstance().updateProfile(bearer, profile).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Timber.d("Successful Response\n" + response);
+                    Timber.d("updateProfileFromMcnData. Successful Response\n" + response);
                     ProfileManager.setProfile(profile);
                 } else {
-                    Timber.e("Response, but not successful?\n" + response);
+                    Timber.e("updateProfileFromMcnData. Response, but not successful?\n" + response);
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Timber.e("Something failed!\n" + t);
+                Timber.e("updateProfileFromMcnData. Something failed!\n" + t);
             }
         });
     }
