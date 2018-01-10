@@ -121,7 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/password_criteria"
-                        app:errorEnablea="true"
+                        app:errorEnabled="true"
                         app:errorTextAppearance="@style/error_appearance"
                         app:hintTextAppearance="@style/hint_appearance" >
 
