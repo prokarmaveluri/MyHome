@@ -183,9 +183,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
                             progressBar.setVisibility(View.GONE);
 
-                            if (sdkError != null && sdkError.toString() != null && sdkError.toString().toLowerCase().contains("consumer_already_in_visit")) {
-
-                            } else if (sdkError != null && sdkError.toString() != null && sdkError.toString().toLowerCase().contains("provider unavailable")) {
+                            if (sdkError != null && sdkError.toString() != null
+                                    && (sdkError.toString().toLowerCase().contains("provider unavailable")
+                                    || sdkError.toString().toLowerCase().contains("consumer_already_in_visit"))) {
 
                                 CommonUtil.showToast(getContext(), getString(R.string.provider_unavailable));
 
@@ -444,7 +444,12 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     private void updateWaitingQueue(int i) {
 
         if (i > 0) {
-            waitingCount.setText("There are " + i + " patients ahead of you.");
+
+            if (i == 1) {
+                waitingCount.setText("There is " + i + " patient ahead of you.");
+            } else {
+                waitingCount.setText("There are " + i + " patients ahead of you.");
+            }
 
             waitingCount.setContentDescription(waitingCount.getText());
             waitingCount.invalidate();
@@ -542,7 +547,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         if (visitTransfer.getProvider() != null) {
 
             if (visitTransfer.getProvider().getWaitingRoomCount() != null && visitTransfer.getProvider().getWaitingRoomCount() > 0) {
-                waitingCount.setText(visitTransfer.getProvider().getWaitingRoomCount() + " patients ahead");
+                waitingCount.setText(CommonUtil.getWaitingQueueText(visitTransfer.getProvider().getWaitingRoomCount()));
 
             } else if (visitTransfer.getProvider().getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
                 waitingCount.setText(getString(R.string.you_are_next_patient));

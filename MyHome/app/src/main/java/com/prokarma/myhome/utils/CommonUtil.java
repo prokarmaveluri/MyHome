@@ -1220,4 +1220,14 @@ public class CommonUtil {
 
         return permissionText;
     }
+
+    public static String getWaitingQueueText(int count) {
+        if (count == 1) {
+            return count + " patient ahead";
+        }
+        else if (count > 1) {
+            return count + " patients ahead";
+        }
+        return count + " patients ahead";
+    }
 }

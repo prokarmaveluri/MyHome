@@ -603,7 +603,8 @@
     <string name="visit_report_not_available">Visit report not available!</string>
     <string name="pulling_up_visit_summary_failed_message">Sorry, Pulling up visit summary has failed. Please try again at later time</string>
     <string name="your_cost_is_not_free">Your cost isn\'t free\nYou might want to apply a coupon...</string>
-    <string name="provider_unavailable">Provider unavailable \nPlease select a different provider.</string>
+    <string name="provider_unavailable">Provider unavailable. \nPlease select a different provider.</string>
+    <string name="provider_busy">Provider currently busy. \nPlease select a different provider.</string>
     <string name="unable_to_add_message">Sorry we are unable to add at this time.</string>
     <string name="no_pharmacies_found_for">No Pharmacies found. \n\nWe could\'nt find any relevant results for</string>
     <string name="no_pharmacies_found_for_current_location">No Pharmacies found. \n\nWe could\'nt find any relevant results near to your current location.</string>
