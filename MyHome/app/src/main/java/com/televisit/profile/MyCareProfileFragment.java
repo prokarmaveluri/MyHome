@@ -173,6 +173,12 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        CommonUtil.hideSoftKeyboard(this.getActivity());
+    }
+
     private void sendUpdatedConsumer() {
         progress.setVisibility(View.VISIBLE);
 

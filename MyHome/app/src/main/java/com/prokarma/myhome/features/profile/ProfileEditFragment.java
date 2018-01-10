@@ -174,6 +174,12 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        CommonUtil.hideSoftKeyboard(this.getActivity());
+    }
+
     private void getProfileInfo(final boolean fromSave) {
 
         if (isAdded()) {

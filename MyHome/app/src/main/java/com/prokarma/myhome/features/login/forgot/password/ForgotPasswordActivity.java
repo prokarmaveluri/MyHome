@@ -64,6 +64,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        CommonUtil.hideSoftKeyboard(this);
+    }
+
     /*
      * action handler for forgot password.
      */

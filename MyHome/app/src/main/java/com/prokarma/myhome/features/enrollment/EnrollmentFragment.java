@@ -91,6 +91,7 @@ public class EnrollmentFragment extends Fragment implements EnrollmentInteractor
     public void onDetach() {
         super.onDetach();
         binding = null;
+        CommonUtil.hideSoftKeyboard(this.getActivity());
     }
 
     @Override

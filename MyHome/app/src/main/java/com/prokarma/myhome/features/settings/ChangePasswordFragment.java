@@ -64,6 +64,12 @@ public class ChangePasswordFragment extends BaseFragment {
         TealiumUtil.trackView(Constants.CHANGE_PASSWORD_SCREEN, null);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        CommonUtil.hideSoftKeyboard(this.getActivity());
+    }
+
     public void changePassword() {
         if (!ConnectionUtil.isConnected(getActivity())) {
             CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
