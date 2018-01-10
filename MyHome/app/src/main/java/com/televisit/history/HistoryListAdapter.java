@@ -193,6 +193,12 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                             donotHaveConditionsState = "false";
                         }
                     }
+                    else if (!isSearchResults && pos > 0) {
+                        CheckBox checkBox = (CheckBox) v;
+                        if (checkBox.isChecked()) {
+                            donotHaveConditionsState = "false";
+                        }
+                    }
 
                 } else if (groupSelected.getValue() == HistoryListAdapter.GROUP.ALLERGIES.getValue()) {
                     listener.selectedItem(groupSelected.getValue(), pos);
@@ -202,6 +208,12 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                         if (checkBox.isChecked()) {
                             donotHaveAllergiesState = "true";
                         } else {
+                            donotHaveAllergiesState = "false";
+                        }
+                    }
+                    else if (!isSearchResults && pos > 0) {
+                        CheckBox checkBox = (CheckBox) v;
+                        if (checkBox.isChecked()) {
                             donotHaveAllergiesState = "false";
                         }
                     }
