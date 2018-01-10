@@ -112,7 +112,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                 }
             }
             binding.visibility.setContentDescription(binding.visibility.getText());
-            binding.visibility.setContentDescription(binding.waitingCount.getText());
+            binding.waitingCount.setContentDescription(binding.waitingCount.getText());
             binding.executePendingBindings();
         }
     }
