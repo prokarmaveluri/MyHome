@@ -36,7 +36,7 @@ import timber.log.Timber;
  * Created by kwelsh on 4/26/17.
  */
 
-public class MyCareProfileDependentFragment extends BaseFragment implements AwsUpdateDependent {
+public class MyCareProfileEditDependentFragment extends BaseFragment implements AwsUpdateDependent {
     public static final String MY_PROFILE_TAG = "my_profile_tag";
 
     private View profileView;
@@ -52,8 +52,8 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
 
     private ProgressBar progress;
 
-    public static MyCareProfileDependentFragment newInstance() {
-        return new MyCareProfileDependentFragment();
+    public static MyCareProfileEditDependentFragment newInstance() {
+        return new MyCareProfileEditDependentFragment();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class MyCareProfileDependentFragment extends BaseFragment implements AwsU
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        profileView = inflater.inflate(R.layout.dependent_profile, container, false);
+        profileView = inflater.inflate(R.layout.profile_edit_dependent, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.my_personal_information));
 
         firstNameLayout = (TextInputLayout) profileView.findViewById(R.id.first_name_layout);

@@ -2,6 +2,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
 
     <!--Profile dimensions-->
+    <dimen name="profile_dependent_label_marginTop">29dp</dimen>
+    <dimen name="profile_dependent_value_marginTop">20dp</dimen>
     <dimen name="profile_label_marginTop">16dp</dimen>
     <dimen name="profile_value_marginTop">10dp</dimen>
     <dimen name="profile_label_marginBottom">50dp</dimen>
