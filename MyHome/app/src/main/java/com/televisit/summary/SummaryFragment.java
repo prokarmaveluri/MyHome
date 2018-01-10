@@ -84,7 +84,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
     private LinearLayout emailLayout;
     private RecyclerView emailsList;
-    private CheckBox emailAgree;
+    //private CheckBox emailAgree;
     private TextView addAdditionalEmail;
     private RelativeLayout newEmailLayout;
     private TextInputLayout newEmailTextInput;
@@ -131,7 +131,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
         emailLayout = (LinearLayout) view.findViewById(R.id.email_layout);
         emailsList = (RecyclerView) view.findViewById(R.id.email_list);
-        emailAgree = (CheckBox) view.findViewById(R.id.email_agree);
+        //emailAgree = (CheckBox) view.findViewById(R.id.email_agree);
         addAdditionalEmail = (TextView) view.findViewById(R.id.add_additional_email);
 
         newEmailLayout = (RelativeLayout) view.findViewById(R.id.new_email_layout);
@@ -285,7 +285,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         if (emailLayout.getVisibility() == View.VISIBLE) {
 
             emailConfidentialityText.announceForAccessibility(emailConfidentialityText.getContentDescription());
-            emailAgree.announceForAccessibility(emailAgree.getContentDescription());
+            //emailAgree.announceForAccessibility(emailAgree.getContentDescription());
 
             emailsList.setContentDescription("Email addresses to send visit report");
             emailsList.announceForAccessibility(emailsList.getContentDescription());
@@ -438,10 +438,11 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             return;
         }
 
-        if (!emailAgree.isChecked()) {
+        //not required anymore as per comments on 01/09/2018 in visit summary screen zeplin
+        /*if (!emailAgree.isChecked()) {
             CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_agreement_missing));
             return;
-        }
+        }*/
 
         if (AwsManager.getInstance().getAWSDK().getVisitManager() == null) {
             return;
