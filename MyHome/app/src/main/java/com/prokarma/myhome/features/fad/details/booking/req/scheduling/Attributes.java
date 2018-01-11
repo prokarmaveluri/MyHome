@@ -172,32 +172,37 @@ public class Attributes {
     }
 
     public Attributes(String doctorName, String providerNpi, ProviderDetailsAddress location, Profile profile, AppointmentTime appointment, AppointmentType appointmentType, boolean isBookingForMe) {
-        this.address = profile.address.line1;
-        this.address2 = profile.address.line2;
+        if (profile != null) {
+            this.address = profile.address.line1;
+            this.address2 = profile.address.line2;
+
+            this.caregiverName = profile.primaryCaregiverName;
+            this.city = profile.address.city;
+            this.email = profile.email;
+            this.firstName = profile.firstName;
+            this.gender = profile.gender;
+            this.insuranceGroupNumber = profile.insuranceProvider.groupNumber;
+            this.insuranceMemberNumber = profile.insuranceProvider.memberNumber;
+            this.insurancePlanName = profile.insuranceProvider.insurancePlan;
+            this.insurancePlanPermalink = profile.insuranceProvider.insurancePlanPermaLink;
+            this.insurancePlanPhoneNumber = profile.insuranceProvider.insurancePhoneNumber;
+            this.lastName = profile.lastName;
+            this.middleInitial = profile.middleInitial;
+            this.patientComplaint = profile.reasonForVisit;
+            this.phoneNumber = profile.phoneNumber;
+            this.pregnant = profile.isPregnant;
+            this.requiresStandingAssistance = profile.assistanceNeeded;
+            this.requiresTranslator = profile.translationNeeded;
+            this.state = profile.address.stateOrProvince;
+            this.translatorLanguage = profile.translatorLanguage;
+            this.weeksPregnant = profile.weeksPregnant;
+            this.zip = profile.address.zipCode;
+            this.birthdate = DateUtil.convertUTCtoHyphen(profile.dateOfBirth);
+        }
+
         this.appointmentAt = appointment.getTime();
         this.appointmentType = appointmentType.getId();
-        this.birthdate = DateUtil.convertUTCtoHyphen(profile.dateOfBirth);
-        this.caregiverName = profile.primaryCaregiverName;
-        this.city = profile.address.city;
-        this.email = profile.email;
-        this.firstName = profile.firstName;
-        this.gender = profile.gender;
-        this.insuranceGroupNumber = profile.insuranceProvider.groupNumber;
-        this.insuranceMemberNumber = profile.insuranceProvider.memberNumber;
-        this.insurancePlanName = profile.insuranceProvider.insurancePlan;
-        this.insurancePlanPermalink = profile.insuranceProvider.insurancePlanPermaLink;
-        this.insurancePlanPhoneNumber = profile.insuranceProvider.insurancePhoneNumber;
-        this.lastName = profile.lastName;
-        this.middleInitial = profile.middleInitial;
-        this.patientComplaint = profile.reasonForVisit;
-        this.phoneNumber = profile.phoneNumber;
-        this.pregnant = profile.isPregnant;
-        this.requiresStandingAssistance = profile.assistanceNeeded;
-        this.requiresTranslator = profile.translationNeeded;
-        this.state = profile.address.stateOrProvince;
-        this.translatorLanguage = profile.translatorLanguage;
-        this.weeksPregnant = profile.weeksPregnant;
-        this.zip = profile.address.zipCode;
+
         this.doctorName = doctorName;
         this.doctorNpi = providerNpi;
         this.facilityName = location.getName();
