@@ -165,7 +165,11 @@ public class PharmacyDetailsFragment extends BaseFragment implements OnMapReadyC
     @Override
     public void pharmacyUpdateComplete(Pharmacy pharmacy) {
         if (isAdded()) {
-            getActivity().onBackPressed();
+            //getActivity().onBackPressed();
+
+            //29258: To navigate back to MCN dashboard
+            getActivity().getSupportFragmentManager().popBackStack();  //Details fragment
+            getActivity().getSupportFragmentManager().popBackStack();  //List fragment
         }
     }
 

@@ -21,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.FileAttachment;
@@ -84,13 +85,14 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
     private LinearLayout emailLayout;
     private RecyclerView emailsList;
-    private CheckBox emailAgree;
+    //private CheckBox emailAgree;
     private TextView addAdditionalEmail;
     private RelativeLayout newEmailLayout;
     private TextInputLayout newEmailTextInput;
     private TextInputEditText newEmailEditText;
     private TextView addEmail;
     private TextView emailConfidentialityText;
+    private ScrollView scrollLayout;
 
     private List<EmailsAdapter.EmailSelection> emailObjects = null;
 
@@ -131,8 +133,9 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
         emailLayout = (LinearLayout) view.findViewById(R.id.email_layout);
         emailsList = (RecyclerView) view.findViewById(R.id.email_list);
-        emailAgree = (CheckBox) view.findViewById(R.id.email_agree);
+        //emailAgree = (CheckBox) view.findViewById(R.id.email_agree);
         addAdditionalEmail = (TextView) view.findViewById(R.id.add_additional_email);
+        scrollLayout = (ScrollView) view.findViewById(R.id.scroll_layout);
 
         newEmailLayout = (RelativeLayout) view.findViewById(R.id.new_email_layout);
         newEmailTextInput = (TextInputLayout) view.findViewById(R.id.new_email_textinput);
@@ -179,16 +182,21 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             @Override
             public void onClick(View v) {
 
-                if (newEmailLayout != null) {
-                    if (newEmailLayout.getVisibility() == View.VISIBLE) {
-                        newEmailLayout.setVisibility(View.GONE);
-                        newEmailTextInput.setVisibility(View.GONE);
-                        addEmail.setVisibility(View.GONE);
-                    } else {
-                        newEmailLayout.setVisibility(View.VISIBLE);
-                        newEmailTextInput.setVisibility(View.VISIBLE);
-                        addEmail.setVisibility(View.VISIBLE);
-                    }
+                if (newEmailLayout.getVisibility() == View.VISIBLE) {
+                    newEmailLayout.setVisibility(View.GONE);
+                    newEmailTextInput.setVisibility(View.GONE);
+                    addEmail.setVisibility(View.GONE);
+                } else {
+                    newEmailLayout.setVisibility(View.VISIBLE);
+                    newEmailTextInput.setVisibility(View.VISIBLE);
+                    addEmail.setVisibility(View.VISIBLE);
+
+                    scrollLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollLayout.scrollTo(0, scrollLayout.getBottom());
+                        }
+                    });
                 }
             }
         });
@@ -285,7 +293,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         if (emailLayout.getVisibility() == View.VISIBLE) {
 
             emailConfidentialityText.announceForAccessibility(emailConfidentialityText.getContentDescription());
-            emailAgree.announceForAccessibility(emailAgree.getContentDescription());
+            //emailAgree.announceForAccessibility(emailAgree.getContentDescription());
 
             emailsList.setContentDescription("Email addresses to send visit report");
             emailsList.announceForAccessibility(emailsList.getContentDescription());
@@ -438,10 +446,11 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             return;
         }
 
-        if (!emailAgree.isChecked()) {
+        //not required anymore as per comments on 01/09/2018 in visit summary screen zeplin
+        /*if (!emailAgree.isChecked()) {
             CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_agreement_missing));
             return;
-        }
+        }*/
 
         if (AwsManager.getInstance().getAWSDK().getVisitManager() == null) {
             return;

@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="12dp">
+
+        <LinearLayout
+            android:id="@+id/viewProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/profile_firstname_indent"
+            android:layout_marginLeft="@dimen/profile_firstname_indent"
+            android:layout_marginRight="@dimen/profile_firstname_indent"
+            android:layout_marginStart="@dimen/profile_firstname_indent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:text="@string/name" />
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/tradeGothicLTStd_Dynamic22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_dependent_value_marginTop"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"
+                tools:text="Kevin Welsh" />
+
+            <TextView
+                android:id="@+id/dobLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_dependent_label_marginTop"
+                android:text="@string/date_of_birth_no_format" />
+
+            <TextView
+                android:id="@+id/dob"
+                style="@style/tradeGothicLTStd_Dynamic22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_dependent_value_marginTop"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"
+                tools:text="1/12/1987" />
+
+            <TextView
+                android:id="@+id/genderLabel"
+                style="@style/tradeGothicLTStdLight_18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_dependent_label_marginTop"
+                android:text="@string/gender" />
+
+            <TextView
+                android:id="@+id/gender"
+                style="@style/tradeGothicLTStd_Dynamic22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/profile_dependent_value_marginTop"
+                android:text="@string/male"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/profile_view_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/profile_unavailable"
+        style="@style/tradeGothicLTStd_Dynamic18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/profile_unavailable"
+        android:textAlignment="center"
+        android:visibility="gone" />
+</RelativeLayout>

@@ -1,7 +1,6 @@
 package com.prokarma.myhome.app;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -69,8 +68,8 @@ import com.televisit.medications.MedicationsFragment;
 import com.televisit.pharmacy.PharmaciesFragment;
 import com.televisit.pharmacy.PharmacyDetailsFragment;
 import com.televisit.previousvisit.PreviousVisitsFragment;
-import com.televisit.profile.MyCareProfileDependentFragment;
 import com.televisit.profile.MyCareProfileFragment;
+import com.televisit.profile.MyCareProfileViewDependentFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.SummaryFragment;
@@ -103,95 +102,95 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //try {
-            setContentView(R.layout.navigation_activity);
+        setContentView(R.layout.navigation_activity);
 
-            NetworkManager.getInstance().setExpiryListener(this);
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
-            toolbarLine = (View) findViewById(R.id.toolbar_line);
+        NetworkManager.getInstance().setExpiryListener(this);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarLine = (View) findViewById(R.id.toolbar_line);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
-            } else {
-                //noinspection deprecation
-                toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
-            }
-            setSupportActionBar(toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650, getTheme()));
+        } else {
+            //noinspection deprecation
+            toolbar.setTitleTextColor(getResources().getColor(R.color.md_blue_grey_650));
+        }
+        setSupportActionBar(toolbar);
 
-            //Listen for changes in the back stack
-            getSupportFragmentManager().addOnBackStackChangedListener(this);
-            //Handle when activity is recreated like on orientation Change
-            shouldDisplayHomeUp();
+        //Listen for changes in the back stack
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        //Handle when activity is recreated like on orientation Change
+        shouldDisplayHomeUp();
 
-            MapsInitializer.initialize(getApplicationContext());
+        MapsInitializer.initialize(getApplicationContext());
 
-            progressBar = (ProgressBar) findViewById(R.id.dash_progress);
-            setActivityTag(ActivityTag.NONE);
+        progressBar = (ProgressBar) findViewById(R.id.dash_progress);
+        setActivityTag(ActivityTag.NONE);
 
-            MapsInitializer.initialize(getApplicationContext());
-            LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
-            bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
+        MapsInitializer.initialize(getApplicationContext());
+        LinearLayout bottomNavigationLayout = (LinearLayout) findViewById(R.id.bottom_navigation_layout);
+        bottomNavigationView = (BottomNavigationViewEx) bottomNavigationLayout.findViewById(R.id.bottom_navigation);
 
-            if (AuthManager.getInstance().hasMyCare()) {
-                bottomNavigationView.inflateMenu(R.menu.navigation_menu);
-                currentSelectedMenuItem = bottomNavigationView.getMenu().getItem(0);
-                MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle() + ", selected");
-            } else {
-                bottomNavigationView.inflateMenu(R.menu.navigation_menu_profile);
-            }
+        if (AuthManager.getInstance().hasMyCare()) {
+            bottomNavigationView.inflateMenu(R.menu.navigation_menu);
+            currentSelectedMenuItem = bottomNavigationView.getMenu().getItem(0);
+            MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle() + ", selected");
+        } else {
+            bottomNavigationView.inflateMenu(R.menu.navigation_menu_profile);
+        }
 
-            bottomNavigationView.enableAnimation(false);
-            bottomNavigationView.enableShiftingMode(false);
-            bottomNavigationView.enableItemShiftingMode(false);
-            bottomNavigationView.setTextVisibility(true);
-            bottomNavigationView.setTextSize(13f);
+        bottomNavigationView.enableAnimation(false);
+        bottomNavigationView.enableShiftingMode(false);
+        bottomNavigationView.enableItemShiftingMode(false);
+        bottomNavigationView.setTextVisibility(true);
+        bottomNavigationView.setTextSize(13f);
 
-            initializeBottomView();
+        initializeBottomView();
 
-            eventBus = new Bus(ThreadEnforcer.MAIN);
-            RecentlyViewedDataSourceDB.getInstance().open(getApplicationContext());
+        eventBus = new Bus(ThreadEnforcer.MAIN);
+        RecentlyViewedDataSourceDB.getInstance().open(getApplicationContext());
 
-            //Inspired by https://stackoverflow.com/a/26905894/2128921
-            timezoneChangedReceiver = new MyBroadcastReceiver();
-            registerReceiver(timezoneChangedReceiver, new IntentFilter("android.intent.action.TIMEZONE_CHANGED"));
+        //Inspired by https://stackoverflow.com/a/26905894/2128921
+        timezoneChangedReceiver = new MyBroadcastReceiver();
+        registerReceiver(timezoneChangedReceiver, new IntentFilter("android.intent.action.TIMEZONE_CHANGED"));
 
-            bottomNavigationView.setOnNavigationItemSelectedListener(
-                    new BottomNavigationViewEx.OnNavigationItemSelectedListener() {
-                        @Override
-                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                            clearBackstack();
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationViewEx.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        clearBackstack();
 
-                            if (null != currentSelectedMenuItem) {
-                                MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle());
-                            }
-
-                            currentSelectedMenuItem = item;
-                            MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle() + ", selected");
-
-                            switch (item.getItemId()) {
-                                case R.id.home:
-                                    loadFragment(ActivityTag.HOME, null);
-                                    break;
-
-                                case R.id.fad:
-                                    loadFragment(ActivityTag.FAD_DASH_BOARD, null);
-                                    break;
-
-                                case R.id.appointments:
-                                    loadFragment(ActivityTag.APPOINTMENTS, null);
-                                    break;
-
-                                case R.id.profile:
-                                    if (AuthManager.getInstance().hasMyCare()) {
-                                        loadFragment(ActivityTag.MY_CARE_NOW, null);
-                                    } else {
-                                        loadFragment(ActivityTag.PROFILE_VIEW, null);
-                                    }
-                                    break;
-                            }
-
-                            return true;
+                        if (null != currentSelectedMenuItem) {
+                            MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle());
                         }
-                    });
+
+                        currentSelectedMenuItem = item;
+                        MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle() + ", selected");
+
+                        switch (item.getItemId()) {
+                            case R.id.home:
+                                loadFragment(ActivityTag.HOME, null);
+                                break;
+
+                            case R.id.fad:
+                                loadFragment(ActivityTag.FAD_DASH_BOARD, null);
+                                break;
+
+                            case R.id.appointments:
+                                loadFragment(ActivityTag.APPOINTMENTS, null);
+                                break;
+
+                            case R.id.profile:
+                                if (AuthManager.getInstance().hasMyCare()) {
+                                    loadFragment(ActivityTag.MY_CARE_NOW, null);
+                                } else {
+                                    loadFragment(ActivityTag.PROFILE_VIEW, null);
+                                }
+                                break;
+                        }
+
+                        return true;
+                    }
+                });
 
         /*} catch (Exception e) {
             Timber.e(e);
@@ -554,11 +553,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case MY_CARE_PROFILE_DEPENDENT:
                 if (getActivityTag() != ActivityTag.MY_CARE_PROFILE_DEPENDENT) {
                     getSupportFragmentManager().executePendingTransactions();
-                    MyCareProfileDependentFragment myCareProfileDependentFragment = MyCareProfileDependentFragment.newInstance();
-                    myCareProfileDependentFragment.setArguments(bundle);
+                    MyCareProfileViewDependentFragment myCareProfileViewDependentFragment = MyCareProfileViewDependentFragment.newInstance();
+                    myCareProfileViewDependentFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.frame, myCareProfileDependentFragment, MyCareProfileDependentFragment.MY_PROFILE_TAG)
+                            .replace(R.id.frame, myCareProfileViewDependentFragment, MyCareProfileViewDependentFragment.MY_PROFILE_TAG)
                             .addToBackStack(null)
                             .commit();
 

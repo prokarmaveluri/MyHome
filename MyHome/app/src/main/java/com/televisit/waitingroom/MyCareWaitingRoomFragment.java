@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -182,9 +183,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
                             progressBar.setVisibility(View.GONE);
 
-                            if (sdkError != null && sdkError.toString() != null && sdkError.toString().toLowerCase().contains("consumer_already_in_visit")) {
-
-                            } else if (sdkError != null && sdkError.toString() != null && sdkError.toString().toLowerCase().contains("provider unavailable")) {
+                            if (sdkError != null && sdkError.toString() != null
+                                    && (sdkError.toString().toLowerCase().contains("provider unavailable")
+                                    || sdkError.toString().toLowerCase().contains("consumer_already_in_visit"))) {
 
                                 CommonUtil.showToast(getContext(), getString(R.string.provider_unavailable));
 
@@ -297,6 +298,10 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             }
             costInfo.setContentDescription(costInfo.getText());
             costInfo.setVisibility(View.GONE);
+        }
+
+        if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getAssignedProvider() == null) {
+            updateWaitingQueue(AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount());
         }
     }
 
@@ -421,10 +426,41 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             transferType = s;
             startTransfer(s);
         }
+
+        if (s != null && s.equalsIgnoreCase("PROVIDER_DECLINE")) {
+            CommonUtil.showToast(getContext(), getString(R.string.visit_declined_by_provider));
+            goBackToDashboard();
+        }
     }
 
     @Override
     public void onPatientsAheadOfYouCountChanged(int i) {
+        final int count = i;
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Timber.d("wait. onPatientsAheadOfYouCountChanged. i = " + count);
+                updateWaitingQueue(count);
+            }
+        });
+    }
+
+
+    private void updateWaitingQueue(int i) {
+
+        if (i > 0) {
+
+            if (i == 1) {
+                waitingCount.setText("There is " + i + " patient ahead of you.");
+            } else {
+                waitingCount.setText("There are " + i + " patients ahead of you.");
+            }
+
+            waitingCount.setContentDescription(waitingCount.getText());
+            waitingCount.invalidate();
+            waitingCount.setVisibility(View.VISIBLE);
+            return;
+        }
 
         if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getAssignedProvider() == null) {
             return;
@@ -516,7 +552,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         if (visitTransfer.getProvider() != null) {
 
             if (visitTransfer.getProvider().getWaitingRoomCount() != null && visitTransfer.getProvider().getWaitingRoomCount() > 0) {
-                waitingCount.setText(visitTransfer.getProvider().getWaitingRoomCount() + " patients ahead");
+                waitingCount.setText(CommonUtil.getWaitingQueueText(visitTransfer.getProvider().getWaitingRoomCount()));
 
             } else if (visitTransfer.getProvider().getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
                 waitingCount.setText(getString(R.string.you_are_next_patient));
@@ -767,5 +803,4 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     private void setShareHealthSummary(VisitContext visitContext) {
         visitContext.setShareHealthSummary(true);
     }
-
 }

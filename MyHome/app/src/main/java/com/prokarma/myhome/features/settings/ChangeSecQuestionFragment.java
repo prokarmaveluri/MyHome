@@ -58,6 +58,12 @@ public class ChangeSecQuestionFragment extends BaseFragment implements View.OnCl
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        CommonUtil.hideSoftKeyboard(this.getActivity());
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nextButton:

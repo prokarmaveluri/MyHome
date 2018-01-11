@@ -12,6 +12,7 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterMyCareProviderItemBinding;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.televisit.AwsManager;
 
 import java.util.List;
@@ -90,7 +91,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                 binding.waitingCount.setVisibility(View.VISIBLE);
 
                 if (providerInfo.getWaitingRoomCount() != null &&  providerInfo.getWaitingRoomCount() > 0) {
-                    binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
+                    binding.waitingCount.setText(CommonUtil.getWaitingQueueText(providerInfo.getWaitingRoomCount()));
                 } else {
                     binding.waitingCount.setText(context.getString(R.string.you_are_next_patient));
                 }
@@ -103,7 +104,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                     binding.visibility.setText(context.getString(R.string.busy));
 
                     if (providerInfo.getWaitingRoomCount() != null && providerInfo.getWaitingRoomCount() > 0) {
-                        binding.waitingCount.setText(providerInfo.getWaitingRoomCount() + " patients ahead");
+                        binding.waitingCount.setText(CommonUtil.getWaitingQueueText(providerInfo.getWaitingRoomCount()));
                         binding.waitingCount.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -111,7 +112,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                 }
             }
             binding.visibility.setContentDescription(binding.visibility.getText());
-            binding.visibility.setContentDescription(binding.waitingCount.getText());
+            binding.waitingCount.setContentDescription(binding.waitingCount.getText());
             binding.executePendingBindings();
         }
     }

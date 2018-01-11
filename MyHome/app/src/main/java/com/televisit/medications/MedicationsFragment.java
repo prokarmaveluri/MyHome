@@ -394,7 +394,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         if (s.toString().trim().length() > 0) {
             searchMedications(s.toString().trim());
         } else {
-            setMedicationsAdapter(medicationsListToSave);
+            cancelSearch();
         }
     }
 
@@ -440,15 +440,7 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                             searchQuery.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
                         searchQuery.setText("");
-
-                        noResults.setVisibility(View.GONE);
-                        addAdditionalMedication.setVisibility(View.VISIBLE);
-                        medicationDesc.setVisibility(View.VISIBLE);
-                        searchLayout.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                        setMedicationsAdapter(medicationsListToSave);
-
-                        CommonUtil.hideSoftKeyboard(getActivity());
+                        cancelSearch();
                         return true;
                     } else {
                         showSearchView();
@@ -457,6 +449,18 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
                 return false;
             }
         });
+    }
+
+    private void cancelSearch() {
+
+        noResults.setVisibility(View.GONE);
+        addAdditionalMedication.setVisibility(View.VISIBLE);
+        medicationDesc.setVisibility(View.VISIBLE);
+        searchLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        setMedicationsAdapter(medicationsListToSave);
+
+        CommonUtil.hideSoftKeyboard(getActivity());
     }
 
 }

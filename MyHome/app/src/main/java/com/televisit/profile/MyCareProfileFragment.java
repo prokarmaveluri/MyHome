@@ -21,8 +21,12 @@ import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.features.profile.Profile;
+import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
@@ -33,6 +37,9 @@ import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateConsumer;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 /**
@@ -122,7 +129,14 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             }
         });
 
-        updateConsumerViews(AwsManager.getInstance().getPatient());
+
+        if (ProfileManager.getProfile() == null) {
+            Timber.i("Don't have a saved Profile. Retrieving profile now...");
+            getProfileInfo(false);
+        } else {
+            Timber.i("Already have a Profile Singleton. Updating the view...");
+            updateConsumerViews(ProfileManager.getProfile()); //, AwsManager.getInstance().getPatient());
+        }
 
         setHasOptionsMenu(true);
         return profileView;
@@ -157,6 +171,12 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        CommonUtil.hideSoftKeyboard(this.getActivity());
     }
 
     private void sendUpdatedConsumer() {
@@ -211,29 +231,40 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     /**
      * Updates the view on screen to have the proper consumer values autopopulated
      *
-     * @param consumer the consumer that we're using to autopopulate the EditTexts
+     * @param profile the profile that we're using to autopopulate the EditTexts
      */
-    private void updateConsumerViews(Consumer consumer) {
+    private void updateConsumerViews(Profile profile) {
 
-        // to avoid error: java.lang.NullPointerException: Attempt to invoke interface method 'java.lang.String com.americanwell.sdk.entity.consumer.Consumer.getFirstName()' on a null object reference
-        // added null check
+        if (profile == null) {
+            return;
+        }
 
-        if (consumer != null && consumer.getFirstName() != null) {
-            welcomeText.setText(getString(R.string.mcn_welcome_text_variable, consumer.getFirstName()));
-            firstName.setText(consumer.getFirstName());
+        //Displaying data pulled from CIAM, and that is profile object info.
+
+        //28877: as per Jak's comment made on DEC-19 9:38PM on bug id 28877
+        /*
+        Here is the expected behavior:
+        - My Home Profile update is only CIAM update (Nothing related to MCN)
+        - MCN Personal Info will be pulled from CIAM profile and displayed in the screen.
+        - If User updates anything in MCN Personal Info - We will update that information with both CIAM and AmWell.
+         */
+
+        if (profile.firstName != null) {
+            welcomeText.setText(getString(R.string.mcn_welcome_text_variable, profile.firstName));
+            firstName.setText(profile.firstName);
         } else {
             welcomeText.setText(getString(R.string.mcn_welcome_text));
         }
 
-        if (consumer != null && consumer.getLastName() != null) {
-            lastName.setText(consumer.getLastName());
+        if (profile.lastName != null) {
+            lastName.setText(profile.lastName);
         }
 
-        if (consumer != null && consumer.getGender() != null) {
+        if (profile.gender != null) {
 
             //Loop through genders until we find a match, then set gender spinner selection
             for (int i = 0; i < gender.getAdapter().getCount(); i++) {
-                if (consumer.getGender().equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
+                if (profile.gender.equalsIgnoreCase(gender.getAdapter().getItem(i).toString())) {
                     gender.setSelection(i);
                     break;
                 }
@@ -242,27 +273,27 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             gender.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (consumer != null && consumer.getDob() != null) {
-            dateOfBirth.setText(DateUtil.convertDobtoReadable(consumer.getDob()));
+        if (profile.dateOfBirth != null) {
+            dateOfBirth.setText(DateUtil.convertUTCtoReadable(profile.dateOfBirth));
         }
 
-        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getAddress1() != null) {
-            address.setText(consumer.getAddress().getAddress1());
+        if (profile.address != null && profile.address.line1 != null) {
+            address.setText(profile.address.line1);
         }
 
-        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getAddress2() != null) {
-            address2.setText(consumer.getAddress().getAddress2());
+        if (profile.address != null && profile.address.line2 != null) {
+            address2.setText(profile.address.line2);
         }
 
-        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getCity() != null) {
-            city.setText(consumer.getAddress().getCity());
+        if (profile.address != null && profile.address.city != null) {
+            city.setText(profile.address.city);
         }
 
-        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getState() != null) {
+        if (profile.address != null && profile.address.stateOrProvince != null) {
 
             //Loop through states until we find a match, then set state spinner selection
             for (int i = 0; i < state.getAdapter().getCount(); i++) {
-                if (consumer.getAddress().getState().getCode().equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
+                if (profile.address.stateOrProvince.equalsIgnoreCase(state.getAdapter().getItem(i).toString())) {
                     state.setSelection(i);
                     break;
                 }
@@ -271,17 +302,17 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             state.setSelection(0);  //Placeholder is the first item in the array
         }
 
-        if (consumer != null && consumer.getAddress() != null && consumer.getAddress().getZipCode() != null) {
-            zip.setText(consumer.getAddress().getZipCode().trim());
+        if (profile.address != null && profile.address.zipCode != null) {
+            zip.setText(profile.address.zipCode.trim());
         }
 
-        if (consumer != null && consumer.getPhone() != null) {
+        if (profile.phoneNumber != null) {
             //phone.setText(profile.phoneNumber.replaceAll("\\.", "-"));
-            phone.setText(CommonUtil.constructPhoneNumberDots(consumer.getPhone()));
+            phone.setText(CommonUtil.constructPhoneNumberDots(profile.phoneNumber));
         }
 
-        if (consumer != null && consumer.getEmail() != null) {
-            email.setText(consumer.getEmail());
+        if (profile.email != null) {
+            email.setText(profile.email);
         }
     }
 
@@ -345,18 +376,62 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
 
         ProfileManager.updateProfileFromMcnData(AuthManager.getInstance().getBearerToken(), consumer);
 
-        if (AwsManager.getInstance().isDependent()) {
-            CommonUtil.showToast(getActivity(), getString(R.string.profile_saved_dependent));
-        } else {
-            CommonUtil.showToast(getActivity(), getString(R.string.profile_saved));
-        }
-        getActivity().onBackPressed();
+        //refetch the saved data
+        getProfileInfo(true);
     }
 
     @Override
     public void updateConsumerFailed(String errorMessage) {
         Timber.e(errorMessage);
         CommonUtil.showToast(getActivity(), getString(R.string.something_went_wrong));
-        getActivity().onBackPressed();
+
+        if (getActivity() != null) {
+            getActivity().onBackPressed();
+        }
+    }
+
+    private void getProfileInfo(final boolean fromSave) {
+
+        NetworkManager.getInstance().getProfile(AuthManager.getInstance().getBearerToken()).enqueue(new Callback<ProfileGraphqlResponse>() {
+            @Override
+            public void onResponse(Call<ProfileGraphqlResponse> call, Response<ProfileGraphqlResponse> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        Timber.d("ProfileFrag. getProfile. Successful Response\n" + response);
+                        ProfileManager.setProfile(response.body().getData().getUser());
+                    } catch (NullPointerException ex) {
+                        Timber.e(getString(R.string.db_res_notsuccess) + "\n" + response);
+                    }
+                    if (!fromSave) {
+                        updateConsumerViews(ProfileManager.getProfile());
+                    }
+                } else {
+                    Timber.e("ProfileFrag. getProfile. Response, but not successful?\n" + response);
+                }
+                if (fromSave) {
+                    navigateBack();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileGraphqlResponse> call, Throwable t) {
+                Timber.e("ProfileFrag. getProfile. Something failed! :/");
+                Timber.e("Throwable = " + t);
+                navigateBack();
+            }
+        });
+    }
+
+    private void navigateBack() {
+        if (isAdded()) {
+            if (AwsManager.getInstance().isDependent()) {
+                CommonUtil.showToast(getActivity(), getString(R.string.profile_saved_dependent));
+            } else {
+                CommonUtil.showToast(getActivity(), getString(R.string.profile_saved));
+            }
+        }
+        if (getActivity() != null) {
+            getActivity().onBackPressed();
+        }
     }
 }

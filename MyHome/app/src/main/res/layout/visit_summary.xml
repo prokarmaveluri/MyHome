@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -168,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center"
+                android:gravity="left"
                 android:text="@string/visit_summary_email"
                 android:contentDescription="@string/visit_summary_email"
                 android:textColor="@color/db_charcoal_grey" />
@@ -183,7 +184,8 @@
                 android:layout_marginLeft="-6dp"
                 android:text="@string/visit_summary_email_agree"
                 android:contentDescription="@string/visit_summary_email_agree"
-                android:textColor="@color/db_charcoal_grey" />
+                android:textColor="@color/db_charcoal_grey"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/email_list"

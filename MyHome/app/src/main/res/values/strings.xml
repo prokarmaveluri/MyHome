@@ -90,6 +90,7 @@
     <string name="first_name">First Name</string>
     <string name="preferred_name">Preferred Name</string>
     <string name="gender">Gender</string>
+    <string name="date_of_birth_no_format">Date of Birth</string>
     <string name="date_of_birth">Date of Birth (mm/dd/yyyy)</string>
     <string name="address">Address</string>
     <string name="address_2">Address 2</string>
@@ -516,6 +517,8 @@
     <string name="feedback_choose_answer">Please select an answer to the survey</string>
     <string name="feedback_completed">Feedback completed successfully</string>
     <string name="visit_completed">Visit completed.</string>
+    <string name="visit_declined_by_provider">Provider has declined the visit.</string>
+
     <string name="feedback_ratings_submission_failed">We\'re sorry, failed to submit ratings. Please try again</string>
     <string name="feedback_answers_submission_failed">We\'re sorry, failed to submit feedback. Please try again</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>
@@ -603,7 +606,8 @@
     <string name="visit_report_not_available">Visit report not available!</string>
     <string name="pulling_up_visit_summary_failed_message">Sorry, Pulling up visit summary has failed. Please try again at later time</string>
     <string name="your_cost_is_not_free">Your cost isn\'t free\nYou might want to apply a coupon...</string>
-    <string name="provider_unavailable">Provider unavailable \nPlease select a different provider.</string>
+    <string name="provider_unavailable">Provider unavailable. \nPlease select a different provider.</string>
+    <string name="provider_busy">Provider currently busy. \nPlease select a different provider.</string>
     <string name="unable_to_add_message">Sorry we are unable to add at this time.</string>
     <string name="no_pharmacies_found_for">No Pharmacies found. \n\nWe could\'nt find any relevant results for</string>
     <string name="no_pharmacies_found_for_current_location">No Pharmacies found. \n\nWe could\'nt find any relevant results near to your current location.</string>
