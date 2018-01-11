@@ -11,6 +11,7 @@ public class Constants {
     public static String ENV_MUTUAL_AUTH = "ENV_MUTUAL_AUTH";
     public static String ENV_AMWELL_USERNAME = "ENV_AMWELL_USERNAME";
     public static String ENV_AMWELL_PASSWORD = "ENV_AMWELL_PASSWORD";
+    public static String AMWELL_SDK_ALL_PERMISSIONS_GRANTED = "AMWELL_SDK_ALL_PERMISSIONS_GRANTED";
 
     public enum ActivityTag {
         NONE,
