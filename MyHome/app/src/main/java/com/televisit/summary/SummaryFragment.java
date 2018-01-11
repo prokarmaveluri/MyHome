@@ -21,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.FileAttachment;
@@ -91,6 +92,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private TextInputEditText newEmailEditText;
     private TextView addEmail;
     private TextView emailConfidentialityText;
+    private ScrollView scrollLayout;
 
     private List<EmailsAdapter.EmailSelection> emailObjects = null;
 
@@ -133,6 +135,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         emailsList = (RecyclerView) view.findViewById(R.id.email_list);
         //emailAgree = (CheckBox) view.findViewById(R.id.email_agree);
         addAdditionalEmail = (TextView) view.findViewById(R.id.add_additional_email);
+        scrollLayout = (ScrollView) view.findViewById(R.id.scroll_layout);
 
         newEmailLayout = (RelativeLayout) view.findViewById(R.id.new_email_layout);
         newEmailTextInput = (TextInputLayout) view.findViewById(R.id.new_email_textinput);
@@ -179,16 +182,21 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             @Override
             public void onClick(View v) {
 
-                if (newEmailLayout != null) {
-                    if (newEmailLayout.getVisibility() == View.VISIBLE) {
-                        newEmailLayout.setVisibility(View.GONE);
-                        newEmailTextInput.setVisibility(View.GONE);
-                        addEmail.setVisibility(View.GONE);
-                    } else {
-                        newEmailLayout.setVisibility(View.VISIBLE);
-                        newEmailTextInput.setVisibility(View.VISIBLE);
-                        addEmail.setVisibility(View.VISIBLE);
-                    }
+                if (newEmailLayout.getVisibility() == View.VISIBLE) {
+                    newEmailLayout.setVisibility(View.GONE);
+                    newEmailTextInput.setVisibility(View.GONE);
+                    addEmail.setVisibility(View.GONE);
+                } else {
+                    newEmailLayout.setVisibility(View.VISIBLE);
+                    newEmailTextInput.setVisibility(View.VISIBLE);
+                    addEmail.setVisibility(View.VISIBLE);
+
+                    scrollLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollLayout.scrollTo(0, scrollLayout.getBottom());
+                        }
+                    });
                 }
             }
         });
