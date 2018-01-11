@@ -622,5 +622,7 @@
     <string name="no_appointments_for_this_location">Please call the office directly to book appointments for this location</string>
     <string name="navigates_back_with_out_filters">Cancel Button Navigates back with out applying filters</string>
     <string name="applies_given_filters">Apply Button applies the given filters to fetch providers</string>
+    <string name="previous_day">Previous Day</string>
+    <string name="next_day">Next Day</string>
 
 </resources>
