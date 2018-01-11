@@ -151,7 +151,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 AwsManager.getInstance().getConsumer(),
-                PharmacyType.MAIL_ORDER,
+                PharmacyType.RETAIL,
                 null,
                 null,
                 zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
@@ -175,7 +175,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                         progressBar.setVisibility(View.GONE);
 
                         if (pharmacies == null || pharmacies.size() == 0) {
-                            CommonUtil.showToast(getContext(), getString(R.string.no_pharmacies_found_for) + zipCode);
+                            CommonUtil.showToast(getContext(), getString(R.string.no_pharmacies_found_for) + " " + zipCode);
                         }
 
                         if (null != getActivity()) {
@@ -195,7 +195,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                                @NonNull final int radius,
                                @NonNull final Consumer patient) {
         progressBar.setVisibility(View.VISIBLE);
-        final boolean excludeMailOrder = false; // true;
+        final boolean excludeMailOrder = true;
 
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 patient,
