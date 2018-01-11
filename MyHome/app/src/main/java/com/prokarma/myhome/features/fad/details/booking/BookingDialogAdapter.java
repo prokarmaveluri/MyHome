@@ -117,7 +117,7 @@ public class BookingDialogAdapter extends PagerAdapter {
         this.bookingDialogToolbarInterface = bookingDialogToolbarInterface;
         this.autoPopulateFromProfile = autoPopulateFromProfile;
         this.autoPopulateInsurnacePlan = autoPopulateInsurnacePlan;
-        formsProfile = Profile.copy(profile);
+        formsProfile = profile; //Profile.copy(profile);
     }
 
     @Nullable
@@ -393,7 +393,7 @@ public class BookingDialogAdapter extends PagerAdapter {
             gender.setSelection(0);  //Placeholder is the first item in the array
         }*/
 
-        if (formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))) {
+        if (formsProfile.gender != null && formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))) {
             areYouPregnantLabel.setVisibility(View.VISIBLE);
             areYouPregnantGroup.setVisibility(View.VISIBLE);
         } else {

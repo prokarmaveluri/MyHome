@@ -49,6 +49,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     }
 
     public static BookingDialogFragment newInstance(boolean autoPopulateInsurancePlan) {
+        Timber.d("book. autoPopulateInsurancePlan = " + autoPopulateInsurancePlan);
         BookingDialogFragment bookingFragment = new BookingDialogFragment();
         Bundle args = new Bundle();
         args.putBoolean(AUTOPOPULATE_INSURANCE_PLAN_KEY, autoPopulateInsurancePlan);

@@ -206,7 +206,10 @@ public class Profile implements Parcelable {
             askToSave = true;
         }
 
-        boolean shouldAskToSaveForSelf = this.profileSelf.shouldAskToSave(profile);
+        boolean shouldAskToSaveForSelf = false;
+        if (this.profileSelf != null) {
+            shouldAskToSaveForSelf = this.profileSelf.shouldAskToSave(profile);
+        }
         if (shouldAskToSaveForSelf) {
             askToSave = true;
         }
