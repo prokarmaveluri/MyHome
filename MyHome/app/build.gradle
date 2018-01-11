@@ -56,7 +56,7 @@ android {
     def SLOT1_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def SLOT1_CIAM_BASE_URL = "\"https://web-usw1-ciamweb-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def SLOT1_S2_BASE_URL = "\"https://web-usw1-fadapi-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
-    def SLOT1_SCHEDULING_BASE = "\" https://web-usw1-schedulingapi-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def SLOT1_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def SLOT1_AUTH_CLIENT_ID = "\"ausb2b0jbri7MsQGl0h7\""
     def SLOT1_CLIENT_ID = "\"0oab54ai6q0zFI8fq0h7\""
     def SLOT1_AUTH_SCOPE = "\"openid+email+profile+offline_access+groups\""
