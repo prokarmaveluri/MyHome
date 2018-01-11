@@ -517,6 +517,8 @@
     <string name="feedback_choose_answer">Please select an answer to the survey</string>
     <string name="feedback_completed">Feedback completed successfully</string>
     <string name="visit_completed">Visit completed.</string>
+    <string name="visit_declined_by_provider">Provider has declined the visit.</string>
+
     <string name="feedback_ratings_submission_failed">We\'re sorry, failed to submit ratings. Please try again</string>
     <string name="feedback_answers_submission_failed">We\'re sorry, failed to submit feedback. Please try again</string>
     <string name="choose_your_preferred_pharmacy">Choose your preferred pharmacy.</string>

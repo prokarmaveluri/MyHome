@@ -426,6 +426,11 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             transferType = s;
             startTransfer(s);
         }
+
+        if (s != null && s.equalsIgnoreCase("PROVIDER_DECLINE")) {
+            CommonUtil.showToast(getContext(), getString(R.string.visit_declined_by_provider));
+            goBackToDashboard();
+        }
     }
 
     @Override
