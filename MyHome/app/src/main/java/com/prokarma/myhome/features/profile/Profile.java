@@ -137,7 +137,9 @@ public class Profile implements Parcelable {
     }
 
     public void setEmail(String email) {
-        this.profileSelf.email = email;
+        if (this.profileSelf != null) {
+            this.profileSelf.email = email;
+        }
     }
 
     public void setZipCode(String zipCode) {
@@ -206,7 +208,10 @@ public class Profile implements Parcelable {
             askToSave = true;
         }
 
-        boolean shouldAskToSaveForSelf = this.profileSelf.shouldAskToSave(profile);
+        boolean shouldAskToSaveForSelf = false;
+        if (this.profileSelf != null) {
+            shouldAskToSaveForSelf = this.profileSelf.shouldAskToSave(profile);
+        }
         if (shouldAskToSaveForSelf) {
             askToSave = true;
         }
@@ -235,7 +240,7 @@ public class Profile implements Parcelable {
             profile.translatorLanguage = otherProfile.translatorLanguage;
             profile.assistanceNeeded = otherProfile.assistanceNeeded;
 
-            profile.profileSelf = otherProfile.profileSelf;
+            profile.profileSelf = otherProfile.profileSelf; //ProfileSelf.copy(otherProfile.profileSelf);
         }
 
         return profile;
@@ -256,7 +261,7 @@ public class Profile implements Parcelable {
             profile.clientID = otherProfile.clientID;
             profile.remoteID = otherProfile.remoteID;
 
-            profile.profileSelf = ProfileSelf.copy(otherProfile.profileSelf);
+            profile.profileSelf = otherProfile.profileSelf; //ProfileSelf.copy(otherProfile.profileSelf);
         }
 
         return profile;

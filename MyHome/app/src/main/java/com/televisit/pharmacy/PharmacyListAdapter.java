@@ -12,6 +12,7 @@ import com.prokarma.myhome.databinding.AdapterPharmacyListItemBinding;
 import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import timber.log.Timber;
@@ -27,12 +28,14 @@ public class PharmacyListAdapter extends RecyclerView.Adapter<PharmacyListAdapte
     private List<Pharmacy> pharmacyList;
     private Context mContext;
     private IPharmacyClick clickListener;
+    private DecimalFormat distanceFormatter;
 
     public PharmacyListAdapter(Context context, List<Pharmacy> pharmacies,
                                IPharmacyClick listener) {
         mContext = context;
         pharmacyList = pharmacies;
         clickListener = listener;
+        distanceFormatter = new DecimalFormat("0.##");
     }
 
     @Override
@@ -78,7 +81,17 @@ public class PharmacyListAdapter extends RecyclerView.Adapter<PharmacyListAdapte
 
             binding.pharmacyAddress.setContentDescription(mContext.getString(R.string.location) + addressContentDescription);
 
-            binding.distance.setText(String.valueOf(pharmacy.getDistance()));
+            if (distanceFormatter == null) {
+                distanceFormatter = new DecimalFormat("0.##");
+            }
+
+            String distanceString = distanceFormatter.format(pharmacy.getDistance());
+            binding.distance.setText(distanceString + " mi");
+            if (distanceString.equals("0.00")) {
+                binding.distance.setText("0 mi");
+            } else {
+                binding.distance.setText(distanceString + " mi");
+            }
 
             binding.executePendingBindings();
         }

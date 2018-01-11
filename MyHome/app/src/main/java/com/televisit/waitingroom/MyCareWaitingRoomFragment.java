@@ -461,21 +461,24 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             waitingCount.setVisibility(View.VISIBLE);
             return;
         }
-
-        if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getAssignedProvider() == null) {
-            return;
+        else if (i == 0) {
+            waitingCount.setText(getString(R.string.you_are_next_patient));
         }
 
+        /*if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getAssignedProvider() == null) {
+            return;
+        }
         if (AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() != null
                 && AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() > 0) {
             waitingCount.setText("There are " + AwsManager.getInstance().getVisit().getAssignedProvider().getWaitingRoomCount() + " patients ahead of you.");
 
         } else if (AwsManager.getInstance().getVisit().getAssignedProvider().getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
             waitingCount.setText(getString(R.string.you_are_next_patient));
-
-        } else if (AwsManager.getInstance().getVisit().getAssignedProvider().getVisibility().equals(ProviderVisibility.WEB_BUSY)) {
-            waitingCount.setText("Currently " + getString(R.string.busy));
         }
+        else if (AwsManager.getInstance().getVisit().getAssignedProvider().getVisibility().equals(ProviderVisibility.WEB_BUSY)) {
+            waitingCount.setText("Currently " + getString(R.string.busy));
+        }*/
+
         waitingCount.setContentDescription(waitingCount.getText());
         waitingCount.invalidate();
         waitingCount.setVisibility(View.VISIBLE);

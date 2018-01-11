@@ -49,6 +49,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
     }
 
     public static BookingDialogFragment newInstance(boolean autoPopulateInsurancePlan) {
+        Timber.d("book. autoPopulateInsurancePlan = " + autoPopulateInsurancePlan);
         BookingDialogFragment bookingFragment = new BookingDialogFragment();
         Bundle args = new Bundle();
         args.putBoolean(AUTOPOPULATE_INSURANCE_PLAN_KEY, autoPopulateInsurancePlan);
@@ -209,7 +210,7 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
     private void finishBooking() {
         final Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();   //Profile from the booking flow
-        final Profile savingProfile = Profile.copySansBookingInfo(formsProfile);    //Profile to save
+        final Profile savingProfile = formsProfile; //Profile.copySansBookingInfo(formsProfile);    //Profile to save
         savingProfile.setEmail(ProfileManager.getProfile().email);
 
         if (BookingManager.isBookingForMe() && !formsProfile.shouldAskToSave(ProfileManager.getProfile())) {

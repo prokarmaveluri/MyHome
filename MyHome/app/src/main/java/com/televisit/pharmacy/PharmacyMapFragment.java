@@ -502,7 +502,7 @@ public class PharmacyMapFragment extends Fragment implements
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().getPharmacies(
                 AwsManager.getInstance().getConsumer(),
-                PharmacyType.MAIL_ORDER,
+                PharmacyType.RETAIL,
                 null,
                 null,
                 zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
@@ -530,7 +530,7 @@ public class PharmacyMapFragment extends Fragment implements
                         progressBar.setVisibility(View.GONE);
 
                         if (pharmacies == null || pharmacies.size() == 0) {
-                            CommonUtil.showToast(getContext(), getString(R.string.no_pharmacies_found_for) + zipCode);
+                            CommonUtil.showToast(getContext(), getString(R.string.no_pharmacies_found_for) + " " + zipCode);
                         }
 
                         if (null != getActivity()) {
