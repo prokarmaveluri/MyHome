@@ -303,8 +303,8 @@ public class ProfileSelf implements Parcelable {
             profileSelf.numKbaAttempts = otherProfile.numKbaAttempts;
             profileSelf.nextKbaAttempt = otherProfile.nextKbaAttempt;
 
-            profileSelf.address = Address.copy(otherProfile.address);
-            profileSelf.insuranceProvider = InsuranceProvider.copy(otherProfile.insuranceProvider);
+            profileSelf.address = otherProfile.address; //Address.copy(otherProfile.address);
+            profileSelf.insuranceProvider = otherProfile.insuranceProvider; //InsuranceProvider.copy(otherProfile.insuranceProvider);
         }
 
         return profileSelf;
@@ -339,8 +339,8 @@ public class ProfileSelf implements Parcelable {
             profile.numKbaAttempts = otherProfile.numKbaAttempts;
             profile.nextKbaAttempt = otherProfile.nextKbaAttempt;
 
-            profile.address = Address.copy(otherProfile.address);
-            profile.insuranceProvider = InsuranceProvider.copySansBookingInfo(otherProfile.insuranceProvider);
+            profile.address = otherProfile.address; //Address.copy(otherProfile.address);
+            profile.insuranceProvider = otherProfile.insuranceProvider; //InsuranceProvider.copySansBookingInfo(otherProfile.insuranceProvider);
         }
 
         return profile;
