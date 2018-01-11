@@ -18,12 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="58dp">
 
-            <TextView
+                      <TextView
                 android:id="@+id/dialog_close"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/navigates_back_with_out_filters"
                 android:onClick="@{handlers::onClickEvent}"
                 android:padding="16dp"
                 android:text="@string/cancel"
@@ -46,6 +47,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/applies_given_filters"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLength="15"

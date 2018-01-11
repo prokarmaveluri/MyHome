@@ -620,4 +620,7 @@
     <string name="secure_lock_screen_has_not_setup"><![CDATA[Secure lock screen hasn\'t set up.\n\" \"Go to \'Settings -> Security -> Fingerprint\' to set up a fingerprint]]></string>
     <string name="setting_to_fingerprint"><![CDATA[Go to \'Settings -> Security -> Fingerprint\' and register at least one fingerprint]]></string>
     <string name="no_appointments_for_this_location">Please call the office directly to book appointments for this location</string>
+    <string name="navigates_back_with_out_filters">Cancel Button Navigates back with out applying filters</string>
+    <string name="applies_given_filters">Apply Button applies the given filters to fetch providers</string>
+
 </resources>
