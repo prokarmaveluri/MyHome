@@ -13,6 +13,8 @@ public class Constants {
     public static String ENV_AMWELL_PASSWORD = "ENV_AMWELL_PASSWORD";
     public static String AMWELL_SDK_ALL_PERMISSIONS_GRANTED = "AMWELL_SDK_ALL_PERMISSIONS_GRANTED";
 
+    public static final String MY_CARE_PRIVACY_POLICY_URL = "https://www.americanwell.com/ocn/NoticeOfPrivacyPractices_OCN.pdf";
+
     public enum ActivityTag {
         NONE,
         HOME,

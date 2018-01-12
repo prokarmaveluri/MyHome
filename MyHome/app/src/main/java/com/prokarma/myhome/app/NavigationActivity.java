@@ -64,7 +64,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.televisit.AwsManager;
 import com.televisit.cost.MyCareVisitCostFragment;
-import com.televisit.cost.PrivacyPolicyFragment;
+import com.televisit.cost.PrivacyPolicyPdfFragment;
 import com.televisit.feedback.FeedbackFragment;
 import com.televisit.history.HistoryListAdapter;
 import com.televisit.history.MedicalHistoryFragment;
@@ -691,12 +691,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case MY_CARE_PRIVACY_POLICY:
                 if (getActivityTag() != ActivityTag.MY_CARE_PRIVACY_POLICY) {
                     getSupportFragmentManager().executePendingTransactions();
-                    PrivacyPolicyFragment privacyPolicyFragment = PrivacyPolicyFragment.newInstance();
-                    privacyPolicyFragment.setArguments(bundle);
+                    PrivacyPolicyPdfFragment ppPdfFragment = PrivacyPolicyPdfFragment.newInstance();
+                    ppPdfFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, privacyPolicyFragment, PrivacyPolicyFragment.MY_CARE_PRIVACY_POLICY_TAG)
+                            .replace(R.id.frame, ppPdfFragment, PrivacyPolicyPdfFragment.MY_CARE_PRIVACY_POLICY_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
@@ -948,8 +948,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
             if (missingPermissions.isEmpty()) {
                 AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, true);
-            }
-            else {
+            } else {
                 //ALL GRANTED AT SOME POINT, NOW some persmissions seems to have been declined.
                 AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, false);
 

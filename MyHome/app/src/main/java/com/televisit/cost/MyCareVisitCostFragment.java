@@ -163,9 +163,12 @@ public class MyCareVisitCostFragment extends BaseFragment {
         privacyLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() instanceof NavigationActivity) {
+                CommonUtil.openPdfUrl(getContext(), Constants.MY_CARE_PRIVACY_POLICY_URL);
+
+                //try to avoid webview and use apps installed on the device for PDF viewing.
+                /*if (getActivity() instanceof NavigationActivity) {
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PRIVACY_POLICY, null);
-                }
+                }*/
             }
         });
     }
@@ -293,12 +296,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
         return false;
     }
 
-    /*@Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString("WORKAROUND_FOR_THIS_BUG_DUMMY_KEY", "WORKAROUND_FOR_THIS_BUG_DUMMY_VALUE");
-        super.onSaveInstanceState(outState);
-    }*/
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -328,7 +325,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                 if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
                     if (dialogShown) {
-                        ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+                        nextClick();
+                        //((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
                     }
                 }
                 else {
