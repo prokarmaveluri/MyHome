@@ -624,5 +624,8 @@
     <string name="applies_given_filters">Apply Button applies the given filters to fetch providers</string>
     <string name="previous_day">Previous Day</string>
     <string name="next_day">Next Day</string>
+    <string name="showing">showing</string>
+    <string name="suggestions_available">\n suggestions available, swipe to select</string>
+
 
 </resources>
