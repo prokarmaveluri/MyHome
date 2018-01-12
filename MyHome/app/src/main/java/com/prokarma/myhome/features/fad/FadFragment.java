@@ -512,18 +512,20 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
             binding.suggestionList.setAdapter(suggestionAdapter);
             suggestionAdapter.notifyDataSetChanged();
-            StringBuilder textToAnnounce = new StringBuilder();
-            textToAnnounce.append(getString(R.string.showing));
-            Map<String, Integer> sectionHeaderCount = getSectionHeaderCount(list);
-            for (String sectionHeader :
-                    sectionHeaderCount.keySet()) {
-                textToAnnounce.append(sectionHeaderCount.get(sectionHeader));
-                textToAnnounce.append(", ");
-                textToAnnounce.append(sectionHeader);
-                textToAnnounce.append(", ");
+            if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                StringBuilder textToAnnounce = new StringBuilder();
+                textToAnnounce.append(getString(R.string.showing));
+                Map<String, Integer> sectionHeaderCount = getSectionHeaderCount(list);
+                for (String sectionHeader :
+                        sectionHeaderCount.keySet()) {
+                    textToAnnounce.append(sectionHeaderCount.get(sectionHeader));
+                    textToAnnounce.append(", ");
+                    textToAnnounce.append(sectionHeader);
+                    textToAnnounce.append(", ");
+                }
+                binding.suggestionList.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                binding.suggestionList.announceForAccessibility(textToAnnounce + getString(R.string.suggestions_available));
             }
-            binding.suggestionList.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-            binding.suggestionList.announceForAccessibility(textToAnnounce + getString(R.string.suggestions_available));
         } catch (NullPointerException | IllegalStateException ex) {
             Timber.w(ex);
         }
