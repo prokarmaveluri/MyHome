@@ -899,6 +899,14 @@ public class ProviderDetailsFragment extends BaseFragment implements OnMapReadyC
 
     @Override
     public void onBookingDialogFinished(Profile bookingProfile) {
+
+        if (bookingProfile == null) {
+            Timber.d("book. onBookingDialogFinished. bookingProfile is NULL");
+        }
+        else {
+            Timber.d("book. onBookingDialogFinished. bookingProfile is NOT NULL");
+        }
+
         BookingManager.setBookingProfile(bookingProfile);
         BookingConfirmationFragment bookingFragment = BookingConfirmationFragment.newInstance();
         bookingFragment.setConfirmationInterface(this);

@@ -184,27 +184,33 @@ public class ProfileManager {
     public static Profile getProfileFromConsumerObject(final Consumer consumer) {
 
         Profile profile = Profile.copy(getProfile());
+
+        if (profile.address == null) {
+            profile.address = new Address();
+        }
+        if (profile.insuranceProvider == null) {
+            profile.insuranceProvider = new InsuranceProvider();
+        }
+
         profile.firstName = consumer.getFirstName();
         profile.lastName = consumer.getLastName();
         profile.phoneNumber = consumer.getPhone();
         profile.gender = consumer.getGender();
 
-        if (profile.address == null) {
-            profile.address = new Address();
+        if (consumer.getAddress() != null) {
+            profile.address.line1 = consumer.getAddress().getAddress1();
+            profile.address.line2 = consumer.getAddress().getAddress2();
+            profile.address.city = consumer.getAddress().getCity();
+            profile.address.stateOrProvince = consumer.getAddress().getState().getCode();
+            profile.address.zipCode = consumer.getAddress().getZipCode();
         }
-
-        profile.address.line1 = consumer.getAddress().getAddress1();
-        profile.address.line2 = consumer.getAddress().getAddress2();
-        profile.address.city = consumer.getAddress().getCity();
-        profile.address.stateOrProvince = consumer.getAddress().getState().getCode();
-        profile.address.zipCode = consumer.getAddress().getZipCode();
 
         profile.dateOfBirth = DateUtil.convertReadableToUTC(DateUtil.convertDobtoReadable(consumer.getDob()));
 
         profile.preferredName = getProfile().preferredName;
 
-        profile.insuranceProvider = getProfile().insuranceProvider;
         if (getProfile().insuranceProvider != null) {
+            profile.insuranceProvider = getProfile().insuranceProvider;
             profile.insuranceProvider.insurancePlan = getProfile().insuranceProvider.insurancePlan;
             profile.insuranceProvider.memberNumber = getProfile().insuranceProvider.memberNumber;
             profile.insuranceProvider.groupNumber = getProfile().insuranceProvider.groupNumber;

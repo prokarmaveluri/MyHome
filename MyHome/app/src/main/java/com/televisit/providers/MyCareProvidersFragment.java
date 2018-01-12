@@ -160,6 +160,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                 return;
             }
 
+            if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+                progressBar.setVisibility(View.GONE);
+                return;
+            }
+
             if (!isAdded()) {
                 Timber.d("Refresh. fragment not attached yet.");
                 return;

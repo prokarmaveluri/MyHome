@@ -25,7 +25,7 @@ public class Profile implements Parcelable {
     public String preferredName;
     public String gender;
     public String dateOfBirth;
-    public Address address;
+    public Address address = new Address();
     public String phoneNumber;
     public String phoneNumberType;
     public String contactName;
@@ -33,7 +33,7 @@ public class Profile implements Parcelable {
     public String primaryCaregiverName;
     public boolean isPregnant;
     public String weeksPregnant;
-    public InsuranceProvider insuranceProvider;
+    public InsuranceProvider insuranceProvider = new InsuranceProvider();
     public String clientID;
     public String remoteID;
     public String email;
@@ -241,6 +241,13 @@ public class Profile implements Parcelable {
             profile.assistanceNeeded = otherProfile.assistanceNeeded;
 
             profile.profileSelf = otherProfile.profileSelf; //ProfileSelf.copy(otherProfile.profileSelf);
+
+            if (otherProfile.profileSelf != null && otherProfile.profileSelf.address != null) {
+                profile.address = otherProfile.profileSelf.address;
+            }
+            if (otherProfile.profileSelf != null && otherProfile.profileSelf.insuranceProvider != null) {
+                profile.insuranceProvider = otherProfile.profileSelf.insuranceProvider;
+            }
         }
 
         return profile;
@@ -253,7 +260,7 @@ public class Profile implements Parcelable {
      * @param otherProfile
      * @return
      */
-    public static Profile copySansBookingInfo(Profile otherProfile) {
+    /*public static Profile copySansBookingInfo(Profile otherProfile) {
         Profile profile = new Profile();
 
         if (otherProfile != null) {
@@ -265,7 +272,7 @@ public class Profile implements Parcelable {
         }
 
         return profile;
-    }
+    }*/
 
     @Override
     public int describeContents() {

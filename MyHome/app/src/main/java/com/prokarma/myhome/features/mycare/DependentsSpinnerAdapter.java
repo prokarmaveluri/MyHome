@@ -68,7 +68,7 @@ public class DependentsSpinnerAdapter extends ArrayAdapter<Consumer> {
         }
 
         //getContext().getColor() API is available only for API Level 23 and above, at this point.
-        if (Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             name.setTextColor(getContext().getColor(R.color.teal));
         } else {
             name.setTextColor(Color.parseColor("#097288"));

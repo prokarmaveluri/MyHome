@@ -13,14 +13,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse;
+import com.prokarma.myhome.features.profile.Address;
+import com.prokarma.myhome.features.profile.InsuranceProvider;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.views.WrappingViewPager;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -210,8 +214,18 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
 
     private void finishBooking() {
         final Profile formsProfile = ((BookingDialogAdapter) bookingViewPager.getAdapter()).getProfile();   //Profile from the booking flow
-        final Profile savingProfile = formsProfile; //Profile.copySansBookingInfo(formsProfile);    //Profile to save
-        savingProfile.setEmail(ProfileManager.getProfile().email);
+
+        //Profile to save
+        Profile savingProfile = null;
+        if (formsProfile == null) {
+            savingProfile = new Profile();
+        } else {
+            savingProfile = formsProfile;
+        }
+
+        if (savingProfile != null && ProfileManager.getProfile() != null) {
+            savingProfile.setEmail(ProfileManager.getProfile().email);
+        }
 
         if (BookingManager.isBookingForMe() && !formsProfile.shouldAskToSave(ProfileManager.getProfile())) {
             //Not equal and all the data empty
