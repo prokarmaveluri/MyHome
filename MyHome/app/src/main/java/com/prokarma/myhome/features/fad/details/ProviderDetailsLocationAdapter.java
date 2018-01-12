@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class ProviderDetailsLocationAdapter extends RecyclerView.Adapter<Recycle
                 ViewHolder holder = (ViewHolder) genericHolder;
                 ProviderDetailsAddress address = locations.get(position);
                 holder.locationText.setText(address.getAddress() != null ? address.getName() + "\n" + CommonUtil.constructAddress(address.getAddress(), null, address.getCity(), address.getState(), address.getZip()) : context.getString(R.string.address_unknown));
+                holder.locationText.setContentDescription(address.getAddress() != null ? address.getName() + "\n" + AddressUtil.getAddressForAccessibilityUser(address) : context.getString(R.string.address_unknown));
                 holder.pinImage.setContentDescription(address.getName() + ", " + context.getString(R.string.show_in_map));
                 holder.setOnPinClickListener(address, onItemClickListener);
                 break;

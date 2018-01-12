@@ -512,6 +512,20 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             binding.suggestionList.setLayoutManager(new LinearLayoutManager(getActivity()));
             binding.suggestionList.setAdapter(suggestionAdapter);
             suggestionAdapter.notifyDataSetChanged();
+            if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                StringBuilder textToAnnounce = new StringBuilder();
+                textToAnnounce.append(getString(R.string.showing));
+                Map<String, Integer> sectionHeaderCount = getSectionHeaderCount(list);
+                for (String sectionHeader :
+                        sectionHeaderCount.keySet()) {
+                    textToAnnounce.append(sectionHeaderCount.get(sectionHeader));
+                    textToAnnounce.append(", ");
+                    textToAnnounce.append(sectionHeader);
+                    textToAnnounce.append(", ");
+                }
+                binding.suggestionList.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                binding.suggestionList.announceForAccessibility(textToAnnounce + getString(R.string.suggestions_available));
+            }
         } catch (NullPointerException | IllegalStateException ex) {
             Timber.w(ex);
         }
@@ -557,6 +571,28 @@ public class FadFragment extends BaseFragment implements FadInteractor.View,
             Timber.w(ex);
         }
         return sug;
+    }
+
+    private Map<String, Integer> getSectionHeaderCount(List<SearchSuggestionResponse> list) {
+        Map<String, Integer> sectionHeaderCount = new HashMap<>();
+        Map<String, String> titleMap = new HashMap<>();
+        Map<String, Integer> consolidatedMap = new HashMap<>();
+        try {
+            for (SearchSuggestionResponse resp : list) {
+                if (resp.getType().contains("SectionHeader")) {
+                    sectionHeaderCount.put(resp.getCategory(), 0);
+                    titleMap.put(resp.getCategory(), resp.getTitle());
+                } else {
+                    sectionHeaderCount.put(resp.getCategory(), sectionHeaderCount.get(resp.getCategory()) + 1);
+                }
+            }
+            for (String category : titleMap.keySet()) {
+                consolidatedMap.put(titleMap.get(category), sectionHeaderCount.get(category));
+            }
+        } catch (NullPointerException ex) {
+            Timber.w(ex);
+        }
+        return consolidatedMap;
     }
 
     private void searchForQuery(String query, String distanceRange) {
