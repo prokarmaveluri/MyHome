@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scroll_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -52,9 +52,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
+                android:contentDescription="@string/your_visit_has_ended"
                 android:paddingTop="24dp"
-                android:text="@string/your_visit_has_ended"
-                android:contentDescription="@string/your_visit_has_ended" />
+                android:text="@string/your_visit_has_ended" />
 
             <TextView
                 android:id="@+id/cost_description"
@@ -127,16 +127,22 @@
                     android:gravity="center"
                     android:textColor="@color/primary"
                     android:textStyle="bold"
-                    tools:text="616.826.635" />
+                    tools:text="616.826.6355" />
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/prescriptions_list"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/pharmacy_distance"
-                android:layout_marginTop="16dp"
-                android:visibility="gone" />
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/prescriptions_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone" />
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/view_report"
@@ -146,10 +152,10 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
+                android:contentDescription="@string/view_visit_report"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="@string/view_visit_report"
-                android:contentDescription="@string/view_visit_report"
                 android:textAllCaps="false" />
         </LinearLayout>
 
@@ -167,32 +173,39 @@
                 style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="6dp"
                 android:layout_marginTop="10dp"
+                android:contentDescription="@string/visit_summary_email"
                 android:gravity="left"
                 android:text="@string/visit_summary_email"
-                android:contentDescription="@string/visit_summary_email"
                 android:textColor="@color/db_charcoal_grey" />
 
+            <!-- android:layout_marginBottom="16dp" -->
             <CheckBox
                 android:id="@+id/email_agree"
                 style="@style/tradeGothicLTStdLight_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/email_text"
-                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="-6dp"
-                android:text="@string/visit_summary_email_agree"
                 android:contentDescription="@string/visit_summary_email_agree"
+                android:text="@string/visit_summary_email_agree"
                 android:textColor="@color/db_charcoal_grey"
                 android:visibility="gone" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/email_list"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/email_agree"
-                android:layout_marginTop="16dp" />
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/email_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:scrollbars="none" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/add_additional_email"
@@ -203,10 +216,10 @@
                 android:layout_below="@id/email_list"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="2dp"
+                android:contentDescription="@string/add_additional_email_content_desc"
                 android:gravity="left"
                 android:paddingTop="4dp"
                 android:text="@string/add_additional_email"
-                android:contentDescription="@string/add_additional_email_content_desc"
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
 
@@ -248,12 +261,12 @@
                     android:layout_alignBottom="@id/new_email_textinput"
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/new_email_textinput"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/add"
                     android:gravity="center"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:layout_marginBottom="16dp"
                     android:text="@string/add"
-                    android:contentDescription="@string/add"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
             </RelativeLayout>

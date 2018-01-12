@@ -106,7 +106,7 @@ public class Address implements Parcelable {
      * @param otherAddress
      * @return
      */
-    public static Address copy(Address otherAddress) {
+    /*public static Address copy(Address otherAddress) {
         Address address = new Address();
 
         if (otherAddress != null) {
@@ -119,5 +119,5 @@ public class Address implements Parcelable {
         }
 
         return address;
-    }
+    }*/
 }

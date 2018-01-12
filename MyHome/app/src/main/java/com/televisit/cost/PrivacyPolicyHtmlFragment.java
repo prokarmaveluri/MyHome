@@ -35,10 +35,10 @@ import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PrivacyPolicyFragment#newInstance} factory method to
+ * Use the {@link PrivacyPolicyHtmlFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PrivacyPolicyFragment extends BaseFragment {
+public class PrivacyPolicyHtmlFragment extends BaseFragment {
 
     public static final String MY_CARE_PRIVACY_POLICY_TAG = "my_care_privacy_policy_tag";
 
@@ -46,7 +46,7 @@ public class PrivacyPolicyFragment extends BaseFragment {
     private LinearLayout wholeLayout;
     private ProgressBar progressBar;
 
-    public PrivacyPolicyFragment() {
+    public PrivacyPolicyHtmlFragment() {
         // Required empty public constructor
     }
 
@@ -54,10 +54,10 @@ public class PrivacyPolicyFragment extends BaseFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment PrivacyPolicyFragment.
+     * @return A new instance of fragment PrivacyPolicyHtmlFragment.
      */
-    public static PrivacyPolicyFragment newInstance() {
-        return new PrivacyPolicyFragment();
+    public static PrivacyPolicyHtmlFragment newInstance() {
+        return new PrivacyPolicyHtmlFragment();
     }
 
     @Override

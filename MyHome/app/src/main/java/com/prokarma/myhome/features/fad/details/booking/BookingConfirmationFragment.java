@@ -72,7 +72,9 @@ public class BookingConfirmationFragment extends Fragment {
                 : getString(R.string.address_unknown);
         address.setContentDescription(getString(R.string.location) + addressContentDescription);
 
-        reason.setText(BookingManager.getBookingProfile().reasonForVisit);
+        if (BookingManager.getBookingProfile() != null) {
+            reason.setText(BookingManager.getBookingProfile().reasonForVisit);
+        }
 
         return bookingView;
     }

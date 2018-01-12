@@ -1141,6 +1141,25 @@ public class CommonUtil {
         return false;
     }
 
+    public static boolean openPdfUrl(Context context, String httpUrl) {
+        try {
+            Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
+            pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            pdfOpenintent.setDataAndType(Uri.parse(httpUrl), "application/pdf");
+
+            //check if intent is available inorder to open the PDF file.
+            if (pdfOpenintent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(pdfOpenintent);
+            }
+            return true;
+        } catch (ActivityNotFoundException e) {
+            Timber.e(e);
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return false;
+    }
+
     public static String formatAmount(double cost) {
         DecimalFormat amountFormat = new DecimalFormat("0.00");
         return amountFormat.format(cost);

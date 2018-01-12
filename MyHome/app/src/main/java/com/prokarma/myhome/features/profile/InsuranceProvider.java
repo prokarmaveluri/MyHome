@@ -66,7 +66,7 @@ public class InsuranceProvider implements Parcelable {
      * @param otherInsuranceProvider
      * @return
      */
-    public static InsuranceProvider copy(InsuranceProvider otherInsuranceProvider) {
+    /*public static InsuranceProvider copy(InsuranceProvider otherInsuranceProvider) {
         InsuranceProvider insuranceProvider = new InsuranceProvider();
 
         if (otherInsuranceProvider != null) {
@@ -79,7 +79,7 @@ public class InsuranceProvider implements Parcelable {
         }
 
         return insuranceProvider;
-    }
+    }*/
 
     /**
      * Simple Copy-By-Value method to avoid copy by reference problems when using a Singleton.
@@ -88,7 +88,7 @@ public class InsuranceProvider implements Parcelable {
      * @param otherInsuranceProvider
      * @return
      */
-    public static InsuranceProvider copySansBookingInfo(InsuranceProvider otherInsuranceProvider) {
+    /*public static InsuranceProvider copySansBookingInfo(InsuranceProvider otherInsuranceProvider) {
         InsuranceProvider insuranceProvider = new InsuranceProvider();
 
         if (otherInsuranceProvider != null) {
@@ -98,7 +98,7 @@ public class InsuranceProvider implements Parcelable {
         }
 
         return insuranceProvider;
-    }
+    }*/
 
     @Override
     public int describeContents() {

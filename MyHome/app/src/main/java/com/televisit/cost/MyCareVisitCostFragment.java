@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -31,7 +32,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
@@ -39,6 +39,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
@@ -84,6 +85,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private StringBuilder sbMissingPermissionsText = new StringBuilder();
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog alertDialog = null;
+    boolean dialogShown = false;
 
     public MyCareVisitCostFragment() {
         // Required empty public constructor
@@ -161,9 +163,12 @@ public class MyCareVisitCostFragment extends BaseFragment {
         privacyLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() instanceof NavigationActivity) {
+                CommonUtil.openPdfUrl(getContext(), Constants.MY_CARE_PRIVACY_POLICY_URL);
+
+                //try to avoid webview and use apps installed on the device for PDF viewing.
+                /*if (getActivity() instanceof NavigationActivity) {
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PRIVACY_POLICY, null);
-                }
+                }*/
             }
         });
     }
@@ -210,6 +215,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
     private void nextClick() {
         if (alertDialog != null) {
             alertDialog.cancel();
+            dialogShown = false;
         }
         phoneLayout.setError(null);
         reasonLayout.setError(null);
@@ -250,7 +256,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
     private boolean hasPermissionsForVideoVisit() {
 
-        boolean showDialog = false;
+        boolean shouldShowInfo = false;
         missingPermissions = new ArrayList<>();
         missingPermissionsText = new ArrayList<>();
         sbMissingPermissionsText = new StringBuilder();
@@ -274,7 +280,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
                     }
 
                     if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), requiredPermission)) {
-                        showDialog = true;
+                        shouldShowInfo = true;
                     }
                 }
             }
@@ -288,12 +294,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
         ActivityCompat.requestPermissions(getActivity(), perms, REQUEST_PERMISSIONS_REQUEST_CODE);
 
         return false;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString("WORKAROUND_FOR_THIS_BUG_DUMMY_KEY", "WORKAROUND_FOR_THIS_BUG_DUMMY_VALUE");
-        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -316,10 +316,25 @@ public class MyCareVisitCostFragment extends BaseFragment {
             }
 
             if (allGranted) {
+
+                AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, true);
+
                 if (alertDialog != null) {
                     alertDialog.cancel();
                 }
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+                    if (dialogShown) {
+                        nextClick();
+                        //((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+                    }
+                }
+                else {
+                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+                }
+
+                dialogShown = false;
+
             } else {
                 showPermissionSettingsDialog();
             }
@@ -367,12 +382,14 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
         alertDialogBuilder.setCancelable(false);
         alertDialog = alertDialogBuilder.show();
+        dialogShown = true;
     }
 
     private void goBackToDashboard() {
 
         if (alertDialog != null) {
             alertDialog.cancel();
+            dialogShown = false;
         }
 
         //fix 29231: When permissions to Camera/Mic are denied user must return to MCN start screen
@@ -387,6 +404,11 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
             CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
+            return;
+        }
+
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            progressBar.setVisibility(View.GONE);
             return;
         }
 
@@ -436,6 +458,11 @@ public class MyCareVisitCostFragment extends BaseFragment {
             return;
         }
 
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
 
         AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
@@ -454,7 +481,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
                             AwsManager.getInstance().setVisit(visit);
 
                             //29194 and 29111: Android: Remove the 'Free" coupon code before going to the Production Environment
-                            applyCoupon("Free");
+                            //applyCoupon("Free");
+
+                            progressBar.setVisibility(View.GONE);
 
                             updateVisitCost();
 
@@ -466,7 +495,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
                             if (sdkError != null && sdkError.toString() != null
                                     && (sdkError.toString().toLowerCase().contains("provider unavailable")
-                                    || sdkError.toString().toLowerCase().contains("consumer_already_in_visit")) ) {
+                                    || sdkError.toString().toLowerCase().contains("consumer_already_in_visit"))) {
 
                                 providerUnavailable = true;
                                 CommonUtil.showToast(getContext(), getString(R.string.provider_unavailable));

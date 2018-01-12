@@ -31,8 +31,8 @@ public class ProfileSelf implements Parcelable {
     public String weeksPregnant;
     public String numKbaAttempts;
     public String nextKbaAttempt;
-    public Address address;
-    public InsuranceProvider insuranceProvider;
+    public Address address = new Address();
+    public InsuranceProvider insuranceProvider = new InsuranceProvider();
 
     public ProfileSelf() {
 
@@ -235,41 +235,44 @@ public class ProfileSelf implements Parcelable {
             askToSave = true;
         }
 
-        if (!Objects.equals(address.line1, profileSelf.address.line1) && (profileSelf.address.line1 != null && !profileSelf.address.line1.isEmpty())) {
-            askToSave = true;
+        if (address != null) {
+            if (!Objects.equals(address.line1, profileSelf.address.line1) && (profileSelf.address.line1 != null && !profileSelf.address.line1.isEmpty())) {
+                askToSave = true;
+            }
+
+            if (!Objects.equals(address.line2, profileSelf.address.line2) && (profileSelf.address.line2 != null && !profileSelf.address.line2.isEmpty())) {
+                askToSave = true;
+            }
+
+            if (!Objects.equals(address.city, profileSelf.address.city) && (profileSelf.address.city != null && !profileSelf.address.city.isEmpty())) {
+                askToSave = true;
+            }
+
+            if (!Objects.equals(address.stateOrProvince, profileSelf.address.stateOrProvince) && (profileSelf.address.stateOrProvince != null && !profileSelf.address.stateOrProvince.isEmpty())) {
+                askToSave = true;
+            }
+
+            if (!Objects.equals(address.zipCode, profileSelf.address.zipCode) && (profileSelf.address.zipCode != null && !profileSelf.address.zipCode.isEmpty())) {
+                askToSave = true;
+            }
+
+            if (!Objects.equals(address.countryCode, profileSelf.address.countryCode) && (profileSelf.address.countryCode != null && !profileSelf.address.countryCode.isEmpty())) {
+                askToSave = true;
+            }
         }
 
-        if (!Objects.equals(address.line2, profileSelf.address.line2) && (profileSelf.address.line2 != null && !profileSelf.address.line2.isEmpty())) {
-            askToSave = true;
-        }
+        if (insuranceProvider != null) {
+            if (!Objects.equals(insuranceProvider.insurancePlan, profileSelf.insuranceProvider.insurancePlan) && (profileSelf.insuranceProvider.insurancePlan != null && !profileSelf.insuranceProvider.insurancePlan.isEmpty())) {
+                askToSave = true;
+            }
 
-        if (!Objects.equals(address.city, profileSelf.address.city) && (profileSelf.address.city != null && !profileSelf.address.city.isEmpty())) {
-            askToSave = true;
-        }
+            if (!Objects.equals(insuranceProvider.memberNumber, profileSelf.insuranceProvider.memberNumber) && (profileSelf.insuranceProvider.memberNumber != null && !profileSelf.insuranceProvider.memberNumber.isEmpty())) {
+                askToSave = true;
+            }
 
-        if (!Objects.equals(address.stateOrProvince, profileSelf.address.stateOrProvince) && (profileSelf.address.stateOrProvince != null && !profileSelf.address.stateOrProvince.isEmpty())) {
-            askToSave = true;
-        }
-
-        if (!Objects.equals(address.zipCode, profileSelf.address.zipCode) && (profileSelf.address.zipCode != null && !profileSelf.address.zipCode.isEmpty())) {
-            askToSave = true;
-        }
-
-        if (!Objects.equals(address.countryCode, profileSelf.address.countryCode) && (profileSelf.address.countryCode != null && !profileSelf.address.countryCode.isEmpty())) {
-            askToSave = true;
-        }
-
-
-        if (!Objects.equals(insuranceProvider.insurancePlan, profileSelf.insuranceProvider.insurancePlan) && (profileSelf.insuranceProvider.insurancePlan != null && !profileSelf.insuranceProvider.insurancePlan.isEmpty())) {
-            askToSave = true;
-        }
-
-        if (!Objects.equals(insuranceProvider.memberNumber, profileSelf.insuranceProvider.memberNumber) && (profileSelf.insuranceProvider.memberNumber != null && !profileSelf.insuranceProvider.memberNumber.isEmpty())) {
-            askToSave = true;
-        }
-
-        if (!Objects.equals(insuranceProvider.groupNumber, profileSelf.insuranceProvider.groupNumber) && (profileSelf.insuranceProvider.groupNumber != null && !profileSelf.insuranceProvider.groupNumber.isEmpty())) {
-            askToSave = true;
+            if (!Objects.equals(insuranceProvider.groupNumber, profileSelf.insuranceProvider.groupNumber) && (profileSelf.insuranceProvider.groupNumber != null && !profileSelf.insuranceProvider.groupNumber.isEmpty())) {
+                askToSave = true;
+            }
         }
 
         return askToSave;
@@ -303,8 +306,12 @@ public class ProfileSelf implements Parcelable {
             profileSelf.numKbaAttempts = otherProfile.numKbaAttempts;
             profileSelf.nextKbaAttempt = otherProfile.nextKbaAttempt;
 
-            profileSelf.address = otherProfile.address; //Address.copy(otherProfile.address);
-            profileSelf.insuranceProvider = otherProfile.insuranceProvider; //InsuranceProvider.copy(otherProfile.insuranceProvider);
+            if (otherProfile.address != null) {
+                profileSelf.address = otherProfile.address;
+            }
+            if (otherProfile.insuranceProvider != null) {
+                profileSelf.insuranceProvider = otherProfile.insuranceProvider;
+            }
         }
 
         return profileSelf;
@@ -317,7 +324,7 @@ public class ProfileSelf implements Parcelable {
      * @param otherProfile
      * @return
      */
-    public static ProfileSelf copySansBookingInfo(ProfileSelf otherProfile) {
+    /*public static ProfileSelf copySansBookingInfo(ProfileSelf otherProfile) {
         ProfileSelf profile = new ProfileSelf();
 
         if (otherProfile != null) {
@@ -339,12 +346,16 @@ public class ProfileSelf implements Parcelable {
             profile.numKbaAttempts = otherProfile.numKbaAttempts;
             profile.nextKbaAttempt = otherProfile.nextKbaAttempt;
 
-            profile.address = otherProfile.address; //Address.copy(otherProfile.address);
-            profile.insuranceProvider = otherProfile.insuranceProvider; //InsuranceProvider.copySansBookingInfo(otherProfile.insuranceProvider);
+            if (otherProfile.address != null) {
+                profile.address = otherProfile.address;
+            }
+            if (otherProfile.insuranceProvider != null) {
+                profile.insuranceProvider = otherProfile.insuranceProvider;
+            }
         }
 
         return profile;
-    }
+    }*/
 
     @Override
     public int describeContents() {

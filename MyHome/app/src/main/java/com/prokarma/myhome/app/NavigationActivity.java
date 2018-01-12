@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -53,14 +55,16 @@ import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.Constants.ActivityTag;
 import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.views.PdfRendererZoomFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
+import com.televisit.AwsManager;
 import com.televisit.cost.MyCareVisitCostFragment;
-import com.televisit.cost.PrivacyPolicyFragment;
+import com.televisit.cost.PrivacyPolicyPdfFragment;
 import com.televisit.feedback.FeedbackFragment;
 import com.televisit.history.HistoryListAdapter;
 import com.televisit.history.MedicalHistoryFragment;
@@ -75,6 +79,7 @@ import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.SummaryFragment;
 import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
+import java.util.ArrayList;
 import java.util.TimeZone;
 
 import timber.log.Timber;
@@ -686,12 +691,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case MY_CARE_PRIVACY_POLICY:
                 if (getActivityTag() != ActivityTag.MY_CARE_PRIVACY_POLICY) {
                     getSupportFragmentManager().executePendingTransactions();
-                    PrivacyPolicyFragment privacyPolicyFragment = PrivacyPolicyFragment.newInstance();
-                    privacyPolicyFragment.setArguments(bundle);
+                    PrivacyPolicyPdfFragment ppPdfFragment = PrivacyPolicyPdfFragment.newInstance();
+                    ppPdfFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, privacyPolicyFragment, PrivacyPolicyFragment.MY_CARE_PRIVACY_POLICY_TAG)
+                            .replace(R.id.frame, ppPdfFragment, PrivacyPolicyPdfFragment.MY_CARE_PRIVACY_POLICY_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
@@ -927,6 +932,34 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onResume() {
         super.onResume();
+
+        //ALL GRANTED AT SOME POINT
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED)) {
+
+            ArrayList<String> missingPermissions = new ArrayList<>();
+            String[] requiredPermissions = AwsManager.getInstance().getAWSDK().getRequiredPermissions();
+            if (requiredPermissions != null && requiredPermissions.length != 0) {
+                for (String requiredPermission : requiredPermissions) {
+                    if (ContextCompat.checkSelfPermission(this, requiredPermission) != PackageManager.PERMISSION_GRANTED) {
+                        missingPermissions.add(requiredPermission);
+                    }
+                }
+            }
+
+            if (missingPermissions.isEmpty()) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, true);
+            } else {
+                //ALL GRANTED AT SOME POINT, NOW some persmissions seems to have been declined.
+                AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, false);
+
+                SessionUtil.logout(this, null);
+                CommonUtil.exitApp(this, this);
+
+                Intent intent = SplashActivity.getSplashIntent(this);
+                this.startActivity(intent);
+                this.finish();
+            }
+        }
 
         setMyCareVisibility();
 

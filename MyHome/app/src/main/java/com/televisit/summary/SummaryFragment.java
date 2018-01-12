@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -93,6 +92,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private TextView addEmail;
     private TextView emailConfidentialityText;
     private ScrollView scrollLayout;
+    private EmailsAdapter emailsAdapter;
 
     private List<EmailsAdapter.EmailSelection> emailObjects = null;
 
@@ -230,6 +230,10 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         emailObj.setEmailId(AwsManager.getInstance().getPatient().getEmail());
         emailObj.setSelected(true);
         emailObjects.add(emailObj);
+
+        emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //emailsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+
         displayEmails();
     }
 
@@ -661,12 +665,10 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
             emailsList.setVisibility(View.VISIBLE);
 
-            EmailsAdapter adapter = new EmailsAdapter(emailObjects, this);
-            emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            //emailsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-            emailsList.setAdapter(adapter);
+            emailsAdapter = new EmailsAdapter(emailObjects, this);
+            emailsList.setAdapter(emailsAdapter);
 
-            adapter.notifyDataSetChanged();
+            emailsAdapter.notifyDataSetChanged();
         } else {
             emailsList.setVisibility(View.GONE);
         }
@@ -710,12 +712,19 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
     private void displayPharmacyDetails(Pharmacy pharmacy) {
 
-        if (pharmacy == null || pharmacy.getName() == null) {
+        if (pharmacy == null) {
             pharmacyName.setVisibility(View.GONE);
+            pharmacyPhoneLayout.setVisibility(View.GONE);
+            pharmacyAddress.setVisibility(View.GONE);
         } else {
-            pharmacyName.setVisibility(View.VISIBLE);
-            pharmacyName.setText(pharmacy.getName());
-            pharmacyName.setContentDescription("Pharmacy, " + pharmacyName.getText());
+
+            if (pharmacy.getAddress() == null) {
+                pharmacyName.setVisibility(View.GONE);
+            } else {
+                pharmacyName.setVisibility(View.VISIBLE);
+                pharmacyName.setText(pharmacy.getName());
+                pharmacyName.setContentDescription("Pharmacy, " + pharmacyName.getText());
+            }
 
             if (pharmacy == null || pharmacy.getPhone() == null || pharmacy.getPhone().isEmpty()) {
                 pharmacyPhoneLayout.setVisibility(View.GONE);

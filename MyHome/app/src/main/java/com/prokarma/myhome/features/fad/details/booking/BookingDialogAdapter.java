@@ -117,7 +117,17 @@ public class BookingDialogAdapter extends PagerAdapter {
         this.bookingDialogToolbarInterface = bookingDialogToolbarInterface;
         this.autoPopulateFromProfile = autoPopulateFromProfile;
         this.autoPopulateInsurnacePlan = autoPopulateInsurnacePlan;
-        formsProfile = profile; //Profile.copy(profile);
+
+        if (profile == null) {
+            formsProfile = new Profile();
+        }
+        else {
+            formsProfile = profile;
+        }
+
+        if (formsProfile == null) {
+            Timber.d("book. formsProfile is NULL. ");
+        }
     }
 
     @Nullable
@@ -611,6 +621,11 @@ public class BookingDialogAdapter extends PagerAdapter {
      * @return a Profile that accurately represents the forms filled out
      */
     public Profile getProfile() {
+
+        if (formsProfile == null) {
+            return formsProfile;
+        }
+
         if (formsProfile.address == null) {
             formsProfile.address = new Address();
         }

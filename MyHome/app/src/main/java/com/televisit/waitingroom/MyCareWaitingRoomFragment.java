@@ -173,7 +173,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                             AwsManager.getInstance().setVisit(visit);
 
                             //29194 and 29111: Android: Remove the 'Free" coupon code before going to the Production Environment
-                            applyCoupon("Free");
+                            //applyCoupon("Free");
 
                             progressBar.setVisibility(View.GONE);
 
