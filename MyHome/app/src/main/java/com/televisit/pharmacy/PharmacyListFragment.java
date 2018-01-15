@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -28,8 +29,10 @@ import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.televisit.AwsManager;
+
 import java.util.List;
 import java.util.Map;
+
 import timber.log.Timber;
 
 
@@ -85,7 +88,8 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
         pharmacySearch.setOnEditorActionListener(this);
         searchCancelClickEvent();
 
-        if (CommonUtil.isGPSEnabled(this.getContext())
+        if (CommonUtil.hasLocationPermissionForApp(this.getContext())
+                && CommonUtil.isGPSEnabled(this.getContext())
                 && FadManager.getInstance().getLocation() != null
                 && FadManager.getInstance().getLocation().getLat() != null
                 && !FadManager.getInstance().getLocation().getLat().isEmpty()
@@ -223,7 +227,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
                         }
 
                         if (pharmacies == null || pharmacies.size() == 0) {
-                            CommonUtil.showToast(getContext(),getString(R.string.no_pharmacies_found_for_current_location));
+                            CommonUtil.showToast(getContext(), getString(R.string.no_pharmacies_found_for_current_location));
                         }
                     }
 
@@ -240,7 +244,7 @@ public class PharmacyListFragment extends Fragment implements TextView.OnEditorA
             if (pharmacySearch.getText().toString().trim().length() == 5) {
                 getPharmaciesByZip(pharmacySearch.getText().toString().trim());
             } else {
-                CommonUtil.showToast(getContext(),getString(R.string.zip_invalid));
+                CommonUtil.showToast(getContext(), getString(R.string.zip_invalid));
             }
             return true;
         }
