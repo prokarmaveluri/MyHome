@@ -3,6 +3,7 @@ package com.televisit.providers;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -18,10 +19,13 @@ import android.widget.TextView;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.legal.LegalText;
+import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.PracticeInfo;
+import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.entity.visit.VisitContext;
+import com.americanwell.sdk.manager.MatchmakerCallback;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
@@ -44,9 +48,9 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     public static final String MY_CARE_PROVIDERS_TAG = "my_care_providers_tag";
 
     private Consumer patient;
-
+    private OnDemandSpecialty specialty;
     private PracticeInfo practiceInfo;
-    private List<ProviderInfo> providerInfo;
+    private List<ProviderInfo> providerInfos;
     private ProgressBar progressBar;
     private RecyclerView providerList;
     private Button nextAvailableProvider;
@@ -71,9 +75,6 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            practiceInfo = getArguments().getParcelable("PracticeInfo");
-        }
     }
 
     @Override
@@ -96,7 +97,6 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
         patient = AwsManager.getInstance().getPatient() != null ? AwsManager.getInstance().getPatient() : AwsManager.getInstance().getConsumer();
 
-        getProviders();
         return view;
     }
 
@@ -104,11 +104,19 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (AwsManager.getInstance().getPatient() != null) {
-            chooseText.setText(AwsManager.getInstance().getPatient().getFirstName() + ", "
-                    + getContext().getString(R.string.my_care_providers_desc));
+        if (patient != null) {
+            chooseText.setText(patient.getFirstName() + ", " + getContext().getString(R.string.my_care_providers_desc));
             chooseText.setContentDescription(chooseText.getText());
         }
+
+        nextAvailableProvider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextAvailableProviderClick();
+            }
+        });
+
+        getPractices();
     }
 
 
@@ -122,6 +130,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                         if (refreshHandler != null) {
 
                             getProviders();
+
+                            if (specialty == null) {
+                                getSpecialties();
+                            }
+
                             refreshHandler.postDelayed(this, REFRESH_INTERVAL_SECONDS * 1000);
                         }
                     }
@@ -145,6 +158,129 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     public void onDestroy() {
         super.onDestroy();
         refreshHandler = null;
+    }
+
+    @Override
+    public void providerClick(ProviderInfo provider) {
+        if (provider != null && provider.getVisibility() == ProviderVisibility.OFFLINE) {
+            CommonUtil.showToast(getActivity(), provider.getFullName() + " " + getActivity().getString(R.string.is_not_available));
+        } else if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
+            getVisitContextByProvider(provider);
+        }
+    }
+
+    @Override
+    public Constants.ActivityTag setDrawerTag() {
+        return Constants.ActivityTag.MY_CARE_PROVIDERS;
+    }
+
+    private void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        providerList.setVisibility(View.GONE);
+    }
+
+    private void showList() {
+        progressBar.setVisibility(View.GONE);
+        providerList.setVisibility(View.VISIBLE);
+    }
+
+    private void setListAdapter() {
+        if (isAdded() && providerInfos != null) {
+            providerList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            providerList.setAdapter(new ProvidersListAdapter(getContext(), providerInfos, this));
+        }
+    }
+
+    private void setNextAvailableProviderButton() {
+
+        /*if (specialty != null && specialty.areProvidersAvailable()) {
+            nextAvailableProvider.setEnabled(true);
+        } else {
+            nextAvailableProvider.setEnabled(false);
+        }*/
+
+        // Rather than disabling, show appropriate message when tapped.
+        // otherwise user maynot be aware as to why button is disabled and still some providers are ONLINE in the list below
+        nextAvailableProvider.setEnabled(true);
+    }
+
+    private void nextAvailableProviderClick() {
+
+        //as per AmwellSample app, we need to use specialty and matchmaking API to fetch the next available provider. iOS also implementing the same.
+        if (specialty == null) {
+            CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_with_specialty_try_later));
+        } else {
+            getVisitContextBySpeciality();
+        }
+
+        //OLD LOGIC: from the list of doctors displayed in choose doctor, get the doctor who is Online and has no patients waiting for him. (basically No API call)
+        /*ProviderInfo provider = CommonUtil.getNextAvailableProvider(providerInfos);
+        if (provider != null) {
+            getVisitContextByProvider(provider);
+        } else {
+            CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available));
+        }*/
+    }
+
+    public void getPractices() {
+        AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findPractices(
+                patient, null,
+                new SDKCallback<List<PracticeInfo>, SDKError>() {
+                    @Override
+                    public void onResponse(List<PracticeInfo> listPracticeInfo, SDKError sdkError) {
+
+                        if (sdkError == null && listPracticeInfo != null && listPracticeInfo.size() > 0) {
+                            practiceInfo = listPracticeInfo.get(0);
+
+                            Timber.d("providers. practiceInfo Name = " + practiceInfo.getName());
+                            if (practiceInfo.getPracticeType() != null) {
+                                Timber.d("providers. practiceInfo PracticeType = " + practiceInfo.getPracticeType().toString());
+                            }
+
+                            getProviders();
+
+                            getSpecialties();
+
+                        } else {
+                            Timber.e("providers. getPractices. Error = " + sdkError);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("providers. getPractices. Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                    }
+                });
+    }
+
+    public void getSpecialties() {
+
+        AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().getOnDemandSpecialties(
+                patient,
+                practiceInfo,
+                null,
+                new SDKCallback<List<OnDemandSpecialty>, SDKError>() {
+                    @Override
+                    public void onResponse(List<OnDemandSpecialty> listSpecialties, SDKError sdkError) {
+
+                        if (sdkError == null && listSpecialties != null && listSpecialties.size() > 0) {
+                            specialty = listSpecialties.get(0);
+                            Timber.d("providers. getSpecialties. specialty areProvidersAvailable = " + specialty.areProvidersAvailable());
+
+                        } else {
+                            Timber.e("providers. getSpecialties. Error = " + sdkError);
+                        }
+                        setNextAvailableProviderButton();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("providers. getSpecialties. Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        setNextAvailableProviderButton();
+                    }
+                });
     }
 
     private void getProviders() {
@@ -182,17 +318,20 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     null,
                     new SDKCallback<List<ProviderInfo>, SDKError>() {
                         @Override
-                        public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
+                        public void onResponse(List<ProviderInfo> providerInfoList, SDKError sdkError) {
                             if (sdkError == null) {
-                                providerInfo = providerInfos;
-                                setNextAvailableProviderButton();
-                                setListAdapter(providerInfo);
+                                providerInfos = providerInfoList;
+                                setListAdapter();
+                            } else {
+                                Timber.e("findProviders. Error = " + sdkError);
                             }
                             showList();
                         }
 
                         @Override
                         public void onFailure(Throwable throwable) {
+                            Timber.e("findProviders. Something failed! :/");
+                            Timber.e("Throwable = " + throwable);
                             showList();
                         }
                     }
@@ -204,56 +343,84 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         }
     }
 
-    private void setListAdapter(List<ProviderInfo> providers) {
-        if (isAdded() && providers != null) {
-            providerList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            providerList.setAdapter(new ProvidersListAdapter(getContext(), providers, this));
-        }
-        this.providerInfo = providers;
+    private void getVisitContextBySpeciality() {
+
+        AwsManager.getInstance().getAWSDK().getVisitManager().getVisitContext(
+                patient,
+                specialty,
+                new SDKCallback<VisitContext, SDKError>() {
+                    @Override
+                    public void onResponse(VisitContext visitContext, SDKError sdkError) {
+                        if (sdkError != null) {
+                            Timber.e("providers. getVisitContextBySpeciality. Error = " + sdkError);
+                            return;
+                        }
+
+                        setLegalTextsAccepted(true, visitContext);
+                        setShareHealthSummary(visitContext);
+                        AwsManager.getInstance().setVisitContext(visitContext);
+
+                        getProviderByVisitContext(visitContext);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("providers. getVisitContextBySpeciality. Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                    }
+                });
     }
 
-    private void setNextAvailableProviderButton() {
-        nextAvailableProvider.setEnabled(providerInfo != null && !providerInfo.isEmpty());
-        nextAvailableProvider.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProviderInfo provider = CommonUtil.getNextAvailableProvider(providerInfo);
-                if (provider != null) {
-                    getVisitContext(provider);
-                } else {
-                    CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available));
-                }
-            }
-        });
+    private void getProviderByVisitContext(VisitContext visitContext) {
+
+        AwsManager.getInstance().getAWSDK().getVisitManager().startMatchmaking(
+                visitContext,
+                new MatchmakerCallback() {
+                    @Override
+                    public void onResponse(Void aVoid, SDKError sdkError) {
+                        if (sdkError == null) {
+                            Timber.d("providers. startMatchmaking NO error ");
+                        } else {
+                            Timber.d("providers. startMatchmaking Error = " + sdkError);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("providers. startMatchmaking. Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+                        CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_with_specialty_try_later));
+                    }
+
+                    @Override
+                    public void onProviderFound(@NonNull Provider provider) {
+                        if (provider != null) {
+                            Timber.d("providers. startMatchmaking. onProviderFound = " + provider.getFullName());
+
+                            CommonUtil.showToast(getContext(), getContext().getString(R.string.next_available_provider_is) + " " + provider.getFullName());
+
+                            if (getActivity() != null) {
+                                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_COST, null);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onProviderListExhausted() {
+                        Timber.d("providers. startMatchmaking. onProviderListExhausted ");
+                        CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_with_specialty_try_later));
+                    }
+
+                    @Override
+                    public void onRequestGone() {
+                        Timber.d("providers. startMatchmaking. onRequestGone ");
+                        CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_with_specialty_try_later));
+                    }
+                });
     }
 
-    @Override
-    public void providerClick(ProviderInfo provider) {
-        if (providerInfo != null && provider.getVisibility() == ProviderVisibility.OFFLINE) {
-            CommonUtil.showToast(getActivity(), provider.getFullName() + " " + getActivity().getString(R.string.is_not_available));
-        } else if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
-            getVisitContext(provider);
-        }
-    }
-
-    @Override
-    public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.MY_CARE_PROVIDERS;
-    }
-
-    private void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
-        providerList.setVisibility(View.GONE);
-    }
-
-    private void showList() {
-        progressBar.setVisibility(View.GONE);
-        providerList.setVisibility(View.VISIBLE);
-    }
-
-    private void getVisitContext(ProviderInfo info) {
-        AwsManager.getInstance().getAWSDK()
-                .getVisitManager().getVisitContext(
+    private void getVisitContextByProvider(ProviderInfo info) {
+        AwsManager.getInstance().getAWSDK().getVisitManager().getVisitContext(
                 patient,
                 info, new SDKCallback<VisitContext, SDKError>() {
                     @Override
@@ -267,14 +434,14 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                             setLegalTextsAccepted(true, visitContext);
                             setShareHealthSummary(visitContext);
                         } else {
-                            Timber.e("getVisitContext. Error + " + sdkError);
+                            Timber.e("providers. getVisitContextByProvider. Error + " + sdkError);
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
                         if (isAdded()) {
-                            Timber.e("getVisitContext. Something failed! :/");
+                            Timber.e("providers. getVisitContextByProvider. Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                         }
                     }
