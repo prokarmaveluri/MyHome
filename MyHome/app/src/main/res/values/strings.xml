@@ -494,7 +494,7 @@
     <string name="pharmacies_list">Pharmacies List</string>
     <string name="visit_summary">Visit Summary</string>
 
-    <string name="visit_summary_email">Email me a confidential summary</string>
+    <string name="visit_summary_email_confidential">Email me a confidential summary</string>
     <string name="visit_summary_email_agree">I acknowledge I\'m sending confidential medical information through unsecure email</string>
     <string name="visit_summary_email_completed">Emailed visit summary successfully</string>
     <string name="visit_summary_email_failed">Emailing visit summary failed</string>

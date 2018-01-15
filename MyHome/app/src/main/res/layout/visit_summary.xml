@@ -175,9 +175,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="10dp"
-                android:contentDescription="@string/visit_summary_email"
                 android:gravity="left"
-                android:text="@string/visit_summary_email"
+                android:contentDescription="@string/visit_summary_email_confidential"
+                android:text="@string/visit_summary_email_confidential"
+                android:textStyle="bold"
                 android:textColor="@color/db_charcoal_grey" />
 
             <!-- android:layout_marginBottom="16dp" -->

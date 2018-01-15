@@ -1,9 +1,11 @@
 package com.prokarma.myhome.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -12,6 +14,7 @@ import android.os.CountDownTimer;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
@@ -27,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
@@ -48,6 +52,7 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 import com.televisit.AwsManager;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -605,7 +610,7 @@ public class CommonUtil {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Timber.e(ex);
-            CommonUtil.showToast(context,context.getString(R.string.no_app_share_appointments));
+            CommonUtil.showToast(context, context.getString(R.string.no_app_share_appointments));
         }
     }
 
@@ -1216,6 +1221,24 @@ public class CommonUtil {
         }
     }
 
+    public static boolean hasLocationPermissionForApp(Context context) {
+
+        String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED) {
+                    return true;
+                }
+            }
+        } else {
+            //for devices with OS with Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+            //since the permission is already specified in Manifest file, it would be granted at installation time
+            return true;
+        }
+        return false;
+    }
+
     public static String getReadablePermissionString(String requiredPermission) {
         if (requiredPermission == null) {
             return "";
@@ -1243,8 +1266,7 @@ public class CommonUtil {
     public static String getWaitingQueueText(int count) {
         if (count == 1) {
             return count + " patient ahead";
-        }
-        else if (count > 1) {
+        } else if (count > 1) {
             return count + " patients ahead";
         }
         return count + " patients ahead";
