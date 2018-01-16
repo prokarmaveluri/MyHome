@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/phone_icon"
                     android:layout_alignTop="@id/phone_icon"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="17dp"
                     android:layout_toRightOf="@id/phone_icon"
                     android:gravity="center"
                     android:textColor="@color/primary"
