@@ -76,7 +76,7 @@ import com.televisit.profile.MyCareProfileFragment;
 import com.televisit.profile.MyCareProfileViewDependentFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.services.MyCareServicesFragment;
-import com.televisit.summary.SummaryFragment;
+import com.televisit.summary.VisitSummaryFragment;
 import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
 import java.util.ArrayList;
@@ -657,12 +657,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
                 if (getActivityTag() != ActivityTag.PREVIOUS_VISIT_SUMMARY) {
                     getSupportFragmentManager().executePendingTransactions();
-                    SummaryFragment summaryFragment = SummaryFragment.newInstance();
-                    summaryFragment.setArguments(bundle);
+                    VisitSummaryFragment visitSummaryFragment = VisitSummaryFragment.newInstance();
+                    visitSummaryFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, summaryFragment, SummaryFragment.SUMMARY_TAG)
+                            .replace(R.id.frame, visitSummaryFragment, VisitSummaryFragment.SUMMARY_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
@@ -708,12 +708,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case VIDEO_VISIT_SUMMARY:
                 if (getActivityTag() != ActivityTag.VIDEO_VISIT_SUMMARY) {
                     getSupportFragmentManager().executePendingTransactions();
-                    SummaryFragment summaryFragment = SummaryFragment.newInstance();
-                    summaryFragment.setArguments(bundle);
+                    VisitSummaryFragment visitSummaryFragment = VisitSummaryFragment.newInstance();
+                    visitSummaryFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, summaryFragment, SummaryFragment.SUMMARY_TAG)
+                            .replace(R.id.frame, visitSummaryFragment, VisitSummaryFragment.SUMMARY_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();

@@ -1,21 +1,15 @@
 package com.televisit.previousvisit;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.utils.Constants;
-import com.televisit.summary.SummaryFragment;
+import com.televisit.summary.VisitSummaryFragment;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 /**
  * Created by veluri on 12/18/17.
@@ -23,9 +17,9 @@ import timber.log.Timber;
 
 public class EmailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<EmailsAdapter.EmailSelection> emailsList;
-    private SummaryFragment fragment;
+    private VisitSummaryFragment fragment;
 
-    public EmailsAdapter(List<EmailsAdapter.EmailSelection> emailsList, SummaryFragment fragment) {
+    public EmailsAdapter(List<EmailsAdapter.EmailSelection> emailsList, VisitSummaryFragment fragment) {
         this.emailsList = emailsList;
         this.fragment = fragment;
     }
@@ -78,7 +72,6 @@ public class EmailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static class EmailSelection {
         private String emailId;
-        private boolean selected;
 
         public EmailSelection() {
         }
@@ -89,14 +82,6 @@ public class EmailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public void setEmailId(String emailId) {
             this.emailId = emailId;
-        }
-
-        public boolean isSelected() {
-            return selected;
-        }
-
-        public void setSelected(boolean selected) {
-            this.selected = selected;
         }
     }
 }

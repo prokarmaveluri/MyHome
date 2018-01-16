@@ -62,11 +62,13 @@
             <Button
                 android:id="@+id/waiting_room_button"
                 style="@style/primaryButtonStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/mcn_dependents_spinner"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
+                android:layout_marginLeft="38dp"
+                android:layout_marginRight="37dp"
                 android:minHeight="45dp"
                 android:minWidth="285dp"
                 android:text="@string/get_started" />
@@ -258,7 +260,8 @@
                 android:layout_alignLeft="@id/personal_info_layout"
                 android:layout_alignRight="@id/personal_info_layout"
                 android:layout_below="@+id/medications_layout"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp">
 
                 <ImageView
                     android:id="@+id/pharmacy_image"
@@ -298,20 +301,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/pharmacy_image"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/choose_your_preferred_pharmacy" />
 
                 <ImageView
                     android:id="@+id/pharmacy_pin_icon"
-                    android:layout_width="21dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginRight="10dp"
+                    android:paddingBottom="4dp"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/pharmacy_edit"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/pharmacy_edit"
+                    android:layout_alignBaseline="@+id/pharmacy_desc"
+                    android:baselineAlignBottom="true"
                     android:contentDescription="@string/pharmacy_show_in_map"
                     android:src="@mipmap/map_blue" />
             </RelativeLayout>
