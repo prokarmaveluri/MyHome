@@ -36,9 +36,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     app:rb_click_rating="true"
-                    app:rb_count="3"
-                    app:rb_empty="@mipmap/star_empty"
-                    app:rb_fill="@mipmap/star"
+                    app:rb_empty="@drawable/star_empty"
+                    app:rb_fill="@drawable/star_full"
                     app:rb_max_count="5"
                     app:rb_space="15dp"
                     app:rb_touch_rating="true" />
@@ -63,9 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     app:rb_click_rating="true"
-                    app:rb_count="3"
-                    app:rb_empty="@mipmap/star_empty"
-                    app:rb_fill="@mipmap/star"
+                    app:rb_empty="@drawable/star_empty"
+                    app:rb_fill="@drawable/star_full"
                     app:rb_max_count="5"
                     app:rb_space="15dp"
                     app:rb_touch_rating="true" />
