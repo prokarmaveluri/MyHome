@@ -227,11 +227,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
 
         emailObjects = new ArrayList<>();
-        EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
-        emailObj.setEmailId(AwsManager.getInstance().getPatient().getEmail());
-        emailObj.setSelected(true);
-        emailObjects.add(emailObj);
-
         emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         displayEmails();
@@ -452,19 +447,12 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             return;
         }
 
-        //not required anymore as per comments on 01/09/2018 in visit summary screen zeplin
-        /*if (!emailAgree.isChecked()) {
-            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_agreement_missing));
-            return;
-        }*/
-
         if (AwsManager.getInstance().getAWSDK().getVisitManager() == null) {
             return;
         }
         if (AwsManager.getInstance().getVisit() == null) {
             return;
         }
-
 
         progressBar.setVisibility(View.VISIBLE);
 
