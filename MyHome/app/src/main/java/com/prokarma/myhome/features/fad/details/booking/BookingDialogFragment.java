@@ -191,7 +191,10 @@ public class BookingDialogFragment extends DialogFragment implements BookingDial
                     ((BookingDialogAdapter) bookingViewPager.getAdapter()).setupValidationRules(response.body());
                 } else {
                     Timber.e("getValidationRules. Response, but not successful?\n" + response);
-                    getDialog().dismiss();
+
+                    if (getDialog() != null) {
+                        getDialog().dismiss();
+                    }
 
                     if (bookingDialogInterface != null) {
                         bookingDialogInterface.onValidationRulesError(response);
