@@ -7,13 +7,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="13dp"
         android:orientation="vertical"
         android:scrollbars="none"
         tools:context="com.televisit.services.MyCareServicesFragment">
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic30"
+            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dh_orange"
@@ -22,7 +24,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="15dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@mipmap/waiting_room" />
@@ -30,6 +32,7 @@
         <TextView
             android:id="@+id/cost_info"
             style="@style/tradeGothicLTStd_Dynamic20"
+            android:textColor="@color/md_blue_grey_650"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,21 +45,23 @@
         <TextView
             android:id="@+id/waiting_count"
             style="@style/tradeGothicLTStd_Dynamic20"
+            android:textColor="@color/md_blue_grey_650"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="14dp"
             android:lineSpacingExtra="8sp"
             tools:text="@string/you_are_next_patient"
             android:visibility="gone" />
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
+            android:textColor="@color/md_blue_grey_650"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="37dp"
+            android:layout_marginRight="13dp"
             android:lineSpacingExtra="8sp"
             android:text="Thank you for your patience, your care provider is currently reviewing your health history for your virtual visit. Take a few moments to think about the questions you would like to ask. Once your doctor appears on the screen, you will be able to have a confidential conversation, just as you would at the office or clinic. \n\nThanks for calling in today! We look forward to connecting with you soon." />
 

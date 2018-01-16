@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -127,16 +126,13 @@
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
-            <com.google.android.flexbox.FlexboxLayout
+            <RelativeLayout
                 android:id="@+id/agree_privacy_policy_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
                 android:layout_marginBottom="18dp"
                 android:layout_marginLeft="18dp"
-                android:layout_marginRight="28dp"
-                android:orientation="horizontal"
-                app:flexWrap="wrap">
+                android:layout_marginRight="28dp">
 
                 <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/agree_privacy_policy_check"
@@ -158,12 +154,13 @@
                     style="@style/tradeGothicLTStd_Dynamic18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/agree_privacy_policy_text1"
+                    android:layout_below="@+id/agree_privacy_policy_text1"
+                    android:layout_toRightOf="@+id/agree_privacy_policy_check"
                     android:labelFor="@+id/agree_privacy_policy_check"
                     android:text="@string/agree_privacy_policy_text2"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
-            </com.google.android.flexbox.FlexboxLayout>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/agree_legal_dependent_layout"
@@ -194,8 +191,8 @@
             android:id="@+id/cost_progress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="48dp"
             android:indeterminate="true"

@@ -26,6 +26,14 @@
         android:enabled="false"
         android:text="@string/next_available_provider" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/no_medications_layout"
+        android:background="@color/db_light_grey"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/providerList"
         android:layout_width="match_parent"
