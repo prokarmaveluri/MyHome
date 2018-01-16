@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="match_parent"  >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="26dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -14,88 +16,79 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="26dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="26dp"
             android:orientation="vertical">
 
             <TextView
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rate_your_provider" />
+                android:text="@string/rate_your_provider"
+                android:textColor="@color/db_charcoal_grey" />
 
-            <RatingBar
-                android:id="@+id/rate_provider"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:stepSize="1.0"
-                android:layout_marginTop="16dp" />
+                android:orientation="vertical">
+
+                <com.whinc.widget.ratingbar.RatingBar
+                    android:id="@+id/rate_provider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    app:rb_click_rating="true"
+                    app:rb_count="3"
+                    app:rb_empty="@mipmap/star_empty"
+                    app:rb_fill="@mipmap/star"
+                    app:rb_max_count="5"
+                    app:rb_space="15dp"
+                    app:rb_touch_rating="true" />
+            </LinearLayout>
 
             <TextView
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                android:text="@string/rate_your_overall_experience" />
+                android:layout_marginTop="29dp"
+                android:text="@string/rate_your_overall_experience"
+                android:textColor="@color/db_charcoal_grey" />
 
-            <RatingBar
-                android:id="@+id/rate_experience"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:stepSize="1.0"
-                android:layout_marginTop="16dp" />
+                android:orientation="vertical">
+
+                <com.whinc.widget.ratingbar.RatingBar
+                    android:id="@+id/rate_experience"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    app:rb_click_rating="true"
+                    app:rb_count="3"
+                    app:rb_empty="@mipmap/star_empty"
+                    app:rb_fill="@mipmap/star"
+                    app:rb_max_count="5"
+                    app:rb_space="15dp"
+                    app:rb_touch_rating="true" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/text_question3"
                 style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
+                android:layout_marginTop="35dp"
                 android:lineSpacingExtra="5dp"
                 android:text="@string/if_you_had_not_used_my_care_now_today_where_would_you_have_gone_instead" />
 
-            <RadioGroup
-                android:id="@+id/radio_group"
+            <LinearLayout
+                android:id="@+id/layout_checkboxes"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="23dp"
+                android:layout_marginLeft="-6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <RadioButton
-                    android:id="@+id/radio_emergency_care"
-                    style="@style/tradeGothicLTStd_Dynamic18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/emergency_room" />
-
-                <RadioButton
-                    android:id="@+id/radio_urgent_care"
-                    style="@style/tradeGothicLTStd_Dynamic18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/urgent_care_center" />
-
-                <RadioButton
-                    android:id="@+id/radio_clinic"
-                    style="@style/tradeGothicLTStd_Dynamic18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/retail_health_clinic" />
-
-                <RadioButton
-                    android:id="@+id/radio_doctors"
-                    style="@style/tradeGothicLTStd_Dynamic18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/doctor_s_office" />
-
-                <RadioButton
-                    android:id="@+id/radio_nothing"
-                    style="@style/tradeGothicLTStd_Dynamic18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/done_nothing" />
-            </RadioGroup>
-
+            </LinearLayout>
         </LinearLayout>
 
         <ProgressBar
