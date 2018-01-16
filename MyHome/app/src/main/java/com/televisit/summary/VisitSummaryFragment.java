@@ -470,8 +470,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
                         progressBar.setVisibility(View.GONE);
 
                         if (sdkError == null) {
-                            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_completed));
-
                             doneVisitSummary();
 
                         } else {
@@ -479,8 +477,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
                             Timber.e("SDK Error: " + sdkError);
 
                             doneVisitSummary();
-                            //CommonUtil.showToastFromSDKError(getContext(), sdkError);
-                            //Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
                         }
                     }
 

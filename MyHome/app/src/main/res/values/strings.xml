@@ -496,7 +496,6 @@
 
     <string name="visit_summary_email_confidential">Email me a confidential summary</string>
     <string name="visit_summary_email_agree">I acknowledge I\'m sending confidential medical information through unsecure email</string>
-    <string name="visit_summary_email_completed">Emailed visit summary successfully</string>
     <string name="visit_summary_email_failed">Emailing visit summary failed</string>
     <string name="visit_summary_email_limit_reached">You have reached the limit of allowed number of email addresses</string>
     <string name="email_already_added">Email address already added</string>
