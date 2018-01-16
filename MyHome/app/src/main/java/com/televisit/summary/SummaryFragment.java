@@ -82,9 +82,8 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     private VisitReportDetail visitReportDetail;
     private String reportNameWithPath;
 
-    private LinearLayout emailLayout;
+    private LinearLayout entireEmailLayout;
     private RecyclerView emailsList;
-    //private CheckBox emailAgree;
     private TextView addAdditionalEmail;
     private RelativeLayout newEmailLayout;
     private TextInputLayout newEmailTextInput;
@@ -131,9 +130,8 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         doctorNotes = (TextView) view.findViewById(R.id.doctor_notes);
         viewReport = (Button) view.findViewById(R.id.view_report);
 
-        emailLayout = (LinearLayout) view.findViewById(R.id.email_layout);
+        entireEmailLayout = (LinearLayout) view.findViewById(R.id.entire_email_layout);
         emailsList = (RecyclerView) view.findViewById(R.id.email_list);
-        //emailAgree = (CheckBox) view.findViewById(R.id.email_agree);
         addAdditionalEmail = (TextView) view.findViewById(R.id.add_additional_email);
         scrollLayout = (ScrollView) view.findViewById(R.id.scroll_layout);
 
@@ -143,6 +141,9 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         addEmail = (TextView) view.findViewById(R.id.add_email);
 
         emailConfidentialityText = (TextView) view.findViewById(R.id.email_text);
+
+        addAdditionalEmail.setVisibility(View.VISIBLE);
+        newEmailLayout.setVisibility(View.GONE);
 
         setHasOptionsMenu(true);
 
@@ -218,21 +219,15 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             visitReport = AwsManager.getInstance().getVisitReports().get(visitReportPosition);
             getVisitReportDetails(visitReport);
 
-            emailLayout.setVisibility(View.GONE);
+            entireEmailLayout.setVisibility(View.GONE);
 
         } else {
-            emailLayout.setVisibility(View.VISIBLE);
+            entireEmailLayout.setVisibility(View.VISIBLE);
             AwsNetworkManager.getInstance().getVisitSummary(AwsManager.getInstance().getVisit(), this);
         }
 
         emailObjects = new ArrayList<>();
-        EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
-        emailObj.setEmailId(AwsManager.getInstance().getPatient().getEmail());
-        emailObj.setSelected(true);
-        emailObjects.add(emailObj);
-
         emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //emailsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
         displayEmails();
     }
@@ -253,7 +248,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.done:
-                if (emailLayout != null && emailLayout.getVisibility() == View.VISIBLE) {
+                if (entireEmailLayout != null && entireEmailLayout.getVisibility() == View.VISIBLE) {
                     emailVisitSummaryReport();
                 } else {
                     getActivity().getSupportFragmentManager().popBackStack();
@@ -294,10 +289,9 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             viewReport.announceForAccessibility(viewReport.getContentDescription());
         }
 
-        if (emailLayout.getVisibility() == View.VISIBLE) {
+        if (entireEmailLayout.getVisibility() == View.VISIBLE) {
 
             emailConfidentialityText.announceForAccessibility(emailConfidentialityText.getContentDescription());
-            //emailAgree.announceForAccessibility(emailAgree.getContentDescription());
 
             emailsList.setContentDescription("Email addresses to send visit report");
             emailsList.announceForAccessibility(emailsList.getContentDescription());
@@ -345,9 +339,12 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
         if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
             addAdditionalEmail.setVisibility(View.GONE);
-            newEmailLayout.setVisibility(View.GONE);
             CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_limit_reached));
         }
+        else {
+            addAdditionalEmail.setVisibility(View.VISIBLE);
+        }
+        newEmailLayout.setVisibility(View.GONE);
     }
 
     public void deleteEmailAddress(String emailId) {
@@ -450,19 +447,12 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             return;
         }
 
-        //not required anymore as per comments on 01/09/2018 in visit summary screen zeplin
-        /*if (!emailAgree.isChecked()) {
-            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_agreement_missing));
-            return;
-        }*/
-
         if (AwsManager.getInstance().getAWSDK().getVisitManager() == null) {
             return;
         }
         if (AwsManager.getInstance().getVisit() == null) {
             return;
         }
-
 
         progressBar.setVisibility(View.VISIBLE);
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_vertical"
     android:paddingBottom="4dp"
     android:paddingRight="4dp"
     android:paddingTop="4dp">
@@ -13,21 +14,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="4dp"
-        tools:text="testaccount@gmail.com"
-        android:textColor="@color/db_charcoal_grey" />
+        android:textColor="@color/db_charcoal_grey"
+        tools:text="testaccount@gmail.com" />
 
     <TextView
         android:id="@+id/delete_email"
-        style="@style/tradeGothicLTStd_Dynamic18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="2dp"
         android:layout_toRightOf="@+id/email_id"
-        android:gravity="right"
-        android:text="@string/delete_cross"
         android:contentDescription="@string/delete"
-        android:textColor="@color/accent"
+        android:drawableRight="@mipmap/xblue"
+        android:gravity="right"
         android:textStyle="bold" />
 </RelativeLayout>
