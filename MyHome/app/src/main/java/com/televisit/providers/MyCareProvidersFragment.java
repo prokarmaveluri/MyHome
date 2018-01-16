@@ -53,6 +53,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     private List<ProviderInfo> providerInfos;
     private ProgressBar progressBar;
     private RecyclerView providerList;
+    private View divider;
     private Button nextAvailableProvider;
     private TextView chooseText;
     private final int REFRESH_INTERVAL_SECONDS = 5 * 60;
@@ -91,6 +92,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         progressBar = (ProgressBar) view.findViewById(R.id.providers_progress);
         nextAvailableProvider = (Button) view.findViewById(R.id.btn_next_avail_provider);
         providerList = (RecyclerView) view.findViewById(R.id.providerList);
+        divider = (View) view.findViewById(R.id.divider);
 
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         providerList.addItemDecoration(itemDecoration);
@@ -188,6 +190,13 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         if (isAdded() && providerInfos != null) {
             providerList.setLayoutManager(new LinearLayoutManager(getActivity()));
             providerList.setAdapter(new ProvidersListAdapter(getContext(), providerInfos, this));
+
+            if (providerInfos.size() > 0) {
+                divider.setVisibility(View.VISIBLE);
+            }
+            else {
+                divider.setVisibility(View.GONE);
+            }
         }
     }
 

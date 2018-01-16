@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/displayName"
             android:layout_below="@+id/displayName"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="6dp"
             android:layout_toRightOf="@+id/providerImage"
             android:text="Internal Medicine" />
 
@@ -55,7 +55,7 @@
             <TextView
                 android:id="@+id/waitingCount"
                 style="@style/tradeGothicLTStd_Dynamic18"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="13dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="@string/you_are_next_patient"
@@ -65,7 +65,7 @@
                 android:id="@+id/visibility"
                 android:layout_below="@+id/waitingCount"
                 style="@style/tradeGothicLTStd_Dynamic18"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="13dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/offline" />
