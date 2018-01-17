@@ -59,7 +59,7 @@ import java.util.Set;
 
 import timber.log.Timber;
 
-public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary {
+public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSummary {
     public static final String SUMMARY_TAG = "previous_visit_summary_tag";
     public static final String VISIT_LIST_POSITION = "visit_list_position";
     private static int TOTAL_EMAIL_COUNT_ALLOWED = 5;
@@ -95,11 +95,11 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
     private List<EmailsAdapter.EmailSelection> emailObjects = null;
 
-    public SummaryFragment() {
+    public VisitSummaryFragment() {
     }
 
-    public static SummaryFragment newInstance() {
-        return new SummaryFragment();
+    public static VisitSummaryFragment newInstance() {
+        return new VisitSummaryFragment();
     }
 
     @Override
@@ -227,6 +227,10 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         }
 
         emailObjects = new ArrayList<>();
+        EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
+        emailObj.setEmailId(AwsManager.getInstance().getPatient().getEmail());
+        emailObjects.add(emailObj);
+
         emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         displayEmails();
@@ -308,15 +312,15 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
             for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
 
                 if (emailToAdd.equalsIgnoreCase(emailObject.getEmailId())) {
-
-                    if (emailObject.isSelected()) {
-                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_already_added));
-                    } else {
-                        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_already_added_notchecked));
-                    }
+                    CommonUtil.showToast(getActivity(), getActivity().getString(R.string.email_already_added));
                     return;
                 }
             }
+        }
+
+        if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
+            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_limit_reached));
+            return;
         }
 
         boolean isValid = isValidEmail(emailToAdd);
@@ -326,7 +330,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
         EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
         emailObj.setEmailId(emailToAdd);
-        emailObj.setSelected(true);
         emailObjects.add(emailObj);
 
         displayEmails();
@@ -339,9 +342,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
 
         if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
             addAdditionalEmail.setVisibility(View.GONE);
-            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_limit_reached));
-        }
-        else {
+        } else {
             addAdditionalEmail.setVisibility(View.VISIBLE);
         }
         newEmailLayout.setVisibility(View.GONE);
@@ -436,9 +437,7 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
         Set<String> emailIds = new HashSet<>();
         if (emailObjects != null && emailObjects.size() > 0) {
             for (EmailsAdapter.EmailSelection emailObject : emailObjects) {
-                if (emailObject.isSelected()) {
-                    emailIds.add(emailObject.getEmailId());
-                }
+                emailIds.add(emailObject.getEmailId());
             }
         }
 
@@ -471,8 +470,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                         progressBar.setVisibility(View.GONE);
 
                         if (sdkError == null) {
-                            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_completed));
-
                             doneVisitSummary();
 
                         } else {
@@ -480,8 +477,6 @@ public class SummaryFragment extends BaseFragment implements AwsGetVisitSummary 
                             Timber.e("SDK Error: " + sdkError);
 
                             doneVisitSummary();
-                            //CommonUtil.showToastFromSDKError(getContext(), sdkError);
-                            //Toast.makeText(getActivity(), R.string.visit_summary_email_failed, Toast.LENGTH_LONG).show();
                         }
                     }
 

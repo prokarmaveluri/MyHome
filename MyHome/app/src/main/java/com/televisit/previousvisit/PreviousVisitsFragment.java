@@ -25,7 +25,7 @@ import com.televisit.AwsManager;
 import java.util.Collections;
 import java.util.List;
 import timber.log.Timber;
-import static com.televisit.summary.SummaryFragment.VISIT_LIST_POSITION;
+import static com.televisit.summary.VisitSummaryFragment.VISIT_LIST_POSITION;
 
 /**
  * A simple {@link Fragment} subclass.
