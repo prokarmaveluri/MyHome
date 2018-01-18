@@ -6,13 +6,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.databinding.AdapterSettingsItemBinding;
+import com.prokarma.myhome.utils.AppPreferences;
+import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.TealiumUtil;
 
 import java.util.List;
 
 import timber.log.Timber;
+
+import static com.prokarma.myhome.features.settings.TouchIDFragment.TOUCH_ID_KEY;
 
 /**
  * Created by cmajji on 5/12/17.
@@ -86,6 +92,36 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
                 binding.itemLayout.setTag(suggestion);
                 binding.itemLayout.setId(position);
                 binding.suggestionText.setText(suggestion);
+                binding.suggestionText.setContentDescription(binding.suggestionText.getText());
+
+                if (suggestion.equalsIgnoreCase(SettingsFragment.SettingsAction.TOUCH_ID.name)) {
+                    binding.touchIDSwitch.setVisibility(View.VISIBLE);
+                    binding.sugessionCarot.setVisibility(View.GONE);
+
+                    binding.touchIDSwitch.setChecked(false);
+                    if (AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY)) {
+                        binding.touchIDSwitch.setChecked(true);
+                        binding.touchIDSwitch.setContentDescription("On");
+                    } else {
+                        binding.touchIDSwitch.setContentDescription("Off");
+                    }
+
+                    binding.touchIDSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (binding.touchIDSwitch.isChecked()) {
+                                AppPreferences.getInstance().setBooleanPreference(TOUCH_ID_KEY, true);
+                                TealiumUtil.trackEvent(Constants.TOUCH_ID_ENABLED_EVENT, null);
+                            } else {
+                                AppPreferences.getInstance().setBooleanPreference(TOUCH_ID_KEY, false);
+                                TealiumUtil.trackEvent(Constants.TOUCH_ID_DISABLED_EVENT, null);
+                            }
+                        }
+                    });
+                } else {
+                    binding.touchIDSwitch.setVisibility(View.GONE);
+                    binding.sugessionCarot.setVisibility(View.VISIBLE);
+                }
             } catch (NullPointerException ex) {
                 Timber.w(ex);
             }
@@ -96,13 +132,17 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
     public class SettingListClick {
         public void onClick(View view) {
             try {
-                Timber.i("POSITION " + (int) view.getId());
-                if (listener != null) {
-                    if ((int) view.getId() == 0) {
-                        listener.settingsOptionClick(SettingsFragment.SettingsAction.TOUCH_ID);
-                    } else if ((int) view.getId() == 1) {
+                if (listener != null && view.getTag() != null) {
+
+                    if (view.getTag().toString().equalsIgnoreCase(SettingsFragment.SettingsAction.TOUCH_ID.name)) {
+                        // Ticket-28915: Android: Eliminate the additional Touch ID /Fingerprint Authentication screen
+                        // this setting has been brought-up one level. we donot have to navigate to the detailed screen.
+                        // listener.settingsOptionClick(SettingsFragment.SettingsAction.TOUCH_ID);
+
+                    } else if (view.getTag().toString().equalsIgnoreCase(SettingsFragment.SettingsAction.CHANGE_PASSWORD.name)) {
                         listener.settingsOptionClick(SettingsFragment.SettingsAction.CHANGE_PASSWORD);
-                    } else if ((int) view.getId() == 2) {
+
+                    } else if (view.getTag().toString().equalsIgnoreCase(SettingsFragment.SettingsAction.CHANGE_SEC_QUESTION.name)) {
                         listener.settingsOptionClick(SettingsFragment.SettingsAction.CHANGE_SEC_QUESTION);
                     }
                 }

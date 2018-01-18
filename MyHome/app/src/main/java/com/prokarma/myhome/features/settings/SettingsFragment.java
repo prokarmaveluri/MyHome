@@ -1,6 +1,8 @@
 package com.prokarma.myhome.features.settings;
 
 import android.content.Intent;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +16,7 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
@@ -28,18 +31,20 @@ import timber.log.Timber;
 
 public class SettingsFragment extends BaseFragment implements SettingsAdapter.ISettingsClick {
     public static final String SETTINGS_TAG = "settings_tag";
-    public static final String CHANGE_PASSWORD = "Change Password";
-    public static final String CHANGE_SECURITY_QUESTION = "Change Security Question";
-    public static final String FINGERPRINT_SIGN_IN = "Fingerprint Sign-In";
     private View settingsView;
     private RecyclerView settingList;
     private SettingsAdapter listAdapter;
 
 
     public enum SettingsAction {
-        TOUCH_ID,
-        CHANGE_PASSWORD,
-        CHANGE_SEC_QUESTION
+        TOUCH_ID("Enable Fingerprint Sign-In"),
+        CHANGE_PASSWORD("Change Password"),
+        CHANGE_SEC_QUESTION("Change Security Question");
+
+        public final String name;
+        SettingsAction(String s) {
+            name = s;
+        }
     }
 
     public static SettingsFragment newInstance() {
@@ -80,9 +85,12 @@ public class SettingsFragment extends BaseFragment implements SettingsAdapter.IS
 
     private List<String> getList() {
         List<String> list = new ArrayList<>();
-        list.add(FINGERPRINT_SIGN_IN);
-        list.add(CHANGE_PASSWORD);
-        list.add(CHANGE_SECURITY_QUESTION);
+
+        if (CommonUtil.isFingerPrintSupportedDevice(getContext())) {
+            list.add(SettingsAction.TOUCH_ID.name);
+        }
+        list.add(SettingsAction.CHANGE_PASSWORD.name);
+        list.add(SettingsAction.CHANGE_SEC_QUESTION.name);
         return list;
     }
 

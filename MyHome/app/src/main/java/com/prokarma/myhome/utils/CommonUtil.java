@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.fingerprint.FingerprintManager;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
@@ -813,6 +814,16 @@ public class CommonUtil {
         } catch (NullPointerException | IllegalStateException ex) {
             Timber.w(ex);
         }
+    }
+
+    public static boolean isFingerPrintSupportedDevice(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            FingerprintManager fingerprintManager = context.getSystemService(FingerprintManager.class);
+            if (fingerprintManager.isHardwareDetected()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
