@@ -627,6 +627,9 @@
     <string name="next_day">Next Day</string>
     <string name="showing">showing</string>
     <string name="suggestions_available"> suggestions available, swipe to select</string>
+    <string name="appointment_date">Appointment date</string>
+    <string name="appointment_time">Appointment time</string>
+    <string name="appointment_reason">Appointment reason</string>
 
 
 </resources>
