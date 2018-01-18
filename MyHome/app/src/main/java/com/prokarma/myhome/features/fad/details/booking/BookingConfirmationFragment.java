@@ -74,6 +74,13 @@ public class BookingConfirmationFragment extends Fragment {
 
         if (BookingManager.getBookingProfile() != null) {
             reason.setText(BookingManager.getBookingProfile().reasonForVisit);
+            reason.setContentDescription(getString(R.string.appointment_reason) + BookingManager.getBookingProfile().reasonForVisit);
+        }
+
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+            date.setContentDescription(getString(R.string.appointment_date) + " " + date.getText());
+            time.setContentDescription(getString(R.string.appointment_time) + " " + time.getText());
+            address.setContentDescription(getString(R.string.location) + AddressUtil.getAddressForAccessibilityUser(BookingManager.getBookingLocation()));
         }
 
         return bookingView;
