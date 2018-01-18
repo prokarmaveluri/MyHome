@@ -9,8 +9,10 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.utils.CommonUtil;
+
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -20,12 +22,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+
 import timber.log.Timber;
 
 
@@ -129,9 +133,14 @@ public class FingerprintSignIn {
     public boolean isDeviceConfiguredFingerprint() {
         KeyguardManager keyguardManager = mContext.getSystemService(KeyguardManager.class);
 
+        FingerprintManager fingerprintManager = mContext.getSystemService(FingerprintManager.class);
+        if (!fingerprintManager.isHardwareDetected()) {
+            return false;
+        }
+
         if (!keyguardManager.isKeyguardSecure()) {
             // Show a message that the user hasn't set up a fingerprint or lock screen.
-            CommonUtil.showToast(mContext,mContext.getString(R.string.secure_lock_screen_has_not_setup));
+            CommonUtil.showToast(mContext, mContext.getString(R.string.secure_lock_screen_has_not_setup));
             return false;
         }
         return true;
@@ -149,6 +158,11 @@ public class FingerprintSignIn {
         // See http://developer.android.com/reference/android/Manifest.permission.html#USE_FINGERPRINT
         // The line below prevents the false positive inspection from Android Studio
         // noinspection ResourceType
+
+        if (!fingerprintManager.isHardwareDetected()) {
+            return false;
+        }
+
         if (!fingerprintManager.hasEnrolledFingerprints()) {
             // This happens when no fingerprints are registered.
             CommonUtil.showToast(mContext, mContext.getString(R.string.setting_to_fingerprint));
