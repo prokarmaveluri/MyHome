@@ -35,6 +35,17 @@
             android:layout_marginRight="16dp"
             android:src="@drawable/ic_carrot_blue" />
 
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/touchIDSwitch"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:contentDescription="@string/touch_id_title"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
