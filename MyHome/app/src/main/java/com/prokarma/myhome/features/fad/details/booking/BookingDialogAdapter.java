@@ -267,18 +267,22 @@ public class BookingDialogAdapter extends PagerAdapter {
         phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
 
         ArrayList<String> listStates = new ArrayList(Arrays.asList(context.getResources().getStringArray(R.array.profile_states)));
-        if (listStates != null && listStates.size() > 0) {
+
+        //For 30343: we need below lines. however as per 31263: temporarily comment out, until design comes up with better way of handling this UI.
+        /*if (listStates != null && listStates.size() > 0) {
             if (listStates.get(0).equalsIgnoreCase("state")) {
                 listStates.remove(0);
             }
-        }
+        }*/
 
         ArrayList<String> listGender = new ArrayList(Arrays.asList(context.getResources().getStringArray(R.array.profile_gender)));
-        if (listGender != null && listGender.size() > 0) {
+
+        //For 30343: we need below lines. however as per 31263: temporarily comment out, until design comes up with better way of handling this UI.
+        /*if (listGender != null && listGender.size() > 0) {
             if (listGender.get(0).equalsIgnoreCase("gender")) {
                 listGender.remove(0);
             }
-        }
+        }*/
 
         ArrayAdapter<String> genderAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, listGender);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
