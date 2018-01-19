@@ -89,6 +89,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_medical_history, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.med_history));
+        ((NavigationActivity) getActivity()).setActionBarLineVisibility(false);
 
         searchLayout = (LinearLayout) view.findViewById(R.id.searchLayout);
         searchQuery = (EditText) view.findViewById(R.id.searchQuery);
