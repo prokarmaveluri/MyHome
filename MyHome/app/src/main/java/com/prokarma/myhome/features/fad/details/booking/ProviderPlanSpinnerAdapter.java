@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegIncluded;
-
+import com.prokarma.myhome.utils.CommonUtil;
 import java.util.List;
 
 /**
@@ -52,6 +51,9 @@ public class ProviderPlanSpinnerAdapter extends ArrayAdapter<RegIncluded> {
 
         TextView name = (TextView) view.findViewById(R.id.provider_plan_name);
         name.setText(values.get(position).getAttributes().getName());
+        if (CommonUtil.isAccessibilityEnabled(context)) {
+            name.setContentDescription(CommonUtil.capitalContent(name.getText().toString()));
+        }
         return name;
     }
 

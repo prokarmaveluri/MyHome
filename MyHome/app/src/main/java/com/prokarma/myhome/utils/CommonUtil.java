@@ -1282,4 +1282,14 @@ public class CommonUtil {
         }
         return count + " patients ahead";
     }
+
+    public static String capitalContent(String sentence) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String[] splits = sentence.trim().split(" ");
+        for (String word : splits) {
+            stringBuilder.append(word.matches("[A-Z]{2,}") ? CommonUtil.stringToSpacesString(word) : word);
+            stringBuilder.append(" ");
+        }
+        return stringBuilder.toString();
+    }
 }
