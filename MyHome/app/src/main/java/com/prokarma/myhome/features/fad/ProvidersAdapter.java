@@ -93,7 +93,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
             binding.itemLayout.setTag(position);
             binding.directions.setTag(position);
             binding.docDisplayName.setText(provider.getDisplayFullName());
-            binding.docSpeciality.setText(provider.getSpecialties().get(0));
+            binding.docSpeciality.setText(provider.getSpecialties() != null ? provider.getSpecialties().get(0) : "");
             binding.directions.setContentDescription(provider.getDisplayFullName() + ", " + mContext.getString(R.string.show_in_map));
 
             if (!recent) {
@@ -124,7 +124,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.Prov
                 binding.recentlyViewed.setVisibility(View.VISIBLE);
 
             binding.bookOnline.setVisibility(View.GONE);
-            if (provider.getHasAppointments()) {
+            if (provider.getHasAppointments() != null && provider.getHasAppointments()) {
                 binding.bookOnline.setVisibility(View.VISIBLE);
             }
 
