@@ -1,6 +1,7 @@
 package com.televisit.waitingroom;
 
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -59,7 +60,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     public static final String MY_CARE_WAITING_TAG = "my_care_waiting_tag";
     private NotificationManager notificationManager;
-    public static final int ONGOING_NOTIFICATION_ID = 12345;
+    public static final int ONGOING_VISIT_NOTIFICATION_ID = 12345;
 
     private Consumer patient;
     private boolean isVisitEnd = false;
@@ -122,6 +123,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
             //Put in handler to avoid IllegalStateException: https://stackoverflow.com/a/41953519/2128921
             TealiumUtil.trackEvent(Constants.VIDEO_VISIT_END_EVENT, null);
+
+            removeVisitNotification(getContext());
+
             goToVisitSummary();
         }
     }
@@ -323,6 +327,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         // called by onDestroy()
         // this is to ensure we don't have any polling hanging out when it shouldn't be
         AwsManager.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
+
+        removeVisitNotification(getContext());
     }
 
     public void cancelVisit() {
@@ -374,19 +380,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     }
 
     public void setVisitIntent(final Intent intent) {
-        // set up ongoing notification
-        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
-        builder.setSmallIcon(R.drawable.ic_local_hospital_white_18dp)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.video_console_ongoing_notification,
-                        AwsManager.getInstance().getVisit().getAssignedProvider().getFullName()))
-                .setAutoCancel(false)
-                .setOngoing(true)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentIntent(pendingIntent);
-        notificationManager.notify(ONGOING_NOTIFICATION_ID, builder.build());
+        createVisitNotification(getContext(), getActivity(), intent);
 
         isVisitEnd = true;
         // start activity
@@ -445,6 +439,31 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         });
     }
 
+    private void removeVisitNotification(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(ONGOING_VISIT_NOTIFICATION_ID);
+    }
+
+    private void createVisitNotification(Context context, Activity activity, Intent intent) {
+
+        removeVisitNotification(context);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // set up ongoing notification
+        PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(activity);
+        builder.setSmallIcon(R.drawable.ic_local_hospital_white_18dp)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(context.getString(R.string.video_console_ongoing_notification,
+                        AwsManager.getInstance().getVisit().getAssignedProvider().getFullName()))
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentIntent(pendingIntent);
+        notificationManager.notify(ONGOING_VISIT_NOTIFICATION_ID, builder.build());
+    }
 
     private void updateWaitingQueue(int i) {
 
