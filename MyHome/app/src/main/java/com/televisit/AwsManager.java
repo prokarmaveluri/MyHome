@@ -7,6 +7,8 @@ import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.Country;
+import com.americanwell.sdk.entity.billing.CreditCardType;
+import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Allergy;
 import com.americanwell.sdk.entity.health.Condition;
@@ -50,6 +52,8 @@ public class AwsManager {
     private Authentication authentication;
     private VisitContext visitContext;
     private Visit visit;
+    private String visitCostCouponApplied;
+    private PaymentMethod paymentMethod;
     private Consumer consumer;
     private Consumer patient;
     private int patientNumber;
@@ -102,7 +106,7 @@ public class AwsManager {
         return awsdk;
     }
 
-    public void clearData(){
+    public void clearData() {
         setAuthentication(null);
         setHasInitializedAwsdk(false);
         setConsumer(null);
@@ -131,7 +135,7 @@ public class AwsManager {
         this.authentication = authentication;
     }
 
-    public boolean hasAuthenticated(){
+    public boolean hasAuthenticated() {
         return authentication != null;
     }
 
@@ -262,6 +266,25 @@ public class AwsManager {
 
     public void setVisit(Visit visit) {
         this.visit = visit;
+        if (visit == null) {
+            setVisitCostCouponApplied(null);
+        }
+    }
+
+    public String getVisitCostCouponApplied() {
+        return visitCostCouponApplied;
+    }
+
+    public void setVisitCostCouponApplied(String visitCostCouponApplied) {
+        this.visitCostCouponApplied = visitCostCouponApplied;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public boolean isHasMedicationsFilledOut() {
@@ -339,5 +362,16 @@ public class AwsManager {
         }
 
         return null;
+    }
+
+    @Nullable
+    public List<CreditCardType> getSupportedCardTypes() {
+        return AwsManager.getInstance().getAWSDK().getCreditCardTypes();
+    }
+
+    @Nullable
+    public List<com.americanwell.sdk.entity.State> getSupportedUSStates() {
+        return AwsManager.getInstance().getAWSDK().getConsumerPaymentManager().getValidPaymentMethodStates(
+                AwsManager.getInstance().getCountry("US"));
     }
 }

@@ -176,9 +176,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                         if (sdkError == null) {
                             AwsManager.getInstance().setVisit(visit);
 
-                            //29194 and 29111: Android: Remove the 'Free" coupon code before going to the Production Environment
-                            //applyCoupon("Free");
-
                             progressBar.setVisibility(View.GONE);
 
                         } else {
@@ -231,49 +228,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         CommonUtil.showToast(getContext(), getString(R.string.visit_transferred_waiting_for) + " " + AwsManager.getInstance().getVisit().getAssignedProvider().getFullName());
 
         progressBar.setVisibility(View.GONE);
-    }
-
-    private void applyCoupon(String couponCode) {
-
-        if (!ConnectionUtil.isConnected(getActivity())) {
-            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
-            return;
-        }
-
-        if (AwsManager.getInstance().getVisit() == null) {
-            return;
-        }
-
-        try {
-            progressBar.setVisibility(View.VISIBLE);
-
-            AwsManager.getInstance().getAWSDK().getVisitManager().applyCouponCode(
-                    AwsManager.getInstance().getVisit(),
-                    couponCode,
-                    new SDKCallback<Void, SDKError>() {
-                        @Override
-                        public void onResponse(Void aVoid, SDKError sdkError) {
-                            if (sdkError == null && isAdded()) {
-                            } else {
-                                Timber.e("applyCouponCode. Something failed! :/");
-                                Timber.e("SDK Error: " + sdkError);
-                            }
-
-                            progressBar.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            Timber.e("applyCouponCode. Something failed! :/");
-                            Timber.e("Throwable = " + throwable);
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-            );
-        } catch (IllegalArgumentException ex) {
-            Timber.e(ex);
-            progressBar.setVisibility(View.GONE);
-        }
     }
 
     private void startVisit(final Address location,
@@ -627,60 +581,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
         transferAlertDialogBuilder.setCancelable(false);
         transferAlertDialog = transferAlertDialogBuilder.show();
-    }
-
-    private void updateVisit() {
-
-        if (!ConnectionUtil.isConnected(getActivity())) {
-            CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
-            return;
-        }
-
-        progressBar.setVisibility(View.VISIBLE);
-
-        AwsManager.getInstance().getAWSDK().getVisitManager().createOrUpdateVisit(
-                AwsManager.getInstance().getVisitContext(),
-                new SDKValidatedCallback<Visit, SDKError>() {
-                    @Override
-                    public void onValidationFailure(@NonNull Map<String, String> map) {
-                        progressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onResponse(Visit visit, SDKError sdkError) {
-                        if (sdkError == null) {
-                            AwsManager.getInstance().setVisit(visit);
-
-                            progressBar.setVisibility(View.GONE);
-
-                        } else {
-                            Timber.e("wait. createOrUpdateVisit. Something failed during video visit! :/");
-                            Timber.e("wait. SDK Error: " + sdkError);
-
-                            progressBar.setVisibility(View.GONE);
-
-                            if (sdkError.getMessage() != null && !sdkError.getMessage().isEmpty()) {
-                                CommonUtil.showToast(getContext(), sdkError.getMessage());
-                            } else if (sdkError.getSDKErrorReason() != null && !sdkError.getSDKErrorReason().isEmpty()) {
-                                CommonUtil.showToast(getContext(), sdkError.getSDKErrorReason());
-                            } else if (sdkError.toString() != null && sdkError.toString().toLowerCase().contains("provider unavailable")) {
-                                CommonUtil.showToast(getContext(), getString(R.string.provider_unavailable));
-                            } else if (sdkError.toString() != null && !sdkError.toString().isEmpty()) {
-                                CommonUtil.showToast(getContext(), sdkError.toString());
-                            } else {
-                                CommonUtil.showToast(getContext(), getContext().getString(R.string.something_went_wrong));
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e("wait. createOrUpdateVisit. Something failed! :/");
-                        Timber.e("wait. Throwable = " + throwable);
-                        progressBar.setVisibility(View.GONE);
-                    }
-                }
-        );
     }
 
     private void declineTransferVisit(String transferType) {
