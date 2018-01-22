@@ -472,7 +472,6 @@ public class MyCareCreditCardFragment extends BaseFragment {
                     @Override
                     public void onResponse(PaymentMethod paymentMethod, SDKError sdkError) {
                         if (sdkError == null) {
-                            Timber.e("updatePaymentMethod. saved. ");
                             getActivity().getSupportFragmentManager().popBackStack();
                         } else {
                             Timber.e("updatePaymentMethod. Something failed! :/");
