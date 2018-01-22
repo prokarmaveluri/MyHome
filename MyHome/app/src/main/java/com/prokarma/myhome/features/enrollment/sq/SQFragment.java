@@ -101,6 +101,12 @@ public class SQFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        CommonUtil.hideSoftKeyboard(getActivity());
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
     }

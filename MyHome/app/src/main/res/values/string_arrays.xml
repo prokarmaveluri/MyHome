@@ -136,6 +136,23 @@
         <!--<item>Prefer Not To Say</item>-->
     </string-array>
 
+    <!--Months for visit cost payment-->
+    <string-array name="month_numbers">
+        <item>MM</item>
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
     <!--States for Profile Edit - Prefer Not To Say isn't working currently-->
     <string-array name="build_env">
         <item>Dev</item>

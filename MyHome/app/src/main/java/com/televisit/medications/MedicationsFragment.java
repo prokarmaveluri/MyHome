@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -53,7 +55,8 @@ import timber.log.Timber;
  * Use the {@link MedicationsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MedicationsFragment extends BaseFragment implements TextWatcher, SuggestionsAdapter.ISuggestionClick {
+public class MedicationsFragment extends BaseFragment implements TextWatcher,
+        SuggestionsAdapter.ISuggestionClick {
 
     private RecyclerView searchSuggestions;
     private TextView noResults;
@@ -178,7 +181,24 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
         });
 
         searchQuery.addTextChangedListener(this);
+
+        searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    performSearch(searchQuery.getText().toString());
+
+                    CommonUtil.hideSoftKeyboard(getContext(), searchQuery);
+                    CommonUtil.hideSoftKeyboard(getActivity());
+                    return true;
+                }
+                return false;
+            }
+        });
+
         searchCancelClickEvent();
+
         noMedicationsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -390,9 +410,13 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher, Su
 
     @Override
     public void afterTextChanged(Editable s) {
+        performSearch(s.toString());
+    }
+
+    private void performSearch(String searchText) {
         searchSuggestions.setVisibility(View.GONE);
-        if (s.toString().trim().length() > 0) {
-            searchMedications(s.toString().trim());
+        if (searchText.trim().length() > 0) {
+            searchMedications(searchText.trim());
         } else {
             cancelSearch();
         }
