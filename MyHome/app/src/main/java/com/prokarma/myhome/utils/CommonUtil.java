@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.fingerprint.FingerprintManager;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
@@ -815,6 +816,16 @@ public class CommonUtil {
         }
     }
 
+    public static boolean isFingerPrintSupportedDevice(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            FingerprintManager fingerprintManager = context.getSystemService(FingerprintManager.class);
+            if (fingerprintManager.isHardwareDetected()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * This method check whether strong is non null and null empty.
      *
@@ -1270,5 +1281,15 @@ public class CommonUtil {
             return count + " patients ahead";
         }
         return count + " patients ahead";
+    }
+
+    public static String capitalContent(String sentence) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String[] splits = sentence.trim().split(" ");
+        for (String word : splits) {
+            stringBuilder.append(word.matches("[A-Z]{2,}") ? CommonUtil.stringToSpacesString(word) : word);
+            stringBuilder.append(" ");
+        }
+        return stringBuilder.toString();
     }
 }

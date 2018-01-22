@@ -24,27 +24,42 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.databinding.FragmentLoginBinding;
 import com.prokarma.myhome.features.contact.ContactUsActivity;
+import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
+import com.prokarma.myhome.features.login.endpoint.SignInResponse;
+import com.prokarma.myhome.features.login.fingerprint.FingerprintDialogCallbackInterface;
+import com.prokarma.myhome.features.login.fingerprint.FingerprintSignIn;
 import com.prokarma.myhome.features.login.forgot.password.ForgotPasswordActivity;
 import com.prokarma.myhome.features.login.verify.EmailVerifyActivity;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
-import java.lang.ref.WeakReference;
-import timber.log.Timber;
-import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
-public class LoginFragment extends Fragment implements LoginInteractor.View {
+import java.lang.ref.WeakReference;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
+
+import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
+import static com.prokarma.myhome.features.settings.TouchIDFragment.TOUCH_ID_KEY;
+
+public class LoginFragment extends Fragment implements LoginInteractor.View, FingerprintDialogCallbackInterface {
 
     private LoginInteractor.Presenter presenter;
     private FragmentLoginBinding binder;
@@ -111,8 +126,16 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
     @Override
     public void onResume() {
         super.onResume();
-        if (null != presenter)
+        if (null != presenter) {
             presenter.start();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY)) {
+            FingerprintSignIn fingerprint = new FingerprintSignIn(getActivity(), FingerprintSignIn.DEFAULT_KEY_NAME);
+            fingerprint.initiateFingerprint();
+            if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
+                return;
+            }
+        }
     }
 
     @Override
@@ -465,5 +488,119 @@ public class LoginFragment extends Fragment implements LoginInteractor.View {
         return new LoginHandler(this);
     }
 
+    @Override
+    public void onFingerprintAuthentication() {
+        Timber.d("login. onFingerprintAuthentication ");
+        refreshToken();
+    }
+
+    @Override
+    public void onFingerprintAuthenticationCancel() {
+        Timber.d("login. onFingerprintAuthenticationCancel ");
+        getActivity().finish();
+    }
+
+    @Override
+    public void onFingerprintAuthenticationUsePassword() {
+        Timber.d("login. onFingerprintAuthenticationUsePassword ");
+    }
+
+    private void refreshToken() {
+        if (AuthManager.getInstance().getRefreshToken() != null) {
+            Timber.d("login. refreshToken not null ");
+            refreshAccessToken(AuthManager.getInstance().getRefreshToken());
+        } else if (CryptoManager.getInstance().getToken() != null) {
+            Timber.d("login. Token not null ");
+            refreshAccessToken(CryptoManager.getInstance().getToken());
+        } else {
+            Timber.d("login. refresh failed ");
+            binder.loginProgress.setVisibility(View.GONE);
+            onRefreshFailed();
+        }
+    }
+
+    /**
+     * Refresh Auth tokens
+     *
+     * @param refreshToken
+     */
+    private void refreshAccessToken(final String refreshToken) {
+        if (!ConnectionUtil.isConnected(getContext())) {
+            CommonUtil.showToast(getContext(), this.getString(R.string.no_network_msg));
+            binder.loginProgress.setVisibility(View.GONE);
+            return;
+        }
+        binder.loginProgress.setVisibility(View.VISIBLE);
+        NetworkManager.getInstance().signInRefresh(new RefreshRequest(refreshToken))
+                .enqueue(new Callback<SignInResponse>() {
+                    @Override
+                    public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
+                        binder.loginProgress.setVisibility(View.GONE);
+                        if (response.isSuccessful() && response.body().getValid()) {
+                            try {
+
+                                AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
+                                AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
+                                AuthManager.getInstance().getUsersAmWellToken();
+                                AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
+                                NetworkManager.getInstance().getSavedDoctors(getActivity().getApplicationContext(), binder.loginProgress);
+                                CryptoManager.getInstance().saveToken();
+
+                                ProfileManager.setProfile(response.body().getResult().getUserProfile());
+                                NetworkManager.getInstance().getSavedDoctors(getActivity().getApplicationContext(), binder.loginProgress);
+
+                                if (null != response.body().getResult().getUserProfile() &&
+                                        !response.body().getResult().getUserProfile().isVerified &&
+                                        DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
+
+                                    SignInSuccessBut30days();
+                                } else if (null != response.body().getResult().getUserProfile() &&
+                                        !response.body().getResult().getUserProfile().isTermsAccepted) {
+                                    acceptTermsOfService(false);
+
+                                } else {
+                                    onRefreshSuccess();
+                                }
+                            } catch (NullPointerException ex) {
+                                ex.printStackTrace();
+                            }
+                        } else {
+                            onRefreshFailed();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SignInResponse> call, Throwable t) {
+                        Timber.i("onFailure : ");
+                        binder.loginProgress.setVisibility(View.GONE);
+                        onRefreshFailed();
+                    }
+                });
+    }
+
+
+    private void onRefreshSuccess() {
+        Timber.d("login. onRefreshSuccess ");
+        try {
+            //Pre- load profile and appointment
+            //ProfileManager.getProfileInfo();
+            NetworkManager.getInstance().getMyAppointments();
+            AuthManager.getInstance().setCount(0);
+
+            Intent intentHome = new Intent(getContext(), NavigationActivity.class);
+            intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+            ActivityCompat.startActivity(getContext(), intentHome, options.toBundle());
+            getActivity().finish();
+
+        } catch (Exception e) {
+            Timber.e(e);
+            e.printStackTrace();
+        }
+    }
+
+    private void onRefreshFailed() {
+        Timber.d("login. onRefreshFailed ");
+    }
 }
 

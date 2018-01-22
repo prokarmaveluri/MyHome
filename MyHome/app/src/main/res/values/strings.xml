@@ -418,9 +418,52 @@
     <!-- Pharmacy Search -->
 
     <!-- Visit Cost -->
+    <string name="title_visit_cost">Visit Cost</string>
     <string name="visit_cost_coupon_code">Coupon Code</string>
     <string name="visit_cost_apply">Apply</string>
+
+    <string name="visit_cost_enter_coupon">Enter Coupon</string>
+    <string name="visit_cost_enter_payment_info">Enter Payment information</string>
+    <string name="visit_cost_pay_using_card">Pay using card</string>
+    <string name="visit_cost_edit_card_details">Edit</string>
+
     <string name="payment">Payment</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="payment_via">Pay via</string>
+    <string name="payment_name_on_card">Name on card</string>
+    <string name="payment_card_number">Card number</string>
+    <string name="payment_expiry_month">Month</string>
+    <string name="payment_expiry_year">Year</string>
+    <string name="payment_cvv">CVV</string>
+    <string name="billing_address">Billing Address</string>
+
+
+    <!-- Payment Information -->
+    <string name="title_activity_payment">Payment Information</string>
+    <string name="payment_information_prompt">How would you like to pay for this visit?</string>
+
+    <string name="payment_information_payment_method">%1$s ending in %2$s</string>
+    <string name="payment_information_payment_method_expired"> has expired. Please update your payment information.</string>
+
+    <string name="no_payment_method">No payment method found.</string>
+
+    <string name="update_payment_method_button">Update payment method</string>
+    <string name="add_payment_method_button">Add payment method</string>
+
+    <!-- Add Credit Card -->
+    <string name="title_activity_add_credit_card">Payment Information</string>
+    <string name="add_credit_card_current_payment_method">Your current credit card ends with %1$s.\nTo update your card, fill out the form below.</string>
+    <string name="add_credit_card_current_card_expired">Your current credit card ending in %1$s has expired. Please update your payment information.</string>
+
+    <string name="add_credit_card_expiration_month">Expiration Month</string>
+    <string name="add_credit_card_expiration_year">Expiration Year</string>
+
+    <string name="add_credit_card_month_error">Please enter a valid month</string>
+    <string name="add_credit_card_year_error">Please enter a valid year</string>
+    <string name="payment_information_cvv_warning">Please provide a valid CVV for this credit card.</string>
+    <string name="add_credit_card_added">Credit card added</string>
+
+
 
     <string name="agree_privacy_policy_text1">I have read and agree to the&#160;</string>
     <string name="agree_privacy_policy_text2">Privacy Policy.</string>
@@ -627,6 +670,9 @@
     <string name="next_day">Next Day</string>
     <string name="showing">showing</string>
     <string name="suggestions_available"> suggestions available, swipe to select</string>
+    <string name="appointment_date">Appointment date</string>
+    <string name="appointment_time">Appointment time</string>
+    <string name="appointment_reason">Appointment reason</string>
 
 
 </resources>

@@ -77,6 +77,7 @@
             android:layout_below="@id/address"
             android:layout_marginTop="35dp"
             android:layout_toLeftOf="@id/directions_text"
+            android:importantForAccessibility="no"
             android:src="@mipmap/map_blue" />
 
         <ImageView
@@ -86,6 +87,7 @@
             android:layout_alignLeft="@id/directions_icon"
             android:layout_below="@id/directions_icon"
             android:layout_marginTop="40dp"
+            android:importantForAccessibility="no"
             android:src="@drawable/share_blue" />
 
         <TextView
@@ -111,6 +113,7 @@
             android:layout_alignLeft="@id/directions_icon"
             android:layout_below="@id/share_icon"
             android:layout_marginTop="40dp"
+            android:importantForAccessibility="no"
             android:src="@mipmap/calendar" />
 
         <TextView

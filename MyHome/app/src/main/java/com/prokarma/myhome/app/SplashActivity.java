@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -47,7 +48,7 @@ import com.prokarma.myhome.features.login.dialog.EnrollmentSuccessDialog;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
-import com.prokarma.myhome.features.login.fingerprint.FingerprintSignIn;
+import com.prokarma.myhome.features.login.fingerprint.FingerprintDialogCallbackInterface;
 import com.prokarma.myhome.features.login.verify.EmailVerifyActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.update.UpdateResponse;
@@ -61,6 +62,7 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.EnviHandler;
 import com.prokarma.myhome.utils.TealiumUtil;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,7 +74,8 @@ import timber.log.Timber;
 public class SplashActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         EnrollmentSuccessDialog.EnrollDialogAction,
-        EnvironmentSelectorInterface {
+        EnvironmentSelectorInterface,
+        FingerprintDialogCallbackInterface {
 
     private ProgressBar progress;
     private TextView clickToRefresh;
@@ -197,8 +200,11 @@ public class SplashActivity extends AppCompatActivity implements
 
     private void getAccessTokenFromRefresh() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                AppPreferences.getInstance().getBooleanPreference("IS_TOUCH_ID_ENABLED") &&
+        // 31614: Android: Fingerprint Authentication upon sign-out.
+        // we are going to show this on Login screen upon signout..
+        // and hence we donot need this logic on splash screen, which makes the fingerprint dialog to come up only after killing the app.
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY) &&
                 (AuthManager.getInstance().getRefreshToken() != null ||
                         CryptoManager.getInstance().getToken() != null)) {
 
@@ -207,19 +213,22 @@ public class SplashActivity extends AppCompatActivity implements
             if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
                 return;
             }
-        }
+        }*/
         refreshToken();
     }
 
-    public void onFingerprintAithentication() {
+    @Override
+    public void onFingerprintAuthentication() {
         refreshToken();
     }
 
-    public void onFingerprintAithenticationCancel() {
+    @Override
+    public void onFingerprintAuthenticationCancel() {
         finish();
     }
 
-    public void onFingerprintAithenticationUsePassword() {
+    @Override
+    public void onFingerprintAuthenticationUsePassword() {
         onRefreshFailed();
     }
 

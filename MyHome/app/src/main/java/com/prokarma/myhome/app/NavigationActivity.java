@@ -63,7 +63,9 @@ import com.prokarma.myhome.views.PdfRendererZoomFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.televisit.AwsManager;
+import com.televisit.cost.MyCareCreditCardFragment;
 import com.televisit.cost.MyCareVisitCostFragment;
+import com.televisit.cost.MyCareVisitIntakeFragment;
 import com.televisit.cost.PrivacyPolicyPdfFragment;
 import com.televisit.feedback.FeedbackFragment;
 import com.televisit.history.HistoryListAdapter;
@@ -513,6 +515,20 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     setActivityTag(ActivityTag.MY_CARE_PROVIDERS);
                 }
                 break;
+            case MY_CARE_INTAKE:
+                if (getActivityTag() != ActivityTag.MY_CARE_INTAKE) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MyCareVisitIntakeFragment myCareVisitIntakeFragment = MyCareVisitIntakeFragment.newInstance();
+                    myCareVisitIntakeFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, myCareVisitIntakeFragment, MyCareVisitIntakeFragment.MY_CARE_INTAKE_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_INTAKE);
+                }
+                break;
             case MY_CARE_COST:
                 if (getActivityTag() != ActivityTag.MY_CARE_COST) {
                     getSupportFragmentManager().executePendingTransactions();
@@ -525,6 +541,20 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commit();
 
                     setActivityTag(ActivityTag.MY_CARE_COST);
+                }
+                break;
+            case MY_CARE_CREDIT_CARD:
+                if (getActivityTag() != ActivityTag.MY_CARE_CREDIT_CARD) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MyCareCreditCardFragment myCareCreditCardFragment = MyCareCreditCardFragment.newInstance();
+                    myCareCreditCardFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, myCareCreditCardFragment, MyCareCreditCardFragment.MY_CARE_CREDIT_CARD_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_CREDIT_CARD);
                 }
                 break;
             case MY_CARE_WAITING_ROOM:

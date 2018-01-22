@@ -33,6 +33,8 @@ import android.widget.TextView;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.SplashActivity;
+import com.prokarma.myhome.features.login.LoginActivity;
+import com.prokarma.myhome.features.login.LoginFragment;
 
 /**
  * A dialog which uses fingerprint APIs to authenticate the user, and falls back to password
@@ -51,7 +53,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
 
     private FingerprintManager.CryptoObject mCryptoObject;
     private FingerprintUiHelper mFingerprintUiHelper;
-    private SplashActivity mActivity;
+    //private SplashActivity mActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,12 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.onFingerprintAithenticationCancel();
+                if (getActivity() instanceof SplashActivity) {
+                    ((SplashActivity) getActivity()).onFingerprintAuthenticationCancel();
+                } else if (getActivity() instanceof LoginActivity) {
+                    LoginFragment loginFragment = (LoginFragment) ((LoginActivity) getActivity()).getSupportFragmentManager().findFragmentById(R.id.loginFrame);
+                    loginFragment.onFingerprintAuthenticationCancel();
+                }
                 dismiss();
             }
         });
@@ -85,13 +92,18 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
                     // use password
                     goToBackup();
                 }
-                mActivity.onFingerprintAithenticationUsePassword();
+                if (getActivity() instanceof SplashActivity) {
+                    ((SplashActivity) getActivity()).onFingerprintAuthenticationUsePassword();
+                } else if (getActivity() instanceof LoginActivity) {
+                    LoginFragment loginFragment = (LoginFragment) ((LoginActivity) getActivity()).getSupportFragmentManager().findFragmentById(R.id.loginFrame);
+                    loginFragment.onFingerprintAuthenticationUsePassword();
+                }
                 dismiss();
             }
         });
         mFingerprintContent = v.findViewById(R.id.fingerprint_container);
         mFingerprintUiHelper = new FingerprintUiHelper(
-                mActivity.getSystemService(FingerprintManager.class),
+                getActivity().getSystemService(FingerprintManager.class),
                 (ImageView) v.findViewById(R.id.fingerprint_icon),
                 (TextView) v.findViewById(R.id.fingerprint_status), this);
         updateStage();
@@ -126,7 +138,6 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (SplashActivity) getActivity();
     }
 
     /**
@@ -147,7 +158,9 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
 
         // Fingerprint is not used anymore. Stop listening for it.
         mFingerprintUiHelper.stopListening();
-        mActivity.onFingerprintAithenticationUsePassword();
+        if (getActivity() instanceof SplashActivity) {
+            ((SplashActivity) getActivity()).onFingerprintAuthenticationUsePassword();
+        }
         dismiss();
         //Use Password
     }
@@ -189,7 +202,13 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     @Override
     public void onAuthenticated() {
         // Let the activity know that authentication was successful.
-        mActivity.onFingerprintAithentication();
+        if (getActivity() instanceof SplashActivity) {
+            ((SplashActivity) getActivity()).onFingerprintAuthentication();
+        } else if (getActivity() instanceof LoginActivity) {
+            LoginFragment loginFragment = (LoginFragment) ((LoginActivity) getActivity()).getSupportFragmentManager().findFragmentById(R.id.loginFrame);
+            loginFragment.onFingerprintAuthentication();
+        }
+
         dismiss();
     }
 

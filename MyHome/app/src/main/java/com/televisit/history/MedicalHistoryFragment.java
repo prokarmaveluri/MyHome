@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -86,6 +88,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_medical_history, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.med_history));
+        ((NavigationActivity) getActivity()).setActionBarLineVisibility(false);
 
         searchLayout = (LinearLayout) view.findViewById(R.id.searchLayout);
         searchQuery = (EditText) view.findViewById(R.id.searchQuery);
@@ -109,6 +112,22 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         searchLayout.setVisibility(View.VISIBLE);
         searchQuery.addTextChangedListener(this);
+
+        searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    performSearch(searchQuery.getText().toString());
+
+                    CommonUtil.hideSoftKeyboard(getContext(), searchQuery);
+                    CommonUtil.hideSoftKeyboard(getActivity());
+                    return true;
+                }
+                return false;
+            }
+        });
+
         searchCancelClickEvent();
 
         selectedGroup = HistoryListAdapter.GROUP.CONDITIONS;
@@ -132,7 +151,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.intake_menu, menu);
+        inflater.inflate(R.menu.next_menu, menu);
         this.menu = menu;
     }
 
@@ -464,11 +483,15 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (s.toString().trim().length() > 0) {
+        performSearch(s.toString());
+    }
+
+    private void performSearch(String searchText) {
+        if (searchText.trim().length() > 0) {
             if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == selectedGroup.getValue()) {
-                searchConditions(s.toString().trim());
+                searchConditions(searchText.trim());
             } else {
-                searchAllergies(s.toString().trim());
+                searchAllergies(searchText.trim());
             }
         } else {
             setAdapter(false);
@@ -493,6 +516,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
                         } else {
                             showAllergies();
                         }
+                        noResults.setVisibility(View.GONE);
                         CommonUtil.hideSoftKeyboard(getActivity());
                         return true;
                     }

@@ -3,13 +3,13 @@ package com.prokarma.myhome.features.fad.details.booking;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
@@ -36,6 +36,7 @@ public class BookingConfirmationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         bookingView = inflater.inflate(R.layout.book_confirmation, container, false);
         CommonUtil.setTitle(getActivity(), getResources().getString(R.string.review_your_booking), true);
+        ViewCompat.setImportantForAccessibility(getActivity().getWindow().getDecorView(),ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO);
         Button book = (Button) bookingView.findViewById(R.id.book_confirmed);
         book.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +75,13 @@ public class BookingConfirmationFragment extends Fragment {
 
         if (BookingManager.getBookingProfile() != null) {
             reason.setText(BookingManager.getBookingProfile().reasonForVisit);
+            reason.setContentDescription(getString(R.string.appointment_reason) + BookingManager.getBookingProfile().reasonForVisit);
+        }
+
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+            date.setContentDescription(getString(R.string.appointment_date) + " " + date.getText());
+            time.setContentDescription(getString(R.string.appointment_time) + " " + time.getText());
+            address.setContentDescription(getString(R.string.location) + AddressUtil.getAddressForAccessibilityUser(BookingManager.getBookingLocation()));
         }
 
         return bookingView;

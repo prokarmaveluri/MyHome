@@ -21,6 +21,7 @@ import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -204,6 +205,11 @@ public class BookingDoneFragment extends Fragment {
                         time.setText(DateUtil.getTime(BookingManager.getBookingAppointment().getTime()) + " " + DateUtil.getReadableTimeZone(BookingManager.getBookingLocation().getState(), BookingManager.getBookingAppointment().getTime()));
                         address.setText(CommonUtil.constructAddress(BookingManager.getBookingLocation().getAddress(), null, BookingManager.getBookingLocation().getCity(), BookingManager.getBookingLocation().getState(), BookingManager.getBookingLocation().getZip()));
 
+                        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+                            date.setContentDescription(getString(R.string.appointment_date) + " " + date.getText());
+                            time.setContentDescription(getString(R.string.appointment_time) + " " + time.getText());
+                            address.setContentDescription(getString(R.string.location) + AddressUtil.getAddressForAccessibilityUser(BookingManager.getBookingLocation()));
+                        }
                         if (doneInterface != null) {
                             doneInterface.onBookingSuccess();
                         }
