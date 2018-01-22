@@ -21,6 +21,7 @@ import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.logging.AWSDKLogger;
 import com.prokarma.myhome.BuildConfig;
+import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.List;
 
@@ -369,9 +370,42 @@ public class AwsManager {
         return AwsManager.getInstance().getAWSDK().getCreditCardTypes();
     }
 
+    public boolean isAmwellSupportedCardType(CreditCardType cardType) {
+        if (cardType == null) {
+            return false;
+        }
+        List<CreditCardType> list = AwsManager.getInstance().getAWSDK().getCreditCardTypes();
+        if (list != null && list.size() > 0) {
+            for (CreditCardType type : list) {
+                if (type.getType().equalsIgnoreCase(cardType.getType())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
     @Nullable
     public List<com.americanwell.sdk.entity.State> getSupportedUSStates() {
         return AwsManager.getInstance().getAWSDK().getConsumerPaymentManager().getValidPaymentMethodStates(
                 AwsManager.getInstance().getCountry("US"));
+    }
+
+    public boolean isAmwellSupportedState(String stateCode) {
+        if (CommonUtil.isEmptyString(stateCode)) {
+            return false;
+        }
+
+        List<com.americanwell.sdk.entity.State> statesList = AwsManager.getInstance().getSupportedUSStates();
+        if (statesList != null && statesList.size() > 0) {
+            for (com.americanwell.sdk.entity.State state : statesList) {
+                if (state.getCode().equalsIgnoreCase(stateCode)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }

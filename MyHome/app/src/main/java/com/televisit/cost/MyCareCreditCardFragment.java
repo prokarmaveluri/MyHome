@@ -2,7 +2,6 @@ package com.televisit.cost;
 
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,9 +25,9 @@ import android.widget.TextView;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
-import com.americanwell.sdk.entity.billing.CreditCardType;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
+import com.americanwell.sdk.util.CreditCardUtil;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -42,7 +41,6 @@ import com.televisit.AwsManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -86,8 +84,7 @@ public class MyCareCreditCardFragment extends BaseFragment {
     private TextInputLayout zipLayout;
     private TextInputLayout phoneLayout;
 
-    private List<CreditCardType> types;
-    private List<com.americanwell.sdk.entity.State> statesList;
+    private CreditCardUtil creditCardUtil;
 
     public MyCareCreditCardFragment() {
         // Required empty public constructor
@@ -189,17 +186,14 @@ public class MyCareCreditCardFragment extends BaseFragment {
         });
 
         populateCardInfo(AwsManager.getInstance().getPaymentMethod());
-
         populateProfileAddress(ProfileManager.getProfile());
 
-        getSupportedCardTypes();
-
-        getSupportedStates();
+        creditCardUtil = AwsManager.getInstance().getAWSDK().getCreditCardUtil();
     }
 
     private String[] getYearsArray() {
 
-        int yearFrom = 2000;
+        int yearFrom = Calendar.getInstance().get(Calendar.YEAR);
         int yearTo = Calendar.getInstance().get(Calendar.YEAR) + 10;
 
         ArrayList<String> alYears = new ArrayList<>();
@@ -207,7 +201,6 @@ public class MyCareCreditCardFragment extends BaseFragment {
         for (int i = yearFrom; i <= yearTo; i++) {
             alYears.add(String.valueOf(i));
         }
-
         return alYears.toArray(new String[alYears.size()]);
     }
 
@@ -323,7 +316,7 @@ public class MyCareCreditCardFragment extends BaseFragment {
             CommonUtil.hideSoftKeyboard(getActivity());
 
             if (isValidPaymentMethod()) {
-                saveNewPaymentMethod();
+                savePaymentMethod();
             }
         }
     }
@@ -343,11 +336,23 @@ public class MyCareCreditCardFragment extends BaseFragment {
         if (paymentCardNumber.getText().toString().trim().isEmpty()) {
             isValid = false;
             cardLayout.setError(getString(R.string.payment_card_number) + isRequiredString);
+
+        } else if (creditCardUtil != null && !creditCardUtil.isCreditCardNumberValid(paymentCardNumber.getText().toString().trim())) {
+            isValid = false;
+            cardLayout.setError(getString(R.string.payment_card_number) + " not valid");
+
+        } else if (creditCardUtil != null
+                && !AwsManager.getInstance().isAmwellSupportedCardType(creditCardUtil.getCreditCardByNumber(paymentCardNumber.getText().toString().trim()))) {
+            isValid = false;
+            cardLayout.setError(getString(R.string.payment_card_number) + " not supported");
         } else {
             cardLayout.setError(null);
         }
 
         if (monthSpinner.getSelectedItemPosition() == 0) {
+            isValid = false;
+            ((TextView) monthSpinner.getSelectedView()).setTextColor(getResources().getColor(R.color.red));
+        } else if (Integer.valueOf(monthSpinner.getSelectedItem().toString()) < Calendar.getInstance().get(Calendar.MONTH)) {
             isValid = false;
             ((TextView) monthSpinner.getSelectedView()).setTextColor(getResources().getColor(R.color.red));
         } else {
@@ -364,6 +369,9 @@ public class MyCareCreditCardFragment extends BaseFragment {
         if (paymentCvv.getText().toString().trim().isEmpty()) {
             isValid = false;
             cvvLayout.setError(getString(R.string.payment_cvv) + isRequiredString);
+        } else if (creditCardUtil != null && !creditCardUtil.isSecurityCodeValid(paymentCardNumber.getText().toString().trim(), paymentCvv.getText().toString().trim())) {
+            isValid = false;
+            cvvLayout.setError(getString(R.string.payment_cvv) + " not valid");
         } else {
             cvvLayout.setError(null);
         }
@@ -383,12 +391,13 @@ public class MyCareCreditCardFragment extends BaseFragment {
             address1Layout.setError(null);
         }
 
-        if (address2.getText().toString().trim().isEmpty()) {
+        //address2 field is optional
+        /*if (address2.getText().toString().trim().isEmpty()) {
             isValid = false;
             address2Layout.setError(getString(R.string.address_2) + isRequiredString);
         } else {
             address2Layout.setError(null);
-        }
+        }*/
 
         if (city.getText().toString().trim().isEmpty()) {
             isValid = false;
@@ -398,6 +407,9 @@ public class MyCareCreditCardFragment extends BaseFragment {
         }
 
         if (state.getSelectedItemPosition() == 0) {
+            isValid = false;
+            ((TextView) state.getSelectedView()).setTextColor(getResources().getColor(R.color.red));
+        } else if (!AwsManager.getInstance().isAmwellSupportedState(state.getSelectedItem().toString())) {
             isValid = false;
             ((TextView) state.getSelectedView()).setTextColor(getResources().getColor(R.color.red));
         } else {
@@ -414,31 +426,7 @@ public class MyCareCreditCardFragment extends BaseFragment {
         return isValid;
     }
 
-    private void getSupportedCardTypes() {
-
-        types = AwsManager.getInstance().getSupportedCardTypes();
-        if (types != null && types.size() > 0) {
-            for (CreditCardType type : types) {
-                Timber.d("payment. cardtype. " + type.getType() + " " + type.getName());
-            }
-        } else {
-            Timber.d("payment. cardtypes are NULL or size zero ");
-        }
-    }
-
-    private void getSupportedStates() {
-
-        statesList = AwsManager.getInstance().getSupportedUSStates();
-        if (statesList != null && statesList.size() > 0) {
-            for (com.americanwell.sdk.entity.State state : statesList) {
-                Timber.d("payment. state = " + state.getName());
-            }
-        } else {
-            Timber.d("payment. states are NULL or size zero ");
-        }
-    }
-
-    private void saveNewPaymentMethod() {
+    private void savePaymentMethod() {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
             CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));

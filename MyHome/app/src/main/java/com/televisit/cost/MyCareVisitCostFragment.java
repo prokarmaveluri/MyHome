@@ -210,7 +210,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
                         if (sdkError == null && isAdded()) {
 
                             AwsManager.getInstance().setVisitCostCouponApplied(couponCode);
+
                             couponInfo.setText("Applied Coupon: " + couponCode.toUpperCase());
+                            couponInfo.setContentDescription(couponInfo.getText());
                             couponInfo.setVisibility(View.VISIBLE);
 
                             updateVisitCost();
@@ -247,6 +249,7 @@ public class MyCareVisitCostFragment extends BaseFragment {
             costInfo.setText(getString(R.string.visit_cost_desc) +
                     CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
         }
+        costInfo.setContentDescription(costInfo.getText());
 
         if (AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
             couponLayout.setVisibility(View.VISIBLE);
@@ -297,7 +300,34 @@ public class MyCareVisitCostFragment extends BaseFragment {
     }
 
     public void updatePaymentInfo() {
+
         if (AwsManager.getInstance().getPaymentMethod() != null) {
+
+            Timber.d("payment. type = " + AwsManager.getInstance().getPaymentMethod().getType());
+
+            if (AwsManager.getInstance().getPaymentMethod().getType().equalsIgnoreCase("visa")) {
+
+                paymentMethodInfo.setCompoundDrawablePadding(15);
+                paymentMethodInfo.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.card_visa), null, null, null);
+
+            } else if (AwsManager.getInstance().getPaymentMethod().getType().equalsIgnoreCase("master")) {
+
+                paymentMethodInfo.setCompoundDrawablePadding(15);
+                paymentMethodInfo.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.card_mastercard), null, null, null);
+
+            } else if (AwsManager.getInstance().getPaymentMethod().getType().equalsIgnoreCase("amex")) {
+
+                paymentMethodInfo.setCompoundDrawablePadding(15);
+                paymentMethodInfo.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.card_amex), null, null, null);
+
+            } else if (AwsManager.getInstance().getPaymentMethod().getType().equalsIgnoreCase("discover")) {
+
+                paymentMethodInfo.setCompoundDrawablePadding(15);
+                paymentMethodInfo.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.card_discover), null, null, null);
+            } else {
+                paymentMethodInfo.setCompoundDrawablePadding(0);
+                paymentMethodInfo.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            }
 
             final StringBuilder sb = new StringBuilder();
             sb.append(getString(R.string.payment_information_payment_method, AwsManager.getInstance().getPaymentMethod().getType(), AwsManager.getInstance().getPaymentMethod().getLastDigits()));
@@ -315,5 +345,8 @@ public class MyCareVisitCostFragment extends BaseFragment {
             paymentMethodButton.setText(R.string.add_payment_method_button);
             paymentMethodInfo.setTypeface(paymentMethodInfo.getTypeface(), Typeface.BOLD);
         }
+
+        paymentMethodInfo.setContentDescription(paymentMethodInfo.getText());
+        paymentMethodButton.setContentDescription(paymentMethodButton.getText());
     }
 }

@@ -62,7 +62,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:text="@string/visit_cost_apply" />
+                    android:text="@string/visit_cost_apply"
+                    android:contentDescription="@string/visit_cost_apply" />
             </LinearLayout>
 
             <TextView
@@ -86,6 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:text="@string/payment_information_prompt"
+                    android:contentDescription="@string/payment_information_prompt"
                     android:textSize="16sp" />
 
                 <TextView
