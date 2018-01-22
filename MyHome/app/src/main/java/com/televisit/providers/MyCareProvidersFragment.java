@@ -409,7 +409,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                             CommonUtil.showToast(getContext(), getContext().getString(R.string.next_available_provider_is) + " " + provider.getFullName());
 
                             if (getActivity() != null) {
-                                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_COST, null);
+                                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_INTAKE, null);
                             }
                         }
                     }
@@ -438,7 +438,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                             AwsManager.getInstance().setVisitContext(visitContext);
                             if (isAdded() && getActivity() != null) {
                                 ((NavigationActivity) getActivity()).loadFragment(
-                                        Constants.ActivityTag.MY_CARE_COST, null);
+                                        Constants.ActivityTag.MY_CARE_INTAKE, null);
                             }
                             setLegalTextsAccepted(true, visitContext);
                             setShareHealthSummary(visitContext);
