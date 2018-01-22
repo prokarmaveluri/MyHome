@@ -235,12 +235,9 @@ public class MyCareVisitCostFragment extends BaseFragment {
 
     private void updateVisitCost() {
 
-        Timber.d("visit. updateVisitCost ");
-
         if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getVisitCost() == null) {
             return;
         }
-        Timber.d("visit. Cost = " + AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
 
         if (AwsManager.getInstance().isDependent()) {
             costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
@@ -302,8 +299,6 @@ public class MyCareVisitCostFragment extends BaseFragment {
     public void updatePaymentInfo() {
 
         if (AwsManager.getInstance().getPaymentMethod() != null) {
-
-            Timber.d("payment. type = " + AwsManager.getInstance().getPaymentMethod().getType());
 
             if (AwsManager.getInstance().getPaymentMethod().getType().equalsIgnoreCase("visa")) {
 
