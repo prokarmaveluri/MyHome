@@ -93,7 +93,7 @@ public class ProvidersTest {
 
     @Test
     public void getSearchSuggestions_Dev() {
-        TestUtil.setStagingEnvironment();
+        TestUtil.setDevEnvironment();
         getSearchSuggestions();
     }
 
@@ -111,7 +111,7 @@ public class ProvidersTest {
 
     @Test
     public void getLocation_Dev() {
-        TestUtil.setStagingEnvironment();
+        TestUtil.setDevEnvironment();
         getLocation();
     }
 
