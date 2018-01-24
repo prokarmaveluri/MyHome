@@ -49,8 +49,10 @@ import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
 import com.prokarma.myhome.features.login.fingerprint.FingerprintDialogCallbackInterface;
+import com.prokarma.myhome.features.login.fingerprint.FingerprintSignIn;
 import com.prokarma.myhome.features.login.verify.EmailVerifyActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.features.settings.TouchIDFragment;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -203,17 +205,17 @@ public class SplashActivity extends AppCompatActivity implements
         // 31614: Android: Fingerprint Authentication upon sign-out.
         // we are going to show this on Login screen upon signout..
         // and hence we donot need this logic on splash screen, which makes the fingerprint dialog to come up only after killing the app.
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY) &&
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                AppPreferences.getInstance().getBooleanPreference(TouchIDFragment.TOUCH_ID_KEY) &&
                 (AuthManager.getInstance().getRefreshToken() != null ||
                         CryptoManager.getInstance().getToken() != null)) {
 
             FingerprintSignIn fingerprint = new FingerprintSignIn(this, FingerprintSignIn.DEFAULT_KEY_NAME);
-            fingerprint.initiateFingerprint();
             if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
+                loadLogin();
                 return;
             }
-        }*/
+        }
         refreshToken();
     }
 
@@ -324,6 +326,10 @@ public class SplashActivity extends AppCompatActivity implements
 
     private void onRefreshFailed() {
         //  Pre- load profile and appointment
+        loadLogin();
+    }
+
+    private void loadLogin() {
         Intent intentHome = new Intent(this, LoginActivity.class);
         intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left);
