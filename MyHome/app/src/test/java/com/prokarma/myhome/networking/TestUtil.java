@@ -44,7 +44,7 @@ public class TestUtil {
         setSharedPreferences();
     }
 
-    private static void setSharedPreferences() {
+    public static void setSharedPreferences() {
         final Context context = Mockito.mock(Context.class);
         final SharedPreferences sharedPrefs = Mockito.mock(SharedPreferences.class);
         Mockito.when(context.getSharedPreferences(AppPreferences.APP_PREFERENCES, Context.MODE_PRIVATE)).thenReturn(sharedPrefs);

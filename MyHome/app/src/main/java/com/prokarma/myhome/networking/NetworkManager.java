@@ -71,6 +71,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.mock.BehaviorDelegate;
+import retrofit2.mock.MockRetrofit;
+import retrofit2.mock.NetworkBehavior;
 import timber.log.Timber;
 
 /**
@@ -100,7 +103,33 @@ public class NetworkManager {
     }
 
     public void initService() {
+        initHttpClient();
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(EnviHandler.CIAM_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+
+        service = retrofit.create(RESTService.class);
+    }
+
+    public void initMockService(NetworkBehavior networkBehavior) {
+        initHttpClient();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(EnviHandler.CIAM_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+
+        //Mock Network with given behavior
+        MockRetrofit mockRetrofit = new MockRetrofit.Builder(retrofit).networkBehavior(networkBehavior).build();
+        final BehaviorDelegate<RESTService> delegate = mockRetrofit.create(RESTService.class);
+        service = new MockRESTService(delegate);
+    }
+
+    private void initHttpClient(){
         httpClient = new OkHttpClient.Builder();
         httpClient.readTimeout(20, TimeUnit.SECONDS);
         httpClient.connectTimeout(20, TimeUnit.SECONDS);
@@ -136,14 +165,6 @@ public class NetworkManager {
                 return response;
             }
         });
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(EnviHandler.CIAM_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
-                .build();
-
-        service = retrofit.create(RESTService.class);
     }
 
     /**

@@ -136,6 +136,36 @@ public class Profile implements Parcelable {
         this.insuranceProvider = this.profileSelf.insuranceProvider;
     }
 
+    public Profile(String firstName, String middleInitial, String lastName, String preferredName, String gender, String dateOfBirth, Address address, String phoneNumber, String phoneNumberType, String contactName, String contactPhoneNumber, String primaryCaregiverName, boolean isPregnant, String weeksPregnant, InsuranceProvider insuranceProvider, String clientID, String remoteID, String email, String reasonForVisit, boolean translationNeeded, String translatorLanguage, boolean assistanceNeeded) {
+        this.userId = null;
+        this.userName = null;
+        this.idLevel = null;
+        this.isVerified = false;
+        this.createdDate = null;
+        this.firstName = firstName;
+        this.middleInitial = middleInitial;
+        this.lastName = lastName;
+        this.preferredName = preferredName;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.phoneNumberType = phoneNumberType;
+        this.contactName = contactName;
+        this.contactPhoneNumber = contactPhoneNumber;
+        this.primaryCaregiverName = primaryCaregiverName;
+        this.isPregnant = isPregnant;
+        this.weeksPregnant = weeksPregnant;
+        this.insuranceProvider = insuranceProvider;
+        this.clientID = clientID;
+        this.remoteID = remoteID;
+        this.email = email;
+        this.reasonForVisit = reasonForVisit;
+        this.translationNeeded = translationNeeded;
+        this.translatorLanguage = translatorLanguage;
+        this.assistanceNeeded = assistanceNeeded;
+    }
+
     public void setEmail(String email) {
         if (this.profileSelf != null) {
             this.profileSelf.email = email;
