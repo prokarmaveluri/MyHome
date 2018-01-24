@@ -402,10 +402,9 @@ public class BookingDialogAdapter extends PagerAdapter {
                 }
             }
         }
-        //first item is not placeholder anymore, as per 30343
-        /*else {
+        else {
             gender.setSelection(0);  //Placeholder is the first item in the array
-        }*/
+        }
 
         if (formsProfile.gender != null && formsProfile.gender.equalsIgnoreCase(context.getString(R.string.female))) {
             areYouPregnantLabel.setVisibility(View.VISIBLE);
@@ -452,10 +451,9 @@ public class BookingDialogAdapter extends PagerAdapter {
                 }
             }
         }
-        //first item is not placeholder anymore, as per 30343
-        /*else {
+        else {
             state.setSelection(0);  //Placeholder is the first item in the array
-        }*/
+        }
 
         if (formsProfile.address != null && formsProfile.address.zipCode != null && formsProfile.address.zipCode.trim().length() > 0) {
             zip.setText(formsProfile.address.zipCode.trim());
@@ -810,16 +808,16 @@ public class BookingDialogAdapter extends PagerAdapter {
                 lastNameLayout.setError(null);
             }
 
-            /*if (gender.getVisibility() == View.VISIBLE && gender.getSelectedItemPosition() == 0) {
+            if (gender.getVisibility() == View.VISIBLE && gender.getSelectedItemPosition() == 0) {
                 genderLabel.setText(context.getString(R.string.gender_required));
                 genderLabel.setTextColor(ContextCompat.getColor(context, R.color.red));
                 if (scrollPosition == -1)
                     scrollPosition = (int) genderLabel.getY();
                 genderLabel.setFocusable(true);
-            } else {*/
-            genderLabel.setText(context.getString(R.string.gender));
-            genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
-            //}
+            } else {
+                genderLabel.setText(context.getString(R.string.gender));
+                genderLabel.setTextColor(ContextCompat.getColor(context, R.color.text_darker));
+            }
 
             if (weeksPregnantLayout.getVisibility() == View.VISIBLE && weeksPregnant.getText().toString().isEmpty()) {
                 weeksPregnantLayout.setError(context.getString(R.string.weeks_pregnant_required));
@@ -863,7 +861,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 addressLayout.setError(null);
             }
 
-            if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty() && state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() < 0) {
+            if (cityLayout.getVisibility() == View.VISIBLE && city.getText().toString().trim().isEmpty() && state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
                 cityLayout.setError(context.getString(R.string.city_and_state_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();
@@ -873,7 +871,7 @@ public class BookingDialogAdapter extends PagerAdapter {
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();
                 cityLayout.setFocusable(true);
-            } else if (state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() < 0) {
+            } else if (state.getVisibility() == View.VISIBLE && state.getSelectedItemPosition() == 0) {
                 cityLayout.setError(context.getString(R.string.state_required));
                 if (scrollPosition == -1)
                     scrollPosition = (int) cityLayout.getY();

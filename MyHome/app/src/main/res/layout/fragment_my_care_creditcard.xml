@@ -1,0 +1,189 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:id="@+id/whole_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/mcn_logo"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/payment_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/payment_heading"
+                    style="@style/tradeGothicLTStd_Dynamic18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/payment_method"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/name_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        style="@style/tradeGothicLTStd_Dynamic18"
+                        android:hint="@string/payment_name_on_card"
+                        android:inputType="textCapCharacters|textFilter|textNoSuggestions"
+                        android:textAllCaps="true"
+                        tools:text="James Armstrong" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/card_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/card_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        style="@style/tradeGothicLTStd_Dynamic18"
+                        android:digits="0123456789 "
+                        android:hint="@string/payment_card_number"
+                        android:inputType="number"
+                        tools:text="4111 1111 1111 1111" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/month_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/tradeGothicLTStd_Dynamic18"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight=".3"
+                        android:entries="@array/month_numbers" />
+
+                    <Spinner
+                        android:id="@+id/year_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        style="@style/tradeGothicLTStd_Dynamic18"
+                        android:layout_weight=".3" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/cvv_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:errorTextAppearance="@style/error_appearance"
+                        app:hintTextAppearance="@style/hint_appearance">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/cvv_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            style="@style/tradeGothicLTStd_Dynamic18"
+                            android:hint="@string/payment_cvv"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            tools:text="123" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/pay_zip_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintTextAppearance="@style/hint_appearance">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/zipcode_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        style="@style/tradeGothicLTStd_Dynamic18"
+                        android:digits="0123456789"
+                        android:hint="@string/zip"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        tools:text="95012" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/billing_address_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/billing_address_heading"
+                    style="@style/tradeGothicLTStd_Dynamic18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="left"
+                    android:text="@string/billing_address"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+
+                <include layout="@layout/address_layout" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="48dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+</ScrollView>

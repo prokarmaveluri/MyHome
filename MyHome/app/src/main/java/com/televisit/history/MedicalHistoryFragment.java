@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -152,7 +151,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.intake_menu, menu);
+        inflater.inflate(R.menu.next_menu, menu);
         this.menu = menu;
     }
 

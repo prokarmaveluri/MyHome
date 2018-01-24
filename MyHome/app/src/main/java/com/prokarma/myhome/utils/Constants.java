@@ -50,7 +50,9 @@ public class Constants {
         MY_PHARMACY_DETAILS,
         MY_CARE_SERVICES,
         MY_CARE_PROVIDERS,
+        MY_CARE_INTAKE,
         MY_CARE_COST,
+        MY_CARE_CREDIT_CARD,
         MY_CARE_WAITING_ROOM,
         MY_CARE_PROFILE,
         MY_CARE_PRIVACY_POLICY,
@@ -122,6 +124,8 @@ public class Constants {
     public static final String MCN_PHARMACY_SCREEN = "my home|my pharmacy";
     public static final String MCN_PHARMACY_DETAILS_SCREEN = "my home|my pharmacy details";
     public static final String MCN_INTAKE_SCREEN = "my home|intake";
+    public static final String MCN_COST_SCREEN = "my home|cost";
+    public static final String MCN_CARD_SCREEN = "my home|credit card";
     public static final String MCN_SUMMARY_SCREEN = "my home|my visit summary";
     public static final String MCN_PDF_REPORT_SCREEN = "my home|my visit report";
     public static final String MCN_PRIVACY_POLICY_SCREEN = "my home|privacy policy";
