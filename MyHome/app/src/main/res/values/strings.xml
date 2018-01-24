@@ -511,13 +511,16 @@
     <string name="welcome">Welcome!</string>
     <string name="mycare_desc">Video visits are a convenient way to see a doctor from home.</string>
     <string name="get_started">Get Started</string>
+    <string name="get_started_with_video_visit">Get Started with video visit</string>
     <string name="personal_information">Personal Information</string>
+    <string name="edit_personal_information">Edit Personal Information</string>
     <string name="my_personal_information">Personal Information</string>
 
     <string name="your_profile_is_almost_complete">Your profile is almost complete.</string>
     <string name="your_profile_is_almost_complete_dependent">Your child\'s profile is almost complete.</string>
 
     <string name="medical_history">Medical History</string>
+    <string name="edit_medical_history">Edit Medical History</string>
     <string name="complete_your_medical_history">Complete your medical history.</string>
     <string name="complete_your_medical_history_dependent">Complete your child\'s medical history.</string>
     <string name="complete_your_medical_conditions">Complete your conditions</string>
@@ -528,12 +531,14 @@
     <string name="no_medical_complications_listed_dependent">Your child has no medical complications</string>
 
     <string name="medications">Medications</string>
+    <string name="edit_medications">Edit Medications</string>
     <string name="what_medications_are_you_taking">What medications are you taking?</string>
     <string name="what_medications_are_you_taking_dependent">What medications is your child taking?</string>
     <string name="no_results">No results found. Please adjust your search.</string>
 
 
     <string name="pharmacy">Pharmacy</string>
+    <string name="edit_pharmacy">Edit Pharmacy</string>
     <string name="pharmacies_list">Pharmacies List</string>
     <string name="visit_summary">Visit Summary</string>
 

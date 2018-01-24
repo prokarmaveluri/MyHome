@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="18dp"
                 android:text="@string/mycare_desc"
+                android:contentDescription="@string/mycare_desc"
                 android:textAlignment="center" />
 
             <TextView
@@ -50,6 +51,7 @@
                 android:layout_alignStart="@id/mcn_desc"
                 android:layout_below="@id/mcn_desc"
                 android:text="@string/who_is_visiting_today"
+                android:contentDescription="@string/who_is_visiting_today"
                 android:textStyle="bold" />
 
             <Spinner
@@ -71,7 +73,8 @@
                 android:layout_marginRight="37dp"
                 android:minHeight="45dp"
                 android:minWidth="285dp"
-                android:text="@string/get_started" />
+                android:text="@string/get_started"
+                android:contentDescription="@string/get_started_with_video_visit" />
 
             <TextView
                 android:id="@+id/previous_visits"
@@ -83,6 +86,7 @@
                 android:layout_marginTop="18dp"
                 android:padding="12dp"
                 android:text="@string/view_previous_visits"
+                android:contentDescription="@string/view_previous_visits"
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
 
@@ -96,7 +100,8 @@
                 android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:padding="12dp"
-                android:text="@string/review_and_complete" />
+                android:text="@string/review_and_complete"
+                android:contentDescription="@string/review_and_complete" />
 
             <RelativeLayout
                 android:id="@+id/personal_info_layout"
@@ -136,6 +141,7 @@
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/edit"
+                    android:contentDescription="@string/edit_personal_information"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
 
@@ -188,6 +194,7 @@
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/edit"
+                    android:contentDescription="@string/edit_medical_history"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
 
@@ -240,6 +247,7 @@
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/edit"
+                    android:contentDescription="@string/edit_medications"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
 
@@ -292,6 +300,7 @@
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/edit"
+                    android:contentDescription="@string/edit_pharmacy"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
 
