@@ -68,7 +68,6 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
     private TextInputLayout reasonLayout;
     private TextInputLayout phoneLayout;
     private TextView privacyLink;
-    private RelativeLayout agreePrivacyPolicyLayout;
     private AppCompatCheckBox agreePrivacyPolicyCheck;
     private AppCompatCheckBox agreeLegalDependentCheck;
     private RelativeLayout agreeLegalDependentLayout;
@@ -124,9 +123,6 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
         agreePrivacyPolicyCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_privacy_policy_check);
         agreeLegalDependentCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_legal_dependent_check);
         agreeLegalDependentLayout = (RelativeLayout) view.findViewById(R.id.agree_legal_dependent_layout);
-
-        agreePrivacyPolicyLayout = (RelativeLayout) view.findViewById(R.id.agree_privacy_policy_layout);
-        agreePrivacyPolicyLayout.setContentDescription(getContext().getString(R.string.agree_privacy_policy_text1) + " " + getContext().getString(R.string.agree_privacy_policy_text2));
 
         if (AwsManager.getInstance().isDependent()) {
             agreeLegalDependentLayout.setVisibility(View.VISIBLE);
