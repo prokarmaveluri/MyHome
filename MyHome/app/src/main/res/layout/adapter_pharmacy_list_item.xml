@@ -14,7 +14,9 @@
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="6dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:onClick="@{handlers::onClickPharmacy}">
 
         <TextView
@@ -23,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="Richard Paul, MD"
+            tools:text="Richard Paul, MD"
             android:textStyle="bold" />
 
         <TextView
@@ -31,8 +33,10 @@
             style="@style/tradeGothicLTStd_Dynamic18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/go"
             android:layout_below="@+id/pharmacyDisplayName"
-            android:text="Denver, CO" />
+            android:layout_marginRight="12dp"
+            tools:text="8200 East Belleview Boulevard Suite 416C\nGreenwood Village, Denver, CO 80111" />
 
         <TextView
             android:id="@+id/distance"
@@ -41,14 +45,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/pharmacyAddress"
             android:lines="1"
-            android:text="10.4 miles" />
+            tools:text="10.4 miles" />
 
         <ImageView
+            android:id="@+id/go"
             android:layout_width="12dp"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
             android:src="@drawable/ic_carrot_blue" />
     </RelativeLayout>
 </layout>

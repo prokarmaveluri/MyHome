@@ -35,8 +35,8 @@ public class BookingConfirmationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         bookingView = inflater.inflate(R.layout.book_confirmation, container, false);
-        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.review_your_booking), true);
         ViewCompat.setImportantForAccessibility(getActivity().getWindow().getDecorView(),ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        CommonUtil.setTitle(getActivity(), getResources().getString(R.string.review_your_booking), false);
         Button book = (Button) bookingView.findViewById(R.id.book_confirmed);
         book.setOnClickListener(new View.OnClickListener() {
             @Override
