@@ -127,6 +127,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:importantForAccessibility="yes"
                 android:id="@+id/agree_privacy_policy_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,6 +144,7 @@
                 <TextView
                     android:id="@+id/agree_privacy_policy_text1"
                     style="@style/tradeGothicLTStd_Dynamic18"
+                    android:importantForAccessibility="no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/agree_privacy_policy_check"
@@ -152,6 +154,7 @@
                 <TextView
                     android:id="@+id/agree_privacy_policy_text2"
                     style="@style/tradeGothicLTStd_Dynamic18"
+                    android:importantForAccessibility="no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/agree_privacy_policy_text1"

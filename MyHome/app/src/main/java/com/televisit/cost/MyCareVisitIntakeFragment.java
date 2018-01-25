@@ -68,6 +68,7 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
     private TextInputLayout reasonLayout;
     private TextInputLayout phoneLayout;
     private TextView privacyLink;
+    private RelativeLayout agreePrivacyPolicyLayout;
     private AppCompatCheckBox agreePrivacyPolicyCheck;
     private AppCompatCheckBox agreeLegalDependentCheck;
     private RelativeLayout agreeLegalDependentLayout;
@@ -123,6 +124,9 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
         agreePrivacyPolicyCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_privacy_policy_check);
         agreeLegalDependentCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_legal_dependent_check);
         agreeLegalDependentLayout = (RelativeLayout) view.findViewById(R.id.agree_legal_dependent_layout);
+
+        agreePrivacyPolicyLayout = (RelativeLayout) view.findViewById(R.id.agree_privacy_policy_layout);
+        agreePrivacyPolicyLayout.setContentDescription(getContext().getString(R.string.agree_privacy_policy_text1) + " " + getContext().getString(R.string.agree_privacy_policy_text2));
 
         if (AwsManager.getInstance().isDependent()) {
             agreeLegalDependentLayout.setVisibility(View.VISIBLE);
@@ -464,12 +468,9 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
 
     private void updateVisitCost() {
 
-        Timber.d("visit. updateVisitCost ");
-
         if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getVisitCost() == null) {
             return;
         }
-        Timber.d("visit. Cost = " + AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
 
         if (AwsManager.getInstance().isDependent()) {
             costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
@@ -478,6 +479,5 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
             costInfo.setText(getString(R.string.visit_cost_desc) +
                     CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
         }
-        //costInfo.setVisibility(View.GONE); //removelater. should be invisible, in layout and here too.
     }
 }
