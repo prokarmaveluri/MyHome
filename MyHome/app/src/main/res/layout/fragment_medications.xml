@@ -79,6 +79,8 @@
 
     <LinearLayout
         android:id="@+id/no_medications_layout"
+        android:importantForAccessibility="yes"
+        android:contentDescription="@string/not_on_any_medications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/add_additional_medication"
@@ -93,6 +95,7 @@
 
         <TextView
             style="@style/tradeGothicLTStd_Dynamic18"
+            android:importantForAccessibility="no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/not_on_any_medications" />

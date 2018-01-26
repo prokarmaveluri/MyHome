@@ -136,6 +136,17 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
             reasonPhone.setText(ProfileManager.getProfile().phoneNumber);
         }
 
+        // 33162: Android Visit notes given by user is not showing up on WEB Providers intake screen
+        // hardcoded the visit cost temporarirly as the cost should go into new screen on its own
+        // visit object needs to be created after taking the reason_for_visit which is on NEXT click
+        // if we donot want to hardcode cost, and rather fetch it from visit object, then visit needs to be created on load of this screen;
+        // which is before taking reason for visit info from user
+        if (AwsManager.getInstance().isDependent()) {
+            costInfo.setText(getString(R.string.visit_cost_desc_dependent) + "0.00");
+        } else {
+            costInfo.setText(getString(R.string.visit_cost_desc) + "0.00");
+        }
+
         setHasOptionsMenu(true);
         return view;
     }
@@ -143,8 +154,6 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        createVisit();
 
         privacyLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,15 +224,13 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
             return;
         }
 
-        if (isAdded() && AwsManager.getInstance().getVisit() != null) {
+        if (isAdded()) {
 
-            if (AwsManager.getInstance().getVisit().getVisitCost() != null
-                    && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
-                //CommonUtil.showToast(getContext(), getString(R.string.your_cost_is_not_free));
+            if (AwsManager.getInstance().getVisitContext() != null && !CommonUtil.isEmptyString(reasonForVisit.getText().toString())) {
+                AwsManager.getInstance().getVisitContext().setOtherTopic(reasonForVisit.getText().toString());
+            }
 
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_COST, null);
-
-            } else if (!CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())) {
+            if (!CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())) {
                 phoneLayout.setError(getString(R.string.field_must_be_completed));
 
             } else if (!agreePrivacyPolicyCheck.isChecked()) {
@@ -232,14 +239,25 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
             } else if (!agreeLegalDependentCheck.isChecked() && AwsManager.getInstance().isDependent()) {
                 CommonUtil.showToast(getActivity(), getString(R.string.my_care_legal_dependent_accept));
 
-
             } else if (!hasPermissionsForVideoVisit()) {
 
             } else if (CommonUtil.isValidMobile(reasonPhone.getText().toString().trim())
                     && agreePrivacyPolicyCheck.isChecked()) {
 
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+                createVisit();
             }
+        }
+    }
+
+    private void loadCostScreen() {
+        if (AwsManager.getInstance().getVisit() != null) {
+            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_COST, null);
+        }
+    }
+
+    private void loadWaitingRoom() {
+        if (AwsManager.getInstance().getVisit() != null) {
+            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
         }
     }
 
@@ -422,7 +440,20 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
 
                             progressBar.setVisibility(View.GONE);
 
-                            updateVisitCost();
+                            // DONOT remove this code, it is required for 1.7; cost screen is not required for 1.6, hence always skipping it and laoding waiting_room
+                            /*updateVisitCost();
+
+                            if (AwsManager.getInstance().getVisit() != null
+                                    && AwsManager.getInstance().getVisit().getVisitCost() != null
+                                    && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
+                                //CommonUtil.showToast(getContext(), getString(R.string.your_cost_is_not_free));
+
+                                loadCostScreen();
+                            } else {
+                                loadWaitingRoom();
+                            }*/
+
+                            loadWaitingRoom();
 
                         } else {
                             progressBar.setVisibility(View.GONE);
@@ -464,12 +495,9 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
 
     private void updateVisitCost() {
 
-        Timber.d("visit. updateVisitCost ");
-
         if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getVisitCost() == null) {
             return;
         }
-        Timber.d("visit. Cost = " + AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
 
         if (AwsManager.getInstance().isDependent()) {
             costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
@@ -478,6 +506,5 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
             costInfo.setText(getString(R.string.visit_cost_desc) +
                     CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
         }
-        //costInfo.setVisibility(View.GONE); //removelater. should be invisible, in layout and here too.
     }
 }
