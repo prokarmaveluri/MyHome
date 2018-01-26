@@ -464,12 +464,9 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
 
     private void updateVisitCost() {
 
-        Timber.d("visit. updateVisitCost ");
-
         if (AwsManager.getInstance().getVisit() == null || AwsManager.getInstance().getVisit().getVisitCost() == null) {
             return;
         }
-        Timber.d("visit. Cost = " + AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost());
 
         if (AwsManager.getInstance().isDependent()) {
             costInfo.setText(getString(R.string.visit_cost_desc_dependent) +
@@ -478,6 +475,5 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
             costInfo.setText(getString(R.string.visit_cost_desc) +
                     CommonUtil.formatAmount(AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost()));
         }
-        //costInfo.setVisibility(View.GONE); //removelater. should be invisible, in layout and here too.
     }
 }
