@@ -217,10 +217,6 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
 
         if (isAdded() && AwsManager.getInstance().getVisit() != null) {
 
-            if (AwsManager.getInstance().getVisitContext() != null && !CommonUtil.isEmptyString(reasonForVisit.getText().toString())) {
-                AwsManager.getInstance().getVisitContext().setOtherTopic(reasonForVisit.getText().toString());
-            }
-
             if (AwsManager.getInstance().getVisit().getVisitCost() != null
                     && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
                 //CommonUtil.showToast(getContext(), getString(R.string.your_cost_is_not_free));
