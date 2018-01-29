@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
 
@@ -48,6 +49,9 @@ public class PdfRendererZoomFragment extends Fragment {
                 fileNameWithEntirePath = getArguments().getString("FILENAME_WITH_PATH");
             }
             pdfViewPager = view.findViewById(R.id.pdfViewPager);
+
+            pdfViewPager.setContentDescription(CommonUtil.getTextFromPdfFile(fileNameWithEntirePath));
+
         } catch (Exception e) {
             Timber.e(e);
             e.printStackTrace();
