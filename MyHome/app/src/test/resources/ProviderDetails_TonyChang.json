@@ -1,0 +1,118 @@
+{
+    "RecordNumber": 1,
+    "ProviderId": "YRBK8",
+    "Npi": "1871784678",
+    "Title": "Dr.",
+    "FirstName": "Tony",
+    "MiddleName": null,
+    "MiddleInitialDot": null,
+    "LastName": "Chang",
+    "DisplayFullName": "Dr. Tony Chang, MD",
+    "DisplayLastName": "Dr. Chang",
+    "DisplayLastNamePlural": "Dr. Chang's",
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Gender": "M",
+    "YearsOfExperience": "14",
+    "AcceptsNewPatients": true,
+    "ImageUrl": "http://d1ffafozi03i4l.cloudfront.net/img/prov/Y/R/B/YRBK8_w120h160_v1808.jpg",
+    "ImageUrls": [
+        {
+            "Url": "http://d1ffafozi03i4l.cloudfront.net/img/prov/Y/R/B/YRBK8_w60h80_v1808.jpg",
+            "Size": "small"
+        },
+        {
+            "Url": "http://d1ffafozi03i4l.cloudfront.net/img/prov/Y/R/B/YRBK8_w90h120_v1808.jpg",
+            "Size": "medium"
+        },
+        {
+            "Url": "http://d1ffafozi03i4l.cloudfront.net/img/prov/Y/R/B/YRBK8_w120h160_v1808.jpg",
+            "Size": "large"
+        }
+    ],
+    "Quote": null,
+    "Philosophy": "<p>As a primary care Sports Medicine Physician, Dr. Chang looks at athletes from multiple perspectives, including nutrition and general health issues, that provide important insight to complement to the very focused expertise of our Orthopaedic Sports Medicine Physicians, Physical Therapists and Athletic Trainers. Working together to support our patient's health and wellness needs.</p>",
+    "InMyOwnWords": "",
+    "Specialties": [
+        "Family Medicine"
+    ],
+    "Languages": [
+        "English",
+        "Japanese",
+        "Mandarin",
+        "Taiwanese"
+    ],
+    "Degree": "MD",
+    "MedicalSchools": [
+        "St. George's University School Of Medicine 2004"
+    ],
+    "Residencies": [
+        "University Of California At Davis / School Of Medicine"
+    ],
+    "Fellowships": [
+        "University Of Nevada At Reno"
+    ],
+    "Internships": [
+        "University Of Southern California / Keck School Of Medicine"
+    ],
+    "Practicums": [],
+    "Facilities": [
+        {
+            "Name": "Mercy Medical Center Redding",
+            "Address1": "2175 Rosaline Avenue Clairmont Hgts",
+            "Address2": null,
+            "City": "Redding",
+            "State": "CA",
+            "ZipCode": "96001",
+            "Phone": "",
+            "Fax": null,
+            "Url": "http://www.healthgrades.com/hospital-directory/california-ca-northern/mercy-medical-center-redding-hgstb9518d46050280",
+            "Lat": "40.566299",
+            "Long": "-122.422096",
+            "DistanceMilesFromSearch": null,
+            "DirectionsLink": "https://www.google.com/maps/search/2175 Rosaline Avenue Clairmont Hgts Redding CA 96001",
+            "Hash": "063f5b83a4a5420f25da8f129623eaed",
+            "LatLongHash": "b494c65257db16f8dfdad041a2321035",
+            "Appointments": [],
+            "LocationMatch": false
+        }
+    ],
+    "Offices": [
+        {
+            "Name": "Shasta Orthopaedics",
+            "Address1": "1255 Liberty St",
+            "Address2": null,
+            "City": "Redding",
+            "State": "CA",
+            "ZipCode": "96001",
+            "Phone": "(530) 246-2467",
+            "Fax": "(530) 242-9460",
+            "Url": "",
+            "Lat": "40.58806",
+            "Long": "-122.38735",
+            "SortRank": 1,
+            "DistanceMilesFromSearch": null,
+            "DirectionsLink": "https://www.google.com/maps/search/1255 Liberty St Redding CA 96001",
+            "Hash": "ddbbc56b7a86109196db6c0f5e49508d",
+            "LatLongHash": "f92172dcd28471e121dc9bc579f06a4c",
+            "AddressHash": "MTI1NSBsaWJlcnR5IHN0LCByZWRkaW5nLCBjYQ==",
+            "Appointments": [],
+            "LocationMatch": false,
+            "Availability": null
+        }
+    ],
+    "Memberships": [],
+    "Certifications": [],
+    "Awards": [
+        "Recognized Doctor"
+    ],
+    "HasAppointments": false,
+    "ServiceErrors": [
+        {
+            "Source": "InQuicker",
+            "Url": "https://api.inquickerstaging.com/v2",
+            "StatusCode": "SCH.INQ.2",
+            "Message": "InQuicker Provider API didn't find the provider. Provider doesn't exist or not GECB integrated.",
+            "Data": "1871784678"
+        }
+    ]
+}

@@ -202,27 +202,6 @@ public class ProvidersTest {
         }
     }
 
-    public static ProviderDetailsResponse getProviderDetails(String npi) {
-        Call<ProviderDetailsResponse> call = NetworkManager.getInstance().getProviderDetails(npi);
-
-        try {
-            Response<ProviderDetailsResponse> response = call.execute();
-
-            Assert.assertNotNull(response);
-            Assert.assertTrue(response.isSuccessful());
-            Assert.assertNotNull(response.body());
-            Assert.assertNotNull(response.body().Npi);
-            Assert.assertFalse(response.body().Npi.isEmpty());
-            Assert.assertNotNull(response.body().LastName);
-            Assert.assertFalse(response.body().LastName.isEmpty());
-
-            return response.body();
-        } catch (IOException e) {
-            Assert.fail(e.toString());
-            return null;
-        }
-    }
-
     public static ProviderDetails getNewProviderDetails(String npi) {
         Call<ProviderDetails> call = NetworkManager.getInstance().getNewProviderDetails(npi);
 

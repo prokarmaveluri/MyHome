@@ -1,6 +1,7 @@
 package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.fad.Office;
+import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTime;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
@@ -38,7 +39,7 @@ public class SchedulingTest {
         Assert.assertNotNull(provider.getNpi());
         Assert.assertFalse(provider.getNpi().isEmpty());
 
-        ProviderDetailsResponse providerDetails = ProvidersTest.getProviderDetails(provider.getNpi());
+        ProviderDetails providerDetails = ProvidersTest.getNewProviderDetails(provider.getNpi());
         createAppointment(TestUtil.getLogin(loginRequest), providerDetails);
     }
 
@@ -53,7 +54,7 @@ public class SchedulingTest {
         Assert.assertNotNull(provider.getNpi());
         Assert.assertFalse(provider.getNpi().isEmpty());
 
-        ProviderDetailsResponse providerDetails = ProvidersTest.getProviderDetails(provider.getNpi());
+        ProviderDetails providerDetails = ProvidersTest.getNewProviderDetails(provider.getNpi());
         createAppointment(TestUtil.getLogin(loginRequest), providerDetails);
     }
 
@@ -69,16 +70,16 @@ public class SchedulingTest {
         Assert.assertNotNull(provider.getNpi());
         Assert.assertFalse(provider.getNpi().isEmpty());
 
-        ProviderDetailsResponse providerDetails = ProvidersTest.getProviderDetails(provider.getNpi());
+        ProviderDetails providerDetails = ProvidersTest.getNewProviderDetails(provider.getNpi());
         createAppointment(TestUtil.getLogin(loginRequest), providerDetails);
     }
 
-    public void createAppointment(String bearerToken, ProviderDetailsResponse providerDetails) {
+    public void createAppointment(String bearerToken, ProviderDetails providerDetails) {
         Address bookingAddress = new Address("540 Trinity Lane N", "Apt 5301", "St.Petersburg", "FL", "33716", "US");
         InsuranceProvider insuranceProvider = new InsuranceProvider("", "AARP Medicare Complete", "12321", "131312", "616-826-1635", "aarp-medicare-complete");
         Profile bookingProfile = new Profile("Kevin", "C", "Welsh", "Nickname", "Male", "1988-12-12T00:00:00Z", bookingAddress, "1212121212", null, null, null, "", false, null, insuranceProvider, null, null, "draman@prokarma.com", "Sick", false, "", false);
 
-        Office office = getOfficeWithAppointments(providerDetails);
+        //Office office = getOfficeWithAppointments(providerDetails);
 
         ArrayList<AppointmentType> appointmentTypes = new ArrayList<>();
         AppointmentType appointmentType = new AppointmentType("established-patient-1", "Established Patient Visit", "established-patient");

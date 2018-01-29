@@ -5,7 +5,6 @@ import com.prokarma.myhome.features.fad.ProvidersResponse;
 import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
-import com.prokarma.myhome.utils.EnviHandler;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,9 +28,7 @@ public class MockNetworkTest {
 
     @Before
     public void setup() {
-        EnviHandler.initEnv(EnviHandler.EnvType.DEV);
-        NetworkManager.getInstance().initMockService(behavior);
-        TestUtil.setSharedPreferences();
+        TestUtil.setMockEnvironment(behavior);
     }
 
     @Test
@@ -127,27 +124,6 @@ public class MockNetworkTest {
             Assert.assertFalse(response.body().getProviders().isEmpty());
 
             return response.body().getProviders();
-        } catch (IOException e) {
-            Assert.fail(e.toString());
-            return null;
-        }
-    }
-
-    public static ProviderDetailsResponse getProviderDetails(String npi) {
-        Call<ProviderDetailsResponse> call = NetworkManager.getInstance().getProviderDetails(npi);
-
-        try {
-            Response<ProviderDetailsResponse> response = call.execute();
-
-            Assert.assertNotNull(response);
-            Assert.assertTrue(response.isSuccessful());
-            Assert.assertNotNull(response.body());
-            Assert.assertNotNull(response.body().Npi);
-            Assert.assertFalse(response.body().Npi.isEmpty());
-            Assert.assertNotNull(response.body().LastName);
-            Assert.assertFalse(response.body().LastName.isEmpty());
-
-            return response.body();
         } catch (IOException e) {
             Assert.fail(e.toString());
             return null;

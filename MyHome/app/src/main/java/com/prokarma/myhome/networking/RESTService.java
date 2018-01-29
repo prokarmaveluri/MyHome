@@ -7,7 +7,6 @@ import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.ProvidersResponse;
 import com.prokarma.myhome.features.fad.details.ProviderDetails;
-import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
@@ -135,10 +134,6 @@ public interface RESTService {
                                          @Query(QUERY_FACILITIES) String facilities,
                                          @Query(QUERY_PRACTICES) String practices,
                                          @Query(QUERY_PATIENTS) String patients);
-
-    @GET
-    Call<ProviderDetailsResponse> getProviderDetails(@Url String url,
-                                                     @Query(QUERY_PROVIDER_ID) String id);
 
     @POST
     Call<CreateAppointmentResponse> createAppointment(@Url String url,

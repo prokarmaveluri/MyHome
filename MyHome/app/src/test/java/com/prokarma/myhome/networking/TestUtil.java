@@ -19,12 +19,19 @@ import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.mock.NetworkBehavior;
 
 /**
  * Created by kwelsh on 9/28/17.
  */
 
 public class TestUtil {
+
+    public static void setMockEnvironment(NetworkBehavior networkBehavior) {
+        EnviHandler.initEnv(EnviHandler.EnvType.DEV);
+        NetworkManager.getInstance().initMockService(networkBehavior);
+        setSharedPreferences();
+    }
 
     public static void setDevEnvironment() {
         EnviHandler.initEnv(EnviHandler.EnvType.DEV);

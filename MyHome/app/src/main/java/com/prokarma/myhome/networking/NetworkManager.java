@@ -17,7 +17,6 @@ import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.fad.ProvidersResponse;
 import com.prokarma.myhome.features.fad.details.ProviderDetails;
-import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
@@ -356,20 +355,6 @@ public class NetworkManager {
                     facilities,
                     practices,
                     patients);
-        }
-    }
-
-    /**
-     * Get a detailed profile of a provider
-     *
-     * @param id the Provider ID
-     * @return a More in-depth look of the provider
-     */
-    public Call<ProviderDetailsResponse> getProviderDetails(String id) {
-        if (AppPreferences.getInstance().getBooleanPreference(Constants.API_GET_PROVIDER_DETAILS_FORCE_ERROR)) {
-            return service.getProviderDetails(EnviHandler.S2_BASE_URL.concat("messUpUrl123") + "api/providerdetails", id);
-        } else {
-            return service.getProviderDetails(EnviHandler.S2_BASE_URL + "api/providerdetails", id);
         }
     }
 
