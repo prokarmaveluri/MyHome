@@ -202,6 +202,6 @@ public class Constants {
     public static final String API_VERSION_CHECK_FORCE_ERROR = "API_VERSION_CHECK_FORCE_ERROR";
     public static final String API_RESEND_EMAIL_FORCE_ERROR = "API_RESEND_EMAIL_FORCE_ERROR";
 
-    public static final int TOAST_DURATION = 5000;
+    public static final int TOAST_DURATION = 7000;
 }
 

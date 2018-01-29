@@ -657,8 +657,8 @@
     <string name="provider_unavailable">Provider unavailable. \nPlease select a different provider.</string>
     <string name="provider_busy">Provider currently busy. \nPlease select a different provider.</string>
     <string name="unable_to_add_message">Sorry we are unable to add at this time.</string>
-    <string name="no_pharmacies_found_for">No Pharmacies found. \n\nWe could\'nt find any relevant results for</string>
-    <string name="no_pharmacies_found_for_current_location">No Pharmacies found. \n\nWe could\'nt find any relevant results near to your current location.</string>
+    <string name="no_pharmacies_found_for">No Pharmacies found. \nWe could\'nt find any relevant results for</string>
+    <string name="no_pharmacies_found_for_current_location">No Pharmacies found. \nWe could\'nt find any relevant results near to your current location.</string>
     <string name="no_amwell_token_found">No AmWell token found</string>
     <string name="could_not_find_appointments_for_location">Couldn\'t find appointments for this location.\nPlease try another office</string>
     <string name="no_medications_found">No Medications found. \n\nWe could\'nt find any relevant results for</string>
