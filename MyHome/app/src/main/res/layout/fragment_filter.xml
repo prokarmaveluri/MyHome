@@ -78,6 +78,12 @@
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="true"
                     android:orientation="vertical">
+                    <View
+                        android:id="@+id/lable_filterLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@id/filterLocation"
+                        android:contentDescription="@string/location"/>
 
                     <EditText
                         android:id="@+id/filterLocation"
