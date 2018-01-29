@@ -637,7 +637,7 @@
     <string name="mcn_welcome_text_variable">Hi %1$s, let’s fill out a few details to get you started.</string>
     <string name="location">Location, </string>
     <string name="phone_number_des">Phone number, </string>
-    <string name="phone_number_open_dialer">, Double tap to open dialer application</string>
+    <string name="phone_number_open_dialer">, Open dialer application</string>
     <string name="fav_selected">Remove doctor from favorites </string>
     <string name="fav_unselected">Add doctor to favorites list</string>
     <string name="provider_info">Provider Info</string>
