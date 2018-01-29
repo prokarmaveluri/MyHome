@@ -54,10 +54,14 @@ import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
 import com.televisit.AwsManager;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -1291,5 +1295,23 @@ public class CommonUtil {
             stringBuilder.append(" ");
         }
         return stringBuilder.toString();
+    }
+
+    public static File getJsonFile(final ClassLoader classLoader, final String fileName) {
+        URL resource = classLoader.getResource(fileName);
+        return new File(resource.getPath());
+    }
+
+    public static String readJsonFile(final ClassLoader classLoader, final String filename) throws IOException {
+        File jsonFile = getJsonFile(classLoader, filename);
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(jsonFile)));
+        StringBuilder sb = new StringBuilder();
+        String line = br.readLine();
+        while (line != null) {
+            sb.append(line);
+            line = br.readLine();
+        }
+
+        return sb.toString();
     }
 }

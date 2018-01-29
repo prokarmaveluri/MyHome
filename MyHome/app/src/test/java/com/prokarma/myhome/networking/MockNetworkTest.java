@@ -36,7 +36,7 @@ public class MockNetworkTest {
 
     @Test
     public void getProviders_Dev() {
-        givenNetworkFailurePercentIs(100);
+        givenNetworkFailurePercentIs(0);
         getProviderList();
     }
 

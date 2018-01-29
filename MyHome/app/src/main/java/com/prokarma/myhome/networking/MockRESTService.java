@@ -1,5 +1,7 @@
 package com.prokarma.myhome.networking;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
 import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
@@ -32,11 +34,14 @@ import com.prokarma.myhome.features.settings.ChangeSecurityQuestionRequest;
 import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
+import com.prokarma.myhome.utils.CommonUtil;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.mock.BehaviorDelegate;
+import timber.log.Timber;
 
 /**
  * Created by kwelsh on 1/22/18.
@@ -112,7 +117,18 @@ public class MockRESTService implements RESTService {
 
     @Override
     public Call<ProvidersResponse> getProviders(String url, String queryString, String lat, String lon, String displayName, String zipCode, String page, String pageSize, String distance, String sortBy, String gender, String languages, String specialties, String facilities, String practices, String patients) {
-        //return delegate.returningResponse(signInResponse);
+        try {
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "GetProviders.json");
+
+            Gson gson = new GsonBuilder().create();
+            ProvidersResponse providersResponse = gson.fromJson(json, ProvidersResponse.class);
+            return delegate.returningResponse(providersResponse).getProviders(url, queryString, lat, lon, displayName, zipCode, page, pageSize, distance, sortBy, gender, languages, specialties, facilities, practices, patients);
+        } catch (IOException e) {
+            Timber.e("Failed to mock " + url);
+            Timber.e(e);
+            e.printStackTrace();
+        }
+
         return null;
     }
 
