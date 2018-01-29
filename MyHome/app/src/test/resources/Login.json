@@ -1,0 +1,90 @@
+{
+    "result": {
+        "userProfile": {
+            "userId": 3573,
+            "selfId": "f91cffda-b633-4640-8a7b-e80d3216569f",
+            "self": {
+                "personId": "f91cffda-b633-4640-8a7b-e80d3216569f",
+                "idLevel": "level2",
+                "firstName": "T",
+                "lastName": "U",
+                "preferredName": "",
+                "email": "test@mail.com",
+                "dateOfBirth": "1999-12-12T00:00:00Z",
+                "gender": "male",
+                "degreeCredential": null,
+                "specialty": null,
+                "phoneNumber": "2353245325",
+                "mobilePhoneNumber": null,
+                "officePhoneNumber": null,
+                "isPregnant": false,
+                "weeksPregnant": 0,
+                "numKbaAttempts": 0,
+                "nextKbaAttempt": null,
+                "address": {
+                    "line1": "Fast as",
+                    "line2": "",
+                    "city": "Denver",
+                    "stateOrProvince": "CO",
+                    "zipCode": "24242",
+                    "countryCode": "US"
+                },
+                "insuranceProvider": {
+                    "providerName": null,
+                    "insurancePlan": "AARP POS",
+                    "groupNumber": "432432423",
+                    "memberNumber": "234242432"
+                }
+            },
+            "username": "test@mail.com",
+            "isVerified": false,
+            "securityQuestion": null,
+            "termsAcceptedDate": "2018-01-08T06:21:49.914052Z",
+            "isTermsAccepted": true,
+            "idLevel": "level2",
+            "firstName": "T",
+            "lastName": "U",
+            "preferredName": "",
+            "email": "test@mail.com",
+            "dateOfBirth": "1999-12-12T00:00:00Z",
+            "gender": "male",
+            "degreeCredential": null,
+            "specialty": null,
+            "phoneNumber": "2353245325",
+            "mobilePhoneNumber": null,
+            "officePhoneNumber": null,
+            "isPregnant": false,
+            "weeksPregnant": 0,
+            "numKbaAttempts": 0,
+            "nextKbaAttempt": null,
+            "address": {
+                "line1": "Fast as",
+                "line2": "",
+                "city": "Denver",
+                "stateOrProvince": "CO",
+                "zipCode": "24242",
+                "countryCode": "US"
+            },
+            "insuranceProvider": {
+                "providerName": null,
+                "insurancePlan": "AARP POS",
+                "groupNumber": "432432423",
+                "memberNumber": "234242432"
+            },
+            "createdDate": "2018-01-08T06:21:49.7421746Z",
+            "numPortalProofWizardAttempts": 0,
+            "showPortalProofWizard": true,
+            "photoUploadCountThisPeriod": 0,
+            "photoUploadStartOfThisPeriod": null,
+            "access": []
+        },
+        "sessionId": "102YcNTuUWUQzOPAVcS83S82A",
+        "accessToken": "eyJraWQiOiJSaEE3TTZuVTJrOEtId2hfRTJRZlRNSzJHc1p2Ml9lOXlud3M1WmZwLS1ZIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULlI4TmdlTE8tVmxTbjMwaXpMdjl3NFhyWDFSNHJHTEI5dm5UV0hwdjhhckkuNGpJd0h5Z0FiK2NsbzFYYkRmenJCUWhSL1J1WnFWNXo1TjkxUzMwS29Raz0iLCJpc3MiOiJodHRwczovL2RpZ25pdHloZWFsdGgub2t0YXByZXZpZXcuY29tL29hdXRoMi9hdXNiMmIwamJyaTdNc1FHbDBoNyIsImF1ZCI6Imh0dHBzOi8vY2lhbS5kaWduaXR5aGVhbHRoLm9yZyIsImlhdCI6MTUxNjI3NTUzNSwiZXhwIjoxNTE2MzYxOTM1LCJjaWQiOiIwb2FiNTRhaTZxMHpGSThmcTBoNyIsInVpZCI6IjAwdWRqb21oZGtJRkRXaFRRMGg3Iiwic2NwIjpbIm9mZmxpbmVfYWNjZXNzIiwiZ3JvdXBzIiwib3BlbmlkIiwiZW1haWwiLCJwcm9maWxlIl0sInN1YiI6InRlc3RAbWFpbC5jb20iLCJpZF9sZXZlbCI6MiwiZ3JvdXBzIjpbIkV2ZXJ5b25lIiwiTGV2ZWwgMiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ0ZXN0QG1haWwuY29tIiwiZ2l2ZW5fbmFtZSI6IlQiLCJmYW1pbHlfbmFtZSI6IlUiLCJkaWdpdGFsX2hvbWVfdXNlcl9pZCI6ImY5MWNmZmRhLWI2MzMtNDY0MC04YTdiLWU4MGQzMjE2NTY5ZiJ9.I9F_AAloyH9DbnFimPABDa5spHC5R1fZ2o2kT-Bq8i64XvBIyxo5_YpVDn-NVz8r3wleqfW8_B-yRBrDWyKORRhF8SFfrHEuj0zqZaqzMrPv1Pg9ipmxJkO-3ZPKjU90kCOCMkFMYWzcwXqp3lNS_vY-uh9UkmZBRaRnmpXZoRZD42NVvHX0cjv7eG861WUZ0A2yNa2FwUEMbQHVRf5FtoqPoWH2cxO9e0T1sZy386ScHrOn36Jf7EJtt3H5g2uV9z7tGgWvITUU-fh-5RFuUQA5GOq76a4RsjxwZ5PVphYsX4k87BZoUaiHWGyyinGpRS-JNHeHDxqcWxWboq_RdQ",
+        "idToken": "eyJraWQiOiJSaEE3TTZuVTJrOEtId2hfRTJRZlRNSzJHc1p2Ml9lOXlud3M1WmZwLS1ZIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwMHVkam9taGRrSUZEV2hUUTBoNyIsIm5hbWUiOiJUIFUiLCJlbWFpbCI6InRlc3RAbWFpbC5jb20iLCJ2ZXIiOjEsImlzcyI6Imh0dHBzOi8vZGlnbml0eWhlYWx0aC5va3RhcHJldmlldy5jb20vb2F1dGgyL2F1c2IyYjBqYnJpN01zUUdsMGg3IiwiYXVkIjoiMG9hYjU0YWk2cTB6Rkk4ZnEwaDciLCJpYXQiOjE1MTYyNzU1MzUsImV4cCI6MTUxNjI3OTEzNSwianRpIjoiSUQuckpyUUl1X3VTQVZ2SGFaekdzYlpYby03SXp6WFhibmJHWHZrRUFMR1JUTSIsImFtciI6WyJwd2QiXSwiaWRwIjoiMDBvOHBrazNlaXJJYkptQ2swaDciLCJub25jZSI6IjUxMmZiYWVkLWUwOGEtNDI1MC1iZDNjLTYzZjE0ZmE3NDJlMiIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3RAbWFpbC5jb20iLCJhdXRoX3RpbWUiOjE1MTYyNzU1MzUsImF0X2hhc2giOiJDSjJ6RU5zOFRHdlhTMXAweEllOXhnIn0.KsJUOl0LmVLbJuVDa1VXaOgm_C9cW0vgrdsf_m31s27fOSYHg1x-h_lzoodgmNSc5B4NDDtJ4REAYgE3vz0U28cLMGbAcQs2YOcpqxjipfrNRIRDuyqDQzlgcJSwHqi0cKi8QgXkPnwpiib9c-yAVhmJ9W2ZyKEl76y4AR771wB_PAKvHCmev_rt9j_bCMVTuf2Mz9OoEnorUcM40cFYFfVm7Jh5rq1d1i89JxfmUaESfC80D3evGtfWP-WfwpEFOXXIjODO8n4UCxY7XT4urmEEEJNuGkAhXevXJHS36mmtjTS66SkrQWbqMO8UDCyVAqqf3TBmzMEysdm6LRHL8Q",
+        "refreshToken": "GpdiyF6f44Iz-v2_XBJXAkTlbQc_2wdhgcV8nM4NMMs",
+        "refreshTokenExpirationTime": null
+    },
+    "isValid": true,
+    "errors": [],
+    "warnings": []
+}

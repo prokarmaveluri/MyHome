@@ -56,12 +56,35 @@ public class MockRESTService implements RESTService {
 
     @Override
     public Call<SignInResponse> signIn(String url, SignInRequest request) {
-        //return delegate.returningResponse(signInResponse);
+        try {
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "Login.json");
+
+            Gson gson = new GsonBuilder().create();
+            SignInResponse signInResponse = gson.fromJson(json, SignInResponse.class);
+            return delegate.returningResponse(signInResponse).signIn(url, request);
+        } catch (IOException e) {
+            Timber.e("Failed to mock " + url);
+            Timber.e(e);
+            e.printStackTrace();
+        }
+
         return null;
     }
 
     @Override
     public Call<SignInResponse> signInRefresh(String url, RefreshRequest request) {
+        try {
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "Refresh.json");
+
+            Gson gson = new GsonBuilder().create();
+            SignInResponse signInResponse = gson.fromJson(json, SignInResponse.class);
+            return delegate.returningResponse(signInResponse).signInRefresh(url, request);
+        } catch (IOException e) {
+            Timber.e("Failed to mock " + url);
+            Timber.e(e);
+            e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -149,7 +172,20 @@ public class MockRESTService implements RESTService {
 
     @Override
     public Call<UpdateResponse> versionCheck(String url) {
+        try {
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "Versioning.json");
+
+            Gson gson = new GsonBuilder().create();
+            UpdateResponse updateResponse = gson.fromJson(json, UpdateResponse.class);
+            return delegate.returningResponse(updateResponse).versionCheck(url);
+        } catch (IOException e) {
+            Timber.e("Failed to mock " + url);
+            Timber.e(e);
+            e.printStackTrace();
+        }
+
         return null;
+
     }
 
     @Override

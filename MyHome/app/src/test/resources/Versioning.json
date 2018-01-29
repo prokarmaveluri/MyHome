@@ -1,0 +1,22 @@
+{
+    "services": {
+        "ciam": {
+            "forceUpdate": "1.0",
+            "suggestUpdate": "1.0",
+            "clients": {
+                "myhomemobile-android": {
+                    "forceUpdate": "104000",
+                    "suggestUpdate": "6"
+                },
+                "myhomemobile-ios": {
+                    "forceUpdate": "104000",
+                    "suggestUpdate": "1"
+                },
+                "myhomemobile-ipad": {
+                    "forceUpdate": "104000",
+                    "suggestUpdate": "1"
+                }
+            }
+        }
+    }
+}

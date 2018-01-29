@@ -5,6 +5,7 @@ import com.prokarma.myhome.features.fad.ProvidersResponse;
 import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
+import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,6 +30,12 @@ public class MockNetworkTest {
     @Before
     public void setup() {
         TestUtil.setMockEnvironment(behavior);
+    }
+
+    @Test
+    public void getLogin_Dev() {
+        SignInRequest loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
+        TestUtil.getLogin(loginRequest);
     }
 
     @Test
