@@ -27,54 +27,30 @@ android {
     def PROD_CIAM_BASE_URL = "\"https://prod.ciam.dignityhealth.org/\""
     def PROD_S2_BASE_URL = "\"https://web-usw1-fad-prd.azurewebsites.net/\""
     def PROD_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-prd.azurewebsites.net/\""
-    def PROD_AUTH_CLIENT_ID = "\"aus32qsj5x26YmQN11t7\""
-    def PROD_CLIENT_ID = "\"0oa32qpu3nZP1BlB91t7\""
-    def PROD_AUTH_SCOPE = "\"openid+email+profile+offline_access+groups\""
-    def PROD_AUTH_REDIRECT_URI = "\"http://localhost:8080\""
-    def PROD_GRANT_TYPE_AUTH = "\"authorization_code\""
-    def PROD_GRANT_TYPE_REFRESH = "\"refresh_token\""
 
     def STAGE_VERSIONING_URL = "\"https://web-usw1-versioningservices-stg.azurewebsites.net/\""
     def STAGE_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
     def STAGE_CIAM_BASE_URL = "\"https://stage.ciam.dignityhealth.org/\""
     def STAGE_S2_BASE_URL = "\"https://web-usw1-fad-stg.azurewebsites.net/\""
     def STAGE_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-stg.azurewebsites.net/\""
-    def STAGE_AUTH_CLIENT_ID = "\"ausb2b0jbri7MsQGl0h7\""
-    def STAGE_CLIENT_ID = "\"0oab54ai6q0zFI8fq0h7\""
-    def STAGE_AUTH_SCOPE = "\"openid+email+profile+offline_access+groups\""
-    def STAGE_AUTH_REDIRECT_URI = "\"http://localhost:8080\""
-    def STAGE_GRANT_TYPE_AUTH = "\"authorization_code\""
-    def STAGE_GRANT_TYPE_REFRESH = "\"refresh_token\""
 
-    def TEST_VERSIONING_URL = "\"https://web-usw1-versioningservices-tst.azurewebsites.net/\""
+    def TEST_VERSIONING_URL = "\"https://web-usw1-versioningservicesapi-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def TEST_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
-    def TEST_CIAM_BASE_URL = "\"https://test.ciam.dignityhealth.org/\""
-    def TEST_S2_BASE_URL = "\"https://web-usw1-fad-tst.azurewebsites.net/\""
-    def TEST_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-tst.azurewebsites.net/\""
+    def TEST_CIAM_BASE_URL = "\"https://web-usw1-ciamweb-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def TEST_S2_BASE_URL = "\"https://web-usw1-fadapi-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def TEST_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
 
     def SLOT1_VERSIONING_URL = "\"https://web-usw1-versioningservicesapi-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def SLOT1_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def SLOT1_CIAM_BASE_URL = "\"https://web-usw1-ciamweb-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def SLOT1_S2_BASE_URL = "\"https://web-usw1-fadapi-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def SLOT1_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
-    def SLOT1_AUTH_CLIENT_ID = "\"ausb2b0jbri7MsQGl0h7\""
-    def SLOT1_CLIENT_ID = "\"0oab54ai6q0zFI8fq0h7\""
-    def SLOT1_AUTH_SCOPE = "\"openid+email+profile+offline_access+groups\""
-    def SLOT1_AUTH_REDIRECT_URI = "\"http://localhost:8080\""
-    def SLOT1_GRANT_TYPE_AUTH = "\"authorization_code\""
-    def SLOT1_GRANT_TYPE_REFRESH = "\"refresh_token\""
 
     def DEV_VERSIONING_URL = "\"https://web-usw1-versioningservices-dev.azurewebsites.net/\""
     def DEV_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def DEV_CIAM_BASE_URL = "\"https://dev.ciam.dignityhealth.org/\""
     def DEV_S2_BASE_URL = "\"https://web-usw1-fad-dev.azurewebsites.net/\""
     def DEV_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-dev.azurewebsites.net/\""
-    def DEV_AUTH_CLIENT_ID = "\"ausb2b0jbri7MsQGl0h7\""
-    def DEV_CLIENT_ID = "\"0oab54ai6q0zFI8fq0h7\""
-    def DEV_AUTH_SCOPE = "\"openid+email+profile+offline_access+groups\""
-    def DEV_AUTH_REDIRECT_URI = "\"http://localhost:8080\""
-    def DEV_GRANT_TYPE_AUTH = "\"authorization_code\""
-    def DEV_GRANT_TYPE_REFRESH = "\"refresh_token\""
 
     //AWSDK
     def DEV_AWSDK_URL = "\"https://sdk.myonlinecare.com\""
@@ -142,6 +118,12 @@ android {
         def D_S2_BASE_URL = "D_S2_BASE_URL"
         def D_SCHEDULING_BASE = "D_SCHEDULING_BASE"
 
+        def T_VERSIONING_URL = "T_VERSIONING_URL"
+        def T_OKTA_BASE_URL = "T_OKTA_BASE_URL"
+        def T_CIAM_BASE_URL = "T_CIAM_BASE_URL"
+        def T_S2_BASE_URL = "T_S2_BASE_URL"
+        def T_SCHEDULING_BASE = "T_SCHEDULING_BASE"
+
         def TEALIUM_ENVIRONMENT = "TEALIUM_ENVIRONMENT"
         def ENVIRONMENT_RELEASE = "\"prod\""
         def ENVIRONMENT_STAGE = "\"stage\""
@@ -189,20 +171,11 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
-
             buildConfigField STRING, S_OKTA_BASE_URL, DEV_OKTA_BASE_URL
             buildConfigField STRING, S_VERSIONING_URL, STAGE_VERSIONING_URL
             buildConfigField STRING, S_CIAM_BASE_URL, STAGE_CIAM_BASE_URL
             buildConfigField STRING, S_S2_BASE_URL, STAGE_S2_BASE_URL
             buildConfigField STRING, S_SCHEDULING_BASE, STAGE_SCHEDULING_BASE
-
-            buildConfigField STRING, "S_AUTH_CLIENT_ID", STAGE_AUTH_CLIENT_ID
-            buildConfigField STRING, "S_CLIENT_ID", STAGE_CLIENT_ID
-            buildConfigField STRING, "S_AUTH_SCOPE", STAGE_AUTH_SCOPE
-            buildConfigField STRING, "S_AUTH_REDIRECT_URI", STAGE_AUTH_REDIRECT_URI
-            buildConfigField STRING, "S_GRANT_TYPE_AUTH", STAGE_GRANT_TYPE_AUTH
-            buildConfigField STRING, "S_GRANT_TYPE_REFRESH", STAGE_GRANT_TYPE_REFRESH
-
 
             buildConfigField STRING, D_VERSIONING_URL, DEV_VERSIONING_URL
             buildConfigField STRING, D_OKTA_BASE_URL, DEV_OKTA_BASE_URL
@@ -210,12 +183,11 @@ android {
             buildConfigField STRING, D_S2_BASE_URL, DEV_S2_BASE_URL
             buildConfigField STRING, D_SCHEDULING_BASE, DEV_SCHEDULING_BASE
 
-            buildConfigField STRING, "D_AUTH_CLIENT_ID", DEV_AUTH_CLIENT_ID
-            buildConfigField STRING, "D_CLIENT_ID", DEV_CLIENT_ID
-            buildConfigField STRING, "D_AUTH_SCOPE", DEV_AUTH_SCOPE
-            buildConfigField STRING, "D_AUTH_REDIRECT_URI", DEV_AUTH_REDIRECT_URI
-            buildConfigField STRING, "D_GRANT_TYPE_AUTH", DEV_GRANT_TYPE_AUTH
-            buildConfigField STRING, "D_GRANT_TYPE_REFRESH", DEV_GRANT_TYPE_REFRESH
+            buildConfigField STRING, T_VERSIONING_URL, TEST_VERSIONING_URL
+            buildConfigField STRING, T_OKTA_BASE_URL, TEST_OKTA_BASE_URL
+            buildConfigField STRING, T_CIAM_BASE_URL, TEST_CIAM_BASE_URL
+            buildConfigField STRING, T_S2_BASE_URL, TEST_S2_BASE_URL
+            buildConfigField STRING, T_SCHEDULING_BASE, TEST_SCHEDULING_BASE
 
             buildConfigField STRING, S1_VERSIONING_URL, SLOT1_VERSIONING_URL
             buildConfigField STRING, S1_OKTA_BASE_URL, SLOT1_OKTA_BASE_URL
@@ -223,25 +195,11 @@ android {
             buildConfigField STRING, S1_S2_BASE_URL, SLOT1_S2_BASE_URL
             buildConfigField STRING, S1_SCHEDULING_BASE, SLOT1_SCHEDULING_BASE
 
-            buildConfigField STRING, "S1_AUTH_CLIENT_ID", SLOT1_AUTH_CLIENT_ID
-            buildConfigField STRING, "S1_CLIENT_ID", SLOT1_CLIENT_ID
-            buildConfigField STRING, "S1_AUTH_SCOPE", SLOT1_AUTH_SCOPE
-            buildConfigField STRING, "S1_AUTH_REDIRECT_URI", SLOT1_AUTH_REDIRECT_URI
-            buildConfigField STRING, "S1_GRANT_TYPE_AUTH", SLOT1_GRANT_TYPE_AUTH
-            buildConfigField STRING, "S1_GRANT_TYPE_REFRESH", SLOT1_GRANT_TYPE_REFRESH
-
             buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
             buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
             buildConfigField STRING, P_CIAM_BASE_URL, PROD_CIAM_BASE_URL
             buildConfigField STRING, P_S2_BASE_URL, PROD_S2_BASE_URL
             buildConfigField STRING, P_SCHEDULING_BASE, PROD_SCHEDULING_BASE
-
-            buildConfigField STRING, "P_AUTH_CLIENT_ID", PROD_AUTH_CLIENT_ID
-            buildConfigField STRING, "P_CLIENT_ID", PROD_CLIENT_ID
-            buildConfigField STRING, "P_AUTH_SCOPE", PROD_AUTH_SCOPE
-            buildConfigField STRING, "P_AUTH_REDIRECT_URI", PROD_AUTH_REDIRECT_URI
-            buildConfigField STRING, "P_GRANT_TYPE_AUTH", PROD_GRANT_TYPE_AUTH
-            buildConfigField STRING, "P_GRANT_TYPE_REFRESH", PROD_GRANT_TYPE_REFRESH
 
             //AWSDK
             buildConfigField STRING, D_AWSDK_URL, DEV_AWSDK_URL
@@ -281,20 +239,11 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, TRUE
             buildConfigField BOOLEAN, SHOW_SETTINGS, FALSE
 
-
             buildConfigField STRING, S_OKTA_BASE_URL, DEV_OKTA_BASE_URL
             buildConfigField STRING, S_VERSIONING_URL, STAGE_VERSIONING_URL
             buildConfigField STRING, S_CIAM_BASE_URL, STAGE_CIAM_BASE_URL
             buildConfigField STRING, S_S2_BASE_URL, STAGE_S2_BASE_URL
             buildConfigField STRING, S_SCHEDULING_BASE, STAGE_SCHEDULING_BASE
-
-            buildConfigField STRING, "S_AUTH_CLIENT_ID", STAGE_AUTH_CLIENT_ID
-            buildConfigField STRING, "S_CLIENT_ID", STAGE_CLIENT_ID
-            buildConfigField STRING, "S_AUTH_SCOPE", STAGE_AUTH_SCOPE
-            buildConfigField STRING, "S_AUTH_REDIRECT_URI", STAGE_AUTH_REDIRECT_URI
-            buildConfigField STRING, "S_GRANT_TYPE_AUTH", STAGE_GRANT_TYPE_AUTH
-            buildConfigField STRING, "S_GRANT_TYPE_REFRESH", STAGE_GRANT_TYPE_REFRESH
-
 
             buildConfigField STRING, D_VERSIONING_URL, DEV_VERSIONING_URL
             buildConfigField STRING, D_OKTA_BASE_URL, DEV_OKTA_BASE_URL
@@ -302,12 +251,11 @@ android {
             buildConfigField STRING, D_S2_BASE_URL, DEV_S2_BASE_URL
             buildConfigField STRING, D_SCHEDULING_BASE, DEV_SCHEDULING_BASE
 
-            buildConfigField STRING, "D_AUTH_CLIENT_ID", DEV_AUTH_CLIENT_ID
-            buildConfigField STRING, "D_CLIENT_ID", DEV_CLIENT_ID
-            buildConfigField STRING, "D_AUTH_SCOPE", DEV_AUTH_SCOPE
-            buildConfigField STRING, "D_AUTH_REDIRECT_URI", DEV_AUTH_REDIRECT_URI
-            buildConfigField STRING, "D_GRANT_TYPE_AUTH", DEV_GRANT_TYPE_AUTH
-            buildConfigField STRING, "D_GRANT_TYPE_REFRESH", DEV_GRANT_TYPE_REFRESH
+            buildConfigField STRING, T_VERSIONING_URL, TEST_VERSIONING_URL
+            buildConfigField STRING, T_OKTA_BASE_URL, TEST_OKTA_BASE_URL
+            buildConfigField STRING, T_CIAM_BASE_URL, TEST_CIAM_BASE_URL
+            buildConfigField STRING, T_S2_BASE_URL, TEST_S2_BASE_URL
+            buildConfigField STRING, T_SCHEDULING_BASE, TEST_SCHEDULING_BASE
 
             buildConfigField STRING, S1_VERSIONING_URL, SLOT1_VERSIONING_URL
             buildConfigField STRING, S1_OKTA_BASE_URL, SLOT1_OKTA_BASE_URL
@@ -315,25 +263,11 @@ android {
             buildConfigField STRING, S1_S2_BASE_URL, SLOT1_S2_BASE_URL
             buildConfigField STRING, S1_SCHEDULING_BASE, SLOT1_SCHEDULING_BASE
 
-            buildConfigField STRING, "S1_AUTH_CLIENT_ID", SLOT1_AUTH_CLIENT_ID
-            buildConfigField STRING, "S1_CLIENT_ID", SLOT1_CLIENT_ID
-            buildConfigField STRING, "S1_AUTH_SCOPE", SLOT1_AUTH_SCOPE
-            buildConfigField STRING, "S1_AUTH_REDIRECT_URI", SLOT1_AUTH_REDIRECT_URI
-            buildConfigField STRING, "S1_GRANT_TYPE_AUTH", SLOT1_GRANT_TYPE_AUTH
-            buildConfigField STRING, "S1_GRANT_TYPE_REFRESH", SLOT1_GRANT_TYPE_REFRESH
-
             buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
             buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
             buildConfigField STRING, P_CIAM_BASE_URL, PROD_CIAM_BASE_URL
             buildConfigField STRING, P_S2_BASE_URL, PROD_S2_BASE_URL
             buildConfigField STRING, P_SCHEDULING_BASE, PROD_SCHEDULING_BASE
-
-            buildConfigField STRING, "P_AUTH_CLIENT_ID", PROD_AUTH_CLIENT_ID
-            buildConfigField STRING, "P_CLIENT_ID", PROD_CLIENT_ID
-            buildConfigField STRING, "P_AUTH_SCOPE", PROD_AUTH_SCOPE
-            buildConfigField STRING, "P_AUTH_REDIRECT_URI", PROD_AUTH_REDIRECT_URI
-            buildConfigField STRING, "P_GRANT_TYPE_AUTH", PROD_GRANT_TYPE_AUTH
-            buildConfigField STRING, "P_GRANT_TYPE_REFRESH", PROD_GRANT_TYPE_REFRESH
 
             //AWSDK
             buildConfigField STRING, D_AWSDK_URL, DEV_AWSDK_URL
@@ -374,20 +308,11 @@ android {
             buildConfigField BOOLEAN, REPORT_ANALYTICS, FALSE
             buildConfigField BOOLEAN, SHOW_SETTINGS, TRUE
 
-
             buildConfigField STRING, S_OKTA_BASE_URL, DEV_OKTA_BASE_URL
             buildConfigField STRING, S_VERSIONING_URL, STAGE_VERSIONING_URL
             buildConfigField STRING, S_CIAM_BASE_URL, STAGE_CIAM_BASE_URL
             buildConfigField STRING, S_S2_BASE_URL, STAGE_S2_BASE_URL
             buildConfigField STRING, S_SCHEDULING_BASE, STAGE_SCHEDULING_BASE
-
-            buildConfigField STRING, "S_AUTH_CLIENT_ID", STAGE_AUTH_CLIENT_ID
-            buildConfigField STRING, "S_CLIENT_ID", STAGE_CLIENT_ID
-            buildConfigField STRING, "S_AUTH_SCOPE", STAGE_AUTH_SCOPE
-            buildConfigField STRING, "S_AUTH_REDIRECT_URI", STAGE_AUTH_REDIRECT_URI
-            buildConfigField STRING, "S_GRANT_TYPE_AUTH", STAGE_GRANT_TYPE_AUTH
-            buildConfigField STRING, "S_GRANT_TYPE_REFRESH", STAGE_GRANT_TYPE_REFRESH
-
 
             buildConfigField STRING, D_VERSIONING_URL, DEV_VERSIONING_URL
             buildConfigField STRING, D_OKTA_BASE_URL, DEV_OKTA_BASE_URL
@@ -395,12 +320,11 @@ android {
             buildConfigField STRING, D_S2_BASE_URL, DEV_S2_BASE_URL
             buildConfigField STRING, D_SCHEDULING_BASE, DEV_SCHEDULING_BASE
 
-            buildConfigField STRING, "D_AUTH_CLIENT_ID", DEV_AUTH_CLIENT_ID
-            buildConfigField STRING, "D_CLIENT_ID", DEV_CLIENT_ID
-            buildConfigField STRING, "D_AUTH_SCOPE", DEV_AUTH_SCOPE
-            buildConfigField STRING, "D_AUTH_REDIRECT_URI", DEV_AUTH_REDIRECT_URI
-            buildConfigField STRING, "D_GRANT_TYPE_AUTH", DEV_GRANT_TYPE_AUTH
-            buildConfigField STRING, "D_GRANT_TYPE_REFRESH", DEV_GRANT_TYPE_REFRESH
+            buildConfigField STRING, T_VERSIONING_URL, TEST_VERSIONING_URL
+            buildConfigField STRING, T_OKTA_BASE_URL, TEST_OKTA_BASE_URL
+            buildConfigField STRING, T_CIAM_BASE_URL, TEST_CIAM_BASE_URL
+            buildConfigField STRING, T_S2_BASE_URL, TEST_S2_BASE_URL
+            buildConfigField STRING, T_SCHEDULING_BASE, TEST_SCHEDULING_BASE
 
             buildConfigField STRING, S1_VERSIONING_URL, SLOT1_VERSIONING_URL
             buildConfigField STRING, S1_OKTA_BASE_URL, SLOT1_OKTA_BASE_URL
@@ -408,25 +332,11 @@ android {
             buildConfigField STRING, S1_S2_BASE_URL, SLOT1_S2_BASE_URL
             buildConfigField STRING, S1_SCHEDULING_BASE, SLOT1_SCHEDULING_BASE
 
-            buildConfigField STRING, "S1_AUTH_CLIENT_ID", SLOT1_AUTH_CLIENT_ID
-            buildConfigField STRING, "S1_CLIENT_ID", SLOT1_CLIENT_ID
-            buildConfigField STRING, "S1_AUTH_SCOPE", SLOT1_AUTH_SCOPE
-            buildConfigField STRING, "S1_AUTH_REDIRECT_URI", SLOT1_AUTH_REDIRECT_URI
-            buildConfigField STRING, "S1_GRANT_TYPE_AUTH", SLOT1_GRANT_TYPE_AUTH
-            buildConfigField STRING, "S1_GRANT_TYPE_REFRESH", SLOT1_GRANT_TYPE_REFRESH
-
             buildConfigField STRING, P_VERSIONING_URL, PROD_VERSIONING_URL
             buildConfigField STRING, P_OKTA_BASE_URL, PROD_OKTA_BASE_URL
             buildConfigField STRING, P_CIAM_BASE_URL, PROD_CIAM_BASE_URL
             buildConfigField STRING, P_S2_BASE_URL, PROD_S2_BASE_URL
             buildConfigField STRING, P_SCHEDULING_BASE, PROD_SCHEDULING_BASE
-
-            buildConfigField STRING, "P_AUTH_CLIENT_ID", PROD_AUTH_CLIENT_ID
-            buildConfigField STRING, "P_CLIENT_ID", PROD_CLIENT_ID
-            buildConfigField STRING, "P_AUTH_SCOPE", PROD_AUTH_SCOPE
-            buildConfigField STRING, "P_AUTH_REDIRECT_URI", PROD_AUTH_REDIRECT_URI
-            buildConfigField STRING, "P_GRANT_TYPE_AUTH", PROD_GRANT_TYPE_AUTH
-            buildConfigField STRING, "P_GRANT_TYPE_REFRESH", PROD_GRANT_TYPE_REFRESH
 
             //AWSDK
             buildConfigField STRING, D_AWSDK_URL, DEV_AWSDK_URL

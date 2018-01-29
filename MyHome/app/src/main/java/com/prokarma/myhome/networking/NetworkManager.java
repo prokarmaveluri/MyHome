@@ -129,7 +129,7 @@ public class NetworkManager {
         service = new MockRESTService(delegate);
     }
 
-    private void initHttpClient(){
+    private void initHttpClient() {
         httpClient = new OkHttpClient.Builder();
         httpClient.readTimeout(20, TimeUnit.SECONDS);
         httpClient.connectTimeout(20, TimeUnit.SECONDS);
@@ -148,16 +148,13 @@ public class NetworkManager {
 
                 Timber.i(" Response Code: " + response.code());
                 //Session expired
-                if (response.code() == 401 && !request.url().toString()
-                        .equalsIgnoreCase(EnviHandler.OKTA_BASE_URL + "api/v1/authn") &&
-                        !request.url().toString()
-                                .equalsIgnoreCase(EnviHandler.OKTA_BASE_URL + "oauth2/" +
-                                        EnviHandler.AUTH_CLIENT_ID + "/v1/token")) {
+                if (response.code() == 401 &&
+                        !request.url().toString().equalsIgnoreCase(EnviHandler.OKTA_BASE_URL + "api/v1/authn") &&
+                        !request.url().toString().equalsIgnoreCase(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/myhome.mobile.consumer/refresh")) {
                     AuthManager.getInstance().refreshToken();
 
-                } else if (response.code() == 400 && request.url().toString()
-                        .equalsIgnoreCase(EnviHandler.OKTA_BASE_URL + "oauth2/" +
-                                EnviHandler.AUTH_CLIENT_ID + "/v1/token")) {
+                } else if (response.code() == 400 &&
+                        request.url().toString().equalsIgnoreCase(EnviHandler.CIAM_BASE_URL + "api/mobile/auth/myhome.mobile.consumer/refresh")) {
 
                     if (null != expiryListener)
                         expiryListener.expired();

@@ -48,12 +48,6 @@ public class EnviHandler {
     public static String CIAM_BASE_URL;
     public static String S2_BASE_URL;
     public static String SCHEDULING_BASE;
-    public static String AUTH_CLIENT_ID;
-    public static String CLIENT_ID;
-    public static String AUTH_SCOPE;
-    public static String AUTH_REDIRECT_URI;
-    public static String GRANT_TYPE_AUTH;
-    public static String GRANT_TYPE_REFRESH;
 
     public static String AWSDK_KEY;
     public static String AWSDK_URL;
@@ -110,13 +104,6 @@ public class EnviHandler {
         CIAM_BASE_URL = BuildConfig.D_CIAM_BASE_URL;
         S2_BASE_URL = BuildConfig.D_S2_BASE_URL;
         SCHEDULING_BASE = BuildConfig.D_SCHEDULING_BASE;
-
-        AUTH_CLIENT_ID = BuildConfig.D_AUTH_CLIENT_ID;
-        CLIENT_ID = BuildConfig.D_CLIENT_ID;
-        AUTH_SCOPE = BuildConfig.D_AUTH_SCOPE;
-        AUTH_REDIRECT_URI = BuildConfig.D_AUTH_REDIRECT_URI;
-        GRANT_TYPE_AUTH = BuildConfig.D_GRANT_TYPE_AUTH;
-        GRANT_TYPE_REFRESH = BuildConfig.D_GRANT_TYPE_REFRESH;
     }
 
     private static void initSlot1() {
@@ -126,13 +113,6 @@ public class EnviHandler {
         CIAM_BASE_URL = BuildConfig.S1_CIAM_BASE_URL;
         S2_BASE_URL = BuildConfig.S1_S2_BASE_URL;
         SCHEDULING_BASE = BuildConfig.S1_SCHEDULING_BASE;
-
-        AUTH_CLIENT_ID = BuildConfig.S1_AUTH_CLIENT_ID;
-        CLIENT_ID = BuildConfig.S1_CLIENT_ID;
-        AUTH_SCOPE = BuildConfig.S1_AUTH_SCOPE;
-        AUTH_REDIRECT_URI = BuildConfig.S1_AUTH_REDIRECT_URI;
-        GRANT_TYPE_AUTH = BuildConfig.S1_GRANT_TYPE_AUTH;
-        GRANT_TYPE_REFRESH = BuildConfig.S1_GRANT_TYPE_REFRESH;
     }
 
     private static void initStage() {
@@ -142,30 +122,15 @@ public class EnviHandler {
         CIAM_BASE_URL = BuildConfig.S_CIAM_BASE_URL;
         S2_BASE_URL = BuildConfig.S_S2_BASE_URL;
         SCHEDULING_BASE = BuildConfig.S_SCHEDULING_BASE;
-
-        AUTH_CLIENT_ID = BuildConfig.S_AUTH_CLIENT_ID;
-        CLIENT_ID = BuildConfig.S_CLIENT_ID;
-        AUTH_SCOPE = BuildConfig.S_AUTH_SCOPE;
-        AUTH_REDIRECT_URI = BuildConfig.S_AUTH_REDIRECT_URI;
-        GRANT_TYPE_AUTH = BuildConfig.S_GRANT_TYPE_AUTH;
-        GRANT_TYPE_REFRESH = BuildConfig.S_GRANT_TYPE_REFRESH;
     }
 
     private static void initTest() {
 
-//        VERSIONING_URL = BuildConfig.T_VERSIONING_URL;
-//        OKTA_BASE_URL = BuildConfig.T_OKTA_BASE_URL;
-//        CIAM_BASE_URL = BuildConfig.T_CIAM_BASE_URL;
-//        S2_BASE_URL = BuildConfig.T_S2_BASE_URL;
-//        SCHEDULING_BASE = BuildConfig.T_SCHEDULING_BASE;
-//
-//
-//        AUTH_CLIENT_ID = BuildConfig.D_AUTH_CLIENT_ID;
-//        CLIENT_ID = BuildConfig.D_CLIENT_ID;
-//        AUTH_SCOPE = BuildConfig.D_AUTH_SCOPE;
-//        AUTH_REDIRECT_URI = BuildConfig.D_AUTH_REDIRECT_URI;
-//        GRANT_TYPE_AUTH = BuildConfig.D_GRANT_TYPE_AUTH;
-//        GRANT_TYPE_REFRESH = BuildConfig.D_GRANT_TYPE_REFRESH;
+        VERSIONING_URL = BuildConfig.T_VERSIONING_URL;
+        OKTA_BASE_URL = BuildConfig.T_OKTA_BASE_URL;
+        CIAM_BASE_URL = BuildConfig.T_CIAM_BASE_URL;
+        S2_BASE_URL = BuildConfig.T_S2_BASE_URL;
+        SCHEDULING_BASE = BuildConfig.T_SCHEDULING_BASE;
     }
 
     private static void initProd() {
@@ -175,13 +140,6 @@ public class EnviHandler {
         CIAM_BASE_URL = BuildConfig.P_CIAM_BASE_URL;
         S2_BASE_URL = BuildConfig.P_S2_BASE_URL;
         SCHEDULING_BASE = BuildConfig.P_SCHEDULING_BASE;
-
-        AUTH_CLIENT_ID = BuildConfig.P_AUTH_CLIENT_ID;
-        CLIENT_ID = BuildConfig.P_CLIENT_ID;
-        AUTH_SCOPE = BuildConfig.P_AUTH_SCOPE;
-        AUTH_REDIRECT_URI = BuildConfig.P_AUTH_REDIRECT_URI;
-        GRANT_TYPE_AUTH = BuildConfig.P_GRANT_TYPE_AUTH;
-        GRANT_TYPE_REFRESH = BuildConfig.P_GRANT_TYPE_REFRESH;
     }
 
     private static void initAmWellDev() {

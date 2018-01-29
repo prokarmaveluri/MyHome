@@ -152,14 +152,4 @@
         <item>11</item>
         <item>12</item>
     </string-array>
-
-    <!--States for Profile Edit - Prefer Not To Say isn't working currently-->
-    <string-array name="build_env">
-        <item>Dev</item>
-        <item>Slot1</item>
-        <item>Stage</item>
-        <item>Prod</item>
-        <!--<item>Prefer Not To Say</item>-->
-    </string-array>
-
 </resources>

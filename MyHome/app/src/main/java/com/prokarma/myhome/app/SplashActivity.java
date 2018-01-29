@@ -810,6 +810,10 @@ public class SplashActivity extends AppCompatActivity implements
                 currentEnv = EnviHandler.EnvType.DEV;
                 EnviHandler.initEnv(EnviHandler.EnvType.DEV);
                 break;
+            case TEST:
+                currentEnv = EnviHandler.EnvType.TEST;
+                EnviHandler.initEnv(EnviHandler.EnvType.TEST);
+                break;
             case SLOT1:
                 currentEnv = EnviHandler.EnvType.SLOT1;
                 EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);

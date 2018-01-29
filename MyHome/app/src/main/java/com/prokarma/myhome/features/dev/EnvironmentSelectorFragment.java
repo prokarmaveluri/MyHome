@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.EnviHandler;
@@ -151,6 +152,9 @@ public class EnvironmentSelectorFragment extends DialogFragment {
             switch (envMyHomeGroup.getCheckedRadioButtonId()) {
                 case R.id.radio_dev:
                     environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.DEV);
+                    break;
+                case R.id.radio_test:
+                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.TEST);
                     break;
                 case R.id.radio_slot1:
                     environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.SLOT1);
