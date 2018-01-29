@@ -396,6 +396,7 @@ dependencies {
     compile 'es.voghdev.pdfviewpager:library:1.0.3'
     compile 'commons-io:commons-io:2.5'
     compile 'com.github.whinc:ratingbar:1.1.1'
+    compile 'com.itextpdf:itextg:5.5.10'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.12.0'
 

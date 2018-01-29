@@ -38,8 +38,10 @@ public class ContactUsFragment extends BaseFragment {
         String emailViewContentDescription = String.format(getString(R.string.email_content_description), getString(R.string.contact_us_email));
         emailView.setContentDescription(emailViewContentDescription);
         TextView phoneView = (TextView) contactUsView.findViewById(R.id.phone);
+
         String phoneViewContentDescription = CommonUtil.stringToSpacesString(CommonUtil.constructPhoneNumberDots(getString(R.string.contact_us_phone)));
-        phoneView.setContentDescription(getString(R.string.phone_number_des) + phoneViewContentDescription);
+        phoneView.setContentDescription(getString(R.string.phone_number_des) + phoneViewContentDescription + getString(R.string.phone_number_open_dialer));
+
         emailView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

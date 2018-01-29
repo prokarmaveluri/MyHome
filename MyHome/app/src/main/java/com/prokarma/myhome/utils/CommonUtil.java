@@ -38,6 +38,8 @@ import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.features.appointments.Appointment;
@@ -1098,6 +1100,18 @@ public class CommonUtil {
             return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         }
         return false;
+    }
+
+    public static String getTextFromPdfFile(String pdfFilePath) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        PdfReader reader = new PdfReader(pdfFilePath);
+        int n = reader.getNumberOfPages();
+        for (int i = 0; i < n; i++) {
+            sb.append(PdfTextExtractor.getTextFromPage(reader, i + 1).trim() + "\n");
+
+            Timber.d(PdfTextExtractor.getTextFromPage(reader, i + 1).trim() + "\n");
+        }
+        return sb.toString();
     }
 
     public static boolean saveFileToStorage(Context context, String fileNameWithEntirePath, byte[] fileData) {
