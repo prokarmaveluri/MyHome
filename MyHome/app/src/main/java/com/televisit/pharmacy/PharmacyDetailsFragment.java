@@ -98,6 +98,7 @@ public class PharmacyDetailsFragment extends BaseFragment implements OnMapReadyC
         final TextView phone = view.findViewById(R.id.phone);
         ImageView phoneIcon = view.findViewById(R.id.phone_icon);
         phone.setText(CommonUtil.constructPhoneNumberDots(pharmacy.getPhone()));
+        phone.setContentDescription(getString(R.string.phone_number_des) + CommonUtil.constructPhoneNumberDots(pharmacy.getPhone()) + getString(R.string.phone_number_open_dialer));
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

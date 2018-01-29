@@ -720,7 +720,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
                 String phoneContentDescription =
                         CommonUtil.stringToSpacesString(CommonUtil.constructPhoneNumberDots(pharmacy.getPhone()));
-                pharmacyPhone.setContentDescription(getString(R.string.phone_number_des) + phoneContentDescription);
+                pharmacyPhone.setContentDescription(getString(R.string.phone_number_des) + phoneContentDescription + getString(R.string.phone_number_open_dialer));
 
                 pharmacyPhoneLayout.setOnClickListener(new View.OnClickListener() {
                     @Override

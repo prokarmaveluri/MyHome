@@ -109,6 +109,9 @@ public class AppointmentsDetailsFragment extends BaseFragment {
 
         if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
             phoneNumber.setText(CommonUtil.constructPhoneNumberDots(appointment.facilityPhoneNumber));
+
+            String phoneContentDescription = CommonUtil.stringToSpacesString(phoneNumber.getText().toString());
+            phoneNumber.setContentDescription(getString(R.string.phone_number_des) + phoneContentDescription + getString(R.string.phone_number_open_dialer));
         }
 
         favProvider.setOnClickListener(new View.OnClickListener() {

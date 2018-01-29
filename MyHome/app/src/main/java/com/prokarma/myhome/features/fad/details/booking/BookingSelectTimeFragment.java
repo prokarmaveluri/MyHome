@@ -196,6 +196,8 @@ public class BookingSelectTimeFragment extends Fragment {
             timeZoneWarning.setText(String.format(getResources().getString(R.string.booking_timezone_warning),
                     DateUtil.getReadableTimeZone(AppointmentManager.getInstance().getAppointmentTimeSlots())));
 
+            timeZoneWarning.setContentDescription(timeZoneWarning.getText());
+
             setAppointmentTimes(timeLayout, todaysAppointments);
         } else {
             timeLayout.setVisibility(View.GONE);
@@ -219,6 +221,8 @@ public class BookingSelectTimeFragment extends Fragment {
                     //noinspection deprecation
                     noAppointments.setText(Html.fromHtml(getString(R.string.next_available) + ": " + "<b>" + DateUtil.getDateWordsFromDateHyphen(nextAppointment.getDate()) + "</b>"));
                 }
+
+                noAppointments.setContentDescription(noAppointments.getText());
 
                 noAppointments.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -245,6 +249,7 @@ public class BookingSelectTimeFragment extends Fragment {
                 });
             } else {
                 noAppointments.setText(getString(R.string.no_appointments_available));
+                noAppointments.setContentDescription(noAppointments.getText());
                 noAppointments.setOnClickListener(null);
                 timeZoneWarning.setVisibility(View.GONE);
             }
@@ -252,6 +257,7 @@ public class BookingSelectTimeFragment extends Fragment {
             if (DateUtil.isToday(bookingDate)) {
                 callForAppointments.setVisibility(View.VISIBLE);
                 callForAppointments.setText(getString(R.string.call_for_todays_appointmentss));
+                callForAppointments.setContentDescription(callForAppointments.getText() + getString(R.string.phone_number_open_dialer));
                 callForAppointments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -263,6 +269,7 @@ public class BookingSelectTimeFragment extends Fragment {
             } else if (nextAppointment == null) {
                 callForAppointments.setVisibility(View.VISIBLE);
                 callForAppointments.setText(getString(R.string.call_for_more_appointments));
+                callForAppointments.setContentDescription(callForAppointments.getText() + getString(R.string.phone_number_open_dialer));
                 callForAppointments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
