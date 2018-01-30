@@ -40,7 +40,7 @@ public class SessionUtil {
             Timber.i("AuthManager didn't have an Id Token for Sign Out.\nSending User to log in again...");
             CommonUtil.showToast(activity, activity.getString(R.string.no_valid_session));
 
-            //clearData();
+            clearData();
             if (null != progressBar)
                 progressBar.setVisibility(View.GONE);
             if (null != activity) {

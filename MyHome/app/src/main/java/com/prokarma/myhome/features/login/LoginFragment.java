@@ -135,13 +135,13 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
     public void onAttach(Context context) {
         super.onAttach(context);
         
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY)) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY)) {
             FingerprintSignIn fingerprint = new FingerprintSignIn(getActivity(), FingerprintSignIn.DEFAULT_KEY_NAME);
             fingerprint.initiateFingerprint();
             if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
                 return;
             }
-        }
+        }*/
     }
 
     @Override
