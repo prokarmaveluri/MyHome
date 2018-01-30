@@ -202,17 +202,14 @@ public class SplashActivity extends AppCompatActivity implements
 
     private void getAccessTokenFromRefresh() {
 
-        // 31614: Android: Fingerprint Authentication upon sign-out.
-        // we are going to show this on Login screen upon signout..
-        // and hence we donot need this logic on splash screen, which makes the fingerprint dialog to come up only after killing the app.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                AppPreferences.getInstance().getBooleanPreference(TouchIDFragment.TOUCH_ID_KEY) &&
+                AppPreferences.getInstance().getBooleanPreference("IS_TOUCH_ID_ENABLED") &&
                 (AuthManager.getInstance().getRefreshToken() != null ||
                         CryptoManager.getInstance().getToken() != null)) {
 
             FingerprintSignIn fingerprint = new FingerprintSignIn(this, FingerprintSignIn.DEFAULT_KEY_NAME);
+            fingerprint.initiateFingerprint();
             if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
-                loadLogin();
                 return;
             }
         }
