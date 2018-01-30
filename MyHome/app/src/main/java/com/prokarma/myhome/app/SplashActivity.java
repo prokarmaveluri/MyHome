@@ -68,6 +68,7 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.mock.NetworkBehavior;
 import timber.log.Timber;
 
 /**
@@ -158,43 +159,15 @@ public class SplashActivity extends AppCompatActivity implements
             selectorDialog.setEnvironmentSelectorInterface(this);
             selectorDialog.setCancelable(false);
             selectorDialog.show(getSupportFragmentManager(), EnvironmentSelectorFragment.ENVIRONMENT_SELECTOR_TAG);
-//            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle(R.string.select_env)
-//                    .setCancelable(false)
-//                    .setItems(R.array.build_env, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            if (which == 0) {
-//                                currentEnv = EnviHandler.EnvType.DEV;
-//                                EnviHandler.initEnv(EnviHandler.EnvType.DEV);
-//                            } else if (which == 1) {
-//                                currentEnv = EnviHandler.EnvType.SLOT1;
-//                                EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
-//                            } else if (which == 2) {
-//                                currentEnv = EnviHandler.EnvType.STAGE;
-//                                EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
-//                            } else if (which == 3) {
-//                                currentEnv = EnviHandler.EnvType.PROD;
-//                                EnviHandler.initEnv(EnviHandler.EnvType.PROD);
-//                            }
-//                            progress.setVisibility(View.VISIBLE);
-//                            initApiClient();
-//
-//                            //init retrofit service
-//                            NetworkManager.getInstance().initService();
-//
-//                            startLocationFetch();
-//                        }
-//                    });
-//            final AlertDialog alert = builder.create();
-//            alert.show();
-
-
         } else {
             initApiClient();
 
             //init retrofit service
-            NetworkManager.getInstance().initService();
+            if(EnviHandler.EnvType.DEMO.equals(currentEnv)){
+                NetworkManager.getInstance().initMockService(NetworkBehavior.create());
+            } else {
+                NetworkManager.getInstance().initService();
+            }
 
             startLocationFetch();
         }
@@ -806,6 +779,10 @@ public class SplashActivity extends AppCompatActivity implements
         Timber.i("Environment: " + envType + " selected");
 
         switch (envType) {
+            case DEMO:
+                currentEnv = EnviHandler.EnvType.DEMO;
+                EnviHandler.initEnv(EnviHandler.EnvType.DEMO);
+                break;
             case DEV:
                 currentEnv = EnviHandler.EnvType.DEV;
                 EnviHandler.initEnv(EnviHandler.EnvType.DEV);
@@ -833,7 +810,11 @@ public class SplashActivity extends AppCompatActivity implements
         initApiClient();
 
         //init retrofit service
-        NetworkManager.getInstance().initService();
+        if(EnviHandler.EnvType.DEMO.equals(currentEnv)){
+            NetworkManager.getInstance().initMockService(NetworkBehavior.create());
+        } else {
+            NetworkManager.getInstance().initService();
+        }
 
         startLocationFetch();
     }

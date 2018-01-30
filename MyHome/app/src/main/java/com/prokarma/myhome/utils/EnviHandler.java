@@ -9,11 +9,12 @@ import com.prokarma.myhome.BuildConfig;
 public class EnviHandler {
 
     public enum EnvType {
+        DEMO,
         DEV,
+        TEST,
         SLOT1,
         STAGE,
         PROD,
-        TEST,
         NONE;
 
         public static EnvType toEnvType(String enumString) {
@@ -58,6 +59,9 @@ public class EnviHandler {
 
     public static void initEnv(EnvType type) {
         switch (type) {
+            case DEMO:
+                initDemo();
+                break;
             case DEV:
                 initDev();
                 break;
@@ -97,8 +101,7 @@ public class EnviHandler {
         }
     }
 
-    private static void initDev() {
-
+    private static void initDemo() {
         VERSIONING_URL = BuildConfig.D_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.D_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.D_CIAM_BASE_URL;
@@ -106,8 +109,23 @@ public class EnviHandler {
         SCHEDULING_BASE = BuildConfig.D_SCHEDULING_BASE;
     }
 
-    private static void initSlot1() {
+    private static void initDev() {
+        VERSIONING_URL = BuildConfig.D_VERSIONING_URL;
+        OKTA_BASE_URL = BuildConfig.D_OKTA_BASE_URL;
+        CIAM_BASE_URL = BuildConfig.D_CIAM_BASE_URL;
+        S2_BASE_URL = BuildConfig.D_S2_BASE_URL;
+        SCHEDULING_BASE = BuildConfig.D_SCHEDULING_BASE;
+    }
 
+    private static void initTest() {
+        VERSIONING_URL = BuildConfig.T_VERSIONING_URL;
+        OKTA_BASE_URL = BuildConfig.T_OKTA_BASE_URL;
+        CIAM_BASE_URL = BuildConfig.T_CIAM_BASE_URL;
+        S2_BASE_URL = BuildConfig.T_S2_BASE_URL;
+        SCHEDULING_BASE = BuildConfig.T_SCHEDULING_BASE;
+    }
+
+    private static void initSlot1() {
         VERSIONING_URL = BuildConfig.S1_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.S1_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.S1_CIAM_BASE_URL;
@@ -116,7 +134,6 @@ public class EnviHandler {
     }
 
     private static void initStage() {
-
         VERSIONING_URL = BuildConfig.S_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.S_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.S_CIAM_BASE_URL;
@@ -124,17 +141,7 @@ public class EnviHandler {
         SCHEDULING_BASE = BuildConfig.S_SCHEDULING_BASE;
     }
 
-    private static void initTest() {
-
-        VERSIONING_URL = BuildConfig.T_VERSIONING_URL;
-        OKTA_BASE_URL = BuildConfig.T_OKTA_BASE_URL;
-        CIAM_BASE_URL = BuildConfig.T_CIAM_BASE_URL;
-        S2_BASE_URL = BuildConfig.T_S2_BASE_URL;
-        SCHEDULING_BASE = BuildConfig.T_SCHEDULING_BASE;
-    }
-
     private static void initProd() {
-
         VERSIONING_URL = BuildConfig.P_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.P_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.P_CIAM_BASE_URL;

@@ -36,7 +36,6 @@ import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.utils.CommonUtil;
 
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,12 +56,12 @@ public class MockRESTService implements RESTService {
     @Override
     public Call<SignInResponse> signIn(String url, SignInRequest request) {
         try {
-            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "Login.json");
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "login.json");
 
             Gson gson = new GsonBuilder().create();
             SignInResponse signInResponse = gson.fromJson(json, SignInResponse.class);
             return delegate.returningResponse(signInResponse).signIn(url, request);
-        } catch (IOException e) {
+        } catch (Exception e) {
             Timber.e("Failed to mock " + url);
             Timber.e(e);
             e.printStackTrace();
@@ -74,12 +73,12 @@ public class MockRESTService implements RESTService {
     @Override
     public Call<SignInResponse> signInRefresh(String url, RefreshRequest request) {
         try {
-            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "Refresh.json");
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "refresh.json");
 
             Gson gson = new GsonBuilder().create();
             SignInResponse signInResponse = gson.fromJson(json, SignInResponse.class);
             return delegate.returningResponse(signInResponse).signInRefresh(url, request);
-        } catch (IOException e) {
+        } catch (Exception e) {
             Timber.e("Failed to mock " + url);
             Timber.e(e);
             e.printStackTrace();
@@ -141,12 +140,12 @@ public class MockRESTService implements RESTService {
     @Override
     public Call<ProvidersResponse> getProviders(String url, String queryString, String lat, String lon, String displayName, String zipCode, String page, String pageSize, String distance, String sortBy, String gender, String languages, String specialties, String facilities, String practices, String patients) {
         try {
-            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "GetProviders.json");
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "getproviders.json");
 
             Gson gson = new GsonBuilder().create();
             ProvidersResponse providersResponse = gson.fromJson(json, ProvidersResponse.class);
             return delegate.returningResponse(providersResponse).getProviders(url, queryString, lat, lon, displayName, zipCode, page, pageSize, distance, sortBy, gender, languages, specialties, facilities, practices, patients);
-        } catch (IOException e) {
+        } catch (Exception e) {
             Timber.e("Failed to mock " + url);
             Timber.e(e);
             e.printStackTrace();
@@ -173,12 +172,12 @@ public class MockRESTService implements RESTService {
     @Override
     public Call<UpdateResponse> versionCheck(String url) {
         try {
-            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "Versioning.json");
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "versioning.json");
 
             Gson gson = new GsonBuilder().create();
             UpdateResponse updateResponse = gson.fromJson(json, UpdateResponse.class);
             return delegate.returningResponse(updateResponse).versionCheck(url);
-        } catch (IOException e) {
+        } catch (Exception e) {
             Timber.e("Failed to mock " + url);
             Timber.e(e);
             e.printStackTrace();
@@ -231,12 +230,12 @@ public class MockRESTService implements RESTService {
     @Override
     public Call<ProviderDetails> getNewProviderDetails(String url, String id) {
         try {
-            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "ProviderDetails_TonyChang.json");
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "providerdetails_tonychang.json");
 
             Gson gson = new GsonBuilder().create();
             ProviderDetailsResponse providerDetailsResponse = gson.fromJson(json, ProviderDetailsResponse.class);
             return delegate.returningResponse(providerDetailsResponse).getNewProviderDetails(url, id);
-        } catch (IOException e) {
+        } catch (Exception e) {
             Timber.e("Failed to mock " + url);
             Timber.e(e);
             e.printStackTrace();

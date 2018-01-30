@@ -150,6 +150,9 @@ public class EnvironmentSelectorFragment extends DialogFragment {
             }
 
             switch (envMyHomeGroup.getCheckedRadioButtonId()) {
+                case R.id.radio_demo:
+                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.DEMO);
+                    break;
                 case R.id.radio_dev:
                     environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.DEV);
                     break;

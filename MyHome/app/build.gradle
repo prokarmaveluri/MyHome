@@ -83,6 +83,11 @@ android {
         buildConfigField 'String', 'BUILD_TIME', 'new java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.US).format(new java.util.Date(' + System.currentTimeMillis() + 'L))'
     }
 
+    //Required for Unit Tests to see mock json responses in res/raw directory
+    sourceSets {
+        test.resources.srcDirs += 'src/main/'
+    }
+
     buildTypes {
         def STRING = "String"
         def BOOLEAN = "boolean"

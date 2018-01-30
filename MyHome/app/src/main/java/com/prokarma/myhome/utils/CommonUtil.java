@@ -58,12 +58,12 @@ import com.televisit.AwsManager;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -84,6 +84,8 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public class CommonUtil {
+    public static final String  ASSET_BASE_PATH = "../app/src/main/assets/";
+
     public static final String GOOD_IRI_CHAR =
             "a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF";
     static public final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\d{3}.\\d{3}.\\d{4}");
@@ -1311,14 +1313,13 @@ public class CommonUtil {
         return stringBuilder.toString();
     }
 
-    public static File getJsonFile(final ClassLoader classLoader, final String fileName) {
-        URL resource = classLoader.getResource(fileName);
-        return new File(resource.getPath());
+    public static InputStream getJsonFile(final ClassLoader classLoader, final String fileName) {
+        InputStream resource = classLoader.getResourceAsStream("res/raw/" + fileName);
+        return resource;
     }
 
-    public static String readJsonFile(final ClassLoader classLoader, final String filename) throws IOException {
-        File jsonFile = getJsonFile(classLoader, filename);
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(jsonFile)));
+    public static String readJsonFile(final ClassLoader classLoader, final String filename) throws IOException, URISyntaxException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(getJsonFile(classLoader, filename)));
         StringBuilder sb = new StringBuilder();
         String line = br.readLine();
         while (line != null) {

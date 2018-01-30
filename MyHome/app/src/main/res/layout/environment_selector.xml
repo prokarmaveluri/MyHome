@@ -50,6 +50,13 @@
                 android:layout_margin="6dp">
 
                 <RadioButton
+                    android:id="@+id/radio_demo"
+                    style="@style/tradeGothicLTStd_Dynamic18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/demo" />
+
+                <RadioButton
                     android:id="@+id/radio_dev"
                     style="@style/tradeGothicLTStd_Dynamic18"
                     android:layout_width="wrap_content"
