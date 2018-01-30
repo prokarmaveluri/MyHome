@@ -62,6 +62,16 @@ public class PharmaciesFragment extends BaseFragment {
         pharmacyTabs = (TabLayout) view.findViewById(R.id.pharmacyTabs);
         pharmacyPager = (ViewPager) view.findViewById(R.id.pharmacyPager);
         setPager();
+
+        for (int i = 0; i < pharmacyTabs.getTabCount(); i++) {
+            if (pharmacyTabs.getTabAt(i).isSelected()) {
+                pharmacyTabs.getTabAt(i).setContentDescription("Tab, " + pharmacyTabs.getTabAt(i).getText());
+            }
+            else {
+                pharmacyTabs.getTabAt(i).setContentDescription("Not selected, Tab, " + pharmacyTabs.getTabAt(i).getText());
+            }
+        }
+
         return view;
     }
 
