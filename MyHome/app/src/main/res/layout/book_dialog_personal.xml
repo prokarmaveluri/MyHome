@@ -10,8 +10,8 @@
         android:id="@+id/linear_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:importantForAccessibility="no"
+        android:orientation="vertical"
         android:padding="18dp">
 
         <android.support.design.widget.TextInputLayout
@@ -128,6 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
+            android:importantForAccessibility="no"
             android:text="@string/gender"
             android:textColor="@color/text_darker"
             android:textSize="14sp" />
@@ -153,6 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
+            android:importantForAccessibility="no"
             android:text="@string/are_you_pregnant"
             android:textSize="14sp"
             android:visibility="gone" />
@@ -207,6 +209,13 @@
             app:errorEnabled="true"
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
+
+            <View
+                android:id="@+id/label_weeks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/weeks_pregnant"
+                android:labelFor="@id/weeks" />
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/weeks"
@@ -457,6 +466,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
+            android:importantForAccessibility="no"
             android:text="@string/do_you_need_a_translator"
             android:textSize="14sp" />
 
@@ -528,6 +538,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
+            android:importantForAccessibility="no"
             android:text="@string/do_you_need_standing_assistance"
             android:textSize="14sp" />
 
