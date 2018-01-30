@@ -202,25 +202,17 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
     private void setNextAvailableProviderButton() {
 
-        /*if (specialty != null && specialty.areProvidersAvailable()) {
-            nextAvailableProvider.setEnabled(true);
+        if (specialty != null && specialty.areProvidersAvailable()) {
+            nextAvailableProvider.setVisibility(View.VISIBLE);
         } else {
-            nextAvailableProvider.setEnabled(false);
-        }*/
-
-        // Rather than disabling, show appropriate message when tapped.
-        // otherwise user maynot be aware as to why button is disabled and still some providers are ONLINE in the list below
-        nextAvailableProvider.setEnabled(true);
+            nextAvailableProvider.setVisibility(View.GONE);
+        }
     }
 
     private void nextAvailableProviderClick() {
 
         //as per AmwellSample app, we need to use specialty and matchmaking API to fetch the next available provider. iOS also implementing the same.
-        if (specialty == null) {
-            CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_with_specialty_try_later));
-        } else {
-            getVisitContextBySpeciality();
-        }
+        getVisitContextBySpeciality();
 
         //OLD LOGIC: from the list of doctors displayed in choose doctor, get the doctor who is Online and has no patients waiting for him. (basically No API call)
         /*ProviderInfo provider = CommonUtil.getNextAvailableProvider(providerInfos);
@@ -398,7 +390,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     public void onFailure(Throwable throwable) {
                         Timber.e("providers. startMatchmaking. Something failed! :/");
                         Timber.e("Throwable = " + throwable);
-                        CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_with_specialty_try_later));
+                        CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_try_later));
                     }
 
                     @Override
@@ -417,13 +409,13 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     @Override
                     public void onProviderListExhausted() {
                         Timber.d("providers. startMatchmaking. onProviderListExhausted ");
-                        CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_with_specialty_try_later));
+                        CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_try_later));
                     }
 
                     @Override
                     public void onRequestGone() {
                         Timber.d("providers. startMatchmaking. onRequestGone ");
-                        CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_with_specialty_try_later));
+                        CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available_try_later));
                     }
                 });
     }

@@ -67,6 +67,7 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
     private TextInputEditText reasonForVisit;
     private TextInputLayout reasonLayout;
     private TextInputLayout phoneLayout;
+    private RelativeLayout privacyPolicyLayout;
     private TextView privacyLink;
     private AppCompatCheckBox agreePrivacyPolicyCheck;
     private AppCompatCheckBox agreeLegalDependentCheck;
@@ -119,6 +120,9 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
         reasonForVisit = (TextInputEditText) view.findViewById(R.id.reasonForVisit);
         reasonLayout = (TextInputLayout) view.findViewById(R.id.reason_layout);
         phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
+
+        privacyPolicyLayout = (RelativeLayout) view.findViewById(R.id.agree_privacy_policy_layout);
+
         privacyLink = (TextView) view.findViewById(R.id.agree_privacy_policy_text2);
         agreePrivacyPolicyCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_privacy_policy_check);
         agreeLegalDependentCheck = (AppCompatCheckBox) view.findViewById(R.id.agree_legal_dependent_check);
@@ -164,6 +168,15 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
                 /*if (getActivity() instanceof NavigationActivity) {
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PRIVACY_POLICY, null);
                 }*/
+            }
+        });
+
+        privacyPolicyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CommonUtil.isAccessibilityEnabled(getContext())) {
+                    privacyLink.performClick();
+                }
             }
         });
     }
