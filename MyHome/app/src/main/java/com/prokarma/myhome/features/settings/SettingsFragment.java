@@ -37,7 +37,7 @@ public class SettingsFragment extends BaseFragment implements SettingsAdapter.IS
 
 
     public enum SettingsAction {
-        TOUCH_ID("Enable Fingerprint Sign-In"),
+        TOUCH_ID("Fingerprint Sign-In"),
         CHANGE_PASSWORD("Change Password"),
         CHANGE_SEC_QUESTION("Change Security Question");
 

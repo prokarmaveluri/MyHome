@@ -94,34 +94,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
                 binding.suggestionText.setText(suggestion);
                 binding.suggestionText.setContentDescription(binding.suggestionText.getText());
 
-                if (suggestion.equalsIgnoreCase(SettingsFragment.SettingsAction.TOUCH_ID.name)) {
-                    binding.touchIDSwitch.setVisibility(View.VISIBLE);
-                    binding.sugessionCarot.setVisibility(View.GONE);
-
-                    binding.touchIDSwitch.setChecked(false);
-                    if (AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY)) {
-                        binding.touchIDSwitch.setChecked(true);
-                        binding.touchIDSwitch.setContentDescription("On");
-                    } else {
-                        binding.touchIDSwitch.setContentDescription("Off");
-                    }
-
-                    binding.touchIDSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if (binding.touchIDSwitch.isChecked()) {
-                                AppPreferences.getInstance().setBooleanPreference(TOUCH_ID_KEY, true);
-                                TealiumUtil.trackEvent(Constants.TOUCH_ID_ENABLED_EVENT, null);
-                            } else {
-                                AppPreferences.getInstance().setBooleanPreference(TOUCH_ID_KEY, false);
-                                TealiumUtil.trackEvent(Constants.TOUCH_ID_DISABLED_EVENT, null);
-                            }
-                        }
-                    });
-                } else {
-                    binding.touchIDSwitch.setVisibility(View.GONE);
-                    binding.sugessionCarot.setVisibility(View.VISIBLE);
-                }
             } catch (NullPointerException ex) {
                 Timber.w(ex);
             }
@@ -137,7 +109,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Settin
                     if (view.getTag().toString().equalsIgnoreCase(SettingsFragment.SettingsAction.TOUCH_ID.name)) {
                         // Ticket-28915: Android: Eliminate the additional Touch ID /Fingerprint Authentication screen
                         // this setting has been brought-up one level. we donot have to navigate to the detailed screen.
-                        // listener.settingsOptionClick(SettingsFragment.SettingsAction.TOUCH_ID);
+                        listener.settingsOptionClick(SettingsFragment.SettingsAction.TOUCH_ID);
 
                     } else if (view.getTag().toString().equalsIgnoreCase(SettingsFragment.SettingsAction.CHANGE_PASSWORD.name)) {
                         listener.settingsOptionClick(SettingsFragment.SettingsAction.CHANGE_PASSWORD);
