@@ -199,11 +199,35 @@ public class MockRESTService implements RESTService {
 
     @Override
     public Call<MySavedDoctorsResponse> getSavedDoctors(String url, String bearer, MySavedDoctorsRequest request) {
+        try {
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "save_doctor.json");
+
+            Gson gson = new GsonBuilder().create();
+            MySavedDoctorsResponse mySavedDoctorsResponse = gson.fromJson(json, MySavedDoctorsResponse.class);
+            return delegate.returningResponse(mySavedDoctorsResponse).getSavedDoctors(url, bearer, request);
+        } catch (Exception e) {
+            Timber.e("Failed to mock " + url);
+            Timber.e(e);
+            e.printStackTrace();
+        }
+
         return null;
     }
 
     @Override
     public Call<MyAppointmentsResponse> getMyAppointments(String url, String bearer, MyAppointmentsRequest request) {
+        try {
+            String json = CommonUtil.readJsonFile(getClass().getClassLoader(), "myappointments_empty.json");
+
+            Gson gson = new GsonBuilder().create();
+            MyAppointmentsResponse myAppointmentsResponse = gson.fromJson(json, MyAppointmentsResponse.class);
+            return delegate.returningResponse(myAppointmentsResponse).getMyAppointments(url, bearer, request);
+        } catch (Exception e) {
+            Timber.e("Failed to mock " + url);
+            Timber.e(e);
+            e.printStackTrace();
+        }
+
         return null;
     }
 

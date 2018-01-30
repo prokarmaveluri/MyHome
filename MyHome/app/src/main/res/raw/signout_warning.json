@@ -1,0 +1,10 @@
+{
+    "isValid": true,
+    "errors": [],
+    "warnings": [
+        {
+            "code": "close-session",
+            "message": "Could not close the session due to 'Exception of type 'Okta.Core.OktaException' was thrown.'"
+        }
+    ]
+}
