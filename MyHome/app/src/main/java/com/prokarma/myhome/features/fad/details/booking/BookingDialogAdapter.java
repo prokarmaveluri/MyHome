@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +20,6 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegAttributes;
 import com.prokarma.myhome.features.fad.details.booking.req.validation.RegIncluded;
@@ -28,15 +28,14 @@ import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.features.profile.InsuranceProvider;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.utils.AccessibilityDelegate;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.prokarma.myhome.utils.ValidationUtil;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import timber.log.Timber;
 
 /**
@@ -457,10 +456,12 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         if (formsProfile.address != null && formsProfile.address.zipCode != null && formsProfile.address.zipCode.trim().length() > 0) {
             zip.setText(formsProfile.address.zipCode.trim());
+            ViewCompat.setAccessibilityDelegate(zip, new AccessibilityDelegate(CommonUtil.stringToSpacesString(zip.getText().toString())));
         }
 
         if (formsProfile.phoneNumber != null) {
             phone.setText(CommonUtil.constructPhoneNumberDots(formsProfile.phoneNumber));
+            ViewCompat.setAccessibilityDelegate(phone, new AccessibilityDelegate(CommonUtil.stringToSpacesString(phone.getText().toString())));
         }
 
         if (formsProfile.email != null) {
