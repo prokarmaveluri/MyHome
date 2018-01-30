@@ -6,10 +6,14 @@ import com.prokarma.myhome.features.fad.details.ProviderDetails;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsResponse;
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentTimeSlots;
 import com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse;
+import com.prokarma.myhome.utils.EnviHandler;
 
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,112 +26,114 @@ import retrofit2.Response;
  * Tests for DignityHealth APIs
  */
 
+@RunWith(Parameterized.class)
 public class ProvidersTest {
     public static final String APPOINTMENT_FROM_DATE = "11/01/2017";
     public static final String APPOINTMENT_TO_DATE = "11/30/2017";
 
-    @Before
-    public void setup() {
+    @Parameterized.Parameter
+    public EnviHandler.EnvType environment;
 
+    @Parameterized.Parameters
+    public static Object[] environments() {
+        return new Object[]{
+                EnviHandler.EnvType.DEV,
+                EnviHandler.EnvType.STAGE,
+                EnviHandler.EnvType.PROD,
+        };
     }
 
+    @Rule
+    public Timeout glocalTimeout = Timeout.seconds(20);
+
     @Test
-    public void getProviders_Dev() {
-        TestUtil.setDevEnvironment();
+    public void getProviders() {
+        switch (environment) {
+            case DEV:
+                TestUtil.setDevEnvironment();
+                break;
+            case STAGE:
+                TestUtil.setStagingEnvironment();
+                break;
+            case PROD:
+                TestUtil.setProdEnvironment();
+                break;
+        }
+
         getProviderList();
     }
 
     @Test
-    public void getProviders_Stage() {
-        TestUtil.setStagingEnvironment();
-        getProviderList();
-    }
+    public void getProviderDetails() {
+        switch (environment) {
+            case DEV:
+                TestUtil.setDevEnvironment();
+                break;
+            case STAGE:
+                TestUtil.setStagingEnvironment();
+                break;
+            case PROD:
+                TestUtil.setProdEnvironment();
+                break;
+        }
 
-    @Test
-    public void getProviders_Prod() {
-        TestUtil.setProdEnvironment();
-        getProviderList();
-    }
-
-    @Test
-    public void getProviderDetails_Dev() {
-        TestUtil.setDevEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
         getNewProviderDetails(list.get(0).getNpi());
     }
 
     @Test
-    public void getProviderDetails_Stage() {
-        TestUtil.setStagingEnvironment();
-        List<ProviderDetailsResponse> list = getProviderList();
-        getNewProviderDetails(list.get(0).getNpi());
-    }
+    public void getProviderAppointments() {
+        switch (environment) {
+            case DEV:
+                TestUtil.setDevEnvironment();
+                break;
+            case STAGE:
+                TestUtil.setStagingEnvironment();
+                break;
+            case PROD:
+                TestUtil.setProdEnvironment();
+                break;
+        }
 
-    @Test
-    public void getProviderDetails_Prod() {
-        TestUtil.setProdEnvironment();
-        List<ProviderDetailsResponse> list = getProviderList();
-        getNewProviderDetails(list.get(0).getNpi());
-    }
-
-    @Test
-    public void getProviderAppointments_Dev() {
-        TestUtil.setDevEnvironment();
         List<ProviderDetailsResponse> list = getProviderList();
         getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE, null);
     }
 
     @Test
-    public void getProviderAppointments_Stage() {
-        TestUtil.setStagingEnvironment();
-        List<ProviderDetailsResponse> list = getProviderList();
-        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE, null);
+    public void getSearchSuggestions() {
+        switch (environment) {
+            case DEV:
+                TestUtil.setDevEnvironment();
+                break;
+            case STAGE:
+                TestUtil.setStagingEnvironment();
+                break;
+            case PROD:
+                TestUtil.setProdEnvironment();
+                break;
+        }
+
+        getSearchSuggestionList();
     }
 
     @Test
-    public void getProviderAppointments_Prod() {
-        TestUtil.setProdEnvironment();
-        List<ProviderDetailsResponse> list = getProviderList();
-        getProviderAppointments(TestUtil.getOnlineProvider(list), APPOINTMENT_FROM_DATE, APPOINTMENT_TO_DATE, null);
+    public void getLocation() {
+        switch (environment) {
+            case DEV:
+                TestUtil.setDevEnvironment();
+                break;
+            case STAGE:
+                TestUtil.setStagingEnvironment();
+                break;
+            case PROD:
+                TestUtil.setProdEnvironment();
+                break;
+        }
+
+        getLocationList();
     }
 
-    @Test
-    public void getSearchSuggestions_Dev() {
-        TestUtil.setDevEnvironment();
-        getSearchSuggestions();
-    }
-
-    @Test
-    public void getSearchSuggestions_Stage() {
-        TestUtil.setStagingEnvironment();
-        getSearchSuggestions();
-    }
-
-    @Test
-    public void getSearchSuggestions_Prod() {
-        TestUtil.setProdEnvironment();
-        getSearchSuggestions();
-    }
-
-    @Test
-    public void getLocation_Dev() {
-        TestUtil.setDevEnvironment();
-        getLocation();
-    }
-
-    @Test
-    public void getLocation_Stage() {
-        TestUtil.setStagingEnvironment();
-        getLocation();
-    }
-
-    @Test
-    public void getLocation_Prod() {
-        TestUtil.setProdEnvironment();
-        getLocation();
-    }
-
-    public LocationResponse getLocation() {
+    public LocationResponse getLocationList() {
         Call<LocationResponse> call = NetworkManager.getInstance().getLocation();
 
         try {
@@ -145,7 +151,7 @@ public class ProvidersTest {
         }
     }
 
-    public List<SearchSuggestionResponse> getSearchSuggestions() {
+    public List<SearchSuggestionResponse> getSearchSuggestionList() {
         Call<List<SearchSuggestionResponse>> call = NetworkManager.getInstance().getSearchSuggestions(
                 "Primary Care",
                 "40.587509",

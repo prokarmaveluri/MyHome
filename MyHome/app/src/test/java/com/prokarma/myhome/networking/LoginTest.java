@@ -1,48 +1,55 @@
 package com.prokarma.myhome.networking;
 
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
+import com.prokarma.myhome.utils.EnviHandler;
 
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 /**
  * Created by kwelsh on 5/4/17.
  * Tests for DignityHealth APIs
  */
 
+@RunWith(Parameterized.class)
 public class LoginTest {
+    @Parameterized.Parameter
+    public EnviHandler.EnvType environment;
 
-    @Before
-    public void setup() {
-
+    @Parameterized.Parameters
+    public static Object[] environments() {
+        return new Object[]{
+                EnviHandler.EnvType.DEV,
+                EnviHandler.EnvType.STAGE,
+                EnviHandler.EnvType.PROD,
+        };
     }
 
-    @Test
-    public void getLogin_Dev() {
-        TestUtil.setDevEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
-        TestUtil.getLogin(loginRequest);
-    }
-
-//    @Test
-//    public void getLogin_Test() {
-//        SignInRequest loginRequest = new SignInRequest("sam@mailinator.com", "Ap29bx1442@");
-//        EnviHandler.initEnv(EnviHandler.EnvType.TEST);
-//        NetworkManager.getInstance().initService();
-//        getLogin(loginRequest);
-//    }
+    @Rule
+    public Timeout glocalTimeout = Timeout.seconds(20);
 
     @Test
-    public void getLogin_Stage() {
-        TestUtil.setStagingEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
-        TestUtil.getLogin(loginRequest);
-    }
+    public void getLogin() {
+        SignInRequest loginRequest = null;
 
-    @Test
-    public void getLogin_Prod() {
-        TestUtil.setProdEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
+        switch (environment) {
+            case DEV:
+                TestUtil.setDevEnvironment();
+                loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
+                break;
+            case STAGE:
+                TestUtil.setStagingEnvironment();
+                loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
+                break;
+            case PROD:
+                TestUtil.setProdEnvironment();
+                loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
+                break;
+        }
+
         TestUtil.getLogin(loginRequest);
     }
 }

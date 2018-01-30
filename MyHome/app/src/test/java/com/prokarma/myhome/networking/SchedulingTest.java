@@ -9,10 +9,14 @@ import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.profile.Address;
 import com.prokarma.myhome.features.profile.InsuranceProvider;
 import com.prokarma.myhome.features.profile.Profile;
+import com.prokarma.myhome.utils.EnviHandler;
 
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,48 +25,44 @@ import java.util.List;
  * Created by kwelsh on 10/3/17.
  */
 
+@RunWith(Parameterized.class)
 public class SchedulingTest {
+    @Parameterized.Parameter
+    public EnviHandler.EnvType environment;
 
-    @Before
-    public void setup() {
-
+    @Parameterized.Parameters
+    public static Object[] environments() {
+        return new Object[]{
+                EnviHandler.EnvType.DEV,
+                EnviHandler.EnvType.STAGE,
+                EnviHandler.EnvType.PROD,
+        };
     }
+
+    @Rule
+    public Timeout glocalTimeout = Timeout.seconds(20);
 
     @Test
-    public void createAppointment_Dev() {
-        TestUtil.setDevEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
-        List<ProviderDetailsResponse> providerList = ProvidersTest.getProviderList();
-        ProviderDetailsResponse provider = getOnlineProvider(providerList);
+    public void createAppointment() {
+        SignInRequest loginRequest = null;
 
-        Assert.assertNotNull(provider);
-        Assert.assertNotNull(provider.getNpi());
-        Assert.assertFalse(provider.getNpi().isEmpty());
+        switch (environment) {
+            case DEV:
+                TestUtil.setDevEnvironment();
+                loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
+                break;
+            case STAGE:
+                TestUtil.setStagingEnvironment();
+                loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
+                break;
+            case PROD:
+                //Don't test creating an appointment in Prod unless you REALLY mean it (inform PM that it will happen or DH will be annoyed)
+                return;
+                //TestUtil.setProdEnvironment();
+                //loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
+                //break;
+        }
 
-        ProviderDetails providerDetails = ProvidersTest.getNewProviderDetails(provider.getNpi());
-        createAppointment(TestUtil.getLogin(loginRequest), providerDetails);
-    }
-
-    @Test
-    public void createAppointment_Stage() {
-        TestUtil.setStagingEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
-        List<ProviderDetailsResponse> providerList = ProvidersTest.getProviderList();
-        ProviderDetailsResponse provider = getOnlineProvider(providerList);
-
-        Assert.assertNotNull(provider);
-        Assert.assertNotNull(provider.getNpi());
-        Assert.assertFalse(provider.getNpi().isEmpty());
-
-        ProviderDetails providerDetails = ProvidersTest.getNewProviderDetails(provider.getNpi());
-        createAppointment(TestUtil.getLogin(loginRequest), providerDetails);
-    }
-
-    //TODO Uncomment the test annotation to test creating an appointment in prod. BE CAREFUL!
-    //@Test
-    public void createAppointment_Prod() {
-        TestUtil.setProdEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
         List<ProviderDetailsResponse> providerList = ProvidersTest.getProviderList();
         ProviderDetailsResponse provider = getOnlineProvider(providerList);
 

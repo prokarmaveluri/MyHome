@@ -3,10 +3,14 @@ package com.prokarma.myhome.networking;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
+import com.prokarma.myhome.utils.EnviHandler;
 
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.IOException;
 
@@ -18,58 +22,64 @@ import retrofit2.Response;
  * Tests for DignityHealth APIs
  */
 
+@RunWith(Parameterized.class)
 public class ProfileTest {
+    @Parameterized.Parameter
+    public EnviHandler.EnvType environment;
 
-    @Before
-    public void setup() {
-
+    @Parameterized.Parameters
+    public static Object[] environments() {
+        return new Object[]{
+                EnviHandler.EnvType.DEV,
+                EnviHandler.EnvType.STAGE,
+                EnviHandler.EnvType.PROD,
+        };
     }
 
+    @Rule
+    public Timeout glocalTimeout = Timeout.seconds(20);
+
     @Test
-    public void getProfile_Dev() {
-        TestUtil.setDevEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
+    public void getProfile() {
+        SignInRequest loginRequest = null;
+
+        switch (environment) {
+            case DEV:
+                TestUtil.setDevEnvironment();
+                loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
+                break;
+            case STAGE:
+                TestUtil.setStagingEnvironment();
+                loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
+                break;
+            case PROD:
+                TestUtil.setProdEnvironment();
+                loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
+                break;
+        }
+
         getProfile(TestUtil.getLogin(loginRequest));
     }
 
     @Test
-    public void getProfile_Stage() {
-        TestUtil.setProdEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
-        getProfile(TestUtil.getLogin(loginRequest));
-    }
+    public void updateProfile() {
+        SignInRequest loginRequest = null;
 
-    @Test
-    public void getProfile_Prod() {
-        TestUtil.setProdEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
-        getProfile(TestUtil.getLogin(loginRequest));
-    }
+        switch (environment) {
+            case DEV:
+                TestUtil.setDevEnvironment();
+                loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
+                break;
+            case STAGE:
+                TestUtil.setStagingEnvironment();
+                loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
+                break;
+            case PROD:
+                TestUtil.setProdEnvironment();
+                loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
+                break;
+        }
 
-    @Test
-    public void updateProfile_Dev() {
-        TestUtil.setDevEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.DEV_USER, TestConstants.DEV_PASSWORD);
-        String bearerToken = TestUtil.getLogin(loginRequest);
-
-        Profile profile = getProfile(bearerToken);
-        updateProfile(bearerToken, profile);
-    }
-
-    @Test
-    public void updateProfile_Stage() {
-        TestUtil.setStagingEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.STAGE_USER, TestConstants.STAGE_PASSWORD);
-        String bearerToken = TestUtil.getLogin(loginRequest);
-
-        Profile profile = getProfile(bearerToken);
-        updateProfile(bearerToken, profile);
-    }
-
-    @Test
-    public void updateProfile_Prod() {
-        TestUtil.setProdEnvironment();
-        SignInRequest loginRequest = new SignInRequest(TestConstants.PROD_USER, TestConstants.PROD_PASSWORD);
         String bearerToken = TestUtil.getLogin(loginRequest);
 
         Profile profile = getProfile(bearerToken);

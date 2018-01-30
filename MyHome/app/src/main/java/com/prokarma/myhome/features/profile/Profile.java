@@ -173,7 +173,9 @@ public class Profile implements Parcelable {
     }
 
     public void setZipCode(String zipCode) {
-        this.profileSelf.address.setZipCode(zipCode);
+        if(this.profileSelf != null){
+            this.profileSelf.address.setZipCode(zipCode);
+        }
     }
 
     @Override

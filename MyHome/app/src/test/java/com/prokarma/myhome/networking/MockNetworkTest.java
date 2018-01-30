@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -40,7 +39,6 @@ public class MockNetworkTest {
 
     @Test
     public void getProviders_Dev() {
-        givenNetworkFailurePercentIs(0);
         getProviderList();
     }
 
@@ -156,11 +154,5 @@ public class MockNetworkTest {
             Assert.fail(e.toString());
             return null;
         }
-    }
-
-    private void givenNetworkFailurePercentIs(int failurePercent) {
-        behavior.setDelay(0, TimeUnit.MILLISECONDS);
-        behavior.setVariancePercent(0);
-        behavior.setFailurePercent(failurePercent);
     }
 }

@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -103,5 +104,11 @@ public class TestUtil {
         int low = 00501;
         int high = 99999;
         return r.nextInt(high - low) + low;
+    }
+
+    public static void givenNetworkFailurePercentIs(NetworkBehavior networkBehavior, int failurePercent) {
+        networkBehavior.setDelay(0, TimeUnit.MILLISECONDS);
+        networkBehavior.setVariancePercent(0);
+        networkBehavior.setFailurePercent(failurePercent);
     }
 }
