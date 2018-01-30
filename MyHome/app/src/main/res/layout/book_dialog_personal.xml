@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:importantForAccessibility="no"
         android:padding="18dp">
 
         <android.support.design.widget.TextInputLayout
@@ -41,6 +42,13 @@
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
 
+            <View
+                android:id="@+id/label_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/first_name"
+                android:labelFor="@id/first_name" />
+
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/first_name"
                 android:layout_width="match_parent"
@@ -63,6 +71,14 @@
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
 
+            <View
+                android:id="@+id/label_last_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/last_name"
+                android:labelFor="@id/last_name" />
+
+
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/last_name"
                 android:layout_width="match_parent"
@@ -84,6 +100,13 @@
             app:errorEnabled="true"
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
+
+            <View
+                android:id="@+id/label_preferred_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/preferred_name"
+                android:labelFor="@id/preferred_name" />
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/preferred_name"
@@ -109,6 +132,13 @@
             android:textColor="@color/text_darker"
             android:textSize="14sp" />
 
+        <View
+            android:id="@+id/label_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/gender"
+            android:labelFor="@id/gender" />
+
         <Spinner
             android:id="@+id/gender"
             android:layout_width="wrap_content"
@@ -126,6 +156,20 @@
             android:text="@string/are_you_pregnant"
             android:textSize="14sp"
             android:visibility="gone" />
+
+        <View
+            android:id="@+id/label_radio_not_pregnant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/are_you_pregnant"
+            android:labelFor="@id/radio_not_pregnant" />
+
+        <View
+            android:id="@+id/label_radio_pregnant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/are_you_pregnant"
+            android:labelFor="@id/radio_pregnant" />
 
         <RadioGroup
             android:id="@+id/group_pregnant"
@@ -182,6 +226,13 @@
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
 
+            <View
+                android:id="@+id/label_dob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/date_of_birth_no_format"
+                android:labelFor="@id/dob" />
+
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/dob"
                 android:layout_width="match_parent"
@@ -205,6 +256,13 @@
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
 
+            <View
+                android:id="@+id/label_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/address"
+                android:labelFor="@id/address" />
+
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/address"
                 android:layout_width="match_parent"
@@ -225,6 +283,13 @@
             app:errorEnabled="true"
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
+
+            <View
+                android:id="@+id/label_address2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/address_2"
+                android:labelFor="@id/address2" />
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/address2"
@@ -252,6 +317,21 @@
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
+
+                <View
+                    android:id="@+id/label_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/city"
+                    android:labelFor="@id/city" />
+
+                <View
+                    android:id="@+id/label_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/state"
+                    android:labelFor="@id/state" />
+
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/city"
@@ -292,6 +372,13 @@
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
 
+                <View
+                    android:id="@+id/label_zip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/zip"
+                    android:labelFor="@id/zip" />
+
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/zip"
                     android:layout_width="match_parent"
@@ -313,6 +400,13 @@
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
+
+                <View
+                    android:id="@+id/label_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/phone_number"
+                    android:labelFor="@id/phone" />
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/phone"
@@ -338,6 +432,14 @@
             app:errorTextAppearance="@style/error_appearance"
             app:hintTextAppearance="@style/hint_appearance">
 
+            <View
+                android:id="@+id/label_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/email"
+                android:labelFor="@id/email" />
+
+
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
@@ -358,12 +460,27 @@
             android:text="@string/do_you_need_a_translator"
             android:textSize="14sp" />
 
+        <View
+            android:id="@+id/label_translator_not_needed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/do_you_need_a_translator"
+            android:labelFor="@id/translator_not_needed" />
+
+        <View
+            android:id="@+id/label_translator_needed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/do_you_need_a_translator"
+            android:labelFor="@id/translator_needed" />
+
         <RadioGroup
             android:id="@+id/group_translator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:orientation="horizontal">
+
 
             <RadioButton
                 android:id="@+id/translator_not_needed"
@@ -414,12 +531,27 @@
             android:text="@string/do_you_need_standing_assistance"
             android:textSize="14sp" />
 
+        <View
+            android:id="@+id/label_assistance_not_needed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/do_you_need_standing_assistance"
+            android:labelFor="@id/assistance_not_needed" />
+
+        <View
+            android:id="@+id/label_assistance_needed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/do_you_need_standing_assistance"
+            android:labelFor="@id/assistance_needed" />
+
         <RadioGroup
             android:id="@+id/group_assistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:orientation="horizontal">
+
 
             <RadioButton
                 android:id="@+id/assistance_not_needed"
@@ -445,9 +577,16 @@
             android:id="@+id/booking_reason_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hintEnabled="false"
             app:errorEnabled="true"
-            app:errorTextAppearance="@style/error_appearance">
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintEnabled="false">
+
+            <View
+                android:id="@+id/label_booking_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/purpose_of_your_visit"
+                android:labelFor="@id/booking_reason" />
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/booking_reason"

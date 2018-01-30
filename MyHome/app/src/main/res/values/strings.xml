@@ -682,6 +682,8 @@
     <string name="appointment_date">Appointment date</string>
     <string name="appointment_time">Appointment time</string>
     <string name="appointment_reason">Appointment reason</string>
+    <string name="purpose_of_your_visit">purpose of your visit</string>
+    <string name="state">state</string>
 
 
 </resources>
