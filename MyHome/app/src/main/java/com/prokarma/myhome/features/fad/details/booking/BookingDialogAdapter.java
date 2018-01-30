@@ -365,14 +365,23 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.memberNumber != null) {
             memberId.setText(formsProfile.insuranceProvider.memberNumber);
+            if (CommonUtil.isAccessibilityEnabled(context)) {
+                ViewCompat.setAccessibilityDelegate(memberId, new AccessibilityDelegate(CommonUtil.stringToSpacesString(memberId.getText().toString())));
+            }
         }
 
         if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.groupNumber != null) {
             group.setText(formsProfile.insuranceProvider.groupNumber);
+            if (CommonUtil.isAccessibilityEnabled(context)) {
+                ViewCompat.setAccessibilityDelegate(group, new AccessibilityDelegate(CommonUtil.stringToSpacesString(group.getText().toString())));
+            }
         }
 
         if (formsProfile.insuranceProvider != null && formsProfile.insuranceProvider.insurancePhoneNumber != null) {
             insurancePhone.setText(CommonUtil.constructPhoneNumberDots(formsProfile.insuranceProvider.insurancePhoneNumber));
+            if (CommonUtil.isAccessibilityEnabled(context)) {
+                ViewCompat.setAccessibilityDelegate(insurancePhone, new AccessibilityDelegate(CommonUtil.stringToSpacesString(insurancePhone.getText().toString())));
+            }
         }
     }
 
@@ -456,12 +465,16 @@ public class BookingDialogAdapter extends PagerAdapter {
 
         if (formsProfile.address != null && formsProfile.address.zipCode != null && formsProfile.address.zipCode.trim().length() > 0) {
             zip.setText(formsProfile.address.zipCode.trim());
-            ViewCompat.setAccessibilityDelegate(zip, new AccessibilityDelegate(CommonUtil.stringToSpacesString(zip.getText().toString())));
+            if (CommonUtil.isAccessibilityEnabled(context)) {
+                ViewCompat.setAccessibilityDelegate(zip, new AccessibilityDelegate(CommonUtil.stringToSpacesString(zip.getText().toString())));
+            }
         }
 
         if (formsProfile.phoneNumber != null) {
             phone.setText(CommonUtil.constructPhoneNumberDots(formsProfile.phoneNumber));
-            ViewCompat.setAccessibilityDelegate(phone, new AccessibilityDelegate(CommonUtil.stringToSpacesString(phone.getText().toString())));
+            if (CommonUtil.isAccessibilityEnabled(context)) {
+                ViewCompat.setAccessibilityDelegate(phone, new AccessibilityDelegate(CommonUtil.stringToSpacesString(phone.getText().toString())));
+            }
         }
 
         if (formsProfile.email != null) {
