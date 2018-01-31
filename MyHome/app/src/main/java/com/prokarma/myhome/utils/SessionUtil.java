@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.fad.FadFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.login.LoginActivity;
@@ -47,9 +48,12 @@ public class SessionUtil {
 
     /**
      * Clear out all saved data in memory
+     *
+     * @param keepRefreshToken If true, we will not clear the refreshToken needed for auto-signin and FingerPrint login. If false, the refresh token will also be cleared
      */
     public static void clearData(boolean keepRefreshToken) {
         if (!keepRefreshToken) {
+            CryptoManager.getInstance().clearToken();
             AuthManager.getInstance().setRefreshToken(null);
         }
 
