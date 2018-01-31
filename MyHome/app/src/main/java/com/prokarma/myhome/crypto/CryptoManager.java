@@ -122,6 +122,11 @@ public class CryptoManager {
         }
     }
 
+    public void clearToken(){
+        AppPreferences.getInstance().setPreference("auth_token", null);
+        AppPreferences.getInstance().setPreference("auth_token_iv", null);
+    }
+
     public void setContext(Context context) {
         this.context = context;
     }
