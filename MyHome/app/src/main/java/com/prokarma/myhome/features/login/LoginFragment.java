@@ -15,6 +15,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.AccessibilityDelegateCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -24,7 +27,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.EditText;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
@@ -48,14 +51,11 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
-
 import java.lang.ref.WeakReference;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
-
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 import static com.prokarma.myhome.features.settings.TouchIDFragment.TOUCH_ID_KEY;
 
@@ -97,6 +97,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.EMAIL_LOGIN));
 //        binder.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.password,
 //                Constants.INPUT_TYPE.PASSWORD));
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+            ViewCompat.setAccessibilityDelegate(binder.email, new EmailAccessibilityDelegate());
+        }
 
         binder.email.addTextChangedListener(new LoginTextWatcher());
         binder.password.addTextChangedListener(new LoginTextWatcher());
@@ -602,6 +605,23 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
 
     private void onRefreshFailed() {
         Timber.d("login. onRefreshFailed ");
+    }
+
+    private static class EmailAccessibilityDelegate extends AccessibilityDelegateCompat {
+
+        public EmailAccessibilityDelegate() {
+        }
+
+        @Override
+        public void onInitializeAccessibilityNodeInfo(View host,
+                                                      AccessibilityNodeInfoCompat info) {
+            super.onInitializeAccessibilityNodeInfo(host, info);
+            try {
+                ((EditText)host).setSelection(info.getText().length());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
