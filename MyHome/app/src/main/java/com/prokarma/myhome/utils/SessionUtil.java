@@ -8,20 +8,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.fad.FadFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.login.LoginActivity;
-import com.prokarma.myhome.features.login.endpoint.SignOutRequest;
 import com.prokarma.myhome.features.profile.ProfileManager;
-import com.prokarma.myhome.features.settings.CommonResponse;
-import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.televisit.AwsManager;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import timber.log.Timber;
 
 /**
@@ -38,77 +31,31 @@ public class SessionUtil {
     public static void logout(final Activity activity, final ProgressBar progressBar) {
         if (null != progressBar)
             progressBar.setVisibility(View.VISIBLE);
-        if (null == AuthManager.getInstance().getSid()) {
-            Timber.i("AuthManager didn't have an Id Token for Sign Out.\nSending User to log in again...");
-            CommonUtil.showToast(activity, activity.getString(R.string.no_valid_session));
 
-            clearData();
-            if (null != progressBar)
-                progressBar.setVisibility(View.GONE);
-            if (null != activity) {
-                Intent intent = LoginActivity.getLoginIntent(activity);
-                activity.startActivity(intent);
-                activity.finish();
-            }
-            return;
+        CommonUtil.showToast(activity, activity.getString(R.string.signed_out_successfully));
+        clearData(true);
+        if (null != progressBar)
+            progressBar.setVisibility(View.GONE);
+        if (null != activity) {
+            Intent intent = LoginActivity.getLoginIntent(activity);
+            activity.startActivity(intent);
+            activity.finish();
         }
+
         TealiumUtil.trackEvent(Constants.SIGN_OUT_EVENT, null);
-        NetworkManager.getInstance().signOut(
-                new SignOutRequest(AuthManager.getInstance().getSessionId(),
-                        AuthManager.getInstance().getBearerToken(),
-                        AuthManager.getInstance().getRefreshToken()),
-                AuthManager.getInstance().getBearerToken()).enqueue(new Callback<CommonResponse>() {
-            @Override
-            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
-                if (null != progressBar)
-                    progressBar.setVisibility(View.GONE);
-
-                if (response.isSuccessful() && response.body().getIsValid()) {
-                    Timber.i("Response successful: " + response);
-                    CommonUtil.showToast(activity, activity.getString(R.string.signed_out_successfully));
-                } else {
-                    Timber.i("Response not successful: " + response);
-                    ApiErrorUtil.getInstance().signOutError(activity.getApplicationContext(), activity.getCurrentFocus(), response);
-                }
-
-                activity.finishAffinity();
-                clearData();
-                Intent intent = SplashActivity.getSplashIntent(activity);
-                activity.startActivity(intent);
-                activity.finish();
-            }
-
-            @Override
-            public void onFailure(Call<CommonResponse> call, Throwable t) {
-                Timber.i("Logout failed");
-                ApiErrorUtil.getInstance().signOutFailed(activity.getApplicationContext(), activity.getCurrentFocus(), t);
-
-                if (null != progressBar)
-                    progressBar.setVisibility(View.GONE);
-
-                activity.finishAffinity();
-                clearData();
-                Intent intent = SplashActivity.getSplashIntent(activity);
-                activity.startActivity(intent);
-                activity.finish();
-            }
-        });
     }
 
     /**
      * Clear out all saved data in memory
      */
-    public static void clearData() {
-        Timber.v("Clearing Memory: Bearer Token = " + AuthManager.getInstance().getBearerToken());
-
-        AppPreferences.getInstance().setPreference("auth_token", null);
-        AppPreferences.getInstance().setPreference("auth_token_iv", null);
+    public static void clearData(boolean keepRefreshToken) {
+        if (!keepRefreshToken) {
+            AuthManager.getInstance().setRefreshToken(null);
+        }
 
         AuthManager.getInstance().setSessionId(null);
-        AuthManager.getInstance().setSid(null);
         AuthManager.getInstance().setBearerToken(null);
         AuthManager.getInstance().setAmWellToken(null);
-        //AuthManager.getInstance().setRefreshToken(null);
         AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);
         ProfileManager.setFavoriteProviders(null);
