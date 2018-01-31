@@ -2,8 +2,8 @@ package com.prokarma.myhome.features.login;
 
 import android.app.Activity;
 import android.content.Intent;
-
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.enrollment.EnrollmentActivity;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.features.login.endpoint.SignInResponse;
@@ -15,7 +15,6 @@ import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.DateUtil;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,6 +80,7 @@ public class LoginPresenter implements LoginInteractor.Presenter {
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
+                        CryptoManager.getInstance().saveToken();
                         if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isVerified &&
                                 DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {

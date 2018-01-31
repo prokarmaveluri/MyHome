@@ -38,6 +38,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.EnvironmentSelectorFragment;
 import com.prokarma.myhome.features.dev.EnvironmentSelectorInterface;
 import com.prokarma.myhome.features.fad.FadManager;
@@ -109,6 +110,7 @@ public class SplashActivity extends AppCompatActivity implements
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_splash);
 
+        CryptoManager.getInstance().setContext(getApplicationContext());
         progress = (ProgressBar) findViewById(R.id.splash_progress);
         clickToRefresh = (TextView) findViewById(R.id.splashRefresh);
 
@@ -161,7 +163,7 @@ public class SplashActivity extends AppCompatActivity implements
             initApiClient();
 
             //init retrofit service
-            if (EnviHandler.EnvType.DEMO.equals(currentEnv)) {
+            if(EnviHandler.EnvType.DEMO.equals(currentEnv)){
                 NetworkManager.getInstance().initMockService(NetworkBehavior.create());
             } else {
                 NetworkManager.getInstance().initService();
@@ -178,7 +180,8 @@ public class SplashActivity extends AppCompatActivity implements
         // and hence we donot need this logic on splash screen, which makes the fingerprint dialog to come up only after killing the app.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 AppPreferences.getInstance().getBooleanPreference(TouchIDFragment.TOUCH_ID_KEY) &&
-                AuthManager.getInstance().getRefreshToken() != null) {
+                (AuthManager.getInstance().getRefreshToken() != null ||
+                        CryptoManager.getInstance().getToken() != null)) {
 
             FingerprintSignIn fingerprint = new FingerprintSignIn(this, FingerprintSignIn.DEFAULT_KEY_NAME);
             if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
@@ -207,6 +210,8 @@ public class SplashActivity extends AppCompatActivity implements
     private void refreshToken() {
         if (AuthManager.getInstance().getRefreshToken() != null) {
             refreshAccessToken(AuthManager.getInstance().getRefreshToken());
+        } else if (CryptoManager.getInstance().getToken() != null) {
+            refreshAccessToken(CryptoManager.getInstance().getToken());
         } else {
             progress.setVisibility(View.GONE);
             onRefreshFailed();
@@ -238,6 +243,7 @@ public class SplashActivity extends AppCompatActivity implements
                                 AuthManager.getInstance().getUsersAmWellToken();
                                 AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                                 NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
+                                CryptoManager.getInstance().saveToken();
 
                                 ProfileManager.setProfile(response.body().getResult().getUserProfile());
                                 NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
@@ -677,6 +683,7 @@ public class SplashActivity extends AppCompatActivity implements
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
                         NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
+                        CryptoManager.getInstance().saveToken();
                         if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isVerified &&
                                 DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {
@@ -803,7 +810,7 @@ public class SplashActivity extends AppCompatActivity implements
         initApiClient();
 
         //init retrofit service
-        if (EnviHandler.EnvType.DEMO.equals(currentEnv)) {
+        if(EnviHandler.EnvType.DEMO.equals(currentEnv)){
             NetworkManager.getInstance().initMockService(NetworkBehavior.create());
         } else {
             NetworkManager.getInstance().initService();

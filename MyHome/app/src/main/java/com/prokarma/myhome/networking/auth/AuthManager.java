@@ -10,6 +10,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.prokarma.myhome.BuildConfig;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.login.LoginActivity;
 import com.prokarma.myhome.features.login.endpoint.AmWellResponse;
@@ -227,6 +228,7 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                         getUsersAmWellToken();
                         AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
+                        CryptoManager.getInstance().saveToken();
                     } catch (NullPointerException ex) {
                         Timber.e(ex);
                         ex.printStackTrace();

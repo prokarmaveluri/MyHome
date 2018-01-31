@@ -28,10 +28,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
+import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.databinding.FragmentLoginBinding;
 import com.prokarma.myhome.features.contact.ContactUsActivity;
 import com.prokarma.myhome.features.login.endpoint.RefreshRequest;
@@ -51,14 +51,11 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
-
 import java.lang.ref.WeakReference;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
-
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 import static com.prokarma.myhome.features.settings.TouchIDFragment.TOUCH_ID_KEY;
 
@@ -140,7 +137,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY)) {
             FingerprintSignIn fingerprint = new FingerprintSignIn(getActivity(), FingerprintSignIn.DEFAULT_KEY_NAME);
             fingerprint.initiateFingerprint();
@@ -516,6 +513,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
         if (AuthManager.getInstance().getRefreshToken() != null) {
             Timber.d("login. refreshToken not null ");
             refreshAccessToken(AuthManager.getInstance().getRefreshToken());
+        } else if (CryptoManager.getInstance().getToken() != null) {
+            Timber.d("login. Token not null ");
+            refreshAccessToken(CryptoManager.getInstance().getToken());
         } else {
             Timber.d("login. refresh failed ");
             binder.loginProgress.setVisibility(View.GONE);
@@ -548,6 +548,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
                                 AuthManager.getInstance().getUsersAmWellToken();
                                 AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                                 NetworkManager.getInstance().getSavedDoctors(getActivity().getApplicationContext(), binder.loginProgress);
+                                CryptoManager.getInstance().saveToken();
 
                                 ProfileManager.setProfile(response.body().getResult().getUserProfile());
                                 NetworkManager.getInstance().getSavedDoctors(getActivity().getApplicationContext(), binder.loginProgress);
@@ -616,7 +617,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
                                                       AccessibilityNodeInfoCompat info) {
             super.onInitializeAccessibilityNodeInfo(host, info);
             try {
-                ((EditText) host).setSelection(info.getText().length());
+                ((EditText)host).setSelection(info.getText().length());
             } catch (Exception e) {
                 e.printStackTrace();
             }
