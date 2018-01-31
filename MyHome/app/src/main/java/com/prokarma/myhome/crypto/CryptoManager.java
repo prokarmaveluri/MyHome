@@ -3,7 +3,6 @@ package com.prokarma.myhome.crypto;
 import android.content.Context;
 import android.util.Base64;
 
-import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 
 import java.io.IOException;
@@ -82,10 +81,10 @@ public class CryptoManager {
         return null;
     }
 
-    public void saveToken() {
-        if (AuthManager.getInstance().getRefreshToken() != null) {
+    public void saveToken(String refreshToken) {
+        if (refreshToken != null) {
             try {
-                encryptText(AuthManager.getInstance().getRefreshToken());
+                encryptText(refreshToken);
                 String tokenPref = Base64.encodeToString(encryptor.getEncryption(), Base64.DEFAULT);
                 AppPreferences.getInstance().setPreference("auth_token", tokenPref);
 
@@ -120,6 +119,11 @@ public class CryptoManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void clearToken() {
+        AppPreferences.getInstance().setPreference("auth_token", null);
+        AppPreferences.getInstance().setPreference("auth_token_iv", null);
     }
 
     public void setContext(Context context) {

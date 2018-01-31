@@ -43,10 +43,8 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
     private static String expiresAt;
     private static Integer expiresIn;
     private static String bearerToken;
-    private static String refreshToken;
     private static String sessionToken;
     private static String sessionId;
-    private static String sid;
     private static String amWellToken;
     private static boolean hasMyCare = false;
 
@@ -77,14 +75,6 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
         AuthManager.expiresIn = expiresIn;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        AuthManager.refreshToken = refreshToken;
-    }
-
     public String getExpiresAt() {
         return expiresAt;
     }
@@ -99,14 +89,6 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
 
     public void setIdleTime(long idleTime) {
         AuthManager.idleTime = idleTime;
-    }
-
-    public String getSid() {
-        return sid;
-    }
-
-    public void setSid(@Nullable String sid) {
-        AuthManager.sid = sid;
     }
 
     public Context getContext() {
@@ -226,18 +208,16 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
 
     public void refreshToken() {
         NetworkManager.getInstance().signInRefresh(new RefreshRequest(
-                AuthManager.getInstance().getRefreshToken())).enqueue(new Callback<SignInResponse>() {
+                CryptoManager.getInstance().getToken())).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().getValid()) {
                     try {
                         Timber.d("Successful Response\n" + response);
                         AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
-//                        AuthManager.getInstance().setExpiresIn(response.body().getExpiresIn());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                         getUsersAmWellToken();
-                        AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
-                        CryptoManager.getInstance().saveToken();
+                        CryptoManager.getInstance().saveToken(response.body().getResult().getRefreshToken());
                     } catch (NullPointerException ex) {
                         Timber.e(ex);
                         ex.printStackTrace();

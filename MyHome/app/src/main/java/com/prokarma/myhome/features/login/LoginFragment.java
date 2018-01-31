@@ -15,6 +15,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.AccessibilityDelegateCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -24,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
@@ -97,6 +101,9 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
                 getActivity().getApplicationContext(), Constants.INPUT_TYPE.EMAIL_LOGIN));
 //        binder.password.setOnFocusChangeListener(new ValidateInputsOnFocusChange(binder.password,
 //                Constants.INPUT_TYPE.PASSWORD));
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+            ViewCompat.setAccessibilityDelegate(binder.email, new EmailAccessibilityDelegate());
+        }
 
         binder.email.addTextChangedListener(new LoginTextWatcher());
         binder.password.addTextChangedListener(new LoginTextWatcher());
@@ -507,10 +514,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
     }
 
     private void refreshToken() {
-        if (AuthManager.getInstance().getRefreshToken() != null) {
-            Timber.d("login. refreshToken not null ");
-            refreshAccessToken(AuthManager.getInstance().getRefreshToken());
-        } else if (CryptoManager.getInstance().getToken() != null) {
+        if (CryptoManager.getInstance().getToken() != null) {
             Timber.d("login. Token not null ");
             refreshAccessToken(CryptoManager.getInstance().getToken());
         } else {
@@ -543,9 +547,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
                                 AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
                                 AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                                 AuthManager.getInstance().getUsersAmWellToken();
-                                AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                                 NetworkManager.getInstance().getSavedDoctors(getActivity().getApplicationContext(), binder.loginProgress);
-                                CryptoManager.getInstance().saveToken();
+                                CryptoManager.getInstance().saveToken(response.body().getResult().getRefreshToken());
 
                                 ProfileManager.setProfile(response.body().getResult().getUserProfile());
                                 NetworkManager.getInstance().getSavedDoctors(getActivity().getApplicationContext(), binder.loginProgress);
@@ -602,6 +605,23 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
 
     private void onRefreshFailed() {
         Timber.d("login. onRefreshFailed ");
+    }
+
+    private static class EmailAccessibilityDelegate extends AccessibilityDelegateCompat {
+
+        public EmailAccessibilityDelegate() {
+        }
+
+        @Override
+        public void onInitializeAccessibilityNodeInfo(View host,
+                                                      AccessibilityNodeInfoCompat info) {
+            super.onInitializeAccessibilityNodeInfo(host, info);
+            try {
+                ((EditText)host).setSelection(info.getText().length());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
