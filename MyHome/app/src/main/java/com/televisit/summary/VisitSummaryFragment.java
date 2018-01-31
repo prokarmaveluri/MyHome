@@ -10,6 +10,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -142,7 +144,27 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         emailConfidentialityText = (TextView) view.findViewById(R.id.email_text);
         emailCountMaxReached = (TextView) view.findViewById(R.id.email_count_max_reached);
 
-        newEmailLayout.setVisibility(View.GONE);
+        emailCountMaxReached.setVisibility(View.VISIBLE);
+
+        addEmail.setVisibility(View.GONE);
+        newEmailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() > 0) {
+                    addEmail.setVisibility(View.VISIBLE);
+                } else {
+                    addEmail.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
 
         setHasOptionsMenu(true);
 
@@ -203,10 +225,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         }
 
         emailObjects = new ArrayList<>();
-        EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
-        emailObj.setEmailId(AwsManager.getInstance().getPatient().getEmail());
-        emailObjects.add(emailObj);
-
         emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         displayEmails();
@@ -293,7 +311,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         }
 
         if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
-            //CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_limit_reached));
             return;
         }
 
@@ -316,10 +333,10 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
             newEmailLayout.setVisibility(View.GONE);
-            emailCountMaxReached.setVisibility(View.VISIBLE);
+            //emailCountMaxReached.setVisibility(View.VISIBLE);
         } else {
             newEmailLayout.setVisibility(View.VISIBLE);
-            emailCountMaxReached.setVisibility(View.GONE);
+            //emailCountMaxReached.setVisibility(View.GONE);
         }
     }
 
@@ -717,6 +734,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             }
         }
     }
+
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
