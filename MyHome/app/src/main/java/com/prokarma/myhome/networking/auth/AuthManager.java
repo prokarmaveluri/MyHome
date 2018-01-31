@@ -46,7 +46,6 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
     private static String refreshToken;
     private static String sessionToken;
     private static String sessionId;
-    private static String sid;
     private static String amWellToken;
     private static boolean hasMyCare = false;
 
@@ -99,14 +98,6 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
 
     public void setIdleTime(long idleTime) {
         AuthManager.idleTime = idleTime;
-    }
-
-    public String getSid() {
-        return sid;
-    }
-
-    public void setSid(@Nullable String sid) {
-        AuthManager.sid = sid;
     }
 
     public Context getContext() {
