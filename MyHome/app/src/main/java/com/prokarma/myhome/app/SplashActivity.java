@@ -180,8 +180,7 @@ public class SplashActivity extends AppCompatActivity implements
         // and hence we donot need this logic on splash screen, which makes the fingerprint dialog to come up only after killing the app.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 AppPreferences.getInstance().getBooleanPreference(TouchIDFragment.TOUCH_ID_KEY) &&
-                (AuthManager.getInstance().getRefreshToken() != null ||
-                        CryptoManager.getInstance().getToken() != null)) {
+                CryptoManager.getInstance().getToken() != null) {
 
             FingerprintSignIn fingerprint = new FingerprintSignIn(this, FingerprintSignIn.DEFAULT_KEY_NAME);
             if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
@@ -208,9 +207,7 @@ public class SplashActivity extends AppCompatActivity implements
     }
 
     private void refreshToken() {
-        if (AuthManager.getInstance().getRefreshToken() != null) {
-            refreshAccessToken(AuthManager.getInstance().getRefreshToken());
-        } else if (CryptoManager.getInstance().getToken() != null) {
+        if (CryptoManager.getInstance().getToken() != null) {
             refreshAccessToken(CryptoManager.getInstance().getToken());
         } else {
             progress.setVisibility(View.GONE);
@@ -241,9 +238,8 @@ public class SplashActivity extends AppCompatActivity implements
                                 AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
                                 AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                                 AuthManager.getInstance().getUsersAmWellToken();
-                                AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                                 NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
-                                CryptoManager.getInstance().saveToken();
+                                CryptoManager.getInstance().saveToken(response.body().getResult().getRefreshToken());
 
                                 ProfileManager.setProfile(response.body().getResult().getUserProfile());
                                 NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
@@ -679,11 +675,10 @@ public class SplashActivity extends AppCompatActivity implements
                         AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                         AuthManager.getInstance().getUsersAmWellToken();
-                        AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
                         NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
-                        CryptoManager.getInstance().saveToken();
+                        CryptoManager.getInstance().saveToken(response.body().getResult().getRefreshToken());
                         if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isVerified &&
                                 DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {

@@ -28,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
@@ -51,11 +52,14 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.TealiumUtil;
 import com.prokarma.myhome.utils.ValidateInputsOnFocusChange;
+
 import java.lang.ref.WeakReference;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
+
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 import static com.prokarma.myhome.features.settings.TouchIDFragment.TOUCH_ID_KEY;
 
@@ -510,10 +514,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
     }
 
     private void refreshToken() {
-        if (AuthManager.getInstance().getRefreshToken() != null) {
-            Timber.d("login. refreshToken not null ");
-            refreshAccessToken(AuthManager.getInstance().getRefreshToken());
-        } else if (CryptoManager.getInstance().getToken() != null) {
+        if (CryptoManager.getInstance().getToken() != null) {
             Timber.d("login. Token not null ");
             refreshAccessToken(CryptoManager.getInstance().getToken());
         } else {
@@ -546,9 +547,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
                                 AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
                                 AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                                 AuthManager.getInstance().getUsersAmWellToken();
-                                AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                                 NetworkManager.getInstance().getSavedDoctors(getActivity().getApplicationContext(), binder.loginProgress);
-                                CryptoManager.getInstance().saveToken();
+                                CryptoManager.getInstance().saveToken(response.body().getResult().getRefreshToken());
 
                                 ProfileManager.setProfile(response.body().getResult().getUserProfile());
                                 NetworkManager.getInstance().getSavedDoctors(getActivity().getApplicationContext(), binder.loginProgress);
