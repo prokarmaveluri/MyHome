@@ -68,6 +68,7 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.mock.NetworkBehavior;
 import timber.log.Timber;
 
 /**
@@ -158,38 +159,6 @@ public class SplashActivity extends AppCompatActivity implements
             selectorDialog.setEnvironmentSelectorInterface(this);
             selectorDialog.setCancelable(false);
             selectorDialog.show(getSupportFragmentManager(), EnvironmentSelectorFragment.ENVIRONMENT_SELECTOR_TAG);
-//            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle(R.string.select_env)
-//                    .setCancelable(false)
-//                    .setItems(R.array.build_env, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            if (which == 0) {
-//                                currentEnv = EnviHandler.EnvType.DEV;
-//                                EnviHandler.initEnv(EnviHandler.EnvType.DEV);
-//                            } else if (which == 1) {
-//                                currentEnv = EnviHandler.EnvType.SLOT1;
-//                                EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
-//                            } else if (which == 2) {
-//                                currentEnv = EnviHandler.EnvType.STAGE;
-//                                EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
-//                            } else if (which == 3) {
-//                                currentEnv = EnviHandler.EnvType.PROD;
-//                                EnviHandler.initEnv(EnviHandler.EnvType.PROD);
-//                            }
-//                            progress.setVisibility(View.VISIBLE);
-//                            initApiClient();
-//
-//                            //init retrofit service
-//                            NetworkManager.getInstance().initService();
-//
-//                            startLocationFetch();
-//                        }
-//                    });
-//            final AlertDialog alert = builder.create();
-//            alert.show();
-
-
         } else {
             initApiClient();
 
@@ -202,14 +171,16 @@ public class SplashActivity extends AppCompatActivity implements
 
     private void getAccessTokenFromRefresh() {
 
+        // 31614: Android: Fingerprint Authentication upon sign-out.
+        // we are going to show this on Login screen upon signout..
+        // and hence we donot need this logic on splash screen, which makes the fingerprint dialog to come up only after killing the app.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                AppPreferences.getInstance().getBooleanPreference("IS_TOUCH_ID_ENABLED") &&
-                (AuthManager.getInstance().getRefreshToken() != null ||
-                        CryptoManager.getInstance().getToken() != null)) {
+                AppPreferences.getInstance().getBooleanPreference(TouchIDFragment.TOUCH_ID_KEY) &&
+                CryptoManager.getInstance().getToken() != null) {
 
             FingerprintSignIn fingerprint = new FingerprintSignIn(this, FingerprintSignIn.DEFAULT_KEY_NAME);
-            fingerprint.initiateFingerprint();
             if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
+                loadLogin();
                 return;
             }
         }
@@ -232,9 +203,7 @@ public class SplashActivity extends AppCompatActivity implements
     }
 
     private void refreshToken() {
-        if (AuthManager.getInstance().getRefreshToken() != null) {
-            refreshAccessToken(AuthManager.getInstance().getRefreshToken());
-        } else if (CryptoManager.getInstance().getToken() != null) {
+        if (CryptoManager.getInstance().getToken() != null) {
             refreshAccessToken(CryptoManager.getInstance().getToken());
         } else {
             progress.setVisibility(View.GONE);
@@ -265,9 +234,8 @@ public class SplashActivity extends AppCompatActivity implements
                                 AppPreferences.getInstance().setLongPreference("FETCH_TIME", System.currentTimeMillis());
                                 AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                                 AuthManager.getInstance().getUsersAmWellToken();
-                                AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
                                 NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
-                                CryptoManager.getInstance().saveToken();
+                                CryptoManager.getInstance().saveToken(response.body().getResult().getRefreshToken());
 
                                 ProfileManager.setProfile(response.body().getResult().getUserProfile());
                                 NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
@@ -703,11 +671,10 @@ public class SplashActivity extends AppCompatActivity implements
                         AuthManager.getInstance().setSessionId(response.body().getResult().getSessionId());
                         AuthManager.getInstance().setBearerToken(response.body().getResult().getAccessToken());
                         AuthManager.getInstance().getUsersAmWellToken();
-                        AuthManager.getInstance().setRefreshToken(response.body().getResult().getRefreshToken());
 
                         ProfileManager.setProfile(response.body().getResult().getUserProfile());
                         NetworkManager.getInstance().getSavedDoctors(getApplicationContext(), progress);
-                        CryptoManager.getInstance().saveToken();
+                        CryptoManager.getInstance().saveToken(response.body().getResult().getRefreshToken());
                         if (null != response.body().getResult().getUserProfile() &&
                                 !response.body().getResult().getUserProfile().isVerified &&
                                 DateUtil.isMoreThan30days(response.body().getResult().getUserProfile().createdDate)) {

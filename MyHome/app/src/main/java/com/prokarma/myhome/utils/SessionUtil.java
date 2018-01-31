@@ -54,7 +54,6 @@ public class SessionUtil {
     public static void clearData(boolean keepRefreshToken) {
         if (!keepRefreshToken) {
             CryptoManager.getInstance().clearToken();
-            AuthManager.getInstance().setRefreshToken(null);
         }
 
         AuthManager.getInstance().setSessionId(null);
