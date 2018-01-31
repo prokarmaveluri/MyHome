@@ -10,6 +10,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -84,12 +86,12 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
     private LinearLayout entireEmailLayout;
     private RecyclerView emailsList;
-    private TextView addAdditionalEmail;
     private RelativeLayout newEmailLayout;
     private TextInputLayout newEmailTextInput;
     private TextInputEditText newEmailEditText;
     private TextView addEmail;
     private TextView emailConfidentialityText;
+    private TextView emailCountMaxReached;
     private ScrollView scrollLayout;
     private EmailsAdapter emailsAdapter;
 
@@ -132,7 +134,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         entireEmailLayout = (LinearLayout) view.findViewById(R.id.entire_email_layout);
         emailsList = (RecyclerView) view.findViewById(R.id.email_list);
-        addAdditionalEmail = (TextView) view.findViewById(R.id.add_additional_email);
         scrollLayout = (ScrollView) view.findViewById(R.id.scroll_layout);
 
         newEmailLayout = (RelativeLayout) view.findViewById(R.id.new_email_layout);
@@ -141,9 +142,29 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         addEmail = (TextView) view.findViewById(R.id.add_email);
 
         emailConfidentialityText = (TextView) view.findViewById(R.id.email_text);
+        emailCountMaxReached = (TextView) view.findViewById(R.id.email_count_max_reached);
 
-        addAdditionalEmail.setVisibility(View.VISIBLE);
-        newEmailLayout.setVisibility(View.GONE);
+        emailCountMaxReached.setVisibility(View.VISIBLE);
+
+        addEmail.setVisibility(View.GONE);
+        newEmailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() > 0) {
+                    addEmail.setVisibility(View.VISIBLE);
+                } else {
+                    addEmail.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
 
         setHasOptionsMenu(true);
 
@@ -179,29 +200,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             }
         });
 
-        addAdditionalEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (newEmailLayout.getVisibility() == View.VISIBLE) {
-                    newEmailLayout.setVisibility(View.GONE);
-                    newEmailTextInput.setVisibility(View.GONE);
-                    addEmail.setVisibility(View.GONE);
-                } else {
-                    newEmailLayout.setVisibility(View.VISIBLE);
-                    newEmailTextInput.setVisibility(View.VISIBLE);
-                    addEmail.setVisibility(View.VISIBLE);
-
-                    scrollLayout.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            scrollLayout.scrollTo(0, scrollLayout.getBottom());
-                        }
-                    });
-                }
-            }
-        });
-
         addEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,10 +225,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         }
 
         emailObjects = new ArrayList<>();
-        EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
-        emailObj.setEmailId(AwsManager.getInstance().getPatient().getEmail());
-        emailObjects.add(emailObj);
-
         emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         displayEmails();
@@ -299,8 +293,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
             emailsList.setContentDescription("Email addresses to send visit report");
             emailsList.announceForAccessibility(emailsList.getContentDescription());
-
-            addAdditionalEmail.announceForAccessibility(addAdditionalEmail.getContentDescription());
         }
     }
 
@@ -319,7 +311,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         }
 
         if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
-            CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_summary_email_limit_reached));
             return;
         }
 
@@ -341,11 +332,12 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         CommonUtil.hideSoftKeyboard(getContext(), newEmailEditText);
 
         if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
-            addAdditionalEmail.setVisibility(View.GONE);
+            newEmailLayout.setVisibility(View.GONE);
+            //emailCountMaxReached.setVisibility(View.VISIBLE);
         } else {
-            addAdditionalEmail.setVisibility(View.VISIBLE);
+            newEmailLayout.setVisibility(View.VISIBLE);
+            //emailCountMaxReached.setVisibility(View.GONE);
         }
-        newEmailLayout.setVisibility(View.GONE);
     }
 
     public void deleteEmailAddress(String emailId) {
@@ -365,10 +357,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             if (indexToDelete >= 0 && indexToDelete < emailObjects.size()) {
                 emailObjects.remove(indexToDelete);
             }
-        }
-
-        if (emailObjects == null || emailObjects.size() == 0 || emailObjects.size() < TOTAL_EMAIL_COUNT_ALLOWED) {
-            addAdditionalEmail.setVisibility(View.VISIBLE);
         }
 
         displayEmails();
@@ -746,6 +734,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             }
         }
     }
+
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
