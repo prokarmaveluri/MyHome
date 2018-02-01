@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.prokarma.myhome.R;
@@ -26,7 +25,7 @@ import com.prokarma.myhome.features.profile.ProfileGraphqlResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
-import com.prokarma.myhome.utils.ApiErrorUtil;
+import com.prokarma.myhome.utils.AccessibilityTextChangedLister;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
@@ -36,7 +35,6 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateConsumer;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -112,6 +110,11 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
         phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
+
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+            zip.addTextChangedListener(new AccessibilityTextChangedLister(zip));
+            phone.addTextChangedListener(new AccessibilityTextChangedLister(phone));
+        }
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override
