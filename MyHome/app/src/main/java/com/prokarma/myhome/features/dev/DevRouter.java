@@ -14,7 +14,7 @@ import com.prokarma.myhome.utils.Constants;
  * Created by kwelsh on 2/1/18.
  */
 
-public class DevRouter implements DevInterface.Router {
+public class DevRouter implements DevContract.Router {
     final Activity activity;
 
     public DevRouter(Activity activity) {

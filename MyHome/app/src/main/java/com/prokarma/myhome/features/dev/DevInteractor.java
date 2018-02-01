@@ -14,10 +14,10 @@ import com.prokarma.myhome.networking.auth.AuthManager;
  * Created by kwelsh on 2/1/18.
  */
 
-public class DevInteractor implements DevInterface.Interactor {
-    final DevInterface.InteractorOutput output;
+public class DevInteractor implements DevContract.Interactor {
+    final DevContract.InteractorOutput output;
 
-    public DevInteractor(DevInterface.InteractorOutput output) {
+    public DevInteractor(DevContract.InteractorOutput output) {
         this.output = output;
     }
 

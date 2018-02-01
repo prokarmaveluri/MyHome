@@ -17,8 +17,8 @@ import com.prokarma.myhome.utils.Constants;
  */
 
 @SuppressWarnings("HardCodedStringLiteral")
-public class DeveloperFragment extends BaseFragment implements DevInterface.View {
-    DevInterface.Presenter presenter = new DevPresenter(this);
+public class DeveloperFragment extends BaseFragment implements DevContract.View {
+    DevContract.Presenter presenter = new DevPresenter(this);
 
     public static final String DEVELOPER_TAG = "dev_tag";
     public static final String DEVELOPER = "developer";

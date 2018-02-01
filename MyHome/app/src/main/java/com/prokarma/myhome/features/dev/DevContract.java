@@ -9,7 +9,7 @@ import com.prokarma.myhome.features.profile.Profile;
  * Created by kwelsh on 1/31/18.
  */
 
-public class DevInterface {
+public class DevContract {
     interface View {
         void showBearerToken(String bearerToken);
 

@@ -7,12 +7,12 @@ import android.content.Context;
  * Created by kwelsh on 1/31/18.
  */
 
-public class DevPresenter implements DevInterface.Presenter, DevInterface.InteractorOutput {
-    final DevInterface.View view;
-    final DevInterface.Router router;
-    final DevInterface.Interactor interactor;
+public class DevPresenter implements DevContract.Presenter, DevContract.InteractorOutput {
+    final DevContract.View view;
+    final DevContract.Router router;
+    final DevContract.Interactor interactor;
 
-    public DevPresenter(DevInterface.View view) {
+    public DevPresenter(DevContract.View view) {
         this.view = view;
         this.router = new DevRouter((Activity) view);
         this.interactor = new DevInteractor(this);
