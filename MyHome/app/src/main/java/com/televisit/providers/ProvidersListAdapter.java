@@ -77,8 +77,10 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
             binding.displayName.setText(providerInfo.getFullName());
             binding.displayName.setContentDescription(binding.displayName.getText());
 
-            binding.displaySpeciality.setText(providerInfo.getSpecialty().getName());
-            binding.displaySpeciality.setContentDescription(binding.displaySpeciality.getText());
+            if (providerInfo.getSpecialty() != null) {
+                binding.displaySpeciality.setText(providerInfo.getSpecialty().getName());
+                binding.displaySpeciality.setContentDescription(binding.displaySpeciality.getText());
+            }
 
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
                     .newImageLoader(providerInfo, binding.providerImage, ProviderImageSize.EXTRA_EXTRA_LARGE)

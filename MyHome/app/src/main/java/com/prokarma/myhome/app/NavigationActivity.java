@@ -86,6 +86,11 @@ import java.util.TimeZone;
 
 import timber.log.Timber;
 
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
+
 /**
  * Created by kwelsh on 4/25/17.
  */
@@ -203,6 +208,25 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             Timber.e(e);
             e.printStackTrace();
         }*/
+
+        if (getIntent() != null) {
+            final Bundle visitExtras = getIntent().getBundleExtra(VISIT_FINISHED_EXTRAS);
+            if (visitExtras != null) {
+                Timber.d("wait. nav onResume. VISIT_RESULT_CODE = " + visitExtras.getInt(VISIT_RESULT_CODE));
+                Timber.d("wait. nav onResume. VISIT_STATUS_APP_SERVER_DISCONNECTED = " + visitExtras.getBoolean(VISIT_STATUS_APP_SERVER_DISCONNECTED));
+                Timber.d("wait. nav onResume. VISIT_STATUS_VIDEO_DISCONNECTED = " + visitExtras.getBoolean(VISIT_STATUS_VIDEO_DISCONNECTED));
+            }
+            else {
+                Timber.d("wait. nav onResume. visitExtras is NULL ");
+            }
+        }
+        else {
+            Timber.d("wait. nav onResume. getIntent is NULL ");
+        }
+
+        if (getIntent() != null && getIntent().hasExtra("VISIT")) {
+            loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+        }
     }
 
     @Override
