@@ -1222,6 +1222,17 @@ public class CommonUtil {
         return spacesString;
     }
 
+    public static String stringToCommaChars(String string) {
+        String spacesString = "";
+        if (null != string) {
+            for (char c : string.toCharArray()) {
+                if (c != '-')
+                    spacesString += "," + c;
+            }
+        }
+        return spacesString;
+    }
+
     public static void showToastFromSDKError(Context context, SDKError sdkError) {
         if (context == null) {
             return;
@@ -1307,7 +1318,7 @@ public class CommonUtil {
         StringBuilder stringBuilder = new StringBuilder();
         String[] splits = sentence.trim().split(" ");
         for (String word : splits) {
-            stringBuilder.append(word.matches("[A-Z]{2,}") ? CommonUtil.stringToSpacesString(word) : word);
+            stringBuilder.append(word.matches("[A-Z]{2,}") ? CommonUtil.stringToCommaChars(word) : word);
             stringBuilder.append(" ");
         }
         return stringBuilder.toString();
