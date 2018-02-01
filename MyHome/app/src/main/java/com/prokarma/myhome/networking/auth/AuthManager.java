@@ -123,11 +123,11 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
         AuthManager.bearerToken = bearerToken;
     }
 
-    public static void setAmWellToken(String amWellToken) {
+    public void setAmWellToken(String amWellToken) {
         AuthManager.amWellToken = amWellToken;
     }
 
-    public static String getAmWellToken() {
+    public String getAmWellToken() {
         return amWellToken;
     }
 
@@ -290,8 +290,8 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
     @Override
     public void initializationComplete() {
         if (EnviHandler.isAttemptMutualAuth()) {
-            if (AuthManager.getAmWellToken() != null) {
-                AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken(), this);
+            if (AuthManager.getInstance().getAmWellToken() != null) {
+                AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getInstance().getAmWellToken(), this);
             } else {
                 Timber.w("No AmWell Token found");
             }
