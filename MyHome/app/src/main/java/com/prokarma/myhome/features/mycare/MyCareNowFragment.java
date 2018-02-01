@@ -497,8 +497,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void initializationComplete() {
         if (EnviHandler.isAttemptMutualAuth()) {
-            if (AuthManager.getAmWellToken() != null) {
-                AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getAmWellToken(), this);
+            if (AuthManager.getInstance().getAmWellToken() != null) {
+                AwsNetworkManager.getInstance().getUsersMutualAuthneticaion(AuthManager.getInstance().getAmWellToken(), this);
             } else {
                 CommonUtil.showToast(getContext(), getString(R.string.no_amwell_token_found));
             }
