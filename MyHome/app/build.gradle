@@ -34,11 +34,11 @@ android {
     def STAGE_S2_BASE_URL = "\"https://web-usw1-fad-stg.azurewebsites.net/\""
     def STAGE_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-stg.azurewebsites.net/\""
 
-    def TEST_VERSIONING_URL = "\"https://web-usw1-versioningservicesapi-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def TEST_VERSIONING_URL = "\"https://web-usw1-versioningservicesapi-qa.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def TEST_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def TEST_CIAM_BASE_URL = "\"https://test.ciam.dignityhealth.org/\""
-    def TEST_S2_BASE_URL = "\"https://web-usw1-fadapi-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
-    def TEST_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def TEST_S2_BASE_URL = "\"https://web-usw1-fadapi-qa.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def TEST_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-qa.ase-usw1-shared-ppe.p.azurewebsites.net/\""
 
     def SLOT1_VERSIONING_URL = "\"https://web-usw1-versioningservicesapi-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def SLOT1_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
