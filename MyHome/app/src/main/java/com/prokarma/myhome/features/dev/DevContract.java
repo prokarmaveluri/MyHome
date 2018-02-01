@@ -29,39 +29,51 @@ public class DevContract {
     interface Presenter {
         void onApiButtonPressed();
 
-        String requestingBearerToken();
+        void requestingBearerToken();
 
-        String requestingAmWellToken();
+        void requestingAmWellToken();
 
-        String requestingProfile();
+        void requestingProfile();
 
-        String requestingLocation();
+        void requestingLocation();
 
-        String requestingHockeyId();
+        void requestingHockeyId();
 
-        String requestingMapsKey(Context context);
+        void requestingMapsKey(Context context);
 
-        String requestingBuildType();
+        void requestingBuildType();
     }
 
     interface Interactor {
-        String getBearerToken();
+        void getBearerToken();
 
-        String getAmWellToken();
+        void getAmWellToken();
 
-        Profile getProfile();
+        void getProfile();
 
-        LocationResponse getLocation();
+        void getLocation();
 
-        String getHockeyId();
+        void getHockeyId();
 
-        String getMapsKey(Context context);
+        void getMapsKey(Context context);
 
-        String getBuildType();
+        void getBuildType();
     }
 
     interface InteractorOutput {
+        void receivedBearerToken(String bearerToken);
 
+        void receivedAmWellToken(String amwellToken);
+
+        void receivedProfile(Profile profile);
+
+        void receivedLocation(LocationResponse location);
+
+        void receivedHockeyId(String hockeyId);
+
+        void receivedMapsKey(String mapsKey);
+
+        void receivedBuildType(String buildType);
     }
 
     interface Router {

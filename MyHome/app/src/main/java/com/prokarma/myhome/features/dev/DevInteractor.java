@@ -5,8 +5,6 @@ import android.content.Context;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.FadManager;
-import com.prokarma.myhome.features.fad.LocationResponse;
-import com.prokarma.myhome.features.profile.Profile;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 
@@ -23,37 +21,37 @@ public class DevInteractor implements DevContract.Interactor {
 
 
     @Override
-    public String getBearerToken() {
-        return AuthManager.getInstance().getBearerToken();
+    public void getBearerToken() {
+        output.receivedBearerToken(AuthManager.getInstance().getBearerToken());
     }
 
     @Override
-    public String getAmWellToken() {
-        return AuthManager.getInstance().getAmWellToken();
+    public void getAmWellToken() {
+        output.receivedAmWellToken(AuthManager.getInstance().getAmWellToken());
     }
 
     @Override
-    public Profile getProfile() {
-        return ProfileManager.getProfile();
+    public void getProfile() {
+        output.receivedProfile(ProfileManager.getProfile());
     }
 
     @Override
-    public LocationResponse getLocation() {
-        return FadManager.getInstance().getCurrentLocation();
+    public void getLocation() {
+        output.receivedLocation(FadManager.getInstance().getCurrentLocation());
     }
 
     @Override
-    public String getHockeyId() {
-        return BuildConfig.HOCKEY_ID;
+    public void getHockeyId() {
+        output.receivedHockeyId(BuildConfig.HOCKEY_ID);
     }
 
     @Override
-    public String getMapsKey(final Context context) {
-        return context.getString(R.string.google_maps_api_key);
+    public void getMapsKey(final Context context) {
+        output.receivedMapsKey(context.getString(R.string.google_maps_api_key));
     }
 
     @Override
-    public String getBuildType() {
-        return BuildConfig.BUILD_TYPE;
+    public void getBuildType() {
+        output.receivedBuildType(BuildConfig.BUILD_TYPE);
     }
 }
