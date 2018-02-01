@@ -36,7 +36,7 @@ android {
 
     def TEST_VERSIONING_URL = "\"https://web-usw1-versioningservicesapi-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def TEST_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
-    def TEST_CIAM_BASE_URL = "\"https://web-usw1-ciamweb-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def TEST_CIAM_BASE_URL = "\"https://test.ciam.dignityhealth.org/\""
     def TEST_S2_BASE_URL = "\"https://web-usw1-fadapi-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def TEST_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-int.ase-usw1-shared-ppe.p.azurewebsites.net/\""
 
