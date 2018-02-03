@@ -486,12 +486,28 @@
     <!-- Waiting Room Visit Transfer -->
     <string name="visit_transfer">Visit Transfer</string>
     <string name="visit_quick_transfer">Quick Transfer</string>
-    <string name="visit_transferred">You are being transferred</string>
     <string name="you_are_next_patient">You are the Next Patient</string>
-    <string name="you_are_being_transferred">You are being transferred to another doctor.</string>
-    <string name="visit_transferred_waiting_for">Successfully transferred. \nYou are now waiting for</string>
-    <string name="continue_text">Continue</string>
 
+    <string name="you_have_been_transferred">You have been transferred.</string>
+    <string name="talk_to_someone_sooner">Talk to someone sooner.</string>
+    <string name="you_will_be_transferred">You will be transferred.</string>
+
+    <string name="visit_transferred_waiting_for">Successfully transferred. \nYou are now waiting for</string>
+    <string name="transfer_yes">Yes, Transfer Me</string>
+    <string name="transfer_no_and_wait">No thanks, I’ll wait</string>
+    <string name="cancel_visit">Cancel Visit</string>
+
+    <string name="may_better_help_you">may be better able to help you.</string>
+    <string name="may_have_shorter_wait_time">may have a shorter waiting time.</string>
+
+    <string name="waiting_room_provider_gone">The provider is no longer available.</string>
+    <string name="waiting_room_canceled">You have canceled the visit</string>
+    <string name="waiting_room_timed_out">Timed out</string>
+    <string name="waiting_room_failed">Visit failed</string>
+    <string name="waiting_room_declined">Visit declined by provider.</string>
+    <string name="waiting_room_failed_to_end">Unable to end visit</string>
+    <string name="waiting_room_permissions_not_granted">Video console permissions not granted</string>
+    <string name="waiting_room_network_failure">Network failed</string>
 
     <!--IVR Activity-->
     <!-- Wrap Up -->
@@ -552,7 +568,6 @@
     <string name="email_already_added_notchecked">Email address already added, please select it.</string>
     <string name="email_none_selected">Select Email addresses</string>
 
-    <string name="email_hint">name@email.com</string>
     <string name="email_agreement_missing">Please check email confidentiality agreement</string>
     <string name="email_total_reached">Please check email confidentiality agreement</string>
     <string name="add_additional_email">+&#160;Add Additional Email</string>

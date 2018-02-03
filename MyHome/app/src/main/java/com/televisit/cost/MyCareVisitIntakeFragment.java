@@ -323,12 +323,12 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
 
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
 
-            if (grantResults.length <= 0) {
+            boolean allGranted = true;
+            if (grantResults == null || grantResults.length <= 0) {
                 // If user interaction was interrupted, the permission request is cancelled and you receive empty arrays.
-                return;
+                allGranted = false;
             }
 
-            boolean allGranted = true;
             for (int i = 0; i < grantResults.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     allGranted = false;

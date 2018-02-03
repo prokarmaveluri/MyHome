@@ -84,6 +84,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
     private VisitReportDetail visitReportDetail;
     private String reportNameWithPath;
 
+    private TextView addAdditionalCTA;
     private LinearLayout entireEmailLayout;
     private RecyclerView emailsList;
     private RelativeLayout newEmailLayout;
@@ -136,6 +137,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         emailsList = (RecyclerView) view.findViewById(R.id.email_list);
         scrollLayout = (ScrollView) view.findViewById(R.id.scroll_layout);
 
+        addAdditionalCTA = (TextView) view.findViewById(R.id.add_additional_email_cta);
         newEmailLayout = (RelativeLayout) view.findViewById(R.id.new_email_layout);
         newEmailTextInput = (TextInputLayout) view.findViewById(R.id.new_email_textinput);
         newEmailEditText = (TextInputEditText) view.findViewById(R.id.new_email_edittext);
@@ -197,6 +199,14 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
                     bundle.putString("FILENAME_WITH_PATH", reportNameWithPath);
                     ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
                 }
+            }
+        });
+
+        addAdditionalCTA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newEmailLayout.setVisibility(View.VISIBLE);
+                addAdditionalCTA.setVisibility(View.GONE);
             }
         });
 
@@ -330,14 +340,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         CommonUtil.hideSoftKeyboard(this.getActivity());
         CommonUtil.hideSoftKeyboard(getContext(), newEmailEditText);
-
-        if (emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
-            newEmailLayout.setVisibility(View.GONE);
-            //emailCountMaxReached.setVisibility(View.VISIBLE);
-        } else {
-            newEmailLayout.setVisibility(View.VISIBLE);
-            //emailCountMaxReached.setVisibility(View.GONE);
-        }
     }
 
     public void deleteEmailAddress(String emailId) {
@@ -359,6 +361,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             }
         }
 
+        newEmailLayout.setVisibility(View.GONE);
         displayEmails();
     }
 
@@ -644,6 +647,14 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             emailsAdapter.notifyDataSetChanged();
         } else {
             emailsList.setVisibility(View.GONE);
+        }
+
+        if (emailObjects != null && emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
+            newEmailLayout.setVisibility(View.GONE);
+            addAdditionalCTA.setVisibility(View.GONE);
+        } else {
+            newEmailLayout.setVisibility(View.GONE);
+            addAdditionalCTA.setVisibility(View.VISIBLE);
         }
     }
 
