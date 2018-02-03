@@ -72,6 +72,10 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
     private RelativeLayout userLayout;
     private TextView previousVisit;
     private Button waitingRoom;
+    private TextView personalInfoLabel;
+    private TextView medicalHistoryLabel;
+    private TextView medicationsLabel;
+    private TextView pharmacyLabel;
 
     public MyCareNowFragment() {
         // Required empty public constructor
@@ -108,6 +112,10 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
         pharmacyDesc = (TextView) view.findViewById(R.id.pharmacy_desc);
         pharmacyEdit = (TextView) view.findViewById(R.id.pharmacy_edit);
         pharmacyPin = (ImageView) view.findViewById(R.id.pharmacy_pin_icon);
+        personalInfoLabel = view.findViewById(R.id.personal_info_label);
+        medicalHistoryLabel  =  view.findViewById(R.id.medical_history_label);
+        medicationsLabel = view.findViewById(R.id.medications_label);
+        pharmacyLabel = view.findViewById(R.id.pharmacy_label);
 
         progressBar = (ProgressBar) view.findViewById(R.id.mcn_progressbar);
         userLayout = (RelativeLayout) view.findViewById(R.id.mcn_user_info);
@@ -310,6 +318,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 medicationsDesc.setText(getString(R.string.not_on_any_medications));
             }
         }
+        medicationsLabel.setContentDescription(medicationsLabel.getText() + ", " + medicationsDesc.getText());
     }
 
     private void setConsumerPharmacy() {
@@ -338,6 +347,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
             }
             pharmacyPin.setVisibility(View.GONE);
         }
+        pharmacyLabel.setContentDescription(pharmacyLabel.getText() + ", " + pharmacyDesc.getText());
     }
 
     private void setConsumerMedicalHistory() {
@@ -426,6 +436,8 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                 historyDesc.setText(getString(R.string.complete_your_medical_history));
             }
         }
+
+        medicalHistoryLabel.setContentDescription(medicalHistoryLabel.getText() + ", " + historyDesc.getText());
     }
 
     private void setDependentsSpinner(Consumer me, List<Consumer> dependents) {
@@ -463,6 +475,7 @@ public class MyCareNowFragment extends BaseFragment implements View.OnClickListe
                     infoAlmostComplete.setText(getContext().getString(R.string.your_profile_is_almost_complete_dependent));
                     infoEdit.setText(getContext().getString(R.string.view));
                 }
+                personalInfoLabel.setContentDescription(personalInfoLabel.getText() + ", " + infoAlmostComplete.getText());
                 refreshDashboard(true);
                 AwsManager.getInstance().setPatientNumber(position);
             }
