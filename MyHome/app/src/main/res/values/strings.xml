@@ -504,7 +504,7 @@
     <string name="waiting_room_canceled">You have canceled the visit</string>
     <string name="waiting_room_timed_out">Timed out</string>
     <string name="waiting_room_failed">Visit failed</string>
-    <string name="waiting_room_declined">Visit declined by provider or assistant</string>
+    <string name="waiting_room_declined">Visit declined by provider.</string>
     <string name="waiting_room_failed_to_end">Unable to end visit</string>
     <string name="waiting_room_permissions_not_granted">Video console permissions not granted</string>
     <string name="waiting_room_network_failure">Network failed</string>
@@ -568,7 +568,6 @@
     <string name="email_already_added_notchecked">Email address already added, please select it.</string>
     <string name="email_none_selected">Select Email addresses</string>
 
-    <string name="email_hint">name@email.com</string>
     <string name="email_agreement_missing">Please check email confidentiality agreement</string>
     <string name="email_total_reached">Please check email confidentiality agreement</string>
     <string name="add_additional_email">+&#160;Add Additional Email</string>

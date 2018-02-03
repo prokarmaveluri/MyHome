@@ -109,6 +109,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
                         binding.waitingCount.setText(CommonUtil.getWaitingQueueText(providerInfo.getWaitingRoomCount()));
                     } else {
                         binding.waitingCount.setText(context.getString(R.string.you_are_next_patient));
+                        binding.visibility.setVisibility(View.GONE);
                     }
                 } else {
                     binding.visibility.setText(context.getString(R.string.offline));

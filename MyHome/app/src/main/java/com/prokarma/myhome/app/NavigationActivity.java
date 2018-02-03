@@ -209,23 +209,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             e.printStackTrace();
         }*/
 
-        if (getIntent() != null) {
-            final Bundle visitExtras = getIntent().getBundleExtra(VISIT_FINISHED_EXTRAS);
-            if (visitExtras != null) {
-                Timber.d("wait. nav onResume. VISIT_RESULT_CODE = " + visitExtras.getInt(VISIT_RESULT_CODE));
-                Timber.d("wait. nav onResume. VISIT_STATUS_APP_SERVER_DISCONNECTED = " + visitExtras.getBoolean(VISIT_STATUS_APP_SERVER_DISCONNECTED));
-                Timber.d("wait. nav onResume. VISIT_STATUS_VIDEO_DISCONNECTED = " + visitExtras.getBoolean(VISIT_STATUS_VIDEO_DISCONNECTED));
-            }
-            else {
-                Timber.d("wait. nav onResume. visitExtras is NULL ");
-            }
-        }
-        else {
-            Timber.d("wait. nav onResume. getIntent is NULL ");
-        }
-
         if (getIntent() != null && getIntent().hasExtra("VISIT")) {
-            loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
+            bottomNavigationView.setSelectedItemId(R.id.profile);
+            loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, getIntent().getExtras());
         }
     }
 
@@ -234,7 +220,17 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         super.onDestroy();
         eventBus = null;
         mHandler.removeCallbacks(runnable);
-        ProfileManager.setProfile(null);
+
+        if (AwsManager.getInstance().getVisit() != null && AwsManager.getInstance().isVisitOngoing()) {
+            // Once provider is entered in video visit, automatically NavActivity is getting killed on its own.
+            // as we are passing visitFinishedIntent(), this activity will get restarted as soon as visit ends.
+            // so for subsequent visits intake screen needs profile phone number...so do not set it as null here.
+            Timber.d("wait. visit is Ongoing. ");
+        }
+        else {
+            ProfileManager.setProfile(null);
+        }
+
         NetworkManager.getInstance().setExpiryListener(null);
         RecentlyViewedDataSourceDB.getInstance().close();
         unregisterReceiver(timezoneChangedReceiver);
@@ -1121,6 +1117,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
             ((MyCareVisitCostFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+        else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
+            ((MyCareVisitIntakeFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override
@@ -1130,6 +1129,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
             ((MyCareVisitCostFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
+        }
+        else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
+            ((MyCareVisitIntakeFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
         }
     }
 

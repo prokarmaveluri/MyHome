@@ -23,6 +23,7 @@
 
         <RelativeLayout
             android:id="@+id/doc_layout"
+            android:layout_marginStart="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -71,8 +72,8 @@
                 android:layout_toRightOf="@+id/doc_image"
                 android:paddingLeft="16dp"
                 app:rb_click_rating="true"
-                app:rb_empty="@drawable/star_empty_grey"
-                app:rb_fill="@drawable/star_full_grey"
+                app:rb_empty="@mipmap/star_empty_grey"
+                app:rb_fill="@mipmap/star_full_grey"
                 app:rb_max_count="5"
                 app:rb_space="15dp"
                 app:rb_touch_rating="true" />

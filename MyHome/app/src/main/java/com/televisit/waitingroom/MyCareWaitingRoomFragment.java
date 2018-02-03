@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +26,7 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.legal.LegalText;
+import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.entity.visit.ChatReport;
@@ -53,9 +53,11 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 
 /**
@@ -68,6 +70,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     public static final String MY_CARE_WAITING_TAG = "my_care_waiting_tag";
     private NotificationManager notificationManager;
     public static final int ONGOING_VISIT_NOTIFICATION_ID = 12345;
+    public static final String EXTRA_AWSDK_STATE = "awsdkState";
 
     private Consumer patient;
     private boolean isVisitEnd = false;
@@ -132,14 +135,22 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         patient = AwsManager.getInstance().getPatient() != null ? AwsManager.getInstance().getPatient() : AwsManager.getInstance().getConsumer();
         isVisitEnd = false;
 
+        if (getArguments() != null  && getArguments().containsKey("VISIT")) {
 
-        boolean visitEnded = false;
-        if (getActivity().getIntent() != null) {
-            visitEnded = handleVisitEnd(getActivity().getIntent().getBundleExtra(VISIT_FINISHED_EXTRAS));
+            Timber.d("wait. has arguments visit = YES ");
+
+            if (getActivity().getIntent() != null
+                    && getActivity().getIntent().getBundleExtra(VISIT_FINISHED_EXTRAS) != null) {
+
+                handleVisitEnd(getActivity().getIntent().getBundleExtra(VISIT_FINISHED_EXTRAS));
+            }
         }
+        else {
+            Timber.d("wait. has arguments visit = NO ");
 
-        if ((!visitEnded) && patient != null) {
-            startVisit(patient.getAddress(), getVisitFinishedIntent());
+            if (patient != null) {
+                startVisit(patient.getAddress(), getVisitFinishedIntent());
+            }
         }
 
         return view;
@@ -151,16 +162,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     }
 
     @Override
-    public void onDestroyView() {
-        try {
-            abandonVisit("onDestroyView");
-        } catch (Exception ex) {
-            Timber.e(ex);
-        }
-        super.onDestroyView();
-    }
-
-    @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.MY_CARE_WAITING_ROOM;
     }
@@ -168,53 +169,122 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     private boolean handleVisitEnd(Bundle visitExtras) {
 
         if (visitExtras == null) {
-            Timber.d("wait. onCreate. visitExtras is NULL ");
             return false;
         }
+
+        setAwsdkState(getActivity().getIntent().getBundleExtra(EXTRA_AWSDK_STATE));
+
+        if (visitExtras.getParcelable(VISIT) != null) {
+            AwsManager.getInstance().setVisit((Visit) visitExtras.getParcelable(VISIT));
+        }
+
+        Timber.d("wait. handleVisitEnd"
+                + ". endReason = " + AwsManager.getInstance().getVisit().getEndReason()
+                + ". hasVisitTransfer = " + AwsManager.getInstance().getVisit().hasVisitTransfer()
+                + ". DeclineAndTransfer = " + AwsManager.getInstance().getVisit().getDeclineAndTransfer()
+                + ". SuggestedTransfer = " + AwsManager.getInstance().getVisit().getSuggestedTransfer()
+        );
+
+        //Post Visit Transfer are in 1.7. hence commenting out until then.
+        /*if (AwsManager.getInstance().getVisit().hasVisitTransfer() && isValidForPostVisitTransfer(visitExtras.getInt(VISIT_RESULT_CODE))) {
+
+            currentTransferType = VisitTransferType.POST_VISIT_TRANSFER;
+            startTransfer(currentTransferType);
+
+            return true;
+        }*/
 
         Timber.d("wait. onCreate. VISIT_RESULT_CODE = " + visitExtras.getInt(VISIT_RESULT_CODE));
         Timber.d("wait. onCreate. VISIT_STATUS_APP_SERVER_DISCONNECTED = " + visitExtras.getBoolean(VISIT_STATUS_APP_SERVER_DISCONNECTED));
         Timber.d("wait. onCreate. VISIT_STATUS_VIDEO_DISCONNECTED = " + visitExtras.getBoolean(VISIT_STATUS_VIDEO_DISCONNECTED));
+        Timber.d("wait. onCreate. VISIT_STATUS_PROVIDER_CONNECTED = " + visitExtras.getBoolean(VISIT_STATUS_PROVIDER_CONNECTED));
 
+        String toastMessage = "";
         if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_READY_FOR_SUMMARY) {
             isVisitEnd = true;
+
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_PROVIDER_GONE) {
-            CommonUtil.showToast(getContext(), getString(R.string.waiting_room_provider_gone));
+            toastMessage = getString(R.string.waiting_room_provider_gone);
             isVisitEnd = true;
+
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_CONSUMER_CANCEL) {
-            CommonUtil.showToast(getContext(), getString(R.string.waiting_room_canceled));
+            //CommonUtil.showToast(getContext(), getString(R.string.waiting_room_canceled));
             isVisitEnd = true;
+
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_FAILED) {
-            CommonUtil.showToast(getContext(), getString(R.string.waiting_room_failed));
+            //toastMessage = getString(R.string.waiting_room_failed);
             isVisitEnd = true;
+
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_TIMED_OUT) {
-            CommonUtil.showToast(getContext(), getString(R.string.waiting_room_timed_out));
+            toastMessage = getString(R.string.waiting_room_timed_out);
             isVisitEnd = true;
+
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_NETWORK_FAILURE) {
-            CommonUtil.showToast(getContext(), getString(R.string.waiting_room_network_failure));
+            toastMessage = getString(R.string.waiting_room_network_failure);
             isVisitEnd = true;
+
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_FAILED_TO_END) {
-            CommonUtil.showToast(getContext(), getString(R.string.waiting_room_failed_to_end));
+            //toastMessage = getString(R.string.waiting_room_failed_to_end);
             isVisitEnd = true;
+
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_PERMISSIONS_NOT_GRANTED) {
-            CommonUtil.showToast(getContext(), getString(R.string.waiting_room_permissions_not_granted));
+            toastMessage = getString(R.string.waiting_room_permissions_not_granted);
             isVisitEnd = true;
+
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_DECLINED) {
-            CommonUtil.showToast(getContext(), getString(R.string.waiting_room_declined));
+            toastMessage = getString(R.string.waiting_room_declined);
             isVisitEnd = true;
         }
 
+        //Error handling ticket is in 1.7. will show the error message as per design
+        if (!CommonUtil.isEmptyString(toastMessage)) {
+            CommonUtil.showToast(getContext(), toastMessage);
+        }
+
         if (isVisitEnd) {
-            visitCompleted();
+
+            //Put in handler to avoid IllegalStateException: https://stackoverflow.com/a/41953519/2128921
+            TealiumUtil.trackEvent(Constants.VIDEO_VISIT_END_EVENT, null);
+
+            removeVisitNotification(getContext());
+
+            goToVisitSummary();
+
             return true;
         }
 
         return false;
     }
 
+    void setAwsdkState(final Bundle bundle) {
+        if (!AwsManager.getInstance().getAWSDK().isInitialized()) {
+            // in the case where the app has been destroyed and recreated during the visit console, we will have lost
+            // our saved state, this will help restore it
+            AwsManager.getInstance().getAWSDK().restoreInstanceState(bundle);
+        }
+    }
+
+    private boolean isValidForPostVisitTransfer(int resultCode) {
+        return (resultCode == VideoVisitConstants.VISIT_RESULT_PROVIDER_GONE ||
+                resultCode == VideoVisitConstants.VISIT_RESULT_READY_FOR_SUMMARY ||
+                resultCode == VideoVisitConstants.VISIT_RESULT_TIMED_OUT ||
+                resultCode == VideoVisitConstants.VISIT_RESULT_FAILED ||
+                resultCode == VideoVisitConstants.VISIT_RESULT_FAILED_TO_END ||
+                resultCode == VideoVisitConstants.VISIT_RESULT_NETWORK_FAILURE ||
+                resultCode == VideoVisitConstants.VISIT_RESULT_IVR_REQUESTED);
+    }
+
     private Intent getVisitFinishedIntent() {
+
         Intent intent = new Intent(getContext(), NavigationActivity.class);
         intent.putExtra("VISIT", "FINISHED");
+
+        // if the app gets killed during the visit console, for example, if a permission is revoked, this will help
+        // us recover.  we write the awsdk state into the intent so we can pull it out later if needed
+        final Bundle bundle = new Bundle();
+        AwsManager.getInstance().getAWSDK().saveInstanceState(bundle);
+        intent.putExtra(EXTRA_AWSDK_STATE, bundle);
+
         return intent;
     }
 
@@ -225,17 +295,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         getActivity().getSupportFragmentManager().popBackStack();  //WaitingRoom fragment
         getActivity().getSupportFragmentManager().popBackStack();  //Intake accept privacy policy fragment
         getActivity().getSupportFragmentManager().popBackStack();  //Choose_Doctor fragment
-    }
-
-    private void visitCompleted() {
-        CommonUtil.showToast(getActivity(), getActivity().getString(R.string.visit_completed));
-
-        //Put in handler to avoid IllegalStateException: https://stackoverflow.com/a/41953519/2128921
-        TealiumUtil.trackEvent(Constants.VIDEO_VISIT_END_EVENT, null);
-
-        removeVisitNotification(getContext());
-
-        goToVisitSummary();
     }
 
     private void createVisit() {
@@ -298,7 +357,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         );
     }
 
-    private void startNewVisit(final Address location, @Nullable final Intent visitFinishedIntent) {
+    private void startNewVisit(final Address location, final Intent visitFinishedIntent) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
             CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
@@ -313,7 +372,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         progressBar.setVisibility(View.GONE);
     }
 
-    private void startVisit(final Address location, @Nullable final Intent visitFinishedIntent) {
+    private void startVisit(final Address location, final Intent visitFinishedIntent) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
             CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
@@ -360,15 +419,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             return;
         }
 
-        if (AwsManager.getInstance().getVisit() != null) {
-            Timber.d("wait. Abandon visit..."
-                    + ". endReason = " + AwsManager.getInstance().getVisit().getEndReason()
-                    + ". hasVisitTransfer = " + AwsManager.getInstance().getVisit().hasVisitTransfer()
-                    + ". DeclineAndTransfer = " + AwsManager.getInstance().getVisit().getDeclineAndTransfer()
-                    + ". SuggestedTransfer = " + AwsManager.getInstance().getVisit().getSuggestedTransfer()
-            );
-        }
-
         // called by onDestroy()
         // this is to ensure we don't have any polling hanging out when it shouldn't be
         AwsManager.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
@@ -395,13 +445,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
             //if we donot cancel on backbutton, we are getting following error:
             //SDK Error: The consumer is already active in a visit, End the active visit and try again
-
-            Timber.d("wait. Cancelling visit..."
-                    + ". endReason = " + AwsManager.getInstance().getVisit().getEndReason()
-                    + ". hasVisitTransfer = " + AwsManager.getInstance().getVisit().hasVisitTransfer()
-                    + ". DeclineAndTransfer = " + AwsManager.getInstance().getVisit().getDeclineAndTransfer()
-                    + ". SuggestedTransfer = " + AwsManager.getInstance().getVisit().getSuggestedTransfer()
-            );
 
             AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
                     AwsManager.getInstance().getVisit(),
@@ -431,23 +474,10 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     public void setVisitIntent(final Intent intent) {
 
-        Timber.d("wait. setVisitIntent. hasExtras = " + intent.getExtras());
-        Timber.d("wait. setVisitIntent. hasExtras = " + intent.getExtras());
-        Timber.d("wait. setVisitIntent. hasExtras = " + intent.getExtras());
-
-        Timber.d("wait. setVisitIntent"
-                + ". endReason = " + AwsManager.getInstance().getVisit().getEndReason()
-                + ". hasVisitTransfer = " + AwsManager.getInstance().getVisit().hasVisitTransfer()
-                + ". DeclineAndTransfer = " + AwsManager.getInstance().getVisit().getDeclineAndTransfer()
-                + ". SuggestedTransfer = " + AwsManager.getInstance().getVisit().getSuggestedTransfer()
-        );
-
         createVisitNotification(getContext(), getActivity(), intent);
 
         // start activity
         startActivity(intent);
-
-        isVisitEnd = true;
     }
 
     private void goToVisitSummary() {
@@ -456,8 +486,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             @Override
             public void run() {
                 if (isAdded()) {
-                    ((NavigationActivity) getActivity()).loadFragment(
-                            Constants.ActivityTag.VIDEO_VISIT_SUMMARY, null);
+                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.VIDEO_VISIT_SUMMARY, null);
                 }
             }
         });
@@ -507,6 +536,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     private void removeVisitNotification(Context context) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(ONGOING_VISIT_NOTIFICATION_ID);
+
+        AwsManager.getInstance().setVisitOngoing(false);
     }
 
     private void createVisitNotification(Context context, Activity activity, Intent intent) {
@@ -528,6 +559,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentIntent(pendingIntent);
         notificationManager.notify(ONGOING_VISIT_NOTIFICATION_ID, builder.build());
+
+        AwsManager.getInstance().setVisitOngoing(true);
     }
 
     private void updateWaitingQueue(int i) {
@@ -556,7 +589,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     @Override
     public void onSuggestedTransfer() {
         Timber.d("wait. onSuggestedTransfer ");
-        startTransfer(VisitTransferType.SUGGESTED_TRANSFER);
+
+        currentTransferType = VisitTransferType.SUGGESTED_TRANSFER;
+        startTransfer(currentTransferType);
     }
 
     @Override
@@ -590,13 +625,11 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                 visitTransfer = AwsManager.getInstance().getVisit().getSuggestedTransfer();
             }
 
-            if (visitTransfer != null) {
-                //as per SDK, isQuick() is true if the Provider is eligible for a "quick" transfer, meaning prior intake data can be re-used.
-                /*if (visitTransfer.isQuick()) {
-                    transferType = VisitTransferType.QUICK_TRANSFER;
-                }*/
-                showVisitTransferDialog(transferType, visitTransfer);
-            }
+            //as per SDK, isQuick() is true if the Provider is eligible for a "quick" transfer, meaning prior intake data can be re-used.
+            /*if (visitTransfer.isQuick()) {
+                transferType = VisitTransferType.QUICK_TRANSFER;
+            }*/
+            showVisitTransferDialog(transferType, visitTransfer);
         }
     }
 
@@ -625,6 +658,12 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
         Timber.d("wait. TransferType = " + transferType.name());
 
+        Provider providerObject = null; // = AwsManager.getInstance().getVisit().getAssignedProvider();
+        if (visitTransfer != null && visitTransfer.getProvider() != null) {
+            providerObject = visitTransfer.getProvider();
+            Timber.d("wait. Transferred TO provider = " + providerObject.getFullName());
+        }
+
         if (transferType == VisitTransferType.PROVIDER_DECLINE_AND_TRANSFER) {
 
             detailedMessage.setVisibility(View.GONE);
@@ -635,47 +674,48 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
             cancelTransferAndWait.setVisibility(View.VISIBLE);
             transferMessage.setText(getString(R.string.talk_to_someone_sooner));
-            detailedMessage.setText((visitTransfer.getProvider() != null) ? visitTransfer.getProvider().getFullName() + " " + getString(R.string.may_better_help_you) : "");
+            detailedMessage.setText((providerObject != null) ? providerObject.getFullName() + " " + getString(R.string.may_have_shorter_wait_time) : getString(R.string.may_have_shorter_wait_time));
 
-        } else if (transferType == VisitTransferType.SUGGESTED_TRANSFER) {
+        } else {
+            //VisitTransferType.SUGGESTED_TRANSFER , VisitTransferType.POST_VISIT_TRANSFER
 
             cancelTransferAndWait.setVisibility(View.GONE);
             transferMessage.setText(getString(R.string.you_have_been_transferred));
-            detailedMessage.setText((visitTransfer.getProvider() != null) ? visitTransfer.getProvider().getFullName() + " " + getString(R.string.may_have_shorter_wait_time) : "");
+            detailedMessage.setText((providerObject != null) ? providerObject.getFullName() + " " + getString(R.string.may_better_help_you) : getString(R.string.may_better_help_you));
         }
 
         transferMessage.setContentDescription(transferMessage.getText());
 
-        if (visitTransfer.getProvider() != null) {
+        if (providerObject != null) {
 
-            if (visitTransfer.getProvider().getWaitingRoomCount() != null && visitTransfer.getProvider().getWaitingRoomCount() > 0) {
-                waitingCount.setText(CommonUtil.getWaitingQueueText(visitTransfer.getProvider().getWaitingRoomCount()));
+            if (providerObject.getWaitingRoomCount() != null && providerObject.getWaitingRoomCount() > 0) {
+                waitingCount.setText(CommonUtil.getWaitingQueueText(providerObject.getWaitingRoomCount()));
 
-            } else if (visitTransfer.getProvider().getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
+            } else if (providerObject.getVisibility().equals(ProviderVisibility.WEB_AVAILABLE)) {
                 waitingCount.setText(getString(R.string.you_are_next_patient));
 
-            } else if (visitTransfer.getProvider().getVisibility().equals(ProviderVisibility.WEB_BUSY)) {
+            } else if (providerObject.getVisibility().equals(ProviderVisibility.WEB_BUSY)) {
                 waitingCount.setText("Currently " + getString(R.string.busy));
             }
             waitingCount.setContentDescription(waitingCount.getText());
 
-            if (visitTransfer.getProvider().getTotalRatings() >= 0) {
-                ratingBar.setCount(visitTransfer.getProvider().getTotalRatings());
+            if (providerObject.getRating() >= 0) {
+                ratingBar.setCount(providerObject.getRating());
             }
 
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
-                    .newImageLoader(visitTransfer.getProvider(), doctorImage, ProviderImageSize.EXTRA_LARGE)
+                    .newImageLoader(providerObject, doctorImage, ProviderImageSize.EXTRA_LARGE)
                     .placeholder(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .error(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .build()
                     .load();
 
-            providerName.setText(visitTransfer.getProvider().getFullName() + ", MD");
+            providerName.setText(providerObject.getFullName() + ", MD");
             providerName.setContentDescription(providerName.getText());
 
-            if (visitTransfer.getProvider().getSpecialty() != null) {
+            if (providerObject.getSpecialty() != null) {
                 providerSpeciality.setVisibility(View.VISIBLE);
-                providerSpeciality.setText(visitTransfer.getProvider().getSpecialty().getName());
+                providerSpeciality.setText(providerObject.getSpecialty().getName());
                 providerSpeciality.setContentDescription(providerSpeciality.getText());
             } else {
                 providerSpeciality.setVisibility(View.GONE);
@@ -689,7 +729,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                     transferAlertDialog.dismiss();
                 }
                 transferAccepted = true;
-                transferVisit(transferType);
+                acceptTheTransfer(transferType);
             }
         });
 
@@ -700,7 +740,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                     transferAlertDialog.dismiss();
                 }
                 transferAccepted = false;
-                declineTransferVisit(transferType);
+                declineTheTransfer(transferType);
             }
         });
 
@@ -718,10 +758,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         transferAlertDialog = transferAlertDialogBuilder.show();
     }
 
-    private void declineTransferVisit(VisitTransferType transferType) {
+    private void declineTheTransfer(VisitTransferType transferType) {
 
-        Timber.d("wait. declineTransferVisit. transferType = " + transferType.toString()
-                + ". hasVisitTransfer = " + AwsManager.getInstance().getVisit().hasVisitTransfer());
+        Timber.d("wait. declineTheTransfer. transferType = " + transferType.toString());
 
         if (AwsManager.getInstance().getVisit().hasVisitTransfer()) {
 
@@ -735,28 +774,29 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                     AwsManager.getInstance().getVisit(),
                     dontSuggestTransferAgain, visitTransferCallback);
         } else {
-            abandonVisit("declineTransferVisit");
+            abandonVisit("declineTheTransfer");
             goBackToDashboard();
         }
     }
 
-    private void transferVisit(VisitTransferType transferType) {
+    private void acceptTheTransfer(VisitTransferType transferType) {
 
         if (!ConnectionUtil.isConnected(getActivity())) {
             CommonUtil.showToast(getActivity(), getString(R.string.no_network_msg));
             return;
         }
 
-        Timber.d("wait. transferVisit. transferType = " + transferType);
+        Timber.d("wait. acceptTheTransfer. transferType = " + transferType);
 
         if (transferType == null) {
 
             if (AwsManager.getInstance().getVisit().getDeclineAndTransfer() != null) {
                 transferType = VisitTransferType.PROVIDER_DECLINE_AND_TRANSFER;
-            } else {
+
+            } else if (AwsManager.getInstance().getVisit().getSuggestedTransfer() != null) {
                 transferType = VisitTransferType.SUGGESTED_TRANSFER;
             }
-            Timber.d("wait. transferVisit. type = " + transferType);
+            Timber.d("wait. acceptTheTransfer. type set = " + transferType);
         }
 
         progressBar.setVisibility(View.VISIBLE);
@@ -767,15 +807,15 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                     AwsManager.getInstance().getVisit(),
                     visitTransferCallback);
 
-        } else if (transferType == VisitTransferType.POST_VISIT_TRANSFER) {
-
-            AwsManager.getInstance().getAWSDK().getVisitManager().acceptPostVisitTransfer(
-                    AwsManager.getInstance().getVisit(),
-                    visitTransferCallback);
-
         } else if (transferType == VisitTransferType.SUGGESTED_TRANSFER) {
 
             AwsManager.getInstance().getAWSDK().getVisitManager().acceptSuggestedTransfer(
+                    AwsManager.getInstance().getVisit(),
+                    visitTransferCallback);
+
+        } else if (transferType == VisitTransferType.POST_VISIT_TRANSFER) {
+
+            AwsManager.getInstance().getAWSDK().getVisitManager().acceptPostVisitTransfer(
                     AwsManager.getInstance().getVisit(),
                     visitTransferCallback);
         }
