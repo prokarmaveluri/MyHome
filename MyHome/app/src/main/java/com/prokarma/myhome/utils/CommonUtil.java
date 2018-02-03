@@ -1216,6 +1216,17 @@ public class CommonUtil {
         return spacesString;
     }
 
+    public static String stringToCommaChars(String string) {
+        String spacesString = "";
+        if (null != string) {
+            for (char c : string.toCharArray()) {
+                if (c != '-')
+                    spacesString += "," + c;
+            }
+        }
+        return spacesString;
+    }
+
     public static void showToastFromSDKError(Context context, SDKError sdkError) {
         if (context == null) {
             return;
