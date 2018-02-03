@@ -86,6 +86,11 @@ import java.util.TimeZone;
 
 import timber.log.Timber;
 
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
+
 /**
  * Created by kwelsh on 4/25/17.
  */
@@ -203,6 +208,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             Timber.e(e);
             e.printStackTrace();
         }*/
+
+        if (getIntent() != null && getIntent().hasExtra("VISIT")) {
+            bottomNavigationView.setSelectedItemId(R.id.profile);
+            loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, getIntent().getExtras());
+        }
     }
 
     @Override
@@ -210,7 +220,17 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         super.onDestroy();
         eventBus = null;
         mHandler.removeCallbacks(runnable);
-        ProfileManager.setProfile(null);
+
+        if (AwsManager.getInstance().getVisit() != null && AwsManager.getInstance().isVisitOngoing()) {
+            // Once provider is entered in video visit, automatically NavActivity is getting killed on its own.
+            // as we are passing visitFinishedIntent(), this activity will get restarted as soon as visit ends.
+            // so for subsequent visits intake screen needs profile phone number...so do not set it as null here.
+            Timber.d("wait. visit is Ongoing. ");
+        }
+        else {
+            ProfileManager.setProfile(null);
+        }
+
         NetworkManager.getInstance().setExpiryListener(null);
         RecentlyViewedDataSourceDB.getInstance().close();
         unregisterReceiver(timezoneChangedReceiver);
@@ -1097,6 +1117,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
             ((MyCareVisitCostFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+        else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
+            ((MyCareVisitIntakeFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override
@@ -1106,6 +1129,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
             ((MyCareVisitCostFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
+        }
+        else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
+            ((MyCareVisitIntakeFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
         }
     }
 

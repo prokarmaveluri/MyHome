@@ -53,6 +53,7 @@ public class AwsManager {
     private Authentication authentication;
     private VisitContext visitContext;
     private Visit visit;
+    private boolean visitOngoing;
     private String visitCostCouponApplied;
     private PaymentMethod paymentMethod;
     private Consumer consumer;
@@ -270,6 +271,14 @@ public class AwsManager {
         if (visit == null) {
             setVisitCostCouponApplied(null);
         }
+    }
+
+    public boolean isVisitOngoing() {
+        return visitOngoing;
+    }
+
+    public void setVisitOngoing(boolean visitOngoing) {
+        this.visitOngoing = visitOngoing;
     }
 
     public String getVisitCostCouponApplied() {
