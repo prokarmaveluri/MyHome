@@ -202,7 +202,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
     private void setNextAvailableProviderButton() {
 
-        if (specialty != null && specialty.areProvidersAvailable()) {
+        if (specialty != null) {
             nextAvailableProvider.setVisibility(View.VISIBLE);
         } else {
             nextAvailableProvider.setVisibility(View.GONE);
@@ -213,17 +213,22 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
         //as per AmwellSample app, we need to use specialty and matchmaking API to fetch the next available provider. iOS also implementing the same.
         getVisitContextBySpeciality();
-
-        //OLD LOGIC: from the list of doctors displayed in choose doctor, get the doctor who is Online and has no patients waiting for him. (basically No API call)
-        /*ProviderInfo provider = CommonUtil.getNextAvailableProvider(providerInfos);
-        if (provider != null) {
-            getVisitContextByProvider(provider);
-        } else {
-            CommonUtil.showToast(getContext(), getContext().getString(R.string.no_provider_is_available));
-        }*/
     }
 
     public void getPractices() {
+
+        //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
+        //after that error, SDK throws following: IllegalArgumentException: sdk initialization is missing
+
+        if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
+
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
+
         AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findPractices(
                 patient, null,
                 new SDKCallback<List<PracticeInfo>, SDKError>() {
@@ -256,6 +261,18 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     public void getSpecialties() {
+
+        //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
+        //after that error, SDK throws following: IllegalArgumentException: sdk initialization is missing
+
+        if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
+
+        if (!AwsManager.getInstance().isHasInitializedAwsdk()) {
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
 
         AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().getOnDemandSpecialties(
                 patient,
@@ -309,7 +326,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
                     patient,
-                    practiceInfo,
+                    null,
                     null,
                     null,
                     null,
