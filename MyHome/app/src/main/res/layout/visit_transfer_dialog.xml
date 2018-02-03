@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,19 +11,21 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/message"
-            style="@style/tradeGothicLTStd_Dynamic18"
+            android:id="@+id/transfer_message"
+            style="@style/tradeGothicLTStd_Dynamic24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:text="@string/you_are_being_transferred" />
+            android:text="@string/you_have_been_transferred"
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:id="@+id/doc_layout"
+            android:layout_marginStart="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" >
 
             <com.prokarma.myhome.views.CircularImageView
                 android:id="@+id/doc_image"
@@ -53,14 +56,40 @@
                 style="@style/tradeGothicLTStdLight_18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_toRightOf="@+id/doc_image"
                 android:layout_below="@+id/provider_name"
+                android:layout_marginTop="6dp"
+                android:layout_toRightOf="@+id/doc_image"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:textStyle="bold"
                 tools:text="Speciality" />
+
+            <com.whinc.widget.ratingbar.RatingBar
+                android:id="@+id/rate_provider"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/provider_speciality"
+                android:layout_marginTop="18dp"
+                android:layout_toRightOf="@+id/doc_image"
+                android:paddingLeft="16dp"
+                app:rb_click_rating="true"
+                app:rb_empty="@mipmap/star_empty_grey"
+                app:rb_fill="@mipmap/star_full_grey"
+                app:rb_max_count="5"
+                app:rb_space="15dp"
+                app:rb_touch_rating="true" />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/detailed_message"
+            style="@style/tradeGothicLTStdLight_18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/doc_layout"
+            android:layout_marginTop="20dp"
+            android:gravity="left"
+            android:paddingLeft="25dp"
+            android:paddingRight="20dp"
+            tools:text="Richard Paguia may be better able to help you." />
 
         <TextView
             android:id="@+id/waiting_count"
@@ -71,43 +100,60 @@
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:text="@string/you_are_next_patient" />
+            android:text="@string/you_are_next_patient"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/action_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp">
-
-            <Button
-                android:id="@+id/cancel_transfer"
-                style="@style/primaryButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginRight="15dp"
-                android:contentDescription="@string/cancel"
-                android:paddingLeft="22dp"
-                android:paddingRight="22dp"
-                android:text="@string/cancel"
-                android:textAllCaps="false" />
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/continue_transfer"
                 style="@style/primaryButtonStyle"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:contentDescription="@string/transfer_yes"
+                android:text="@string/transfer_yes"
+                android:textAllCaps="false" />
+
+            <TextView
+                android:id="@+id/cancel_transfer_and_wait"
+                style="@style/tradeGothicLTStd_Dynamic20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:contentDescription="@string/continue_text"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:text="@string/continue_text"
-                android:textAllCaps="false" />
+                android:layout_marginTop="30dp"
+                android:contentDescription="@string/transfer_no_and_wait"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/transfer_no_and_wait"
+                android:textAllCaps="false"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/cancel_visit"
+                style="@style/tradeGothicLTStd_Dynamic20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:contentDescription="@string/cancel_visit"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/cancel_visit"
+                android:textAllCaps="false"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </LinearLayout>
