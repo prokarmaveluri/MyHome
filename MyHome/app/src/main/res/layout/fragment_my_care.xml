@@ -39,8 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="18dp"
-                android:text="@string/mycare_desc"
                 android:contentDescription="@string/mycare_desc"
+                android:text="@string/mycare_desc"
                 android:textAlignment="center" />
 
             <TextView
@@ -50,8 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@id/mcn_desc"
                 android:layout_below="@id/mcn_desc"
-                android:text="@string/who_is_visiting_today"
                 android:contentDescription="@string/who_is_visiting_today"
+                android:text="@string/who_is_visiting_today"
                 android:textStyle="bold" />
 
             <Spinner
@@ -68,13 +68,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/mcn_dependents_spinner"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="38dp"
                 android:layout_marginRight="37dp"
+                android:layout_marginTop="30dp"
+                android:contentDescription="@string/get_started_with_video_visit"
                 android:minHeight="45dp"
                 android:minWidth="285dp"
-                android:text="@string/get_started"
-                android:contentDescription="@string/get_started_with_video_visit" />
+                android:text="@string/get_started" />
 
             <TextView
                 android:id="@+id/previous_visits"
@@ -84,9 +84,9 @@
                 android:layout_below="@id/waiting_room_button"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"
+                android:contentDescription="@string/view_previous_visits"
                 android:padding="12dp"
                 android:text="@string/view_previous_visits"
-                android:contentDescription="@string/view_previous_visits"
                 android:textColor="@color/accent"
                 android:textStyle="bold" />
 
@@ -97,11 +97,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/previous_visits"
                 android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
+                android:contentDescription="@string/review_and_complete"
+                android:gravity="center_horizontal"
                 android:padding="12dp"
-                android:text="@string/review_and_complete"
-                android:contentDescription="@string/review_and_complete" />
+                android:text="@string/review_and_complete" />
 
             <RelativeLayout
                 android:id="@+id/personal_info_layout"
@@ -119,6 +119,7 @@
                     android:src="@drawable/mcn_personal_info" />
 
                 <TextView
+                    android:id="@+id/personal_info_label"
                     style="@style/tradeGothicLTStd_Dynamic20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,10 +139,10 @@
                     android:layout_alignBottom="@id/personal_info_image"
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/personal_info_image"
+                    android:contentDescription="@string/edit_personal_information"
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/edit"
-                    android:contentDescription="@string/edit_personal_information"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
 
@@ -153,6 +154,7 @@
                     android:layout_below="@+id/personal_info_image"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
+                    android:importantForAccessibility="no"
                     android:text="@string/your_profile_is_almost_complete" />
             </RelativeLayout>
 
@@ -172,6 +174,7 @@
                     android:src="@drawable/mcn_medical_history" />
 
                 <TextView
+                    android:id="@+id/medical_history_label"
                     style="@style/tradeGothicLTStd_Dynamic20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -191,10 +194,10 @@
                     android:layout_alignBottom="@id/medical_history_image"
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/medical_history_image"
+                    android:contentDescription="@string/edit_medical_history"
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/edit"
-                    android:contentDescription="@string/edit_medical_history"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
 
@@ -205,6 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/medical_history_image"
                     android:layout_marginBottom="8dp"
+                    android:importantForAccessibility="no"
                     android:layout_marginTop="8dp"
                     android:text="@string/complete_your_medical_history" />
             </RelativeLayout>
@@ -225,6 +229,7 @@
                     android:src="@drawable/mcn_medications" />
 
                 <TextView
+                    android:id="@+id/medications_label"
                     style="@style/tradeGothicLTStd_Dynamic20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -244,10 +249,10 @@
                     android:layout_alignBottom="@id/medications_image"
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/medications_image"
+                    android:contentDescription="@string/edit_medications"
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/edit"
-                    android:contentDescription="@string/edit_medications"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
 
@@ -258,6 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/medications_image"
                     android:layout_marginBottom="8dp"
+                    android:importantForAccessibility="no"
                     android:layout_marginTop="8dp"
                     android:text="@string/what_medications_are_you_taking" />
             </RelativeLayout>
@@ -268,8 +274,8 @@
                 android:layout_alignLeft="@id/personal_info_layout"
                 android:layout_alignRight="@id/personal_info_layout"
                 android:layout_below="@+id/medications_layout"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp">
 
                 <ImageView
                     android:id="@+id/pharmacy_image"
@@ -278,13 +284,13 @@
                     android:src="@drawable/mcn_pharmacy" />
 
                 <TextView
+                    android:id="@+id/pharmacy_label"
                     style="@style/tradeGothicLTStd_Dynamic20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/pharmacy_image"
-                    android:layout_alignTop="@id/pharmacy_image"
-                    android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@id/pharmacy_image"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@+id/pharmacy_image"
                     android:gravity="center"
                     android:text="@string/pharmacy"
                     android:textStyle="bold" />
@@ -297,10 +303,10 @@
                     android:layout_alignBottom="@id/pharmacy_image"
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/pharmacy_image"
+                    android:contentDescription="@string/edit_pharmacy"
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/edit"
-                    android:contentDescription="@string/edit_pharmacy"
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
 
@@ -311,20 +317,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/pharmacy_image"
                     android:layout_marginTop="8dp"
+                    android:importantForAccessibility="no"
                     android:text="@string/choose_your_preferred_pharmacy" />
 
                 <ImageView
                     android:id="@+id/pharmacy_pin_icon"
                     android:layout_width="24dp"
                     android:layout_height="30dp"
+                    android:layout_alignBaseline="@+id/pharmacy_desc"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginRight="10dp"
-                    android:paddingBottom="4dp"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/pharmacy_edit"
-                    android:layout_alignBaseline="@+id/pharmacy_desc"
+                    android:layout_marginRight="10dp"
                     android:baselineAlignBottom="true"
                     android:contentDescription="@string/pharmacy_show_in_map"
+                    android:paddingBottom="4dp"
                     android:src="@mipmap/map_blue" />
             </RelativeLayout>
         </RelativeLayout>
