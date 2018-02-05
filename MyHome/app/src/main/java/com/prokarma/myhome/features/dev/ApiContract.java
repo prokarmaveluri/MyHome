@@ -14,6 +14,8 @@ public class ApiContract {
     }
 
     interface Presenter {
+        void onDestroy();
+
         void onSignoutButtonPressed(BaseFragment fragment);
 
         void requestingApiOptions();

@@ -70,6 +70,13 @@ public class DeveloperFragment extends BaseFragment implements DevContract.View 
     }
 
     @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        presenter = null;
+        super.onDestroy();
+    }
+
+    @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.DEVELOPER;
     }

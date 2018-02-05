@@ -27,6 +27,8 @@ public class DevContract {
     }
 
     interface Presenter {
+        void onDestroy();
+
         void onApiButtonPressed();
 
         void requestingBearerToken();

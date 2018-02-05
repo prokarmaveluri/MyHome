@@ -10,9 +10,9 @@ import java.util.ArrayList;
  */
 
 public class ApiPresenter implements ApiContract.Presenter, ApiContract.InteractorOutput {
-    final ApiContract.View view;
-    final ApiContract.Router router;
-    final ApiContract.Interactor interactor;
+    ApiContract.View view;
+    ApiContract.Router router;
+    ApiContract.Interactor interactor;
 
     public ApiPresenter(ApiContract.View view) {
         this.view = view;
@@ -20,6 +20,12 @@ public class ApiPresenter implements ApiContract.Presenter, ApiContract.Interact
         this.interactor = new ApiInteractor(this);
     }
 
+    @Override
+    public void onDestroy() {
+        view = null;
+        interactor = null;
+        router = null;
+    }
 
     @Override
     public void onSignoutButtonPressed(BaseFragment fragment) {

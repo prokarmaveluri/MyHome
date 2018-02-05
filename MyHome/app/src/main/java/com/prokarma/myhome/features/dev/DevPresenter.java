@@ -11,9 +11,9 @@ import com.prokarma.myhome.features.profile.Profile;
  */
 
 public class DevPresenter implements DevContract.Presenter, DevContract.InteractorOutput {
-    final DevContract.View view;
-    final DevContract.Router router;
-    final DevContract.Interactor interactor;
+    DevContract.View view;
+    DevContract.Router router;
+    DevContract.Interactor interactor;
 
     public DevPresenter(DevContract.View view) {
         this.view = view;
@@ -21,6 +21,12 @@ public class DevPresenter implements DevContract.Presenter, DevContract.Interact
         this.interactor = new DevInteractor(this);
     }
 
+    @Override
+    public void onDestroy() {
+        view = null;
+        interactor = null;
+        router = null;
+    }
 
     @Override
     public void onApiButtonPressed() {

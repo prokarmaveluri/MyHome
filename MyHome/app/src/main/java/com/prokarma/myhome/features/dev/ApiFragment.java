@@ -59,6 +59,13 @@ public class ApiFragment extends BaseFragment implements ApiContract.View {
     }
 
     @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        presenter = null;
+        super.onDestroy();
+    }
+
+    @Override
     public Constants.ActivityTag setDrawerTag() {
         return Constants.ActivityTag.API;
     }
