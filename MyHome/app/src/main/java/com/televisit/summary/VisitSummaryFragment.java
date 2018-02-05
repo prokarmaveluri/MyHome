@@ -12,12 +12,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -185,6 +187,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             public void onClick(View v) {
                 newEmailLayout.setVisibility(View.VISIBLE);
                 addAdditionalCTA.setVisibility(View.VISIBLE);
+                hideKeyboard();
             }
         });
 
@@ -199,6 +202,17 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         emailCountMaxReached.setVisibility(View.VISIBLE);
         newEmailLayout.setVisibility(View.VISIBLE);
         addAdditionalCTA.setVisibility(View.GONE);
+
+        newEmailEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+                    addEmail.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         // commented out TextChangedListener, as the updated zeplin says that "Add" should appear all the time and show appropriate error message on tapping
         /*newEmailEditText.addTextChangedListener(new TextWatcher() {
@@ -236,7 +250,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         } else {
             entireEmailLayout.setVisibility(View.VISIBLE);
 
-            progressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
             AwsNetworkManager.getInstance().getVisitSummary(AwsManager.getInstance().getVisit(), this);
         }
 
@@ -314,6 +328,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
     private void addEmailAddress() {
 
+        hideKeyboard();
+
         String emailToAdd = newEmailEditText.getText().toString().trim().toLowerCase();
 
         if (emailObjects != null && emailObjects.size() > 0) {
@@ -343,9 +359,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         newEmailEditText.setText("");
         newEmailEditText.clearFocus();
-
-        CommonUtil.hideSoftKeyboard(this.getActivity());
-        CommonUtil.hideSoftKeyboard(getContext(), newEmailEditText);
     }
 
     public void deleteEmailAddress(String emailId) {
@@ -665,7 +678,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             addAdditionalCTA.setVisibility(View.GONE);
         }
         else if (emailObjects != null && emailObjects.size() >= 1) {
-            newEmailLayout.setVisibility(View.VISIBLE);
+            newEmailLayout.setVisibility(View.GONE);
             addAdditionalCTA.setVisibility(View.VISIBLE);
         }
         else {
@@ -761,6 +774,19 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         }
     }
 
+    private void hideKeyboard() {
+        CommonUtil.hideSoftKeyboard(this.getActivity());
+        CommonUtil.hideSoftKeyboard(getContext(), newEmailEditText);
+        CommonUtil.hideSoftKeyboard(getContext(), newEmailTextInput);
+
+        scrollLayout.scrollTo(0, scrollLayout.getBottom());
+        scrollLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollLayout.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
