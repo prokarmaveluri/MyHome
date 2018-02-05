@@ -235,6 +235,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         } else {
             entireEmailLayout.setVisibility(View.VISIBLE);
+
+            progressBar.setVisibility(View.GONE);
             AwsNetworkManager.getInstance().getVisitSummary(AwsManager.getInstance().getVisit(), this);
         }
 
