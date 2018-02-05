@@ -146,28 +146,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         emailConfidentialityText = (TextView) view.findViewById(R.id.email_text);
         emailCountMaxReached = (TextView) view.findViewById(R.id.email_count_max_reached);
 
-        emailCountMaxReached.setVisibility(View.VISIBLE);
-
-        addEmail.setVisibility(View.GONE);
-        newEmailEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().trim().length() > 0) {
-                    addEmail.setVisibility(View.VISIBLE);
-                } else {
-                    addEmail.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });
-
         setHasOptionsMenu(true);
 
         return view;
@@ -206,7 +184,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             @Override
             public void onClick(View v) {
                 newEmailLayout.setVisibility(View.VISIBLE);
-                addAdditionalCTA.setVisibility(View.GONE);
+                addAdditionalCTA.setVisibility(View.VISIBLE);
             }
         });
 
@@ -216,6 +194,32 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
                 addEmailAddress();
             }
         });
+
+
+        emailCountMaxReached.setVisibility(View.VISIBLE);
+        newEmailLayout.setVisibility(View.VISIBLE);
+        addAdditionalCTA.setVisibility(View.GONE);
+
+        // commented out TextChangedListener, as the updated zeplin says that "Add" should appear all the time and show appropriate error message on tapping
+        /*newEmailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isValidEmail(s.toString().trim())) {
+                    addEmail.setVisibility(View.VISIBLE);
+                } else {
+                    addEmail.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });*/
+
 
         visitReportPosition = -1;
         if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
@@ -649,15 +653,24 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             emailsList.setVisibility(View.GONE);
         }
 
+        displayAdd();
+    }
+
+    private void displayAdd() {
+
         if (emailObjects != null && emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
             newEmailLayout.setVisibility(View.GONE);
             addAdditionalCTA.setVisibility(View.GONE);
-        } else {
-            newEmailLayout.setVisibility(View.GONE);
+        }
+        else if (emailObjects != null && emailObjects.size() >= 1) {
+            newEmailLayout.setVisibility(View.VISIBLE);
             addAdditionalCTA.setVisibility(View.VISIBLE);
         }
+        else {
+            newEmailLayout.setVisibility(View.VISIBLE);
+            addAdditionalCTA.setVisibility(View.GONE);
+        }
     }
-
 
     @Override
     public void getVisitSummaryComplete(VisitSummary visitSummary) {
