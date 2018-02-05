@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.dev;
+package com.prokarma.myhome.entities;
 
 /**
  * Created by kwelsh on 11/17/17.

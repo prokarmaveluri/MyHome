@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.ApiRecyclerViewListener;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.entities.ApiOption;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.Constants;
 
