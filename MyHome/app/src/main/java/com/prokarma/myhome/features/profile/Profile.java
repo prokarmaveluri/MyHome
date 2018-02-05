@@ -179,17 +179,30 @@ public class Profile implements Parcelable {
     @Override
     public String toString() {
         return "Profile{" +
+                "firstName='" + firstName + '\'' +
+                ", middleInitial='" + middleInitial + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", preferredName='" + preferredName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", address=" + address +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", phoneNumberType='" + phoneNumberType + '\'' +
                 ", contactName='" + contactName + '\'' +
                 ", contactPhoneNumber='" + contactPhoneNumber + '\'' +
                 ", primaryCaregiverName='" + primaryCaregiverName + '\'' +
+                ", isPregnant=" + isPregnant +
+                ", weeksPregnant='" + weeksPregnant + '\'' +
+                ", insuranceProvider=" + insuranceProvider +
                 ", clientID='" + clientID + '\'' +
                 ", remoteID='" + remoteID + '\'' +
+                ", email='" + email + '\'' +
                 ", reasonForVisit='" + reasonForVisit + '\'' +
                 ", translationNeeded=" + translationNeeded +
                 ", translatorLanguage='" + translatorLanguage + '\'' +
                 ", assistanceNeeded=" + assistanceNeeded +
-                ", profileSelf=" + profileSelf.toString() +
+                ", isTermsAccepted=" + isTermsAccepted +
+                ", termsAcceptedDate='" + termsAcceptedDate + '\'' +
                 '}';
     }
 
