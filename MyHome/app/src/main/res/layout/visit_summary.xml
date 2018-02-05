@@ -223,14 +223,16 @@
                 android:text="@string/add_additional_email"
                 android:contentDescription="@string/add_additional_email"
                 android:textColor="@color/accent"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/new_email_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
                 android:layout_below="@+id/new_email_layout"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/new_email_textinput"

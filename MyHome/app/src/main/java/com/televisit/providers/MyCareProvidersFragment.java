@@ -119,6 +119,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
         });
 
         getPractices();
+
+        getProviders();
     }
 
 
@@ -243,8 +245,6 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                                 Timber.d("providers. practiceInfo PracticeType = " + practiceInfo.getPracticeType().toString());
                             }
 
-                            getProviders();
-
                             getSpecialties();
 
                         } else {
@@ -324,6 +324,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                 return;
             }
 
+            progressBar.setVisibility(View.VISIBLE);
+
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager().findProviders(
                     patient,
                     null,
@@ -344,6 +346,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                                 Timber.e("findProviders. Error = " + sdkError);
                             }
                             showList();
+                            progressBar.setVisibility(View.GONE);
                         }
 
                         @Override
@@ -351,6 +354,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                             Timber.e("findProviders. Something failed! :/");
                             Timber.e("Throwable = " + throwable);
                             showList();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
             );
