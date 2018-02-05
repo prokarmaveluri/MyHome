@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ProgressBar;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.fad.FadFragment;
@@ -17,6 +18,7 @@ import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.televisit.AwsManager;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -106,7 +108,7 @@ public class SessionUtil {
         AuthManager.getInstance().setSid(null);
         AuthManager.getInstance().setBearerToken(null);
         AuthManager.getInstance().setAmWellToken(null);
-        AuthManager.getInstance().setRefreshToken(null);
+        //AuthManager.getInstance().setRefreshToken(null);
         AuthManager.getInstance().setSessionToken(null);
         ProfileManager.setProfile(null);
         ProfileManager.setFavoriteProviders(null);
