@@ -370,7 +370,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         List<Condition> searchConditions = new ArrayList<>();
         for (Condition c : conditions) {
-            if (c.getName() != null && c.getName().toLowerCase().trim().contains(searchText.toLowerCase().trim())) {
+            if (c.getName() != null && c.getName().toLowerCase().contains(searchText.toLowerCase())) {
                 searchConditions.add(c);
             }
         }
@@ -382,7 +382,6 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         if (searchConditions.size() == 0) {
             noResults.setVisibility(View.VISIBLE);
-            //CommonUtil.showToast(getContext(), getString(R.string.no_medical_conditions) + searchText.trim());
         } else {
             noResults.setVisibility(View.GONE);
         }
@@ -396,7 +395,7 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         List<Allergy> searchAllergies = new ArrayList<>();
         for (Allergy c : allergies) {
-            if (c.getName() != null && c.getName().toLowerCase().trim().contains(searchText.toLowerCase().trim())) {
+            if (c.getName() != null && c.getName().toLowerCase().contains(searchText.toLowerCase())) {
                 searchAllergies.add(c);
             }
         }
@@ -408,7 +407,6 @@ public class MedicalHistoryFragment extends BaseFragment implements
 
         if (searchAllergies.size() == 0) {
             noResults.setVisibility(View.VISIBLE);
-            //CommonUtil.showToast(getContext(), getString(R.string.no_medical_allergies) + searchText.trim());
         } else {
             noResults.setVisibility(View.GONE);
         }
@@ -487,11 +485,11 @@ public class MedicalHistoryFragment extends BaseFragment implements
     }
 
     private void performSearch(String searchText) {
-        if (searchText.trim().length() > 0) {
+        if (searchText.length() > 0) {
             if (HistoryListAdapter.GROUP.CONDITIONS.getValue() == selectedGroup.getValue()) {
-                searchConditions(searchText.trim());
+                searchConditions(searchText);
             } else {
-                searchAllergies(searchText.trim());
+                searchAllergies(searchText);
             }
         } else {
             setAdapter(false);
