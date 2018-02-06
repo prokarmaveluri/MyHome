@@ -699,6 +699,9 @@
     <string name="appointment_reason">Appointment reason</string>
     <string name="purpose_of_your_visit">purpose of your visit</string>
     <string name="state">state</string>
+    <string name="existing_password">Existing Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
 
 
 </resources>
