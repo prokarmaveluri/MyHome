@@ -146,6 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/env_amwell_radio_group"
                 android:layout_margin="6dp"
+                android:checked="true"
                 android:text="Attempt Sign-In with Mutual Auth" />
 
             <android.support.design.widget.TextInputLayout
@@ -153,6 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/checkbox_mutual_auth"
+                android:visibility="gone"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
@@ -178,6 +180,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/user_layout"
+                android:visibility="gone"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance"
