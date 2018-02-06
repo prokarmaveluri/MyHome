@@ -12,12 +12,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -146,28 +148,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         emailConfidentialityText = (TextView) view.findViewById(R.id.email_text);
         emailCountMaxReached = (TextView) view.findViewById(R.id.email_count_max_reached);
 
-        emailCountMaxReached.setVisibility(View.VISIBLE);
-
-        addEmail.setVisibility(View.GONE);
-        newEmailEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().trim().length() > 0) {
-                    addEmail.setVisibility(View.VISIBLE);
-                } else {
-                    addEmail.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });
-
         setHasOptionsMenu(true);
 
         return view;
@@ -206,7 +186,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             @Override
             public void onClick(View v) {
                 newEmailLayout.setVisibility(View.VISIBLE);
-                addAdditionalCTA.setVisibility(View.GONE);
+                addAdditionalCTA.setVisibility(View.VISIBLE);
+                hideKeyboard();
             }
         });
 
@@ -216,6 +197,43 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
                 addEmailAddress();
             }
         });
+
+
+        emailCountMaxReached.setVisibility(View.VISIBLE);
+        newEmailLayout.setVisibility(View.VISIBLE);
+        addAdditionalCTA.setVisibility(View.GONE);
+
+        newEmailEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+                    addEmail.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        // commented out TextChangedListener, as the updated zeplin says that "Add" should appear all the time and show appropriate error message on tapping
+        /*newEmailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isValidEmail(s.toString().trim())) {
+                    addEmail.setVisibility(View.VISIBLE);
+                } else {
+                    addEmail.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });*/
+
 
         visitReportPosition = -1;
         if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
@@ -231,6 +249,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         } else {
             entireEmailLayout.setVisibility(View.VISIBLE);
+
+            progressBar.setVisibility(View.VISIBLE);
             AwsNetworkManager.getInstance().getVisitSummary(AwsManager.getInstance().getVisit(), this);
         }
 
@@ -308,6 +328,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
     private void addEmailAddress() {
 
+        hideKeyboard();
+
         String emailToAdd = newEmailEditText.getText().toString().trim().toLowerCase();
 
         if (emailObjects != null && emailObjects.size() > 0) {
@@ -337,9 +359,6 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         newEmailEditText.setText("");
         newEmailEditText.clearFocus();
-
-        CommonUtil.hideSoftKeyboard(this.getActivity());
-        CommonUtil.hideSoftKeyboard(getContext(), newEmailEditText);
     }
 
     public void deleteEmailAddress(String emailId) {
@@ -649,15 +668,24 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             emailsList.setVisibility(View.GONE);
         }
 
+        displayAdd();
+    }
+
+    private void displayAdd() {
+
         if (emailObjects != null && emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
             newEmailLayout.setVisibility(View.GONE);
             addAdditionalCTA.setVisibility(View.GONE);
-        } else {
+        }
+        else if (emailObjects != null && emailObjects.size() >= 1) {
             newEmailLayout.setVisibility(View.GONE);
             addAdditionalCTA.setVisibility(View.VISIBLE);
         }
+        else {
+            newEmailLayout.setVisibility(View.VISIBLE);
+            addAdditionalCTA.setVisibility(View.GONE);
+        }
     }
-
 
     @Override
     public void getVisitSummaryComplete(VisitSummary visitSummary) {
@@ -746,6 +774,19 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         }
     }
 
+    private void hideKeyboard() {
+        CommonUtil.hideSoftKeyboard(this.getActivity());
+        CommonUtil.hideSoftKeyboard(getContext(), newEmailEditText);
+        CommonUtil.hideSoftKeyboard(getContext(), newEmailTextInput);
+
+        scrollLayout.scrollTo(0, scrollLayout.getBottom());
+        scrollLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollLayout.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
