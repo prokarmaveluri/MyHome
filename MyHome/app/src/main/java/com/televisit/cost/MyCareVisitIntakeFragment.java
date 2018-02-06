@@ -343,14 +343,7 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
                     alertDialog.cancel();
                 }
 
-                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
-                    if (dialogShown) {
-                        nextClick();
-                        //((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
-                    }
-                } else {
-                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
-                }
+                nextClick();
 
                 dialogShown = false;
 
