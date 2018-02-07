@@ -232,18 +232,21 @@ public class ProfileViewFragment extends BaseFragment {
     private void updateProfileViews(Profile profile) {
         if (!CommonUtil.isEmptyString(profile.firstName) || !CommonUtil.isEmptyString(profile.lastName)) {
             name.setText(CommonUtil.constructName(profile.firstName, profile.lastName));
+            name.setContentDescription(getString(R.string.full_name) + ", "+ CommonUtil.constructName(profile.firstName, profile.lastName));
         } else {
             name.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.name)));
         }
 
         if (!CommonUtil.isEmptyString(profile.preferredName)) {
             preferredName.setText(profile.preferredName);
+            preferredName.setContentDescription(getString(R.string.preferred_name) + ", " +profile.preferredName);
         } else {
             preferredName.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.preferred_name_profile)));
         }
 
         if (!CommonUtil.isEmptyString(profile.gender) && !profile.gender.equalsIgnoreCase(getString(R.string.unknown))) {
             gender.setText(CommonUtil.capitalize(profile.gender));
+            gender.setContentDescription(getString(R.string.gender) + ", " + CommonUtil.capitalize(profile.gender));
         } else {
             gender.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.gender_profile)));
         }
@@ -253,6 +256,7 @@ public class ProfileViewFragment extends BaseFragment {
             try {
                 myCalendar.setTime(DateUtil.getDateZ(profile.dateOfBirth));
                 dateOfBirth.setText(DateUtil.convertDateToReadable(myCalendar.getTime()));
+                dateOfBirth.setContentDescription(getString(R.string.date_of_birth_no_format) + ", " + dateOfBirth.getText());
             } catch (ParseException e) {
                 e.printStackTrace();
                 dateOfBirth.setVisibility(View.GONE);
@@ -275,12 +279,14 @@ public class ProfileViewFragment extends BaseFragment {
 
         if (!CommonUtil.isEmptyString(profile.phoneNumber)) {
             phone.setText(CommonUtil.constructPhoneNumberDots(profile.phoneNumber));
+            phone.setContentDescription(getString(R.string.phone_number) + ", " + CommonUtil.stringToSpacesString(phone.getText().toString()));
         } else {
             phone.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.phone_number_profile)));
         }
 
         if (!CommonUtil.isEmptyString(profile.email)) {
             email.setText(profile.email);
+            email.setContentDescription(getString(R.string.email) + ", " + profile.email);
         } else {
             email.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.email_profile)));
         }
