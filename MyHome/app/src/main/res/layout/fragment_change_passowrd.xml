@@ -13,13 +13,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
+        android:layout_marginRight="30dp"
+        android:importantForAccessibility="no">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/label_existingPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/existing_password"
+                android:labelFor="@id/existingPassword" />
+
+            <View
+                android:id="@+id/label_newPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/new_password"
+                android:labelFor="@id/newPassword" />
+
+
+            <View
+                android:id="@+id/label_confirmPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/confirm_password"
+                android:labelFor="@id/confirmPassword" />
+
+        </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/existingPasswordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
+            android:importantForAccessibility="no"
             android:textColorHint="@color/md_grey_600"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/error_appearance"
@@ -33,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/log_in_button"
                 android:drawableRight="@mipmap/show_password"
-                android:hint="Existing Password"
+                android:hint="@string/existing_password"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -53,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/password_criteria"
+                android:importantForAccessibility="no"
                 android:textColorHint="@color/md_grey_500"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/error_appearance"
@@ -66,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/log_in_button"
                     android:drawableRight="@mipmap/show_password"
-                    android:hint="New Password"
+                    android:hint="@string/new_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
@@ -81,12 +113,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
+                android:contentDescription="@string/requirements_for_a_safe_password"
                 android:onClick="@{handlers::onClick}"
                 android:paddingBottom="28dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="10dp"
-                android:contentDescription="@string/requirements_for_a_safe_password"
                 android:src="@mipmap/tooltip" />
         </RelativeLayout>
 
@@ -95,6 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/passwordCriteriaLayout"
+            android:importantForAccessibility="no"
             android:textColorHint="@color/md_grey_500"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/error_appearance"
@@ -108,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/log_in_button"
                 android:drawableRight="@mipmap/show_password"
-                android:hint="Confirm Password"
+                android:hint="@string/confirm_password"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLines="1"
