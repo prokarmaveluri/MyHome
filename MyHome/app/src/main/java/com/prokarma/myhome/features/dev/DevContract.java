@@ -27,23 +27,11 @@ public class DevContract {
     }
 
     interface Presenter {
+        void onCreate();
+
         void onDestroy();
 
         void onApiButtonPressed();
-
-        void requestingBearerToken();
-
-        void requestingAmWellToken();
-
-        void requestingProfile();
-
-        void requestingLocation();
-
-        void requestingHockeyId();
-
-        void requestingMapsKey(Context context);
-
-        void requestingBuildType();
     }
 
     interface Interactor {

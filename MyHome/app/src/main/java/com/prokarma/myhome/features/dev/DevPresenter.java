@@ -1,6 +1,7 @@
 package com.prokarma.myhome.features.dev;
 
 import android.content.Context;
+import android.view.View;
 
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.features.fad.LocationResponse;
@@ -11,18 +12,32 @@ import com.prokarma.myhome.features.profile.Profile;
  */
 
 public class DevPresenter implements DevContract.Presenter, DevContract.InteractorOutput {
+    Context context;
     DevContract.View view;
     DevContract.Router router;
     DevContract.Interactor interactor;
 
-    public DevPresenter(DevContract.View view) {
-        this.view = view;
-        this.router = new DevRouter((BaseFragment) view);
+    public DevPresenter(final Context context, final BaseFragment fragment, final View view) {
+        this.context = context;
+        this.view = new DevView(view, this);
+        this.router = new DevRouter(fragment);
         this.interactor = new DevInteractor(this);
     }
 
     @Override
+    public void onCreate() {
+        interactor.getBearerToken();
+        interactor.getAmWellToken();
+        interactor.getProfile();
+        interactor.getLocation();
+        interactor.getHockeyId();
+        interactor.getMapsKey(context);
+        interactor.getBuildType();
+    }
+
+    @Override
     public void onDestroy() {
+        context = null;
         view = null;
         interactor = null;
         router = null;
@@ -31,41 +46,6 @@ public class DevPresenter implements DevContract.Presenter, DevContract.Interact
     @Override
     public void onApiButtonPressed() {
         router.goToApiScreen();
-    }
-
-    @Override
-    public void requestingBearerToken() {
-        interactor.getBearerToken();
-    }
-
-    @Override
-    public void requestingAmWellToken() {
-        interactor.getAmWellToken();
-    }
-
-    @Override
-    public void requestingProfile() {
-        interactor.getProfile();
-    }
-
-    @Override
-    public void requestingLocation() {
-        interactor.getLocation();
-    }
-
-    @Override
-    public void requestingHockeyId() {
-        interactor.getHockeyId();
-    }
-
-    @Override
-    public void requestingMapsKey(final Context context) {
-        interactor.getMapsKey(context);
-    }
-
-    @Override
-    public void requestingBuildType() {
-        interactor.getBuildType();
     }
 
     @Override
