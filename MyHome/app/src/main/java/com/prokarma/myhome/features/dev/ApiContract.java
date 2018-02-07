@@ -1,6 +1,5 @@
 package com.prokarma.myhome.features.dev;
 
-import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.entities.ApiOption;
 
 import java.util.ArrayList;
@@ -15,11 +14,11 @@ public class ApiContract {
     }
 
     interface Presenter {
+        void onCreate();
+
         void onDestroy();
 
-        void onSignoutButtonPressed(BaseFragment fragment);
-
-        void requestingApiOptions();
+        void onSignoutButtonPressed();
     }
 
     interface Interactor {
