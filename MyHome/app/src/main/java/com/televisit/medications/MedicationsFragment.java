@@ -353,6 +353,17 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher,
 
     private void searchMedications(final String searchText) {
 
+        //Amwell searchMedications() API required 3 characters or greater.
+        //35013: to address this bug, trim() had to be removed on the search so we could identify " " as valid use-case for searching and so NoResults could be shown.
+        if (searchText.length() < 3) {
+            noResults.setVisibility(View.VISIBLE);
+            searchSuggestions.setVisibility(View.GONE);
+            showSearchView();
+        }
+        else {
+            noResults.setVisibility(View.GONE);
+        }
+
         progressBar.setVisibility(View.VISIBLE);
         AwsManager.getInstance().getAWSDK().getConsumerManager().searchMedications(
                 AwsManager.getInstance().getPatient(),
@@ -415,8 +426,8 @@ public class MedicationsFragment extends BaseFragment implements TextWatcher,
 
     private void performSearch(String searchText) {
         searchSuggestions.setVisibility(View.GONE);
-        if (searchText.trim().length() > 0) {
-            searchMedications(searchText.trim());
+        if (searchText.length() > 0) {
+            searchMedications(searchText);
         } else {
             cancelSearch();
         }
