@@ -142,13 +142,13 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
     public void onAttach(Context context) {
         super.onAttach(context);
         
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && AppPreferences.getInstance().getBooleanPreference(TOUCH_ID_KEY)) {
             FingerprintSignIn fingerprint = new FingerprintSignIn(getActivity(), FingerprintSignIn.DEFAULT_KEY_NAME);
             fingerprint.initiateFingerprint();
             if (fingerprint.isSupportFingerprint() && fingerprint.isDeviceConfiguredFingerprint()) {
                 return;
             }
-        }*/
+        }
     }
 
     @Override
@@ -299,6 +299,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
                         //ProfileManager.getProfileInfo();
                         NetworkManager.getInstance().getMyAppointments();
                         AuthManager.getInstance().setCount(0);
+
+                        AppPreferences.getInstance().setBooleanPreference("auto_signin", true);
                         Intent intentHome = new Intent(getActivity(), NavigationActivity.class);
                         intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
@@ -471,6 +473,8 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
                             //ProfileManager.getProfileInfo();
                             NetworkManager.getInstance().getMyAppointments();
                             AuthManager.getInstance().setCount(0);
+
+                            AppPreferences.getInstance().setBooleanPreference("auto_signin", true);
                             Intent intentHome = new Intent(loginFragment.getActivity(), NavigationActivity.class);
                             intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(loginFragment.getActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
@@ -591,6 +595,7 @@ public class LoginFragment extends Fragment implements LoginInteractor.View, Fin
             NetworkManager.getInstance().getMyAppointments();
             AuthManager.getInstance().setCount(0);
 
+            AppPreferences.getInstance().setBooleanPreference("auto_signin", true);
             Intent intentHome = new Intent(getContext(), NavigationActivity.class);
             intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left);

@@ -68,7 +68,6 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.mock.NetworkBehavior;
 import timber.log.Timber;
 
 /**
@@ -183,8 +182,12 @@ public class SplashActivity extends AppCompatActivity implements
                 loadLogin();
                 return;
             }
+        } else if (AppPreferences.getInstance().getBooleanPreference("auto_signin")) {
+            refreshToken();
+        } else {
+            progress.setVisibility(View.GONE);
+            onRefreshFailed();
         }
-        refreshToken();
     }
 
     @Override
@@ -277,6 +280,7 @@ public class SplashActivity extends AppCompatActivity implements
             NetworkManager.getInstance().getMyAppointments();
             AuthManager.getInstance().setCount(0);
 
+            AppPreferences.getInstance().setBooleanPreference("auto_signin", true);
             Intent intentHome = new Intent(this, NavigationActivity.class);
             intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left);

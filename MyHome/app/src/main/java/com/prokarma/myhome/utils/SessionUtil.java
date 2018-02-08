@@ -56,6 +56,7 @@ public class SessionUtil {
             CryptoManager.getInstance().clearToken();
         }
 
+        AppPreferences.getInstance().setBooleanPreference("auto_signin", false);
         AuthManager.getInstance().setSessionId(null);
         AuthManager.getInstance().setBearerToken(null);
         AuthManager.getInstance().setAmWellToken(null);
