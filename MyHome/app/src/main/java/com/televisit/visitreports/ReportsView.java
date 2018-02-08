@@ -14,8 +14,6 @@ import com.televisit.visitreports.ui.ReportsAdapter;
 
 import java.util.List;
 
-import timber.log.Timber;
-
 /**
  * Created by veluri on 2/8/18.
  */
@@ -34,7 +32,6 @@ public class ReportsView implements ReportsContract.View {
 
     @Override
     public void showVisitReports(List<VisitReport> visitReports, String errorMessage) {
-        Timber.d("visits. ReportsView. showVisitReports ");
 
         ReportsAdapter adapter = new ReportsAdapter(presenter.context, AwsManager.getInstance().getVisitReports(), new RecyclerViewListener() {
             @Override
