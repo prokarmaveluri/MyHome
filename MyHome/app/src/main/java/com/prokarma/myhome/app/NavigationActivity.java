@@ -73,23 +73,18 @@ import com.televisit.history.MedicalHistoryFragment;
 import com.televisit.medications.MedicationsFragment;
 import com.televisit.pharmacy.PharmaciesFragment;
 import com.televisit.pharmacy.PharmacyDetailsFragment;
-import com.televisit.previousvisit.PreviousVisitsFragment;
 import com.televisit.profile.MyCareProfileFragment;
 import com.televisit.profile.MyCareProfileViewDependentFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.VisitSummaryFragment;
+import com.televisit.visitreports.ui.ReportsFragment;
 import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
 import java.util.ArrayList;
 import java.util.TimeZone;
 
 import timber.log.Timber;
-
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -689,12 +684,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case PREVIOUS_VISITS_SUMMARIES:
                 if (getActivityTag() != ActivityTag.PREVIOUS_VISITS_SUMMARIES) {
                     getSupportFragmentManager().executePendingTransactions();
-                    PreviousVisitsFragment peviousVisitFragment = PreviousVisitsFragment.newInstance();
+                    ReportsFragment peviousVisitFragment = ReportsFragment.newInstance();
                     peviousVisitFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, peviousVisitFragment, PreviousVisitsFragment.PREVIOUS_VISITS_TAG)
+                            .replace(R.id.frame, peviousVisitFragment, ReportsFragment.PREVIOUS_VISITS_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
