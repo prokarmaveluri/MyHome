@@ -25,6 +25,7 @@ import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
@@ -180,6 +181,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
                         if (response.body().getData().getUser().isVerified
                                 && response.body().getData().getUser().isTermsAccepted) {
 
+                            AppPreferences.getInstance().setBooleanPreference("auto_signin", true);
                             Intent intentHome = new Intent(EmailVerifyActivity.this, NavigationActivity.class);
                             intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(EmailVerifyActivity.this, R.anim.slide_in_right, R.anim.slide_out_left);
