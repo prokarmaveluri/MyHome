@@ -1,6 +1,7 @@
 package com.prokarma.myhome.networking;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.ImageView;
 
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.MyHomeApplication;
+import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
 import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
@@ -100,6 +103,29 @@ public class NetworkManager {
 
     public void setExpiryListener(ISessionExpiry listener) {
         this.expiryListener = listener;
+    }
+
+    public boolean canMakeNetworkCalls() {
+        if (EnviHandler.CIAM_BASE_URL == null || service == null) {
+            return false;
+        }
+        return true;
+    }
+
+    private void checkServiceObject() {
+
+        if (EnviHandler.CIAM_BASE_URL == null || service == null) {
+
+            Intent intent = SplashActivity.getSplashIntent(MyHomeApplication.getInstance());
+            MyHomeApplication.getInstance().startActivity(intent);
+
+            /*EnviHandler.initEnv(EnviHandler.EnvType.toEnvType(AppPreferences.getInstance().getPreference(Constants.ENV_MYHOME)));
+            EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.toAmWellEnvType(AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL)));
+
+            EnviHandler.setAttemptMutualAuth(AppPreferences.getInstance().getBooleanPreference(Constants.ENV_MUTUAL_AUTH));
+            EnviHandler.setAmwellUsername(AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL_USERNAME));
+            EnviHandler.setAmwellPassword(AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL_PASSWORD));*/
+        }
     }
 
     public void initService() {

@@ -353,6 +353,7 @@ public class SplashActivity extends AppCompatActivity implements
                 }
             }
         }
+        AppPreferences.getInstance().setBooleanPreference(Constants.LOCATION_PERMISSIONS_GRANTED, true);
         return true;
     }
 

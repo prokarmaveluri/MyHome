@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.databinding.ActivitySecurityQuestionBinding;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.utils.Constants;
@@ -21,7 +22,7 @@ import com.prokarma.myhome.utils.Constants;
  * Created by cmajji on 4/26/17.
  */
 @SuppressWarnings("HardCodedStringLiteral")
-public class SQActivity extends AppCompatActivity {
+public class SQActivity extends BaseActivity {
 
     private ActivitySecurityQuestionBinding binding;
     private EnrollmentRequest enrollmentRequest;

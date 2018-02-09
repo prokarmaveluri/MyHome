@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.ActivityVerifyBinding;
 import com.prokarma.myhome.features.login.LoginActivity;
@@ -41,7 +42,7 @@ import timber.log.Timber;
  *
  * Created by cmajji on 4/26/17.
  */
-public class EmailVerifyActivity extends AppCompatActivity {
+public class EmailVerifyActivity extends BaseActivity {
 
 
     private ActivityVerifyBinding binding;
