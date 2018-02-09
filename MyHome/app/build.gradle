@@ -46,7 +46,7 @@ android {
     def SLOT1_S2_BASE_URL = "\"https://web-usw1-fadapi-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def SLOT1_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-slot1-dev.ase-usw1-shared-ppe.p.azurewebsites.net/\""
 
-    def DEV_VERSIONING_URL = "\"https://web-usw1-versioningservices-dev.azurewebsites.net/\""
+    def DEV_VERSIONING_URL = "\"web-usw1-versioningservicesapi-int.ase-usw1-shared-ppe.p.azurewebsites.net\""
     def DEV_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def DEV_CIAM_BASE_URL = "\"https://dev.ciam.dignityhealth.org/\""
     def DEV_S2_BASE_URL = "\"https://web-usw1-fad-dev.azurewebsites.net/\""
