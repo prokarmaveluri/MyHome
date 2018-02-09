@@ -568,9 +568,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         if (i > 0) {
 
             if (i == 1) {
-                waitingCount.setText("There is " + i + " patient ahead of you.");
+                waitingCount.setText(i + " patient ahead");
             } else {
-                waitingCount.setText("There are " + i + " patients ahead of you.");
+                waitingCount.setText(i + " patients ahead");
             }
 
             waitingCount.setContentDescription(waitingCount.getText());
