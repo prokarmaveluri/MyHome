@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.utils.CommonUtil;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -16,7 +17,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        CommonUtil.checkPermissions(this, this);
     }
 
     @Override
@@ -27,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        CommonUtil.checkPermissions(this, this);
     }
 
     @Override

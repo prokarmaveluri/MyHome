@@ -195,7 +195,7 @@ public class Profile implements Parcelable {
                 ", primaryCaregiverName='" + primaryCaregiverName + '\'' +
                 ", isPregnant=" + isPregnant +
                 ", weeksPregnant='" + weeksPregnant + '\'' +
-                ", insurancePlan=" + insuranceProvider +
+                ", insuranceProvider=" + insuranceProvider +
                 ", clientID='" + clientID + '\'' +
                 ", remoteID='" + remoteID + '\'' +
                 ", email='" + email + '\'' +
@@ -203,6 +203,8 @@ public class Profile implements Parcelable {
                 ", translationNeeded=" + translationNeeded +
                 ", translatorLanguage='" + translatorLanguage + '\'' +
                 ", assistanceNeeded=" + assistanceNeeded +
+                ", isTermsAccepted=" + isTermsAccepted +
+                ", termsAcceptedDate='" + termsAcceptedDate + '\'' +
                 '}';
     }
 

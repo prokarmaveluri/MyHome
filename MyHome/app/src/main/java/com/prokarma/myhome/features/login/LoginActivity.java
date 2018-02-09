@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.databinding.ActivityLoginBinding;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -21,8 +22,7 @@ import com.prokarma.myhome.utils.TealiumUtil;
  *
  * Created by cmajji on 4/26/17.
  */
-public class LoginActivity extends AppCompatActivity {
-
+public class LoginActivity extends BaseActivity {
 
     private ActivityLoginBinding binding;
 

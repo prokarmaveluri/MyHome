@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.databinding.ActivitySecqListBinding;
 import com.prokarma.myhome.databinding.AdapterSqListBinding;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
@@ -24,7 +25,7 @@ import com.prokarma.myhome.utils.Constants;
  *
  * Created by cmajji on 4/26/17.
  */
-public class SQListActivity extends AppCompatActivity {
+public class SQListActivity extends BaseActivity {
 
     private EnrollmentRequest enrollmentRequest;
     private ActivitySecqListBinding binding;

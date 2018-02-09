@@ -14,13 +14,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.OptionsActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AccessibilityCapitalTextChangedLister;
+import com.prokarma.myhome.utils.AccessibilityTextChangedLister;
 import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -112,6 +113,12 @@ public class ProfileViewFragment extends BaseFragment {
         viewProfile = (LinearLayout) profileView.findViewById(R.id.viewProfile);
 
         errorText.setText(getContext().getString(R.string.profile_unavailable));
+
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+            memberId.addTextChangedListener(new AccessibilityTextChangedLister(memberId));
+            group.addTextChangedListener(new AccessibilityTextChangedLister(group));
+            insurancePlan.addTextChangedListener(new AccessibilityCapitalTextChangedLister(insurancePlan));
+        }
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,14 +239,14 @@ public class ProfileViewFragment extends BaseFragment {
     private void updateProfileViews(Profile profile) {
         if (!CommonUtil.isEmptyString(profile.firstName) || !CommonUtil.isEmptyString(profile.lastName)) {
             name.setText(CommonUtil.constructName(profile.firstName, profile.lastName));
-            name.setContentDescription(getString(R.string.full_name) + ", "+ CommonUtil.constructName(profile.firstName, profile.lastName));
+            name.setContentDescription(getString(R.string.full_name) + ", " + CommonUtil.constructName(profile.firstName, profile.lastName));
         } else {
             name.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.name)));
         }
 
         if (!CommonUtil.isEmptyString(profile.preferredName)) {
             preferredName.setText(profile.preferredName);
-            preferredName.setContentDescription(getString(R.string.preferred_name) + ", " +profile.preferredName);
+            preferredName.setContentDescription(getString(R.string.preferred_name) + ", " + profile.preferredName);
         } else {
             preferredName.setText(String.format(getString(R.string.not_available_postfix), getString(R.string.preferred_name_profile)));
         }

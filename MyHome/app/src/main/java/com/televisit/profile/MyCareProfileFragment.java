@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.prokarma.myhome.R;
@@ -35,6 +36,7 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import com.televisit.AwsManager;
 import com.televisit.AwsNetworkManager;
 import com.televisit.interfaces.AwsUpdateConsumer;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,6 +58,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
     Spinner gender;
     TextInputLayout dateOfBirthLayout;
     TextInputEditText dateOfBirth;
+    TextInputLayout addressLayout;
     TextInputEditText address;
     TextInputEditText address2;
     TextInputLayout cityLayout;
@@ -95,6 +98,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         gender = (Spinner) profileView.findViewById(R.id.gender);
         dateOfBirthLayout = (TextInputLayout) profileView.findViewById(R.id.dob_layout);
         dateOfBirth = (TextInputEditText) profileView.findViewById(R.id.dob);
+        addressLayout = (TextInputLayout) profileView.findViewById(R.id.address_layout);
         address = (TextInputEditText) profileView.findViewById(R.id.address);
         address2 = (TextInputEditText) profileView.findViewById(R.id.address2);
         cityLayout = (TextInputLayout) profileView.findViewById(R.id.city_layout);
@@ -344,6 +348,7 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
         }
 
         if (gender.getSelectedItemPosition() == 0) {
+            isValid = false;
             genderLabel.setText(getString(R.string.gender_required));
             genderLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
         } else {
@@ -351,11 +356,44 @@ public class MyCareProfileFragment extends BaseFragment implements AwsUpdateCons
             genderLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.text_darker));
         }
 
-        if (state.getSelectedItemPosition() == 0) {
+        if (address.getText().toString().trim().isEmpty()) {
+            isValid = false;
+            addressLayout.setError(getString(R.string.address_required));
+        } else {
+            addressLayout.setError(null);
+        }
+
+        if (city.getText().toString().trim().isEmpty() && state.getSelectedItemPosition() == 0) {
+            isValid = false;
+            cityLayout.setError(getString(R.string.city_and_state_required));
+        } else if (city.getText().toString().trim().isEmpty()) {
+            isValid = false;
+            cityLayout.setError(getString(R.string.city_required));
+        } else if (state.getSelectedItemPosition() == 0) {
             isValid = false;
             cityLayout.setError(getString(R.string.state_required));
         } else {
             cityLayout.setError(null);
+        }
+
+        if (zip.getText().toString().isEmpty()) {
+            isValid = false;
+            zipLayout.setError(getString(R.string.zip_required));
+        } else if (zip.getText().toString().trim().length() != 0 && zip.getText().toString().trim().length() != 5) {
+            isValid = false;
+            zipLayout.setError(getString(R.string.zip_invalid));
+        } else {
+            zipLayout.setError(null);
+        }
+
+        if (phoneLayout.getVisibility() == View.VISIBLE && phone.getText().toString().isEmpty()) {
+            isValid = false;
+            phoneLayout.setError(getString(R.string.phone_number_required));
+        } else if (phoneLayout.getVisibility() == View.VISIBLE && !CommonUtil.isValidMobile(phone.getText().toString())) {
+            isValid = false;
+            phoneLayout.setError(getString(R.string.phone_number_invalid));
+        } else {
+            phoneLayout.setError(null);
         }
 
         return isValid;

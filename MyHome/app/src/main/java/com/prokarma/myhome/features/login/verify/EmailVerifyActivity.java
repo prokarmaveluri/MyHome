@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.databinding.ActivityVerifyBinding;
 import com.prokarma.myhome.features.login.LoginActivity;
@@ -25,6 +26,7 @@ import com.prokarma.myhome.features.settings.CommonResponse;
 import com.prokarma.myhome.features.tos.TosActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.TealiumUtil;
@@ -40,7 +42,7 @@ import timber.log.Timber;
  *
  * Created by cmajji on 4/26/17.
  */
-public class EmailVerifyActivity extends AppCompatActivity {
+public class EmailVerifyActivity extends BaseActivity {
 
 
     private ActivityVerifyBinding binding;
@@ -180,6 +182,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
                         if (response.body().getData().getUser().isVerified
                                 && response.body().getData().getUser().isTermsAccepted) {
 
+                            AppPreferences.getInstance().setBooleanPreference("auto_signin", true);
                             Intent intentHome = new Intent(EmailVerifyActivity.this, NavigationActivity.class);
                             intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(EmailVerifyActivity.this, R.anim.slide_in_right, R.anim.slide_out_left);
