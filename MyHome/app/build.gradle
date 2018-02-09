@@ -22,17 +22,17 @@ android {
     def HOCKEYAPP_APP_ID = "\"130889d29f5c440fb043c5e2def8ff86\""
 
     //URLs
-    def PROD_VERSIONING_URL = "\"https://web-usw1-versioningservices-prd.azurewebsites.net/\""
+    def PROD_VERSIONING_URL = "\"https://web-usw1-versioningservicesapi-prd.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def PROD_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
     def PROD_CIAM_BASE_URL = "\"https://prod.ciam.dignityhealth.org/\""
-    def PROD_S2_BASE_URL = "\"https://web-usw1-fad-prd.azurewebsites.net/\""
-    def PROD_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-prd.azurewebsites.net/\""
+    def PROD_S2_BASE_URL = "\"https://web-usw1-fadapi-prd.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def PROD_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-prd.ase-usw1-shared-ppe.p.azurewebsites.net/\""
 
-    def STAGE_VERSIONING_URL = "\"https://web-usw1-versioningservices-stg.azurewebsites.net/\""
-    def STAGE_OKTA_BASE_URL = "\"https://dignityhealth.okta.com/\""
+    def STAGE_VERSIONING_URL = "\"https://web-usw1-versioningservicesapi-stg.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def STAGE_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
     def STAGE_CIAM_BASE_URL = "\"https://stage.ciam.dignityhealth.org/\""
-    def STAGE_S2_BASE_URL = "\"https://web-usw1-fad-stg.azurewebsites.net/\""
-    def STAGE_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-stg.azurewebsites.net/\""
+    def STAGE_S2_BASE_URL = "\"https://web-usw1-fadapi-stg.ase-usw1-shared-ppe.p.azurewebsites.net/\""
+    def STAGE_SCHEDULING_BASE = "\"https://web-usw1-schedulingapi-stg.ase-usw1-shared-ppe.p.azurewebsites.net/\""
 
     def TEST_VERSIONING_URL = "\"https://web-usw1-versioningservicesapi-qa.ase-usw1-shared-ppe.p.azurewebsites.net/\""
     def TEST_OKTA_BASE_URL = "\"https://dignityhealth.oktapreview.com/\""
