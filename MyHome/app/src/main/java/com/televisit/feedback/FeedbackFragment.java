@@ -118,7 +118,8 @@ public class FeedbackFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.visit_feedback_menu, menu);
+        menu.clear();
+        inflater.inflate(R.menu.finish_menu, menu);
     }
 
     @Override
