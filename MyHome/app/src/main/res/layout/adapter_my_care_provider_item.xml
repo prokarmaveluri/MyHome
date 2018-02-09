@@ -7,7 +7,7 @@
 
         <variable
             name="handlers"
-            type="com.televisit.providers.ProvidersListAdapter.ProviderClick" />
+            type="com.prokarma.myhome.features.televisit.providers.ProvidersListAdapter.ProviderClick" />
     </data>
 
     <RelativeLayout
