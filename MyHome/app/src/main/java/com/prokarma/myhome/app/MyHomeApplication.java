@@ -7,10 +7,10 @@ import android.support.multidex.MultiDexApplication;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.features.fad.FadManager;
+import com.prokarma.myhome.features.televisit.AwsManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.AppPreferences;
 import com.prokarma.myhome.utils.TealiumUtil;
-import com.televisit.AwsManager;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;

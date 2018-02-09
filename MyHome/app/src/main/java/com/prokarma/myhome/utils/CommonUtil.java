@@ -56,8 +56,8 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
+import com.prokarma.myhome.features.televisit.AwsManager;
 import com.prokarma.myhome.networking.NetworkManager;
-import com.televisit.AwsManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
