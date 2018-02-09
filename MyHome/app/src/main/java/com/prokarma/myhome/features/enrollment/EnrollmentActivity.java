@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.databinding.ActivityEnrollmentBinding;
 
 /*
@@ -16,7 +17,7 @@ import com.prokarma.myhome.databinding.ActivityEnrollmentBinding;
  *
  * Created by cmajji on 4/26/17.
  */
-public class EnrollmentActivity extends AppCompatActivity {
+public class EnrollmentActivity extends BaseActivity {
 
     private ActivityEnrollmentBinding binding;
 

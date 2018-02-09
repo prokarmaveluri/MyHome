@@ -65,18 +65,23 @@
 
             <com.whinc.widget.ratingbar.RatingBar
                 android:id="@+id/rate_provider"
+                android:isIndicator="true"
+                android:saveEnabled="false"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/provider_speciality"
                 android:layout_marginTop="18dp"
                 android:layout_toRightOf="@+id/doc_image"
                 android:paddingLeft="16dp"
-                app:rb_click_rating="true"
                 app:rb_empty="@mipmap/star_empty_grey"
                 app:rb_fill="@mipmap/star_full_grey"
                 app:rb_max_count="5"
                 app:rb_space="15dp"
-                app:rb_touch_rating="true" />
+                app:rb_click_rating="false"
+                app:rb_touch_rating="false"/>
         </RelativeLayout>
 
         <TextView

@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +18,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -81,15 +79,9 @@ import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.VisitSummaryFragment;
 import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
-import java.util.ArrayList;
 import java.util.TimeZone;
 
 import timber.log.Timber;
-
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -113,9 +105,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //try {
+
         setContentView(R.layout.navigation_activity);
 
+        CommonUtil.checkPermissions(this, this);
         NetworkManager.getInstance().setExpiryListener(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbarLine = (View) findViewById(R.id.toolbar_line);
@@ -204,10 +197,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     }
                 });
 
-        /*} catch (Exception e) {
-            Timber.e(e);
-            e.printStackTrace();
-        }*/
 
         if (getIntent() != null && getIntent().hasExtra("VISIT")) {
             bottomNavigationView.setSelectedItemId(R.id.profile);
@@ -226,8 +215,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             // as we are passing visitFinishedIntent(), this activity will get restarted as soon as visit ends.
             // so for subsequent visits intake screen needs profile phone number...so do not set it as null here.
             Timber.d("wait. visit is Ongoing. ");
-        }
-        else {
+        } else {
             ProfileManager.setProfile(null);
         }
 
@@ -966,34 +954,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onResume() {
         super.onResume();
-
-        //ALL GRANTED AT SOME POINT
-        if (AppPreferences.getInstance().getBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED)) {
-
-            ArrayList<String> missingPermissions = new ArrayList<>();
-            String[] requiredPermissions = AwsManager.getInstance().getAWSDK().getRequiredPermissions();
-            if (requiredPermissions != null && requiredPermissions.length != 0) {
-                for (String requiredPermission : requiredPermissions) {
-                    if (ContextCompat.checkSelfPermission(this, requiredPermission) != PackageManager.PERMISSION_GRANTED) {
-                        missingPermissions.add(requiredPermission);
-                    }
-                }
-            }
-
-            if (missingPermissions.isEmpty()) {
-                AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, true);
-            } else {
-                //ALL GRANTED AT SOME POINT, NOW some persmissions seems to have been declined.
-                AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, false);
-
-                SessionUtil.logout(this, null);
-                CommonUtil.exitApp(this, this);
-
-                Intent intent = SplashActivity.getSplashIntent(this);
-                this.startActivity(intent);
-                this.finish();
-            }
-        }
+        CommonUtil.checkPermissions(this, this);
 
         setMyCareVisibility();
 
@@ -1116,8 +1077,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
             ((MyCareVisitCostFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-        else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
+        } else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
             ((MyCareVisitIntakeFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
@@ -1129,8 +1089,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
             ((MyCareVisitCostFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
-        }
-        else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
+        } else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
             ((MyCareVisitIntakeFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
         }
     }
