@@ -40,6 +40,7 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
@@ -148,7 +149,17 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         emailConfidentialityText = (TextView) view.findViewById(R.id.email_text);
         emailCountMaxReached = (TextView) view.findViewById(R.id.email_count_max_reached);
 
-        setHasOptionsMenu(true);
+        visitReportPosition = -1;
+        if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
+            visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
+        }
+
+        if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
+            setHasOptionsMenu(false);
+        }
+        else {
+            setHasOptionsMenu(true);
+        }
 
         return view;
     }
@@ -214,11 +225,11 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             }
         });
 
-        // commented out TextChangedListener, as the updated zeplin says that "Add" should appear all the time and show appropriate error message on tapping
-        /*newEmailEditText.addTextChangedListener(new TextWatcher() {
+        addEmail.setVisibility(View.GONE);
+        newEmailEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                if (isValidEmail(s.toString().trim())) {
+                if (s.toString().length() > 0) {
                     addEmail.setVisibility(View.VISIBLE);
                 } else {
                     addEmail.setVisibility(View.GONE);
@@ -232,13 +243,8 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-        });*/
+        });
 
-
-        visitReportPosition = -1;
-        if (getArguments() != null && getArguments().containsKey(VISIT_LIST_POSITION)) {
-            visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
-        }
 
         if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
 
@@ -257,13 +263,21 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         emailObjects = new ArrayList<>();
         emailsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        if (ProfileManager.getProfile() != null && !CommonUtil.isEmptyString(ProfileManager.getProfile().email)) {
+
+            EmailsAdapter.EmailSelection emailObj = new EmailsAdapter.EmailSelection();
+            emailObj.setEmailId(ProfileManager.getProfile().email);
+            emailObjects.add(emailObj);
+        }
+
         displayEmails();
     }
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.visit_summary_menu, menu);
+        menu.clear();
+        inflater.inflate(R.menu.next_menu, menu);
     }
 
     @Override
@@ -275,7 +289,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.done:
+            case R.id.next:
                 if (entireEmailLayout != null && entireEmailLayout.getVisibility() == View.VISIBLE) {
                     emailVisitSummaryReport();
                 } else {
