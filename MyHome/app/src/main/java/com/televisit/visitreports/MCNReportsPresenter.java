@@ -12,17 +12,17 @@ import java.util.List;
  * Created by veluri on 2/8/18.
  */
 
-public class ReportsPresenter implements ReportsContract.Presenter, ReportsContract.InteractorOutput {
+public class MCNReportsPresenter implements MCNReportsContract.Presenter, MCNReportsContract.InteractorOutput {
     Context context;
-    ReportsContract.View view;
-    ReportsContract.Router router;
-    ReportsContract.Interactor interactor;
+    MCNReportsContract.View view;
+    MCNReportsContract.Router router;
+    MCNReportsContract.Interactor interactor;
 
-    public ReportsPresenter(final Context context, final BaseFragment fragment, final View view) {
+    public MCNReportsPresenter(final Context context, final BaseFragment fragment, final View view) {
         this.context = context;
-        this.view = new ReportsView(view, this);
-        this.router = new ReportsRouter(fragment);
-        this.interactor = new ReportsInteractor(this);
+        this.view = new MCNReportsView(view, this);
+        this.router = new MCNReportsRouter(fragment);
+        this.interactor = new MCNReportsInteractor(this);
     }
 
     @Override

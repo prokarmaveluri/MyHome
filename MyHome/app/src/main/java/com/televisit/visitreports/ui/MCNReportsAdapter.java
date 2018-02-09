@@ -22,7 +22,7 @@ import timber.log.Timber;
  * Created by veluri on 2/8/18.
  */
 
-public class ReportsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MCNReportsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_EMPTY = 0;
     private final int VIEW_TYPE_NORMAL = 1;
 
@@ -30,7 +30,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public List<VisitReport> visitReports;
     private final RecyclerViewListener onItemClickListener;
 
-    public ReportsAdapter(Context context, @Nullable List<VisitReport> visitReports, RecyclerViewListener onItemClickListener) {
+    public MCNReportsAdapter(Context context, @Nullable List<VisitReport> visitReports, RecyclerViewListener onItemClickListener) {
         this.context = context;
         this.visitReports = visitReports;
         this.onItemClickListener = onItemClickListener;
@@ -40,10 +40,10 @@ public class ReportsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_EMPTY) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.previousvisit_item_empty, parent, false);
-            return new ReportsAdapter.ViewHolderEmpty(context, view);
+            return new MCNReportsAdapter.ViewHolderEmpty(context, view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.previousvisit_item, parent, false);
-            return new ReportsAdapter.ViewHolder(context, view);
+            return new MCNReportsAdapter.ViewHolder(context, view);
         }
     }
 
@@ -51,7 +51,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder genericHolder, int position) {
         switch (genericHolder.getItemViewType()) {
             case VIEW_TYPE_NORMAL:
-                ReportsAdapter.ViewHolder holder = (ReportsAdapter.ViewHolder) genericHolder;
+                MCNReportsAdapter.ViewHolder holder = (MCNReportsAdapter.ViewHolder) genericHolder;
                 VisitReport visitReport = visitReports.get(position);
 
                 if (visitReport.getProviderName() != null && !visitReport.getProviderName().isEmpty()) {
@@ -90,7 +90,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
 
             case VIEW_TYPE_EMPTY:
-                ReportsAdapter.ViewHolderEmpty holderEmpty = (ReportsAdapter.ViewHolderEmpty) genericHolder;
+                MCNReportsAdapter.ViewHolderEmpty holderEmpty = (MCNReportsAdapter.ViewHolderEmpty) genericHolder;
                 holderEmpty.text.setText(context.getString(R.string.no_previous_visits));
                 break;
         }

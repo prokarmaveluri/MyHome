@@ -10,7 +10,7 @@ import com.americanwell.sdk.entity.visit.VisitReport;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.televisit.AwsManager;
-import com.televisit.visitreports.ui.ReportsAdapter;
+import com.televisit.visitreports.ui.MCNReportsAdapter;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ import java.util.List;
  * Created by veluri on 2/8/18.
  */
 
-public class ReportsView implements ReportsContract.View {
+public class MCNReportsView implements MCNReportsContract.View {
 
     private RecyclerView list;
     private ProgressBar progressBar;
-    private ReportsPresenter presenter;
+    private MCNReportsPresenter presenter;
 
-    public ReportsView(final View view, final ReportsPresenter presenter) {
+    public MCNReportsView(final View view, final MCNReportsPresenter presenter) {
         this.presenter = presenter;
         this.list = (RecyclerView) view.findViewById(R.id.list);
         this.progressBar = (ProgressBar) view.findViewById(R.id.req_progress);
@@ -33,7 +33,7 @@ public class ReportsView implements ReportsContract.View {
     @Override
     public void showVisitReports(List<VisitReport> visitReports, String errorMessage) {
 
-        ReportsAdapter adapter = new ReportsAdapter(presenter.context, AwsManager.getInstance().getVisitReports(), new RecyclerViewListener() {
+        MCNReportsAdapter adapter = new MCNReportsAdapter(presenter.context, AwsManager.getInstance().getVisitReports(), new RecyclerViewListener() {
             @Override
             public void onItemClick(Object model, int position) {
                 presenter.onSummaryItemPressed(position);

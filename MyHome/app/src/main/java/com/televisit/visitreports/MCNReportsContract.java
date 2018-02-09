@@ -10,7 +10,7 @@ import java.util.List;
  * Created by veluri on 2/8/18.
  */
 
-public class ReportsContract {
+public class MCNReportsContract {
 
     public interface View {
         void showVisitReports(List<VisitReport> visitReports, String errorMessage);

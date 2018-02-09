@@ -10,20 +10,20 @@ import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.utils.Constants;
-import com.televisit.visitreports.ReportsContract;
-import com.televisit.visitreports.ReportsPresenter;
+import com.televisit.visitreports.MCNReportsContract;
+import com.televisit.visitreports.MCNReportsPresenter;
 
 /**
  * Created by veluri on 2/8/18.
  */
 
-public class ReportsFragment extends BaseFragment {
+public class MCNReportsFragment extends BaseFragment {
 
     public static final String PREVIOUS_VISITS_TAG = "previous_visits_tag";
-    ReportsContract.Presenter presenter;
+    MCNReportsContract.Presenter presenter;
 
-    public static ReportsFragment newInstance() {
-        return new ReportsFragment();
+    public static MCNReportsFragment newInstance() {
+        return new MCNReportsFragment();
     }
 
     @Nullable
@@ -34,7 +34,7 @@ public class ReportsFragment extends BaseFragment {
 
         setHasOptionsMenu(false);
 
-        presenter = new ReportsPresenter(getContext(), this, view);
+        presenter = new MCNReportsPresenter(getContext(), this, view);
         presenter.onCreate();
 
         return view;

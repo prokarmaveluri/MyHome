@@ -4,7 +4,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.televisit.AwsManager;
-import com.televisit.visitreports.ui.ReportsComparator;
+import com.televisit.visitreports.ui.MCNReportsComparator;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.List;
  * Created by veluri on 2/8/18.
  */
 
-public class ReportsInteractor implements ReportsContract.Interactor {
-    final ReportsContract.InteractorOutput output;
+public class MCNReportsInteractor implements MCNReportsContract.Interactor {
+    final MCNReportsContract.InteractorOutput output;
 
-    public ReportsInteractor(ReportsContract.InteractorOutput output) {
+    public MCNReportsInteractor(MCNReportsContract.InteractorOutput output) {
         this.output = output;
     }
 
@@ -32,7 +32,7 @@ public class ReportsInteractor implements ReportsContract.Interactor {
                     @Override
                     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
                         if (sdkError == null) {
-                            Collections.sort(visitReports, new ReportsComparator());
+                            Collections.sort(visitReports, new MCNReportsComparator());
                             AwsManager.getInstance().setVisitReports(visitReports);
 
                             output.receivedVisitReports(visitReports, null);

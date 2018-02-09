@@ -10,7 +10,7 @@ import timber.log.Timber;
  * Created by veluri on 2/8/18.
  */
 
-public class ReportsComparator implements Comparator<VisitReport> {
+public class MCNReportsComparator implements Comparator<VisitReport> {
     @Override
     public int compare(VisitReport o1, VisitReport o2) {
         try {

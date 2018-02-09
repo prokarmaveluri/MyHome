@@ -13,10 +13,10 @@ import static com.televisit.summary.VisitSummaryFragment.VISIT_LIST_POSITION;
  * Created by veluri on 2/8/18.
  */
 
-public class ReportsRouter implements ReportsContract.Router {
+public class MCNReportsRouter implements MCNReportsContract.Router {
     final BaseFragment fragment;
 
-    public ReportsRouter(BaseFragment fragment) {
+    public MCNReportsRouter(BaseFragment fragment) {
         this.fragment = fragment;
     }
 

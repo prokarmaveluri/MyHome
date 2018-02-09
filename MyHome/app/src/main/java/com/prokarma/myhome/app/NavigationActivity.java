@@ -78,7 +78,7 @@ import com.televisit.profile.MyCareProfileViewDependentFragment;
 import com.televisit.providers.MyCareProvidersFragment;
 import com.televisit.services.MyCareServicesFragment;
 import com.televisit.summary.VisitSummaryFragment;
-import com.televisit.visitreports.ui.ReportsFragment;
+import com.televisit.visitreports.ui.MCNReportsFragment;
 import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
 import java.util.ArrayList;
@@ -684,12 +684,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             case PREVIOUS_VISITS_SUMMARIES:
                 if (getActivityTag() != ActivityTag.PREVIOUS_VISITS_SUMMARIES) {
                     getSupportFragmentManager().executePendingTransactions();
-                    ReportsFragment peviousVisitFragment = ReportsFragment.newInstance();
+                    MCNReportsFragment peviousVisitFragment = MCNReportsFragment.newInstance();
                     peviousVisitFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                            .replace(R.id.frame, peviousVisitFragment, ReportsFragment.PREVIOUS_VISITS_TAG)
+                            .replace(R.id.frame, peviousVisitFragment, MCNReportsFragment.PREVIOUS_VISITS_TAG)
                             .addToBackStack(null)
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
