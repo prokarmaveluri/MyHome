@@ -68,6 +68,7 @@ import com.prokarma.myhome.utils.TealiumUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.mock.NetworkBehavior;
 import timber.log.Timber;
 
 /**
@@ -357,6 +358,7 @@ public class SplashActivity extends AppCompatActivity implements
                 }
             }
         }
+        AppPreferences.getInstance().setBooleanPreference(Constants.LOCATION_PERMISSIONS_GRANTED, true);
         return true;
     }
 
