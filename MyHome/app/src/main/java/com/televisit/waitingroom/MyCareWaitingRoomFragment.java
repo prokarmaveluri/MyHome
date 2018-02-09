@@ -157,8 +157,9 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onDestroy() {
+        cancelVisit();
+        super.onDestroy();
     }
 
     @Override
