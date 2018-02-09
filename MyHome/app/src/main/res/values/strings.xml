@@ -663,7 +663,7 @@
     <string name="unable_to_book">Unable to book</string>
     <string name="review_your_booking">Review your booking</string>
     <string name="offline">Offline</string>
-    <string name="busy">Busy</string>
+    <string name="busy">Busy with patient</string>
     <string name="you_must_chose_an_environment">You must chose an environment</string>
     <string name="please_provide_user_for_AmWell">Please provide a user for AmWell</string>
     <string name="no_medical_conditions">No Medical Conditions found. \n\nWe could\'nt find any relevant results for </string>
