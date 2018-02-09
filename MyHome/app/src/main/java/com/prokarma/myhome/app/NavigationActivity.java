@@ -164,6 +164,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         clearBackstack();
+                        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
 
                         if (null != currentSelectedMenuItem) {
                             MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle());
@@ -207,7 +208,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     @Override
     protected void onDestroy() {
-        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
         eventBus = null;
         mHandler.removeCallbacks(runnable);
 
