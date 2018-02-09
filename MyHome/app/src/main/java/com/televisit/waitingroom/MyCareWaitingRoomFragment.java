@@ -1,9 +1,7 @@
 package com.televisit.waitingroom;
 
 
-import android.app.Activity;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +31,6 @@ import com.americanwell.sdk.entity.visit.ChatReport;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.entity.visit.VisitTransfer;
-import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.VisitTransferCallback;
 import com.prokarma.myhome.R;
@@ -69,7 +66,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
     public static final String MY_CARE_WAITING_TAG = "my_care_waiting_tag";
     private NotificationManager notificationManager;
-    public static final int ONGOING_VISIT_NOTIFICATION_ID = 12345;
     public static final String EXTRA_AWSDK_STATE = "awsdkState";
 
     private Consumer patient;
@@ -135,7 +131,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         patient = AwsManager.getInstance().getPatient() != null ? AwsManager.getInstance().getPatient() : AwsManager.getInstance().getConsumer();
         isVisitEnd = false;
 
-        if (getArguments() != null  && getArguments().containsKey("VISIT")) {
+        if (getArguments() != null && getArguments().containsKey("VISIT")) {
 
             Timber.d("wait. has arguments visit = YES ");
 
@@ -144,8 +140,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
                 handleVisitEnd(getActivity().getIntent().getBundleExtra(VISIT_FINISHED_EXTRAS));
             }
-        }
-        else {
+        } else {
             Timber.d("wait. has arguments visit = NO ");
 
             if (patient != null) {
@@ -154,12 +149,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         }
 
         return view;
-    }
-
-    @Override
-    public void onDestroy() {
-        cancelVisit();
-        super.onDestroy();
     }
 
     @Override
@@ -247,8 +236,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             //Put in handler to avoid IllegalStateException: https://stackoverflow.com/a/41953519/2128921
             TealiumUtil.trackEvent(Constants.VIDEO_VISIT_END_EVENT, null);
 
-            removeVisitNotification(getContext());
-
+            AwsNetworkManager.getInstance().removeVideoVisitNotification(getContext());
             goToVisitSummary();
 
             return true;
@@ -413,18 +401,8 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             return;
         }
 
-        //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
-        //after that error, SDK throws following: IllegalArgumentException: sdk initialization is missing
-
-        if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
-            return;
-        }
-
-        // called by onDestroy()
-        // this is to ensure we don't have any polling hanging out when it shouldn't be
-        AwsManager.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
-
-        removeVisitNotification(getContext());
+        AwsNetworkManager.getInstance().abandonVideoVisit();
+        AwsNetworkManager.getInstance().removeVideoVisitNotification(getContext());
     }
 
     public void cancelVisit() {
@@ -435,49 +413,14 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             return;
         }
 
-        //29260: app is  crashing when turn off location,microphone,and camera in settings>try to login after deactivating the permission to the app
-        //after that error, SDK throws following: IllegalArgumentException: sdk initialization is missing
-
-        if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
-            return;
-        }
-
-        if (AwsManager.getInstance().getVisit() != null) {
-
-            //if we donot cancel on backbutton, we are getting following error:
-            //SDK Error: The consumer is already active in a visit, End the active visit and try again
-
-            AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
-                    AwsManager.getInstance().getVisit(),
-                    new SDKCallback<Void, SDKError>() {
-                        @Override
-                        public void onResponse(Void aVoid, SDKError sdkError) {
-                            if (sdkError == null) {
-                                Timber.d("wait. Visit cancelled successfully!!");
-                            } else {
-                                Timber.e("cancelVisit. Something failed! :/");
-                                Timber.e("SDK Error: " + sdkError);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            Timber.e("cancelVisit. Something failed! :/");
-                            Timber.e("Throwable = " + throwable);
-                        }
-                    });
-
-            TealiumUtil.trackEvent(Constants.VIDEO_VISIT_CANCELED_EVENT, null);
-        }
+        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
+        TealiumUtil.trackEvent(Constants.VIDEO_VISIT_CANCELED_EVENT, null);
 
         abandonVisit("cancelVisit");
     }
 
     public void setVisitIntent(final Intent intent) {
-
-        createVisitNotification(getContext(), getActivity(), intent);
-
-        // start activity
+        AwsNetworkManager.getInstance().createVisitNotification(getContext(), getActivity(), intent);
         startActivity(intent);
     }
 
@@ -532,36 +475,6 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                 updateWaitingQueue(count);
             }
         });
-    }
-
-    private void removeVisitNotification(Context context) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(ONGOING_VISIT_NOTIFICATION_ID);
-
-        AwsManager.getInstance().setVisitOngoing(false);
-    }
-
-    private void createVisitNotification(Context context, Activity activity, Intent intent) {
-
-        removeVisitNotification(context);
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // set up ongoing notification
-        PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(activity);
-        builder.setSmallIcon(R.drawable.ic_local_hospital_white_18dp)
-                .setContentTitle(context.getString(R.string.app_name))
-                .setContentText(context.getString(R.string.video_console_ongoing_notification,
-                        AwsManager.getInstance().getVisit().getAssignedProvider().getFullName()))
-                .setAutoCancel(false)
-                .setOngoing(true)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentIntent(pendingIntent);
-        notificationManager.notify(ONGOING_VISIT_NOTIFICATION_ID, builder.build());
-
-        AwsManager.getInstance().setVisitOngoing(true);
     }
 
     private void updateWaitingQueue(int i) {

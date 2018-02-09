@@ -61,6 +61,7 @@ import com.prokarma.myhome.views.PdfRendererZoomFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.televisit.AwsManager;
+import com.televisit.AwsNetworkManager;
 import com.televisit.cost.MyCareCreditCardFragment;
 import com.televisit.cost.MyCareVisitCostFragment;
 import com.televisit.cost.MyCareVisitIntakeFragment;
@@ -206,7 +207,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
         eventBus = null;
         mHandler.removeCallbacks(runnable);
 
@@ -222,6 +223,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         NetworkManager.getInstance().setExpiryListener(null);
         RecentlyViewedDataSourceDB.getInstance().close();
         unregisterReceiver(timezoneChangedReceiver);
+        super.onDestroy();
     }
 
     /**
@@ -261,6 +263,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      */
     public void goToPage(ActivityTag activityTag) {
         clearBackstack();
+        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
 
         switch (activityTag) {
             case HOME:
@@ -804,6 +807,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left);
+        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
 
         switch (item.getItemId()) {
 //            case R.id.help:
@@ -885,7 +889,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             } else if (activityTag == ActivityTag.MY_CARE_WAITING_ROOM) {
                 MyCareWaitingRoomFragment frag = ((MyCareWaitingRoomFragment) fm.findFragmentByTag(MyCareWaitingRoomFragment.MY_CARE_WAITING_TAG));
                 if (frag != null) {
-                    frag.cancelVisit();
+                    AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
                     fm.popBackStack();
                 }
 

@@ -1,8 +1,13 @@
 package com.televisit;
 
+import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.NotificationCompat;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Address;
@@ -24,6 +29,7 @@ import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
+import com.prokarma.myhome.R;
 import com.televisit.interfaces.AwsCancelVideoVisit;
 import com.televisit.interfaces.AwsConsumer;
 import com.televisit.interfaces.AwsGetAllergies;
@@ -52,6 +58,7 @@ import timber.log.Timber;
 
 public class AwsNetworkManager {
     private static AwsNetworkManager instance;
+    private static final int ONGOING_VISIT_NOTIFICATION_ID = 12345;
 
     public static AwsNetworkManager getInstance() {
 
@@ -532,6 +539,12 @@ public class AwsNetworkManager {
     }
 
     public void cancelVideoVisit(@NonNull final Visit visit, @Nullable final AwsCancelVideoVisit awsCancelVideoVisit) {
+        if (AwsManager.getInstance().getAWSDK() == null ||
+                AwsManager.getInstance().getVisit() == null ||
+                !AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
+
         AwsManager.getInstance().getAWSDK().getVisitManager().cancelVisit(
                 visit,
                 new SDKCallback<Void, SDKError>() {
@@ -563,6 +576,42 @@ public class AwsNetworkManager {
                     }
                 }
         );
+    }
+
+    public void abandonVideoVisit() {
+        if (AwsManager.getInstance().getAWSDK() == null || !AwsManager.getInstance().getAWSDK().isInitialized()) {
+            return;
+        }
+
+        AwsManager.getInstance().getAWSDK().getVisitManager().abandonCurrentVisit();
+    }
+
+    public void createVisitNotification(Context context, Activity activity, Intent intent) {
+        removeVideoVisitNotification(context);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // set up ongoing notification
+        PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(activity);
+        builder.setSmallIcon(R.drawable.ic_local_hospital_white_18dp)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(context.getString(R.string.video_console_ongoing_notification, AwsManager.getInstance().getVisit().getAssignedProvider().getFullName()))
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentIntent(pendingIntent);
+        notificationManager.notify(ONGOING_VISIT_NOTIFICATION_ID, builder.build());
+
+        AwsManager.getInstance().setVisitOngoing(true);
+    }
+
+    public void removeVideoVisitNotification(Context context){
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(ONGOING_VISIT_NOTIFICATION_ID);
+
+        AwsManager.getInstance().setVisitOngoing(false);
     }
 
     public void getVisitSummary(@NonNull final Visit visit, @Nullable final AwsGetVisitSummary awsGetVisitSummary) {
@@ -758,5 +807,4 @@ public class AwsNetworkManager {
             }
         });
     }
-
 }
