@@ -112,22 +112,6 @@ public class NetworkManager {
         return true;
     }
 
-    private void checkServiceObject() {
-
-        if (EnviHandler.CIAM_BASE_URL == null || service == null) {
-
-            Intent intent = SplashActivity.getSplashIntent(MyHomeApplication.getInstance());
-            MyHomeApplication.getInstance().startActivity(intent);
-
-            /*EnviHandler.initEnv(EnviHandler.EnvType.toEnvType(AppPreferences.getInstance().getPreference(Constants.ENV_MYHOME)));
-            EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.toAmWellEnvType(AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL)));
-
-            EnviHandler.setAttemptMutualAuth(AppPreferences.getInstance().getBooleanPreference(Constants.ENV_MUTUAL_AUTH));
-            EnviHandler.setAmwellUsername(AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL_USERNAME));
-            EnviHandler.setAmwellPassword(AppPreferences.getInstance().getPreference(Constants.ENV_AMWELL_PASSWORD));*/
-        }
-    }
-
     public void initService() {
         initHttpClient();
 
