@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseActivity;
 import com.prokarma.myhome.databinding.ActivityForgotPasswordBinding;
 import com.prokarma.myhome.features.login.LoginFragment;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -24,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends BaseActivity {
 
     private ActivityForgotPasswordBinding binding;
 

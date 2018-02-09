@@ -10,8 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.app.BaseActivity;
 
-public class UpdateActivity extends AppCompatActivity implements View.OnClickListener {
+public class UpdateActivity extends BaseActivity implements View.OnClickListener {
 
     /*
  * Get an intent for update activity.
