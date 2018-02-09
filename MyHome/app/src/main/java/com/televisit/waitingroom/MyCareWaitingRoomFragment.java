@@ -608,7 +608,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                 waitingCount.setText(getString(R.string.you_are_next_patient));
 
             } else if (providerObject.getVisibility().equals(ProviderVisibility.WEB_BUSY)) {
-                waitingCount.setText("Currently " + getString(R.string.busy));
+                waitingCount.setText(getString(R.string.busy));
             }
             waitingCount.setContentDescription(waitingCount.getText());
 
