@@ -19,9 +19,17 @@
                 android:id="@+id/first_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
+
+                <View
+                    android:id="@+id/label_first_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/first_name"
+                    android:labelFor="@id/first_name" />
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/first_name"
@@ -41,9 +49,17 @@
                 android:id="@+id/last_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
+
+                <View
+                    android:id="@+id/label_last_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/last_name"
+                    android:labelFor="@id/last_name" />
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/last_name"
@@ -64,8 +80,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:importantForAccessibility="no"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
+
+                <View
+                    android:id="@+id/label_preferred_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/preferred_name"
+                    android:labelFor="@id/preferred_name" />
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/preferred_name"
@@ -87,9 +111,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
+                android:importantForAccessibility="no"
                 android:text="@string/gender"
                 android:textColor="@color/text_darker"
                 android:textSize="14sp" />
+
+
+            <View
+                android:id="@+id/label_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/gender"
+                android:labelFor="@id/gender" />
+
 
             <Spinner
                 android:id="@+id/gender"
@@ -99,13 +133,22 @@
                 android:layout_marginLeft="-2dp"
                 android:entries="@array/profile_gender" />
 
+            <View
+                android:id="@+id/label_dob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/date_of_birth_no_format"
+                android:labelFor="@id/dob" />
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/dob_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:importantForAccessibility="no"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
+
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/dob"
@@ -127,8 +170,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:importantForAccessibility="no"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
+
+                <View
+                    android:id="@+id/label_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/address"
+                    android:labelFor="@id/address" />
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/address"
@@ -148,8 +199,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:importantForAccessibility="no"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
+
+                <View
+                    android:id="@+id/label_address2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/address_2"
+                    android:labelFor="@id/address2" />
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/address2"
@@ -175,8 +234,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:layout_weight=".6"
+                    android:importantForAccessibility="no"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintTextAppearance="@style/hint_appearance">
+
+                    <View
+                        android:id="@+id/label_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/city"
+                        android:labelFor="@id/city" />
+
+                    <View
+                        android:id="@+id/label_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/state"
+                        android:labelFor="@id/state" />
+
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/city"
@@ -212,9 +287,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".4"
+                    android:importantForAccessibility="no"
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintTextAppearance="@style/hint_appearance">
+
+                    <View
+                        android:id="@+id/label_zip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/zip"
+                        android:labelFor="@id/zip" />
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/zip"
@@ -234,9 +317,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
+                    android:importantForAccessibility="no"
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintTextAppearance="@style/hint_appearance">
+
+                    <View
+                        android:id="@+id/label_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/phone_number"
+                        android:labelFor="@id/phone" />
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/phone"
@@ -259,14 +350,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_label_marginTop"
+                android:importantForAccessibility="no"
                 android:text="@string/email" />
+
+            <View
+                android:id="@+id/label_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/email"
+                android:labelFor="@id/email" />
 
             <TextView
                 android:id="@+id/email"
                 style="@style/tradeGothicLTStd_Dynamic18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="kwelsh@prokarma.com"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -279,13 +377,28 @@
                 android:text="@string/you_cannot_edit_email_address"
                 android:textSize="13sp" />
 
+            <View
+                android:id="@+id/label_provider_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/insurance_plan"
+                android:labelFor="@id/provider_plan" />
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="12dp"
+                android:importantForAccessibility="no"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
+
+                <View
+                    android:id="@+id/label_plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/insurance_plan"
+                    android:labelFor="@id/plan" />
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/plan"
@@ -300,11 +413,19 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <View
+                android:id="@+id/label_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/member_id"
+                android:labelFor="@id/id" />
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/id_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:importantForAccessibility="no"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
 
@@ -321,11 +442,20 @@
 
             </android.support.design.widget.TextInputLayout>
 
+
+            <View
+                android:id="@+id/label_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/group_id"
+                android:labelFor="@id/group" />
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/group_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:importantForAccessibility="no"
                 app:errorTextAppearance="@style/error_appearance"
                 app:hintTextAppearance="@style/hint_appearance">
 

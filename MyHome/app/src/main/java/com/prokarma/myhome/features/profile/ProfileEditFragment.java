@@ -15,12 +15,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
+import com.prokarma.myhome.utils.AccessibilityCapitalTextChangedLister;
+import com.prokarma.myhome.utils.AccessibilityTextChangedLister;
 import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
@@ -28,7 +29,6 @@ import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.PhoneAndDOBFormatter;
 import com.prokarma.myhome.utils.TealiumUtil;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -114,6 +114,13 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
         dateOfBirth.addTextChangedListener(new PhoneAndDOBFormatter(dateOfBirth, PhoneAndDOBFormatter.FormatterType.DOB));
 
         phone.addTextChangedListener(new PhoneAndDOBFormatter(phone, PhoneAndDOBFormatter.FormatterType.PHONE_NUMBER_DOTS));
+        if (CommonUtil.isAccessibilityEnabled(getActivity())) {
+            zip.addTextChangedListener(new AccessibilityTextChangedLister(zip));
+            phone.addTextChangedListener(new AccessibilityTextChangedLister(phone));
+            memberId.addTextChangedListener(new AccessibilityTextChangedLister(memberId));
+            group.addTextChangedListener(new AccessibilityTextChangedLister(group));
+            insurancePlan.addTextChangedListener(new AccessibilityCapitalTextChangedLister(insurancePlan));
+        }
 
         gender.setOnTouchListener(new View.OnTouchListener() {
             @Override
