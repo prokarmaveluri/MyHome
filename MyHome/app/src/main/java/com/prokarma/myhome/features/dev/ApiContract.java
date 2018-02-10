@@ -1,5 +1,6 @@
 package com.prokarma.myhome.features.dev;
 
+import com.prokarma.myhome.app.BasePresenter;
 import com.prokarma.myhome.entities.ApiOption;
 
 import java.util.ArrayList;
@@ -13,11 +14,7 @@ public class ApiContract {
         void showApiOptions(ArrayList<ApiOption> apiOptions);
     }
 
-    interface Presenter {
-        void onCreate();
-
-        void onDestroy();
-
+    interface Presenter extends BasePresenter {
         void onSignoutButtonPressed();
     }
 

@@ -2,6 +2,7 @@ package com.prokarma.myhome.features.dev;
 
 import android.content.Context;
 
+import com.prokarma.myhome.app.BasePresenter;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.profile.Profile;
 
@@ -26,11 +27,7 @@ public class DevContract {
         void showBuildType(String buildType);
     }
 
-    interface Presenter {
-        void onCreate();
-
-        void onDestroy();
-
+    interface Presenter extends BasePresenter{
         void onApiButtonPressed();
     }
 
