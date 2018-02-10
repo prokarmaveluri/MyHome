@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.televisit.common;
+package com.prokarma.myhome.app;
 
 /**
  * Created by veluri on 2/8/18.

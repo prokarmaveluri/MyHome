@@ -1,8 +1,8 @@
 package com.prokarma.myhome.features.televisit.visitreports;
 
 import com.americanwell.sdk.entity.visit.VisitReport;
-import com.prokarma.myhome.features.televisit.common.BasePresenter;
-import com.prokarma.myhome.features.televisit.common.BaseRouter;
+import com.prokarma.myhome.app.BasePresenter;
+import com.prokarma.myhome.app.BaseRouter;
 
 import java.util.List;
 
