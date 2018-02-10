@@ -49,6 +49,24 @@ import com.prokarma.myhome.features.profile.ProfileEditFragment;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.profile.ProfileViewFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
+import com.prokarma.myhome.features.televisit.AwsManager;
+import com.prokarma.myhome.features.televisit.AwsNetworkManager;
+import com.prokarma.myhome.features.televisit.cost.MyCareCreditCardFragment;
+import com.prokarma.myhome.features.televisit.cost.MyCareVisitCostFragment;
+import com.prokarma.myhome.features.televisit.cost.MyCareVisitIntakeFragment;
+import com.prokarma.myhome.features.televisit.cost.PrivacyPolicyPdfFragment;
+import com.prokarma.myhome.features.televisit.feedback.FeedbackFragment;
+import com.prokarma.myhome.features.televisit.history.HistoryListAdapter;
+import com.prokarma.myhome.features.televisit.history.MedicalHistoryFragment;
+import com.prokarma.myhome.features.televisit.medications.MedicationsFragment;
+import com.prokarma.myhome.features.televisit.pharmacy.PharmaciesFragment;
+import com.prokarma.myhome.features.televisit.pharmacy.PharmacyDetailsFragment;
+import com.prokarma.myhome.features.televisit.profile.MyCareProfileFragment;
+import com.prokarma.myhome.features.televisit.profile.MyCareProfileViewDependentFragment;
+import com.prokarma.myhome.features.televisit.providers.MyCareProvidersFragment;
+import com.prokarma.myhome.features.televisit.services.MyCareServicesFragment;
+import com.prokarma.myhome.features.televisit.summary.VisitSummaryFragment;
+import com.prokarma.myhome.features.televisit.waitingroom.MyCareWaitingRoomFragment;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
@@ -60,25 +78,7 @@ import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.views.PdfRendererZoomFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
-import com.televisit.AwsManager;
-import com.televisit.AwsNetworkManager;
-import com.televisit.cost.MyCareCreditCardFragment;
-import com.televisit.cost.MyCareVisitCostFragment;
-import com.televisit.cost.MyCareVisitIntakeFragment;
-import com.televisit.cost.PrivacyPolicyPdfFragment;
-import com.televisit.feedback.FeedbackFragment;
-import com.televisit.history.HistoryListAdapter;
-import com.televisit.history.MedicalHistoryFragment;
-import com.televisit.medications.MedicationsFragment;
-import com.televisit.pharmacy.PharmaciesFragment;
-import com.televisit.pharmacy.PharmacyDetailsFragment;
-import com.televisit.profile.MyCareProfileFragment;
-import com.televisit.profile.MyCareProfileViewDependentFragment;
-import com.televisit.providers.MyCareProvidersFragment;
-import com.televisit.services.MyCareServicesFragment;
-import com.televisit.summary.VisitSummaryFragment;
-import com.televisit.visitreports.ui.MCNReportsFragment;
-import com.televisit.waitingroom.MyCareWaitingRoomFragment;
+import com.prokarma.myhome.features.televisit.visitreports.ui.MCNReportsFragment;
 
 import java.util.TimeZone;
 
@@ -164,6 +164,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         clearBackstack();
+                        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
 
                         if (null != currentSelectedMenuItem) {
                             MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle());
@@ -207,7 +208,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     @Override
     protected void onDestroy() {
-        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
         eventBus = null;
         mHandler.removeCallbacks(runnable);
 

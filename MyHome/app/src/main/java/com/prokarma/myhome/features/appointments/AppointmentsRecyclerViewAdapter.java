@@ -14,7 +14,6 @@ import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.squareup.picasso.Picasso;
-import com.televisit.AwsManager;
 
 import java.util.ArrayList;
 

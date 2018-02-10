@@ -13,8 +13,8 @@ import com.prokarma.myhome.features.fad.FadFragment;
 import com.prokarma.myhome.features.fad.recent.RecentlyViewedDataSourceDB;
 import com.prokarma.myhome.features.login.LoginActivity;
 import com.prokarma.myhome.features.profile.ProfileManager;
+import com.prokarma.myhome.features.televisit.AwsManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
-import com.televisit.AwsManager;
 
 import timber.log.Timber;
 
