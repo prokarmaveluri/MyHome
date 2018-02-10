@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
-import com.prokarma.myhome.utils.Constants;
 import com.prokarma.myhome.features.televisit.visitreports.MCNReportsContract;
 import com.prokarma.myhome.features.televisit.visitreports.MCNReportsPresenter;
+import com.prokarma.myhome.utils.Constants;
 
 /**
  * Created by veluri on 2/8/18.

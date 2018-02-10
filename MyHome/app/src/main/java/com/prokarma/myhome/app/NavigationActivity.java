@@ -66,6 +66,7 @@ import com.prokarma.myhome.features.televisit.profile.MyCareProfileViewDependent
 import com.prokarma.myhome.features.televisit.providers.MyCareProvidersFragment;
 import com.prokarma.myhome.features.televisit.services.MyCareServicesFragment;
 import com.prokarma.myhome.features.televisit.summary.VisitSummaryFragment;
+import com.prokarma.myhome.features.televisit.visitreports.ui.MCNReportsFragment;
 import com.prokarma.myhome.features.televisit.waitingroom.MyCareWaitingRoomFragment;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
@@ -78,7 +79,6 @@ import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.views.PdfRendererZoomFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
-import com.prokarma.myhome.features.televisit.visitreports.ui.MCNReportsFragment;
 
 import java.util.TimeZone;
 
