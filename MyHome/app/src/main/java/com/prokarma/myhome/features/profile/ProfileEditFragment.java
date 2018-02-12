@@ -20,7 +20,7 @@ import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
-import com.prokarma.myhome.utils.AccessibilityCapitalTextChangedLister;
+import com.prokarma.myhome.utils.AccessibilityCapitalTextChangedListener;
 import com.prokarma.myhome.utils.AccessibilityTextChangedLister;
 import com.prokarma.myhome.utils.AddressUtil;
 import com.prokarma.myhome.utils.ApiErrorUtil;
@@ -119,7 +119,7 @@ public class ProfileEditFragment extends BaseFragment implements ProfileUpdateIn
             phone.addTextChangedListener(new AccessibilityTextChangedLister(phone));
             memberId.addTextChangedListener(new AccessibilityTextChangedLister(memberId));
             group.addTextChangedListener(new AccessibilityTextChangedLister(group));
-            insurancePlan.addTextChangedListener(new AccessibilityCapitalTextChangedLister(insurancePlan));
+            insurancePlan.addTextChangedListener(new AccessibilityCapitalTextChangedListener(insurancePlan));
         }
 
         gender.setOnTouchListener(new View.OnTouchListener() {

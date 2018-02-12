@@ -8,13 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 /**
@@ -57,6 +55,7 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
 
                 if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
                     holder.doctorName.setText(appointment.doctorName);
+                    holder.pinImage.setContentDescription(appointment.doctorName + ", " + context.getString(R.string.location) + context.getString(R.string.show_in_map));
                 }
 
                 if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
@@ -65,7 +64,9 @@ public class AppointmentsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
 
                 if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
                     holder.date.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
+                    holder.date.setContentDescription(DateUtil.getDayOfWeekWithDate(appointment.appointmentStart));
                     holder.time.setText(DateUtil.getTime(appointment.appointmentStart) + " " + DateUtil.getReadableTimeZone(appointment));
+                    holder.time.setContentDescription(DateUtil.getTime(appointment.appointmentStart) + " " + DateUtil.getReadableTimeZone(appointment));
                 }
                 try {
                     if (null != appointment.provider.getImages()) {

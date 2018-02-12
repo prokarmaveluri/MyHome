@@ -385,6 +385,7 @@ public class HomeFragment extends BaseFragment {
             appointment = appointments.get(0);
             if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
                 binding.doctorName.setText(appointment.doctorName);
+                binding.pinIcon.setContentDescription(appointment.doctorName + ", " + getString(R.string.location) + getString(R.string.show_in_map));
             }
 
             if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
@@ -393,6 +394,7 @@ public class HomeFragment extends BaseFragment {
 
             if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
                 binding.date.setText(DateUtil.getDateWordsFromUTC(appointment.appointmentStart));
+                binding.date.setContentDescription(DateUtil.getDayOfWeekWithDate(appointment.appointmentStart));
                 binding.time.setText(DateUtil.getTime(appointment.appointmentStart) + " " + DateUtil.getReadableTimeZone(appointment));
             }
 
