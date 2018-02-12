@@ -703,6 +703,7 @@
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="full_name">Full Name</string>
-
+    <string name="doctor_name">Doctor Name</string>
+    <string name="hospital_name">Hospital Name</string>
 
 </resources>
