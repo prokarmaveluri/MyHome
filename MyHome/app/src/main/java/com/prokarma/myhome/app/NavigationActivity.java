@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +18,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +49,25 @@ import com.prokarma.myhome.features.profile.ProfileEditFragment;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.profile.ProfileViewFragment;
 import com.prokarma.myhome.features.settings.SettingsFragment;
+import com.prokarma.myhome.features.televisit.AwsManager;
+import com.prokarma.myhome.features.televisit.AwsNetworkManager;
+import com.prokarma.myhome.features.televisit.cost.MyCareCreditCardFragment;
+import com.prokarma.myhome.features.televisit.cost.MyCareVisitCostFragment;
+import com.prokarma.myhome.features.televisit.cost.MyCareVisitIntakeFragment;
+import com.prokarma.myhome.features.televisit.cost.PrivacyPolicyPdfFragment;
+import com.prokarma.myhome.features.televisit.feedback.FeedbackFragment;
+import com.prokarma.myhome.features.televisit.history.HistoryListAdapter;
+import com.prokarma.myhome.features.televisit.history.MedicalHistoryFragment;
+import com.prokarma.myhome.features.televisit.medications.MedicationsFragment;
+import com.prokarma.myhome.features.televisit.pharmacy.PharmaciesFragment;
+import com.prokarma.myhome.features.televisit.pharmacy.PharmacyDetailsFragment;
+import com.prokarma.myhome.features.televisit.previousvisit.PreviousVisitsFragment;
+import com.prokarma.myhome.features.televisit.profile.MyCareProfileFragment;
+import com.prokarma.myhome.features.televisit.profile.MyCareProfileViewDependentFragment;
+import com.prokarma.myhome.features.televisit.providers.MyCareProvidersFragment;
+import com.prokarma.myhome.features.televisit.services.MyCareServicesFragment;
+import com.prokarma.myhome.features.televisit.summary.VisitSummaryFragment;
+import com.prokarma.myhome.features.televisit.waitingroom.MyCareWaitingRoomFragment;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
@@ -62,34 +79,10 @@ import com.prokarma.myhome.utils.SessionUtil;
 import com.prokarma.myhome.views.PdfRendererZoomFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
-import com.televisit.AwsManager;
-import com.televisit.cost.MyCareCreditCardFragment;
-import com.televisit.cost.MyCareVisitCostFragment;
-import com.televisit.cost.MyCareVisitIntakeFragment;
-import com.televisit.cost.PrivacyPolicyPdfFragment;
-import com.televisit.feedback.FeedbackFragment;
-import com.televisit.history.HistoryListAdapter;
-import com.televisit.history.MedicalHistoryFragment;
-import com.televisit.medications.MedicationsFragment;
-import com.televisit.pharmacy.PharmaciesFragment;
-import com.televisit.pharmacy.PharmacyDetailsFragment;
-import com.televisit.previousvisit.PreviousVisitsFragment;
-import com.televisit.profile.MyCareProfileFragment;
-import com.televisit.profile.MyCareProfileViewDependentFragment;
-import com.televisit.providers.MyCareProvidersFragment;
-import com.televisit.services.MyCareServicesFragment;
-import com.televisit.summary.VisitSummaryFragment;
-import com.televisit.waitingroom.MyCareWaitingRoomFragment;
 
-import java.util.ArrayList;
 import java.util.TimeZone;
 
 import timber.log.Timber;
-
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 
 /**
  * Created by kwelsh on 4/25/17.
@@ -113,9 +106,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //try {
+
         setContentView(R.layout.navigation_activity);
 
+        CommonUtil.checkPermissions(this, this);
         NetworkManager.getInstance().setExpiryListener(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbarLine = (View) findViewById(R.id.toolbar_line);
@@ -170,6 +164,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         clearBackstack();
+                        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
 
                         if (null != currentSelectedMenuItem) {
                             MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle());
@@ -204,10 +199,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     }
                 });
 
-        /*} catch (Exception e) {
-            Timber.e(e);
-            e.printStackTrace();
-        }*/
 
         if (getIntent() != null && getIntent().hasExtra("VISIT")) {
             bottomNavigationView.setSelectedItemId(R.id.profile);
@@ -217,7 +208,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         eventBus = null;
         mHandler.removeCallbacks(runnable);
 
@@ -226,14 +216,14 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             // as we are passing visitFinishedIntent(), this activity will get restarted as soon as visit ends.
             // so for subsequent visits intake screen needs profile phone number...so do not set it as null here.
             Timber.d("wait. visit is Ongoing. ");
-        }
-        else {
+        } else {
             ProfileManager.setProfile(null);
         }
 
         NetworkManager.getInstance().setExpiryListener(null);
         RecentlyViewedDataSourceDB.getInstance().close();
         unregisterReceiver(timezoneChangedReceiver);
+        super.onDestroy();
     }
 
     /**
@@ -273,6 +263,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      */
     public void goToPage(ActivityTag activityTag) {
         clearBackstack();
+        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
 
         switch (activityTag) {
             case HOME:
@@ -816,6 +807,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left);
+        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
 
         switch (item.getItemId()) {
 //            case R.id.help:
@@ -897,7 +889,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
             } else if (activityTag == ActivityTag.MY_CARE_WAITING_ROOM) {
                 MyCareWaitingRoomFragment frag = ((MyCareWaitingRoomFragment) fm.findFragmentByTag(MyCareWaitingRoomFragment.MY_CARE_WAITING_TAG));
                 if (frag != null) {
-                    frag.cancelVisit();
+                    AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
                     fm.popBackStack();
                 }
 
@@ -966,34 +958,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     @Override
     protected void onResume() {
         super.onResume();
-
-        //ALL GRANTED AT SOME POINT
-        if (AppPreferences.getInstance().getBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED)) {
-
-            ArrayList<String> missingPermissions = new ArrayList<>();
-            String[] requiredPermissions = AwsManager.getInstance().getAWSDK().getRequiredPermissions();
-            if (requiredPermissions != null && requiredPermissions.length != 0) {
-                for (String requiredPermission : requiredPermissions) {
-                    if (ContextCompat.checkSelfPermission(this, requiredPermission) != PackageManager.PERMISSION_GRANTED) {
-                        missingPermissions.add(requiredPermission);
-                    }
-                }
-            }
-
-            if (missingPermissions.isEmpty()) {
-                AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, true);
-            } else {
-                //ALL GRANTED AT SOME POINT, NOW some persmissions seems to have been declined.
-                AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, false);
-
-                SessionUtil.logout(this, null);
-                CommonUtil.exitApp(this, this);
-
-                Intent intent = SplashActivity.getSplashIntent(this);
-                this.startActivity(intent);
-                this.finish();
-            }
-        }
+        CommonUtil.checkPermissions(this, this);
 
         setMyCareVisibility();
 
@@ -1116,8 +1081,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
             ((MyCareVisitCostFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-        else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
+        } else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
             ((MyCareVisitIntakeFragment) currentFragment).onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
@@ -1129,8 +1093,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         if (currentFragment != null && currentFragment instanceof MyCareVisitCostFragment) {
             ((MyCareVisitCostFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
-        }
-        else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
+        } else if (currentFragment != null && currentFragment instanceof MyCareVisitIntakeFragment) {
             ((MyCareVisitIntakeFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
         }
     }

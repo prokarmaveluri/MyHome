@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -42,6 +43,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.app.SplashActivity;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.Image;
@@ -54,7 +56,8 @@ import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.App
 import com.prokarma.myhome.features.fad.details.booking.req.scheduling.times.AppointmentType;
 import com.prokarma.myhome.features.fad.filter.FilterExpandableList;
 import com.prokarma.myhome.features.profile.Address;
-import com.televisit.AwsManager;
+import com.prokarma.myhome.features.televisit.AwsManager;
+import com.prokarma.myhome.networking.NetworkManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -1339,5 +1342,66 @@ public class CommonUtil {
         }
 
         return sb.toString();
+    }
+	
+	public static void checkPermissions(Context context, Activity activity) {
+
+        //LOCATION permission GRANTED AT SOME POINT
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.LOCATION_PERMISSIONS_GRANTED)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    //NOW seems to have been declined.
+                    AppPreferences.getInstance().setBooleanPreference(Constants.LOCATION_PERMISSIONS_GRANTED, false);
+
+                    exitTheApp(context, activity, "Location permission");
+                    return;
+                }
+            }
+        }
+
+        //ALL GRANTED AT SOME POINT
+        if (AppPreferences.getInstance().getBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED)) {
+
+            ArrayList<String> missingPermissions = new ArrayList<>();
+            String[] requiredPermissions = AwsManager.getInstance().getAWSDK().getRequiredPermissions();
+            if (requiredPermissions != null && requiredPermissions.length != 0) {
+                for (String requiredPermission : requiredPermissions) {
+                    if (ContextCompat.checkSelfPermission(context, requiredPermission) != PackageManager.PERMISSION_GRANTED) {
+                        missingPermissions.add(requiredPermission);
+                    }
+                }
+            }
+
+            if (missingPermissions.isEmpty()) {
+                AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, true);
+            } else {
+                //ALL GRANTED AT SOME POINT, NOW some permissions seems to have been declined.
+                AppPreferences.getInstance().setBooleanPreference(Constants.AMWELL_SDK_ALL_PERMISSIONS_GRANTED, false);
+
+                exitTheApp(context, activity, "MCN permissions");
+                return;
+            }
+        }
+
+        if (!NetworkManager.getInstance().canMakeNetworkCalls()) {
+
+            exitTheApp(context, activity, "Refrofit service object");
+            return;
+        }
+    }
+
+    private static void exitTheApp(Context context, Activity activity, String reason) {
+
+        CommonUtil.showToast(context, "App Permissions may have been tampered outside of the application. ");
+
+        Timber.d("Exiting the app, reason = " + reason);
+
+        SessionUtil.logout(activity, null);
+        CommonUtil.exitApp(context, activity);
+
+        Intent intent = SplashActivity.getSplashIntent(context);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }

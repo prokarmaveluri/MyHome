@@ -4,7 +4,7 @@
 
         <variable
             name="handlers"
-            type="com.televisit.pharmacy.PharmacyListDialog.DialogClick" />
+            type="com.prokarma.myhome.features.televisit.pharmacy.PharmacyListDialog.DialogClick" />
     </data>
 
     <RelativeLayout

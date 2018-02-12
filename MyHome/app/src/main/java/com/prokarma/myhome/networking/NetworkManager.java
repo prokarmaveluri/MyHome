@@ -101,6 +101,13 @@ public class NetworkManager {
         this.expiryListener = listener;
     }
 
+    public boolean canMakeNetworkCalls() {
+        if (EnviHandler.CIAM_BASE_URL == null || service == null) {
+            return false;
+        }
+        return true;
+    }
+
     public void initService() {
         initHttpClient();
 
