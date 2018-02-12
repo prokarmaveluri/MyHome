@@ -420,6 +420,16 @@ public class DateUtil {
         return utcDate;
     }
 
+    public static String getDayOfWeekWithDate(String date) {
+        try {
+            return convertDateYearToReadableLongWords(getDateNoTimeZone(date));
+        } catch (ParseException e) {
+            Timber.e("Could not format date " + date + " correctly!\n" + e);
+            e.printStackTrace();
+        }
+        return date;
+    }
+
     /**
      * Gets a string of the date.
      * Formatted as such: "Tue Jun 06"

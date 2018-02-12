@@ -7,14 +7,14 @@ import android.view.View;
 import android.widget.TextView;
 
 /**
- * Created by svenugopal on 08/02/18.
+ * Created by svenugopal on 02/08/18.
  */
 
-public class AccessibilityCapitalTextChangedLister implements TextWatcher {
+public class AccessibilityCapitalTextChangedListener implements TextWatcher {
 
     View view;
 
-    public AccessibilityCapitalTextChangedLister(TextView view) {
+    public AccessibilityCapitalTextChangedListener(TextView view) {
         this.view = view;
     }
 

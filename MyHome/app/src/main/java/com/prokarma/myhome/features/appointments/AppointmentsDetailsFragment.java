@@ -57,6 +57,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
 
         appointmentsView = inflater.inflate(R.layout.appointments_details, container, false);
         ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.details));
+        CommonUtil.setTitle(getActivity(), getString(R.string.details), true);
 
         TextView dateHeader = (TextView) appointmentsView.findViewById(R.id.date_header);
         TextView timeHeader = (TextView) appointmentsView.findViewById(R.id.time_header);
@@ -77,10 +78,14 @@ public class AppointmentsDetailsFragment extends BaseFragment {
         if (appointment.appointmentStart != null && !appointment.appointmentStart.isEmpty()) {
             dateHeader.setText(DateUtil.getDateWords2FromUTC(appointment.appointmentStart));
             timeHeader.setText(DateUtil.getTime(appointment.appointmentStart) + " " + DateUtil.getReadableTimeZone(appointment));
+            dateHeader.setContentDescription(getString(R.string.appointment_date) + ", " + dateHeader.getText().toString());
+            timeHeader.setContentDescription(getString(R.string.appointment_time) + ", " + timeHeader.getText().toString());
         }
 
         if (appointment.doctorName != null && !appointment.doctorName.isEmpty()) {
             doctorName.setText(appointment.doctorName);
+            doctorName.setContentDescription(getString(R.string.doctor_name) + ", " + appointment.doctorName);
+            pin.setContentDescription(appointment.doctorName + ", " + getString(R.string.location) + getString(R.string.show_in_map));
         }
 
         if (appointment.facilityName != null && !appointment.facilityName.isEmpty()) {
@@ -105,6 +110,7 @@ public class AppointmentsDetailsFragment extends BaseFragment {
 
         if (appointment.visitReason != null && !appointment.visitReason.isEmpty()) {
             reason.setText(appointment.visitReason);
+            reason.setContentDescription(getString(R.string.appointment_reason) + ", " + appointment.visitReason);
         }
 
         if (appointment.facilityPhoneNumber != null && !appointment.facilityPhoneNumber.isEmpty()) {
