@@ -498,7 +498,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
         } else if (s != null && s.equalsIgnoreCase("PROVIDER_DECLINE")) {
 
-            showErrorAlert(getString(R.string.visit_declined_by_provider), true);
+            showErrorAlert(getString(R.string.visit_declined_by_provider), false);
         }
     }
 
