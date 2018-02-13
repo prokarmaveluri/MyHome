@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.televisit.medications;
+package com.prokarma.myhome.features.televisit.medications.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
