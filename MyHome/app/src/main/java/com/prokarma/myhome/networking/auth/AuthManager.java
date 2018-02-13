@@ -133,7 +133,7 @@ public class AuthManager implements AwsInitialization, AwsUserAuthentication, Aw
 
     public boolean hasMyCare() {
         //temporarily showing MyCareNow to all users, until login & certain APIs are figured out
-        return hasMyCare;
+        return true; //hasMyCare;
     }
 
     public void setHasMyCare(boolean hasMyCare) {
