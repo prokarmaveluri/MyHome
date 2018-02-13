@@ -18,17 +18,13 @@ import com.prokarma.myhome.R;
 
 public class EnvironmentSelectorFragment extends DialogFragment {
     public static final String ENVIRONMENT_SELECTOR_TAG = "environment_selector_tag";
+    public static final String ENVIRONMENT_BROADCAST_RECEIVER_INTENT = "environment-selected-event";
+    public static final String INTENT_EXTRA_ENVIRONMENT = "envType";
 
     EnvironmentSelectorPresenter presenter;
 
-    EnvironmentSelectorInterface environmentSelectorInterface;
-
     public static EnvironmentSelectorFragment newInstance() {
         return new EnvironmentSelectorFragment();
-    }
-
-    public void setEnvironmentSelectorInterface(EnvironmentSelectorInterface environmentSelectorInterface) {
-        this.environmentSelectorInterface = environmentSelectorInterface;
     }
 
     @Override
@@ -60,7 +56,7 @@ public class EnvironmentSelectorFragment extends DialogFragment {
         View envSelectorView = inflater.inflate(R.layout.environment_selector, container, false);
         getActivity().setTitle(getString(R.string.developer_settings));
 
-        presenter = new EnvironmentSelectorPresenter(getContext(), this, envSelectorView, environmentSelectorInterface);
+        presenter = new EnvironmentSelectorPresenter(getContext(), this, envSelectorView);
         presenter.onCreate();
 
         return envSelectorView;

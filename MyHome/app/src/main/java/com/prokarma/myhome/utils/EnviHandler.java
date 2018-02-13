@@ -7,6 +7,8 @@ import com.prokarma.myhome.BuildConfig;
  */
 
 public class EnviHandler {
+    public static EnvType currentEnvironment = EnvType.NONE;
+    public static AmWellEnvType currentMCN = AmWellEnvType.NONE;
 
     public enum EnvType {
         DEMO,
@@ -102,6 +104,7 @@ public class EnviHandler {
     }
 
     private static void initDemo() {
+        currentEnvironment = EnvType.DEMO;
         VERSIONING_URL = BuildConfig.D_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.D_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.D_CIAM_BASE_URL;
@@ -110,6 +113,7 @@ public class EnviHandler {
     }
 
     private static void initDev() {
+        currentEnvironment = EnvType.DEV;
         VERSIONING_URL = BuildConfig.D_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.D_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.D_CIAM_BASE_URL;
@@ -118,6 +122,7 @@ public class EnviHandler {
     }
 
     private static void initTest() {
+        currentEnvironment = EnvType.TEST;
         VERSIONING_URL = BuildConfig.T_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.T_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.T_CIAM_BASE_URL;
@@ -126,6 +131,7 @@ public class EnviHandler {
     }
 
     private static void initSlot1() {
+        currentEnvironment = EnvType.SLOT1;
         VERSIONING_URL = BuildConfig.S1_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.S1_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.S1_CIAM_BASE_URL;
@@ -134,6 +140,7 @@ public class EnviHandler {
     }
 
     private static void initStage() {
+        currentEnvironment = EnvType.STAGE;
         VERSIONING_URL = BuildConfig.S_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.S_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.S_CIAM_BASE_URL;
@@ -142,6 +149,7 @@ public class EnviHandler {
     }
 
     private static void initProd() {
+        currentEnvironment = EnvType.PROD;
         VERSIONING_URL = BuildConfig.P_VERSIONING_URL;
         OKTA_BASE_URL = BuildConfig.P_OKTA_BASE_URL;
         CIAM_BASE_URL = BuildConfig.P_CIAM_BASE_URL;
@@ -150,21 +158,25 @@ public class EnviHandler {
     }
 
     private static void initAmWellDev() {
+        currentMCN = AmWellEnvType.DEV;
         AWSDK_KEY = BuildConfig.D_AWSDK_KEY;
         AWSDK_URL = BuildConfig.D_AWSDK_URL;
     }
 
     private static void initAmWellStage() {
+        currentMCN = AmWellEnvType.STAGE;
         AWSDK_KEY = BuildConfig.S_AWSDK_KEY;
         AWSDK_URL = BuildConfig.S_AWSDK_URL;
     }
 
     private static void initAmWellIot() {
+        currentMCN = AmWellEnvType.IOT;
         AWSDK_KEY = BuildConfig.I_AWSDK_KEY;
         AWSDK_URL = BuildConfig.I_AWSDK_URL;
     }
 
     private static void initAmWellProd() {
+        currentMCN = AmWellEnvType.PROD;
         AWSDK_KEY = BuildConfig.P_AWSDK_KEY;
         AWSDK_URL = BuildConfig.P_AWSDK_URL;
     }

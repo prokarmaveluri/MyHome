@@ -17,14 +17,12 @@ public class EnvironmentSelectorPresenter implements EnvironmentSelectorContract
     private EnvironmentSelectorView view;
     private EnvironmentSelectorInteractor interactor;
     private EnvironmentSelectorRouter router;
-    private EnvironmentSelectorInterface environmentSelectorInterface;
 
-    public EnvironmentSelectorPresenter(Context context, DialogFragment fragment, View view, EnvironmentSelectorInterface environmentSelectorInterface) {
+    public EnvironmentSelectorPresenter(Context context, DialogFragment fragment, View view) {
         this.context = context;
         this.view = new EnvironmentSelectorView(view, this);
-        this.interactor = new EnvironmentSelectorInteractor();
+        this.interactor = new EnvironmentSelectorInteractor(context);
         this.router = new EnvironmentSelectorRouter(fragment);
-        this.environmentSelectorInterface = environmentSelectorInterface;
     }
 
     @Override
@@ -34,7 +32,6 @@ public class EnvironmentSelectorPresenter implements EnvironmentSelectorContract
 
     @Override
     public void onDestroy() {
-        environmentSelectorInterface = null;
         context = null;
         view = null;
         interactor = null;
@@ -55,50 +52,55 @@ public class EnvironmentSelectorPresenter implements EnvironmentSelectorContract
             }
         }
 
-        if (environmentSelectorInterface != null) {
-            environmentSelectorInterface.attemptMutualAuth(isMutualAuthEnabled);
-            environmentSelectorInterface.hardcodedUser(username, password);
+        interactor.attemptMutualAuth(isMutualAuthEnabled);
+        interactor.hardcodedUser(username, password);
 
-            switch (amwellEnvironmentId) {
-                case R.id.radio_amwell_dev:
-                    environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.DEV);
-                    break;
-                case R.id.radio_amwell_stage:
-                    environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.STAGE);
-                    break;
-                case R.id.radio_amwell_iot:
-                    environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.IOT);
-                    break;
-                case R.id.radio_amwell_prod:
-                    environmentSelectorInterface.envAmWellSelected(EnviHandler.AmWellEnvType.PROD);
-                    break;
-            }
-
-            switch (environmentId) {
-                case R.id.radio_demo:
-                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.DEMO);
-                    break;
-                case R.id.radio_dev:
-                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.DEV);
-                    break;
-                case R.id.radio_test:
-                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.TEST);
-                    break;
-                case R.id.radio_slot1:
-                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.SLOT1);
-                    break;
-                case R.id.radio_stage:
-                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.STAGE);
-                    break;
-                case R.id.radio_prod:
-                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.PROD);
-                    break;
-                default:
-                    environmentSelectorInterface.envMyHomeSelected(EnviHandler.EnvType.PROD);
-                    break;
-            }
-
-            router.dismissEnvironmentPicker();
+        switch (amwellEnvironmentId) {
+            case R.id.radio_amwell_dev:
+                interactor.envAmWellSelected(EnviHandler.AmWellEnvType.DEV);
+                break;
+            case R.id.radio_amwell_stage:
+                interactor.envAmWellSelected(EnviHandler.AmWellEnvType.STAGE);
+                break;
+            case R.id.radio_amwell_iot:
+                interactor.envAmWellSelected(EnviHandler.AmWellEnvType.IOT);
+                break;
+            case R.id.radio_amwell_prod:
+                interactor.envAmWellSelected(EnviHandler.AmWellEnvType.PROD);
+                break;
         }
+
+        switch (environmentId) {
+            case R.id.radio_demo:
+                interactor.envMyHomeSelected(EnviHandler.EnvType.DEMO);
+                interactor.finishedSelecting(EnviHandler.EnvType.DEMO);
+                break;
+            case R.id.radio_dev:
+                interactor.envMyHomeSelected(EnviHandler.EnvType.DEV);
+                interactor.finishedSelecting(EnviHandler.EnvType.DEV);
+                break;
+            case R.id.radio_test:
+                interactor.envMyHomeSelected(EnviHandler.EnvType.TEST);
+                interactor.finishedSelecting(EnviHandler.EnvType.TEST);
+                break;
+            case R.id.radio_slot1:
+                interactor.envMyHomeSelected(EnviHandler.EnvType.SLOT1);
+                interactor.finishedSelecting(EnviHandler.EnvType.SLOT1);
+                break;
+            case R.id.radio_stage:
+                interactor.envMyHomeSelected(EnviHandler.EnvType.STAGE);
+                interactor.finishedSelecting(EnviHandler.EnvType.STAGE);
+                break;
+            case R.id.radio_prod:
+                interactor.envMyHomeSelected(EnviHandler.EnvType.PROD);
+                interactor.finishedSelecting(EnviHandler.EnvType.PROD);
+                break;
+            default:
+                interactor.envMyHomeSelected(EnviHandler.EnvType.PROD);
+                interactor.finishedSelecting(EnviHandler.EnvType.PROD);
+                break;
+        }
+
+        router.dismissEnvironmentPicker();
     }
 }

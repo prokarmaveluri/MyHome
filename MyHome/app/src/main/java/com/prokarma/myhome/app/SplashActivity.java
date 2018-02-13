@@ -3,9 +3,11 @@ package com.prokarma.myhome.app;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -16,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -40,7 +43,6 @@ import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.crypto.CryptoManager;
 import com.prokarma.myhome.features.dev.EnvironmentSelectorFragment;
-import com.prokarma.myhome.features.dev.EnvironmentSelectorInterface;
 import com.prokarma.myhome.features.fad.FadManager;
 import com.prokarma.myhome.features.fad.LocationResponse;
 import com.prokarma.myhome.features.login.LoginActivity;
@@ -77,15 +79,12 @@ import timber.log.Timber;
 public class SplashActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         EnrollmentSuccessDialog.EnrollDialogAction,
-        EnvironmentSelectorInterface,
         FingerprintDialogCallbackInterface {
 
     private ProgressBar progress;
     private TextView clickToRefresh;
     private boolean isGPSVerified = false;
     private boolean isVersionVerified = false;
-    private static EnviHandler.AmWellEnvType currentAmwellEnv = EnviHandler.AmWellEnvType.NONE;
-    private static EnviHandler.EnvType currentEnv = EnviHandler.EnvType.NONE;
 
     //Location
     private GoogleApiClient mGoogleApiClient;
@@ -101,6 +100,29 @@ public class SplashActivity extends AppCompatActivity implements
 
         return new Intent(context, SplashActivity.class);
     }
+
+    private BroadcastReceiver environmentSelectedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            EnviHandler.EnvType envType = EnviHandler.EnvType.PROD;
+
+            if (intent != null && intent.getExtras() != null) {
+                envType = (EnviHandler.EnvType) intent.getExtras().get(EnvironmentSelectorFragment.INTENT_EXTRA_ENVIRONMENT);
+            }
+
+            progress.setVisibility(View.VISIBLE);
+            initApiClient();
+
+            //init retrofit service
+            if (EnviHandler.EnvType.DEMO.equals(envType)) {
+                NetworkManager.getInstance().initMockService(NetworkBehavior.create());
+            } else {
+                NetworkManager.getInstance().initService();
+            }
+
+            startLocationFetch();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,33 +159,20 @@ public class SplashActivity extends AppCompatActivity implements
     }
 
     private void buildEnvAlert() {
-
-        if (!BuildConfig.BUILD_TYPE.contains("release")) {
-            if (currentEnv != EnviHandler.EnvType.NONE) {
-                if (currentEnv == EnviHandler.EnvType.DEV) {
-                    EnviHandler.initEnv(EnviHandler.EnvType.DEV);
-                } else if (currentEnv == EnviHandler.EnvType.SLOT1) {
-                    EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
-                } else if (currentEnv == EnviHandler.EnvType.STAGE) {
-                    EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
-                } else if (currentEnv == EnviHandler.EnvType.PROD) {
-                    EnviHandler.initEnv(EnviHandler.EnvType.PROD);
-                }
-            }
-        } else {
-            EnviHandler.initEnv(EnviHandler.EnvType.PROD);
-        }
-
-        if (!BuildConfig.BUILD_TYPE.contains("release") && currentEnv == EnviHandler.EnvType.NONE) {
+        if (!BuildConfig.BUILD_TYPE.contains("release") && EnviHandler.currentEnvironment == EnviHandler.EnvType.NONE) {
             EnvironmentSelectorFragment selectorDialog = new EnvironmentSelectorFragment();
-            selectorDialog.setEnvironmentSelectorInterface(this);
             selectorDialog.setCancelable(false);
             selectorDialog.show(getSupportFragmentManager(), EnvironmentSelectorFragment.ENVIRONMENT_SELECTOR_TAG);
         } else {
+
+            if (BuildConfig.BUILD_TYPE.contains("release")) {
+                EnviHandler.initEnv(EnviHandler.EnvType.PROD);
+            }
+
             initApiClient();
 
             //init retrofit service
-            if(EnviHandler.EnvType.DEMO.equals(currentEnv)){
+            if (EnviHandler.EnvType.DEMO.equals(EnviHandler.currentEnvironment)) {
                 NetworkManager.getInstance().initMockService(NetworkBehavior.create());
             } else {
                 NetworkManager.getInstance().initService();
@@ -317,9 +326,14 @@ public class SplashActivity extends AppCompatActivity implements
     @Override
     public void onStart() {
         super.onStart();
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(environmentSelectedReceiver, new IntentFilter(EnvironmentSelectorFragment.ENVIRONMENT_BROADCAST_RECEIVER_INTENT));
     }
 
+    @Override
+    protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(environmentSelectedReceiver);
+        super.onStop();
+    }
 
     private void startLocationFetch() {
         isGPSVerified = false;
@@ -748,91 +762,5 @@ public class SplashActivity extends AppCompatActivity implements
 
         ActivityCompat.startActivityForResult(this, intentVerify, VERIFY_EMAIL, options.toBundle());
         finish();
-    }
-
-    @Override
-    public void envAmWellSelected(EnviHandler.AmWellEnvType amWellType) {
-        Timber.i("Environment: Amwell " + amWellType + " selected");
-
-        switch (amWellType) {
-            case DEV:
-                currentAmwellEnv = EnviHandler.AmWellEnvType.DEV;
-                EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.DEV);
-                break;
-            case STAGE:
-                currentAmwellEnv = EnviHandler.AmWellEnvType.STAGE;
-                EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.STAGE);
-                break;
-            case IOT:
-                currentAmwellEnv = EnviHandler.AmWellEnvType.IOT;
-                EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.IOT);
-                break;
-            case PROD:
-                currentAmwellEnv = EnviHandler.AmWellEnvType.PROD;
-                EnviHandler.initAmWellEnv(EnviHandler.AmWellEnvType.PROD);
-                break;
-        }
-        AppPreferences.getInstance().setPreference(Constants.ENV_AMWELL, currentAmwellEnv.toString());
-    }
-
-    @Override
-    public void envMyHomeSelected(EnviHandler.EnvType envType) {
-        Timber.i("Environment: " + envType + " selected");
-
-        switch (envType) {
-            case DEMO:
-                currentEnv = EnviHandler.EnvType.DEMO;
-                EnviHandler.initEnv(EnviHandler.EnvType.DEMO);
-                break;
-            case DEV:
-                currentEnv = EnviHandler.EnvType.DEV;
-                EnviHandler.initEnv(EnviHandler.EnvType.DEV);
-                break;
-            case TEST:
-                currentEnv = EnviHandler.EnvType.TEST;
-                EnviHandler.initEnv(EnviHandler.EnvType.TEST);
-                break;
-            case SLOT1:
-                currentEnv = EnviHandler.EnvType.SLOT1;
-                EnviHandler.initEnv(EnviHandler.EnvType.SLOT1);
-                break;
-            case STAGE:
-                currentEnv = EnviHandler.EnvType.STAGE;
-                EnviHandler.initEnv(EnviHandler.EnvType.STAGE);
-                break;
-            case PROD:
-                currentEnv = EnviHandler.EnvType.PROD;
-                EnviHandler.initEnv(EnviHandler.EnvType.PROD);
-                break;
-        }
-        AppPreferences.getInstance().setPreference(Constants.ENV_MYHOME, currentEnv.toString());
-
-        progress.setVisibility(View.VISIBLE);
-        initApiClient();
-
-        //init retrofit service
-        if(EnviHandler.EnvType.DEMO.equals(currentEnv)){
-            NetworkManager.getInstance().initMockService(NetworkBehavior.create());
-        } else {
-            NetworkManager.getInstance().initService();
-        }
-
-        startLocationFetch();
-    }
-
-    @Override
-    public void attemptMutualAuth(boolean attemptMutualAuth) {
-        Timber.i("Environment: attemptMutualAuth = " + attemptMutualAuth);
-        EnviHandler.setAttemptMutualAuth(attemptMutualAuth);
-        AppPreferences.getInstance().setBooleanPreference(Constants.ENV_MUTUAL_AUTH, attemptMutualAuth);
-    }
-
-    @Override
-    public void hardcodedUser(String user, String password) {
-        Timber.i("Environment: hardcodedUser. username = " + user);
-        EnviHandler.setAmwellUsername(user);
-        EnviHandler.setAmwellPassword(password);
-        AppPreferences.getInstance().setPreference(Constants.ENV_AMWELL_USERNAME, user);
-        AppPreferences.getInstance().setPreference(Constants.ENV_AMWELL_PASSWORD, password);
     }
 }
