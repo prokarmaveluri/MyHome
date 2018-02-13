@@ -58,7 +58,7 @@ import com.prokarma.myhome.features.televisit.cost.PrivacyPolicyPdfFragment;
 import com.prokarma.myhome.features.televisit.feedback.FeedbackFragment;
 import com.prokarma.myhome.features.televisit.history.HistoryListAdapter;
 import com.prokarma.myhome.features.televisit.history.MedicalHistoryFragment;
-import com.prokarma.myhome.features.televisit.medications.MedicationsFragment;
+import com.prokarma.myhome.features.televisit.medications.ui.MedicationsFragment;
 import com.prokarma.myhome.features.televisit.pharmacy.PharmaciesFragment;
 import com.prokarma.myhome.features.televisit.pharmacy.PharmacyDetailsFragment;
 import com.prokarma.myhome.features.televisit.profile.MyCareProfileFragment;
