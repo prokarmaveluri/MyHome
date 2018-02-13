@@ -24,6 +24,7 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.visit.ChatReport;
 import com.americanwell.sdk.entity.visit.ConsumerFeedbackQuestion;
 import com.americanwell.sdk.entity.visit.Visit;
+import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -36,6 +37,7 @@ import com.prokarma.myhome.features.televisit.interfaces.AwsGetAllergies;
 import com.prokarma.myhome.features.televisit.interfaces.AwsGetConditions;
 import com.prokarma.myhome.features.televisit.interfaces.AwsGetMedications;
 import com.prokarma.myhome.features.televisit.interfaces.AwsGetPharmacy;
+import com.prokarma.myhome.features.televisit.interfaces.AwsGetVisitReports;
 import com.prokarma.myhome.features.televisit.interfaces.AwsGetVisitSummary;
 import com.prokarma.myhome.features.televisit.interfaces.AwsInitialization;
 import com.prokarma.myhome.features.televisit.interfaces.AwsSendVisitFeedback;
@@ -45,7 +47,9 @@ import com.prokarma.myhome.features.televisit.interfaces.AwsUpdateConsumer;
 import com.prokarma.myhome.features.televisit.interfaces.AwsUpdateDependent;
 import com.prokarma.myhome.features.televisit.interfaces.AwsUpdatePharmacy;
 import com.prokarma.myhome.features.televisit.interfaces.AwsUserAuthentication;
+import com.prokarma.myhome.features.televisit.visitreports.ui.MCNReportsComparator;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -607,7 +611,7 @@ public class AwsNetworkManager {
         AwsManager.getInstance().setVisitOngoing(true);
     }
 
-    public void removeVideoVisitNotification(Context context){
+    public void removeVideoVisitNotification(Context context) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(ONGOING_VISIT_NOTIFICATION_ID);
 
@@ -806,5 +810,38 @@ public class AwsNetworkManager {
                 }
             }
         });
+    }
+
+    public void getVisitReports(@Nullable final AwsGetVisitReports awsGetVisitReports) {
+
+        AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReports(
+                AwsManager.getInstance().getPatient(),
+                null, /* pull reports from date. pass null to fetch all reports irrespective of date. */
+                false, /* scheduledOnly */
+                new SDKCallback<List<VisitReport>, SDKError>() {
+                    @Override
+                    public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
+                        if (sdkError == null) {
+                            Collections.sort(visitReports, new MCNReportsComparator());
+                            AwsManager.getInstance().setVisitReports(visitReports);
+
+                            if (awsGetVisitReports != null) {
+                                awsGetVisitReports.getVisitReportsComplete(visitReports);
+                            }
+                        } else {
+                            if (awsGetVisitReports != null) {
+                                awsGetVisitReports.getVisitReportsFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        if (awsGetVisitReports != null) {
+                            awsGetVisitReports.getVisitReportsFailed(throwable.getMessage());
+                        }
+                    }
+                }
+        );
     }
 }

@@ -1,7 +1,11 @@
 package com.prokarma.myhome.features.televisit.visitreports.ui;
 
+import android.support.annotation.IntDef;
+
 import com.americanwell.sdk.entity.visit.VisitReport;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Comparator;
 
 import timber.log.Timber;
@@ -11,22 +15,27 @@ import timber.log.Timber;
  */
 
 public class MCNReportsComparator implements Comparator<VisitReport> {
+
+    @IntDef({DateComparision.SAME, DateComparision.BEFORE, DateComparision.AFTER})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DateComparision {
+        int AFTER = -1;     //-1 comes when date1 is higher then date2
+        int BEFORE = 1;     //1 comes when date1 is lower then date2
+        int SAME = 0;       //0 comes when two dates are same
+    }
+
     @Override
     public int compare(VisitReport o1, VisitReport o2) {
         try {
-            //0 comes when two date are same,
-            //1 comes when date1 is lower then date2
-            //-1 comes when date1 is higher then date2
-
             if (o1.getSchedule() != null && o1.getSchedule().getActualStartTime() != null
                     && o2.getSchedule() != null && o2.getSchedule().getActualStartTime() != null) {
 
                 if (o1.getSchedule().getActualStartTime() > o2.getSchedule().getActualStartTime()) {
-                    return -1;
+                    return DateComparision.AFTER;
                 } else if (o1.getSchedule().getActualStartTime() < o2.getSchedule().getActualStartTime()) {
-                    return 1;
+                    return DateComparision.BEFORE;
                 } else {
-                    return 0;
+                    return DateComparision.SAME;
                 }
             }
         } catch (Exception e) {
