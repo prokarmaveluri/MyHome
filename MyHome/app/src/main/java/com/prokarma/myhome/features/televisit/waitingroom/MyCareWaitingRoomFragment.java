@@ -3,6 +3,7 @@ package com.prokarma.myhome.features.televisit.waitingroom;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -188,46 +189,56 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         Timber.d("wait. onCreate. VISIT_STATUS_VIDEO_DISCONNECTED = " + visitExtras.getBoolean(VISIT_STATUS_VIDEO_DISCONNECTED));
         Timber.d("wait. onCreate. VISIT_STATUS_PROVIDER_CONNECTED = " + visitExtras.getBoolean(VISIT_STATUS_PROVIDER_CONNECTED));
 
-        String toastMessage = "";
+        boolean backToProviders = false;
+        String errorMessage = "";
         if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_READY_FOR_SUMMARY) {
             isVisitEnd = true;
 
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_PROVIDER_GONE) {
-            toastMessage = getString(R.string.waiting_room_provider_gone);
+
+            backToProviders = true;
+            errorMessage = getString(R.string.waiting_room_provider_gone);
             isVisitEnd = true;
 
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_CONSUMER_CANCEL) {
-            //CommonUtil.showToast(getContext(), getString(R.string.waiting_room_canceled));
+
+            //errorMessage = getString(R.string.waiting_room_canceled);
             isVisitEnd = true;
 
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_FAILED) {
-            //toastMessage = getString(R.string.waiting_room_failed);
+
+            //errorMessage = getString(R.string.waiting_room_failed);
             isVisitEnd = true;
 
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_TIMED_OUT) {
-            toastMessage = getString(R.string.waiting_room_timed_out);
+
+            errorMessage = getString(R.string.waiting_room_timed_out);
             isVisitEnd = true;
 
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_NETWORK_FAILURE) {
-            toastMessage = getString(R.string.waiting_room_network_failure);
+
+            errorMessage = getString(R.string.waiting_room_network_failure);
             isVisitEnd = true;
 
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_FAILED_TO_END) {
-            //toastMessage = getString(R.string.waiting_room_failed_to_end);
+
+            //errorMessage = getString(R.string.waiting_room_failed_to_end);
             isVisitEnd = true;
 
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_PERMISSIONS_NOT_GRANTED) {
-            toastMessage = getString(R.string.waiting_room_permissions_not_granted);
+
+            errorMessage = getString(R.string.waiting_room_permissions_not_granted);
             isVisitEnd = true;
 
         } else if (visitExtras.getInt(VISIT_RESULT_CODE) == VideoVisitConstants.VISIT_RESULT_DECLINED) {
-            toastMessage = getString(R.string.waiting_room_declined);
+
+            //errorMessage = getString(R.string.waiting_room_declined);
             isVisitEnd = true;
         }
 
         //Error handling ticket is in 1.7. will show the error message as per design
-        if (!CommonUtil.isEmptyString(toastMessage)) {
-            CommonUtil.showToast(getContext(), toastMessage);
+        if (!CommonUtil.isEmptyString(errorMessage)) {
+            showErrorAlert(errorMessage, backToProviders);
         }
 
         if (isVisitEnd) {
@@ -274,6 +285,35 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
         intent.putExtra(EXTRA_AWSDK_STATE, bundle);
 
         return intent;
+    }
+
+    private void showErrorAlert(final String message, final boolean backToProviders) {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+
+                        if (backToProviders) {
+                            goBackToProviders();
+                        } else {
+                            goBackToDashboard();
+                        }
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+
+        alertDialog.show();
+    }
+
+    private void goBackToProviders() {
+        //((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROVIDERS, null);
+
+        getActivity().getSupportFragmentManager().popBackStack();  //WaitingRoom fragment
+        getActivity().getSupportFragmentManager().popBackStack();  //Intake accept privacy policy fragment
     }
 
     private void goBackToDashboard() {
@@ -458,9 +498,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
         } else if (s != null && s.equalsIgnoreCase("PROVIDER_DECLINE")) {
 
-            CommonUtil.showToast(getContext(), getString(R.string.visit_declined_by_provider));
-
-            goBackToDashboard();
+            showErrorAlert(getString(R.string.visit_declined_by_provider), false);
         }
     }
 
