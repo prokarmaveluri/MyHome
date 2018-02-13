@@ -38,11 +38,13 @@ import com.prokarma.myhome.features.televisit.interfaces.AwsGetMedications;
 import com.prokarma.myhome.features.televisit.interfaces.AwsGetPharmacy;
 import com.prokarma.myhome.features.televisit.interfaces.AwsGetVisitSummary;
 import com.prokarma.myhome.features.televisit.interfaces.AwsInitialization;
+import com.prokarma.myhome.features.televisit.interfaces.AwsSearchMedications;
 import com.prokarma.myhome.features.televisit.interfaces.AwsSendVisitFeedback;
 import com.prokarma.myhome.features.televisit.interfaces.AwsSendVisitRating;
 import com.prokarma.myhome.features.televisit.interfaces.AwsStartVideoVisit;
 import com.prokarma.myhome.features.televisit.interfaces.AwsUpdateConsumer;
 import com.prokarma.myhome.features.televisit.interfaces.AwsUpdateDependent;
+import com.prokarma.myhome.features.televisit.interfaces.AwsUpdateMedications;
 import com.prokarma.myhome.features.televisit.interfaces.AwsUpdatePharmacy;
 import com.prokarma.myhome.features.televisit.interfaces.AwsUserAuthentication;
 
@@ -377,6 +379,83 @@ public class AwsNetworkManager {
 
                         if (awsGetMedications != null) {
                             awsGetMedications.getMedicationsFailed(throwable.getMessage());
+                        }
+                    }
+                });
+    }
+
+    public void updateMedications(@NonNull final Consumer patient, final List<Medication> listToSave, @Nullable final AwsUpdateMedications awsUpdateMedications) {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().updateMedications(
+                patient,
+                listToSave,
+                new SDKCallback<Void, SDKError>() {
+                    @Override
+                    public void onResponse(Void aVoid, SDKError sdkError) {
+                        if (sdkError == null) {
+                            AwsManager.getInstance().setMedications(listToSave);
+
+                            if (awsUpdateMedications != null) {
+                                awsUpdateMedications.updateMedicationsComplete(listToSave);
+                            }
+                        } else {
+                            Timber.e("updateMedications. Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsUpdateMedications != null) {
+                                awsUpdateMedications.updateMedicationsFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("updateMedications. Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsUpdateMedications != null) {
+                            awsUpdateMedications.updateMedicationsFailed(throwable.getMessage());
+                        }
+                    }
+                });
+    }
+
+    public void searchMedications(@NonNull final Consumer patient, final String searchText, @Nullable final AwsSearchMedications awsSearchMedications) {
+        AwsManager.getInstance().getAWSDK().getConsumerManager().searchMedications(
+                patient, searchText,
+                new SDKValidatedCallback<List<Medication>, SDKError>() {
+                    @Override
+                    public void onResponse(List<Medication> medications, SDKError sdkError) {
+                        if (sdkError == null) {
+                            AwsManager.getInstance().setMedications(medications);
+
+                            if (awsSearchMedications != null) {
+                                awsSearchMedications.searchMedicationsComplete(medications);
+                            }
+                        } else {
+                            Timber.e("searchMedications. Something failed! :/");
+                            Timber.e("SDK Error: " + sdkError);
+
+                            if (awsSearchMedications != null) {
+                                awsSearchMedications.searchMedicationsFailed(sdkError.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("searchMedications. Something failed! :/");
+                        Timber.e("Throwable = " + throwable);
+
+                        if (awsSearchMedications != null) {
+                            awsSearchMedications.searchMedicationsFailed(throwable.getMessage());
+                        }
+                    }
+
+                    public void onValidationFailure(@NonNull Map<String, String> map) {
+                        Timber.e("searchMedications. onValidationFailure! :/");
+
+                        if (awsSearchMedications != null) {
+                            awsSearchMedications.searchMedicationsFailed("validation failed");
                         }
                     }
                 });

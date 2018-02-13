@@ -29,9 +29,9 @@ public class MCNMedicationsContract {
     }
 
     public interface Interactor {
-        void getMedications(AwsGetMedications awsGetMedications);
-        void updateMedications(AwsUpdateMedications awsUpdateMedications);
-        void searchMedications(String searchText, AwsSearchMedications awsSearchMedications);
+        void getMedications();
+        void updateMedications(List<Medication> medicationsToSave);
+        void searchMedications(String searchText);
     }
 
     public interface InteractorOutput {

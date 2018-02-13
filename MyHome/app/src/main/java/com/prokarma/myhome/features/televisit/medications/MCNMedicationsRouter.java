@@ -16,6 +16,6 @@ public class MCNMedicationsRouter implements MCNMedicationsContract.Router {
 
     @Override
     public void goToMcnDashboard() {
-        //in this specific case, we donot have to skip an entry in back stack and so handled by default.
+        fragment.getActivity().getSupportFragmentManager().popBackStack();
     }
 }

@@ -30,11 +30,11 @@ public class MCNMedicationsPresenter implements MCNMedicationsContract.Presenter
 
     @Override
     public void onCreate() {
-        interactor.getMedications(null);
     }
 
     @Override
     public void onActivityCreated() {
+        interactor.getMedications();
     }
 
     @Override
@@ -46,13 +46,12 @@ public class MCNMedicationsPresenter implements MCNMedicationsContract.Presenter
     }
 
     public void updateMedications() {
-        interactor.updateMedications(null);
+        interactor.updateMedications(((MCNMedicationsView) view).medicationsListToSave);
     }
 
     public void searchMedications(String searchText) {
-        interactor.searchMedications(searchText,null);
+        interactor.searchMedications(searchText);
     }
-
 
     @Override
     public void receivedMedications(List<Medication> medications, String errorMessage) {
@@ -62,6 +61,7 @@ public class MCNMedicationsPresenter implements MCNMedicationsContract.Presenter
     @Override
     public void receivedUpdateMedications(List<Medication> medications, String errorMessage) {
         view.showUpdateMedications(medications, errorMessage);
+        router.goToMcnDashboard();
     }
 
     @Override

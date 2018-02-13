@@ -7,8 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -25,6 +28,8 @@ import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by veluri on 2/12/18.
@@ -48,8 +53,8 @@ public class MCNMedicationsView implements MCNMedicationsContract.View,
     private RelativeLayout searchLayout;
     private ProgressBar progressBar;
 
-    private List<Medication> searchList;
-    private List<Medication> medicationsListToSave;
+    public List<Medication> searchList;
+    public List<Medication> medicationsListToSave;
 
     public MCNMedicationsView(final View view, final MCNMedicationsPresenter presenter) {
         this.presenter = presenter;
@@ -75,7 +80,59 @@ public class MCNMedicationsView implements MCNMedicationsContract.View,
 
         medicationsListToSave = new ArrayList<>();
 
+        addAdditionalMedication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchQuery.requestFocus();
+                showSearchView();
+                CommonUtil.showSoftKeyboard(searchQuery, presenter.activity);
+            }
+        });
+
+        searchQuery.addTextChangedListener(this);
+
+        searchQuery.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    showSearchView();
+                }
+            }
+        });
+
+        searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    performSearch(searchQuery.getText().toString());
+
+                    CommonUtil.hideSoftKeyboard(presenter.context, searchQuery);
+                    CommonUtil.hideSoftKeyboard(presenter.activity);
+                    return true;
+                }
+                return false;
+            }
+        });
+
         searchCancelClickEvent();
+
+        noMedicationsCheckbox.setChecked(AwsManager.getInstance().isHasMedicationsFilledOut());
+
+        noMedicationsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+                    AwsManager.getInstance().setHasMedicationsFilledOut(true);
+                } else {
+                    if (AwsManager.getInstance().getMedications() == null || AwsManager.getInstance().getMedications().size() == 0) {
+                        AwsManager.getInstance().setHasMedicationsFilledOut(false);
+                    }
+                }
+                setMedicationsAdapter(medicationsListToSave);
+            }
+        });
     }
 
     @Override
@@ -93,12 +150,7 @@ public class MCNMedicationsView implements MCNMedicationsContract.View,
 
     @Override
     public void showUpdateMedications(List<Medication> medications, String errorMessage) {
-
         progressBar.setVisibility(View.GONE);
-
-        AwsManager.getInstance().setMedications(medicationsListToSave);
-
-        //presenter.activity.getSupportFragmentManager().popBackStack();
     }
 
     @Override
@@ -112,6 +164,7 @@ public class MCNMedicationsView implements MCNMedicationsContract.View,
         if (medications == null || medications.size() == 0) {
             noResults.setVisibility(View.VISIBLE);
             searchSuggestions.setVisibility(View.GONE);
+
             showSearchView();
         } else {
             noResults.setVisibility(View.GONE);
@@ -183,14 +236,10 @@ public class MCNMedicationsView implements MCNMedicationsContract.View,
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
+    public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
     @Override
     public void afterTextChanged(Editable s) {
@@ -225,8 +274,10 @@ public class MCNMedicationsView implements MCNMedicationsContract.View,
 
     private List<String> getSuggestions(List<Medication> list) {
         List<String> sugList = new ArrayList<>();
-        for (Medication med : list) {
-            sugList.add(med.getName());
+        if (list != null) {
+            for (Medication med : list) {
+                sugList.add(med.getName());
+            }
         }
         return sugList;
     }
