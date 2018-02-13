@@ -1,19 +1,16 @@
 package com.prokarma.myhome.features.televisit.visitreports;
 
-import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.VisitReport;
-import com.americanwell.sdk.manager.SDKCallback;
-import com.prokarma.myhome.features.televisit.AwsManager;
-import com.prokarma.myhome.features.televisit.visitreports.ui.MCNReportsComparator;
+import com.prokarma.myhome.features.televisit.AwsNetworkManager;
+import com.prokarma.myhome.features.televisit.interfaces.AwsGetVisitReports;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by veluri on 2/8/18.
  */
 
-public class MCNReportsInteractor implements MCNReportsContract.Interactor {
+public class MCNReportsInteractor implements MCNReportsContract.Interactor, AwsGetVisitReports {
     final MCNReportsContract.InteractorOutput output;
 
     public MCNReportsInteractor(MCNReportsContract.InteractorOutput output) {
@@ -22,30 +19,16 @@ public class MCNReportsInteractor implements MCNReportsContract.Interactor {
 
     @Override
     public void getVisitReports() {
+        AwsNetworkManager.getInstance().getVisitReports(this);
+    }
 
-        boolean scheduledOnly = false;
-        AwsManager.getInstance().getAWSDK().getConsumerManager().getVisitReports(
-                AwsManager.getInstance().getPatient(),
-                null,
-                scheduledOnly,
-                new SDKCallback<List<VisitReport>, SDKError>() {
-                    @Override
-                    public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
-                        if (sdkError == null) {
-                            Collections.sort(visitReports, new MCNReportsComparator());
-                            AwsManager.getInstance().setVisitReports(visitReports);
+    @Override
+    public void getVisitReportsComplete(List<VisitReport> reports) {
+        output.receivedVisitReports(reports, null);
+    }
 
-                            output.receivedVisitReports(visitReports, null);
-                        } else {
-                            output.receivedVisitReports(null, sdkError.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        output.receivedVisitReports(null, throwable.getMessage());
-                    }
-                }
-        );
+    @Override
+    public void getVisitReportsFailed(String errorMessage) {
+        output.receivedVisitReports(null, errorMessage);
     }
 }
