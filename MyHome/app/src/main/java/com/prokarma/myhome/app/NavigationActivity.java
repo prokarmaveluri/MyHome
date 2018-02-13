@@ -156,7 +156,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         RecentlyViewedDataSourceDB.getInstance().open(getApplicationContext());
 
         //Inspired by https://stackoverflow.com/a/26905894/2128921
-        timezoneChangedReceiver = new MyBroadcastReceiver();
+        timezoneChangedReceiver = new TimezoneBroadcastReceiver();
         registerReceiver(timezoneChangedReceiver, new IntentFilter("android.intent.action.TIMEZONE_CHANGED"));
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -1043,7 +1043,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     }
 
     //Receiver for handling Timezone changes
-    private static class MyBroadcastReceiver extends BroadcastReceiver {
+    private static class TimezoneBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             //Check to see if timezone actually changed or it was just updated (happens often with automatic network)
