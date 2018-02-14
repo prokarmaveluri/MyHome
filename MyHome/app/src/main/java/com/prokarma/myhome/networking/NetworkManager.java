@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.entities.Tos;
 import com.prokarma.myhome.features.appointments.Appointment;
 import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
 import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
@@ -41,7 +42,6 @@ import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.features.settings.ChangePasswordRequest;
 import com.prokarma.myhome.features.settings.ChangeSecurityQuestionRequest;
 import com.prokarma.myhome.features.settings.CommonResponse;
-import com.prokarma.myhome.features.tos.Tos;
 import com.prokarma.myhome.features.update.UpdateResponse;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;

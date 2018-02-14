@@ -8,14 +8,17 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
+import com.prokarma.myhome.entities.Tos;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;
 import com.prokarma.myhome.utils.ApiErrorUtil;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.ConnectionUtil;
 import com.prokarma.myhome.utils.Constants;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

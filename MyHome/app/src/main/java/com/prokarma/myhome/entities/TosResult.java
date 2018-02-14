@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.tos;
+package com.prokarma.myhome.entities;
 
 /**
  * Created by kwelsh on 5/10/17.

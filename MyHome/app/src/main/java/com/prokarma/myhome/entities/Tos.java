@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.tos;
+package com.prokarma.myhome.entities;
 
 import java.util.ArrayList;
 

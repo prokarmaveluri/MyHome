@@ -156,8 +156,8 @@
 -keep class com.prokarma.myhome.features.fad.details.ProviderDetailsResponse{*;}
 -keep class com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse{*;}
 -keep class com.prokarma.myhome.features.fad.ProvidersResponse{*;}
--keep class com.prokarma.myhome.features.tos.Tos{*;}
--keep class com.prokarma.myhome.features.tos.TosResult{*;}
+-keep class com.prokarma.myhome.entities.Tos{*;}
+-keep class com.prokarma.myhome.entities.TosResult{*;}
 -keep class com.prokarma.myhome.features.profile.signout.CreateSessionResponse{*;}
 -keep class com.prokarma.myhome.features.fad.LocationResponse{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse{*;}
