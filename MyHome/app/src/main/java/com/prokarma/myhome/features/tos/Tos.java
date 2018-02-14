@@ -7,12 +7,12 @@ import java.util.ArrayList;
  */
 
 public class Tos {
-    public Result result;
+    public TosResult result;
     public boolean isValid;
     public ArrayList<String> errors;
     public ArrayList<String> warnings;
 
-    public Tos(Result result, boolean isValid, ArrayList<String> errors, ArrayList<String> warnings) {
+    public Tos(TosResult result, boolean isValid, ArrayList<String> errors, ArrayList<String> warnings) {
         this.result = result;
         this.isValid = isValid;
         this.errors = errors;
