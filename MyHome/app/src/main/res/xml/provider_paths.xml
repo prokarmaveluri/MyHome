@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--list all paths that the FileProvider will share with other applications-->
+    <external-path
+        name="external_files"
+        path="." />
+</paths>

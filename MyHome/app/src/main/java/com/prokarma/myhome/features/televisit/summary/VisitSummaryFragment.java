@@ -156,8 +156,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
         if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
             setHasOptionsMenu(false);
-        }
-        else {
+        } else {
             setHasOptionsMenu(true);
         }
 
@@ -180,15 +179,17 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             public void onClick(View v) {
 
                 File f = null;
-                if (reportNameWithPath != null && !reportNameWithPath.isEmpty()) {
+                if (!CommonUtil.isEmptyString(reportNameWithPath)) {
                     f = new File(reportNameWithPath);
                 }
 
                 if (f != null && f.exists()) {
 
-                    Bundle bundle = new Bundle();
+                    CommonUtil.openPdfFile(getContext(), f.getAbsolutePath());
+
+                    /*Bundle bundle = new Bundle();
                     bundle.putString("FILENAME_WITH_PATH", reportNameWithPath);
-                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);
+                    ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.PREVIOUS_VISIT_SUMMARY_PDF, bundle);*/
                 }
             }
         });
@@ -597,33 +598,27 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
                 new SDKCallback<FileAttachment, SDKError>() {
                     @Override
                     public void onResponse(FileAttachment pdfFile, SDKError sdkError) {
+                        progressBar.setVisibility(View.GONE);
+
                         if (!isAdded()) {
-                            progressBar.setVisibility(View.GONE);
                             return;
                         }
-                        if (sdkError == null) {
+                        if (sdkError == null && pdfFile != null) {
 
-                            progressBar.setVisibility(View.GONE);
                             boolean canBeViewed = false;
-
                             try {
-                                if (pdfFile != null) {
+                                String fileNameWithEntirePath = getContext().getExternalFilesDir(null) + File.separator + "VisitReport.pdf";
+                                boolean fileSaved = CommonUtil.saveFileToStorage(getContext(), fileNameWithEntirePath, IOUtils.toByteArray(pdfFile.getInputStream()));
 
-                                    String fileNameWithEntirePath = getContext().getExternalCacheDir().toString() + File.separator + "report.pdf";
+                                if (fileSaved) {
+                                    File f = new File(fileNameWithEntirePath);
+                                    if (f != null & f.exists()) {
+                                        reportNameWithPath = fileNameWithEntirePath;
 
-                                    boolean fileSaved = CommonUtil.saveFileToStorage(getContext(), fileNameWithEntirePath, IOUtils.toByteArray(pdfFile.getInputStream()));
-
-                                    if (fileSaved) {
-                                        File f = new File(fileNameWithEntirePath);
-                                        if (f != null & f.exists()) {
-                                            reportNameWithPath = fileNameWithEntirePath;
-
-                                            canBeViewed = true;
-                                            viewReport.setVisibility(View.VISIBLE);
-                                        }
+                                        canBeViewed = true;
+                                        viewReport.setVisibility(View.VISIBLE);
                                     }
                                 }
-
                             } catch (Exception e) {
                                 Timber.e(e);
                             }
@@ -690,12 +685,10 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
         if (emailObjects != null && emailObjects.size() >= TOTAL_EMAIL_COUNT_ALLOWED) {
             newEmailLayout.setVisibility(View.GONE);
             addAdditionalCTA.setVisibility(View.GONE);
-        }
-        else if (emailObjects != null && emailObjects.size() >= 1) {
+        } else if (emailObjects != null && emailObjects.size() >= 1) {
             newEmailLayout.setVisibility(View.GONE);
             addAdditionalCTA.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             newEmailLayout.setVisibility(View.VISIBLE);
             addAdditionalCTA.setVisibility(View.GONE);
         }
