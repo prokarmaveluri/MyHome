@@ -13,6 +13,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -75,6 +77,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
     private VisitTransferType currentTransferType = VisitTransferType.NONE;
     private boolean transferAccepted = false;
     private TextView costInfo;
+    private TextView leaveWaitingRoom;
     private TextView waitingCount;
     private ProgressBar progressBar;
 
@@ -124,6 +127,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
         costInfo = (TextView) view.findViewById(R.id.cost_info);
+        leaveWaitingRoom = (TextView) view.findViewById(R.id.leave_waiting_room);
         waitingCount = (TextView) view.findViewById(R.id.waiting_count);
 
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -148,7 +152,23 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             }
         }
 
+        leaveWaitingRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                leaveWaitingRoom();
+            }
+        });
+
+        setHasOptionsMenu(true);
+
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.no_menu, menu);
     }
 
     @Override
@@ -302,6 +322,34 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
                         } else {
                             goBackToDashboard();
                         }
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+
+        alertDialog.show();
+    }
+
+    private void leaveWaitingRoom() {
+        cancelVisit();
+        goBackToDashboard();
+    }
+
+    public void showLeaveWaitingRoomAlert() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(getString(R.string.waiting_room_leave_message))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.waiting_room_leave_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        leaveWaitingRoom();
+                    }
+                })
+                .setNegativeButton(getString(R.string.waiting_room_leave_no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
                 });
         AlertDialog alertDialog = builder.create();

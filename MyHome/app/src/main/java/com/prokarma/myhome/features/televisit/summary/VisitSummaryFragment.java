@@ -154,11 +154,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
             visitReportPosition = getArguments().getInt(VISIT_LIST_POSITION);
         }
 
-        if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
-            setHasOptionsMenu(false);
-        } else {
-            setHasOptionsMenu(true);
-        }
+        setHasOptionsMenu(true);
 
         return view;
     }
@@ -278,7 +274,11 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.next_menu, menu);
+        if (visitReportPosition >= 0 && visitReportPosition < AwsManager.getInstance().getVisitReports().size()) {
+            inflater.inflate(R.menu.no_menu, menu);
+        } else {
+            inflater.inflate(R.menu.next_menu, menu);
+        }
     }
 
     @Override

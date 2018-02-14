@@ -162,8 +162,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 new BottomNavigationViewEx.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        if (handleLeaveWaitingRoom()) {
+                            return false;
+                        }
+
                         clearBackstack();
-                        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
 
                         if (null != currentSelectedMenuItem) {
                             MenuItemCompat.setContentDescription(currentSelectedMenuItem, currentSelectedMenuItem.getTitle());
@@ -261,9 +264,12 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
      * @param activityTag The page we want to navigate to
      */
     public void goToPage(ActivityTag activityTag) {
-        clearBackstack();
-        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
 
+        if (handleLeaveWaitingRoom()) {
+            return;
+        }
+
+        clearBackstack();
         switch (activityTag) {
             case HOME:
                 bottomNavigationView.setSelectedItemId(R.id.home);
@@ -788,9 +794,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (handleLeaveWaitingRoom()) {
+            return true;
+        }
         final ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left);
-        AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
-
         switch (item.getItemId()) {
 //            case R.id.help:
 //                return true;
@@ -869,12 +876,9 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                 }
 
             } else if (activityTag == ActivityTag.MY_CARE_WAITING_ROOM) {
-                MyCareWaitingRoomFragment frag = ((MyCareWaitingRoomFragment) fm.findFragmentByTag(MyCareWaitingRoomFragment.MY_CARE_WAITING_TAG));
-                if (frag != null) {
-                    AwsNetworkManager.getInstance().cancelVideoVisit(AwsManager.getInstance().getVisit(), null);
-                    fm.popBackStack();
+                if (handleLeaveWaitingRoom()) {
+                    return;
                 }
-
             } else if (activityTag == ActivityTag.VIDEO_VISIT_SUMMARY) {
                 goToPage(ActivityTag.MY_CARE);
 
@@ -889,6 +893,15 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         } catch (Exception e) {
             super.onBackPressed();
         }
+    }
+
+    private boolean handleLeaveWaitingRoom() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
+        if (currentFragment != null && currentFragment instanceof MyCareWaitingRoomFragment) {
+            ((MyCareWaitingRoomFragment) currentFragment).showLeaveWaitingRoomAlert();
+            return true;
+        }
+        return false;
     }
 
     /**

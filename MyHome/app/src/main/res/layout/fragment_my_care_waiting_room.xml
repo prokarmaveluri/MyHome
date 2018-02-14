@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="13dp"
         android:orientation="vertical"
         android:scrollbars="none"
@@ -60,10 +60,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:layout_marginBottom="37dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginRight="13dp"
             android:lineSpacingExtra="8sp"
             android:text="Thank you for your patience, your care provider is currently reviewing your health history for your virtual visit. Take a few moments to think about the questions you would like to ask. Once your doctor appears on the screen, you will be able to have a confidential conversation, just as you would at the office or clinic. \n\nThanks for calling in today! We look forward to connecting with you soon." />
+
+        <TextView
+            android:id="@+id/leave_waiting_room"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/waiting_room_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="36dp"
+            android:text="@string/waiting_room_button"
+            android:contentDescription="@string/waiting_room_button"
+            android:textColor="@color/accent"
+            android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/progress"

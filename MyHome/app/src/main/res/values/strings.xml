@@ -501,6 +501,10 @@
     <string name="may_better_help_you">may be better able to help you.</string>
     <string name="may_have_shorter_wait_time">may have a shorter waiting time.</string>
 
+    <string name="waiting_room_button">Leave Waiting Room</string>
+    <string name="waiting_room_leave_message">Are you sure? By leaving you would lose your place in line. </string>
+    <string name="waiting_room_leave_yes">Leave</string>
+    <string name="waiting_room_leave_no">I will wait</string>
     <string name="waiting_room_provider_gone">The provider is no longer available.</string>
     <string name="waiting_room_canceled">You have canceled the visit</string>
     <string name="waiting_room_timed_out">Timed out</string>
