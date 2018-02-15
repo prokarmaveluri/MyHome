@@ -133,7 +133,6 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_api_key" />
 
-        <activity android:name=".features.update.UpdateActivity" />
         <activity android:name=".features.login.verify.EmailVerifyActivity" />
         <activity
             android:name=".app.SplashActivity"

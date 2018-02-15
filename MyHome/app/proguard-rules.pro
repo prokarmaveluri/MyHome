@@ -156,8 +156,8 @@
 -keep class com.prokarma.myhome.features.fad.details.ProviderDetailsResponse{*;}
 -keep class com.prokarma.myhome.features.fad.suggestions.SearchSuggestionResponse{*;}
 -keep class com.prokarma.myhome.features.fad.ProvidersResponse{*;}
--keep class com.prokarma.myhome.features.tos.Tos{*;}
--keep class com.prokarma.myhome.features.tos.Result{*;}
+-keep class com.prokarma.myhome.entities.Tos{*;}
+-keep class com.prokarma.myhome.entities.TosResult{*;}
 -keep class com.prokarma.myhome.features.profile.signout.CreateSessionResponse{*;}
 -keep class com.prokarma.myhome.features.fad.LocationResponse{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.validation.RegValidationResponse{*;}
@@ -191,12 +191,12 @@
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Schedule{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Error{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.Error$Source{*;}
--keep class com.prokarma.myhome.features.update.UpdateResponse{*;}
--keep class com.prokarma.myhome.features.update.UpdateResponse$Ciam{*;}
--keep class com.prokarma.myhome.features.update.UpdateResponse$Clients{*;}
--keep class com.prokarma.myhome.features.update.UpdateResponse$MyhomeMobileAndroid{*;}
--keep class com.prokarma.myhome.features.update.UpdateResponse$MyhomeMobileIos{*;}
--keep class com.prokarma.myhome.features.update.UpdateResponse$Services{*;}
+-keep class com.prokarma.myhome.entities.UpdateResponse{*;}
+-keep class com.prokarma.myhome.entities.UpdateResponse$Ciam{*;}
+-keep class com.prokarma.myhome.entities.UpdateResponse$Clients{*;}
+-keep class com.prokarma.myhome.entities.UpdateResponse$MyhomeMobileAndroid{*;}
+-keep class com.prokarma.myhome.entities.UpdateResponse$MyhomeMobileIos{*;}
+-keep class com.prokarma.myhome.entities.UpdateResponse$Services{*;}
 
 -keep class com.prokarma.myhome.features.preferences.MySavedDoctorsRequest{*;}
 -keep class com.prokarma.myhome.features.preferences.SaveDoctorRequest{*;}

@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.update;
+package com.prokarma.myhome.entities;
 
 import com.google.gson.annotations.SerializedName;
 
