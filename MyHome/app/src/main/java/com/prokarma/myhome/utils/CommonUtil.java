@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -39,8 +40,7 @@ import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.SplashActivity;
@@ -87,7 +87,7 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public class CommonUtil {
-    public static final String  ASSET_BASE_PATH = "../app/src/main/assets/";
+    public static final String ASSET_BASE_PATH = "../app/src/main/assets/";
 
     public static final String GOOD_IRI_CHAR =
             "a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF";
@@ -1111,18 +1111,6 @@ public class CommonUtil {
         return false;
     }
 
-    public static String getTextFromPdfFile(String pdfFilePath) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        PdfReader reader = new PdfReader(pdfFilePath);
-        int n = reader.getNumberOfPages();
-        for (int i = 0; i < n; i++) {
-            sb.append(PdfTextExtractor.getTextFromPage(reader, i + 1).trim() + "\n");
-
-            Timber.d(PdfTextExtractor.getTextFromPage(reader, i + 1).trim() + "\n");
-        }
-        return sb.toString();
-    }
-
     public static boolean saveFileToStorage(Context context, String fileNameWithEntirePath, byte[] fileData) {
         try {
             File f = new File(fileNameWithEntirePath);
@@ -1180,6 +1168,29 @@ public class CommonUtil {
         return false;
     }
 
+    public static boolean openPdfFile(Context context, String filePath) {
+        try {
+            //THe following line throws fatal exception : android.os.FileUriExposedException
+            //pdfOpenintent.setDataAndType(Uri.fromFile(new File(filePath)), "application/pdf");
+
+            //If your targetSdkVersion is 24 or higher, we have to use FileProvider
+            //also we can have the content on internal storage, then use FileProvider to make it selectively available to other apps
+
+            Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
+            pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            pdfOpenintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            pdfOpenintent.setDataAndType(FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, new File(filePath)), "application/pdf");
+
+            //check if intent is available inorder to open the PDF file.
+            if (pdfOpenintent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(pdfOpenintent);
+            }
+        } catch (ActivityNotFoundException e) {
+            Timber.e(e);
+        }
+        return false;
+    }
+
     public static boolean openPdfUrl(Context context, String httpUrl) {
         try {
             Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
@@ -1192,8 +1203,6 @@ public class CommonUtil {
             }
             return true;
         } catch (ActivityNotFoundException e) {
-            Timber.e(e);
-        } catch (Exception e) {
             Timber.e(e);
         }
         return false;
@@ -1343,8 +1352,8 @@ public class CommonUtil {
 
         return sb.toString();
     }
-	
-	public static void checkPermissions(Context context, Activity activity) {
+
+    public static void checkPermissions(Context context, Activity activity) {
 
         //LOCATION permission GRANTED AT SOME POINT
         if (AppPreferences.getInstance().getBooleanPreference(Constants.LOCATION_PERMISSIONS_GRANTED)) {
