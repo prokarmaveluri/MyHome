@@ -18,7 +18,7 @@ import timber.log.Timber;
 public class ContactUsRouter implements ContactUsContract.Router {
     BaseFragment fragment;
 
-    public ContactUsRouter(ContactUsFragment fragment) {
+    public ContactUsRouter(BaseFragment fragment) {
         this.fragment = fragment;
     }
 

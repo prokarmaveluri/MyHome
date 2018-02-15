@@ -3,6 +3,8 @@ package com.prokarma.myhome.features.contact;
 import android.content.Context;
 import android.view.View;
 
+import com.prokarma.myhome.app.BaseFragment;
+
 /**
  * Created by kwelsh on 2/12/18.
  */
@@ -13,7 +15,7 @@ public class ContactUsPresenter implements ContactUsContract.Presentor {
     ContactUsInteractor interactor;
     ContactUsRouter router;
 
-    public ContactUsPresenter(Context context, ContactUsFragment fragment, View masterView) {
+    public ContactUsPresenter(Context context, BaseFragment fragment, View masterView) {
         this.context = context;
         this.view = new ContactUsView(context, masterView, this);
         this.interactor = new ContactUsInteractor();
