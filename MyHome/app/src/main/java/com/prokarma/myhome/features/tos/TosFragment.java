@@ -28,7 +28,7 @@ public class TosFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View tosView = inflater.inflate(R.layout.tos, container, false);
         getActivity().setTitle(getString(R.string.terms_of_service));
-        presenter = new TosPresenter(getContext(), this, tosView);
+        presenter = new TosPresenter(getContext(), getActivity(), tosView, null);
         presenter.onCreate();
         return tosView;
     }
