@@ -63,6 +63,7 @@ import com.prokarma.myhome.features.televisit.pharmacy.PharmaciesFragment;
 import com.prokarma.myhome.features.televisit.pharmacy.PharmacyDetailsFragment;
 import com.prokarma.myhome.features.televisit.profile.MyCareProfileFragment;
 import com.prokarma.myhome.features.televisit.profile.MyCareProfileViewDependentFragment;
+import com.prokarma.myhome.features.televisit.providerdetails.MCNProviderDetailFragment;
 import com.prokarma.myhome.features.televisit.providers.MyCareProvidersFragment;
 import com.prokarma.myhome.features.televisit.services.MyCareServicesFragment;
 import com.prokarma.myhome.features.televisit.summary.VisitSummaryFragment;
@@ -523,6 +524,20 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .commit();
 
                     setActivityTag(ActivityTag.MY_CARE_PROVIDERS);
+                }
+                break;
+            case MY_CARE_PROVIDER_DETAIL:
+                if (getActivityTag() != ActivityTag.MY_CARE_PROVIDER_DETAIL) {
+                    getSupportFragmentManager().executePendingTransactions();
+                    MCNProviderDetailFragment myCareProviderDetailFragment = MCNProviderDetailFragment.newInstance();
+                    myCareProviderDetailFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, myCareProviderDetailFragment, MCNProviderDetailFragment.MY_CARE_PROVIDER_DETAIL_TAG)
+                            .addToBackStack(null)
+                            .commit();
+
+                    setActivityTag(ActivityTag.MY_CARE_PROVIDER_DETAIL);
                 }
                 break;
             case MY_CARE_INTAKE:

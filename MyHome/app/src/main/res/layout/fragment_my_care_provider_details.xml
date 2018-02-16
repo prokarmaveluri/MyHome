@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/doc_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.prokarma.myhome.views.CircularImageView
+                android:id="@+id/doc_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="17dp"
+                android:layout_marginTop="27dp"
+                android:scaleType="centerInside" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/doc_image"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:id="@+id/provider_name"
+                    style="@style/tradeGothicLTStd_Dynamic24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="17dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    tools:text="Richard Paul, MD" />
+
+                <TextView
+                    android:id="@+id/provider_title"
+                    style="@style/tradeGothicLTStd_Dynamic18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/doc_image"
+                    android:gravity="center"
+                    tools:text="Internal Medicine" />
+
+                <com.whinc.widget.ratingbar.RatingBar
+                    android:id="@+id/provider_rating"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/provider_speciality"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/doc_image"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:isIndicator="true"
+                    android:saveEnabled="false"
+                    app:rb_click_rating="false"
+                    app:rb_empty="@mipmap/star_empty_grey"
+                    app:rb_fill="@mipmap/star_full_grey"
+                    app:rb_max_count="5"
+                    app:rb_space="15dp"
+                    app:rb_touch_rating="false" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/provider_notes"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget risus nec quam facilisis molestie sit amet non ligula. Donec purus risus, posuere ac consectetur et, faucibus in odio. " />
+
+        <TextView
+            android:id="@+id/languages_title"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/spoken_languages"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/provider_type_title"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="17dp"
+            android:gravity="center"
+            android:text="@string/primary_care_provider"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/details_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="48dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</ScrollView>

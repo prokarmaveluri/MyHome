@@ -15,6 +15,8 @@ import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.entity.visit.VisitReport;
@@ -51,6 +53,8 @@ public class AwsManager {
     private List<Medication> medications;
     private Pharmacy consumerPharmacy;
     private Authentication authentication;
+    private ProviderInfo providerInfo;
+    private Provider provider;
     private VisitContext visitContext;
     private Visit visit;
     private boolean visitOngoing;
@@ -252,6 +256,22 @@ public class AwsManager {
         if (medications != null && !medications.isEmpty()) {
             setHasMedicationsFilledOut(true);
         }
+    }
+
+    public ProviderInfo getProviderInfo() {
+        return providerInfo;
+    }
+
+    public void setProviderInfo(ProviderInfo providerInfo) {
+        this.providerInfo = providerInfo;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 
     public VisitContext getVisitContext() {

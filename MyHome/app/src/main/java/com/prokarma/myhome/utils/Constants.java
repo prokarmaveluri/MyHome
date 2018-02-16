@@ -51,6 +51,7 @@ public class Constants {
         MY_PHARMACY_DETAILS,
         MY_CARE_SERVICES,
         MY_CARE_PROVIDERS,
+        MY_CARE_PROVIDER_DETAIL,
         MY_CARE_INTAKE,
         MY_CARE_COST,
         MY_CARE_CREDIT_CARD,
@@ -119,6 +120,7 @@ public class Constants {
     public static final String MCN_MEDICATIONS_SCREEN = "my home|my medications";
     public static final String MCN_FEEDBACK_SCREEN = "my home|visit feedback";
     public static final String MCN_PROVIDERS_SCREEN = "my home|available providers";
+    public static final String MCN_PROVIDER_DETAIL_SCREEN = "my home|available provider detail";
     public static final String MCN_MEDICAL_HISTORY_SCREEN = "my home|my medical history";
     public static final String MCN_ALLERGIES_SCREEN = "my home|my allergies"; //Android is just using the broad "Medical History" currently
     public static final String MCN_PHARMACY_SCREEN = "my home|my pharmacy";

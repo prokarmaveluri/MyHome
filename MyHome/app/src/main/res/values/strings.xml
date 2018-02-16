@@ -633,6 +633,14 @@
     <string name="no_previous_visits">You have no previous visits.</string>
     <string name="no_previous_visits_child">Your child has no previous visits.</string>
 
+
+    <!-- MCN Provider Details -->
+    <string name="mcn_provider_details_title">Doctor Details</string>
+    <string name="spoken_languages">Spoken Languages</string>
+    <string name="primary_care_provider">Primary Care Provider</string>
+
+
+
     <string name="field_must_be_completed">Field must be completed</string>
     <string name="enter_valid_phone_number">Enter valid phone number</string>
     <string name="enter_valid_reason_for_visit">Enter valid reason for visit</string>

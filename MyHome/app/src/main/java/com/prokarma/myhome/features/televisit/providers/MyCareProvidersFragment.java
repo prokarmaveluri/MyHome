@@ -165,11 +165,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
     }
 
     @Override
-    public void providerClick(ProviderInfo provider) {
-        if (provider != null && provider.getVisibility() == ProviderVisibility.OFFLINE) {
-            CommonUtil.showToast(getActivity(), provider.getFullName() + " " + getActivity().getString(R.string.is_not_available));
-        } else if (provider != null && provider.getVisibility() != ProviderVisibility.OFFLINE) {
-            getVisitContextByProvider(provider);
+    public void providerClick(ProviderInfo providerInfo) {
+        if (providerInfo != null && providerInfo.getVisibility() == ProviderVisibility.OFFLINE) {
+            CommonUtil.showToast(getActivity(), providerInfo.getFullName() + " " + getActivity().getString(R.string.is_not_available));
+        } else if (providerInfo != null && providerInfo.getVisibility() != ProviderVisibility.OFFLINE) {
+            getVisitContextByProvider(providerInfo);
         }
     }
 
@@ -422,7 +422,8 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                             CommonUtil.showToast(getContext(), getContext().getString(R.string.next_available_provider_is) + " " + provider.getFullName());
 
                             if (getActivity() != null) {
-                                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_INTAKE, null);
+                                AwsManager.getInstance().setProvider(provider);
+                                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROVIDER_DETAIL, null);
                             }
                         }
                     }
@@ -441,17 +442,18 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                 });
     }
 
-    private void getVisitContextByProvider(ProviderInfo info) {
+    private void getVisitContextByProvider(final ProviderInfo providerInfo) {
         AwsManager.getInstance().getAWSDK().getVisitManager().getVisitContext(
                 patient,
-                info, new SDKCallback<VisitContext, SDKError>() {
+                providerInfo,
+                new SDKCallback<VisitContext, SDKError>() {
                     @Override
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
                         if (sdkError == null) {
                             AwsManager.getInstance().setVisitContext(visitContext);
                             if (isAdded() && getActivity() != null) {
-                                ((NavigationActivity) getActivity()).loadFragment(
-                                        Constants.ActivityTag.MY_CARE_INTAKE, null);
+                                AwsManager.getInstance().setProviderInfo(providerInfo);
+                                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROVIDER_DETAIL, null);
                             }
                             setLegalTextsAccepted(true, visitContext);
                             setShareHealthSummary(visitContext);

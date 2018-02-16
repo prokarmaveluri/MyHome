@@ -117,7 +117,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.visit_summary));
-        View view = inflater.inflate(R.layout.visit_summary, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_care_visit_summary, container, false);
 
         CommonUtil.setTitle(getActivity(), CommonUtil.isAccessibilityEnabled(getActivity()) ? getResources().getString(R.string.visit_summary) : getResources().getString(R.string.visit_summary), true);
 

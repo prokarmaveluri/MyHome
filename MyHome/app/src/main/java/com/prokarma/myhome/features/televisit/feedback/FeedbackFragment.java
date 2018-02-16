@@ -70,7 +70,7 @@ public class FeedbackFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.feedback));
-        View view = inflater.inflate(R.layout.visit_feedback, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_care_visit_feedback, container, false);
 
         if (getActivity() instanceof NavigationActivity) {
             ((NavigationActivity) getActivity()).setActionBarTitle(getString(R.string.feedback));
