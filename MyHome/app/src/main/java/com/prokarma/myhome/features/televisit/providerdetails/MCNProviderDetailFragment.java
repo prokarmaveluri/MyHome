@@ -8,9 +8,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.provider.Provider;
@@ -38,6 +40,8 @@ public class MCNProviderDetailFragment extends BaseFragment {
     private TextView providerTitle;
     private RatingBar providerRating;
     private TextView providerNotes;
+    private TextView providerType;
+    private LinearLayout linearLanguages;
 
     public MCNProviderDetailFragment() {
     }
@@ -64,6 +68,8 @@ public class MCNProviderDetailFragment extends BaseFragment {
         providerTitle = (TextView) view.findViewById(R.id.provider_title);
         providerRating = (RatingBar) view.findViewById(R.id.provider_rating);
         providerNotes = (TextView) view.findViewById(R.id.provider_notes);
+        providerType = (TextView) view.findViewById(R.id.provider_type);
+        linearLanguages = (LinearLayout) view.findViewById(R.id.linear_languages);
 
         if (AwsManager.getInstance().getProvider() != null) {
             loadProviderDetails();
@@ -104,6 +110,16 @@ public class MCNProviderDetailFragment extends BaseFragment {
         return Constants.ActivityTag.MY_CARE_PROVIDER_DETAIL;
     }
 
+    private void addLanguageView(final String language) {
+
+        final TextView langView = new TextView(getContext());
+        langView.setPadding(0, 10, 10, 10);
+        langView.setText(language);
+        langView.setContentDescription(language);
+
+        linearLanguages.addView(langView);
+    }
+
     private void loadProviderDetails() {
 
         if (AwsManager.getInstance().getProvider() != null) {
@@ -121,6 +137,19 @@ public class MCNProviderDetailFragment extends BaseFragment {
 
             providerNotes.setText(AwsManager.getInstance().getProvider().getTextGreeting());
             providerNotes.setContentDescription(providerNotes.getText());
+
+            if (AwsManager.getInstance().getProvider().isPCP()) {
+                providerType.setText(getString(R.string.yes));
+            } else {
+                providerType.setText(getString(R.string.no));
+            }
+            providerType.setContentDescription(providerType.getText());
+
+            if (AwsManager.getInstance().getProvider().getSpokenLanguages() != null && AwsManager.getInstance().getProvider().getSpokenLanguages().size() > 0) {
+                for (Language lang : AwsManager.getInstance().getProvider().getSpokenLanguages()) {
+                    addLanguageView(lang.getName());
+                }
+            }
         }
     }
 

@@ -96,6 +96,14 @@
             android:text="@string/spoken_languages"
             android:textStyle="bold" />
 
+        <LinearLayout
+            android:id="@+id/linear_languages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/provider_type_title"
             style="@style/tradeGothicLTStd_Dynamic18"
@@ -106,6 +114,16 @@
             android:gravity="center"
             android:text="@string/primary_care_provider"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/provider_type"
+            style="@style/tradeGothicLTStd_Dynamic18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="17dp"
+            android:gravity="center"
+            android:text="@string/yes" />
 
         <ProgressBar
             android:id="@+id/details_progress"
