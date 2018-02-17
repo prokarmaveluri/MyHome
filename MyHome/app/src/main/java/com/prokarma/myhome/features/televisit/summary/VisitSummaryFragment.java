@@ -409,7 +409,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
             // preferred method for loading image
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
-                    .newImageLoader(visitReportDetail.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
+                    .newImageLoader(visitReportDetail.getAssignedProviderInfo(), docImage, ProviderImageSize.SMALL)
                     .placeholder(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .error(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .build()
@@ -423,7 +423,7 @@ public class VisitSummaryFragment extends BaseFragment implements AwsGetVisitSum
 
             // preferred method for loading image
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
-                    .newImageLoader(visitSummary.getAssignedProviderInfo(), docImage, ProviderImageSize.EXTRA_LARGE)
+                    .newImageLoader(visitSummary.getAssignedProviderInfo(), docImage, ProviderImageSize.SMALL)
                     .placeholder(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .error(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .build()

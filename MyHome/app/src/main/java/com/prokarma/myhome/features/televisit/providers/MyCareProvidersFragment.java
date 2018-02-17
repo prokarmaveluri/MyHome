@@ -195,8 +195,7 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
 
             if (providerInfos.size() > 0) {
                 divider.setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 divider.setVisibility(View.GONE);
             }
         }
@@ -417,12 +416,15 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     @Override
                     public void onProviderFound(@NonNull Provider provider) {
                         if (provider != null) {
+
+                            AwsManager.getInstance().setProvider(provider);
+                            AwsManager.getInstance().setProviderInfo(null);
+
                             Timber.d("providers. startMatchmaking. onProviderFound = " + provider.getFullName());
 
                             CommonUtil.showToast(getContext(), getContext().getString(R.string.next_available_provider_is) + " " + provider.getFullName());
 
                             if (getActivity() != null) {
-                                AwsManager.getInstance().setProvider(provider);
                                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROVIDER_DETAIL, null);
                             }
                         }
@@ -451,8 +453,11 @@ public class MyCareProvidersFragment extends BaseFragment implements ProvidersLi
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
                         if (sdkError == null) {
                             AwsManager.getInstance().setVisitContext(visitContext);
+
+                            AwsManager.getInstance().setProvider(null);
+                            AwsManager.getInstance().setProviderInfo(providerInfo);
+
                             if (isAdded() && getActivity() != null) {
-                                AwsManager.getInstance().setProviderInfo(providerInfo);
                                 ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PROVIDER_DETAIL, null);
                             }
                             setLegalTextsAccepted(true, visitContext);

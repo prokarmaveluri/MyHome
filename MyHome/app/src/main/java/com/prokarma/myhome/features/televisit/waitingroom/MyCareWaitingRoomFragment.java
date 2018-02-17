@@ -655,7 +655,7 @@ public class MyCareWaitingRoomFragment extends BaseFragment implements AwsStartV
             }
 
             AwsManager.getInstance().getAWSDK().getPracticeProvidersManager()
-                    .newImageLoader(providerObject, doctorImage, ProviderImageSize.EXTRA_LARGE)
+                    .newImageLoader(providerObject, doctorImage, ProviderImageSize.SMALL)
                     .placeholder(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .error(ContextCompat.getDrawable(getContext(), R.mipmap.img_provider_photo_placeholder))
                     .build()

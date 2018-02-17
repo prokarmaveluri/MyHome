@@ -130,6 +130,8 @@ public class AwsManager {
         setVisit(null);
         setVisitContext(null);
         setVisitReports(null);
+        setProvider(null);
+        setProviderInfo(null);
         setIsDependent(false);
     }
 
