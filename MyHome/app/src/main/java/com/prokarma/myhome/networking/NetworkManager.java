@@ -8,11 +8,11 @@ import android.widget.ImageView;
 
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.entities.Appointment;
+import com.prokarma.myhome.entities.MyAppointmentsRequest;
+import com.prokarma.myhome.entities.MyAppointmentsResponse;
 import com.prokarma.myhome.entities.Tos;
 import com.prokarma.myhome.entities.UpdateResponse;
-import com.prokarma.myhome.features.appointments.Appointment;
-import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
-import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
 import com.prokarma.myhome.features.fad.FadManager;

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.entities.Appointment;
 import com.prokarma.myhome.utils.CommonUtil;
 
 import java.util.ArrayList;

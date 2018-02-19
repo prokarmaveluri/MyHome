@@ -143,7 +143,7 @@ public class DateUtil {
      * @param appointment the appointment we want a timezone for
      * @return a TimeZone (the only values we return are "MST", "PDT", or "PST")
      */
-    public static String getReadableTimeZone(com.prokarma.myhome.features.appointments.Appointment appointment) {
+    public static String getReadableTimeZone(com.prokarma.myhome.entities.Appointment appointment) {
         return getReadableTimeZone(appointment.facilityAddress.stateOrProvince, appointment.appointmentStart);
     }
 

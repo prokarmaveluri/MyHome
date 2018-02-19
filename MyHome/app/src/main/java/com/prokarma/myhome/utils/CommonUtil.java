@@ -44,7 +44,7 @@ import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.NavigationActivity;
 import com.prokarma.myhome.app.SplashActivity;
-import com.prokarma.myhome.features.appointments.Appointment;
+import com.prokarma.myhome.entities.Appointment;
 import com.prokarma.myhome.features.fad.Office;
 import com.prokarma.myhome.features.fad.details.Image;
 import com.prokarma.myhome.features.fad.details.ProviderDetailsAddress;

@@ -1,7 +1,8 @@
 package com.prokarma.myhome.networking;
 
-import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
-import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
+import com.prokarma.myhome.entities.Appointment;
+import com.prokarma.myhome.entities.MyAppointmentsRequest;
+import com.prokarma.myhome.entities.MyAppointmentsResponse;
 import com.prokarma.myhome.features.login.endpoint.SignInRequest;
 import com.prokarma.myhome.utils.CommonUtil;
 import com.prokarma.myhome.utils.EnviHandler;
@@ -64,7 +65,7 @@ public class AppointmentsTest {
         getAppointments(TestUtil.getLogin(loginRequest));
     }
 
-    public List<com.prokarma.myhome.features.appointments.Appointment> getAppointments(String bearerToken){
+    public List<Appointment> getAppointments(String bearerToken){
         Call<MyAppointmentsResponse> call = NetworkManager.getInstance().getMyAppointments(bearerToken, new MyAppointmentsRequest());
 
         try {
