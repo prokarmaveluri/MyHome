@@ -22,15 +22,12 @@ public class EnvironmentSelectorInteractor implements EnvironmentSelectorContrac
     @Override
     public void attemptMutualAuth(boolean isMutualAuthEnabled) {
         EnviHandler.setAttemptMutualAuth(isMutualAuthEnabled);
-        AppPreferences.getInstance().setBooleanPreference(Constants.ENV_MUTUAL_AUTH, isMutualAuthEnabled);
     }
 
     @Override
     public void hardcodedUser(String username, String password) {
         EnviHandler.setAmwellUsername(username);
         EnviHandler.setAmwellPassword(password);
-        AppPreferences.getInstance().setPreference(Constants.ENV_AMWELL_USERNAME, username);
-        AppPreferences.getInstance().setPreference(Constants.ENV_AMWELL_PASSWORD, password);
     }
 
     @Override
