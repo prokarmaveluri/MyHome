@@ -10,6 +10,7 @@
         style="@style/customTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:tabIndicatorColor="@color/primary"
         app:tabIndicatorHeight="2dp"
         app:tabMode="fixed"
@@ -23,7 +24,8 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/appointment_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/appointments_progress"
@@ -32,6 +34,6 @@
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:indeterminate="true"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </LinearLayout>

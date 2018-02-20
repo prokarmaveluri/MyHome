@@ -3,17 +3,13 @@ package com.prokarma.myhome.features.appointments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.prokarma.myhome.R;
-import com.prokarma.myhome.app.NavigationActivity;
-import com.prokarma.myhome.app.RecyclerViewListener;
-import com.prokarma.myhome.utils.CommonUtil;
-import com.prokarma.myhome.utils.Constants;
+import com.prokarma.myhome.entities.Appointment;
+
 import java.util.ArrayList;
 
 /**
@@ -21,16 +17,13 @@ import java.util.ArrayList;
  */
 
 public class AppointmentsListFragment extends Fragment {
-    protected static final String APPOINTMENT_KEY = "appointment_key";
+
+    public static final String APPOINTMENT_DETAILS_INTENT = "appointment_details_intent";
+    public static final String APPOINTMENT_KEY = "appointment_key";
     public static final String APPOINTMENTS_KEY = "appointments_key";
     public static final String PAST_APPOINTMENT_KEY = "past_appointment_key";
 
-    private View appointmentsView;
-    private RecyclerView appointmentsList;
-    private AppointmentsRecyclerViewAdapter appointmentsAdapter;
-    private boolean isPastAppointmentList;
-
-    private ArrayList<Appointment> appointments;
+    AppointmentsListPresenter presentor;
 
     public static AppointmentsListFragment newInstance() {
         return new AppointmentsListFragment();
@@ -48,44 +41,26 @@ public class AppointmentsListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        appointmentsView = inflater.inflate(R.layout.appointments_list, container, false);
-        appointmentsList = (RecyclerView) appointmentsView.findViewById(R.id.list_appointments);
+        View appointmentsView = inflater.inflate(R.layout.appointments_list, container, false);
 
         if (getArguments() != null) {
-            appointments = getArguments().getParcelableArrayList(APPOINTMENTS_KEY);
-            isPastAppointmentList = getArguments().getBoolean(PAST_APPOINTMENT_KEY);
+            ArrayList<Appointment> appointments = getArguments().getParcelableArrayList(APPOINTMENTS_KEY);
+            boolean isPastAppointmentList = getArguments().getBoolean(PAST_APPOINTMENT_KEY);
+
+            presentor = new AppointmentsListPresenter(getContext(), this, appointmentsView, appointments, isPastAppointmentList);
+            presentor.onCreate();
         }
-
-        appointmentsAdapter = new AppointmentsRecyclerViewAdapter(getActivity(), appointments, isPastAppointmentList, new RecyclerViewListener() {
-            @Override
-            public void onItemClick(Object model, int position) {
-                Appointment appointment = (Appointment) model;
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(APPOINTMENT_KEY, appointment);
-                bundle.putBoolean(PAST_APPOINTMENT_KEY, isPastAppointmentList);
-                ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.APPOINTMENTS_DETAILS, bundle);
-            }
-
-            @Override
-            public void onPinClick(Object model, int position) {
-                Appointment appointment = (Appointment) model;
-
-                if (model == null || ((Appointment) model).facilityAddress == null) {
-                    CommonUtil.showToast(getContext(), getString(R.string.directions_not_found));
-                } else {
-                    CommonUtil.getDirections(getActivity(), appointment.facilityAddress);
-                }
-            }
-        });
-
-        appointmentsList.setAdapter(appointmentsAdapter);
-        appointmentsList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-        appointmentsList.addItemDecoration(itemDecoration);
 
         return appointmentsView;
     }
 
+    @Override
+    public void onDestroy() {
+        if (presentor != null) {
+            presentor.onDestroy();
+            presentor = null;
+        }
 
+        super.onDestroy();
+    }
 }

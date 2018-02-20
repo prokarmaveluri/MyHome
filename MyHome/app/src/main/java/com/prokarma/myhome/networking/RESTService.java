@@ -1,9 +1,9 @@
 package com.prokarma.myhome.networking;
 
+import com.prokarma.myhome.entities.MyAppointmentsRequest;
+import com.prokarma.myhome.entities.MyAppointmentsResponse;
 import com.prokarma.myhome.entities.Tos;
 import com.prokarma.myhome.entities.UpdateResponse;
-import com.prokarma.myhome.features.appointments.MyAppointmentsRequest;
-import com.prokarma.myhome.features.appointments.MyAppointmentsResponse;
 import com.prokarma.myhome.features.enrollment.EnrollmentRequest;
 import com.prokarma.myhome.features.enrollment.ValidateEmailResponse;
 import com.prokarma.myhome.features.fad.LocationResponse;

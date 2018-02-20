@@ -142,11 +142,11 @@
 -keep class com.prokarma.myhome.features.profile.ProfileResponse{*;}
 -keep class com.prokarma.myhome.features.login.forgot.password.ForgotPasswordRequest{*;}
 -keep class com.prokarma.myhome.features.login.forgot.password.ForgotPasswordResponse{*;}
--keep class com.prokarma.myhome.features.appointments.Appointment{*;}
--keep class com.prokarma.myhome.features.appointments.AppointmentResponse{*;}
--keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Result{*;}
--keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Errors{*;}
--keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Warnings{*;}
+-keep class com.prokarma.myhome.entities.Appointment{*;}
+-keep class com.prokarma.myhome.entities.AppointmentResponse{*;}
+-keep class com.prokarma.myhome.entities.AppointmentResponse$Result{*;}
+-keep class com.prokarma.myhome.entities.AppointmentResponse$Errors{*;}
+-keep class com.prokarma.myhome.entities.AppointmentResponse$Warnings{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentRequest{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse{*;}
 -keep class com.prokarma.myhome.features.fad.details.booking.req.scheduling.CreateAppointmentResponse$Attributes{*;}
@@ -207,14 +207,14 @@
 -keep class com.prokarma.myhome.features.preferences.MySavedDoctorsResponse$Data{*;}
 -keep class com.prokarma.myhome.features.preferences.MySavedDoctorsResponse$User{*;}
 
--keep class com.prokarma.myhome.features.appointments.MyAppointmentsRequest{*;}
--keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse{*;}
--keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse$User{*;}
--keep class com.prokarma.myhome.features.appointments.MyAppointmentsResponse$Data{*;}
--keep class com.prokarma.myhome.features.appointments.AppointmentResponse{*;}
--keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Result{*;}
--keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Errors{*;}
--keep class com.prokarma.myhome.features.appointments.AppointmentResponse$Warnings{*;}
+-keep class com.prokarma.myhome.entities.MyAppointmentsRequest{*;}
+-keep class com.prokarma.myhome.entities.MyAppointmentsResponse{*;}
+-keep class com.prokarma.myhome.entities.MyAppointmentsResponse$User{*;}
+-keep class com.prokarma.myhome.entities.MyAppointmentsResponse$Data{*;}
+-keep class com.prokarma.myhome.entities.AppointmentResponse{*;}
+-keep class com.prokarma.myhome.entities.AppointmentResponse$Result{*;}
+-keep class com.prokarma.myhome.entities.AppointmentResponse$Errors{*;}
+-keep class com.prokarma.myhome.entities.AppointmentResponse$Warnings{*;}
 
 -keep class com.prokarma.myhome.features.settings.CommonResponse{*;}
 -keep class com.prokarma.myhome.features.settings.CommonResponse$Error{*;}

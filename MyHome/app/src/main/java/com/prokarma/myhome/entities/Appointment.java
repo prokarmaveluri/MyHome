@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.appointments;
+package com.prokarma.myhome.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;

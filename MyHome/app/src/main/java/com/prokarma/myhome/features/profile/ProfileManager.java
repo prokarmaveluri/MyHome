@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.prokarma.myhome.features.appointments.Appointment;
+import com.prokarma.myhome.entities.Appointment;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.networking.NetworkManager;
 import com.prokarma.myhome.networking.auth.AuthManager;

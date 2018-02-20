@@ -8,11 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.RecyclerViewListener;
+import com.prokarma.myhome.entities.Appointment;
 import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 /**

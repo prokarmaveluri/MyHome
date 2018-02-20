@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.appointments;
+package com.prokarma.myhome.entities;
 
 import com.prokarma.myhome.utils.RESTConstants;
 

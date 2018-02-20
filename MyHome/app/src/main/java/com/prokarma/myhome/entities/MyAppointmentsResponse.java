@@ -1,4 +1,4 @@
-package com.prokarma.myhome.features.appointments;
+package com.prokarma.myhome.entities;
 
 import java.util.ArrayList;
 

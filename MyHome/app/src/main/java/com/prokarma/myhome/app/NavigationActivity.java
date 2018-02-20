@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,8 +35,10 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.prokarma.myhome.BuildConfig;
 import com.prokarma.myhome.R;
+import com.prokarma.myhome.entities.Appointment;
 import com.prokarma.myhome.features.appointments.AppointmentsDetailsFragment;
 import com.prokarma.myhome.features.appointments.AppointmentsFragment;
+import com.prokarma.myhome.features.appointments.AppointmentsListFragment;
 import com.prokarma.myhome.features.contact.ContactUsFragment;
 import com.prokarma.myhome.features.dev.DeveloperFragment;
 import com.prokarma.myhome.features.fad.FadFragment;
@@ -101,6 +104,27 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
     private BroadcastReceiver timezoneChangedReceiver;
     private static boolean didTimeZoneChange = false;
     private MenuItem currentSelectedMenuItem;
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case AppointmentsListFragment.APPOINTMENT_DETAILS_INTENT:
+
+                    if (intent != null && intent.getExtras() != null) {
+                        Appointment appointment = (Appointment) intent.getExtras().get(AppointmentsListFragment.APPOINTMENT_KEY);
+                        boolean isPastAppointment = (boolean) intent.getExtras().get(AppointmentsListFragment.PAST_APPOINTMENT_KEY);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(AppointmentsListFragment.APPOINTMENT_KEY, appointment);
+                        bundle.putBoolean(AppointmentsListFragment.PAST_APPOINTMENT_KEY, isPastAppointment);
+                        loadFragment(Constants.ActivityTag.APPOINTMENTS_DETAILS, bundle);
+                    }
+
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -961,6 +985,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         mHandler.removeCallbacks(runnable);
         AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
         mHandler.postDelayed(runnable, AuthManager.SESSION_EXPIRY_TIME);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(AppointmentsListFragment.APPOINTMENT_DETAILS_INTENT));
     }
 
     @Override
@@ -969,6 +995,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
         mHandler.removeCallbacks(runnable);
         AppPreferences.getInstance().setLongPreference("IDLE_TIME", System.currentTimeMillis());
         AuthManager.getInstance().setIdleTime(System.currentTimeMillis());
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
     }
 
     @Override

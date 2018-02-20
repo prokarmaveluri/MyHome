@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.prokarma.myhome.R;
 import com.prokarma.myhome.app.BaseFragment;
 import com.prokarma.myhome.app.NavigationActivity;
+import com.prokarma.myhome.entities.Appointment;
 import com.prokarma.myhome.features.preferences.ProviderResponse;
 import com.prokarma.myhome.features.profile.ProfileManager;
 import com.prokarma.myhome.networking.NetworkManager;
@@ -25,6 +27,7 @@ import com.prokarma.myhome.utils.DateUtil;
 import com.prokarma.myhome.utils.DeviceDisplayManager;
 import com.prokarma.myhome.views.CircularImageView;
 import com.squareup.picasso.Picasso;
+
 import timber.log.Timber;
 
 /**
