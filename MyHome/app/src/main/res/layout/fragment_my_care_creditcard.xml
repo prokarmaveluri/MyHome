@@ -11,7 +11,7 @@
         android:scrollbars="vertical">
 
         <LinearLayout
-            android:id="@+id/whole_layout"
+            android:id="@+id/whole_payment_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
@@ -170,7 +170,7 @@
                     android:textColor="@color/accent"
                     android:textStyle="bold" />
 
-                <include layout="@layout/address_layout" />
+                <include layout="@layout/billing_address_layout" />
             </LinearLayout>
 
         </LinearLayout>

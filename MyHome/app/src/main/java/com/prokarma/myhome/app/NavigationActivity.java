@@ -554,8 +554,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                     setActivityTag(ActivityTag.MY_CARE_INTAKE);
                 }
                 break;
-            case MY_CARE_COST:
-                if (getActivityTag() != ActivityTag.MY_CARE_COST) {
+            case MY_CARE_PAYMENT:
+                if (getActivityTag() != ActivityTag.MY_CARE_PAYMENT) {
                     getSupportFragmentManager().executePendingTransactions();
                     MyCareVisitCostFragment myCareVisitCostFragment = MyCareVisitCostFragment.newInstance();
                     myCareVisitCostFragment.setArguments(bundle);
@@ -565,21 +565,21 @@ public class NavigationActivity extends AppCompatActivity implements NavigationI
                             .addToBackStack(null)
                             .commit();
 
-                    setActivityTag(ActivityTag.MY_CARE_COST);
+                    setActivityTag(ActivityTag.MY_CARE_PAYMENT);
                 }
                 break;
-            case MY_CARE_CREDIT_CARD:
-                if (getActivityTag() != ActivityTag.MY_CARE_CREDIT_CARD) {
+            case MY_CARE_UPDATE_PAYMENT:
+                if (getActivityTag() != ActivityTag.MY_CARE_UPDATE_PAYMENT) {
                     getSupportFragmentManager().executePendingTransactions();
-                    MyCareCreditCardFragment myCareCreditCardFragment = MyCareCreditCardFragment.newInstance();
-                    myCareCreditCardFragment.setArguments(bundle);
+                    MyCareVisitCostFragment myCareVisitCostFragment = MyCareVisitCostFragment.newInstance();
+                    myCareVisitCostFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.frame, myCareCreditCardFragment, MyCareCreditCardFragment.MY_CARE_CREDIT_CARD_TAG)
+                            .replace(R.id.frame, myCareVisitCostFragment, MyCareVisitCostFragment.MY_CARE_COST_TAG)
                             .addToBackStack(null)
                             .commit();
 
-                    setActivityTag(ActivityTag.MY_CARE_CREDIT_CARD);
+                    setActivityTag(ActivityTag.MY_CARE_PAYMENT);
                 }
                 break;
             case MY_CARE_WAITING_ROOM:

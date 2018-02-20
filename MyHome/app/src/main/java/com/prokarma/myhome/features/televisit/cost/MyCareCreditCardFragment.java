@@ -54,7 +54,7 @@ public class MyCareCreditCardFragment extends BaseFragment {
 
     public static final String MY_CARE_CREDIT_CARD_TAG = "my_care_credit_card_tag";
 
-    private LinearLayout wholeLayout;
+    private LinearLayout wholePaymentLayout;
     private ProgressBar progressBar;
     private TextView costInfo;
 
@@ -71,7 +71,7 @@ public class MyCareCreditCardFragment extends BaseFragment {
     private TextInputLayout cvvLayout;
     private TextInputLayout payZipLayout;
 
-    private LinearLayout addressLayout;
+    private LinearLayout billingAddressLayout;
     private TextInputEditText address1;
     private TextInputEditText address2;
     private TextInputEditText city;
@@ -82,7 +82,6 @@ public class MyCareCreditCardFragment extends BaseFragment {
     private TextInputLayout address2Layout;
     private TextInputLayout cityLayout;
     private TextInputLayout zipLayout;
-    private TextInputLayout phoneLayout;
 
     private CreditCardUtil creditCardUtil;
 
@@ -113,7 +112,7 @@ public class MyCareCreditCardFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.fragment_my_care_creditcard, container, false);
 
-        wholeLayout = (LinearLayout) view.findViewById(R.id.whole_layout);
+        wholePaymentLayout = (LinearLayout) view.findViewById(R.id.whole_payment_layout);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
         costInfo = (TextView) view.findViewById(R.id.costInfo);
 
@@ -130,7 +129,7 @@ public class MyCareCreditCardFragment extends BaseFragment {
         cvvLayout = (TextInputLayout) view.findViewById(R.id.cvv_layout);
         payZipLayout = (TextInputLayout) view.findViewById(R.id.pay_zip_layout);
 
-        addressLayout = (LinearLayout) view.findViewById(R.id.billing_address_layout);
+        billingAddressLayout = (LinearLayout) view.findViewById(R.id.billing_address_layout);
         address1 = (TextInputEditText) view.findViewById(R.id.address);
         address2 = (TextInputEditText) view.findViewById(R.id.address2);
         city = (TextInputEditText) view.findViewById(R.id.city);
@@ -141,9 +140,6 @@ public class MyCareCreditCardFragment extends BaseFragment {
         address2Layout = (TextInputLayout) view.findViewById(R.id.address2_layout);
         cityLayout = (TextInputLayout) view.findViewById(R.id.city_layout);
         zipLayout = (TextInputLayout) view.findViewById(R.id.zip_layout);
-
-        phoneLayout = (TextInputLayout) view.findViewById(R.id.phone_layout);
-        phoneLayout.setVisibility(View.GONE);
 
         ViewGroup.LayoutParams layoutParams = zipLayout.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -278,7 +274,7 @@ public class MyCareCreditCardFragment extends BaseFragment {
 
     @Override
     public Constants.ActivityTag setDrawerTag() {
-        return Constants.ActivityTag.MY_CARE_CREDIT_CARD;
+        return Constants.ActivityTag.MY_CARE_UPDATE_PAYMENT;
     }
 
     @Override

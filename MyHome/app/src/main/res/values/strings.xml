@@ -420,10 +420,13 @@
     <!-- Pharmacy Search -->
 
     <!-- Visit Cost -->
-    <string name="title_visit_cost">Visit Cost</string>
-    <string name="visit_cost_coupon_code">Coupon Code</string>
-    <string name="visit_cost_apply">Apply</string>
+    <string name="title_visit_payment">Payment</string>
+    <string name="title_visit_payment_update">Update Payment Method</string>
+    <string name="coupon_code">Coupon Code</string>
+    <string name="apply">Apply</string>
+    <string name="invalid_coupon_code">Invalid coupon code</string>
 
+    <string name="visit_cost_coupon_label">If you have a coupon code, enter it below.</string>
     <string name="visit_cost_enter_coupon">Enter Coupon</string>
     <string name="visit_cost_enter_payment_info">Enter Payment information</string>
     <string name="visit_cost_pay_using_card">Pay using card</string>
@@ -432,25 +435,22 @@
     <string name="payment">Payment</string>
     <string name="payment_method">Payment Method</string>
     <string name="payment_via">Pay via</string>
-    <string name="payment_name_on_card">Name on card</string>
-    <string name="payment_card_number">Card number</string>
+    <string name="payment_name_on_card">Name on Card</string>
+    <string name="payment_card_number">Card Number</string>
     <string name="payment_expiry_month">Month</string>
     <string name="payment_expiry_year">Year</string>
     <string name="payment_cvv">CVV</string>
     <string name="billing_address">Billing Address</string>
 
-
     <!-- Payment Information -->
     <string name="title_activity_payment">Payment Information</string>
-    <string name="payment_information_prompt">How would you like to pay for this visit?</string>
-
+    <string name="payment_information_prompt">How would you like to pay for today\'s visit?</string>
     <string name="payment_information_payment_method">%1$s ending in %2$s</string>
-    <string name="payment_information_payment_method_expired"> has expired. Please update your payment information.</string>
-
+    <string name="payment_information_payment_method_expired">Card expired. Please update your payment information.</string>
     <string name="no_payment_method">No payment method found.</string>
 
-    <string name="update_payment_method_button">Update payment method</string>
-    <string name="add_payment_method_button">Add payment method</string>
+    <string name="update_payment_method_button">Change</string>
+    <string name="add_payment_method_button">Add</string>
 
     <!-- Add Credit Card -->
     <string name="title_activity_add_credit_card">Payment Information</string>
@@ -612,6 +612,8 @@
     <string name="intake">Intake</string>
     <string name="my_care_privacy_policy">Privacy Policy</string>
     <string name="reason">Reason</string>
+
+    <string name="visit_cost_text">Your cost for today is $</string>
 
     <string name="visit_cost_desc">Your visit total is $</string>
     <string name="visit_cost_desc_dependent">Your child\'s visit total is $</string>

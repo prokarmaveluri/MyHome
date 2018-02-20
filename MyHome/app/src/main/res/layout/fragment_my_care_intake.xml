@@ -56,7 +56,7 @@
                             android:id="@+id/coupon_code_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:hint="@string/visit_cost_coupon_code"
+                            android:hint="@string/coupon_code"
                             android:inputType="textCapCharacters|textFilter|textNoSuggestions"
                             android:text="FREE"
                             android:textAllCaps="true" />
@@ -68,7 +68,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:text="@string/visit_cost_apply" />
+                        android:text="@string/apply" />
                 </LinearLayout>
 
                 <TextView

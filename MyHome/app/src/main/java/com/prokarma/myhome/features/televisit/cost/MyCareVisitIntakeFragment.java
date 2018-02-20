@@ -113,6 +113,8 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
 
         intakeLayout = (LinearLayout) view.findViewById(R.id.whole_layout);
         costInfo = (TextView) view.findViewById(R.id.costInfo);
+        costInfo.setVisibility(View.GONE);
+
         couponText = (EditText) view.findViewById(R.id.coupon_code_edit_text);
         progressBar = (ProgressBar) view.findViewById(R.id.cost_progress);
         reasonPhone = (TextInputEditText) view.findViewById(R.id.reasonPhone);
@@ -263,15 +265,15 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
 
     private void loadCostScreen() {
         if (AwsManager.getInstance().getVisit() != null) {
-            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_COST, null);
+            ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_PAYMENT, null);
         }
     }
 
-    private void loadWaitingRoom() {
+    /*private void loadWaitingRoom() {
         if (AwsManager.getInstance().getVisit() != null) {
             ((NavigationActivity) getActivity()).loadFragment(Constants.ActivityTag.MY_CARE_WAITING_ROOM, null);
         }
-    }
+    }*/
 
     private boolean hasPermissionsForVideoVisit() {
 
@@ -446,19 +448,16 @@ public class MyCareVisitIntakeFragment extends BaseFragment {
                             progressBar.setVisibility(View.GONE);
 
                             // DONOT remove this code, it is required for 1.7; cost screen is not required for 1.6, hence always skipping it and laoding waiting_room
-                            /*updateVisitCost();
+                            updateVisitCost();
 
                             if (AwsManager.getInstance().getVisit() != null
                                     && AwsManager.getInstance().getVisit().getVisitCost() != null
                                     && AwsManager.getInstance().getVisit().getVisitCost().getExpectedConsumerCopayCost() > 0) {
-                                //CommonUtil.showToast(getContext(), getString(R.string.your_cost_is_not_free));
 
                                 loadCostScreen();
                             } else {
-                                loadWaitingRoom();
-                            }*/
-
-                            loadWaitingRoom();
+                                loadCostScreen();
+                            }
 
                         } else {
                             progressBar.setVisibility(View.GONE);
